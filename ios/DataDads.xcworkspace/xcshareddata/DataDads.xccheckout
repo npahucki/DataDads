@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>16A6715A-516C-4FA0-A9BC-F66BEDD7FD3D</string>
+	<key>IDESourceControlProjectName</key>
+	<string>DataDads</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>3B5D4416-62BD-4160-85E7-DD80BA2E6021</key>
+		<string>https://savhy.devguard.com/svn/savhy/trunk/wazzup/iphone/Wazzup/Wazzup.xcodeproj/xcuserdata/Projects</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>DataDads/ios/DataDads.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>3B5D4416-62BD-4160-85E7-DD80BA2E6021</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectRepositoryRootDictionary</key>
+	<dict>
+		<key>3B5D4416-62BD-4160-85E7-DD80BA2E6021</key>
+		<string>https://savhy.devguard.com/svn/savhy</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://savhy.devguard.com/svn/savhy/trunk/wazzup/iphone/Wazzup/Wazzup.xcodeproj/xcuserdata/Projects/DataDads/ios/DataDads.xcworkspace</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>3B5D4416-62BD-4160-85E7-DD80BA2E6021</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.subversion</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>3B5D4416-62BD-4160-85E7-DD80BA2E6021</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Projects</string>
+		</dict>
+	</array>
+</dict>
+</plist>
