@@ -28,6 +28,12 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 }
+- (IBAction)didClickCancelButton:(id)sender {
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+}
+- (IBAction)didClickDoneButton:(id)sender {
+
+}
 
 - (void)didReceiveMemoryWarning
 {

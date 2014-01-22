@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MilestoneNotedViewController : UIViewController
+@interface NoteMilestoneViewController : UIViewController
 
 @end

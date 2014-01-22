@@ -6,13 +6,13 @@
 //  Copyright (c) 2014 Nathan  Pahucki. All rights reserved.
 //
 
-#import "MilestoneNotedViewController.h"
+#import "NoteMilestoneViewController.h"
 
-@interface MilestoneNotedViewController ()
+@interface NoteMilestoneViewController ()
 
 @end
 
-@implementation MilestoneNotedViewController
+@implementation NoteMilestoneViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -22,6 +22,11 @@
     }
     return self;
 }
+- (IBAction)didClickCancelButton:(id)sender {
+  [self.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+
+}
+
 - (IBAction)didClickDoneButton:(id)sender {
   [self.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
   //[self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
