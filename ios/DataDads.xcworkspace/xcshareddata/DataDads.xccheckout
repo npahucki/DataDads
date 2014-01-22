@@ -5,13 +5,15 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>16A6715A-516C-4FA0-A9BC-F66BEDD7FD3D</string>
+	<string>FE97581C-8C94-4FF4-B621-E18755E449A3</string>
 	<key>IDESourceControlProjectName</key>
 	<string>DataDads</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>3B5D4416-62BD-4160-85E7-DD80BA2E6021</key>
 		<string>https://savhy.devguard.com/svn/savhy/trunk/wazzup/iphone/Wazzup/Wazzup.xcodeproj/xcuserdata/Projects</string>
+		<key>C0288842-D3F9-414A-99C5-F8270BCA5B74</key>
+		<string>ssh://github.com/npahucki/DataDads.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>DataDads/ios/DataDads.xcworkspace</string>
@@ -19,6 +21,8 @@
 	<dict>
 		<key>3B5D4416-62BD-4160-85E7-DD80BA2E6021</key>
 		<string>../../..</string>
+		<key>C0288842-D3F9-414A-99C5-F8270BCA5B74</key>
+		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectRepositoryRootDictionary</key>
 	<dict>
@@ -26,13 +30,21 @@
 		<string>https://savhy.devguard.com/svn/savhy</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://savhy.devguard.com/svn/savhy/trunk/wazzup/iphone/Wazzup/Wazzup.xcodeproj/xcuserdata/Projects/DataDads/ios/DataDads.xcworkspace</string>
+	<string>ssh://github.com/npahucki/DataDads.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
 	<string>3B5D4416-62BD-4160-85E7-DD80BA2E6021</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>C0288842-D3F9-414A-99C5-F8270BCA5B74</string>
+			<key>IDESourceControlWCCName</key>
+			<string>DataDads</string>
+		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.subversion</string>
