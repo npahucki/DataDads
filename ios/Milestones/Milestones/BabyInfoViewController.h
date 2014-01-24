@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface BabyInfoViewController : UIViewController
+@property (strong, nonatomic) IBOutlet UITextField *dobTextField;
+@property (strong, nonatomic) IBOutlet UITextField *dueDateTextField;
 
 @end
