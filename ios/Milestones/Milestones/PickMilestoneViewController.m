@@ -7,6 +7,7 @@
 //
 
 #import "PickMilestoneViewController.h"
+#import <Parse/Parse.h>
 
 @interface PickMilestoneViewController ()
 
