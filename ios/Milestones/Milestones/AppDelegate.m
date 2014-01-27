@@ -21,24 +21,25 @@
   [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
   [PFFacebookUtils initializeFacebook];
   
-  UIViewController *viewController;
-  self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
-  UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
-  
-  PFUser *currentUser = [PFUser currentUser];
-  if (currentUser) {
-    viewController  = [storyboard instantiateViewControllerWithIdentifier:@"main"];
-    // TODO: Look up to see if baby info was entered
-  } else {
-    viewController  = [storyboard instantiateViewControllerWithIdentifier:@"login"];
-  }
-  
-  self.window.rootViewController = viewController;
-  [self.window makeKeyAndVisible];
+//  UIViewController *viewController;
+//  self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
+//  UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
+//  
+//  PFUser *currentUser = [PFUser currentUser];
+//  if (currentUser) {
+//    viewController  = [storyboard instantiateViewControllerWithIdentifier:@"main"];
+//    // TODO: Look up to see if baby info was entered
+//  } else {
+//    viewController  = [storyboard instantiateViewControllerWithIdentifier:@"login"];
+//  }
+//  
+//  self.window.rootViewController = viewController;
+//  [self.window makeKeyAndVisible];
   
   return YES;
 
 }
+
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
   //return [PFFacebookUtils handleOpenURL:url]; - deprecated, use the below line instead

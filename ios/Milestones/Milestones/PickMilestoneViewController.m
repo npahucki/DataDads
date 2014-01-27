@@ -15,8 +15,6 @@
 
 @implementation PickMilestoneViewController
 
-  BOOL loggedIn = NO;
-
 - (void)viewDidLoad
 {
   [super viewDidLoad];
@@ -26,12 +24,6 @@
 - (void)viewDidAppear:(BOOL)animated
 {
   [super viewDidAppear:animated];
-  if(!loggedIn) { // TOOD: Logged in check
-    loggedIn = YES;
-    [[self parentViewController] performSegueWithIdentifier:@"login" sender:self];
-  }
-  
-
 }
 
 
