@@ -22,6 +22,8 @@
 		E81B58701896A75700C74C2B /* Contants.m in Sources */ = {isa = PBXBuildFile; fileRef = E81B586F1896A75700C74C2B /* Contants.m */; };
 		E81B58731896B89E00C74C2B /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E81B58721896B89E00C74C2B /* MainViewController.m */; };
 		E81B58761896C1A900C74C2B /* EnterScreenNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E81B58751896C1A900C74C2B /* EnterScreenNameViewController.m */; };
+		E81B587A1896CE7800C74C2B /* Baby.m in Sources */ = {isa = PBXBuildFile; fileRef = E81B58791896CE7800C74C2B /* Baby.m */; };
+		E81B587D1897D3D000C74C2B /* PickMilestoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E81B587B1897D3D000C74C2B /* PickMilestoneViewController.m */; };
 		E8AADCC718900B7F00BC1925 /* take-picture.png in Resources */ = {isa = PBXBuildFile; fileRef = E8AADCC618900B7F00BC1925 /* take-picture.png */; };
 		E8D00A17188F348700DF2786 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D00A16188F348700DF2786 /* LoginViewController.m */; };
 		E8D00A1A188F362100DF2786 /* BabyInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D00A19188F362100DF2786 /* BabyInfoViewController.m */; };
@@ -35,7 +37,6 @@
 		E8DD48EE188EE5B900153095 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E8DD48ED188EE5B900153095 /* AppDelegate.m */; };
 		E8DD48F1188EE5B900153095 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E8DD48EF188EE5B900153095 /* Main_iPhone.storyboard */; };
 		E8DD48F4188EE5B900153095 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E8DD48F2188EE5B900153095 /* Main_iPad.storyboard */; };
-		E8DD48F7188EE5B900153095 /* PickMilestoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8DD48F6188EE5B900153095 /* PickMilestoneViewController.m */; };
 		E8DD48FA188EE5B900153095 /* LogMeasurementViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8DD48F9188EE5B900153095 /* LogMeasurementViewController.m */; };
 		E8DD48FC188EE5B900153095 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E8DD48FB188EE5B900153095 /* Images.xcassets */; };
 		E8DD4903188EE5BA00153095 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8DD4902188EE5BA00153095 /* XCTest.framework */; };
@@ -75,6 +76,10 @@
 		E81B58721896B89E00C74C2B /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		E81B58741896C1A900C74C2B /* EnterScreenNameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnterScreenNameViewController.h; sourceTree = "<group>"; };
 		E81B58751896C1A900C74C2B /* EnterScreenNameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EnterScreenNameViewController.m; sourceTree = "<group>"; };
+		E81B58781896CE7800C74C2B /* Baby.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Baby.h; sourceTree = "<group>"; };
+		E81B58791896CE7800C74C2B /* Baby.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Baby.m; sourceTree = "<group>"; };
+		E81B587B1897D3D000C74C2B /* PickMilestoneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PickMilestoneViewController.m; sourceTree = "<group>"; };
+		E81B587C1897D3D000C74C2B /* PickMilestoneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PickMilestoneViewController.h; sourceTree = "<group>"; };
 		E8AADCC618900B7F00BC1925 /* take-picture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "take-picture.png"; path = "../take-picture.png"; sourceTree = "<group>"; };
 		E8D00A15188F348700DF2786 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		E8D00A16188F348700DF2786 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
@@ -96,8 +101,6 @@
 		E8DD48ED188EE5B900153095 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		E8DD48F0188EE5B900153095 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
 		E8DD48F3188EE5B900153095 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
-		E8DD48F5188EE5B900153095 /* PickMilestoneViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PickMilestoneViewController.h; sourceTree = "<group>"; };
-		E8DD48F6188EE5B900153095 /* PickMilestoneViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PickMilestoneViewController.m; sourceTree = "<group>"; };
 		E8DD48F8188EE5B900153095 /* LogMeasurementViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LogMeasurementViewController.h; sourceTree = "<group>"; };
 		E8DD48F9188EE5B900153095 /* LogMeasurementViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LogMeasurementViewController.m; sourceTree = "<group>"; };
 		E8DD48FB188EE5B900153095 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -143,6 +146,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E81B58771896CE4600C74C2B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E81B58781896CE7800C74C2B /* Baby.h */,
+				E81B58791896CE7800C74C2B /* Baby.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 		E8AADCC818900B8D00BC1925 /* images */ = {
 			isa = PBXGroup;
 			children = (
@@ -205,8 +217,8 @@
 				E81B58721896B89E00C74C2B /* MainViewController.m */,
 				E81B58741896C1A900C74C2B /* EnterScreenNameViewController.h */,
 				E81B58751896C1A900C74C2B /* EnterScreenNameViewController.m */,
-				E8DD48F5188EE5B900153095 /* PickMilestoneViewController.h */,
-				E8DD48F6188EE5B900153095 /* PickMilestoneViewController.m */,
+				E81B587B1897D3D000C74C2B /* PickMilestoneViewController.m */,
+				E81B587C1897D3D000C74C2B /* PickMilestoneViewController.h */,
 				E81B58691891F9C400C74C2B /* PickAMilestoneTableViewController.h */,
 				E81B586A1891F9C400C74C2B /* PickAMilestoneTableViewController.m */,
 				E8DD48F8188EE5B900153095 /* LogMeasurementViewController.h */,
@@ -220,6 +232,7 @@
 				E8D00A1E188F435300DF2786 /* NoteMilestoneViewController.h */,
 				E8D00A1F188F435300DF2786 /* NoteMilestoneViewController.m */,
 				E8DD48FB188EE5B900153095 /* Images.xcassets */,
+				E81B58771896CE4600C74C2B /* Model */,
 				E8AADCC818900B8D00BC1925 /* images */,
 				E8DD48E4188EE5B900153095 /* Supporting Files */,
 			);
@@ -354,15 +367,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E81B587D1897D3D000C74C2B /* PickMilestoneViewController.m in Sources */,
 				E81B58761896C1A900C74C2B /* EnterScreenNameViewController.m in Sources */,
 				E81B58731896B89E00C74C2B /* MainViewController.m in Sources */,
 				E81B586B1891F9C400C74C2B /* PickAMilestoneTableViewController.m in Sources */,
+				E81B587A1896CE7800C74C2B /* Baby.m in Sources */,
 				E8D00A1D188F433E00DF2786 /* CreateMilestoneViewController.m in Sources */,
 				E8DD48FA188EE5B900153095 /* LogMeasurementViewController.m in Sources */,
 				E81B58701896A75700C74C2B /* Contants.m in Sources */,
 				E8D00A20188F435300DF2786 /* NoteMilestoneViewController.m in Sources */,
 				E8DD48EE188EE5B900153095 /* AppDelegate.m in Sources */,
-				E8DD48F7188EE5B900153095 /* PickMilestoneViewController.m in Sources */,
 				E8DD48EA188EE5B900153095 /* main.m in Sources */,
 				E8D00A1A188F362100DF2786 /* BabyInfoViewController.m in Sources */,
 				E8D00A17188F348700DF2786 /* LoginViewController.m in Sources */,

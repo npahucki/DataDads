@@ -7,52 +7,65 @@
 //
 
 #import "BabyInfoViewController.h"
+#import "Baby.h"
 
 @interface BabyInfoViewController ()
 - (IBAction)didClickGoButton:(id)sender;
+
 
 @end
 
 @implementation BabyInfoViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-- (IBAction)onDidEndTextEditing:(id)sender {
-  [sender resignFirstResponder];
-}
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
+  [super viewDidLoad];
+  
+  // Needed to dimiss the keyboard once a user clicks outside the text boxes
+  UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
+  [self.view addGestureRecognizer:singleTap];
   
   UIDatePicker *datePicker1 = [[UIDatePicker alloc]init];
   datePicker1.datePickerMode = UIDatePickerModeDate;
   [datePicker1 setDate:[NSDate date]];
   [datePicker1 addTarget:self action:@selector(updateDobTextField:) forControlEvents:UIControlEventValueChanged];
-
-  [datePicker1 addTarget:self action:@selector(updateDobTextField:) forControlEvents:UIControlEventValueChanged];
   [self.dobTextField setInputView:datePicker1];
+  [self updateDobTextField:datePicker1];
+
   
-	// Do any additional setup after loading the view.
+  UIDatePicker *datePicker2 = [[UIDatePicker alloc]init];
+  datePicker2.datePickerMode = UIDatePickerModeDate;
+  [datePicker2 setDate:[NSDate date]];
+  [datePicker2 addTarget:self action:@selector(updateDueDateTextField:) forControlEvents:UIControlEventValueChanged];
+  [self.dueDateTextField setInputView:datePicker2];
+  [self updateDueDateTextField:datePicker2];
 }
 
-
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+-(void)handleSingleTap:(UITapGestureRecognizer *)sender{
+  [self.view endEditing:YES];
+}
+- (IBAction)radioButtonTouched:(id)sender {
+  [self.view endEditing:YES];
 }
 
 - (IBAction)didClickGoButton:(id)sender {
-  [self.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+
+  // TODO: validate
+  
+  
+  Baby* baby = [Baby object];
+  // TODO: Baby avatar
+  baby.name = self.babyName.text;
+  baby.birthDate =  ((UIDatePicker*)self.dobTextField.inputView).date;
+  baby.dueDate =  ((UIDatePicker*)self.dueDateTextField.inputView).date;
+  baby.parentUserId = PFUser.currentUser.objectId;
+  baby.isMale = self.genderControl.selectedSegmentIndex < 1;
+  
+  
+  // TODO: show HUD
+  [baby saveEventually]; // TODO: Need to wait for this, or other views won't load it.
+  [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void)updateDobTextField:(id)sender

@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BabyInfoViewController : UIViewController
+@interface BabyInfoViewController : UIViewController <UITextFieldDelegate>
 @property (strong, nonatomic) IBOutlet UITextField *dobTextField;
 @property (strong, nonatomic) IBOutlet UITextField *dueDateTextField;
+@property (strong, nonatomic) IBOutlet UITextField *babyName;
+@property (strong, nonatomic) IBOutlet UISegmentedControl *genderControl;
 
 @end

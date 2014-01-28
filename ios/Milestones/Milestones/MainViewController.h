@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+# import "Baby.h"
 
 @interface MainViewController : UITabBarController
 
 @end
+
+// NSArray * babies;
+Baby * myBaby;
