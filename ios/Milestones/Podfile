@@ -1,0 +1,3 @@
+platform :ios
+xcodeproj 'Milestones.xcodeproj'
+pod 'MBProgressHUD', '~> 0.8'

@@ -8,6 +8,7 @@
 
 #import "BabyInfoViewController.h"
 #import "Baby.h"
+#import "MBProgressHUD.h"
 
 @interface BabyInfoViewController ()
 - (IBAction)didClickGoButton:(id)sender;
@@ -31,15 +32,12 @@
   [datePicker1 setDate:[NSDate date]];
   [datePicker1 addTarget:self action:@selector(updateDobTextField:) forControlEvents:UIControlEventValueChanged];
   [self.dobTextField setInputView:datePicker1];
-  [self updateDobTextField:datePicker1];
-
   
   UIDatePicker *datePicker2 = [[UIDatePicker alloc]init];
   datePicker2.datePickerMode = UIDatePickerModeDate;
   [datePicker2 setDate:[NSDate date]];
   [datePicker2 addTarget:self action:@selector(updateDueDateTextField:) forControlEvents:UIControlEventValueChanged];
   [self.dueDateTextField setInputView:datePicker2];
-  [self updateDueDateTextField:datePicker2];
 }
 
 -(void)handleSingleTap:(UITapGestureRecognizer *)sender{
@@ -51,21 +49,34 @@
 
 - (IBAction)didClickGoButton:(id)sender {
 
-  // TODO: validate
-  
-  
-  Baby* baby = [Baby object];
-  // TODO: Baby avatar
-  baby.name = self.babyName.text;
-  baby.birthDate =  ((UIDatePicker*)self.dobTextField.inputView).date;
-  baby.dueDate =  ((UIDatePicker*)self.dueDateTextField.inputView).date;
-  baby.parentUserId = PFUser.currentUser.objectId;
-  baby.isMale = self.genderControl.selectedSegmentIndex < 1;
-  
-  
-  // TODO: show HUD
-  [baby saveEventually]; // TODO: Need to wait for this, or other views won't load it.
-  [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+  if([self.dobTextField.text length] && [self.dueDateTextField.text length] && [self.babyName.text length]) {
+    Baby* baby = [Baby object];
+    // TODO: Baby avatar
+    baby.name = self.babyName.text;
+    baby.birthDate =  ((UIDatePicker*)self.dobTextField.inputView).date;
+    baby.dueDate =  ((UIDatePicker*)self.dueDateTextField.inputView).date;
+    baby.parentUserId = PFUser.currentUser.objectId;
+    baby.isMale = self.genderControl.selectedSegmentIndex < 1;
+    
+    MBProgressHUD * hud = [MBProgressHUD showHUDAddedTo:self.view animated:NO];
+    hud.dimBackground = YES;
+    hud.labelText = NSLocalizedString(@"Saving Baby Info", nil);
+    [baby saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+      if(succeeded) {
+        [MBProgressHUD hideHUDForView:self.view animated:NO];
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+      } else {
+        NSLog(@"Could not save baby info: %@", error);
+        [MBProgressHUD hideHUDForView:self.view animated:NO];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Could not save your baby's information. Please make sure that you are conencted to a network and try again." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+        [alert show];
+      }
+    }];
+    
+  } else {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Incomplete Data" message:@"Please fill in all fields." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+    [alert show];
+  }
 }
 
 -(void)updateDobTextField:(id)sender
