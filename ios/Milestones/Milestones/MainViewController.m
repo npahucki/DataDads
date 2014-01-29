@@ -11,6 +11,7 @@
 
 @implementation MainViewController
 
+@synthesize myBaby;
 
 - (void)viewDidAppear:(BOOL)animated {
   
@@ -21,7 +22,7 @@
       // Must show the propt to enter a screen name
       [self performSegueWithIdentifier:@"enterScreenName" sender:self];
     } else {
-      if(myBaby == nil) {
+      if(self.myBaby == nil) {
         // Finally, we must have at least one baby's info on file
         PFQuery *query =  [Baby  query];
         query.cachePolicy = kPFCachePolicyCacheThenNetwork;

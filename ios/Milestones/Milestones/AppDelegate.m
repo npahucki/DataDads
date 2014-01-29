@@ -11,6 +11,7 @@
 #import <Parse/Parse.h>
 #import <FacebookSDK/FacebookSDK.h>
 #import "Baby.h"
+#import "Tag.h"
 
 @implementation AppDelegate
 
@@ -20,6 +21,7 @@
   
   // Register custom subclasses
   [Baby registerSubclass];
+  [Tag registerSubclass];
   
   [Parse setApplicationId:@"NlJHBG0NZgFS8JP76DBjA31MBRZ7kmb7dVSQQz3U"
                 clientKey:@"iMYPq4Fg751JyIOeHYnDH4LsuivOcm8uoi4DlwJ9"];

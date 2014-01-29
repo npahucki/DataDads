@@ -21,11 +21,6 @@
   
 }
 
--(id)initWithCoder:(NSCoder *)aDecoder {
-  return [super initWithCoder:aDecoder];
-  self.fields = PFLogInFieldsDefault |  PFLogInFieldsFacebook | PFLogInFieldsTwitter | PFSignUpFieldsAdditional;
-}
-
 - (void)viewDidLoad
 {
   self.delegate = self;

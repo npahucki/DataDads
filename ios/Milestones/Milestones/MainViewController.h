@@ -11,7 +11,7 @@
 
 @interface MainViewController : UITabBarController
 
+@property (strong) Baby *myBaby;
+
 @end
 
-// NSArray * babies;
-Baby * myBaby;

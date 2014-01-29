@@ -7,7 +7,9 @@
 //
 
 #import "BabyInfoViewController.h"
+#import "MainViewController.h"
 #import "Baby.h"
+#import "Tag.h"
 #import "MBProgressHUD.h"
 
 @interface BabyInfoViewController ()
@@ -22,10 +24,12 @@
 - (void)viewDidLoad
 {
   [super viewDidLoad];
+  baby = [Baby object];
   
   // Needed to dimiss the keyboard once a user clicks outside the text boxes
-  UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
-  [self.view addGestureRecognizer:singleTap];
+  UITapGestureRecognizer *viewTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
+  [self.view addGestureRecognizer:viewTap];
+  
   
   UIDatePicker *datePicker1 = [[UIDatePicker alloc]init];
   datePicker1.datePickerMode = UIDatePickerModeDate;
@@ -38,23 +42,32 @@
   [datePicker2 setDate:[NSDate date]];
   [datePicker2 addTarget:self action:@selector(updateDueDateTextField:) forControlEvents:UIControlEventValueChanged];
   [self.dueDateTextField setInputView:datePicker2];
+  
+  
+  tagViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"Tags"];
+  tagViewController.delegate = self;
+  [self.tagsTextField setInputView:tagViewController.view];
 }
 
--(void)handleSingleTap:(UITapGestureRecognizer *)sender{
-  [self.view endEditing:YES];
+-(void)handleSingleTap:(UITapGestureRecognizer *)sender {
+  [self.view endEditing:NO];
 }
-- (IBAction)radioButtonTouched:(id)sender {
+
+- (void)tagsDidFinishSelection:(NSOrderedSet *) tags {
   [self.view endEditing:YES];
+  baby.tags = tags.array;
+  self.tagsTextField.text = [NSString stringWithFormat:@"Tags: %@", [baby.tags componentsJoinedByString:@", "]];
+}
+
+- (IBAction)didSelectGender:(id)sender {
+  [self.view endEditing:NO];
 }
 
 - (IBAction)didClickGoButton:(id)sender {
-
-  if([self.dobTextField.text length] && [self.dueDateTextField.text length] && [self.babyName.text length]) {
-    Baby* baby = [Baby object];
+  
+  if([self.dobTextField.text length] && [self.dueDateTextField.text length] && [self.babyName.text length] && self.genderControl.selectedSegmentIndex != -1) {
     // TODO: Baby avatar
     baby.name = self.babyName.text;
-    baby.birthDate =  ((UIDatePicker*)self.dobTextField.inputView).date;
-    baby.dueDate =  ((UIDatePicker*)self.dueDateTextField.inputView).date;
     baby.parentUserId = PFUser.currentUser.objectId;
     baby.isMale = self.genderControl.selectedSegmentIndex < 1;
     
@@ -64,6 +77,7 @@
     [baby saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
       if(succeeded) {
         [MBProgressHUD hideHUDForView:self.view animated:NO];
+        ((MainViewController*)self.presentingViewController).myBaby = baby;     // Make sure the MainController now has a reference to baby
         [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
       } else {
         NSLog(@"Could not save baby info: %@", error);
@@ -82,13 +96,25 @@
 -(void)updateDobTextField:(id)sender
 {
   UIDatePicker *picker = (UIDatePicker*)self.dobTextField.inputView;
+  baby.birthDate =  picker.date;
   self.dobTextField.text = [self formatDate:picker.date];
+  if(baby.dueDate == nil) {
+    UIDatePicker *dueDatePicker = (UIDatePicker*)self.dueDateTextField.inputView;
+    dueDatePicker.date = picker.date;
+    [self updateDueDateTextField:dueDatePicker];
+  }
 }
 
 -(void)updateDueDateTextField:(id)sender
 {
-  UIDatePicker *picker = (UIDatePicker*)sender;
+  UIDatePicker *picker = (UIDatePicker*)self.dueDateTextField.inputView;
+  baby.dueDate = picker.date;
   self.dueDateTextField.text = [self formatDate:picker.date];
+  if(baby.birthDate == nil) {
+    UIDatePicker *dobDatePicker = (UIDatePicker*)self.dobTextField.inputView;
+    dobDatePicker.date = picker.date;
+    [self updateDobTextField:dobDatePicker];
+  }
 }
 
 
