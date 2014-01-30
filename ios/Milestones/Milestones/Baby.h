@@ -20,4 +20,17 @@
 @property NSArray* tags;
 @property PFFile* avatarImage;
 
+@property (readonly) NSInteger daysSinceBirth;
+@property (readonly) NSInteger daysSinceDueDate;
+@property (readonly) NSInteger daysMissedDueDate;
+@property (readonly) BOOL wasBornPremature;
+
+/**
+ Returns a query that queries all the babies for the user passed in
+*/
++ (PFQuery*) queryForBabiesForUser:(PFUser*)user;
+
+
 @end
+
+

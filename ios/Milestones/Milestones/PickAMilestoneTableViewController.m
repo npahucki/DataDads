@@ -7,7 +7,8 @@
 //
 
 #import "PickAMilestoneTableViewController.h"
-
+#import "MainViewController.h"
+#import "Baby.h"
 
 @implementation PickAMilestoneTableViewController
 
@@ -22,8 +23,27 @@
   return self;
 }
 
+
+-(void) viewDidLoad {
+  [super viewDidLoad];
+  // Whenever the current baby chnages, we need to refresh the table
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(babyUpdated:) name:kDDNotificationCurrentBabyChanged object:nil];
+}
+
+-(void) babyUpdated:(NSNotification*)notification {
+  _myBaby =  [notification.userInfo objectForKey:@""];
+  [self loadObjects];
+}
+
+// TODO: When we need to add sections, see https://parse.com/questions/using-pfquerytableviewcontroller-for-uitableview-sections
 - (PFQuery *)queryForTable {
+  // If no Baby available yet, don't try to load anything
+  if(!_myBaby) return nil;
+  
+  NSNumber * rangeDays = [NSNumber numberWithInteger:_myBaby.daysSinceDueDate];
   PFQuery *query = [PFQuery queryWithClassName:@"StandardMilestones"];
+  [query whereKey:@"rangeHigh" greaterThanOrEqualTo:rangeDays];
+  [query whereKey:@"rangeLow" lessThanOrEqualTo:rangeDays];
   
   // If no objects are loaded in memory, we look to the cache
   // first to fill the table and then subsequently do a query
@@ -33,7 +53,6 @@
   }
   
   [query orderByDescending:@"rangeUpper"];
-  
   return query;
 }
 

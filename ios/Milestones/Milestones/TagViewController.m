@@ -33,8 +33,9 @@
   NSString * language = [[NSLocale preferredLanguages] objectAtIndex:0];
   PFQuery * query = [Tag query];
   [query whereKey:@"languageId" equalTo:language]; // select only tags in your language 
-  query.cachePolicy = kPFCachePolicyCacheThenNetwork;
+  query.cachePolicy = kPFCachePolicyNetworkOnly;
   [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+    // Can get called twice, once for
     if (!error) {
       NSMutableDictionary * tagDict = [[NSMutableDictionary alloc] initWithCapacity:[objects count]];
       for(Tag *tag in objects) {
@@ -43,10 +44,12 @@
       [self setTagDictionary:tagDict];
       [MBProgressHUD hideHUDForView:self.view animated:NO];
     } else {
-      [MBProgressHUD hideHUDForView:self.view animated:NO];
-//      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Could not load the tag cloud. Please make sure that you are conencted to a network and try again." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
-//      [alert show];
-      NSLog(@"Could not load the tag cloud, must try later %@", error);
+      if(error.code != kPFErrorCacheMiss) {
+        [MBProgressHUD hideHUDForView:self.view animated:NO];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Could not load the tag cloud. Please make sure that you are conencted to a network and try again." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+        [alert show];
+        NSLog(@"Could not load the tag cloud, must try later %@", error);
+      }
     }
   }];
 }
@@ -82,7 +85,6 @@
     [selectedTags addObject:[label text]];
     label.highlighted = YES;
   }
-  NSLog(@"Tapped label : %@", tapGesture.view);
 }
 
 

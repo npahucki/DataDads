@@ -33,13 +33,15 @@
   
   UIDatePicker *datePicker1 = [[UIDatePicker alloc]init];
   datePicker1.datePickerMode = UIDatePickerModeDate;
-  [datePicker1 setDate:[NSDate date]];
+  datePicker1.date = [NSDate date];
+  datePicker1.maximumDate = datePicker1.date;
   [datePicker1 addTarget:self action:@selector(updateDobTextField:) forControlEvents:UIControlEventValueChanged];
   [self.dobTextField setInputView:datePicker1];
   
   UIDatePicker *datePicker2 = [[UIDatePicker alloc]init];
   datePicker2.datePickerMode = UIDatePickerModeDate;
-  [datePicker2 setDate:[NSDate date]];
+  datePicker2.date = [NSDate date];
+  datePicker2.maximumDate = datePicker2.date;
   [datePicker2 addTarget:self action:@selector(updateDueDateTextField:) forControlEvents:UIControlEventValueChanged];
   [self.dueDateTextField setInputView:datePicker2];
   
@@ -77,7 +79,7 @@
     [baby saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
       if(succeeded) {
         [MBProgressHUD hideHUDForView:self.view animated:NO];
-        ((MainViewController*)self.presentingViewController).myBaby = baby;     // Make sure the MainController now has a reference to baby
+        [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationCurrentBabyChanged object:self userInfo:[NSDictionary dictionaryWithObject:baby forKey:@""]];
         [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
       } else {
         NSLog(@"Could not save baby info: %@", error);
@@ -92,17 +94,20 @@
     [alert show];
   }
 }
+- (IBAction)editingDidBeginForDueDate:(id)sender {
+  if([self.dueDateTextField.text length] == 0) {
+    UIDatePicker *dueDatePicker = (UIDatePicker*)self.dueDateTextField.inputView;
+    UIDatePicker *birthDatePicker = (UIDatePicker*)self.dobTextField.inputView;
+    dueDatePicker.date = birthDatePicker.date;
+    [self updateDueDateTextField:self];
+  }
+}
 
 -(void)updateDobTextField:(id)sender
 {
   UIDatePicker *picker = (UIDatePicker*)self.dobTextField.inputView;
   baby.birthDate =  picker.date;
   self.dobTextField.text = [self formatDate:picker.date];
-  if(baby.dueDate == nil) {
-    UIDatePicker *dueDatePicker = (UIDatePicker*)self.dueDateTextField.inputView;
-    dueDatePicker.date = picker.date;
-    [self updateDueDateTextField:dueDatePicker];
-  }
 }
 
 -(void)updateDueDateTextField:(id)sender
@@ -110,11 +115,6 @@
   UIDatePicker *picker = (UIDatePicker*)self.dueDateTextField.inputView;
   baby.dueDate = picker.date;
   self.dueDateTextField.text = [self formatDate:picker.date];
-  if(baby.birthDate == nil) {
-    UIDatePicker *dobDatePicker = (UIDatePicker*)self.dobTextField.inputView;
-    dobDatePicker.date = picker.date;
-    [self updateDobTextField:dobDatePicker];
-  }
 }
 
 

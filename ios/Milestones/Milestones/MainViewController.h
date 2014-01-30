@@ -11,7 +11,6 @@
 
 @interface MainViewController : UITabBarController
 
-@property (strong) Baby *myBaby;
-
 @end
 
+Baby * _myBaby;

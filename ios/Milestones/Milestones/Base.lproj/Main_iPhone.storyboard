@@ -218,6 +218,9 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
+                                <connections>
+                                    <action selector="editingDidBeginForDueDate:" destination="sg9-o2-9ju" eventType="editingDidBegin" id="lS8-YH-Ewy"/>
+                                </connections>
                             </textField>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" translatesAutoresizingMaskIntoConstraints="NO" id="Z5m-Wj-SYg">
                                 <rect key="frame" x="17" y="337" width="280" height="29"/>
@@ -429,8 +432,8 @@
                         <segue destination="CZ4-MO-1fc" kind="relationship" relationship="viewControllers" id="SUk-Ux-ee1"/>
                         <segue destination="QUy-BD-bpt" kind="relationship" relationship="viewControllers" id="M8t-EP-wfW"/>
                         <segue destination="Ug0-er-oah" kind="modal" identifier="login" animates="NO" id="cOa-fp-ci8"/>
-                        <segue destination="hRi-lO-rkm" kind="modal" identifier="enterScreenName" animates="NO" id="hgw-6c-coT"/>
-                        <segue destination="sg9-o2-9ju" kind="modal" identifier="enterBabyInfo" animates="NO" id="sMD-qa-HZ8"/>
+                        <segue destination="hRi-lO-rkm" kind="modal" identifier="enterScreenName" id="hgw-6c-coT"/>
+                        <segue destination="sg9-o2-9ju" kind="modal" identifier="enterBabyInfo" id="sMD-qa-HZ8"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FNP-y4-bzi" sceneMemberID="firstResponder"/>

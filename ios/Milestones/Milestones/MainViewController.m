@@ -11,7 +11,15 @@
 
 @implementation MainViewController
 
-@synthesize myBaby;
+-(void) viewDidLoad {
+  [super viewDidLoad];
+  // Whenever the current baby chnages, we need to refresh the table
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(babyUpdated:) name:kDDNotificationCurrentBabyChanged object:nil];
+}
+
+-(void) babyUpdated:(NSNotification*)notification {
+  _myBaby =  [notification.userInfo objectForKey:@""];
+}
 
 - (void)viewDidAppear:(BOOL)animated {
   
@@ -22,23 +30,32 @@
       // Must show the propt to enter a screen name
       [self performSegueWithIdentifier:@"enterScreenName" sender:self];
     } else {
-      if(self.myBaby == nil) {
+      if(_myBaby == nil) {
         // Finally, we must have at least one baby's info on file
-        PFQuery *query =  [Baby  query];
+        PFQuery *query =  [Baby  queryForBabiesForUser:PFUser.currentUser];
         query.cachePolicy = kPFCachePolicyCacheThenNetwork;
-        [query whereKey:@"parentUserId" equalTo:PFUser.currentUser.objectId];
-        // TODO:  wait indicator
         [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
           if (!error) {
+            // NOTE: This block gets called twice, once for cache, then once for network
+            // With the Cache then Network Policy both are always called.
             if([objects count] > 0) {
-              myBaby = objects[0];
+              // First call will be cache, we use that, then when the network call is complete
+              // If and only if the Baby object is different do we replace it and send the notfication again
+              Baby *newBaby = objects[0];
+              if(!_myBaby || [newBaby.updatedAt compare:_myBaby.updatedAt] == NSOrderedDescending) {
+                _myBaby = newBaby;
+                // Let other view controllers know the current baby has changed so they can update thir views
+                [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationCurrentBabyChanged object:self userInfo:[NSDictionary dictionaryWithObject:_myBaby forKey:@""]];
+              }
             } else {
               // Must show the enter baby screen since there are none registered yet
               [self performSegueWithIdentifier:@"enterBabyInfo" sender:self];
             }
           } else {
-            // TODO: display error to end user
-            NSLog(@"Could not load the list of babies now, must try later %@", error);
+            if(error.code != kPFErrorCacheMiss) { // ignore cache miss
+              // TODO: display error to end user
+              NSLog(@"Could not load the list of babies now, must try later %@", error);
+            }
           }
         }];
       }
@@ -53,6 +70,7 @@
     [self performSegueWithIdentifier:@"login" sender:self];
   }
 }
+
 
 
 
