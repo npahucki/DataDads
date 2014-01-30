@@ -23,25 +23,15 @@
   [Baby registerSubclass];
   [Tag registerSubclass];
   
+  // Setup Social Providers
   [Parse setApplicationId:@"NlJHBG0NZgFS8JP76DBjA31MBRZ7kmb7dVSQQz3U"
                 clientKey:@"iMYPq4Fg751JyIOeHYnDH4LsuivOcm8uoi4DlwJ9"];
-  [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
   [PFFacebookUtils initializeFacebook];
-  
-//  UIViewController *viewController;
-//  self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
-//  UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
-//  
-//  PFUser *currentUser = [PFUser currentUser];
-//  if (currentUser) {
-//    viewController  = [storyboard instantiateViewControllerWithIdentifier:@"main"];
-//    // TODO: Look up to see if baby info was entered
-//  } else {
-//    viewController  = [storyboard instantiateViewControllerWithIdentifier:@"login"];
-//  }
-//  
-//  self.window.rootViewController = viewController;
-//  [self.window makeKeyAndVisible];
+  [PFTwitterUtils initializeWithConsumerKey:@"4UXzyDxzZSDXwfCw1qK4ew"
+                             consumerSecret:@"lzARes6UFvuHTynV0EleL1lmSclmv99k1AXuz5XeAk"];
+
+  // Setup user tracking and A/B tests
+  [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
   
   return YES;
 

@@ -16,7 +16,7 @@
 @implementation LoginViewController
 
 -(void)awakeFromNib {
-  self.fields = PFLogInFieldsUsernameAndPassword | PFLogInFieldsLogInButton | PFLogInFieldsSignUpButton | PFLogInFieldsPasswordForgotten | PFLogInFieldsFacebook | PFLogInFieldsTwitter | PFSignUpFieldsAdditional;
+  self.fields = PFLogInFieldsUsernameAndPassword | PFLogInFieldsLogInButton | PFLogInFieldsSignUpButton | PFLogInFieldsPasswordForgotten | PFLogInFieldsFacebook | /*PFLogInFieldsTwitter |*/ PFSignUpFieldsAdditional;
   self.facebookPermissions = @[ @"user_about_me", @"email" ];
   
 }
@@ -55,15 +55,13 @@
 /// Sent to the delegate when a PFUser is logged in.
 - (void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user {
   
-  BOOL isLinkedToTwitter = [PFTwitterUtils isLinkedWithUser:[PFUser currentUser]];
+  //BOOL isLinkedToTwitter = [PFTwitterUtils isLinkedWithUser:[PFUser currentUser]];
   BOOL isLinkedToFacebook = [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]];
   
   if(isLinkedToFacebook) {
     // We need to copy the email address and maybe some other attibutes here before we proceed.
     // We can do this in the background so as to let the user get started without additional delay.
     [self populateCurrentUserDetailsFromFacebook:user];
-  } else if(isLinkedToTwitter) {
-    [self populateCurrentUserDetailsFromTwitter:user];
   }
   
   [self dismissViewControllerAnimated:YES completion:nil];
@@ -72,12 +70,19 @@
 
 /// Sent to the delegate when the log in attempt fails.
 - (void)logInViewController:(PFLogInViewController *)logInController didFailToLogInWithError:(NSError *)error {
+  NSString *msg;
+  if([error.domain isEqualToString:@"com.facebook.sdk"] && error.code == (NSInteger)2) {
+    msg = @"If you want to log in with facebook go to Settings>Facebook and enable acceess for 'Milestones', then try to log in again with Facebook";
+  } else {
+    msg = @"Please check the username and password you entered and try again, or if you don't have an account already, press the signup button.";
+  }
   UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error logging in"
-                                                  message:@"Please check the username and password you entered and try again, or if you don't have an account already, press the signup button."
+                                                  message:msg
                                                  delegate:nil
-                                        cancelButtonTitle:@"OK"
+                                        cancelButtonTitle:@"Dismiss"
                                         otherButtonTitles:nil];
   [alert show];
+
 }
 
 -(void) populateCurrentUserDetailsFromFacebook: (PFUser *) user {
@@ -95,11 +100,6 @@
       
     }
   }];
-}
-
--(void) populateCurrentUserDetailsFromTwitter: (PFUser *) user {
-  // TODO:
-  [self performSegueWithIdentifier:kDDSegueEnterScreenName sender:self];
 }
 
 
