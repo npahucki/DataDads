@@ -7,7 +7,6 @@
 //
 
 #import "MainViewController.h"
-#import "Baby.h"
 
 @implementation MainViewController
 

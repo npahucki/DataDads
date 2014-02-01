@@ -15,5 +15,10 @@
   #import <Foundation/Foundation.h>
 #endif
 
-#import "Constants.h"
 #import <Parse/Parse.h>
+#import "Constants.h"
+#import "Baby.h"
+#import "Tag.h"
+#import "StandardMilestoneAchievement.h"
+#import "StandardMilestone.h"
+

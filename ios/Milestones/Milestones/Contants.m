@@ -11,6 +11,8 @@ NSString *const kDDUserEmail = @"email";
 
 
 NSString *const kDDSegueEnterScreenName = @"enterScreenName";
+NSString *const kDDSegueNoteMilestone = @"noteMilestone";
+
 
 
 NSString *const kDDNotificationCurrentBabyChanged = @"currentBabyChanged";

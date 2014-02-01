@@ -8,10 +8,7 @@
 
 #import "AppDelegate.h"
 #import "LoginViewController.h"
-#import <Parse/Parse.h>
 #import <FacebookSDK/FacebookSDK.h>
-#import "Baby.h"
-#import "Tag.h"
 
 @implementation AppDelegate
 
@@ -22,6 +19,8 @@
   // Register custom subclasses
   [Baby registerSubclass];
   [Tag registerSubclass];
+  [StandardMilestone registerSubclass];
+  [StandardMilestoneAchievement registerSubclass];
   
   // Setup Social Providers
   [Parse setApplicationId:@"NlJHBG0NZgFS8JP76DBjA31MBRZ7kmb7dVSQQz3U"

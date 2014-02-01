@@ -17,6 +17,7 @@ extern NSString *const kDDUserEmail;
 
 // Segue names for manually activated segues
 extern NSString *const kDDSegueEnterScreenName;
+extern NSString *const kDDSegueNoteMilestone;
 
 // Notifications
 extern NSString *const kDDNotificationCurrentBabyChanged;   // User data is NSDictionary with Baby object keyed by @""

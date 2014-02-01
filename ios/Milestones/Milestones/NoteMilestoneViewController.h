@@ -7,7 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "StandardMilestone.h"
+#import "Baby.h"
 
 @interface NoteMilestoneViewController : UIViewController
+
+@property (strong, nonatomic) IBOutlet UITextField *completionDateTextField;
+
+@property StandardMilestone *milestone;
+@property Baby *baby;
+
+@property (strong, nonatomic) IBOutlet UIButton *doneButton;
+
 
 @end

@@ -9,6 +9,8 @@
 #import "PickAMilestoneTableViewController.h"
 #import "MainViewController.h"
 #import "Baby.h"
+#import "StandardMilestone.h"
+#import "NoteMilestoneViewController.h"
 
 @implementation PickAMilestoneTableViewController
 
@@ -41,10 +43,7 @@
   if(!_myBaby) return nil;
   
   NSNumber * rangeDays = [NSNumber numberWithInteger:_myBaby.daysSinceDueDate];
-  PFQuery *query = [PFQuery queryWithClassName:@"StandardMilestones"];
-  [query whereKey:@"rangeHigh" greaterThanOrEqualTo:rangeDays];
-  [query whereKey:@"rangeLow" lessThanOrEqualTo:rangeDays];
-  
+  PFQuery *query = [StandardMilestone queryForMilestonesForDay:rangeDays];
   // If no objects are loaded in memory, we look to the cache
   // first to fill the table and then subsequently do a query
   // against the network.
@@ -52,13 +51,12 @@
     query.cachePolicy = kPFCachePolicyCacheThenNetwork;
   }
   
-  [query orderByDescending:@"rangeUpper"];
   return query;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
-                        object:(PFObject *)object {
+                        object:(StandardMilestone *)milestone {
   static NSString *CellIdentifier = @"Cell";
   
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -68,8 +66,8 @@
   }
   
   // Configure the cell to show todo item with a priority at the bottom
-  cell.textLabel.text = [object objectForKey:@"title"];
-  cell.detailTextLabel.text = [object objectForKey:@"description"];
+  cell.textLabel.text = milestone.title;
+  cell.detailTextLabel.text = milestone.description;
   
   return cell;
 }
@@ -77,8 +75,17 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
   [super tableView:tableView didSelectRowAtIndexPath:indexPath];
-  [self performSegueWithIdentifier:@"noteMilestone" sender:self];
+  
+  [self performSegueWithIdentifier:kDDSegueNoteMilestone sender:self];
+  
+}
 
+-(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+  if([segue.identifier isEqualToString:kDDSegueNoteMilestone]) {
+    NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
+    ((NoteMilestoneViewController*)segue.destinationViewController).milestone = (StandardMilestone*)[self objectAtIndexPath:selectedIndexPath];
+    ((NoteMilestoneViewController*)segue.destinationViewController).baby = _myBaby;
+  }
 }
 
 

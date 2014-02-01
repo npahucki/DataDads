@@ -7,6 +7,7 @@
 //
 
 #import "NoteMilestoneViewController.h"
+#import "StandardMilestoneAchievement.h"
 
 @interface NoteMilestoneViewController ()
 
@@ -14,34 +15,78 @@
 
 @implementation NoteMilestoneViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (void)viewDidLoad
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
+  [super viewDidLoad];
+  NSAssert(self.milestone,@"milestone must be set before view loads");
+  NSAssert(self.baby, @"baby must be set before view loads");
+  
+  UIToolbar* datePickerToolbar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
+  datePickerToolbar.items = @[
+                              [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
+                              [[UIBarButtonItem alloc]initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneWithDatePicker)]
+                              ];
+  [datePickerToolbar sizeToFit];
+  
+  UIDatePicker *datePicker = [[UIDatePicker alloc]init];
+  datePicker.datePickerMode = UIDatePickerModeDate;
+  datePicker.date = [NSDate date];
+  datePicker.maximumDate = datePicker.date;
+  [datePicker addTarget:self action:@selector(updateCompletionDateTextField:) forControlEvents:UIControlEventValueChanged];
+  self.completionDateTextField.inputView = datePicker;
+  self.completionDateTextField.inputAccessoryView = datePickerToolbar;
+  [self updateCompletionDateTextField:datePicker]; // Make it have today's date by default
 }
+
+- (IBAction)didClickTakePicture:(id)sender {
+}
+
 - (IBAction)didClickCancelButton:(id)sender {
-  [self.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+  self.milestone = nil;
+  self.baby = nil;
+  [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 
 }
 
 - (IBAction)didClickDoneButton:(id)sender {
-  [self.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-  [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+  [self.view endEditing:YES];
+  StandardMilestoneAchievement * achievement = [StandardMilestoneAchievement object];
+  achievement.baby = self.baby;
+  achievement.milestone = self.milestone;
+  achievement.completionDate =  ((UIDatePicker*)self.completionDateTextField.inputView).date;
+  [achievement saveEventually]; // For now, save whenever we can
+
+  // TODO: Show Ranking
+  
+  UIImageView *myImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"checkmark.png"]];
+  myImageView.frame = self.view.frame;
+  myImageView.alpha = 0.0;
+  [myImageView sizeToFit];
+  [self.view addSubview:myImageView];
+  [UIView animateWithDuration:1.0 delay:0.0 options:0 animations:^{myImageView.alpha = 1.0;} completion:^(BOOL finished){
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    
+  }];
 }
 
-- (void)viewDidLoad
+- (void)viewDidAppear:(BOOL)animated
 {
-    [super viewDidLoad];
-	// Do any additional setup after loading the view.
+  [super viewDidAppear:animated];
+  
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+
+-(void) doneWithDatePicker {
+  [self.view endEditing:YES];
 }
+
+-(void)updateCompletionDateTextField:(id)sender
+{
+  UIDatePicker *picker = (UIDatePicker*)sender;
+  NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+  [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+  self.completionDateTextField.text = [dateFormatter stringFromDate:picker.date];
+}
+
 
 @end
