@@ -67,7 +67,7 @@
   
   // Configure the cell to show todo item with a priority at the bottom
   cell.textLabel.text = milestone.title;
-  cell.detailTextLabel.text = milestone.description;
+  cell.detailTextLabel.text = milestone.shortDescription;
   
   return cell;
 }

@@ -12,7 +12,7 @@
 @implementation StandardMilestone
 
 @dynamic title;
-@dynamic description;
+@dynamic shortDescription;
 @dynamic rangeHigh;
 @dynamic rangeLow;
 

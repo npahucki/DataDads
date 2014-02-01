@@ -15,7 +15,7 @@
 + (NSString *)parseClassName;
 
 @property NSString *title;
-@property NSString *description;
+@property NSString *shortDescription;
 @property NSNumber *rangeLow;
 @property NSNumber *rangeHigh;
 
