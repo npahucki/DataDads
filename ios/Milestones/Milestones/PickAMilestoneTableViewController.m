@@ -42,6 +42,7 @@
   //StandardMilestone * completed = [notification.userInfo objectForKey:@""];
   // TODO: add a check mark to the cell before it refreshes
   [self loadObjects];
+  
 }
 
 
@@ -63,11 +64,9 @@
   // If no objects are loaded in memory, we look to the cache
   // first to fill the table and then subsequently do a query
   // against the network.
-  
-  if ([self.objects count] == 0) {
-    innerQuery.cachePolicy = kPFCachePolicyNetworkOnly;
-    query.cachePolicy = kPFCachePolicyNetworkOnly;
-  }
+  PFCachePolicy policy = self.objects.count ? kPFCachePolicyNetworkOnly : kPFCachePolicyCacheThenNetwork;
+  innerQuery.cachePolicy = policy;
+  query.cachePolicy = policy;
 
   return query;
 }
