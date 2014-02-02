@@ -64,6 +64,7 @@
   [myImageView sizeToFit];
   [self.view addSubview:myImageView];
   [UIView animateWithDuration:1.0 delay:0.0 options:0 animations:^{myImageView.alpha = 1.0;} completion:^(BOOL finished){
+    [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationMilestoneNoted object:self userInfo:@{@"" : self.milestone}];
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
     
   }];

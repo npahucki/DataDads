@@ -30,6 +30,7 @@
   [super viewDidLoad];
   // Whenever the current baby chnages, we need to refresh the table
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(babyUpdated:) name:kDDNotificationCurrentBabyChanged object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(milestoneNoted:) name:kDDNotificationMilestoneNoted object:nil];
 }
 
 -(void) babyUpdated:(NSNotification*)notification {
@@ -37,11 +38,11 @@
   [self loadObjects];
 }
 
-//-(void) milestoneNoted:(NSNotification*)notification {
-//  StandardMilestone * completed = [notification.userInfo objectForKey:@""];
-//   self.tableView cellForRowAtIndexPath:<#(NSIndexPath *)#>
-//  [self loadObjects];
-//}
+-(void) milestoneNoted:(NSNotification*)notification {
+  //StandardMilestone * completed = [notification.userInfo objectForKey:@""];
+  // TODO: add a check mark to the cell before it refreshes
+  [self loadObjects];
+}
 
 
 // TODO: When we need to add sections, see https://parse.com/questions/using-pfquerytableviewcontroller-for-uitableview-sections
