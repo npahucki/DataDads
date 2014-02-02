@@ -31,6 +31,7 @@
   // Whenever the current baby chnages, we need to refresh the table
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(babyUpdated:) name:kDDNotificationCurrentBabyChanged object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(milestoneNoted:) name:kDDNotificationMilestoneNoted object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(milestoneNotedAndSaved:) name:kDDNotificationMilestoneNotedAndSaved object:nil];
 }
 
 -(void) babyUpdated:(NSNotification*)notification {
@@ -39,11 +40,27 @@
 }
 
 -(void) milestoneNoted:(NSNotification*)notification {
-  //StandardMilestone * completed = [notification.userInfo objectForKey:@""];
-  // TODO: add a check mark to the cell before it refreshes
-  [self loadObjects];
-  
+  StandardMilestone * completed = [notification.userInfo objectForKey:@""];
+  NSIndexPath *path = [NSIndexPath indexPathForRow:[self.objects indexOfObject:completed] inSection:0];
+  UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:path];
+  if(cell) {
+    cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    cell.userInteractionEnabled = NO; // disallow clicks
+  }
 }
+
+-(void) milestoneNotedAndSaved:(NSNotification*)notification {
+  StandardMilestone * completed = [notification.userInfo objectForKey:@""];
+  NSIndexPath *path = [NSIndexPath indexPathForRow:[self.objects indexOfObject:completed] inSection:0];
+  UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:path];
+  [self loadObjects];
+  if(cell) {
+    // Reset cell
+    cell.accessoryType = UITableViewCellAccessoryNone;
+    cell.userInteractionEnabled = YES;
+  }
+}
+
 
 
 // TODO: When we need to add sections, see https://parse.com/questions/using-pfquerytableviewcontroller-for-uitableview-sections
@@ -85,7 +102,6 @@
   // Configure the cell to show todo item with a priority at the bottom
   cell.textLabel.text = milestone.title;
   cell.detailTextLabel.text = milestone.shortDescription;
-  
   return cell;
 }
 

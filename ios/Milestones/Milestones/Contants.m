@@ -17,3 +17,4 @@ NSString *const kDDSegueNoteMilestone = @"noteMilestone";
 
 NSString *const kDDNotificationCurrentBabyChanged = @"currentBabyChanged";
 NSString *const kDDNotificationMilestoneNoted = @"milestoneNoted";
+NSString *const kDDNotificationMilestoneNotedAndSaved = @"milestoneNotedAndSaved";

@@ -54,7 +54,14 @@
   achievement.baby = self.baby;
   achievement.milestone = self.milestone;
   achievement.completionDate =  ((UIDatePicker*)self.completionDateTextField.inputView).date;
-  [achievement saveEventually]; // For now, save whenever we can
+  [achievement saveEventually:^(BOOL succeeded, NSError *error) {
+    if(succeeded) {
+      [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationMilestoneNotedAndSaved object:self userInfo:@{@"" : achievement.milestone}];
+    } else {
+      // TODO: send to stats engine/logging
+      NSLog(@"Failed to save achievment. Error: %@",error);
+    }
+  }]; // For now, save whenever we can
 
   // TODO: Show Ranking
   
@@ -64,9 +71,8 @@
   [myImageView sizeToFit];
   [self.view addSubview:myImageView];
   [UIView animateWithDuration:1.0 delay:0.0 options:0 animations:^{myImageView.alpha = 1.0;} completion:^(BOOL finished){
-    [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationMilestoneNoted object:self userInfo:@{@"" : self.milestone}];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationMilestoneNoted object:self userInfo:@{@"" : achievement.milestone}];
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-    
   }];
 }
 
