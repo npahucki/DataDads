@@ -37,20 +37,37 @@
   [self loadObjects];
 }
 
+//-(void) milestoneNoted:(NSNotification*)notification {
+//  StandardMilestone * completed = [notification.userInfo objectForKey:@""];
+//   self.tableView cellForRowAtIndexPath:<#(NSIndexPath *)#>
+//  [self loadObjects];
+//}
+
+
 // TODO: When we need to add sections, see https://parse.com/questions/using-pfquerytableviewcontroller-for-uitableview-sections
 - (PFQuery *)queryForTable {
   // If no Baby available yet, don't try to load anything
   if(!_myBaby) return nil;
   
   NSNumber * rangeDays = [NSNumber numberWithInteger:_myBaby.daysSinceDueDate];
-  PFQuery *query = [StandardMilestone queryForMilestonesForDay:rangeDays];
+  PFQuery *innerQuery = [StandardMilestoneAchievement query];
+  [innerQuery whereKey:@"baby" equalTo:_myBaby];
+  PFQuery *query = [StandardMilestone query];
+  [query whereKey:@"rangeHigh" greaterThanOrEqualTo:rangeDays];
+  [query whereKey:@"rangeLow" lessThanOrEqualTo:rangeDays];
+  // Bit if a hack here, using string column here : See https://parse.com/questions/trouble-with-nested-query-using-objectid
+  [query whereKey:@"objectId" doesNotMatchKey:@"milestoneId" inQuery:innerQuery];
+  [query orderByDescending:@"rangeUpper"];
+
   // If no objects are loaded in memory, we look to the cache
   // first to fill the table and then subsequently do a query
   // against the network.
-  if ([self.objects count] == 0) {
-    query.cachePolicy = kPFCachePolicyCacheThenNetwork;
-  }
   
+  if ([self.objects count] == 0) {
+    innerQuery.cachePolicy = kPFCachePolicyNetworkOnly;
+    query.cachePolicy = kPFCachePolicyNetworkOnly;
+  }
+
   return query;
 }
 

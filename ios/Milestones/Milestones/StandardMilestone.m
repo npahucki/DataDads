@@ -20,13 +20,4 @@
   return @"StandardMilestones";
 }
 
-+ (PFQuery*) queryForMilestonesForDay:(NSNumber *)rangeDays {
-  PFQuery *query = [StandardMilestone query];
-  [query whereKey:@"rangeHigh" greaterThanOrEqualTo:rangeDays];
-  [query whereKey:@"rangeLow" lessThanOrEqualTo:rangeDays];
-  [query orderByDescending:@"rangeUpper"];
-  return query;
-}
-
-
 @end

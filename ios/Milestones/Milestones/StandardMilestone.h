@@ -19,10 +19,4 @@
 @property NSNumber *rangeLow;
 @property NSNumber *rangeHigh;
 
-/**
- Returns a query that queries all the babies for the user passed in
- */
-+ (PFQuery*) queryForMilestonesForDay:(NSNumber*)day;
-
-
 @end
