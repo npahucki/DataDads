@@ -18,6 +18,8 @@
 //@dynamic milestone;
 @dynamic baby;
 @dynamic completionDate;
+@dynamic attachment;
+@dynamic attachmentType;
 
 + (NSString *)parseClassName {
   return @"StandardMilestoneAchievements";

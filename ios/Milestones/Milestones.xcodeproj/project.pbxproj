@@ -352,6 +352,9 @@
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Nathan  Pahucki";
 				TargetAttributes = {
+					E8DD48D9188EE5B900153095 = {
+						DevelopmentTeam = 7F4YJQGJ9E;
+					};
 					E8DD4900188EE5BA00153095 = {
 						TestTargetID = E8DD48D9188EE5B900153095;
 					};
@@ -593,6 +596,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/npahucki/Projects/DataDads/ios/Milestones,
@@ -601,6 +605,7 @@
 				GCC_PREFIX_HEADER = "Milestones/Milestones-Prefix.pch";
 				INFOPLIST_FILE = "Milestones/Milestones-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -612,6 +617,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/npahucki/Projects/DataDads/ios/Milestones,
@@ -620,6 +626,7 @@
 				GCC_PREFIX_HEADER = "Milestones/Milestones-Prefix.pch";
 				INFOPLIST_FILE = "Milestones/Milestones-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

@@ -38,9 +38,6 @@
   [self updateCompletionDateTextField:datePicker]; // Make it have today's date by default
 }
 
-- (IBAction)didClickTakePicture:(id)sender {
-}
-
 - (IBAction)didClickCancelButton:(id)sender {
   self.milestone = nil;
   self.baby = nil;
@@ -48,15 +45,63 @@
 
 }
 
+- (IBAction)didClickTakePicture:(id)sender {
+  [self.view endEditing:YES];
+  if(!_takeController) {
+    _takeController = [[FDTakeController alloc] init];
+    _takeController.delegate = self;
+    _takeController.viewControllerForPresentingImagePickerController = self;
+    _takeController.allowsEditingPhoto = YES;
+    _takeController.allowsEditingVideo = NO;
+  }
+  [_takeController takePhotoOrChooseFromLibrary];
+}
+
+
 - (IBAction)didClickDoneButton:(id)sender {
   [self.view endEditing:YES];
+
+  if(_imageOrVideo) {
+    [self saveImageOrPhoto];
+  } else {
+    [self saveAchievementWithAttachment:nil andType:nil];
+  }
+}
+
+-(void) saveImageOrPhoto {
+  PFFile *file = [PFFile fileWithData:_imageOrVideo];
+  [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+    if(error) {
+      // TODO: Notification
+      NSLog(@"Failed to upload file %@", error);
+    } else {
+      [self saveAchievementWithAttachment:file andType:_imageOrVideoType];
+    }
+  } progressBlock:^(int percentDone) {
+    // TOOD: Progress HUD
+    NSLog(@"Uploading file %d", percentDone);
+  }];
+}
+
+-(void) saveAchievementWithAttachment:(PFFile*) attachment andType:(NSString*) type {
   StandardMilestoneAchievement * achievement = [StandardMilestoneAchievement object];
+  achievement.attachment = attachment;
+  achievement.attachmentType = type;
   achievement.baby = self.baby;
   achievement.milestone = self.milestone;
   achievement.completionDate =  ((UIDatePicker*)self.completionDateTextField.inputView).date;
-  [achievement saveEventually:^(BOOL succeeded, NSError *error) {
+  [achievement saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
     if(succeeded) {
       [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationMilestoneNotedAndSaved object:self userInfo:@{@"" : achievement.milestone}];
+      UIImageView *myImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"checkmark.png"]];
+      myImageView.frame = self.view.frame;
+      myImageView.alpha = 0.0;
+      [myImageView sizeToFit];
+      [self.view addSubview:myImageView];
+      [UIView animateWithDuration:1.0 delay:0.0 options:0 animations:^{myImageView.alpha = 1.0;} completion:^(BOOL finished){
+        [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationMilestoneNoted object:self userInfo:@{@"" : achievement.milestone}];
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+      }];
     } else {
       // TODO: send to stats engine/logging
       NSLog(@"Failed to save achievment. Error: %@",error);
@@ -65,23 +110,7 @@
 
   // TODO: Show Ranking
   
-  UIImageView *myImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"checkmark.png"]];
-  myImageView.frame = self.view.frame;
-  myImageView.alpha = 0.0;
-  [myImageView sizeToFit];
-  [self.view addSubview:myImageView];
-  [UIView animateWithDuration:1.0 delay:0.0 options:0 animations:^{myImageView.alpha = 1.0;} completion:^(BOOL finished){
-    [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationMilestoneNoted object:self userInfo:@{@"" : achievement.milestone}];
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-  }];
 }
-
-- (void)viewDidAppear:(BOOL)animated
-{
-  [super viewDidAppear:animated];
-  
-}
-
 
 -(void) doneWithDatePicker {
   [self.view endEditing:YES];
@@ -93,6 +122,43 @@
   NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
   [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
   self.completionDateTextField.text = [dateFormatter stringFromDate:picker.date];
+}
+
+#pragma mark - FDTakeDelegate
+
+- (void)takeController:(FDTakeController *)controller didCancelAfterAttempting:(BOOL)madeAttempt
+{
+  // TODO: Log this for user interaction tracking
+  //  UIAlertView *alertView;
+//  if (madeAttempt)
+//    alertView = [[UIAlertView alloc] initWithTitle:@"Example app" message:@"The take was cancelled after selecting media" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//  else
+//    alertView = [[UIAlertView alloc] initWithTitle:@"Example app" message:@"The take was cancelled without selecting media" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//  [alertView show];
+}
+
+- (void)takeController:(FDTakeController *)controller gotPhoto:(UIImage *)photo withInfo:(NSDictionary *)info
+{
+  // TODO: Support video too!
+  _imageOrVideo = UIImageJPEGRepresentation(photo, 0.5f);
+  _imageOrVideoType = @"image/jpg";
+
+//  CGSize size = self.takePictureButton.frame.size;
+//  UIGraphicsBeginImageContext(size);
+//  CGContextRef context = UIGraphicsGetCurrentContext();
+//  CGContextTranslateCTM(context, 0.0, size.height);
+//  CGContextScaleCTM(context, 1.0, -1.0);
+//  CGContextDrawImage(context, CGRectMake(0.0f, 0.0f, size.width, size.height), photo.CGImage);
+//  UIImage* scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+//  UIGraphicsEndImageContext();
+  self.takePictureButton.contentMode = UIViewContentModeCenter;
+  [self.takePictureButton setBackgroundImage:photo forState:UIControlStateNormal];
+}
+
+-(void) viewWillAppear:(BOOL)animated {
+  // This is needed to hack around the fact that the image picker turns on the status bar
+  [[UIApplication sharedApplication] setStatusBarHidden:YES];
+  
 }
 
 

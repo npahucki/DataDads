@@ -15,6 +15,8 @@
 @property Baby* baby;
 @property StandardMilestone *milestone;
 @property NSDate* completionDate;
+@property PFFile* attachment;
+@property NSString* attachmentType;
 
 
 @end

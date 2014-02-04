@@ -9,8 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "StandardMilestone.h"
 #import "Baby.h"
+#import "FDTakeController.h"
 
-@interface NoteMilestoneViewController : UIViewController
+
+@interface NoteMilestoneViewController : UIViewController <FDTakeDelegate>
+
 
 @property (strong, nonatomic) IBOutlet UITextField *completionDateTextField;
 
@@ -19,5 +22,10 @@
 
 @property (strong, nonatomic) IBOutlet UIButton *doneButton;
 
+@property (strong, nonatomic) IBOutlet UIButton *takePictureButton;
 
 @end
+
+FDTakeController* _takeController;
+NSData * _imageOrVideo;
+NSString * _imageOrVideoType;
