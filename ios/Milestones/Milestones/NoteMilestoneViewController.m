@@ -142,15 +142,6 @@
   // TODO: Support video too!
   _imageOrVideo = UIImageJPEGRepresentation(photo, 0.5f);
   _imageOrVideoType = @"image/jpg";
-
-//  CGSize size = self.takePictureButton.frame.size;
-//  UIGraphicsBeginImageContext(size);
-//  CGContextRef context = UIGraphicsGetCurrentContext();
-//  CGContextTranslateCTM(context, 0.0, size.height);
-//  CGContextScaleCTM(context, 1.0, -1.0);
-//  CGContextDrawImage(context, CGRectMake(0.0f, 0.0f, size.width, size.height), photo.CGImage);
-//  UIImage* scaledImage = UIGraphicsGetImageFromCurrentImageContext();
-//  UIGraphicsEndImageContext();
   self.takePictureButton.contentMode = UIViewContentModeCenter;
   [self.takePictureButton setBackgroundImage:photo forState:UIControlStateNormal];
 }

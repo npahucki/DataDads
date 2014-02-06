@@ -31,6 +31,7 @@
     PFUser * user = [PFUser currentUser];
     // TODO: Validate unique!
     [user setObject:self.screenNameField.text forKey:kDDUserScreenName];
+    // TODO: Save syncronously
     [user saveEventually];
     [self dismissViewControllerAnimated:YES completion:nil];
   }

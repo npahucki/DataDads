@@ -25,7 +25,7 @@
   PFUser * user = PFUser.currentUser;
   if(user) {
     NSString * screenName = [user objectForKey:kDDUserScreenName];
-    if(!screenName || [screenName length] == 0) {
+    if(![screenName length]) {
       // Must show the propt to enter a screen name
       [self performSegueWithIdentifier:@"enterScreenName" sender:self];
     } else {
