@@ -10,6 +10,7 @@
 #import "StandardMilestone.h"
 #import "Baby.h"
 #import "FDTakeController.h"
+#import "MBProgressHUD.h"
 
 
 @interface NoteMilestoneViewController : UIViewController <FDTakeDelegate>
@@ -29,3 +30,4 @@
 FDTakeController* _takeController;
 NSData * _imageOrVideo;
 NSString * _imageOrVideoType;
+MBProgressHUD * _hud;

@@ -30,6 +30,7 @@
   label.text = @"Data Dads";
   [label sizeToFit];
   self.logInView.logo = label; // logo can be any UIView
+  self.signUpController.delegate = self;
   [super viewDidLoad];
   
 }
@@ -100,6 +101,12 @@
       
     }
   }];
+}
+
+# pragma PFSignUpViewController methods
+// Sent to the delegate when a PFUser is signed up.
+- (void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user {
+  [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 

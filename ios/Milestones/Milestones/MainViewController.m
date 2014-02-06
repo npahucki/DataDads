@@ -27,6 +27,12 @@
     NSString * screenName = [user objectForKey:kDDUserScreenName];
     if(![screenName length]) {
       // Must show the propt to enter a screen name
+      // TODO: Set a default screen name based on Facebook name or user name.
+      if([PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]) {
+        // TODO: Lookup Name in facebook to suggest as screen name
+      } else {
+        [user setObject:user.username forKey:kDDUserScreenName];
+      }
       [self performSegueWithIdentifier:@"enterScreenName" sender:self];
     } else {
       if(_myBaby == nil) {

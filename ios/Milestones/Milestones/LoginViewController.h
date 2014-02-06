@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 
-@interface LoginViewController : PFLogInViewController<PFLogInViewControllerDelegate>
+@interface LoginViewController : PFLogInViewController<PFLogInViewControllerDelegate,PFSignUpViewControllerDelegate>
 
 @end

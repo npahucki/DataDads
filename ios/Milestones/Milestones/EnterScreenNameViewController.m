@@ -19,7 +19,7 @@
 - (void)viewDidLoad
 {
   [super viewDidLoad];
-	self.screenNameField.text = [PFUser.currentUser objectForKey:kDDUserScreenName];
+  self.screenNameField.text = [PFUser.currentUser objectForKey:kDDUserScreenName];
 }
 
 - (IBAction)didEndEditingScreenName:(id)sender {
@@ -31,8 +31,7 @@
     PFUser * user = [PFUser currentUser];
     // TODO: Validate unique!
     [user setObject:self.screenNameField.text forKey:kDDUserScreenName];
-    // TODO: Save syncronously
-    [user saveEventually];
+    [user saveInBackground];
     [self dismissViewControllerAnimated:YES completion:nil];
   }
 }

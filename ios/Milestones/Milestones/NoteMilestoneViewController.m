@@ -47,20 +47,20 @@
 
 - (IBAction)didClickTakePicture:(id)sender {
   [self.view endEditing:YES];
-  if(!_takeController) {
-    _takeController = [[FDTakeController alloc] init];
-    _takeController.delegate = self;
-    _takeController.viewControllerForPresentingImagePickerController = self;
-    _takeController.allowsEditingPhoto = YES;
-    _takeController.allowsEditingVideo = NO;
-  }
+  _takeController = [[FDTakeController alloc] init];
+  _takeController.delegate = self;
+  _takeController.viewControllerForPresentingImagePickerController = self;
+  _takeController.allowsEditingPhoto = YES;
+  _takeController.allowsEditingVideo = NO;
   [_takeController takePhotoOrChooseFromLibrary];
 }
 
 
 - (IBAction)didClickDoneButton:(id)sender {
   [self.view endEditing:YES];
-
+  _hud.animationType = MBProgressHUDAnimationFade;
+  _hud = [MBProgressHUD showHUDAddedTo:self.view animated:NO];
+  _hud.dimBackground = YES;
   if(_imageOrVideo) {
     [self saveImageOrPhoto];
   } else {
@@ -69,21 +69,23 @@
 }
 
 -(void) saveImageOrPhoto {
+  _hud.mode = MBProgressHUDModeAnnularDeterminate;
+  _hud.labelText = NSLocalizedString(@"Uploading Photo", nil);
   PFFile *file = [PFFile fileWithData:_imageOrVideo];
   [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
     if(error) {
-      // TODO: Notification
-      NSLog(@"Failed to upload file %@", error);
+      [self showSaveError:error withMessage:@"Could not upload your photo."];
     } else {
       [self saveAchievementWithAttachment:file andType:_imageOrVideoType];
     }
   } progressBlock:^(int percentDone) {
-    // TOOD: Progress HUD
-    NSLog(@"Uploading file %d", percentDone);
+    _hud.progress = percentDone;
   }];
 }
 
 -(void) saveAchievementWithAttachment:(PFFile*) attachment andType:(NSString*) type {
+  _hud.mode = MBProgressHUDModeIndeterminate;
+  _hud.labelText = NSLocalizedString(@"Noting milestone", nil);
   StandardMilestoneAchievement * achievement = [StandardMilestoneAchievement object];
   achievement.attachment = attachment;
   achievement.attachmentType = type;
@@ -93,18 +95,14 @@
   [achievement saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
     if(succeeded) {
       [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationMilestoneNotedAndSaved object:self userInfo:@{@"" : achievement.milestone}];
-      UIImageView *myImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"checkmark.png"]];
-      myImageView.frame = self.view.frame;
-      myImageView.alpha = 0.0;
-      [myImageView sizeToFit];
-      [self.view addSubview:myImageView];
-      [UIView animateWithDuration:1.0 delay:0.0 options:0 animations:^{myImageView.alpha = 1.0;} completion:^(BOOL finished){
-        [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationMilestoneNoted object:self userInfo:@{@"" : achievement.milestone}];
+      _hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
+      _hud.mode = MBProgressHUDModeCustomView;
+      _hud.completionBlock = ^() {
         [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-      }];
+      };
+      [_hud hide:YES afterDelay:.5]; // when hidden will dismiss the dialog.
     } else {
-      // TODO: send to stats engine/logging
-      NSLog(@"Failed to save achievment. Error: %@",error);
+      [self showSaveError:error withMessage:@"Could not note milestone."];
     }
   }]; // For now, save whenever we can
 
@@ -129,12 +127,6 @@
 - (void)takeController:(FDTakeController *)controller didCancelAfterAttempting:(BOOL)madeAttempt
 {
   // TODO: Log this for user interaction tracking
-  //  UIAlertView *alertView;
-//  if (madeAttempt)
-//    alertView = [[UIAlertView alloc] initWithTitle:@"Example app" message:@"The take was cancelled after selecting media" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-//  else
-//    alertView = [[UIAlertView alloc] initWithTitle:@"Example app" message:@"The take was cancelled without selecting media" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-//  [alertView show];
 }
 
 - (void)takeController:(FDTakeController *)controller gotPhoto:(UIImage *)photo withInfo:(NSDictionary *)info
@@ -150,6 +142,14 @@
   // This is needed to hack around the fact that the image picker turns on the status bar
   [[UIApplication sharedApplication] setStatusBarHidden:YES];
   
+}
+
+-(void) showSaveError:(NSError*) error withMessage:(NSString*) msg {
+  NSLog(@"%@ caused by %@", msg, error);
+  [MBProgressHUD hideHUDForView:self.view animated:NO];
+  NSString * fullMsg = [NSString stringWithFormat:@"%@ Please make sure that you are conencted to a network and try again.",msg];
+  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:fullMsg delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+  [alert show];
 }
 
 
