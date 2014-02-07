@@ -6,32 +6,39 @@
 //  Copyright (c) 2014 Nathan  Pahucki. All rights reserved.
 //
 
-#import "StandardMilestoneAchievement.h"
+#import "MilestoneAchievement.h"
 #import <Parse/PFObject+Subclass.h>
 
 
-@implementation StandardMilestoneAchievement
+@implementation MilestoneAchievement
 
 // Since we can't use an inner query based on an onject reference (See https://parse.com/questions/trouble-with-nested-query-using-objectid)
 // we must include a redundant column which is a string and has the milestoneId included. As such, to make sure this is always set correctly
 // we must implement the milestone getter/setter ourselves.
-//@dynamic milestone;
+//@dynamic standardMilestone;
 @dynamic baby;
 @dynamic completionDate;
 @dynamic attachment;
 @dynamic attachmentType;
+@dynamic customTitle;
+@dynamic customDescription;
 
 + (NSString *)parseClassName {
-  return @"StandardMilestoneAchievements";
+  return @"MilestoneAchievements";
 }
 
--(void) setMilestone:(StandardMilestone *)milestone {
-  [self setObject:milestone forKey:@"milestone"];
-  [self setObject:milestone.objectId forKey:@"milestoneId"];
+-(void) setStandardMilestone:(StandardMilestone *)standardMilestone {
+  [self setObject:standardMilestone forKey:@"standardMilestone"];
+  [self setObject:standardMilestone.objectId forKey:@"standardMilestoneId"];
 }
 
--(StandardMilestone*) milestone {
-  return [self objectForKey:@"milestone"];
+-(StandardMilestone*) standardMilestone {
+  return [self objectForKey:@"standardMilestone"];
 }
+
+-(BOOL) isCustom {
+  return self.standardMilestone == nil;
+}
+
 
 @end

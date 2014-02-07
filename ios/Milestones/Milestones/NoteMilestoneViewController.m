@@ -7,7 +7,7 @@
 //
 
 #import "NoteMilestoneViewController.h"
-#import "StandardMilestoneAchievement.h"
+#import "MilestoneAchievement.h"
 
 @interface NoteMilestoneViewController ()
 
@@ -84,15 +84,15 @@
 -(void) saveAchievementWithAttachment:(PFFile*) attachment andType:(NSString*) type {
   self.hud.mode = MBProgressHUDModeIndeterminate;
   self.hud.labelText = @"Noting milestone";
-  StandardMilestoneAchievement * achievement = [StandardMilestoneAchievement object];
+  MilestoneAchievement * achievement = [MilestoneAchievement object];
   achievement.attachment = attachment;
   achievement.attachmentType = type;
   achievement.baby = self.baby;
-  achievement.milestone = self.milestone;
+  achievement.standardMilestone = self.milestone;
   achievement.completionDate =  ((UIDatePicker*)self.completionDateTextField.inputView).date;
   [achievement saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
     if(succeeded) {
-      [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationMilestoneNotedAndSaved object:self userInfo:@{@"" : achievement.milestone}];
+      [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationMilestoneNotedAndSaved object:self userInfo:@{@"" : achievement}];
       [self showSaveSuccessAndDismissDialog];
     } else {
       [self showSaveError:error withMessage:@"Could not note milestone."];

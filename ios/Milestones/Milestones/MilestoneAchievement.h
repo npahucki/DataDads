@@ -10,13 +10,16 @@
 #import "Baby.h"
 #import "StandardMilestone.h"
 
-@interface StandardMilestoneAchievement : PFObject <PFSubclassing>
+@interface MilestoneAchievement : PFObject <PFSubclassing>
 
 @property Baby* baby;
-@property StandardMilestone *milestone;
+@property StandardMilestone *standardMilestone; // optional, could be custom in which case customTitle and customDescription should be set
 @property NSDate* completionDate;
 @property PFFile* attachment;
 @property NSString* attachmentType;
+@property NSString* customTitle;      // optional, should be set if milestone is nil
+@property NSString* customDescription;
 
+-(BOOL) isCustom;
 
 @end

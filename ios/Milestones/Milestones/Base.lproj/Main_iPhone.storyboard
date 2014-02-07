@@ -127,6 +127,10 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
+                    <connections>
+                        <outlet property="descriptionTextView" destination="eo8-bW-fh0" id="lga-rv-o3r"/>
+                        <outlet property="titleTextField" destination="0bN-w4-KmZ" id="vMM-o4-9d1"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="frr-0F-Ihd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -637,6 +641,6 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="LSy-QV-wgM"/>
+        <segue reference="fW3-VU-cat"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -20,7 +20,7 @@
   [Baby registerSubclass];
   [Tag registerSubclass];
   [StandardMilestone registerSubclass];
-  [StandardMilestoneAchievement registerSubclass];
+  [MilestoneAchievement registerSubclass];
   
   // Setup Social Providers
   [Parse setApplicationId:@"NlJHBG0NZgFS8JP76DBjA31MBRZ7kmb7dVSQQz3U"

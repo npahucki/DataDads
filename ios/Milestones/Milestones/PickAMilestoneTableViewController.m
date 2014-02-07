@@ -30,7 +30,6 @@
   [super viewDidLoad];
   // Whenever the current baby chnages, we need to refresh the table
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(babyUpdated:) name:kDDNotificationCurrentBabyChanged object:nil];
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(milestoneNoted:) name:kDDNotificationMilestoneNoted object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(milestoneNotedAndSaved:) name:kDDNotificationMilestoneNotedAndSaved object:nil];
 }
 
@@ -39,26 +38,30 @@
   [self loadObjects];
 }
 
--(void) milestoneNoted:(NSNotification*)notification {
-  StandardMilestone * completed = [notification.userInfo objectForKey:@""];
-  NSIndexPath *path = [NSIndexPath indexPathForRow:[self.objects indexOfObject:completed] inSection:0];
-  UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:path];
-  if(cell) {
-    cell.accessoryType = UITableViewCellAccessoryCheckmark;
-    cell.userInteractionEnabled = NO; // disallow clicks
+-(void) milestoneNotedAndSaved:(NSNotification*)notification {
+  MilestoneAchievement * achievement = [notification.userInfo objectForKey:@""];
+  if(achievement.standardMilestone) {
+    NSIndexPath *path = [NSIndexPath indexPathForRow:[self.objects indexOfObject:achievement.standardMilestone] inSection:0];
+    _checkedCell = [self.tableView cellForRowAtIndexPath:path];
+    if(_checkedCell) {
+      // Show a check mark and forbid and more clicking of this cell so as not to note it more than once.
+      _checkedCell.accessoryType = UITableViewCellAccessoryCheckmark;
+      _checkedCell.userInteractionEnabled = NO;
+    }
+    [self loadObjects];
   }
 }
 
--(void) milestoneNotedAndSaved:(NSNotification*)notification {
-  StandardMilestone * completed = [notification.userInfo objectForKey:@""];
-  NSIndexPath *path = [NSIndexPath indexPathForRow:[self.objects indexOfObject:completed] inSection:0];
-  UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:path];
-  [self loadObjects];
-  if(cell) {
-    // Reset cell
-    cell.accessoryType = UITableViewCellAccessoryNone;
-    cell.userInteractionEnabled = YES;
+-(void) objectsDidLoad:(NSError *)error {
+  // Reset the checked cell once new objects are available.
+  if(!error) {
+    if(_checkedCell) {
+      _checkedCell.accessoryType = UITableViewCellAccessoryNone;
+      _checkedCell.userInteractionEnabled = YES;
+      _checkedCell = nil;
+    }
   }
+  [super objectsDidLoad:error];
 }
 
 
@@ -69,13 +72,13 @@
   if(!_myBaby) return nil;
   
   NSNumber * rangeDays = [NSNumber numberWithInteger:_myBaby.daysSinceDueDate];
-  PFQuery *innerQuery = [StandardMilestoneAchievement query];
+  PFQuery *innerQuery = [MilestoneAchievement query];
   [innerQuery whereKey:@"baby" equalTo:_myBaby];
   PFQuery *query = [StandardMilestone query];
   [query whereKey:@"rangeHigh" greaterThanOrEqualTo:rangeDays];
   [query whereKey:@"rangeLow" lessThanOrEqualTo:rangeDays];
   // Bit if a hack here, using string column here : See https://parse.com/questions/trouble-with-nested-query-using-objectid
-  [query whereKey:@"objectId" doesNotMatchKey:@"milestoneId" inQuery:innerQuery];
+  [query whereKey:@"objectId" doesNotMatchKey:@"standardMilestoneId" inQuery:innerQuery];
   [query orderByDescending:@"rangeUpper"];
 
   // If no objects are loaded in memory, we look to the cache

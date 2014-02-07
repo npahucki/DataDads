@@ -18,3 +18,4 @@
 
 
 Baby* _myBaby;
+UITableViewCell * _checkedCell;

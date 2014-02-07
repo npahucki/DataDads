@@ -19,6 +19,6 @@
 #import "Constants.h"
 #import "Baby.h"
 #import "Tag.h"
-#import "StandardMilestoneAchievement.h"
+#import "MilestoneAchievement.h"
 #import "StandardMilestone.h"
 
