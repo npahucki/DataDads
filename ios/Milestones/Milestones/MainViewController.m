@@ -39,6 +39,7 @@
         // Finally, we must have at least one baby's info on file
         PFQuery *query =  [Baby  queryForBabiesForUser:PFUser.currentUser];
         query.cachePolicy = kPFCachePolicyCacheThenNetwork;
+        __block BOOL cachedResult = YES;
         [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
           if (!error) {
             // NOTE: This block gets called twice, once for cache, then once for network
@@ -46,13 +47,13 @@
             if([objects count] > 0) {
               // First call will be cache, we use that, then when the network call is complete
               // If and only if the Baby object is different do we replace it and send the notfication again
-              Baby *newBaby = objects[0];
+              Baby *newBaby = [objects firstObject];
               if(!_myBaby || [newBaby.updatedAt compare:_myBaby.updatedAt] == NSOrderedDescending) {
                 _myBaby = newBaby;
                 // Let other view controllers know the current baby has changed so they can update thir views
                 [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationCurrentBabyChanged object:self userInfo:[NSDictionary dictionaryWithObject:_myBaby forKey:@""]];
               }
-            } else {
+            } else if(!cachedResult) { // Don't show the baby screen when there are simply no objects in the cache.
               // Must show the enter baby screen since there are none registered yet
               [self performSegueWithIdentifier:@"enterBabyInfo" sender:self];
             }
@@ -61,6 +62,11 @@
               // TODO: display error to end user
               NSLog(@"Could not load the list of babies now, must try later %@", error);
             }
+          }
+
+          // Flip the bit
+          if (cachedResult) {
+            cachedResult = NO;
           }
         }];
       }
