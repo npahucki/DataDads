@@ -72,23 +72,7 @@
     baby.name = self.babyName.text;
     baby.parentUserId = PFUser.currentUser.objectId;
     baby.isMale = self.genderControl.selectedSegmentIndex < 1;
-    
-    MBProgressHUD * hud = [MBProgressHUD showHUDAddedTo:self.view animated:NO];
-    hud.dimBackground = YES;
-    hud.labelText = NSLocalizedString(@"Saving Baby Info", nil);
-    [baby saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-      if(succeeded) {
-        [MBProgressHUD hideHUDForView:self.view animated:NO];
-        [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationCurrentBabyChanged object:self userInfo:[NSDictionary dictionaryWithObject:baby forKey:@""]];
-        [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-      } else {
-        NSLog(@"Could not save baby info: %@", error);
-        [MBProgressHUD hideHUDForView:self.view animated:NO];
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Could not save your baby's information. Please make sure that you are conencted to a network and try again." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
-        [alert show];
-      }
-    }];
-    
+    [self saveObject:baby withTitle:@"Saving Baby Info" andFailureMessage:@"Could not save your baby's information."];
   } else {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Incomplete Data" message:@"Please fill in all fields." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
     [alert show];

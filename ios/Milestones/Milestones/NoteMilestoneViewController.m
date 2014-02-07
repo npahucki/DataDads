@@ -58,9 +58,7 @@
 
 - (IBAction)didClickDoneButton:(id)sender {
   [self.view endEditing:YES];
-  _hud.animationType = MBProgressHUDAnimationFade;
-  _hud = [MBProgressHUD showHUDAddedTo:self.view animated:NO];
-  _hud.dimBackground = YES;
+  [self showHUD:YES];
   if(_imageOrVideo) {
     [self saveImageOrPhoto];
   } else {
@@ -69,8 +67,8 @@
 }
 
 -(void) saveImageOrPhoto {
-  _hud.mode = MBProgressHUDModeAnnularDeterminate;
-  _hud.labelText = NSLocalizedString(@"Uploading Photo", nil);
+  self.hud.mode = MBProgressHUDModeAnnularDeterminate;
+  self.hud.labelText = NSLocalizedString(@"Uploading Photo", nil);
   PFFile *file = [PFFile fileWithData:_imageOrVideo];
   [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
     if(error) {
@@ -79,13 +77,13 @@
       [self saveAchievementWithAttachment:file andType:_imageOrVideoType];
     }
   } progressBlock:^(int percentDone) {
-    _hud.progress = percentDone;
+    self.hud.progress = percentDone;
   }];
 }
 
 -(void) saveAchievementWithAttachment:(PFFile*) attachment andType:(NSString*) type {
-  _hud.mode = MBProgressHUDModeIndeterminate;
-  _hud.labelText = NSLocalizedString(@"Noting milestone", nil);
+  self.hud.mode = MBProgressHUDModeIndeterminate;
+  self.hud.labelText = @"Noting milestone";
   StandardMilestoneAchievement * achievement = [StandardMilestoneAchievement object];
   achievement.attachment = attachment;
   achievement.attachmentType = type;
@@ -95,16 +93,11 @@
   [achievement saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
     if(succeeded) {
       [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationMilestoneNotedAndSaved object:self userInfo:@{@"" : achievement.milestone}];
-      _hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
-      _hud.mode = MBProgressHUDModeCustomView;
-      _hud.completionBlock = ^() {
-        [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-      };
-      [_hud hide:YES afterDelay:.5]; // when hidden will dismiss the dialog.
+      [self showSaveSuccessAndDismissDialog];
     } else {
       [self showSaveError:error withMessage:@"Could not note milestone."];
     }
-  }]; // For now, save whenever we can
+  }];
 
   // TODO: Show Ranking
   
@@ -141,15 +134,7 @@
 -(void) viewWillAppear:(BOOL)animated {
   // This is needed to hack around the fact that the image picker turns on the status bar
   [[UIApplication sharedApplication] setStatusBarHidden:YES];
-  
-}
-
--(void) showSaveError:(NSError*) error withMessage:(NSString*) msg {
-  NSLog(@"%@ caused by %@", msg, error);
-  [MBProgressHUD hideHUDForView:self.view animated:NO];
-  NSString * fullMsg = [NSString stringWithFormat:@"%@ Please make sure that you are conencted to a network and try again.",msg];
-  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:fullMsg delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
-  [alert show];
+  [super viewWillAppear:animated];
 }
 
 

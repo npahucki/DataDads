@@ -35,6 +35,7 @@
 		E8355F2118A3CA53005F5102 /* 37x-Checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = E8355F1F18A3CA53005F5102 /* 37x-Checkmark.png */; };
 		E8355F2218A3CA53005F5102 /* 37x-Checkmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E8355F2018A3CA53005F5102 /* 37x-Checkmark@2x.png */; };
 		E8AADCC718900B7F00BC1925 /* take-picture.png in Resources */ = {isa = PBXBuildFile; fileRef = E8AADCC618900B7F00BC1925 /* take-picture.png */; };
+		E8BC76D518A50AD000983025 /* UIViewControllerWithHUDProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = E8BC76D418A50AD000983025 /* UIViewControllerWithHUDProgress.m */; };
 		E8D00A17188F348700DF2786 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D00A16188F348700DF2786 /* LoginViewController.m */; };
 		E8D00A1A188F362100DF2786 /* BabyInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D00A19188F362100DF2786 /* BabyInfoViewController.m */; };
 		E8D00A1D188F433E00DF2786 /* CreateMilestoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D00A1C188F433E00DF2786 /* CreateMilestoneViewController.m */; };
@@ -104,6 +105,8 @@
 		E8355F1F18A3CA53005F5102 /* 37x-Checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37x-Checkmark.png"; sourceTree = "<group>"; };
 		E8355F2018A3CA53005F5102 /* 37x-Checkmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37x-Checkmark@2x.png"; sourceTree = "<group>"; };
 		E8AADCC618900B7F00BC1925 /* take-picture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "take-picture.png"; path = "../take-picture.png"; sourceTree = "<group>"; };
+		E8BC76D318A50AD000983025 /* UIViewControllerWithHUDProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIViewControllerWithHUDProgress.h; sourceTree = "<group>"; };
+		E8BC76D418A50AD000983025 /* UIViewControllerWithHUDProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIViewControllerWithHUDProgress.m; sourceTree = "<group>"; };
 		E8D00A15188F348700DF2786 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		E8D00A16188F348700DF2786 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		E8D00A18188F362100DF2786 /* BabyInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyInfoViewController.h; sourceTree = "<group>"; };
@@ -249,6 +252,8 @@
 				E81B586F1896A75700C74C2B /* Contants.m */,
 				E8DD48EC188EE5B900153095 /* AppDelegate.h */,
 				E8DD48ED188EE5B900153095 /* AppDelegate.m */,
+				E8BC76D318A50AD000983025 /* UIViewControllerWithHUDProgress.h */,
+				E8BC76D418A50AD000983025 /* UIViewControllerWithHUDProgress.m */,
 				E81B58711896B89E00C74C2B /* MainViewController.h */,
 				E81B58721896B89E00C74C2B /* MainViewController.m */,
 				E81B58741896C1A900C74C2B /* EnterScreenNameViewController.h */,
@@ -455,6 +460,7 @@
 				E81B58701896A75700C74C2B /* Contants.m in Sources */,
 				E8D00A20188F435300DF2786 /* NoteMilestoneViewController.m in Sources */,
 				E81B588318992B7000C74C2B /* Tag.m in Sources */,
+				E8BC76D518A50AD000983025 /* UIViewControllerWithHUDProgress.m in Sources */,
 				E8DD48EE188EE5B900153095 /* AppDelegate.m in Sources */,
 				E8DD48EA188EE5B900153095 /* main.m in Sources */,
 				E8D00A1A188F362100DF2786 /* BabyInfoViewController.m in Sources */,

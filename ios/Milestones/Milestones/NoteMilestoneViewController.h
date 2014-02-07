@@ -8,12 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "StandardMilestone.h"
-#import "Baby.h"
 #import "FDTakeController.h"
-#import "MBProgressHUD.h"
+#import "UIViewControllerWithHUDProgress.h"
 
 
-@interface NoteMilestoneViewController : UIViewController <FDTakeDelegate>
+@interface NoteMilestoneViewController : UIViewControllerWithHUDProgress <FDTakeDelegate>
 
 
 @property (strong, nonatomic) IBOutlet UITextField *completionDateTextField;
@@ -30,4 +29,3 @@
 FDTakeController* _takeController;
 NSData * _imageOrVideo;
 NSString * _imageOrVideoType;
-MBProgressHUD * _hud;

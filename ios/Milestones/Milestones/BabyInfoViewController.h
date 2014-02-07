@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "TagViewController.h"
-#import "Baby.h"
+#import "UIViewControllerWithHUDProgress.h"
 
-@interface BabyInfoViewController : UIViewController <TagViewDelegate>
+@interface BabyInfoViewController : UIViewControllerWithHUDProgress <TagViewDelegate>
 @property (strong, nonatomic) IBOutlet UITextField *dobTextField;
 @property (strong, nonatomic) IBOutlet UITextField *dueDateTextField;
 @property (strong, nonatomic) IBOutlet UITextField *babyName;
