@@ -34,7 +34,7 @@
 }
 
 -(void) babyUpdated:(NSNotification*)notification {
-  _myBaby =  [notification.userInfo objectForKey:@""];
+  self.baby = [notification.userInfo objectForKey:@""];
   [self loadObjects];
 }
 
@@ -69,11 +69,11 @@
 // TODO: When we need to add sections, see https://parse.com/questions/using-pfquerytableviewcontroller-for-uitableview-sections
 - (PFQuery *)queryForTable {
   // If no Baby available yet, don't try to load anything
-  if(!_myBaby) return nil;
+  if(!self.baby) return nil;
   
-  NSNumber * rangeDays = [NSNumber numberWithInteger:_myBaby.daysSinceDueDate];
+  NSNumber * rangeDays = [NSNumber numberWithInteger:self.baby.daysSinceDueDate];
   PFQuery *innerQuery = [MilestoneAchievement query];
-  [innerQuery whereKey:@"baby" equalTo:_myBaby];
+  [innerQuery whereKey:@"baby" equalTo:self.baby];
   PFQuery *query = [StandardMilestone query];
   [query whereKey:@"rangeHigh" greaterThanOrEqualTo:rangeDays];
   [query whereKey:@"rangeLow" lessThanOrEqualTo:rangeDays];
@@ -119,8 +119,10 @@
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
   if([segue.identifier isEqualToString:kDDSegueNoteMilestone]) {
     NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
-    ((NoteMilestoneViewController*)segue.destinationViewController).milestone = (StandardMilestone*)[self objectAtIndexPath:selectedIndexPath];
-    ((NoteMilestoneViewController*)segue.destinationViewController).baby = _myBaby;
+    MilestoneAchievement * achievement = [MilestoneAchievement object];
+    achievement.standardMilestone = (StandardMilestone*)[self objectAtIndexPath:selectedIndexPath];
+    achievement.baby = _myBaby;
+    ((NoteMilestoneViewController*)segue.destinationViewController).achievement = achievement;
   }
 }
 

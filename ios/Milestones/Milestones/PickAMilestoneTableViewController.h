@@ -12,10 +12,8 @@
 
 @interface PickAMilestoneTableViewController : PFQueryTableViewController
 
-
+@property Baby * baby;
 
 @end
 
-
-Baby* _myBaby;
 UITableViewCell * _checkedCell;

@@ -23,7 +23,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="iaF-4r-2f0" kind="modal" identifier="milestoneNoted" id="gau-bi-htX"/>
+                                    <segue destination="iaF-4r-2f0" kind="modal" identifier="createCustomMilesone" id="gau-bi-htX"/>
                                 </connections>
                             </button>
                             <containerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tbp-Rl-zmh">
@@ -31,7 +31,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <connections>
-                                    <segue destination="KNF-kK-rMK" kind="embed" id="dJh-hs-Z7F"/>
+                                    <segue destination="KNF-kK-rMK" kind="embed" identifier="embedTable" id="dJh-hs-Z7F"/>
                                 </connections>
                             </containerView>
                         </subviews>
@@ -63,7 +63,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iyb-mQ-tUw">
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iyb-mQ-tUw">
                                 <rect key="frame" x="241" y="430" width="59" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Create It">
@@ -71,7 +71,7 @@
                                 </state>
                                 <connections>
                                     <action selector="didClickDoneButton:" destination="iaF-4r-2f0" eventType="touchUpInside" id="CfA-Tj-QeR"/>
-                                    <segue destination="As4-O0-72y" kind="modal" identifier="milestoneNoted" id="fW3-VU-cat"/>
+                                    <segue destination="As4-O0-72y" kind="modal" identifier="noteMilestone" id="fW3-VU-cat"/>
                                 </connections>
                             </button>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gb4-PT-vt7">
@@ -88,11 +88,15 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                             </textView>
-                            <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Title" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0bN-w4-KmZ">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Title" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0bN-w4-KmZ">
                                 <rect key="frame" x="20" y="87" width="280" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
+                                <connections>
+                                    <action selector="editingTitleDidEnd:" destination="iaF-4r-2f0" eventType="editingDidEndOnExit" id="5ma-WJ-5FQ"/>
+                                    <action selector="titleLabelDidChange:" destination="iaF-4r-2f0" eventType="editingChanged" id="aqV-Ym-Plx"/>
+                                </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D2a-yH-KZQ">
                                 <rect key="frame" x="20" y="430" width="58" height="30"/>
@@ -129,6 +133,7 @@
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <connections>
                         <outlet property="descriptionTextView" destination="eo8-bW-fh0" id="lga-rv-o3r"/>
+                        <outlet property="doneButton" destination="Iyb-mQ-tUw" id="N4W-yJ-kec"/>
                         <outlet property="titleTextField" destination="0bN-w4-KmZ" id="vMM-o4-9d1"/>
                     </connections>
                 </viewController>

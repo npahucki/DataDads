@@ -17,8 +17,7 @@
 
 @property (strong, nonatomic) IBOutlet UITextField *completionDateTextField;
 
-@property StandardMilestone *milestone;
-@property Baby *baby;
+@property MilestoneAchievement *achievement;
 
 @property (strong, nonatomic) IBOutlet UIButton *doneButton;
 

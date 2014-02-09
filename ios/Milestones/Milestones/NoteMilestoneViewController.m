@@ -18,8 +18,8 @@
 - (void)viewDidLoad
 {
   [super viewDidLoad];
-  NSAssert(self.milestone,@"milestone must be set before view loads");
-  NSAssert(self.baby, @"baby must be set before view loads");
+  NSAssert(self.achievement.standardMilestone || self.achievement.customTitle,@"one of standardMilestone or customTitle must be set");
+  NSAssert(self.achievement.baby, @"baby must be set on acheivement before view loads");
   
   UIToolbar* datePickerToolbar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
   datePickerToolbar.items = @[
@@ -39,10 +39,8 @@
 }
 
 - (IBAction)didClickCancelButton:(id)sender {
-  self.milestone = nil;
-  self.baby = nil;
+  self.achievement = nil;
   [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-
 }
 
 - (IBAction)didClickTakePicture:(id)sender {
@@ -84,15 +82,12 @@
 -(void) saveAchievementWithAttachment:(PFFile*) attachment andType:(NSString*) type {
   self.hud.mode = MBProgressHUDModeIndeterminate;
   self.hud.labelText = @"Noting milestone";
-  MilestoneAchievement * achievement = [MilestoneAchievement object];
-  achievement.attachment = attachment;
-  achievement.attachmentType = type;
-  achievement.baby = self.baby;
-  achievement.standardMilestone = self.milestone;
-  achievement.completionDate =  ((UIDatePicker*)self.completionDateTextField.inputView).date;
-  [achievement saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+  self.achievement.attachment = attachment;
+  self.achievement.attachmentType = type;
+  self.achievement.completionDate =  ((UIDatePicker*)self.completionDateTextField.inputView).date;
+  [self.achievement saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
     if(succeeded) {
-      [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationMilestoneNotedAndSaved object:self userInfo:@{@"" : achievement}];
+      [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationMilestoneNotedAndSaved object:self userInfo:@{@"" : self.achievement}];
       [self showSaveSuccessAndDismissDialog];
     } else {
       [self showSaveError:error withMessage:@"Could not note milestone."];

@@ -12,9 +12,9 @@ NSString *const kDDUserEmail = @"email";
 
 NSString *const kDDSegueEnterScreenName = @"enterScreenName";
 NSString *const kDDSegueNoteMilestone = @"noteMilestone";
+NSString *const kDDSegueCreateCustomMilestone = @"createCustomMilesone";
 
 
 
 NSString *const kDDNotificationCurrentBabyChanged = @"currentBabyChanged";
-//NSString *const kDDNotificationMilestoneNoted = @"milestoneNoted";
 NSString *const kDDNotificationMilestoneNotedAndSaved = @"milestoneNotedAndSaved";

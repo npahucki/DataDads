@@ -7,12 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PickAMilestoneTableViewController.h"
 
 @interface PickMilestoneViewController : UIViewController
-@property (strong, nonatomic) IBOutlet UITableView *milestoneTable;
-  
+
+@property PickAMilestoneTableViewController *tableViewController;
+
 @end
 
-BOOL _mustRefreshFromNetwork;
+
 
 
