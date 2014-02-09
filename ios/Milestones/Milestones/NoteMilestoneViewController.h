@@ -22,6 +22,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *doneButton;
 
 @property (strong, nonatomic) IBOutlet UIButton *takePictureButton;
+@property (strong, nonatomic) IBOutlet UIButton *skipButton;
 
 @end
 

@@ -21,6 +21,9 @@
   NSAssert(self.achievement.standardMilestone || self.achievement.customTitle,@"one of standardMilestone or customTitle must be set");
   NSAssert(self.achievement.baby, @"baby must be set on acheivement before view loads");
   
+  // Can't skip standard milestones
+  self.skipButton.hidden = self.achievement.standardMilestone == nil;
+
   UIToolbar* datePickerToolbar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
   datePickerToolbar.items = @[
                               [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
@@ -53,6 +56,14 @@
   [_takeController takePhotoOrChooseFromLibrary];
 }
 
+- (IBAction)didClickSkipButton:(id)sender {
+  [self.view endEditing:YES];
+  [self showHUD:YES];
+  // Override any user input when skipping
+  ((UIDatePicker*)self.completionDateTextField.inputView).date = [NSDate date];
+  self.achievement.skipped = YES;
+  [self saveAchievementWithAttachment:nil andType:nil];
+}
 
 - (IBAction)didClickDoneButton:(id)sender {
   [self.view endEditing:YES];

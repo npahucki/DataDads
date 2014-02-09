@@ -22,6 +22,7 @@
 @dynamic attachmentType;
 @dynamic customTitle;
 @dynamic customDescription;
+@dynamic skipped;
 
 + (NSString *)parseClassName {
   return @"MilestoneAchievements";
