@@ -19,6 +19,8 @@ extern NSString *const kDDUserEmail;
 extern NSString *const kDDSegueEnterScreenName;
 extern NSString *const kDDSegueNoteMilestone;
 extern NSString *const kDDSegueCreateCustomMilestone;
+extern NSString *const kDDSegueShowMilestoneDetails;
+
 
 // Notifications
 extern NSString *const kDDNotificationCurrentBabyChanged;   // User data is NSDictionary with Baby object keyed by @""

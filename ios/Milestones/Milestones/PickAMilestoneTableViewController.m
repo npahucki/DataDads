@@ -11,6 +11,7 @@
 #import "Baby.h"
 #import "StandardMilestone.h"
 #import "NoteMilestoneViewController.h"
+#import "MilestoneDetailsViewController.h"
 
 @implementation PickAMilestoneTableViewController
 
@@ -100,20 +101,52 @@
   if (cell == nil) {
     cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
                                   reuseIdentifier:CellIdentifier];
+    cell.accessoryType =  UITableViewCellAccessoryDetailButton;
+    //cell.editingAccessoryType = UITableViewCellEditingStyleDelete;
+    // Show editing controls
+//    UIButton * skipBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+//    skipBtn.frame = CGRectMake(0 , 0, cell.frame.size.width / 4, cell.frame.size.height);
+//    skipBtn.titleLabel.text = @"Skip";
+//    cell.editingAccessoryView = skipBtn;
   }
-  
-  // Configure the cell to show todo item with a priority at the bottom
+
   cell.textLabel.text = milestone.title;
   cell.detailTextLabel.text = milestone.shortDescription;
   return cell;
 }
 
+// Override to support conditional editing of the table view.
+// This only needs to be implemented if you are going to be returning NO
+// for some items. By default, all items are editable.
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+  // Return YES if you want the specified item to be editable.
+  return YES;
+}
+
+// Override to support editing the table view.
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+  if (editingStyle == UITableViewCellEditingStyleDelete) {
+    MilestoneAchievement * achievement = [MilestoneAchievement object];
+    achievement.standardMilestone = (StandardMilestone*)[self objectAtIndexPath:indexPath];
+    achievement.baby = _myBaby;
+    achievement.completionDate = [NSDate date];
+    [achievement saveEventually];
+    [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self loadObjects];
+  }
+}
+
+
+-(void) tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
+  [self.tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+  [self performSegueWithIdentifier:kDDSegueShowMilestoneDetails sender:self];
+}
+
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
   [super tableView:tableView didSelectRowAtIndexPath:indexPath];
-  
   [self performSegueWithIdentifier:kDDSegueNoteMilestone sender:self];
-  
 }
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -123,6 +156,11 @@
     achievement.standardMilestone = (StandardMilestone*)[self objectAtIndexPath:selectedIndexPath];
     achievement.baby = _myBaby;
     ((NoteMilestoneViewController*)segue.destinationViewController).achievement = achievement;
+  } else if([segue.identifier isEqualToString:kDDSegueShowMilestoneDetails]) {
+    MilestoneDetailsViewController* details = (MilestoneDetailsViewController*)segue.destinationViewController;
+    NSLog(@"%@", segue.sourceViewController);
+    NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
+    details.milestone = (StandardMilestone*)[self objectAtIndexPath:selectedIndexPath];
   }
 }
 
