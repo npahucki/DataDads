@@ -43,32 +43,9 @@
   MilestoneAchievement * achievement = [notification.userInfo objectForKey:@""];
   if(achievement.standardMilestone) {
     NSIndexPath *path = [NSIndexPath indexPathForRow:[self.objects indexOfObject:achievement.standardMilestone] inSection:0];
-    UITableViewCell * checkedCell = [self.tableView cellForRowAtIndexPath:path];
-    if(checkedCell) {
-      // Show a check mark and forbid and more clicking of this cell so as not to note it more than once.
-      checkedCell.accessoryType = UITableViewCellAccessoryCheckmark;
-      checkedCell.userInteractionEnabled = NO;
-    }
     [self loadObjects];
   }
 }
-
-//-(void) objectsDidLoad:(NSError *)error {
-//  // Reset the checked cell once new objects are available.
-//  if(!error) {
-//    for (int section = 0; section < [tableView numberOfSections]; section++) {
-//      for (int row = 0; row < [tableView numberOfRowsInSection:section]; row++) {
-//        NSIndexPath* cellPath = [NSIndexPath indexPathForRow:row inSection:section];
-//        UITableViewCell* cell = [tableView cellForRowAtIndexPath:cellPath];
-//        cell.accessoryType = UITableViewCellAccessoryNone;
-//        cell.userInteractionEnabled = YES;
-//      }
-//    }
-//  }
-//  [super objectsDidLoad:error];
-//}
-
-
 
 // TODO: When we need to add sections, see https://parse.com/questions/using-pfquerytableviewcontroller-for-uitableview-sections
 - (PFQuery *)queryForTable {
@@ -121,15 +98,29 @@
   return YES;
 }
 
+- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
+  return @"Skip";
+}
+
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
   if (editingStyle == UITableViewCellEditingStyleDelete) {
+    // TODO: this doesn't seem to work too well.
+    UITableViewCell * cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    cell.hidden = YES;
+
     MilestoneAchievement * achievement = [MilestoneAchievement object];
     achievement.standardMilestone = (StandardMilestone*)[self objectAtIndexPath:indexPath];
     achievement.baby = _myBaby;
     achievement.completionDate = [NSDate date];
-    [achievement saveEventually];
-    [self loadObjects];
+    [achievement saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+      if(succeeded) {
+        [self loadObjects];
+      } else {
+        // TODO: show message
+        NSLog(@"Failed to save the achievment %@", achievement);
+      }
+    }];
   }
 }
 
