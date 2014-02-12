@@ -21,7 +21,7 @@
 
 -(void) showHUD: (BOOL) animated {
   if(!self.hud) {
-    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:animated];
+    self.hud = [MBProgressHUD showHUDAddedTo:self.navigationController ? self.navigationController.view : self.view animated:animated];
     self.hud.animationType = MBProgressHUDAnimationFade;
     self.hud.dimBackground = YES;
   }
@@ -46,11 +46,19 @@
   [self showHUD:NO];
   self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
   self.hud.mode = MBProgressHUDModeCustomView;
-  UIViewController * presenter = self.presentingViewController; // can't use self in block below as it causes a retain cycle
-  self.hud.completionBlock = ^() {
-    [presenter dismissViewControllerAnimated:YES completion:nil];
+  UIViewControllerWithHUDProgress * me = self; // needed to prevent circular refs
+  self.hud.completionBlock = ^{
+    [me dismiss];
   };
   [self.hud hide:YES afterDelay:.5]; // when hidden will dismiss the dialog.
+}
+
+-(void) dismiss {
+  if(self.navigationController) {
+    [self.navigationController popToRootViewControllerAnimated:YES];
+  } else {
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+  }
 }
 
 -(void) showSaveError:(NSError*) error withMessage:(NSString*) msg {

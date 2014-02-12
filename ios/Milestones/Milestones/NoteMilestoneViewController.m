@@ -41,11 +41,6 @@
   [self updateCompletionDateTextField:datePicker]; // Make it have today's date by default
 }
 
-- (IBAction)didClickCancelButton:(id)sender {
-  self.achievement = nil;
-  [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-}
-
 - (IBAction)didClickTakePicture:(id)sender {
   [self.view endEditing:YES];
   _takeController = [[FDTakeController alloc] init];

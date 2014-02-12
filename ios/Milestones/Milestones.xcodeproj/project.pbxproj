@@ -25,7 +25,6 @@
 		E81B58731896B89E00C74C2B /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E81B58721896B89E00C74C2B /* MainViewController.m */; };
 		E81B58761896C1A900C74C2B /* EnterScreenNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E81B58751896C1A900C74C2B /* EnterScreenNameViewController.m */; };
 		E81B587A1896CE7800C74C2B /* Baby.m in Sources */ = {isa = PBXBuildFile; fileRef = E81B58791896CE7800C74C2B /* Baby.m */; };
-		E81B587D1897D3D000C74C2B /* PickMilestoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E81B587B1897D3D000C74C2B /* PickMilestoneViewController.m */; };
 		E81B588018988D9A00C74C2B /* TagViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E81B587F18988D9A00C74C2B /* TagViewController.m */; };
 		E81B588318992B7000C74C2B /* Tag.m in Sources */ = {isa = PBXBuildFile; fileRef = E81B588218992B7000C74C2B /* Tag.m */; };
 		E81B58851899A95600C74C2B /* BabyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E81B58841899A95600C74C2B /* BabyTests.m */; };
@@ -93,8 +92,6 @@
 		E81B58751896C1A900C74C2B /* EnterScreenNameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EnterScreenNameViewController.m; sourceTree = "<group>"; };
 		E81B58781896CE7800C74C2B /* Baby.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Baby.h; sourceTree = "<group>"; };
 		E81B58791896CE7800C74C2B /* Baby.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Baby.m; sourceTree = "<group>"; };
-		E81B587B1897D3D000C74C2B /* PickMilestoneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PickMilestoneViewController.m; sourceTree = "<group>"; };
-		E81B587C1897D3D000C74C2B /* PickMilestoneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PickMilestoneViewController.h; sourceTree = "<group>"; };
 		E81B587E18988D9A00C74C2B /* TagViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagViewController.h; sourceTree = "<group>"; };
 		E81B587F18988D9A00C74C2B /* TagViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagViewController.m; sourceTree = "<group>"; };
 		E81B588118992B7000C74C2B /* Tag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tag.h; sourceTree = "<group>"; };
@@ -265,8 +262,6 @@
 				E81B58721896B89E00C74C2B /* MainViewController.m */,
 				E81B58741896C1A900C74C2B /* EnterScreenNameViewController.h */,
 				E81B58751896C1A900C74C2B /* EnterScreenNameViewController.m */,
-				E81B587C1897D3D000C74C2B /* PickMilestoneViewController.h */,
-				E81B587B1897D3D000C74C2B /* PickMilestoneViewController.m */,
 				E81B58691891F9C400C74C2B /* PickAMilestoneTableViewController.h */,
 				E81B586A1891F9C400C74C2B /* PickAMilestoneTableViewController.m */,
 				E8BC76D618A8522F00983025 /* MilestoneDetailsViewController.h */,
@@ -459,7 +454,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E81B587D1897D3D000C74C2B /* PickMilestoneViewController.m in Sources */,
 				E81B58761896C1A900C74C2B /* EnterScreenNameViewController.m in Sources */,
 				E81B58731896B89E00C74C2B /* MainViewController.m in Sources */,
 				E81B586B1891F9C400C74C2B /* PickAMilestoneTableViewController.m in Sources */,

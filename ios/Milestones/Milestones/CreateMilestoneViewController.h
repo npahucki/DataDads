@@ -13,7 +13,7 @@
 @interface CreateMilestoneViewController : UIViewController <UITextViewDelegate>
 @property (strong, nonatomic) IBOutlet UITextField *titleTextField;
 @property (strong, nonatomic) IBOutlet UITextView *descriptionTextView;
-@property (strong, nonatomic) IBOutlet UIButton *doneButton;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *nextButton;
 
 @property MilestoneAchievement *achievement;
 

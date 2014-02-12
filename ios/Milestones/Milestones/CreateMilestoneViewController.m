@@ -28,7 +28,7 @@
   [self.view addGestureRecognizer:viewTap];
 }
 - (IBAction)titleLabelDidChange:(id)sender {
-  self.doneButton.enabled = [self.titleTextField.text length] > 4;
+  self.nextButton.enabled = [self.titleTextField.text length] > 4;
 }
 
 -(void)handleSingleTap:(UITapGestureRecognizer *)sender {
@@ -59,27 +59,18 @@
   [textView resignFirstResponder];
 }
 
-- (IBAction)didClickCancelButton:(id)sender {
-  self.achievement = nil;
-  [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (IBAction)didClickDoneButton:(id)sender {
-    self.achievement.customTitle = self.titleTextField.text;
-    self.achievement.customDescription = self.descriptionTextView.text;
-    [self performSegueWithIdentifier:kDDSegueNoteMilestone sender:self];
-}
-
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
   if([segue.identifier isEqualToString:kDDSegueNoteMilestone]) {
+    self.achievement.customTitle = self.titleTextField.text;
+    self.achievement.customDescription = self.descriptionTextView.text;
     ((NoteMilestoneViewController*)segue.destinationViewController).achievement = self.achievement;
   }
 }
 
-// So when the NoteMileStone sview closes, we close ourselves too and the NoteMilestone view does not
-// need ot know from where it was invoked.
--(void) dismissViewControllerAnimated:(BOOL)animated completion:(void (^)(void))completion {
-  [self.presentingViewController dismissViewControllerAnimated:animated completion:completion];
-}
+//// So when the NoteMileStone sview closes, we close ourselves too and the NoteMilestone view does not
+//// need ot know from where it was invoked.
+//-(void) dismissViewControllerAnimated:(BOOL)animated completion:(void (^)(void))completion {
+//  [self.presentingViewController dismissViewControllerAnimated:animated completion:completion];
+//}
 
 @end

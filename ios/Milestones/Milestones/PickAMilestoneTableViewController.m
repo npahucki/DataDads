@@ -12,6 +12,7 @@
 #import "StandardMilestone.h"
 #import "NoteMilestoneViewController.h"
 #import "MilestoneDetailsViewController.h"
+#import "CreateMilestoneViewController.h"
 
 @implementation PickAMilestoneTableViewController
 
@@ -42,7 +43,7 @@
 -(void) milestoneNotedAndSaved:(NSNotification*)notification {
   MilestoneAchievement * achievement = [notification.userInfo objectForKey:@""];
   if(achievement.standardMilestone) {
-    NSIndexPath *path = [NSIndexPath indexPathForRow:[self.objects indexOfObject:achievement.standardMilestone] inSection:0];
+//    NSIndexPath *path = [NSIndexPath indexPathForRow:[self.objects indexOfObject:achievement.standardMilestone] inSection:0];
     [self loadObjects];
   }
 }
@@ -149,6 +150,10 @@
     NSLog(@"%@", segue.sourceViewController);
     NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
     details.milestone = (StandardMilestone*)[self objectAtIndexPath:selectedIndexPath];
+  } else if([segue.identifier isEqualToString:kDDSegueCreateCustomMilestone]) {
+    MilestoneAchievement * achievement = [MilestoneAchievement object];
+    achievement.baby = self.baby;
+    ((CreateMilestoneViewController*)segue.destinationViewController).achievement = achievement;
   }
 }
 

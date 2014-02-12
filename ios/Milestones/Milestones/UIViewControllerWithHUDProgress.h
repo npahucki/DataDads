@@ -12,9 +12,10 @@
 #import "MBProgressHUD.h"
 
 
-@interface UIViewControllerWithHUDProgress : UIViewController
+@interface UIViewControllerWithHUDProgress : UIViewController <MBProgressHUDDelegate>
 
 @property MBProgressHUD * hud;
+
 
 /*
   SHos the HUD Progress view added to the ViewController's main view.
@@ -52,4 +53,6 @@
 
 
 @end
+
+
 
