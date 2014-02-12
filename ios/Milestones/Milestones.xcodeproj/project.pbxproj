@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D6CB8834E1A347069F6D2883 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7AE7A55BFBD3425490A0E0F5 /* libPods.a */; };
+		E816B15318AB079000E9640B /* chart.png in Resources */ = {isa = PBXBuildFile; fileRef = E816B15218AB079000E9640B /* chart.png */; };
 		E81B58561891EE1100C74C2B /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B58551891EE1100C74C2B /* Parse.framework */; };
 		E81B58581891EE7D00C74C2B /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B58571891EE7D00C74C2B /* AudioToolbox.framework */; };
 		E81B585A1891EE8D00C74C2B /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B58591891EE8D00C74C2B /* CFNetwork.framework */; };
@@ -70,6 +71,7 @@
 /* Begin PBXFileReference section */
 		38FA7AFE5F694C389969CCDD /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		7AE7A55BFBD3425490A0E0F5 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		E816B15218AB079000E9640B /* chart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chart.png; sourceTree = "<group>"; };
 		E81B58551891EE1100C74C2B /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		E81B58571891EE7D00C74C2B /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		E81B58591891EE8D00C74C2B /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -195,6 +197,7 @@
 		E8AADCC818900B8D00BC1925 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				E816B15218AB079000E9640B /* chart.png */,
 				E8355F1F18A3CA53005F5102 /* 37x-Checkmark.png */,
 				E8355F2018A3CA53005F5102 /* 37x-Checkmark@2x.png */,
 				E8AADCC618900B7F00BC1925 /* take-picture.png */,
@@ -258,6 +261,7 @@
 				E8BC76D318A50AD000983025 /* UIViewControllerWithHUDProgress.h */,
 				E8BC76D418A50AD000983025 /* UIViewControllerWithHUDProgress.m */,
 				E81B58711896B89E00C74C2B /* MainViewController.h */,
+				E8D00A16188F348700DF2786 /* LoginViewController.m */,
 				E81B58721896B89E00C74C2B /* MainViewController.m */,
 				E81B58741896C1A900C74C2B /* EnterScreenNameViewController.h */,
 				E81B58751896C1A900C74C2B /* EnterScreenNameViewController.m */,
@@ -270,7 +274,6 @@
 				E8DD48F8188EE5B900153095 /* LogMeasurementViewController.h */,
 				E8DD48F9188EE5B900153095 /* LogMeasurementViewController.m */,
 				E8D00A15188F348700DF2786 /* LoginViewController.h */,
-				E8D00A16188F348700DF2786 /* LoginViewController.m */,
 				E8D00A18188F362100DF2786 /* BabyInfoViewController.h */,
 				E8D00A19188F362100DF2786 /* BabyInfoViewController.m */,
 				E8D00A1B188F433E00DF2786 /* CreateMilestoneViewController.h */,
@@ -402,6 +405,7 @@
 				E8DD48FC188EE5B900153095 /* Images.xcassets in Resources */,
 				E8355F2118A3CA53005F5102 /* 37x-Checkmark.png in Resources */,
 				E8DD48F1188EE5B900153095 /* Main_iPhone.storyboard in Resources */,
+				E816B15318AB079000E9640B /* chart.png in Resources */,
 				E8AADCC718900B7F00BC1925 /* take-picture.png in Resources */,
 				E8DD48E8188EE5B900153095 /* InfoPlist.strings in Resources */,
 			);
