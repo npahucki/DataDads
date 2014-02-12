@@ -8,11 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CreateMilestoneViewController : UIViewController
+#define DESCRIPTION_PLACEHOLDER_TEXT @"Description..."
+
+@interface CreateMilestoneViewController : UIViewController <UITextViewDelegate>
 @property (strong, nonatomic) IBOutlet UITextField *titleTextField;
 @property (strong, nonatomic) IBOutlet UITextView *descriptionTextView;
 @property (strong, nonatomic) IBOutlet UIButton *doneButton;
 
 @property MilestoneAchievement *achievement;
 
+
 @end
+
+BOOL _descriptionDirty;

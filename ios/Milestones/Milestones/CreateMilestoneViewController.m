@@ -19,13 +19,13 @@
 - (void)viewDidLoad
 {
   [super viewDidLoad];
+  
+  self.descriptionTextView.textColor = [UIColor lightGrayColor];
+  self.descriptionTextView.text = DESCRIPTION_PLACEHOLDER_TEXT;
 
   // Needed to dimiss the keyboard once a user clicks outside the text boxes
   UITapGestureRecognizer *viewTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
   [self.view addGestureRecognizer:viewTap];
-}
-- (IBAction)editingTitleDidEnd:(id)sender {
-  [self.view endEditing:YES];
 }
 - (IBAction)titleLabelDidChange:(id)sender {
   self.doneButton.enabled = [self.titleTextField.text length] > 4;
@@ -33,6 +33,30 @@
 
 -(void)handleSingleTap:(UITapGestureRecognizer *)sender {
   [self.view endEditing:NO];
+}
+
+- (IBAction)editingTitleDidEnd:(id)sender {
+  [self.descriptionTextView becomeFirstResponder];
+}
+
+- (void)textViewDidBeginEditing:(UITextView *)textView
+{
+  if ([textView.text isEqualToString:DESCRIPTION_PLACEHOLDER_TEXT]) {
+    textView.text = @"";
+    textView.textColor = [UIColor blackColor];
+  }
+  [textView becomeFirstResponder];
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView
+{
+  if ([textView.text isEqualToString:@""]) {
+    textView.text = DESCRIPTION_PLACEHOLDER_TEXT;
+    textView.textColor = [UIColor lightGrayColor];
+  } else {
+    _descriptionDirty = YES;
+  }
+  [textView resignFirstResponder];
 }
 
 - (IBAction)didClickCancelButton:(id)sender {
