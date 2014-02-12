@@ -43,27 +43,30 @@
   MilestoneAchievement * achievement = [notification.userInfo objectForKey:@""];
   if(achievement.standardMilestone) {
     NSIndexPath *path = [NSIndexPath indexPathForRow:[self.objects indexOfObject:achievement.standardMilestone] inSection:0];
-    _checkedCell = [self.tableView cellForRowAtIndexPath:path];
-    if(_checkedCell) {
+    UITableViewCell * checkedCell = [self.tableView cellForRowAtIndexPath:path];
+    if(checkedCell) {
       // Show a check mark and forbid and more clicking of this cell so as not to note it more than once.
-      _checkedCell.accessoryType = UITableViewCellAccessoryCheckmark;
-      _checkedCell.userInteractionEnabled = NO;
+      checkedCell.accessoryType = UITableViewCellAccessoryCheckmark;
+      checkedCell.userInteractionEnabled = NO;
     }
     [self loadObjects];
   }
 }
 
--(void) objectsDidLoad:(NSError *)error {
-  // Reset the checked cell once new objects are available.
-  if(!error) {
-    if(_checkedCell) {
-      _checkedCell.accessoryType = UITableViewCellAccessoryNone;
-      _checkedCell.userInteractionEnabled = YES;
-      _checkedCell = nil;
-    }
-  }
-  [super objectsDidLoad:error];
-}
+//-(void) objectsDidLoad:(NSError *)error {
+//  // Reset the checked cell once new objects are available.
+//  if(!error) {
+//    for (int section = 0; section < [tableView numberOfSections]; section++) {
+//      for (int row = 0; row < [tableView numberOfRowsInSection:section]; row++) {
+//        NSIndexPath* cellPath = [NSIndexPath indexPathForRow:row inSection:section];
+//        UITableViewCell* cell = [tableView cellForRowAtIndexPath:cellPath];
+//        cell.accessoryType = UITableViewCellAccessoryNone;
+//        cell.userInteractionEnabled = YES;
+//      }
+//    }
+//  }
+//  [super objectsDidLoad:error];
+//}
 
 
 
@@ -99,17 +102,12 @@
   
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
   if (cell == nil) {
-    cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
-                                  reuseIdentifier:CellIdentifier];
+    cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     cell.accessoryType =  UITableViewCellAccessoryDetailButton;
-    //cell.editingAccessoryType = UITableViewCellEditingStyleDelete;
-    // Show editing controls
-//    UIButton * skipBtn = [UIButton buttonWithType:UIButtonTypeSystem];
-//    skipBtn.frame = CGRectMake(0 , 0, cell.frame.size.width / 4, cell.frame.size.height);
-//    skipBtn.titleLabel.text = @"Skip";
-//    cell.editingAccessoryView = skipBtn;
   }
 
+  cell.accessoryType =  UITableViewCellAccessoryDetailButton;
+  cell.userInteractionEnabled = YES;
   cell.textLabel.text = milestone.title;
   cell.detailTextLabel.text = milestone.shortDescription;
   return cell;
@@ -131,7 +129,6 @@
     achievement.baby = _myBaby;
     achievement.completionDate = [NSDate date];
     [achievement saveEventually];
-    [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     [self loadObjects];
   }
 }
