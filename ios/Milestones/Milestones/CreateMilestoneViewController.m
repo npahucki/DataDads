@@ -28,7 +28,7 @@
   [self.view addGestureRecognizer:viewTap];
 }
 - (IBAction)titleLabelDidChange:(id)sender {
-  self.nextButton.enabled = [self.titleTextField.text length] > 4;
+  self.nextButton.enabled = [self.titleTextField.text length] > 2;
 }
 
 -(void)handleSingleTap:(UITapGestureRecognizer *)sender {

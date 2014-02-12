@@ -84,7 +84,7 @@
     cell.accessoryType =  UITableViewCellAccessoryDetailButton;
   }
 
-  cell.accessoryType =  UITableViewCellAccessoryDetailButton;
+  cell.accessoryType =  UITableViewCellAccessoryDetailDisclosureButton;
   cell.userInteractionEnabled = YES;
   cell.textLabel.text = milestone.title;
   cell.detailTextLabel.text = milestone.shortDescription;
