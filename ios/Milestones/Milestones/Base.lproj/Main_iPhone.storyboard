@@ -459,35 +459,35 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Milestone Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C7R-JJ-Zi7">
-                                <rect key="frame" x="18" y="49" width="112" height="21"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Milestone Title" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="282" translatesAutoresizingMaskIntoConstraints="NO" id="C7R-JJ-Zi7">
+                                <rect key="frame" x="18" y="49" width="282" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Description..." lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="Rg5-oE-OSa">
-                                <rect key="frame" x="20" y="136" width="280" height="76"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Description..." lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="9" adjustsLetterSpacingToFitWidth="YES" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="Rg5-oE-OSa">
+                                <rect key="frame" x="17" y="136" width="280" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Entered By DataDads Staff" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iXS-n2-Ztu">
-                                <rect key="frame" x="18" y="78" width="206" height="21"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Entered By DataDads Staff" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iXS-n2-Ztu">
+                                <rect key="frame" x="20" y="78" width="280" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Age Range" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oNN-Re-fUe">
-                                <rect key="frame" x="18" y="107" width="85" height="21"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Age Range" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oNN-Re-fUe">
+                                <rect key="frame" x="18" y="107" width="279" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="chart.png" translatesAutoresizingMaskIntoConstraints="NO" id="Kcx-tj-WSO">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="chart.png" translatesAutoresizingMaskIntoConstraints="NO" id="Kcx-tj-WSO">
                                 <rect key="frame" x="20" y="220" width="277" height="231"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="277" id="p8D-gH-ZDn"/>
+                                    <constraint firstAttribute="height" constant="231" id="het-9W-Ekp"/>
                                 </constraints>
                             </imageView>
                             <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rJN-nS-7uk">
@@ -507,12 +507,21 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="oNN-Re-fUe" firstAttribute="top" secondItem="iXS-n2-Ztu" secondAttribute="bottom" constant="8" id="Ol0-rk-Hk3"/>
-                            <constraint firstItem="iXS-n2-Ztu" firstAttribute="top" secondItem="C7R-JJ-Zi7" secondAttribute="bottom" constant="8" symbolic="YES" id="W4f-yp-ivc"/>
-                            <constraint firstItem="Kcx-tj-WSO" firstAttribute="top" secondItem="Rg5-oE-OSa" secondAttribute="bottom" constant="8" id="byL-si-8rk"/>
-                            <constraint firstItem="C7R-JJ-Zi7" firstAttribute="top" secondItem="Xul-cs-YPH" secondAttribute="top" constant="49" id="hlH-N7-5EH"/>
-                            <constraint firstItem="Rg5-oE-OSa" firstAttribute="top" secondItem="oNN-Re-fUe" secondAttribute="bottom" constant="8" id="u6M-xZ-FdA"/>
-                            <constraint firstAttribute="bottom" secondItem="Kcx-tj-WSO" secondAttribute="bottom" constant="29" id="zyh-Ln-WE5"/>
+                            <constraint firstItem="iXS-n2-Ztu" firstAttribute="leading" secondItem="Xul-cs-YPH" secondAttribute="leading" constant="20" symbolic="YES" id="4hE-4f-e9f"/>
+                            <constraint firstItem="Rg5-oE-OSa" firstAttribute="leading" secondItem="Xul-cs-YPH" secondAttribute="leading" constant="20" symbolic="YES" id="4yW-VR-KFZ"/>
+                            <constraint firstItem="C7R-JJ-Zi7" firstAttribute="top" secondItem="Xul-cs-YPH" secondAttribute="top" constant="49" id="HQX-tx-1yF"/>
+                            <constraint firstAttribute="trailing" secondItem="iXS-n2-Ztu" secondAttribute="trailing" constant="20" symbolic="YES" id="LNj-FN-Ebo"/>
+                            <constraint firstItem="C7R-JJ-Zi7" firstAttribute="leading" secondItem="Xul-cs-YPH" secondAttribute="leading" constant="20" symbolic="YES" id="TXf-Db-3uw"/>
+                            <constraint firstItem="gIi-5Y-B4v" firstAttribute="top" secondItem="Kcx-tj-WSO" secondAttribute="bottom" constant="29" id="UGT-VI-rnm"/>
+                            <constraint firstItem="oNN-Re-fUe" firstAttribute="leading" secondItem="Xul-cs-YPH" secondAttribute="leading" constant="20" symbolic="YES" id="Vk2-lz-FPA"/>
+                            <constraint firstItem="Kcx-tj-WSO" firstAttribute="trailing" secondItem="Rg5-oE-OSa" secondAttribute="trailing" id="ZTu-rr-ice"/>
+                            <constraint firstAttribute="trailing" secondItem="Rg5-oE-OSa" secondAttribute="trailing" constant="20" symbolic="YES" id="cx2-nw-t3z"/>
+                            <constraint firstAttribute="trailing" secondItem="oNN-Re-fUe" secondAttribute="trailing" constant="20" symbolic="YES" id="hJC-5N-kyK"/>
+                            <constraint firstAttribute="trailing" secondItem="C7R-JJ-Zi7" secondAttribute="trailing" constant="20" symbolic="YES" id="hYb-Lv-3Iq"/>
+                            <constraint firstItem="oNN-Re-fUe" firstAttribute="top" secondItem="iXS-n2-Ztu" secondAttribute="bottom" constant="8" symbolic="YES" id="m9F-lP-QIG"/>
+                            <constraint firstItem="Kcx-tj-WSO" firstAttribute="leading" secondItem="iXS-n2-Ztu" secondAttribute="leading" id="puR-ha-Srr"/>
+                            <constraint firstItem="Rg5-oE-OSa" firstAttribute="top" secondItem="oNN-Re-fUe" secondAttribute="bottom" constant="8" symbolic="YES" id="twz-k8-vm8"/>
+                            <constraint firstItem="iXS-n2-Ztu" firstAttribute="top" secondItem="C7R-JJ-Zi7" secondAttribute="bottom" constant="8" symbolic="YES" id="zxR-5s-7OS"/>
                         </constraints>
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>

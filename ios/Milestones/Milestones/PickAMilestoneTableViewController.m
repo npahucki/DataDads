@@ -61,7 +61,7 @@
   [query whereKey:@"rangeLow" lessThanOrEqualTo:rangeDays];
   // Bit if a hack here, using string column here : See https://parse.com/questions/trouble-with-nested-query-using-objectid
   [query whereKey:@"objectId" doesNotMatchKey:@"standardMilestoneId" inQuery:innerQuery];
-  [query orderByDescending:@"rangeUpper"];
+  [query orderByAscending:@"rangeHigh"];
 
   // If no objects are loaded in memory, we look to the cache
   // first to fill the table and then subsequently do a query
@@ -84,6 +84,7 @@
     cell.accessoryType =  UITableViewCellAccessoryDetailButton;
   }
 
+  cell.hidden = NO;
   cell.accessoryType =  UITableViewCellAccessoryDetailDisclosureButton;
   cell.userInteractionEnabled = YES;
   cell.textLabel.text = milestone.title;
@@ -135,7 +136,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
   [super tableView:tableView didSelectRowAtIndexPath:indexPath];
-  [self performSegueWithIdentifier:kDDSegueNoteMilestone sender:self];
+  if (!([indexPath row] > self.objects.count -1)) {
+    [self performSegueWithIdentifier:kDDSegueNoteMilestone sender:self];
+  }
 }
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
