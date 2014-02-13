@@ -42,13 +42,12 @@
 -(void) babyUpdated:(NSNotification*)notification {
   self.baby = [notification.userInfo objectForKey:@""];
   self.addNewButton.enabled = self.baby != nil;
-  [self loadObjects];
+  if(self.baby) [self loadObjects];
 }
 
 -(void) milestoneNotedAndSaved:(NSNotification*)notification {
   MilestoneAchievement * achievement = [notification.userInfo objectForKey:@""];
   if(achievement.standardMilestone) {
-//    NSIndexPath *path = [NSIndexPath indexPathForRow:[self.objects indexOfObject:achievement.standardMilestone] inSection:0];
     [self loadObjects];
   }
 }

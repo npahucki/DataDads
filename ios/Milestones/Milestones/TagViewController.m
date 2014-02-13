@@ -30,18 +30,24 @@
   hud.dimBackground = YES;
   hud.labelText = NSLocalizedString(@"Loading tags", nil);
   
-  NSString * language = [[NSLocale preferredLanguages] objectAtIndex:0];
+//  NSString * language = [[NSLocale preferredLanguages] objectAtIndex:0];
   PFQuery * query = [Tag query];
-  [query whereKey:@"languageId" equalTo:language]; // select only tags in your language 
+  //[query whereKey:@"languageId" equalTo:language]; // select only tags in your language
   query.cachePolicy = kPFCachePolicyNetworkOnly;
   [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
     // Can get called twice, once for
     if (!error) {
-      NSMutableDictionary * tagDict = [[NSMutableDictionary alloc] initWithCapacity:[objects count]];
-      for(Tag *tag in objects) {
-        [tagDict setObject:tag.relevance forKey:tag.tagName];
+      if([objects count]) {
+        NSMutableDictionary * tagDict = [[NSMutableDictionary alloc] initWithCapacity:[objects count]];
+        for(Tag *tag in objects) {
+          if(tag.relevance) {
+           [tagDict setObject:tag.relevance forKey:tag.tagName];
+          } else {
+            NSLog(@"Skipped tag %@ because it has no relevance set", tag.tagName);
+          }
+        }
+        [self setTagDictionary:tagDict];
       }
-      [self setTagDictionary:tagDict];
       [MBProgressHUD hideHUDForView:self.view animated:NO];
     } else {
       if(error.code != kPFErrorCacheMiss) {
