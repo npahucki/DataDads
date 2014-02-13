@@ -21,6 +21,7 @@
 
 @property(nonatomic,weak) id<TagViewDelegate> delegate;
 
+@property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @end
 
 

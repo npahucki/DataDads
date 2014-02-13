@@ -57,7 +57,9 @@
 
 -(void) setTagDictionary:(NSDictionary *)tagDictionary {
   HPLTagCloudGenerator *tagGenerator = [[HPLTagCloudGenerator alloc] init];
-  tagGenerator.size = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height);
+  // TOOD: size based on number of tags? Also include categories?
+  tagGenerator.size = CGSizeMake(self.view.frame.size.width *2, self.view.frame.size.height*2);
+  self.scrollView.contentSize = tagGenerator.size;
   tagGenerator.tagDict = tagDictionary;
   tagViews = [tagGenerator generateTagViews]; // assign to retain
   for(UILabel *v in tagViews) {
@@ -65,8 +67,9 @@
     v.highlightedTextColor = [UIColor blueColor];
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapLabelWithGesture:)];
     [v addGestureRecognizer:tapGesture];
-    [self.view addSubview:v];
+    [self.scrollView addSubview:v];
   }
+  [self.scrollView scrollRectToVisible:CGRectMake(tagGenerator.size.width / 4, tagGenerator.size.height / 4, self.view.frame.size.width, self.view.frame.size.height) animated:NO];
 }
 
 - (IBAction)didClickDoneButton:(id)sender {
