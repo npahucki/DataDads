@@ -407,7 +407,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="bWd-3Z-uLS" detailTextLabel="1gZ-1g-3J3" style="IBUITableViewCellStyleSubtitle" id="jUE-yY-zqv">
-                                <rect key="frame" x="0.0" y="86" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jUE-yY-zqv" id="PTn-wx-85z">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -438,7 +438,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Milestones" id="zbi-RA-btz">
                         <barButtonItem key="backBarButtonItem" title="Cancel" id="QcP-Qe-DZ2"/>
-                        <barButtonItem key="rightBarButtonItem" title="New" id="BZz-gn-dZv">
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="New" id="BZz-gn-dZv">
                             <connections>
                                 <segue destination="iaF-4r-2f0" kind="push" identifier="createCustomMilesone" id="dxA-5V-zSz"/>
                             </connections>
@@ -446,6 +446,7 @@
                     </navigationItem>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <connections>
+                        <outlet property="addNewButton" destination="BZz-gn-dZv" id="ULh-WA-GOt"/>
                         <segue destination="As4-O0-72y" kind="push" identifier="noteMilestone" id="LSy-QV-wgM"/>
                         <segue destination="z4V-2L-hGr" kind="modal" identifier="showMilestoneDetails" modalTransitionStyle="flipHorizontal" id="KWj-Jt-2ef"/>
                     </connections>

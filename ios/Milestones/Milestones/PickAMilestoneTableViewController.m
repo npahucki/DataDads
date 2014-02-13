@@ -35,8 +35,13 @@
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(milestoneNotedAndSaved:) name:kDDNotificationMilestoneNotedAndSaved object:nil];
 }
 
+-(void) viewDidAppear:(BOOL)animated {
+  self.addNewButton.enabled = self.baby != nil;
+}
+
 -(void) babyUpdated:(NSNotification*)notification {
   self.baby = [notification.userInfo objectForKey:@""];
+  self.addNewButton.enabled = self.baby != nil;
   [self loadObjects];
 }
 
