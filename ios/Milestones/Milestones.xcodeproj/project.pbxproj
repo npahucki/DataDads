@@ -117,7 +117,7 @@
 		E8D00A1C188F433E00DF2786 /* CreateMilestoneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateMilestoneViewController.m; sourceTree = "<group>"; };
 		E8D00A1E188F435300DF2786 /* NoteMilestoneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteMilestoneViewController.h; sourceTree = "<group>"; };
 		E8D00A1F188F435300DF2786 /* NoteMilestoneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteMilestoneViewController.m; sourceTree = "<group>"; };
-		E8DD48DA188EE5B900153095 /* Milestones.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Milestones.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E8DD48DA188EE5B900153095 /* DataDads Baby Milestones.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DataDads Baby Milestones.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E8DD48DD188EE5B900153095 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E8DD48DF188EE5B900153095 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		E8DD48E1188EE5B900153095 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -216,7 +216,7 @@
 		E8DD48DB188EE5B900153095 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E8DD48DA188EE5B900153095 /* Milestones.app */,
+				E8DD48DA188EE5B900153095 /* DataDads Baby Milestones.app */,
 				E8DD4901188EE5BA00153095 /* MilestonesTests.xctest */,
 			);
 			name = Products;
@@ -333,7 +333,7 @@
 			);
 			name = Milestones;
 			productName = Milestones;
-			productReference = E8DD48DA188EE5B900153095 /* Milestones.app */;
+			productReference = E8DD48DA188EE5B900153095 /* DataDads Baby Milestones.app */;
 			productType = "com.apple.product-type.application";
 		};
 		E8DD4900188EE5BA00153095 /* MilestonesTests */ = {
@@ -619,7 +619,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Milestones/Milestones-Prefix.pch";
 				INFOPLIST_FILE = "Milestones/Milestones-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "DataDads Baby Milestones";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
@@ -640,7 +640,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Milestones/Milestones-Prefix.pch";
 				INFOPLIST_FILE = "Milestones/Milestones-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "DataDads Baby Milestones";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
