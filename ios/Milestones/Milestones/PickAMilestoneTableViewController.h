@@ -9,6 +9,7 @@
 #import <Parse/Parse.h>
 #import "Baby.h"
 #import "StandardMilestone.h"
+#import "MBProgressHUD.h"
 
 @interface PickAMilestoneTableViewController : PFQueryTableViewController
 
@@ -17,3 +18,4 @@
 
 @end
 
+MBProgressHUD * _hud;

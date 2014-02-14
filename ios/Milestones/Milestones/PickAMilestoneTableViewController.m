@@ -52,6 +52,23 @@
   }
 }
 
+-(void) objectsDidLoad:(NSError *)error {
+  [super objectsDidLoad:error];
+  if(!self.objects.count && !self.isLoading) {
+    if(!_hud) {
+      // Show HUD to suggest adding new milestones.
+      _hud = [MBProgressHUD showHUDAddedTo:self.tableView animated:NO];
+      _hud.mode = MBProgressHUDModeText;
+      _hud.dimBackground = YES;
+      _hud.labelText = @"No More Milestones";
+      _hud.detailsLabelText = @"There are no more milestones for your baby's age, enter your own by pressing 'New'";
+    }
+  } else if(_hud) {
+    [_hud hide:NO];
+    _hud = nil;
+  }
+}
+
 // TODO: When we need to add sections, see https://parse.com/questions/using-pfquerytableviewcontroller-for-uitableview-sections
 - (PFQuery *)queryForTable {
   // If no Baby available yet, don't try to load anything
