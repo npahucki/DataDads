@@ -13,6 +13,7 @@
 #import "NoteMilestoneViewController.h"
 #import "MilestoneDetailsViewController.h"
 #import "CreateMilestoneViewController.h"
+#import "StandardMilestoneQuery.h"
 
 @implementation PickAMilestoneTableViewController
 
@@ -73,25 +74,30 @@
 - (PFQuery *)queryForTable {
   // If no Baby available yet, don't try to load anything
   if(!self.baby) return nil;
-  
-  NSNumber * rangeDays = [NSNumber numberWithInteger:self.baby.daysSinceDueDate];
-  PFQuery *innerQuery = [MilestoneAchievement query];
-  [innerQuery whereKey:@"baby" equalTo:self.baby];
-  PFQuery *query = [StandardMilestone query];
-  [query whereKey:@"rangeHigh" greaterThanOrEqualTo:rangeDays];
-  [query whereKey:@"rangeLow" lessThanOrEqualTo:rangeDays];
-  // Bit if a hack here, using string column here : See https://parse.com/questions/trouble-with-nested-query-using-objectid
-  [query whereKey:@"objectId" doesNotMatchKey:@"standardMilestoneId" inQuery:innerQuery];
-  [query orderByAscending:@"rangeHigh"];
 
+  StandardMilestoneQuery * query = [[StandardMilestoneQuery alloc] init];
+  query.babyId = self.baby.objectId;
+  query.rangeDays = [NSNumber numberWithInteger:self.baby.daysSinceDueDate];
   // If no objects are loaded in memory, we look to the cache
   // first to fill the table and then subsequently do a query
   // against the network.
   PFCachePolicy policy = self.objects.count ? kPFCachePolicyNetworkOnly : kPFCachePolicyCacheThenNetwork;
-  innerQuery.cachePolicy = policy;
   query.cachePolicy = policy;
-
   return query;
+    
+//
+//  NSNumber * rangeDays = [NSNumber numberWithInteger:self.baby.daysSinceDueDate];
+//  PFQuery *innerQuery = [MilestoneAchievement query];
+//  [innerQuery whereKey:@"baby" equalTo:self.baby];
+//  PFQuery *query = [StandardMilestone query];
+//  [query whereKey:@"rangeHigh" greaterThanOrEqualTo:rangeDays];
+//  [query whereKey:@"rangeLow" lessThanOrEqualTo:rangeDays];
+//  // Bit if a hack here, using string column here : See https://parse.com/questions/trouble-with-nested-query-using-objectid
+//  [query whereKey:@"objectId" doesNotMatchKey:@"standardMilestoneId" inQuery:innerQuery];
+//  [query orderByAscending:@"rangeHigh"];
+//
+//
+//  return query;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
