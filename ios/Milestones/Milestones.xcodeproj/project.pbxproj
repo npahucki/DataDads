@@ -832,7 +832,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/npahucki/Projects/DataDads/ios/Milestones,
+					"./**",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Milestones/Milestones-Prefix.pch";
@@ -854,8 +854,8 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
+					"./**",
 					"$(inherited)",
-					/Users/npahucki/Projects/DataDads/ios/Milestones,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Milestones/Milestones-Prefix.pch";
@@ -872,12 +872,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Milestones.app/Milestones";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/DataDads Baby Milestones.app/DataDads Baby Milestones";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+					"./**",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
-					/Users/npahucki/Projects/DataDads/ios/Milestones,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Milestones/Milestones-Prefix.pch";
@@ -896,12 +896,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Milestones.app/Milestones";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/DataDads Baby Milestones.app/DataDads Baby Milestones";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+					"./**",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
-					/Users/npahucki/Projects/DataDads/ios/Milestones,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Milestones/Milestones-Prefix.pch";
