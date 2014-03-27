@@ -18,6 +18,9 @@
 - (void)viewDidLoad
 {
   [super viewDidLoad];
+  _imageOrVideo = nil;
+  _imageOrVideoType = nil;
+  
   NSAssert(self.achievement.standardMilestone || self.achievement.customTitle,@"one of standardMilestone or customTitle must be set");
   NSAssert(self.achievement.baby, @"baby must be set on acheivement before view loads");
   
@@ -71,7 +74,8 @@
 }
 
 -(void) saveImageOrPhoto {
-  self.hud.mode = MBProgressHUDModeAnnularDeterminate;
+  self.hud.mode = MBProgressHUDModeCustomView;
+  self.hud.customView =  [[UIImageView alloc] initWithImage:[UIImage animatedImageNamed:@"progress-" duration:1.0f]];
   self.hud.labelText = NSLocalizedString(@"Uploading Photo", nil);
   PFFile *file = [PFFile fileWithData:_imageOrVideo];
   [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
@@ -81,12 +85,18 @@
       [self saveAchievementWithAttachment:file andType:_imageOrVideoType];
     }
   } progressBlock:^(int percentDone) {
-    self.hud.progress = percentDone;
+    // This won't fucking work no matter what I do, after the first image change, no other images will be shown! I wasted 3 hours trying to get it to work
+    // to no avial, will have to revisit sometime in the future.
+    // The idea is to indicate the file progress by using one of the images (50 images) to correspond to the half the percent
+    //    int idx = percentDone / 2;
+    //    NSString * progressImageName = [NSString stringWithFormat:@"progress-%d.png", idx];
+    //    self.hud.customView =  [[UIImageView alloc] initWithImage:[UIImage imageNamed:progressImageName]]];
   }];
 }
 
 -(void) saveAchievementWithAttachment:(PFFile*) attachment andType:(NSString*) type {
-  self.hud.mode = MBProgressHUDModeIndeterminate;
+  self.hud.mode = MBProgressHUDModeCustomView;
+  self.hud.customView =  [[UIImageView alloc] initWithImage:[UIImage animatedImageNamed:@"progress-" duration:1.0f]];
   self.hud.labelText = @"Noting milestone";
   self.achievement.attachment = attachment;
   self.achievement.attachmentType = type;

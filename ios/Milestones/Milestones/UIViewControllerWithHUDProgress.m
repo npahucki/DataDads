@@ -32,7 +32,8 @@
 
 -(void) saveObject:(PFObject*) object withTitle:(NSString*) title andFailureMessage:(NSString*)msg {
   [self showHUDWithMessage:title andAnimation:NO];
-  self.hud.mode = MBProgressHUDModeIndeterminate;
+  self.hud.mode = MBProgressHUDModeCustomView;
+  self.hud.customView =  [[UIImageView alloc] initWithImage:[UIImage animatedImageNamed:@"progress.png" duration:1.0f]];
   [object saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
     if(succeeded) {
       [self showSaveSuccessAndDismissDialog];

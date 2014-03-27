@@ -36,6 +36,57 @@
 		E8355F2118A3CA53005F5102 /* 37x-Checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = E8355F1F18A3CA53005F5102 /* 37x-Checkmark.png */; };
 		E8355F2218A3CA53005F5102 /* 37x-Checkmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E8355F2018A3CA53005F5102 /* 37x-Checkmark@2x.png */; };
 		E8AADCC718900B7F00BC1925 /* take-picture.png in Resources */ = {isa = PBXBuildFile; fileRef = E8AADCC618900B7F00BC1925 /* take-picture.png */; };
+		E8B02AD818E39309004E33DD /* progress-0.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02AA518E39309004E33DD /* progress-0.png */; };
+		E8B02AD918E39309004E33DD /* progress-1.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02AA618E39309004E33DD /* progress-1.png */; };
+		E8B02ADA18E39309004E33DD /* progress-2.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02AA718E39309004E33DD /* progress-2.png */; };
+		E8B02ADB18E39309004E33DD /* progress-3.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02AA818E39309004E33DD /* progress-3.png */; };
+		E8B02ADC18E39309004E33DD /* progress-4.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02AA918E39309004E33DD /* progress-4.png */; };
+		E8B02ADD18E39309004E33DD /* progress-5.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02AAA18E39309004E33DD /* progress-5.png */; };
+		E8B02ADE18E39309004E33DD /* progress-6.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02AAB18E39309004E33DD /* progress-6.png */; };
+		E8B02ADF18E39309004E33DD /* progress-7.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02AAC18E39309004E33DD /* progress-7.png */; };
+		E8B02AE018E39309004E33DD /* progress-8.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02AAD18E39309004E33DD /* progress-8.png */; };
+		E8B02AE118E39309004E33DD /* progress-9.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02AAE18E39309004E33DD /* progress-9.png */; };
+		E8B02AE218E39309004E33DD /* progress-10.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02AAF18E39309004E33DD /* progress-10.png */; };
+		E8B02AE318E39309004E33DD /* progress-11.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02AB018E39309004E33DD /* progress-11.png */; };
+		E8B02AE418E39309004E33DD /* progress-12.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02AB118E39309004E33DD /* progress-12.png */; };
+		E8B02AE518E39309004E33DD /* progress-13.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02AB218E39309004E33DD /* progress-13.png */; };
+		E8B02AE618E39309004E33DD /* progress-14.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02AB318E39309004E33DD /* progress-14.png */; };
+		E8B02AE718E39309004E33DD /* progress-15.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02AB418E39309004E33DD /* progress-15.png */; };
+		E8B02AE818E39309004E33DD /* progress-16.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02AB518E39309004E33DD /* progress-16.png */; };
+		E8B02AE918E39309004E33DD /* progress-17.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02AB618E39309004E33DD /* progress-17.png */; };
+		E8B02AEA18E39309004E33DD /* progress-18.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02AB718E39309004E33DD /* progress-18.png */; };
+		E8B02AEB18E39309004E33DD /* progress-19.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02AB818E39309004E33DD /* progress-19.png */; };
+		E8B02AEC18E39309004E33DD /* progress-20.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02AB918E39309004E33DD /* progress-20.png */; };
+		E8B02AED18E39309004E33DD /* progress-21.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02ABA18E39309004E33DD /* progress-21.png */; };
+		E8B02AEE18E39309004E33DD /* progress-22.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02ABB18E39309004E33DD /* progress-22.png */; };
+		E8B02AEF18E39309004E33DD /* progress-23.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02ABC18E39309004E33DD /* progress-23.png */; };
+		E8B02AF018E39309004E33DD /* progress-24.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02ABD18E39309004E33DD /* progress-24.png */; };
+		E8B02AF118E39309004E33DD /* progress-25.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02ABE18E39309004E33DD /* progress-25.png */; };
+		E8B02AF218E39309004E33DD /* progress-26.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02ABF18E39309004E33DD /* progress-26.png */; };
+		E8B02AF318E39309004E33DD /* progress-27.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02AC018E39309004E33DD /* progress-27.png */; };
+		E8B02AF418E39309004E33DD /* progress-28.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02AC118E39309004E33DD /* progress-28.png */; };
+		E8B02AF518E39309004E33DD /* progress-29.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02AC218E39309004E33DD /* progress-29.png */; };
+		E8B02AF618E39309004E33DD /* progress-30.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02AC318E39309004E33DD /* progress-30.png */; };
+		E8B02AF718E39309004E33DD /* progress-31.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02AC418E39309004E33DD /* progress-31.png */; };
+		E8B02AF818E39309004E33DD /* progress-32.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02AC518E39309004E33DD /* progress-32.png */; };
+		E8B02AF918E39309004E33DD /* progress-33.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02AC618E39309004E33DD /* progress-33.png */; };
+		E8B02AFA18E39309004E33DD /* progress-34.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02AC718E39309004E33DD /* progress-34.png */; };
+		E8B02AFB18E39309004E33DD /* progress-35.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02AC818E39309004E33DD /* progress-35.png */; };
+		E8B02AFC18E39309004E33DD /* progress-36.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02AC918E39309004E33DD /* progress-36.png */; };
+		E8B02AFD18E39309004E33DD /* progress-37.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02ACA18E39309004E33DD /* progress-37.png */; };
+		E8B02AFE18E39309004E33DD /* progress-38.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02ACB18E39309004E33DD /* progress-38.png */; };
+		E8B02AFF18E39309004E33DD /* progress-39.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02ACC18E39309004E33DD /* progress-39.png */; };
+		E8B02B0018E39309004E33DD /* progress-40.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02ACD18E39309004E33DD /* progress-40.png */; };
+		E8B02B0118E39309004E33DD /* progress-41.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02ACE18E39309004E33DD /* progress-41.png */; };
+		E8B02B0218E39309004E33DD /* progress-42.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02ACF18E39309004E33DD /* progress-42.png */; };
+		E8B02B0318E39309004E33DD /* progress-43.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02AD018E39309004E33DD /* progress-43.png */; };
+		E8B02B0418E39309004E33DD /* progress-44.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02AD118E39309004E33DD /* progress-44.png */; };
+		E8B02B0518E39309004E33DD /* progress-45.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02AD218E39309004E33DD /* progress-45.png */; };
+		E8B02B0618E39309004E33DD /* progress-46.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02AD318E39309004E33DD /* progress-46.png */; };
+		E8B02B0718E39309004E33DD /* progress-47.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02AD418E39309004E33DD /* progress-47.png */; };
+		E8B02B0818E39309004E33DD /* progress-48.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02AD518E39309004E33DD /* progress-48.png */; };
+		E8B02B0918E39309004E33DD /* progress-49.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02AD618E39309004E33DD /* progress-49.png */; };
+		E8B02B0A18E39309004E33DD /* progress-50.png in Resources */ = {isa = PBXBuildFile; fileRef = E8B02AD718E39309004E33DD /* progress-50.png */; };
 		E8BC76D518A50AD000983025 /* UIViewControllerWithHUDProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = E8BC76D418A50AD000983025 /* UIViewControllerWithHUDProgress.m */; };
 		E8BC76D818A8522F00983025 /* MilestoneDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8BC76D718A8522F00983025 /* MilestoneDetailsViewController.m */; };
 		E8D00A17188F348700DF2786 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D00A16188F348700DF2786 /* LoginViewController.m */; };
@@ -108,6 +159,57 @@
 		E8355F1F18A3CA53005F5102 /* 37x-Checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37x-Checkmark.png"; sourceTree = "<group>"; };
 		E8355F2018A3CA53005F5102 /* 37x-Checkmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37x-Checkmark@2x.png"; sourceTree = "<group>"; };
 		E8AADCC618900B7F00BC1925 /* take-picture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "take-picture.png"; path = "../take-picture.png"; sourceTree = "<group>"; };
+		E8B02AA518E39309004E33DD /* progress-0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-0.png"; sourceTree = "<group>"; };
+		E8B02AA618E39309004E33DD /* progress-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-1.png"; sourceTree = "<group>"; };
+		E8B02AA718E39309004E33DD /* progress-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-2.png"; sourceTree = "<group>"; };
+		E8B02AA818E39309004E33DD /* progress-3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-3.png"; sourceTree = "<group>"; };
+		E8B02AA918E39309004E33DD /* progress-4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-4.png"; sourceTree = "<group>"; };
+		E8B02AAA18E39309004E33DD /* progress-5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-5.png"; sourceTree = "<group>"; };
+		E8B02AAB18E39309004E33DD /* progress-6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-6.png"; sourceTree = "<group>"; };
+		E8B02AAC18E39309004E33DD /* progress-7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-7.png"; sourceTree = "<group>"; };
+		E8B02AAD18E39309004E33DD /* progress-8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-8.png"; sourceTree = "<group>"; };
+		E8B02AAE18E39309004E33DD /* progress-9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-9.png"; sourceTree = "<group>"; };
+		E8B02AAF18E39309004E33DD /* progress-10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-10.png"; sourceTree = "<group>"; };
+		E8B02AB018E39309004E33DD /* progress-11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-11.png"; sourceTree = "<group>"; };
+		E8B02AB118E39309004E33DD /* progress-12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-12.png"; sourceTree = "<group>"; };
+		E8B02AB218E39309004E33DD /* progress-13.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-13.png"; sourceTree = "<group>"; };
+		E8B02AB318E39309004E33DD /* progress-14.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-14.png"; sourceTree = "<group>"; };
+		E8B02AB418E39309004E33DD /* progress-15.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-15.png"; sourceTree = "<group>"; };
+		E8B02AB518E39309004E33DD /* progress-16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-16.png"; sourceTree = "<group>"; };
+		E8B02AB618E39309004E33DD /* progress-17.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-17.png"; sourceTree = "<group>"; };
+		E8B02AB718E39309004E33DD /* progress-18.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-18.png"; sourceTree = "<group>"; };
+		E8B02AB818E39309004E33DD /* progress-19.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-19.png"; sourceTree = "<group>"; };
+		E8B02AB918E39309004E33DD /* progress-20.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-20.png"; sourceTree = "<group>"; };
+		E8B02ABA18E39309004E33DD /* progress-21.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-21.png"; sourceTree = "<group>"; };
+		E8B02ABB18E39309004E33DD /* progress-22.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-22.png"; sourceTree = "<group>"; };
+		E8B02ABC18E39309004E33DD /* progress-23.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-23.png"; sourceTree = "<group>"; };
+		E8B02ABD18E39309004E33DD /* progress-24.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-24.png"; sourceTree = "<group>"; };
+		E8B02ABE18E39309004E33DD /* progress-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-25.png"; sourceTree = "<group>"; };
+		E8B02ABF18E39309004E33DD /* progress-26.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-26.png"; sourceTree = "<group>"; };
+		E8B02AC018E39309004E33DD /* progress-27.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-27.png"; sourceTree = "<group>"; };
+		E8B02AC118E39309004E33DD /* progress-28.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-28.png"; sourceTree = "<group>"; };
+		E8B02AC218E39309004E33DD /* progress-29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-29.png"; sourceTree = "<group>"; };
+		E8B02AC318E39309004E33DD /* progress-30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-30.png"; sourceTree = "<group>"; };
+		E8B02AC418E39309004E33DD /* progress-31.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-31.png"; sourceTree = "<group>"; };
+		E8B02AC518E39309004E33DD /* progress-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-32.png"; sourceTree = "<group>"; };
+		E8B02AC618E39309004E33DD /* progress-33.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-33.png"; sourceTree = "<group>"; };
+		E8B02AC718E39309004E33DD /* progress-34.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-34.png"; sourceTree = "<group>"; };
+		E8B02AC818E39309004E33DD /* progress-35.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-35.png"; sourceTree = "<group>"; };
+		E8B02AC918E39309004E33DD /* progress-36.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-36.png"; sourceTree = "<group>"; };
+		E8B02ACA18E39309004E33DD /* progress-37.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-37.png"; sourceTree = "<group>"; };
+		E8B02ACB18E39309004E33DD /* progress-38.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-38.png"; sourceTree = "<group>"; };
+		E8B02ACC18E39309004E33DD /* progress-39.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-39.png"; sourceTree = "<group>"; };
+		E8B02ACD18E39309004E33DD /* progress-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-40.png"; sourceTree = "<group>"; };
+		E8B02ACE18E39309004E33DD /* progress-41.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-41.png"; sourceTree = "<group>"; };
+		E8B02ACF18E39309004E33DD /* progress-42.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-42.png"; sourceTree = "<group>"; };
+		E8B02AD018E39309004E33DD /* progress-43.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-43.png"; sourceTree = "<group>"; };
+		E8B02AD118E39309004E33DD /* progress-44.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-44.png"; sourceTree = "<group>"; };
+		E8B02AD218E39309004E33DD /* progress-45.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-45.png"; sourceTree = "<group>"; };
+		E8B02AD318E39309004E33DD /* progress-46.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-46.png"; sourceTree = "<group>"; };
+		E8B02AD418E39309004E33DD /* progress-47.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-47.png"; sourceTree = "<group>"; };
+		E8B02AD518E39309004E33DD /* progress-48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-48.png"; sourceTree = "<group>"; };
+		E8B02AD618E39309004E33DD /* progress-49.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-49.png"; sourceTree = "<group>"; };
+		E8B02AD718E39309004E33DD /* progress-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "progress-50.png"; sourceTree = "<group>"; };
 		E8BC76D318A50AD000983025 /* UIViewControllerWithHUDProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIViewControllerWithHUDProgress.h; sourceTree = "<group>"; };
 		E8BC76D418A50AD000983025 /* UIViewControllerWithHUDProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIViewControllerWithHUDProgress.m; sourceTree = "<group>"; };
 		E8BC76D618A8522F00983025 /* MilestoneDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MilestoneDetailsViewController.h; sourceTree = "<group>"; };
@@ -199,12 +301,71 @@
 		E8AADCC818900B8D00BC1925 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				E8B02AA418E392ED004E33DD /* progress */,
 				E816B15218AB079000E9640B /* chart.png */,
 				E8355F1F18A3CA53005F5102 /* 37x-Checkmark.png */,
 				E8355F2018A3CA53005F5102 /* 37x-Checkmark@2x.png */,
 				E8AADCC618900B7F00BC1925 /* take-picture.png */,
 			);
 			name = images;
+			sourceTree = "<group>";
+		};
+		E8B02AA418E392ED004E33DD /* progress */ = {
+			isa = PBXGroup;
+			children = (
+				E8B02AA518E39309004E33DD /* progress-0.png */,
+				E8B02AA618E39309004E33DD /* progress-1.png */,
+				E8B02AA718E39309004E33DD /* progress-2.png */,
+				E8B02AA818E39309004E33DD /* progress-3.png */,
+				E8B02AA918E39309004E33DD /* progress-4.png */,
+				E8B02AAA18E39309004E33DD /* progress-5.png */,
+				E8B02AAB18E39309004E33DD /* progress-6.png */,
+				E8B02AAC18E39309004E33DD /* progress-7.png */,
+				E8B02AAD18E39309004E33DD /* progress-8.png */,
+				E8B02AAE18E39309004E33DD /* progress-9.png */,
+				E8B02AAF18E39309004E33DD /* progress-10.png */,
+				E8B02AB018E39309004E33DD /* progress-11.png */,
+				E8B02AB118E39309004E33DD /* progress-12.png */,
+				E8B02AB218E39309004E33DD /* progress-13.png */,
+				E8B02AB318E39309004E33DD /* progress-14.png */,
+				E8B02AB418E39309004E33DD /* progress-15.png */,
+				E8B02AB518E39309004E33DD /* progress-16.png */,
+				E8B02AB618E39309004E33DD /* progress-17.png */,
+				E8B02AB718E39309004E33DD /* progress-18.png */,
+				E8B02AB818E39309004E33DD /* progress-19.png */,
+				E8B02AB918E39309004E33DD /* progress-20.png */,
+				E8B02ABA18E39309004E33DD /* progress-21.png */,
+				E8B02ABB18E39309004E33DD /* progress-22.png */,
+				E8B02ABC18E39309004E33DD /* progress-23.png */,
+				E8B02ABD18E39309004E33DD /* progress-24.png */,
+				E8B02ABE18E39309004E33DD /* progress-25.png */,
+				E8B02ABF18E39309004E33DD /* progress-26.png */,
+				E8B02AC018E39309004E33DD /* progress-27.png */,
+				E8B02AC118E39309004E33DD /* progress-28.png */,
+				E8B02AC218E39309004E33DD /* progress-29.png */,
+				E8B02AC318E39309004E33DD /* progress-30.png */,
+				E8B02AC418E39309004E33DD /* progress-31.png */,
+				E8B02AC518E39309004E33DD /* progress-32.png */,
+				E8B02AC618E39309004E33DD /* progress-33.png */,
+				E8B02AC718E39309004E33DD /* progress-34.png */,
+				E8B02AC818E39309004E33DD /* progress-35.png */,
+				E8B02AC918E39309004E33DD /* progress-36.png */,
+				E8B02ACA18E39309004E33DD /* progress-37.png */,
+				E8B02ACB18E39309004E33DD /* progress-38.png */,
+				E8B02ACC18E39309004E33DD /* progress-39.png */,
+				E8B02ACD18E39309004E33DD /* progress-40.png */,
+				E8B02ACE18E39309004E33DD /* progress-41.png */,
+				E8B02ACF18E39309004E33DD /* progress-42.png */,
+				E8B02AD018E39309004E33DD /* progress-43.png */,
+				E8B02AD118E39309004E33DD /* progress-44.png */,
+				E8B02AD218E39309004E33DD /* progress-45.png */,
+				E8B02AD318E39309004E33DD /* progress-46.png */,
+				E8B02AD418E39309004E33DD /* progress-47.png */,
+				E8B02AD518E39309004E33DD /* progress-48.png */,
+				E8B02AD618E39309004E33DD /* progress-49.png */,
+				E8B02AD718E39309004E33DD /* progress-50.png */,
+			);
+			name = progress;
 			sourceTree = "<group>";
 		};
 		E8DD48D1188EE5B900153095 = {
@@ -400,14 +561,65 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E8B02AE918E39309004E33DD /* progress-17.png in Resources */,
+				E8B02B0518E39309004E33DD /* progress-45.png in Resources */,
+				E8B02AF318E39309004E33DD /* progress-27.png in Resources */,
+				E8B02AED18E39309004E33DD /* progress-21.png in Resources */,
+				E8B02AEA18E39309004E33DD /* progress-18.png in Resources */,
+				E8B02AF418E39309004E33DD /* progress-28.png in Resources */,
+				E8B02AF118E39309004E33DD /* progress-25.png in Resources */,
+				E8B02B0918E39309004E33DD /* progress-49.png in Resources */,
+				E8B02AEC18E39309004E33DD /* progress-20.png in Resources */,
 				E8DD48F4188EE5B900153095 /* Main_iPad.storyboard in Resources */,
+				E8B02AE118E39309004E33DD /* progress-9.png in Resources */,
+				E8B02AE218E39309004E33DD /* progress-10.png in Resources */,
+				E8B02B0A18E39309004E33DD /* progress-50.png in Resources */,
+				E8B02B0218E39309004E33DD /* progress-42.png in Resources */,
 				E8355F2218A3CA53005F5102 /* 37x-Checkmark@2x.png in Resources */,
+				E8B02AFE18E39309004E33DD /* progress-38.png in Resources */,
+				E8B02ADD18E39309004E33DD /* progress-5.png in Resources */,
+				E8B02AEF18E39309004E33DD /* progress-23.png in Resources */,
+				E8B02AF618E39309004E33DD /* progress-30.png in Resources */,
+				E8B02AF218E39309004E33DD /* progress-26.png in Resources */,
+				E8B02AFF18E39309004E33DD /* progress-39.png in Resources */,
 				E8DD48FC188EE5B900153095 /* Images.xcassets in Resources */,
 				E8355F2118A3CA53005F5102 /* 37x-Checkmark.png in Resources */,
+				E8B02AFA18E39309004E33DD /* progress-34.png in Resources */,
+				E8B02B0018E39309004E33DD /* progress-40.png in Resources */,
+				E8B02AF818E39309004E33DD /* progress-32.png in Resources */,
+				E8B02AFC18E39309004E33DD /* progress-36.png in Resources */,
 				E8DD48F1188EE5B900153095 /* Main_iPhone.storyboard in Resources */,
+				E8B02AFB18E39309004E33DD /* progress-35.png in Resources */,
+				E8B02AEB18E39309004E33DD /* progress-19.png in Resources */,
+				E8B02AE818E39309004E33DD /* progress-16.png in Resources */,
+				E8B02ADE18E39309004E33DD /* progress-6.png in Resources */,
 				E816B15318AB079000E9640B /* chart.png in Resources */,
+				E8B02AF518E39309004E33DD /* progress-29.png in Resources */,
+				E8B02AE718E39309004E33DD /* progress-15.png in Resources */,
+				E8B02AF718E39309004E33DD /* progress-31.png in Resources */,
+				E8B02AE618E39309004E33DD /* progress-14.png in Resources */,
+				E8B02AE418E39309004E33DD /* progress-12.png in Resources */,
+				E8B02ADB18E39309004E33DD /* progress-3.png in Resources */,
+				E8B02ADC18E39309004E33DD /* progress-4.png in Resources */,
+				E8B02ADF18E39309004E33DD /* progress-7.png in Resources */,
+				E8B02B0118E39309004E33DD /* progress-41.png in Resources */,
+				E8B02B0818E39309004E33DD /* progress-48.png in Resources */,
+				E8B02B0318E39309004E33DD /* progress-43.png in Resources */,
+				E8B02AD918E39309004E33DD /* progress-1.png in Resources */,
+				E8B02B0618E39309004E33DD /* progress-46.png in Resources */,
+				E8B02AD818E39309004E33DD /* progress-0.png in Resources */,
 				E8AADCC718900B7F00BC1925 /* take-picture.png in Resources */,
 				E8DD48E8188EE5B900153095 /* InfoPlist.strings in Resources */,
+				E8B02ADA18E39309004E33DD /* progress-2.png in Resources */,
+				E8B02AEE18E39309004E33DD /* progress-22.png in Resources */,
+				E8B02AE318E39309004E33DD /* progress-11.png in Resources */,
+				E8B02AE518E39309004E33DD /* progress-13.png in Resources */,
+				E8B02AFD18E39309004E33DD /* progress-37.png in Resources */,
+				E8B02AF018E39309004E33DD /* progress-24.png in Resources */,
+				E8B02B0418E39309004E33DD /* progress-44.png in Resources */,
+				E8B02AF918E39309004E33DD /* progress-33.png in Resources */,
+				E8B02AE018E39309004E33DD /* progress-8.png in Resources */,
+				E8B02B0718E39309004E33DD /* progress-47.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

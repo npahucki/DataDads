@@ -34,6 +34,43 @@
   // Whenever the current baby chnages, we need to refresh the table
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(babyUpdated:) name:kDDNotificationCurrentBabyChanged object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(milestoneNotedAndSaved:) name:kDDNotificationMilestoneNotedAndSaved object:nil];
+  [self stylePFLoadingViewTheHardWay];
+}
+
+
+// Hack to customize the inititial loading view
+- (void)stylePFLoadingViewTheHardWay
+{
+  UIColor *labelTextColor = [UIColor blueColor];
+  UIColor *labelShadowColor = [UIColor darkGrayColor];
+  
+  // go through all of the subviews until you find a PFLoadingView subclass
+  for (UIView *subview in self.view.subviews)
+  {
+    if ([subview class] == NSClassFromString(@"PFLoadingView"))
+    {
+      // find the loading label and loading activity indicator inside the PFLoadingView subviews
+      for (UIView *loadingViewSubview in subview.subviews) {
+        if ([loadingViewSubview isKindOfClass:[UILabel class]])
+        {
+          UILabel *label = (UILabel *)loadingViewSubview;
+          {
+            label.textColor = labelTextColor;
+            label.shadowColor = labelShadowColor;
+          }
+        }
+        
+        if ([loadingViewSubview isKindOfClass:[UIActivityIndicatorView class]])
+        {
+          UIImage * image = [UIImage animatedImageNamed:@"progress-" duration:1.0f];
+          UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(subview.frame.size.width / 2 - image.size.width / 2, subview.frame.size.height / 2 - image.size.height / 2 - 60, image.size.width, image.size.height)];
+          [imageView setImage:image];
+          [loadingViewSubview removeFromSuperview];
+          [subview addSubview: imageView];
+        }
+      }
+    }
+  }
 }
 
 -(void) viewDidAppear:(BOOL)animated {
