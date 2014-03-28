@@ -25,15 +25,15 @@
     self.hud.animationType = MBProgressHUDAnimationFade;
     self.hud.dimBackground = YES;
   }
-  if(self.hud.hidden) {
+  //if(self.hud.hidden) {
     [self.hud show:animated];
-  }
+  //}
 }
 
 -(void) saveObject:(PFObject*) object withTitle:(NSString*) title andFailureMessage:(NSString*)msg {
   [self showHUDWithMessage:title andAnimation:NO];
   self.hud.mode = MBProgressHUDModeCustomView;
-  self.hud.customView =  [[UIImageView alloc] initWithImage:[UIImage animatedImageNamed:@"progress.png" duration:1.0f]];
+  self.hud.customView =  [[UIImageView alloc] initWithImage:[UIImage animatedImageNamed:@"progress-" duration:1.0f]];
   [object saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
     if(succeeded) {
       [self showSaveSuccessAndDismissDialog];
@@ -45,13 +45,15 @@
 
 -(void) showSaveSuccessAndDismissDialog {
   [self showHUD:NO];
-  self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
+  UIImageView * animatedView = [self animatedImageView:@"success" frames:9];
+  self.hud.customView = animatedView;
+  [animatedView startAnimating];
   self.hud.mode = MBProgressHUDModeCustomView;
   UIViewControllerWithHUDProgress * me = self; // needed to prevent circular refs
   self.hud.completionBlock = ^{
     [me dismiss];
   };
-  [self.hud hide:YES afterDelay:.5]; // when hidden will dismiss the dialog.
+  [self.hud hide:YES afterDelay:1.0f]; // when hidden will dismiss the dialog.
 }
 
 -(void) dismiss {
@@ -63,16 +65,36 @@
 }
 
 -(void) showSaveError:(NSError*) error withMessage:(NSString*) msg {
-  NSLog(@"%@ caused by %@", msg, error);
-  [self.hud hide:NO];
+  UIImageView * animatedView = [self animatedImageView:@"error" frames:9];
+  self.hud.customView = animatedView;
+  self.hud.mode = MBProgressHUDModeCustomView;
+  [animatedView startAnimating];
   NSString * fullMsg = [NSString stringWithFormat:@"%@ Please make sure that you are conencted to a network and try again.",msg];
-  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"There is a small problem..." message:fullMsg delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
-  [alert show];
+  NSLog(@"%@ caused by %@", msg, error);
+  self.hud.completionBlock = ^{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"There is a small problem..." message:fullMsg delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+    [alert show];
+  };
+  [self.hud hide:NO afterDelay:1.5]; // when hidden will dismiss the dialog.
 }
 
 -(void) showGeneralAlert:(NSString*) title withMessage:(NSString*) msg {
   UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:msg delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
   [alert show];
 }
+
+-(UIImageView*) animatedImageView:(NSString*) imageName frames:(int) count {
+  NSMutableArray * images = [[NSMutableArray alloc] initWithCapacity:count];
+  for(int i=0; i<count; i++) {
+    [images addObject:[UIImage imageNamed:[NSString stringWithFormat:@"%@-%d.png",imageName, i]]];
+  }
+  UIImageView* view = [[UIImageView alloc] initWithImage:images[count - 1]];
+  view.animationImages = images;
+  view.animationDuration = .75;
+  view.animationRepeatCount = 1;
+  return view;
+
+}
+
 
 @end
