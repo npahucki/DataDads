@@ -10,8 +10,9 @@
 #import "Baby.h"
 #import "StandardMilestone.h"
 #import "MBProgressHUD.h"
+#import "SWTableViewCell.h"
 
-@interface PickAMilestoneTableViewController : PFQueryTableViewController
+@interface PickAMilestoneTableViewController : PFQueryTableViewController <SWTableViewCellDelegate>
 
 @property Baby * baby;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *addNewButton;

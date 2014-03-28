@@ -121,88 +121,73 @@
   PFCachePolicy policy = self.objects.count ? kPFCachePolicyNetworkOnly : kPFCachePolicyCacheThenNetwork;
   query.cachePolicy = policy;
   return query;
-    
-//
-//  NSNumber * rangeDays = [NSNumber numberWithInteger:self.baby.daysSinceDueDate];
-//  PFQuery *innerQuery = [MilestoneAchievement query];
-//  [innerQuery whereKey:@"baby" equalTo:self.baby];
-//  PFQuery *query = [StandardMilestone query];
-//  [query whereKey:@"rangeHigh" greaterThanOrEqualTo:rangeDays];
-//  [query whereKey:@"rangeLow" lessThanOrEqualTo:rangeDays];
-//  // Bit if a hack here, using string column here : See https://parse.com/questions/trouble-with-nested-query-using-objectid
-//  [query whereKey:@"objectId" doesNotMatchKey:@"standardMilestoneId" inQuery:innerQuery];
-//  [query orderByAscending:@"rangeHigh"];
-//
-//
-//  return query;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
                         object:(StandardMilestone *)milestone {
-  static NSString *CellIdentifier = @"Cell";
+  static NSString *CellIdentifier = @"SwipeCell";
   
-  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-  if (cell == nil) {
-    cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-    cell.accessoryType =  UITableViewCellAccessoryDetailButton;
-  }
-
-  cell.hidden = NO;
-  cell.accessoryType =  UITableViewCellAccessoryDetailDisclosureButton;
+  
+  SWTableViewCell *cell = (SWTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+  __weak SWTableViewCell *weakCell = cell;
+  //Do any fixed setup here (will be executed once unless force is set to YES)
+  [cell setAppearanceWithBlock:^{
+    weakCell.containingTableView = tableView;
+    
+    NSMutableArray *leftUtilityButtons = [NSMutableArray new];
+    NSMutableArray *rightUtilityButtons = [NSMutableArray new];
+    
+    [leftUtilityButtons sw_addUtilityButtonWithColor:
+     [UIColor colorWithRed:0.07 green:0.75f blue:0.16f alpha:1.0]
+                                                title:@"Done"];
+    [rightUtilityButtons sw_addUtilityButtonWithColor:
+     [UIColor colorWithRed:0.78f green:0.78f blue:0.8f alpha:1.0]
+                                                title:@"Ignore"];
+    [rightUtilityButtons sw_addUtilityButtonWithColor:
+     [UIColor colorWithRed:1.0f green:0.231f blue:0.188 alpha:1.0f]
+                                                title:@"Postpone"];
+    
+    weakCell.leftUtilityButtons = leftUtilityButtons;
+    weakCell.rightUtilityButtons = rightUtilityButtons;
+    
+    weakCell.delegate = self;
+  } force:NO];
+  
   cell.userInteractionEnabled = YES;
   cell.textLabel.text = milestone.title;
   cell.detailTextLabel.text = milestone.shortDescription;
   return cell;
 }
 
-// Override to support conditional editing of the table view.
-// This only needs to be implemented if you are going to be returning NO
-// for some items. By default, all items are editable.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-  // Return YES if you want the specified item to be editable.
-  return YES;
-}
+#pragma mark - SWTableViewDelegate
 
-- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
-  return @"Skip";
-}
-
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-  if (editingStyle == UITableViewCellEditingStyleDelete) {
-    // TODO: this doesn't seem to work too well.
-    UITableViewCell * cell = [self.tableView cellForRowAtIndexPath:indexPath];
-    cell.hidden = YES;
-
-    MilestoneAchievement * achievement = [MilestoneAchievement object];
-    achievement.standardMilestone = (StandardMilestone*)[self objectAtIndexPath:indexPath];
-    achievement.baby = _myBaby;
-    achievement.completionDate = [NSDate date];
-    [achievement saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-      if(succeeded) {
-        [self loadObjects];
-      } else {
-        // TODO: show message
-        NSLog(@"Failed to save the achievment %@", achievement);
-      }
-    }];
-  }
-}
-
-
--(void) tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerLeftUtilityButtonWithIndex:(NSInteger)index {
+  NSAssert(index == 0, @"Only expected zero index for left utility");
+  NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
   [self.tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
-  [self performSegueWithIdentifier:kDDSegueShowMilestoneDetails sender:self];
+  [self performSegueWithIdentifier:kDDSegueNoteMilestone sender:self];
+}
+
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
+  switch (index) {
+    case 0:
+      NSLog(@"TODO: Ignore button was pressed");
+      break;
+    case 1:
+      NSLog(@"TODO: Postpone button was pressed");
+      break;
+    default:
+      break;
+  }
 }
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
   [super tableView:tableView didSelectRowAtIndexPath:indexPath];
-  if (!([indexPath row] > self.objects.count -1)) {
-    [self performSegueWithIdentifier:kDDSegueNoteMilestone sender:self];
-  }
+  [self.tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+  [self performSegueWithIdentifier:kDDSegueShowMilestoneDetails sender:self];
 }
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
