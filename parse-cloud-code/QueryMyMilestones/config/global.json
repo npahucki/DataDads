@@ -1,0 +1,14 @@
+{
+    "applications": {
+        "DataDads": {
+            "applicationId": "NlJHBG0NZgFS8JP76DBjA31MBRZ7kmb7dVSQQz3U", 
+            "masterKey": "ScHR4mshg3TICZKsbPiLmCFLEidiChAwLpWHIUCO"
+        }, 
+        "_default": {
+            "link": "DataDads"
+        }
+    }, 
+    "global": {
+        "parseVersion": "1.2.18"
+    }
+}
