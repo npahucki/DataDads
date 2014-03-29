@@ -20,3 +20,4 @@
 @end
 
 MBProgressHUD * _hud;
+NSIndexPath *_lastPageTriggeredBy;

@@ -202,14 +202,36 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-  [super tableView:tableView didSelectRowAtIndexPath:indexPath];
-  [self.tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
-  [self performSegueWithIdentifier:kDDSegueShowMilestoneDetails sender:self];
+  if ([indexPath row] <= self.objects.count -1 ) { // Ignore the Load More cell click
+    [super tableView:tableView didSelectRowAtIndexPath:indexPath];
+    [self.tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+    [self performSegueWithIdentifier:kDDSegueShowMilestoneDetails sender:self];
+  }
+}
+
+// Since we are going to load more items as we get near the bottom, we will return a cell saying more is loading
+// TOOD: We should put in a progress animation
+- (PFTableViewCell *)tableView:(UITableView *)tableView cellForNextPageAtIndexPath:(NSIndexPath *)indexPath {
+  PFTableViewCell * cell = [[PFTableViewCell alloc] init];
+  cell.imageView.image = [UIImage animatedImageNamed:@"progress-" duration:1.0f];
+  cell.imageView.contentMode = UIViewContentModeRight;
+  cell.textLabel.text = @"Loading more...";
+  cell.textLabel.font = [UIFont fontWithName:@"GothamRounded-Bold" size:15.0];
+  cell.userInteractionEnabled = NO;
+  return cell;
+}
+
+
+-(void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+  if (indexPath > _lastPageTriggeredBy && self.objects.count > 5 && indexPath.row == self.objects.count - 5 && !self.isLoading) {
+    _lastPageTriggeredBy = indexPath;
+    [self loadNextPage];
+  }
 }
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+  NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
   if([segue.identifier isEqualToString:kDDSegueNoteMilestone]) {
-    NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
     MilestoneAchievement * achievement = [MilestoneAchievement object];
     achievement.standardMilestone = (StandardMilestone*)[self objectAtIndexPath:selectedIndexPath];
     achievement.baby = _myBaby;
@@ -217,7 +239,6 @@
   } else if([segue.identifier isEqualToString:kDDSegueShowMilestoneDetails]) {
     MilestoneDetailsViewController* details = (MilestoneDetailsViewController*)segue.destinationViewController;
     NSLog(@"%@", segue.sourceViewController);
-    NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
     details.milestone = (StandardMilestone*)[self objectAtIndexPath:selectedIndexPath];
   } else if([segue.identifier isEqualToString:kDDSegueCreateCustomMilestone]) {
     MilestoneAchievement * achievement = [MilestoneAchievement object];
