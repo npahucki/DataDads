@@ -35,8 +35,9 @@
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(babyUpdated:) name:kDDNotificationCurrentBabyChanged object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(milestoneNotedAndSaved:) name:kDDNotificationMilestoneNotedAndSaved object:nil];
   [self stylePFLoadingViewTheHardWay];
-}
+  [[[self navigationController] navigationBar] setNeedsLayout];
 
+}
 
 // Hack to customize the inititial loading view
 - (void)stylePFLoadingViewTheHardWay
@@ -73,7 +74,14 @@
   }
 }
 
+-(void) viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
+  [[[self navigationController] navigationBar] setNeedsLayout];
+}
+
 -(void) viewDidAppear:(BOOL)animated {
+  [super viewDidAppear:animated];
+  [[[self navigationController] navigationBar] setNeedsLayout];
   self.addNewButton.enabled = self.baby != nil;
 }
 
@@ -152,11 +160,20 @@
     weakCell.rightUtilityButtons = rightUtilityButtons;
     
     weakCell.delegate = self;
+    weakCell.textLabel.numberOfLines = 3; // Multiline
+    weakCell.textLabel.lineBreakMode = NSLineBreakByTruncatingTail; // Make wrap
+    weakCell.textLabel.font = [UIFont fontWithName:@"GothamRounded-Book" size:15.0];
+//    weakCell.detailTextLabel.numberOfLines = 3; // Multiline
+//    weakCell.detailTextLabel.lineBreakMode = NSLineBreakByTruncatingTail; // Make wrap
+//    weakCell.detailTextLabel.font = [UIFont fontWithName:@"GothamRounded-Light" size:11.0];
   } force:NO];
   
-  cell.userInteractionEnabled = YES;
   cell.textLabel.text = milestone.title;
-  cell.detailTextLabel.text = milestone.shortDescription;
+  // I think it's better to only show this on the deails page so as not to cluter the UI
+  // cell.detailTextLabel.text = milestone.shortDescription;
+  
+//    - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath
+  
   return cell;
 }
 
