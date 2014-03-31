@@ -35,8 +35,7 @@
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(babyUpdated:) name:kDDNotificationCurrentBabyChanged object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(milestoneNotedAndSaved:) name:kDDNotificationMilestoneNotedAndSaved object:nil];
   [self stylePFLoadingViewTheHardWay];
-  [[[self navigationController] navigationBar] setNeedsLayout];
-
+  self.objectsPerPage = 10; // make a little faster
 }
 
 // Hack to customize the inititial loading view
@@ -96,6 +95,13 @@
   if(achievement.standardMilestone) {
     [self loadObjects];
   }
+}
+
+-(void) loadObjects {
+  [super loadObjects];
+  // Must be reset so that more can load again.
+  _lastPageTriggeredBy =  0;
+
 }
 
 -(void) objectsDidLoad:(NSError *)error {
@@ -210,7 +216,6 @@
 }
 
 // Since we are going to load more items as we get near the bottom, we will return a cell saying more is loading
-// TOOD: We should put in a progress animation
 - (PFTableViewCell *)tableView:(UITableView *)tableView cellForNextPageAtIndexPath:(NSIndexPath *)indexPath {
   PFTableViewCell * cell = [[PFTableViewCell alloc] init];
   cell.imageView.image = [UIImage animatedImageNamed:@"progress-" duration:1.0f];
