@@ -7,6 +7,7 @@
 //
 
 #import "MainViewController.h"
+#import "CustomIOS7AlertView.h"
 
 @implementation MainViewController
 
@@ -21,7 +22,6 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-  
   PFUser * user = PFUser.currentUser;
   if(user) {
     NSString * screenName = [user objectForKey:kDDUserScreenName];
@@ -55,6 +55,7 @@
               }
             } else if(!cachedResult) { // Don't show the baby screen when there are simply no objects in the cache.
               // Must show the enter baby screen since there are none registered yet
+              [self showWelcomeScreen];
               [self performSegueWithIdentifier:@"enterBabyInfo" sender:self];
             }
           } else {
@@ -80,6 +81,47 @@
     // need to login before we can do anything
     [self performSegueWithIdentifier:@"login" sender:self];
   }
+}
+
+-(void) showWelcomeScreen {
+  CustomIOS7AlertView *alertView = [[CustomIOS7AlertView alloc] init];
+  const int width = 290;
+  const int height = 300;
+  
+  
+  UIView *welcomeView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
+  UILabel * title = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, width, 40)];
+  title.text = @"Howdy!";
+  title.font = [UIFont fontWithName:@"GothamRounded-Bold" size:42.0];
+  title.textAlignment = NSTextAlignmentCenter;
+  
+  UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 60, width, 1)];
+  lineView.backgroundColor = [UIColor grayColor];
+  [welcomeView addSubview:lineView];
+
+  UILabel * msg = [[UILabel alloc] initWithFrame:CGRectMake(10, 70, width - 10, height - 70)];
+  msg.text = @"DataDads creates science from your baby's data and we help you track the development of your child.\n\n Start by filling in your baby's basic information";
+  msg.lineBreakMode = NSLineBreakByTruncatingTail;
+  msg.numberOfLines = 7;
+  msg.font = [UIFont fontWithName:@"GothamRounded-Medium" size:19.0];
+  msg.textAlignment = NSTextAlignmentCenter;
+  
+  [welcomeView addSubview:title];
+  [welcomeView addSubview:msg];
+  [alertView setContainerView:welcomeView];
+  [alertView setUseMotionEffects:TRUE];
+  [alertView setButtonTitles:[NSMutableArray arrayWithObjects:@"get started", nil]];
+  [alertView show];
+
+  // Icky hack, but there is no way to get a ref to the button before we show the alert.
+  UIButton * cancelButton;
+  for(UIView * view in alertView.dialogView.subviews) {
+    if([view isKindOfClass:[UIButton class]]) {
+      cancelButton = (UIButton*)view;
+    }
+  }
+  cancelButton.titleLabel.font = [UIFont fontWithName:@"GothamRounded-Medium" size:19.0];
+  
 }
 
 

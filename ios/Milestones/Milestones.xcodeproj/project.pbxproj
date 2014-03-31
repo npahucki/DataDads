@@ -133,6 +133,7 @@
 		E8E39C1518E615D20034982D /* GothamRounded-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C0D18E615D20034982D /* GothamRounded-LightItalic.otf */; };
 		E8E39C1618E615D20034982D /* GothamRounded-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C0E18E615D20034982D /* GothamRounded-Medium.otf */; };
 		E8E39C1718E615D20034982D /* GothamRounded-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C0F18E615D20034982D /* GothamRounded-MediumItalic.otf */; };
+		E8E39C1B18EA13B40034982D /* CustomIOS7AlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = E8E39C1A18EA13B40034982D /* CustomIOS7AlertView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -293,6 +294,8 @@
 		E8E39C0D18E615D20034982D /* GothamRounded-LightItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamRounded-LightItalic.otf"; sourceTree = "<group>"; };
 		E8E39C0E18E615D20034982D /* GothamRounded-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamRounded-Medium.otf"; sourceTree = "<group>"; };
 		E8E39C0F18E615D20034982D /* GothamRounded-MediumItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamRounded-MediumItalic.otf"; sourceTree = "<group>"; };
+		E8E39C1918EA13B40034982D /* CustomIOS7AlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomIOS7AlertView.h; sourceTree = "<group>"; };
+		E8E39C1A18EA13B40034982D /* CustomIOS7AlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomIOS7AlertView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -445,6 +448,7 @@
 				E8DD4908188EE5BA00153095 /* MilestonesTests */,
 				E8DD48DC188EE5B900153095 /* Frameworks */,
 				E8DD48DB188EE5B900153095 /* Products */,
+				E8E39C1818EA137F0034982D /* ThirdParty */,
 				38FA7AFE5F694C389969CCDD /* Pods.xcconfig */,
 			);
 			sourceTree = "<group>";
@@ -580,6 +584,16 @@
 				E8E39C0F18E615D20034982D /* GothamRounded-MediumItalic.otf */,
 			);
 			path = "Gotham Rounded";
+			sourceTree = "<group>";
+		};
+		E8E39C1818EA137F0034982D /* ThirdParty */ = {
+			isa = PBXGroup;
+			children = (
+				E8E39C1918EA13B40034982D /* CustomIOS7AlertView.h */,
+				E8E39C1A18EA13B40034982D /* CustomIOS7AlertView.m */,
+			);
+			name = ThirdParty;
+			path = Milestones;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -807,6 +821,7 @@
 				E813465A18DCD9FA0053EE6E /* StandardMilestoneQuery.m in Sources */,
 				E8DD48FA188EE5B900153095 /* LogMeasurementViewController.m in Sources */,
 				E8BC76D818A8522F00983025 /* MilestoneDetailsViewController.m in Sources */,
+				E8E39C1B18EA13B40034982D /* CustomIOS7AlertView.m in Sources */,
 				E81B58701896A75700C74C2B /* Contants.m in Sources */,
 				E8D00A20188F435300DF2786 /* NoteMilestoneViewController.m in Sources */,
 				E81B588318992B7000C74C2B /* Tag.m in Sources */,
