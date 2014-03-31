@@ -7,6 +7,7 @@
 //
 
 #import "MilestoneDetailsViewController.h"
+#import "NoteMilestoneViewController.h"
 
 @interface MilestoneDetailsViewController ()
 
@@ -15,20 +16,21 @@
 @implementation MilestoneDetailsViewController
 
 
-
 - (void)viewDidLoad
 {
   [super viewDidLoad];
-  self.titleLabel.text = self.milestone.title;
+  self.navigationController.toolbarHidden = NO;
+  
+  self.titleLabel.text = self.achievement.standardMilestone.title;
   //[self.titleLabel sizeToFit];
-  self.descriptionLabel.text = self.milestone.shortDescription;
+  self.descriptionLabel.text = self.achievement.standardMilestone.shortDescription;
   //[self.descriptionLabel sizeToFit];
   // TODO: format months if more than 30
-  self.ageRangeLabel.text = [NSString stringWithFormat:@"%@ - %@ days", self.milestone.rangeLow, self.milestone.rangeHigh];
+  self.ageRangeLabel.text = [NSString stringWithFormat:@"%@ - %@ days", self.achievement.standardMilestone.rangeLow, self.achievement.standardMilestone.rangeHigh];
 }
 
-- (IBAction)didClickDoneButton:(id)sender {
-  [self.presentingViewController dismissViewControllerAnimated:YES                                                    completion:nil];
+-(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    ((NoteMilestoneViewController*)segue.destinationViewController).achievement = self.achievement;
 }
 
 @end

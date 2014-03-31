@@ -14,6 +14,8 @@
 @property (strong, nonatomic) IBOutlet UILabel *ageRangeLabel;
 @property (strong, nonatomic) IBOutlet UILabel *descriptionLabel;
 
-@property StandardMilestone * milestone; 
+
+// Note: We use an achievement here instead of a milestone, so that we can pass it to the NoteMilestoneViewController if the user want's to complete it
+@property MilestoneAchievement *achievement;
 
 @end

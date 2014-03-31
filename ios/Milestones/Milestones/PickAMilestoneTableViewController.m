@@ -236,18 +236,15 @@
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
   NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
+  MilestoneAchievement * achievement = [MilestoneAchievement object];
+  achievement.baby = _myBaby;
   if([segue.identifier isEqualToString:kDDSegueNoteMilestone]) {
-    MilestoneAchievement * achievement = [MilestoneAchievement object];
     achievement.standardMilestone = (StandardMilestone*)[self objectAtIndexPath:selectedIndexPath];
-    achievement.baby = _myBaby;
     ((NoteMilestoneViewController*)segue.destinationViewController).achievement = achievement;
   } else if([segue.identifier isEqualToString:kDDSegueShowMilestoneDetails]) {
-    MilestoneDetailsViewController* details = (MilestoneDetailsViewController*)segue.destinationViewController;
-    NSLog(@"%@", segue.sourceViewController);
-    details.milestone = (StandardMilestone*)[self objectAtIndexPath:selectedIndexPath];
+    achievement.standardMilestone = (StandardMilestone*)[self objectAtIndexPath:selectedIndexPath];
+    ((MilestoneDetailsViewController*)segue.destinationViewController).achievement = achievement;
   } else if([segue.identifier isEqualToString:kDDSegueCreateCustomMilestone]) {
-    MilestoneAchievement * achievement = [MilestoneAchievement object];
-    achievement.baby = self.baby;
     ((CreateMilestoneViewController*)segue.destinationViewController).achievement = achievement;
   }
 }
