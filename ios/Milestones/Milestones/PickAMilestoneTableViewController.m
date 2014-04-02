@@ -23,7 +23,7 @@
     // This table displays items in the Todo class
     self.pullToRefreshEnabled = YES;
     self.paginationEnabled = NO;
-    self.objectsPerPage = 25;
+    self.objectsPerPage = 10;
   }
   return self;
 }
@@ -35,7 +35,6 @@
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(babyUpdated:) name:kDDNotificationCurrentBabyChanged object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(milestoneNotedAndSaved:) name:kDDNotificationMilestoneNotedAndSaved object:nil];
   [self stylePFLoadingViewTheHardWay];
-  self.objectsPerPage = 10; // make a little faster
 }
 
 // Hack to customize the inititial loading view
@@ -63,7 +62,7 @@
         if ([loadingViewSubview isKindOfClass:[UIActivityIndicatorView class]])
         {
           UIImage * image = [UIImage animatedImageNamed:@"progress-" duration:1.0f];
-          UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(subview.frame.size.width / 2 - image.size.width / 2, subview.frame.size.height / 2 - image.size.height / 2 - 60, image.size.width, image.size.height)];
+          UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(subview.frame.size.width / 2 - image.size.width / 2, subview.frame.size.height / 2 - image.size.height / 2, image.size.width, image.size.height)];
           [imageView setImage:image];
           [loadingViewSubview removeFromSuperview];
           [subview addSubview: imageView];
@@ -73,9 +72,15 @@
   }
 }
 
+-(void)viewWillDisappear:(BOOL)animated{
+  [super viewWillDisappear:animated];
+  [self.navigationController setNavigationBarHidden:NO];    // it shows
+}
+
 -(void) viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
   [[[self navigationController] navigationBar] setNeedsLayout];
+  [self.navigationController setNavigationBarHidden:YES];
 }
 
 -(void) viewDidAppear:(BOOL)animated {
@@ -219,7 +224,8 @@
 - (PFTableViewCell *)tableView:(UITableView *)tableView cellForNextPageAtIndexPath:(NSIndexPath *)indexPath {
   PFTableViewCell * cell = [[PFTableViewCell alloc] init];
   cell.imageView.image = [UIImage animatedImageNamed:@"progress-" duration:1.0f];
-  cell.imageView.contentMode = UIViewContentModeRight;
+  cell.imageView.contentMode = UIViewContentModeScaleAspectFit;
+  //cell.imageView.frame = CGRectMake(0,0,50,50);
   cell.textLabel.text = @"Loading more...";
   cell.textLabel.font = [UIFont fontWithName:@"GothamRounded-Bold" size:15.0];
   cell.userInteractionEnabled = NO;
@@ -237,7 +243,7 @@
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
   NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
   MilestoneAchievement * achievement = [MilestoneAchievement object];
-  achievement.baby = _myBaby;
+  achievement.baby = self.baby;
   if([segue.identifier isEqualToString:kDDSegueNoteMilestone]) {
     achievement.standardMilestone = (StandardMilestone*)[self objectAtIndexPath:selectedIndexPath];
     ((NoteMilestoneViewController*)segue.destinationViewController).achievement = achievement;

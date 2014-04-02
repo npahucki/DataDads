@@ -15,12 +15,9 @@
 
 @implementation MilestoneDetailsViewController
 
-
 - (void)viewDidLoad
 {
   [super viewDidLoad];
-  self.navigationController.toolbarHidden = NO;
-  
   self.titleLabel.text = self.achievement.standardMilestone.title;
   //[self.titleLabel sizeToFit];
   self.descriptionLabel.text = self.achievement.standardMilestone.shortDescription;
@@ -34,3 +31,6 @@
 }
 
 @end
+
+
+

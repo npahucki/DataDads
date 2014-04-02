@@ -33,9 +33,6 @@
 		E81B5888189AB2B900C74C2B /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B5887189AB2B900C74C2B /* Accounts.framework */; };
 		E81B588B189BCCD200C74C2B /* StandardMilestone.m in Sources */ = {isa = PBXBuildFile; fileRef = E81B588A189BCCD200C74C2B /* StandardMilestone.m */; };
 		E81B588E189BFFFE00C74C2B /* MilestoneAchievement.m in Sources */ = {isa = PBXBuildFile; fileRef = E81B588D189BFFFE00C74C2B /* MilestoneAchievement.m */; };
-		E8355F2118A3CA53005F5102 /* 37x-Checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = E8355F1F18A3CA53005F5102 /* 37x-Checkmark.png */; };
-		E8355F2218A3CA53005F5102 /* 37x-Checkmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E8355F2018A3CA53005F5102 /* 37x-Checkmark@2x.png */; };
-		E8AADCC718900B7F00BC1925 /* take-picture.png in Resources */ = {isa = PBXBuildFile; fileRef = E8AADCC618900B7F00BC1925 /* take-picture.png */; };
 		E8BC76D518A50AD000983025 /* UIViewControllerWithHUDProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = E8BC76D418A50AD000983025 /* UIViewControllerWithHUDProgress.m */; };
 		E8BC76D818A8522F00983025 /* MilestoneDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8BC76D718A8522F00983025 /* MilestoneDetailsViewController.m */; };
 		E8D00A17188F348700DF2786 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D00A16188F348700DF2786 /* LoginViewController.m */; };
@@ -134,6 +131,45 @@
 		E8E39C1618E615D20034982D /* GothamRounded-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C0E18E615D20034982D /* GothamRounded-Medium.otf */; };
 		E8E39C1718E615D20034982D /* GothamRounded-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C0F18E615D20034982D /* GothamRounded-MediumItalic.otf */; };
 		E8E39C1B18EA13B40034982D /* CustomIOS7AlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = E8E39C1A18EA13B40034982D /* CustomIOS7AlertView.m */; };
+		E8E39C4218EAF3AC0034982D /* avatarCompletedOverlay.png in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C1C18EAF3AC0034982D /* avatarCompletedOverlay.png */; };
+		E8E39C4318EAF3AC0034982D /* avatarCompletedOverlay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C1D18EAF3AC0034982D /* avatarCompletedOverlay@2x.png */; };
+		E8E39C4418EAF3AC0034982D /* avatarShadow.png in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C1E18EAF3AC0034982D /* avatarShadow.png */; };
+		E8E39C4518EAF3AC0034982D /* avatarShadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C1F18EAF3AC0034982D /* avatarShadow@2x.png */; };
+		E8E39C4618EAF3AC0034982D /* closeMenuButton_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C2018EAF3AC0034982D /* closeMenuButton_pressed.png */; };
+		E8E39C4718EAF3AC0034982D /* closeMenuButton_pressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C2118EAF3AC0034982D /* closeMenuButton_pressed@2x.png */; };
+		E8E39C4818EAF3AC0034982D /* closeMenuButton.png in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C2218EAF3AC0034982D /* closeMenuButton.png */; };
+		E8E39C4918EAF3AC0034982D /* closeMenuButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C2318EAF3AC0034982D /* closeMenuButton@2x.png */; };
+		E8E39C4A18EAF3AC0034982D /* completeIcon_ready.png in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C2418EAF3AC0034982D /* completeIcon_ready.png */; };
+		E8E39C4B18EAF3AC0034982D /* completeIcon_ready@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C2518EAF3AC0034982D /* completeIcon_ready@2x.png */; };
+		E8E39C4C18EAF3AC0034982D /* completeIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C2618EAF3AC0034982D /* completeIcon.png */; };
+		E8E39C4D18EAF3AC0034982D /* completeIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C2718EAF3AC0034982D /* completeIcon@2x.png */; };
+		E8E39C4E18EAF3AC0034982D /* deleteIcon_ready.png in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C2818EAF3AC0034982D /* deleteIcon_ready.png */; };
+		E8E39C4F18EAF3AC0034982D /* deleteIcon_ready@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C2918EAF3AC0034982D /* deleteIcon_ready@2x.png */; };
+		E8E39C5018EAF3AC0034982D /* deleteIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C2A18EAF3AC0034982D /* deleteIcon.png */; };
+		E8E39C5118EAF3AC0034982D /* deleteIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C2B18EAF3AC0034982D /* deleteIcon@2x.png */; };
+		E8E39C5218EAF3AC0034982D /* historyIcon_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C2C18EAF3AC0034982D /* historyIcon_pressed.png */; };
+		E8E39C5318EAF3AC0034982D /* historyIcon_pressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C2D18EAF3AC0034982D /* historyIcon_pressed@2x.png */; };
+		E8E39C5418EAF3AC0034982D /* historyIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C2E18EAF3AC0034982D /* historyIcon.png */; };
+		E8E39C5518EAF3AC0034982D /* historyIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C2F18EAF3AC0034982D /* historyIcon@2x.png */; };
+		E8E39C5618EAF3AC0034982D /* measurementsIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C3018EAF3AC0034982D /* measurementsIcon.png */; };
+		E8E39C5718EAF3AC0034982D /* measurementsIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C3118EAF3AC0034982D /* measurementsIcon@2x.png */; };
+		E8E39C5818EAF3AC0034982D /* milestonesIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C3218EAF3AC0034982D /* milestonesIcon.png */; };
+		E8E39C5918EAF3AC0034982D /* milestonesIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C3318EAF3AC0034982D /* milestonesIcon@2x.png */; };
+		E8E39C5A18EAF3AC0034982D /* modalBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C3418EAF3AC0034982D /* modalBackground.png */; };
+		E8E39C5B18EAF3AC0034982D /* modalBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C3518EAF3AC0034982D /* modalBackground@2x.png */; };
+		E8E39C5C18EAF3AC0034982D /* newMilestoneButton_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C3618EAF3AC0034982D /* newMilestoneButton_pressed.png */; };
+		E8E39C5D18EAF3AC0034982D /* newMilestoneButton_pressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C3718EAF3AC0034982D /* newMilestoneButton_pressed@2x.png */; };
+		E8E39C5E18EAF3AC0034982D /* newMilestoneButton.png in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C3818EAF3AC0034982D /* newMilestoneButton.png */; };
+		E8E39C5F18EAF3AC0034982D /* newMilestoneButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C3918EAF3AC0034982D /* newMilestoneButton@2x.png */; };
+		E8E39C6018EAF3AC0034982D /* openMenuButton_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C3A18EAF3AC0034982D /* openMenuButton_pressed.png */; };
+		E8E39C6118EAF3AC0034982D /* openMenuButton_pressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C3B18EAF3AC0034982D /* openMenuButton_pressed@2x.png */; };
+		E8E39C6218EAF3AC0034982D /* openMenuButton.png in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C3C18EAF3AC0034982D /* openMenuButton.png */; };
+		E8E39C6318EAF3AC0034982D /* openMenuButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C3D18EAF3AC0034982D /* openMenuButton@2x.png */; };
+		E8E39C6418EAF3AC0034982D /* settingsIcon_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C3E18EAF3AC0034982D /* settingsIcon_pressed.png */; };
+		E8E39C6518EAF3AC0034982D /* settingsIcon_pressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C3F18EAF3AC0034982D /* settingsIcon_pressed@2x.png */; };
+		E8E39C6618EAF3AC0034982D /* settingsIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C4018EAF3AC0034982D /* settingsIcon.png */; };
+		E8E39C6718EAF3AC0034982D /* settingsIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C4118EAF3AC0034982D /* settingsIcon@2x.png */; };
+		E8E39C6A18EB063E0034982D /* MainMilestoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8E39C6918EB063E0034982D /* MainMilestoneViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -183,9 +219,6 @@
 		E81B588A189BCCD200C74C2B /* StandardMilestone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StandardMilestone.m; sourceTree = "<group>"; };
 		E81B588C189BFFFE00C74C2B /* MilestoneAchievement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MilestoneAchievement.h; sourceTree = "<group>"; };
 		E81B588D189BFFFE00C74C2B /* MilestoneAchievement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MilestoneAchievement.m; sourceTree = "<group>"; };
-		E8355F1F18A3CA53005F5102 /* 37x-Checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37x-Checkmark.png"; sourceTree = "<group>"; };
-		E8355F2018A3CA53005F5102 /* 37x-Checkmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37x-Checkmark@2x.png"; sourceTree = "<group>"; };
-		E8AADCC618900B7F00BC1925 /* take-picture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "take-picture.png"; path = "../take-picture.png"; sourceTree = "<group>"; };
 		E8BC76D318A50AD000983025 /* UIViewControllerWithHUDProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIViewControllerWithHUDProgress.h; sourceTree = "<group>"; };
 		E8BC76D418A50AD000983025 /* UIViewControllerWithHUDProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIViewControllerWithHUDProgress.m; sourceTree = "<group>"; };
 		E8BC76D618A8522F00983025 /* MilestoneDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MilestoneDetailsViewController.h; sourceTree = "<group>"; };
@@ -296,6 +329,46 @@
 		E8E39C0F18E615D20034982D /* GothamRounded-MediumItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamRounded-MediumItalic.otf"; sourceTree = "<group>"; };
 		E8E39C1918EA13B40034982D /* CustomIOS7AlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomIOS7AlertView.h; sourceTree = "<group>"; };
 		E8E39C1A18EA13B40034982D /* CustomIOS7AlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomIOS7AlertView.m; sourceTree = "<group>"; };
+		E8E39C1C18EAF3AC0034982D /* avatarCompletedOverlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = avatarCompletedOverlay.png; sourceTree = "<group>"; };
+		E8E39C1D18EAF3AC0034982D /* avatarCompletedOverlay@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avatarCompletedOverlay@2x.png"; sourceTree = "<group>"; };
+		E8E39C1E18EAF3AC0034982D /* avatarShadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = avatarShadow.png; sourceTree = "<group>"; };
+		E8E39C1F18EAF3AC0034982D /* avatarShadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avatarShadow@2x.png"; sourceTree = "<group>"; };
+		E8E39C2018EAF3AC0034982D /* closeMenuButton_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = closeMenuButton_pressed.png; sourceTree = "<group>"; };
+		E8E39C2118EAF3AC0034982D /* closeMenuButton_pressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "closeMenuButton_pressed@2x.png"; sourceTree = "<group>"; };
+		E8E39C2218EAF3AC0034982D /* closeMenuButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = closeMenuButton.png; sourceTree = "<group>"; };
+		E8E39C2318EAF3AC0034982D /* closeMenuButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "closeMenuButton@2x.png"; sourceTree = "<group>"; };
+		E8E39C2418EAF3AC0034982D /* completeIcon_ready.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = completeIcon_ready.png; sourceTree = "<group>"; };
+		E8E39C2518EAF3AC0034982D /* completeIcon_ready@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "completeIcon_ready@2x.png"; sourceTree = "<group>"; };
+		E8E39C2618EAF3AC0034982D /* completeIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = completeIcon.png; sourceTree = "<group>"; };
+		E8E39C2718EAF3AC0034982D /* completeIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "completeIcon@2x.png"; sourceTree = "<group>"; };
+		E8E39C2818EAF3AC0034982D /* deleteIcon_ready.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = deleteIcon_ready.png; sourceTree = "<group>"; };
+		E8E39C2918EAF3AC0034982D /* deleteIcon_ready@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "deleteIcon_ready@2x.png"; sourceTree = "<group>"; };
+		E8E39C2A18EAF3AC0034982D /* deleteIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = deleteIcon.png; sourceTree = "<group>"; };
+		E8E39C2B18EAF3AC0034982D /* deleteIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "deleteIcon@2x.png"; sourceTree = "<group>"; };
+		E8E39C2C18EAF3AC0034982D /* historyIcon_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = historyIcon_pressed.png; sourceTree = "<group>"; };
+		E8E39C2D18EAF3AC0034982D /* historyIcon_pressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "historyIcon_pressed@2x.png"; sourceTree = "<group>"; };
+		E8E39C2E18EAF3AC0034982D /* historyIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = historyIcon.png; sourceTree = "<group>"; };
+		E8E39C2F18EAF3AC0034982D /* historyIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "historyIcon@2x.png"; sourceTree = "<group>"; };
+		E8E39C3018EAF3AC0034982D /* measurementsIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = measurementsIcon.png; sourceTree = "<group>"; };
+		E8E39C3118EAF3AC0034982D /* measurementsIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "measurementsIcon@2x.png"; sourceTree = "<group>"; };
+		E8E39C3218EAF3AC0034982D /* milestonesIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = milestonesIcon.png; sourceTree = "<group>"; };
+		E8E39C3318EAF3AC0034982D /* milestonesIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "milestonesIcon@2x.png"; sourceTree = "<group>"; };
+		E8E39C3418EAF3AC0034982D /* modalBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = modalBackground.png; sourceTree = "<group>"; };
+		E8E39C3518EAF3AC0034982D /* modalBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "modalBackground@2x.png"; sourceTree = "<group>"; };
+		E8E39C3618EAF3AC0034982D /* newMilestoneButton_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newMilestoneButton_pressed.png; sourceTree = "<group>"; };
+		E8E39C3718EAF3AC0034982D /* newMilestoneButton_pressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "newMilestoneButton_pressed@2x.png"; sourceTree = "<group>"; };
+		E8E39C3818EAF3AC0034982D /* newMilestoneButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newMilestoneButton.png; sourceTree = "<group>"; };
+		E8E39C3918EAF3AC0034982D /* newMilestoneButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "newMilestoneButton@2x.png"; sourceTree = "<group>"; };
+		E8E39C3A18EAF3AC0034982D /* openMenuButton_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = openMenuButton_pressed.png; sourceTree = "<group>"; };
+		E8E39C3B18EAF3AC0034982D /* openMenuButton_pressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "openMenuButton_pressed@2x.png"; sourceTree = "<group>"; };
+		E8E39C3C18EAF3AC0034982D /* openMenuButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = openMenuButton.png; sourceTree = "<group>"; };
+		E8E39C3D18EAF3AC0034982D /* openMenuButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "openMenuButton@2x.png"; sourceTree = "<group>"; };
+		E8E39C3E18EAF3AC0034982D /* settingsIcon_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settingsIcon_pressed.png; sourceTree = "<group>"; };
+		E8E39C3F18EAF3AC0034982D /* settingsIcon_pressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settingsIcon_pressed@2x.png"; sourceTree = "<group>"; };
+		E8E39C4018EAF3AC0034982D /* settingsIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settingsIcon.png; sourceTree = "<group>"; };
+		E8E39C4118EAF3AC0034982D /* settingsIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settingsIcon@2x.png"; sourceTree = "<group>"; };
+		E8E39C6818EB063E0034982D /* MainMilestoneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMilestoneViewController.h; sourceTree = "<group>"; };
+		E8E39C6918EB063E0034982D /* MainMilestoneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMilestoneViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -356,11 +429,46 @@
 		E8AADCC818900B8D00BC1925 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				E8E39C1C18EAF3AC0034982D /* avatarCompletedOverlay.png */,
+				E8E39C1D18EAF3AC0034982D /* avatarCompletedOverlay@2x.png */,
+				E8E39C1E18EAF3AC0034982D /* avatarShadow.png */,
+				E8E39C1F18EAF3AC0034982D /* avatarShadow@2x.png */,
+				E8E39C2018EAF3AC0034982D /* closeMenuButton_pressed.png */,
+				E8E39C2118EAF3AC0034982D /* closeMenuButton_pressed@2x.png */,
+				E8E39C2218EAF3AC0034982D /* closeMenuButton.png */,
+				E8E39C2318EAF3AC0034982D /* closeMenuButton@2x.png */,
+				E8E39C2418EAF3AC0034982D /* completeIcon_ready.png */,
+				E8E39C2518EAF3AC0034982D /* completeIcon_ready@2x.png */,
+				E8E39C2618EAF3AC0034982D /* completeIcon.png */,
+				E8E39C2718EAF3AC0034982D /* completeIcon@2x.png */,
+				E8E39C2818EAF3AC0034982D /* deleteIcon_ready.png */,
+				E8E39C2918EAF3AC0034982D /* deleteIcon_ready@2x.png */,
+				E8E39C2A18EAF3AC0034982D /* deleteIcon.png */,
+				E8E39C2B18EAF3AC0034982D /* deleteIcon@2x.png */,
+				E8E39C2C18EAF3AC0034982D /* historyIcon_pressed.png */,
+				E8E39C2D18EAF3AC0034982D /* historyIcon_pressed@2x.png */,
+				E8E39C2E18EAF3AC0034982D /* historyIcon.png */,
+				E8E39C2F18EAF3AC0034982D /* historyIcon@2x.png */,
+				E8E39C3018EAF3AC0034982D /* measurementsIcon.png */,
+				E8E39C3118EAF3AC0034982D /* measurementsIcon@2x.png */,
+				E8E39C3218EAF3AC0034982D /* milestonesIcon.png */,
+				E8E39C3318EAF3AC0034982D /* milestonesIcon@2x.png */,
+				E8E39C3418EAF3AC0034982D /* modalBackground.png */,
+				E8E39C3518EAF3AC0034982D /* modalBackground@2x.png */,
+				E8E39C3618EAF3AC0034982D /* newMilestoneButton_pressed.png */,
+				E8E39C3718EAF3AC0034982D /* newMilestoneButton_pressed@2x.png */,
+				E8E39C3818EAF3AC0034982D /* newMilestoneButton.png */,
+				E8E39C3918EAF3AC0034982D /* newMilestoneButton@2x.png */,
+				E8E39C3A18EAF3AC0034982D /* openMenuButton_pressed.png */,
+				E8E39C3B18EAF3AC0034982D /* openMenuButton_pressed@2x.png */,
+				E8E39C3C18EAF3AC0034982D /* openMenuButton.png */,
+				E8E39C3D18EAF3AC0034982D /* openMenuButton@2x.png */,
+				E8E39C3E18EAF3AC0034982D /* settingsIcon_pressed.png */,
+				E8E39C3F18EAF3AC0034982D /* settingsIcon_pressed@2x.png */,
+				E8E39C4018EAF3AC0034982D /* settingsIcon.png */,
+				E8E39C4118EAF3AC0034982D /* settingsIcon@2x.png */,
 				E8B02AA418E392ED004E33DD /* progress */,
 				E816B15218AB079000E9640B /* chart.png */,
-				E8355F1F18A3CA53005F5102 /* 37x-Checkmark.png */,
-				E8355F2018A3CA53005F5102 /* 37x-Checkmark@2x.png */,
-				E8AADCC618900B7F00BC1925 /* take-picture.png */,
 			);
 			name = images;
 			sourceTree = "<group>";
@@ -505,6 +613,8 @@
 				E81B58751896C1A900C74C2B /* EnterScreenNameViewController.m */,
 				E81B58691891F9C400C74C2B /* PickAMilestoneTableViewController.h */,
 				E81B586A1891F9C400C74C2B /* PickAMilestoneTableViewController.m */,
+				E8E39C6818EB063E0034982D /* MainMilestoneViewController.h */,
+				E8E39C6918EB063E0034982D /* MainMilestoneViewController.m */,
 				E8BC76D618A8522F00983025 /* MilestoneDetailsViewController.h */,
 				E8BC76D718A8522F00983025 /* MilestoneDetailsViewController.m */,
 				E8DD48F8188EE5B900153095 /* LogMeasurementViewController.h */,
@@ -677,18 +787,24 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E8E39C4B18EAF3AC0034982D /* completeIcon_ready@2x.png in Resources */,
 				E8E39BB418E502A40034982D /* progress-18.png in Resources */,
 				E8E39BF818E60B6F0034982D /* success-5.png in Resources */,
 				E8E39BC018E502A40034982D /* progress-30.png in Resources */,
+				E8E39C4D18EAF3AC0034982D /* completeIcon@2x.png in Resources */,
 				E8E39BF718E60B6F0034982D /* success-4.png in Resources */,
+				E8E39C5018EAF3AC0034982D /* deleteIcon.png in Resources */,
 				E8E39BAD18E502A40034982D /* progress-11.png in Resources */,
 				E8E39BA318E502A40034982D /* progress-1.png in Resources */,
 				E8E39BB718E502A40034982D /* progress-21.png in Resources */,
 				E8E39BC618E502A40034982D /* progress-36.png in Resources */,
+				E8E39C4318EAF3AC0034982D /* avatarCompletedOverlay@2x.png in Resources */,
+				E8E39C4618EAF3AC0034982D /* closeMenuButton_pressed.png in Resources */,
 				E8E39BBE18E502A40034982D /* progress-28.png in Resources */,
 				E8E39BF418E60B6F0034982D /* success-1.png in Resources */,
 				E8E39BE718E60B620034982D /* error-6.png in Resources */,
 				E8E39BB918E502A40034982D /* progress-23.png in Resources */,
+				E8E39C5D18EAF3AC0034982D /* newMilestoneButton_pressed@2x.png in Resources */,
 				E8E39BD018E502A40034982D /* progress-46.png in Resources */,
 				E8E39BE518E60B620034982D /* error-4.png in Resources */,
 				E8E39BB618E502A40034982D /* progress-20.png in Resources */,
@@ -699,16 +815,25 @@
 				E8E39BC718E502A40034982D /* progress-37.png in Resources */,
 				E8E39BA518E502A40034982D /* progress-3.png in Resources */,
 				E8E39BF618E60B6F0034982D /* success-3.png in Resources */,
+				E8E39C6018EAF3AC0034982D /* openMenuButton_pressed.png in Resources */,
+				E8E39C5F18EAF3AC0034982D /* newMilestoneButton@2x.png in Resources */,
+				E8E39C5A18EAF3AC0034982D /* modalBackground.png in Resources */,
 				E8E39BE618E60B620034982D /* error-5.png in Resources */,
 				E8E39C1218E615D20034982D /* GothamRounded-Book.otf in Resources */,
 				E8DD48F4188EE5B900153095 /* Main_iPad.storyboard in Resources */,
+				E8E39C6718EAF3AC0034982D /* settingsIcon@2x.png in Resources */,
+				E8E39C5718EAF3AC0034982D /* measurementsIcon@2x.png in Resources */,
 				E8E39BBA18E502A40034982D /* progress-24.png in Resources */,
 				E8E39BC118E502A40034982D /* progress-31.png in Resources */,
+				E8E39C5818EAF3AC0034982D /* milestonesIcon.png in Resources */,
 				E8E39BA218E502A40034982D /* progress-0.png in Resources */,
 				E8E39BA418E502A40034982D /* progress-2.png in Resources */,
+				E8E39C5918EAF3AC0034982D /* milestonesIcon@2x.png in Resources */,
 				E8E39BB518E502A40034982D /* progress-19.png in Resources */,
 				E8E39BE818E60B620034982D /* error-7.png in Resources */,
 				E8E39BFA18E60B6F0034982D /* success-7.png in Resources */,
+				E8E39C4F18EAF3AC0034982D /* deleteIcon_ready@2x.png in Resources */,
+				E8E39C5618EAF3AC0034982D /* measurementsIcon.png in Resources */,
 				E8E39BAA18E502A40034982D /* progress-8.png in Resources */,
 				E8E39BC318E502A40034982D /* progress-33.png in Resources */,
 				E8E39C1018E615D20034982D /* GothamRounded-Bold.otf in Resources */,
@@ -721,46 +846,66 @@
 				E8E39C1518E615D20034982D /* GothamRounded-LightItalic.otf in Resources */,
 				E8E39BFB18E60B6F0034982D /* success-8.png in Resources */,
 				E8E39BBF18E502A40034982D /* progress-29.png in Resources */,
+				E8E39C6118EAF3AC0034982D /* openMenuButton_pressed@2x.png in Resources */,
 				E8E39BAF18E502A40034982D /* progress-13.png in Resources */,
-				E8355F2218A3CA53005F5102 /* 37x-Checkmark@2x.png in Resources */,
 				E8E39BCF18E502A40034982D /* progress-45.png in Resources */,
 				E8E39BF318E60B6F0034982D /* success-0.png in Resources */,
 				E8E39BE418E60B620034982D /* error-3.png in Resources */,
+				E8E39C5118EAF3AC0034982D /* deleteIcon@2x.png in Resources */,
 				E8E39BB318E502A40034982D /* progress-17.png in Resources */,
+				E8E39C5218EAF3AC0034982D /* historyIcon_pressed.png in Resources */,
 				E8E39BC418E502A40034982D /* progress-34.png in Resources */,
+				E8E39C4818EAF3AC0034982D /* closeMenuButton.png in Resources */,
 				E8E39C1418E615D20034982D /* GothamRounded-Light.otf in Resources */,
 				E8E39BCC18E502A40034982D /* progress-42.png in Resources */,
 				E8E39BCB18E502A40034982D /* progress-41.png in Resources */,
+				E8E39C4918EAF3AC0034982D /* closeMenuButton@2x.png in Resources */,
+				E8E39C6618EAF3AC0034982D /* settingsIcon.png in Resources */,
+				E8E39C4A18EAF3AC0034982D /* completeIcon_ready.png in Resources */,
 				E8DD48FC188EE5B900153095 /* Images.xcassets in Resources */,
-				E8355F2118A3CA53005F5102 /* 37x-Checkmark.png in Resources */,
 				E8E39BD118E502A40034982D /* progress-47.png in Resources */,
 				E8E39BC218E502A40034982D /* progress-32.png in Resources */,
 				E8E39BE918E60B620034982D /* error-8.png in Resources */,
 				E8E39BCA18E502A40034982D /* progress-40.png in Resources */,
 				E8E39BB118E502A40034982D /* progress-15.png in Resources */,
 				E8DD48F1188EE5B900153095 /* Main_iPhone.storyboard in Resources */,
+				E8E39C4518EAF3AC0034982D /* avatarShadow@2x.png in Resources */,
 				E8E39BC518E502A40034982D /* progress-35.png in Resources */,
 				E8E39BAB18E502A40034982D /* progress-9.png in Resources */,
 				E8E39BE318E60B620034982D /* error-2.png in Resources */,
 				E8E39BC818E502A40034982D /* progress-38.png in Resources */,
+				E8E39C5518EAF3AC0034982D /* historyIcon@2x.png in Resources */,
 				E816B15318AB079000E9640B /* chart.png in Resources */,
 				E8E39BB218E502A40034982D /* progress-16.png in Resources */,
 				E8E39BA718E502A40034982D /* progress-5.png in Resources */,
+				E8E39C6418EAF3AC0034982D /* settingsIcon_pressed.png in Resources */,
+				E8E39C4218EAF3AC0034982D /* avatarCompletedOverlay.png in Resources */,
 				E8E39BD318E502A40034982D /* progress-49.png in Resources */,
 				E8E39BA818E502A40034982D /* progress-6.png in Resources */,
-				E8AADCC718900B7F00BC1925 /* take-picture.png in Resources */,
 				E8E39BAC18E502A40034982D /* progress-10.png in Resources */,
 				E8E39BE118E60B620034982D /* error-0.png in Resources */,
 				E8DD48E8188EE5B900153095 /* InfoPlist.strings in Resources */,
 				E8E39BAE18E502A40034982D /* progress-12.png in Resources */,
+				E8E39C6218EAF3AC0034982D /* openMenuButton.png in Resources */,
+				E8E39C5C18EAF3AC0034982D /* newMilestoneButton_pressed.png in Resources */,
 				E8E39BA918E502A40034982D /* progress-7.png in Resources */,
+				E8E39C5418EAF3AC0034982D /* historyIcon.png in Resources */,
+				E8E39C6518EAF3AC0034982D /* settingsIcon_pressed@2x.png in Resources */,
+				E8E39C5318EAF3AC0034982D /* historyIcon_pressed@2x.png in Resources */,
 				E8E39BB818E502A40034982D /* progress-22.png in Resources */,
+				E8E39C5B18EAF3AC0034982D /* modalBackground@2x.png in Resources */,
+				E8E39C4718EAF3AC0034982D /* closeMenuButton_pressed@2x.png in Resources */,
 				E8E39BBB18E502A40034982D /* progress-25.png in Resources */,
+				E8E39C6318EAF3AC0034982D /* openMenuButton@2x.png in Resources */,
 				E8E39BB018E502A40034982D /* progress-14.png in Resources */,
 				E8E39BE218E60B620034982D /* error-1.png in Resources */,
 				E8E39BD218E502A40034982D /* progress-48.png in Resources */,
 				E8E39BA618E502A40034982D /* progress-4.png in Resources */,
+				E8E39C4E18EAF3AC0034982D /* deleteIcon_ready.png in Resources */,
+				E8E39C4418EAF3AC0034982D /* avatarShadow.png in Resources */,
+				E8E39C4C18EAF3AC0034982D /* completeIcon.png in Resources */,
 				E8E39BC918E502A40034982D /* progress-39.png in Resources */,
+				E8E39C5E18EAF3AC0034982D /* newMilestoneButton.png in Resources */,
 				E8E39BD418E502A40034982D /* progress-50.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -830,6 +975,7 @@
 				E8DD48EA188EE5B900153095 /* main.m in Sources */,
 				E8D00A1A188F362100DF2786 /* BabyInfoViewController.m in Sources */,
 				E8D00A17188F348700DF2786 /* LoginViewController.m in Sources */,
+				E8E39C6A18EB063E0034982D /* MainMilestoneViewController.m in Sources */,
 				E81B588018988D9A00C74C2B /* TagViewController.m in Sources */,
 				E81B588E189BFFFE00C74C2B /* MilestoneAchievement.m in Sources */,
 				E81B588B189BCCD200C74C2B /* StandardMilestone.m in Sources */,

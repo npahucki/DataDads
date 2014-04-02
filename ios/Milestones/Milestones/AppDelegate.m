@@ -48,10 +48,14 @@
   [[UILabel appearance] setFont:[UIFont fontWithName:@"GothamRounded-Light" size:17.0]];
   [[UITextField appearance] setFont:[UIFont fontWithName:@"GothamRounded-Bold" size:17.0]];
   [[UITextView appearance] setFont:[UIFont fontWithName:@"GothamRounded-Bold" size:17.0]];
-  [[UIButton appearance].titleLabel setFont:[UIFont fontWithName:@"GothamRounded-Medium" size:17.0]];
+  [[UIButton appearance].titleLabel  setFont:[UIFont fontWithName:@"GothamRounded-Medium" size:17.0]];
   [[UINavigationBar appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"GothamRounded-Bold" size:17.0]}];
   [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"GothamRounded-Medium" size:17.0]} forState:UIControlStateNormal];
-  return YES;
+  [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"GothamRounded-Bold" size:17.0]} forState:UIControlStateSelected];
+
+  [[UITabBarItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"GothamRounded-Medium" size:13.0]} forState:UIControlStateNormal];
+   
+   return YES;
 
 }
 

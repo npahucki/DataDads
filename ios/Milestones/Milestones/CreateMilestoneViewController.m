@@ -19,6 +19,7 @@
 - (void)viewDidLoad
 {
   [super viewDidLoad];
+  NSAssert(self.achievement, @"Expected achievment would be set before view is loaded");
   
   self.descriptionTextView.textColor = [UIColor lightGrayColor];
   self.descriptionTextView.text = DESCRIPTION_PLACEHOLDER_TEXT;
@@ -26,6 +27,7 @@
   // Needed to dimiss the keyboard once a user clicks outside the text boxes
   UITapGestureRecognizer *viewTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
   [self.view addGestureRecognizer:viewTap];
+  
 }
 - (IBAction)titleLabelDidChange:(id)sender {
   self.nextButton.enabled = [self.titleTextField.text length] > 2;
@@ -66,11 +68,5 @@
     ((NoteMilestoneViewController*)segue.destinationViewController).achievement = self.achievement;
   }
 }
-
-//// So when the NoteMileStone sview closes, we close ourselves too and the NoteMilestone view does not
-//// need ot know from where it was invoked.
-//-(void) dismissViewControllerAnimated:(BOOL)animated completion:(void (^)(void))completion {
-//  [self.presentingViewController dismissViewControllerAnimated:animated completion:completion];
-//}
 
 @end

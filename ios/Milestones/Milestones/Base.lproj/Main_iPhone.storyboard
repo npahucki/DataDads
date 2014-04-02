@@ -16,7 +16,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eo8-bW-fh0">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eo8-bW-fh0">
                                 <rect key="frame" x="20" y="125" width="280" height="297"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -29,7 +29,7 @@
                                     <outlet property="delegate" destination="iaF-4r-2f0" id="HIb-RR-zyh"/>
                                 </connections>
                             </textView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Title" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0bN-w4-KmZ">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Title" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0bN-w4-KmZ">
                                 <rect key="frame" x="20" y="87" width="280" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -118,7 +118,7 @@
                             <constraint firstItem="ze6-Jl-x0b" firstAttribute="top" secondItem="O0d-B9-B9d" secondAttribute="bottom" constant="8" symbolic="YES" id="eca-nS-zgT"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Measurements" image="second" id="Z7h-1E-pvt"/>
+                    <tabBarItem key="tabBarItem" title="Measurements" image="measurementsIcon.png" id="Z7h-1E-pvt"/>
                     <nil key="simulatedStatusBarMetrics"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
@@ -371,16 +371,32 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
-                        <segue destination="abw-yv-IL3" kind="relationship" relationship="viewControllers" id="SUk-Ux-ee1"/>
-                        <segue destination="QUy-BD-bpt" kind="relationship" relationship="viewControllers" id="M8t-EP-wfW"/>
                         <segue destination="Ug0-er-oah" kind="modal" identifier="login" animates="NO" id="cOa-fp-ci8"/>
                         <segue destination="hRi-lO-rkm" kind="modal" identifier="enterScreenName" id="hgw-6c-coT"/>
                         <segue destination="sg9-o2-9ju" kind="modal" identifier="enterBabyInfo" id="sMD-qa-HZ8"/>
+                        <segue destination="mJ5-m9-7Sj" kind="relationship" relationship="viewControllers" id="dOe-5R-do2"/>
+                        <segue destination="QUy-BD-bpt" kind="relationship" relationship="viewControllers" id="M8t-EP-wfW"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FNP-y4-bzi" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-160" y="140"/>
+            <point key="canvasLocation" x="-264" y="122"/>
+        </scene>
+        <!--Navigation Controller - Milestones-->
+        <scene sceneID="YCf-cW-5Vn">
+            <objects>
+                <navigationController definesPresentationContext="YES" id="mJ5-m9-7Sj" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Milestones" image="milestonesIcon.png" id="MPf-iA-FA8"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="dLV-Fg-va5">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="4nI-5F-GIp" kind="relationship" relationship="rootViewController" id="bov-pv-sTA"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dxv-Es-Jzu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="314" y="-290"/>
         </scene>
         <!--View Controller - Measurement Logged-->
         <scene sceneID="YFv-mC-AbW">
@@ -413,20 +429,20 @@
         <scene sceneID="xo6-T4-Ygk">
             <objects>
                 <tableViewController title="Milestones" id="KNF-kK-rMK" customClass="PickAMilestoneTableViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelectionDuringEditing="YES" rowHeight="100" sectionHeaderHeight="22" sectionFooterHeight="22" id="R46-Uj-Hd1">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelectionDuringEditing="YES" rowHeight="65" sectionHeaderHeight="22" sectionFooterHeight="22" id="R46-Uj-Hd1">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="377"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" restorationIdentifier="SwipeCell" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SwipeCell" textLabel="bWd-3Z-uLS" style="IBUITableViewCellStyleDefault" id="jUE-yY-zqv" customClass="SWTableViewCell">
-                                <rect key="frame" x="0.0" y="86" width="320" height="100"/>
+                            <tableViewCell contentMode="scaleToFill" restorationIdentifier="SwipeCell" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SwipeCell" textLabel="bWd-3Z-uLS" rowHeight="65" style="IBUITableViewCellStyleDefault" id="jUE-yY-zqv" customClass="SWTableViewCell">
+                                <rect key="frame" x="0.0" y="22" width="320" height="65"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jUE-yY-zqv" id="PTn-wx-85z">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="99"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bWd-3Z-uLS">
-                                            <rect key="frame" x="15" y="0.0" width="290" height="99"/>
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="290" id="bWd-3Z-uLS">
+                                            <rect key="frame" x="15" y="0.0" width="290" height="64"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -434,6 +450,9 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="z4V-2L-hGr" kind="push" identifier="showMilestoneDetails" id="He6-31-c8M"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -441,24 +460,20 @@
                             <outlet property="delegate" destination="KNF-kK-rMK" id="UDk-QN-ybX"/>
                         </connections>
                     </tableView>
+                    <toolbarItems/>
                     <navigationItem key="navigationItem" title="Milestones" id="zbi-RA-btz">
                         <barButtonItem key="backBarButtonItem" title="Back" id="QcP-Qe-DZ2"/>
-                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="New" id="BZz-gn-dZv">
-                            <connections>
-                                <segue destination="iaF-4r-2f0" kind="push" identifier="createCustomMilesone" id="dxA-5V-zSz"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="New" id="BZz-gn-dZv"/>
                     </navigationItem>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <connections>
                         <outlet property="addNewButton" destination="BZz-gn-dZv" id="ULh-WA-GOt"/>
                         <segue destination="As4-O0-72y" kind="push" identifier="noteMilestone" id="LSy-QV-wgM"/>
-                        <segue destination="z4V-2L-hGr" kind="push" identifier="showMilestoneDetails" id="KWj-Jt-2ef"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gN5-i8-qmY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="658" y="-736"/>
+            <point key="canvasLocation" x="582" y="-1071"/>
         </scene>
         <!--Milestone Details View Controller - Details-->
         <scene sceneID="EUQ-CQ-7eW">
@@ -469,7 +484,7 @@
                         <viewControllerLayoutGuide type="bottom" id="gIi-5Y-B4v"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Xul-cs-YPH">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="377"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Milestone Title" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="282" translatesAutoresizingMaskIntoConstraints="NO" id="C7R-JJ-Zi7">
@@ -496,8 +511,8 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="chart.png" translatesAutoresizingMaskIntoConstraints="NO" id="Kcx-tj-WSO">
-                                <rect key="frame" x="20" y="220" width="277" height="231"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatarCompletedOverlay.png" translatesAutoresizingMaskIntoConstraints="NO" id="Kcx-tj-WSO">
+                                <rect key="frame" x="20" y="191" width="277" height="157"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="231" id="het-9W-Ekp"/>
@@ -524,11 +539,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Details" id="55l-wY-DA5">
-                        <barButtonItem key="rightBarButtonItem" title="Complete" id="HCq-tv-4Or">
-                            <connections>
-                                <segue destination="As4-O0-72y" kind="push" id="YpA-xd-VwL"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Complete" id="HCq-tv-4Or"/>
                     </navigationItem>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <connections>
@@ -564,13 +575,13 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Completion Date" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iRg-si-ECJ">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Completion Date" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iRg-si-ECJ">
                                 <rect key="frame" x="13" y="72" width="280" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="TopLeft" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8nC-ax-kTN">
+                            <button opaque="NO" contentMode="TopLeft" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8nC-ax-kTN">
                                 <rect key="frame" x="13" y="148" width="280" height="296"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
@@ -584,7 +595,7 @@
                                     <action selector="didClickTakePicture:" destination="As4-O0-72y" eventType="touchUpInside" id="qis-KE-OZH"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Optional Comments" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8SJ-eM-VzO">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Optional Comments" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8SJ-eM-VzO">
                                 <rect key="frame" x="13" y="110" width="280" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -607,7 +618,8 @@
                         </constraints>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" id="ya0-gI-NUc">
+                    <navigationItem key="navigationItem" title="Note Milestone" id="ya0-gI-NUc">
+                        <barButtonItem key="backBarButtonItem" title="Cancel" id="xgX-Us-ktE"/>
                         <barButtonItem key="rightBarButtonItem" title="Note It" id="dRV-0n-DZI">
                             <connections>
                                 <action selector="didClickDoneButton:" destination="As4-O0-72y" id="XrG-MA-Ft1"/>
@@ -625,34 +637,138 @@
             </objects>
             <point key="canvasLocation" x="1179" y="-736"/>
         </scene>
-        <!--Navigation Controller - Milestones-->
-        <scene sceneID="OZd-UG-oSg">
+        <!--View Controller - Settings-->
+        <scene sceneID="IiZ-vS-rqF">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="abw-yv-IL3" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Milestones" image="first" id="u1e-5L-l1D"/>
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="L7D-gs-Wzd">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="Px5-a7-BJq">
-                        <rect key="frame" x="0.0" y="436" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </toolbar>
-                    <connections>
-                        <segue destination="KNF-kK-rMK" kind="relationship" relationship="rootViewController" id="3Pv-YU-f2N"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Sgb-Xk-vYh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController title="Settings" id="5nR-pr-Hy0" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="zu6-gI-gFI"/>
+                        <viewControllerLayoutGuide type="bottom" id="Dvh-rc-jy7"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="BSS-rG-yDG">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Settings" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lZz-uB-gLv">
+                                <rect key="frame" x="125" y="273" width="63" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="T5a-QN-MdC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="645" y="-162"/>
+            <point key="canvasLocation" x="-422" y="-1104"/>
+        </scene>
+        <!--Main Milestone View Controller-->
+        <scene sceneID="m6x-fX-w2v">
+            <objects>
+                <viewController id="4nI-5F-GIp" customClass="MainMilestoneViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ROJ-ET-jsn"/>
+                        <viewControllerLayoutGuide type="bottom" id="WJK-M9-FPI"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="qL2-Lg-TMR">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <containerView contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zSu-55-pxu">
+                                <rect key="frame" x="0.0" y="53" width="320" height="377"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <connections>
+                                    <segue destination="KNF-kK-rMK" kind="embed" id="xPb-hy-ELq"/>
+                                </connections>
+                            </containerView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vpv-RJ-8CQ">
+                                <rect key="frame" x="274" y="383" width="41" height="43"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="41" id="Ruy-vl-S9B"/>
+                                </constraints>
+                                <state key="normal" image="newMilestoneButton.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted" image="newMilestoneButton_pressed.png"/>
+                                <connections>
+                                    <segue destination="iaF-4r-2f0" kind="push" identifier="createCustomMilesone" id="mMT-Ow-EBY"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dgH-97-8Oz">
+                                <rect key="frame" x="0.0" y="52" width="320" height="0.0"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="3" id="FEa-4R-crj"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VzS-6K-pue">
+                                <rect key="frame" x="5" y="5" width="40" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="3wE-iQ-ixm"/>
+                                    <constraint firstAttribute="width" constant="40" id="v0I-2G-fAa"/>
+                                </constraints>
+                                <state key="normal" image="openMenuButton.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted" image="openMenuButton_pressed.png"/>
+                                <connections>
+                                    <action selector="didPressShowMenuButton:" destination="4nI-5F-GIp" eventType="touchUpInside" id="ccn-wu-vla"/>
+                                    <segue destination="5nR-pr-Hy0" kind="modal" modalTransitionStyle="flipHorizontal" id="8aw-YC-BF3"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Baby's Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uR3-UX-qnf">
+                                <rect key="frame" x="68" y="14" width="232" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="d3i-At-Ytv"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="19"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="dgH-97-8Oz" firstAttribute="leading" secondItem="qL2-Lg-TMR" secondAttribute="leading" id="2rE-mU-oiz"/>
+                            <constraint firstItem="uR3-UX-qnf" firstAttribute="leading" secondItem="VzS-6K-pue" secondAttribute="trailing" constant="8" symbolic="YES" id="ASe-Y4-SgF"/>
+                            <constraint firstItem="VzS-6K-pue" firstAttribute="top" secondItem="qL2-Lg-TMR" secondAttribute="top" constant="5" id="AjV-GD-E7j"/>
+                            <constraint firstItem="zSu-55-pxu" firstAttribute="top" secondItem="dgH-97-8Oz" secondAttribute="bottom" id="J1b-t9-BBD"/>
+                            <constraint firstItem="WJK-M9-FPI" firstAttribute="top" secondItem="zSu-55-pxu" secondAttribute="bottom" id="Pwi-8K-STd"/>
+                            <constraint firstAttribute="trailing" secondItem="dgH-97-8Oz" secondAttribute="trailing" id="TFm-r7-njF"/>
+                            <constraint firstItem="dgH-97-8Oz" firstAttribute="top" secondItem="VzS-6K-pue" secondAttribute="bottom" constant="8" symbolic="YES" id="a4B-1r-gwi"/>
+                            <constraint firstAttribute="trailing" secondItem="Vpv-RJ-8CQ" secondAttribute="trailing" constant="5" id="biZ-R8-NZe"/>
+                            <constraint firstAttribute="trailing" secondItem="zSu-55-pxu" secondAttribute="trailing" id="cti-ZS-Z66"/>
+                            <constraint firstItem="WJK-M9-FPI" firstAttribute="top" secondItem="Vpv-RJ-8CQ" secondAttribute="bottom" constant="5" id="cwt-bt-cPv"/>
+                            <constraint firstAttribute="trailing" secondItem="uR3-UX-qnf" secondAttribute="trailing" constant="20" symbolic="YES" id="gdX-Xs-dOT"/>
+                            <constraint firstItem="VzS-6K-pue" firstAttribute="leading" secondItem="qL2-Lg-TMR" secondAttribute="leading" constant="5" id="jz2-vA-PF5"/>
+                            <constraint firstItem="uR3-UX-qnf" firstAttribute="centerY" secondItem="VzS-6K-pue" secondAttribute="centerY" constant="3" id="mfP-ek-kit"/>
+                            <constraint firstItem="zSu-55-pxu" firstAttribute="leading" secondItem="qL2-Lg-TMR" secondAttribute="leading" id="xSW-bm-a3X"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="kki-pT-UDA"/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="babyNameLabel" destination="uR3-UX-qnf" id="DlX-Ro-vxh"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HSl-NR-dz3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="44" y="-1091"/>
         </scene>
     </scenes>
     <resources>
-        <image name="chart.png" width="1166" height="992"/>
-        <image name="first" width="30" height="30"/>
-        <image name="second" width="30" height="30"/>
+        <image name="avatarCompletedOverlay.png" width="162" height="162"/>
+        <image name="measurementsIcon.png" width="19" height="22"/>
+        <image name="milestonesIcon.png" width="23" height="23"/>
+        <image name="newMilestoneButton.png" width="43" height="43"/>
+        <image name="newMilestoneButton_pressed.png" width="43" height="43"/>
+        <image name="openMenuButton.png" width="32" height="33"/>
+        <image name="openMenuButton_pressed.png" width="32" height="33"/>
         <image name="take-picture.png" width="582" height="640"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
@@ -661,6 +777,6 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="YpA-xd-VwL"/>
+        <segue reference="kR1-et-SkS"/>
     </inferredMetricsTieBreakers>
 </document>
