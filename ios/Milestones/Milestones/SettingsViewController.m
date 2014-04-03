@@ -25,9 +25,7 @@
   self.ageLabel.text = [self timeDifferenceFormatedAsNiceString:Baby.currentBaby.birthDate];
 
   self.babyAvatar.file = Baby.currentBaby.avatarImage;
-  [self.babyAvatar loadInBackground:^(UIImage *image, NSError *error) {
-    NSLog(@"ERROR:%@", error);
-  }];
+  [self.babyAvatar loadInBackground];
   
   PFQuery * query = [MilestoneAchievement query];
   [query whereKey:@"baby" equalTo:Baby.currentBaby];
