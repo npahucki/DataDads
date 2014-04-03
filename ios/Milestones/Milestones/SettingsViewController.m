@@ -25,9 +25,13 @@
   self.ageLabel.text = [self timeDifferenceFormatedAsNiceString:Baby.currentBaby.birthDate];
 
   self.babyAvatar.file = Baby.currentBaby.avatarImage;
-  [self.babyAvatar loadInBackground];
+  [self.babyAvatar loadInBackground:^(UIImage *image, NSError *error) {
+    NSLog(@"ERROR:%@", error);
+  }];
   
   PFQuery * query = [MilestoneAchievement query];
+  [query whereKey:@"baby" equalTo:Baby.currentBaby];
+  [query setCachePolicy:kPFCachePolicyNetworkElseCache];
   [query countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
     // Make the label show attributed text 
     NSDictionary *numberAttributes = @{NSFontAttributeName: [UIFont fontWithName:@"GothamRounded-Bold" size:95.0], NSForegroundColorAttributeName: [UIColor blueColor]};
@@ -74,7 +78,8 @@
 
 - (IBAction)logoutButtonPressed:(id)sender {
   [PFUser logOut];
-  [self dismissViewControllerAnimated:YES completion:nil];
+  Baby.currentBaby = nil;
+  [self dismissViewControllerAnimated:NO completion:nil];
 }
 
 -(NSString*) timeDifferenceFormatedAsNiceString: (NSDate*) date {
