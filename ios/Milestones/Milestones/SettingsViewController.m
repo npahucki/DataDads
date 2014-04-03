@@ -39,7 +39,6 @@
     self.milestoneCountLabel.attributedText = milestoneString;
     
     [self.view addSubview:self.milestoneCountLabel];
-    self.milestoneCountLabel.transform = CGAffineTransformScale(self.milestoneCountLabel.transform, 1.0, 1.0);
     [UILabel animateWithDuration:2.0 delay:1.0 options:UIViewAnimationOptionTransitionNone animations:^{
       self.milestoneCountLabel.transform = CGAffineTransformScale(self.milestoneCountLabel.transform, 0.05, 0.05);
       self.milestoneCountLabel.center = self.babyAvatar.center;
