@@ -12,6 +12,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *babyNameLabel;
 @property (strong, nonatomic) IBOutlet UILabel *ageLabel;
 @property (strong, nonatomic) IBOutlet PFImageView *babyAvatar;
+@property (strong, nonatomic) IBOutlet UILabel *milestoneCountLabel;
 
 @end
 
