@@ -668,7 +668,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="IMG_0691.JPG" translatesAutoresizingMaskIntoConstraints="NO" id="WGV-my-gNj">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatarShadow.png" translatesAutoresizingMaskIntoConstraints="NO" id="WGV-my-gNj" customClass="PFImageView">
                                 <rect key="frame" x="70" y="74" width="180" height="180"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <constraints>
@@ -707,7 +707,6 @@
                                 </state>
                                 <state key="highlighted" image="settingsIcon_pressed.png"/>
                                 <connections>
-                                    <action selector="accountButtonClicked:" destination="5nR-pr-Hy0" eventType="touchUpInside" id="dgN-OR-8dA"/>
                                     <segue destination="qmW-lh-FBf" kind="push" id="nEa-Kq-fCt"/>
                                 </connections>
                             </button>
@@ -724,7 +723,6 @@
                                 </state>
                                 <state key="highlighted" image="historyIcon_pressed.png"/>
                                 <connections>
-                                    <action selector="historyButtonClicked:" destination="5nR-pr-Hy0" eventType="touchUpInside" id="AAE-2Q-cSb"/>
                                     <segue destination="t73-mk-dgx" kind="push" id="suo-mr-e5m"/>
                                 </connections>
                             </button>
@@ -920,7 +918,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="IMG_0691.JPG" width="696" height="800"/>
+        <image name="avatarShadow.png" width="129" height="127"/>
         <image name="historyIcon.png" width="27" height="27"/>
         <image name="historyIcon_pressed.png" width="27" height="27"/>
         <image name="measurementsIcon.png" width="19" height="22"/>

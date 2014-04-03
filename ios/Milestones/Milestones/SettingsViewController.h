@@ -11,6 +11,8 @@
 @interface SettingsViewController : UIViewController
 @property (strong, nonatomic) IBOutlet UILabel *babyNameLabel;
 @property (strong, nonatomic) IBOutlet UILabel *ageLabel;
-@property (strong, nonatomic) IBOutlet UIImageView *babyAvatar;
+@property (strong, nonatomic) IBOutlet PFImageView *babyAvatar;
 
 @end
+
+
