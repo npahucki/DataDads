@@ -72,14 +72,19 @@
   [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (IBAction)logoutButtonPressed:(id)sender {
+  [PFUser logOut];
+  [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 -(NSString*) timeDifferenceFormatedAsNiceString: (NSDate*) date {
   unsigned int unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit;
   NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
   NSDateComponents *comps = [calendar components:unitFlags fromDate:date toDate:[NSDate date]  options:0];
   NSString * format = @"";
-  if(comps.year >= 1) format = [NSString stringWithFormat:@"%li year%s ",comps.year, [self s:comps.year]];
-  if(comps.month >= 1) format = [NSString stringWithFormat:@"%@%li month%s ",format, comps.month, [self s:comps.month]];
-  if(comps.day >= 1) format = [NSString stringWithFormat:@"%@%li day%s ",format, comps.day, [self s:comps.day]];
+  if(comps.year >= 1) format = [NSString stringWithFormat:@"%i year%s ",(int)comps.year, [self s:comps.year]];
+  if(comps.month >= 1) format = [NSString stringWithFormat:@"%@%i month%s ",format, (int)comps.month, [self s:comps.month]];
+  if(comps.day >= 1) format = [NSString stringWithFormat:@"%@%i day%s ",format, (int)comps.day, [self s:comps.day]];
   return [NSString stringWithFormat:@"%@old",format];
 }
 

@@ -736,6 +736,9 @@
                                 <state key="normal" title="log out now">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="logoutButtonPressed:" destination="5nR-pr-Hy0" eventType="touchUpInside" id="36X-8S-3sE"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
