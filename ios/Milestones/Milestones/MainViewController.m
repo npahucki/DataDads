@@ -13,12 +13,6 @@
 
 -(void) viewDidLoad {
   [super viewDidLoad];
-  // Whenever the current baby chnages, we need to refresh the table
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(babyUpdated:) name:kDDNotificationCurrentBabyChanged object:nil];
-}
-
--(void) babyUpdated:(NSNotification*)notification {
-  _myBaby =  [notification.userInfo objectForKey:@""];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -35,7 +29,7 @@
       }
       [self performSegueWithIdentifier:@"enterScreenName" sender:self];
     } else {
-      if(_myBaby == nil) {
+      if([Baby currentBaby] == nil) {
         // Finally, we must have at least one baby's info on file
         PFQuery *query =  [Baby  queryForBabiesForUser:PFUser.currentUser];
         query.cachePolicy = kPFCachePolicyCacheThenNetwork;
@@ -48,10 +42,8 @@
               // First call will be cache, we use that, then when the network call is complete
               // If and only if the Baby object is different do we replace it and send the notfication again
               Baby *newBaby = [objects firstObject];
-              if(!_myBaby || [newBaby.updatedAt compare:_myBaby.updatedAt] == NSOrderedDescending) {
-                _myBaby = newBaby;
-                // Let other view controllers know the current baby has changed so they can update thir views
-                [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationCurrentBabyChanged object:self userInfo:[NSDictionary dictionaryWithObject:_myBaby forKey:@""]];
+              if(![Baby currentBaby] || [newBaby.updatedAt compare:[Baby currentBaby].updatedAt] == NSOrderedDescending) {
+                [Baby setCurrentBaby:newBaby];
               }
             } else if(!cachedResult) { // Don't show the baby screen when there are simply no objects in the cache.
               // Must show the enter baby screen since there are none registered yet

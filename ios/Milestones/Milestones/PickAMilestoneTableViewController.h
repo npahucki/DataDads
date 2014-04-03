@@ -14,7 +14,6 @@
 
 @interface PickAMilestoneTableViewController : PFQueryTableViewController <SWTableViewCellDelegate>
 
-@property Baby * baby;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *addNewButton;
 
 @end

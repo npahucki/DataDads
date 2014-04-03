@@ -8,6 +8,7 @@
 
 #import "MainMilestoneViewController.h"
 #import "CreateMilestoneViewController.h"
+#import "SettingsViewController.h"
 
 @implementation MainMilestoneViewController
 
@@ -24,13 +25,12 @@
 
 
 -(void) babyUpdated:(NSNotification*)notification {
-  self.baby =  [notification.userInfo objectForKey:@""];
-  self.babyNameLabel.text = self.baby.name;
+  self.babyNameLabel.text = Baby.currentBaby.name;
 }
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
   MilestoneAchievement * achievement = [MilestoneAchievement object];
-  achievement.baby = self.baby;
+  achievement.baby = Baby.currentBaby;
   if([segue.identifier isEqualToString:kDDSegueCreateCustomMilestone]) {
     ((CreateMilestoneViewController*)segue.destinationViewController).achievement = achievement;
   }

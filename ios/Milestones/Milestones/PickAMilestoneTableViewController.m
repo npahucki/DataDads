@@ -86,13 +86,12 @@
 -(void) viewDidAppear:(BOOL)animated {
   [super viewDidAppear:animated];
   [[[self navigationController] navigationBar] setNeedsLayout];
-  self.addNewButton.enabled = self.baby != nil;
+  self.addNewButton.enabled = Baby.currentBaby != nil;
 }
 
 -(void) babyUpdated:(NSNotification*)notification {
-  self.baby = [notification.userInfo objectForKey:@""];
-  self.addNewButton.enabled = self.baby != nil;
-  if(self.baby) [self loadObjects];
+  self.addNewButton.enabled = Baby.currentBaby != nil;
+  if(Baby.currentBaby) [self loadObjects];
 }
 
 -(void) milestoneNotedAndSaved:(NSNotification*)notification {
@@ -129,11 +128,11 @@
 // TODO: When we need to add sections, see https://parse.com/questions/using-pfquerytableviewcontroller-for-uitableview-sections
 - (PFQuery *)queryForTable {
   // If no Baby available yet, don't try to load anything
-  if(!self.baby) return nil;
+  if(!Baby.currentBaby) return nil;
 
   StandardMilestoneQuery * query = [[StandardMilestoneQuery alloc] init];
-  query.babyId = self.baby.objectId;
-  query.rangeDays = [NSNumber numberWithInteger:self.baby.daysSinceDueDate];
+  query.babyId = Baby.currentBaby.objectId;
+  query.rangeDays = [NSNumber numberWithInteger:Baby.currentBaby.daysSinceDueDate];
   // If no objects are loaded in memory, we look to the cache
   // first to fill the table and then subsequently do a query
   // against the network.
@@ -243,7 +242,7 @@
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
   NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
   MilestoneAchievement * achievement = [MilestoneAchievement object];
-  achievement.baby = self.baby;
+  achievement.baby = Baby.currentBaby;
   if([segue.identifier isEqualToString:kDDSegueNoteMilestone]) {
     achievement.standardMilestone = (StandardMilestone*)[self objectAtIndexPath:selectedIndexPath];
     ((NoteMilestoneViewController*)segue.destinationViewController).achievement = achievement;

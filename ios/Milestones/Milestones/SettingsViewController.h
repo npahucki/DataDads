@@ -1,5 +1,5 @@
 //
-//  MainMilestoneViewController.h
+//  SettingsViewController.h
 //  Milestones
 //
 //  Created by Nathan  Pahucki on 4/1/14.
@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MainMilestoneViewController : UIViewController
-
+@interface SettingsViewController : UIViewController
 @property (strong, nonatomic) IBOutlet UILabel *babyNameLabel;
+@property (strong, nonatomic) IBOutlet UILabel *ageLabel;
 
 @end

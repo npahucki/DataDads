@@ -20,6 +20,7 @@ extern NSString *const kDDSegueEnterScreenName;
 extern NSString *const kDDSegueNoteMilestone;
 extern NSString *const kDDSegueCreateCustomMilestone;
 extern NSString *const kDDSegueShowMilestoneDetails;
+extern NSString *const kDDSegueShowSettings;
 
 
 // Notifications

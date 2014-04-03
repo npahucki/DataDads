@@ -29,7 +29,8 @@
  Returns a query that queries all the babies for the user passed in
 */
 + (PFQuery*) queryForBabiesForUser:(PFUser*)user;
-
++ (Baby*) currentBaby;
++ (void) setCurrentBaby:(Baby*)baby;
 
 @end
 

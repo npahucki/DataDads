@@ -12,5 +12,3 @@
 @interface MainViewController : UITabBarController
 
 @end
-
-Baby * _myBaby;

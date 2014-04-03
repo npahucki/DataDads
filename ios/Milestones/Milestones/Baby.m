@@ -10,6 +10,7 @@
 #import <Parse/PFObject+Subclass.h>
 
 @implementation Baby
+
 @dynamic name;
 @dynamic parentUserId;
 @dynamic dueDate;
@@ -18,13 +19,13 @@
 @dynamic tags;
 @dynamic isMale;
 
+static Baby* _currentBaby;
 
 + (PFQuery*) queryForBabiesForUser:(PFUser*)user {
   PFQuery *query =  [self  query];
   [query whereKey:@"parentUserId" equalTo:user.objectId];
   return query;
 }
-
 
 -(NSInteger) daysSinceBirth {
   return [self daysSinceDate:self.birthDate];
@@ -52,4 +53,19 @@
 + (NSString *)parseClassName {
   return @"Babies";
 }
+
++ (Baby*) currentBaby {
+  return _currentBaby;
+}
+
++ (void) setCurrentBaby: (Baby*) baby {
+  // If and only if the Baby object is different do we replace it and send the notfication again
+  if(_currentBaby != baby) {
+    _currentBaby = baby;
+    // Let others know the current baby has changed so they can update thier views
+    [[NSNotificationCenter defaultCenter]
+        postNotificationName:kDDNotificationCurrentBabyChanged object:self userInfo:[NSDictionary dictionaryWithObject:_currentBaby forKey:@""]];
+  }
+}
+
 @end
