@@ -7,9 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BabyTagsTableViewController.h"
 
 @interface BabyTagsViewController : UIViewController
 
 @property (strong, nonatomic) Baby *baby;
 
 @end
+
+
+BabyTagsTableViewController* _tagTableViewController;

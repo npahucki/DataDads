@@ -22,10 +22,6 @@
 - (void)viewDidLoad
 {
   [super viewDidLoad];
-  baby = [Baby object];
-  baby.parentUserId = PFUser.currentUser.objectId;
-
-  
   // Needed to dimiss the keyboard once a user clicks outside the text boxes
   UITapGestureRecognizer *viewTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
   [self.view addGestureRecognizer:viewTap];
@@ -90,14 +86,12 @@
 -(void)updateDobTextField:(id)sender
 {
   UIDatePicker *picker = (UIDatePicker*)self.dobTextField.inputView;
-  baby.birthDate =  picker.date;
   self.dobTextField.text = [self formatDate:picker.date];
 }
 
 -(void)updateDueDateTextField:(id)sender
 {
   UIDatePicker *picker = (UIDatePicker*)self.dueDateTextField.inputView;
-  baby.dueDate = picker.date;
   self.dueDateTextField.text = [self formatDate:picker.date];
 }
 - (IBAction)textFieldEditingDidEnd:(id)sender {
@@ -118,6 +112,8 @@
 
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+  Baby* baby = [Baby object];
+  baby.parentUserId = PFUser.currentUser.objectId;
   baby.name = self.babyName.text;
   baby.isMale = self.maleButton.isSelected;
   baby.birthDate = ((UIDatePicker*)self.dobTextField.inputView).date;

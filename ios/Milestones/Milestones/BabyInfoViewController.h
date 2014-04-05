@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "TagViewController.h"
 #import "UIViewControllerWithHUDProgress.h"
+#import "BabyTagsTableViewController.h"
 
 @interface BabyInfoViewController : UIViewControllerWithHUDProgress <UITextFieldDelegate>
 @property (strong, nonatomic) IBOutlet UITextField *dobTextField;
@@ -21,4 +21,4 @@
 
 @end
 
-Baby * baby;
+
