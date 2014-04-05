@@ -10,18 +10,15 @@
 #import "TagViewController.h"
 #import "UIViewControllerWithHUDProgress.h"
 
-@interface BabyInfoViewController : UIViewControllerWithHUDProgress <TagViewDelegate>
+@interface BabyInfoViewController : UIViewControllerWithHUDProgress <UITextFieldDelegate>
 @property (strong, nonatomic) IBOutlet UITextField *dobTextField;
 @property (strong, nonatomic) IBOutlet UITextField *dueDateTextField;
 @property (strong, nonatomic) IBOutlet UITextField *babyName;
-@property (strong, nonatomic) IBOutlet UISegmentedControl *genderControl;
-@property (strong, nonatomic) IBOutlet UITextView *tagsTextField;
+@property (strong, nonatomic) IBOutlet UIButton *maleButton;
+@property (strong, nonatomic) IBOutlet UIButton *femaleButton;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *nextButton;
 
 
 @end
-
-
-// Need to retain this with 'strong' otherwise it gets released since there is no other strong reference to it. 
-TagViewController * tagViewController;
 
 Baby * baby;

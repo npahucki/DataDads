@@ -10,11 +10,9 @@
 #import "MainViewController.h"
 #import "Baby.h"
 #import "Tag.h"
-#import "MBProgressHUD.h"
+#import "BabyTagsViewController.h"
 
 @interface BabyInfoViewController ()
-- (IBAction)didClickGoButton:(id)sender;
-
 
 @end
 
@@ -25,11 +23,18 @@
 {
   [super viewDidLoad];
   baby = [Baby object];
+  baby.parentUserId = PFUser.currentUser.objectId;
+
   
   // Needed to dimiss the keyboard once a user clicks outside the text boxes
   UITapGestureRecognizer *viewTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
   [self.view addGestureRecognizer:viewTap];
   
+  self.babyName.delegate = self;
+
+  UIToolbar * toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width, 44)];
+  toolBar.items = @[[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"completeIcon"] style:UIBarButtonItemStyleBordered target:self action:@selector(handleSingleTap:)]];
+
   
   UIDatePicker *datePicker1 = [[UIDatePicker alloc]init];
   datePicker1.datePickerMode = UIDatePickerModeDate;
@@ -37,6 +42,8 @@
   datePicker1.maximumDate = datePicker1.date;
   [datePicker1 addTarget:self action:@selector(updateDobTextField:) forControlEvents:UIControlEventValueChanged];
   [self.dobTextField setInputView:datePicker1];
+  [self.dobTextField setInputAccessoryView:toolBar];
+  self.dobTextField.delegate = self;
   
   UIDatePicker *datePicker2 = [[UIDatePicker alloc]init];
   datePicker2.datePickerMode = UIDatePickerModeDate;
@@ -44,40 +51,33 @@
   datePicker2.maximumDate = datePicker2.date;
   [datePicker2 addTarget:self action:@selector(updateDueDateTextField:) forControlEvents:UIControlEventValueChanged];
   [self.dueDateTextField setInputView:datePicker2];
-  
-  
-  tagViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"Tags"];
-  tagViewController.delegate = self;
-  [self.tagsTextField setInputView:tagViewController.view];
+  [self.dueDateTextField setInputAccessoryView:toolBar];
+  self.dueDateTextField.delegate = self;
+
 }
 
 -(void)handleSingleTap:(UITapGestureRecognizer *)sender {
   [self.view endEditing:NO];
 }
 
-- (void)tagsDidFinishSelection:(NSOrderedSet *) tags {
-  [self.view endEditing:YES];
-  baby.tags = tags.array;
-  self.tagsTextField.text = [NSString stringWithFormat:@"Tags: %@", [baby.tags componentsJoinedByString:@", "]];
+- (IBAction)didClickMaleButton:(id)sender {
+  self.maleButton.selected = YES;
+  self.femaleButton.selected = NO;
+  [self updateNextButtonState];
 }
 
-- (IBAction)didSelectGender:(id)sender {
-  [self.view endEditing:NO];
+- (IBAction)didClickFemaleButton:(id)sender {
+  self.femaleButton.selected = YES;
+  self.maleButton.selected = NO;
+  [self updateNextButtonState];
 }
 
-- (IBAction)didClickGoButton:(id)sender {
-  
-  if([self.dobTextField.text length] && [self.dueDateTextField.text length] && [self.babyName.text length] && self.genderControl.selectedSegmentIndex != -1) {
-    // TODO: Baby avatar
-    baby.name = self.babyName.text;
-    baby.parentUserId = PFUser.currentUser.objectId;
-    baby.isMale = self.genderControl.selectedSegmentIndex < 1;
-    [self saveObject:baby withTitle:@"Saving Baby Info" andFailureMessage:@"Could not save your baby's information."];
-  } else {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Incomplete Data" message:@"Please fill in all fields." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
-    [alert show];
-  }
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+  [textField resignFirstResponder];
+  return YES;
 }
+
 - (IBAction)editingDidBeginForDueDate:(id)sender {
   if([self.dueDateTextField.text length] == 0) {
     UIDatePicker *dueDatePicker = (UIDatePicker*)self.dueDateTextField.inputView;
@@ -100,7 +100,13 @@
   baby.dueDate = picker.date;
   self.dueDateTextField.text = [self formatDate:picker.date];
 }
+- (IBAction)textFieldEditingDidEnd:(id)sender {
+  [self updateNextButtonState];
+}
 
+-(void) updateNextButtonState {
+  self.nextButton.enabled = self.dueDateTextField.text.length && self.dobTextField.text.length && self.babyName.text.length > 1 && (self.maleButton.isSelected || self.femaleButton.isSelected);
+}
 
 - (NSString *)formatDate:(NSDate *)date
 {
@@ -108,6 +114,15 @@
   [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
   NSString *formattedDate = [dateFormatter stringFromDate:date];
   return formattedDate;
+}
+
+
+-(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+  baby.name = self.babyName.text;
+  baby.isMale = self.maleButton.isSelected;
+  baby.birthDate = ((UIDatePicker*)self.dobTextField.inputView).date;
+  baby.dueDate = ((UIDatePicker*)self.dueDateTextField.inputView).date;
+  ((BabyTagsViewController*) segue.destinationViewController).baby = baby;
 }
 
 
