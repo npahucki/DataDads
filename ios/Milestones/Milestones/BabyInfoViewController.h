@@ -18,6 +18,8 @@
 @property (strong, nonatomic) IBOutlet UIButton *femaleButton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *nextButton;
 
+@property (strong, nonatomic) IBOutlet UILabel *maleLabel;
+@property (strong, nonatomic) IBOutlet UILabel *femaleLabel;
 
 @end
 

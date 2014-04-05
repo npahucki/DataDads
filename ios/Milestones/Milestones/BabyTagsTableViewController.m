@@ -73,13 +73,17 @@
   Tag* tag = (Tag*)[self objectAtIndexPath:indexPath];
 
   if([self.selectedTags containsObject:tag.tagName]) {
-    cell.accessoryType = UITableViewCellAccessoryNone;
+    [self setTagCell:cell selected:NO];
     [((NSMutableSet*)self.selectedTags) removeObject:tag.tagName];
   } else {
-    cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    [self setTagCell:cell selected:YES];
     [((NSMutableSet*)self.selectedTags) addObject:tag.tagName];
   }
-  
+}
+
+
+-(void) setTagCell:(UITableViewCell*)cell selected:(BOOL) selected {
+  cell.imageView.image = [UIImage imageNamed: selected ? @"tagCheckbox_checked" : @"tagCheckbox"];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
@@ -89,7 +93,7 @@
   
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
   cell.textLabel.text = tag.tagName;
-  cell.accessoryType = [self.selectedTags containsObject:tag.tagName] ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
+  [self setTagCell:cell selected:[self.selectedTags containsObject:tag.tagName]];
   return cell;
 }
 

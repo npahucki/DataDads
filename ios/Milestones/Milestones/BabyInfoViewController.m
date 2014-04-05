@@ -58,13 +58,17 @@
 
 - (IBAction)didClickMaleButton:(id)sender {
   self.maleButton.selected = YES;
+  self.maleLabel.highlighted = YES;
   self.femaleButton.selected = NO;
+  self.femaleLabel.highlighted = NO;
   [self updateNextButtonState];
 }
 
 - (IBAction)didClickFemaleButton:(id)sender {
   self.femaleButton.selected = YES;
+  self.femaleLabel.highlighted = YES;
   self.maleButton.selected = NO;
+  self.maleLabel.highlighted = NO;
   [self updateNextButtonState];
 }
 
