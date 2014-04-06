@@ -77,27 +77,31 @@
 
 -(void) showWelcomeScreen {
   CustomIOS7AlertView *alertView = [[CustomIOS7AlertView alloc] init];
+  alertView.backgroundColor = [UIColor whiteColor];
   const int width = 290;
-  const int height = 300;
+  const int height = 360;
   
   
   UIView *welcomeView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
-  UILabel * title = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, width, 40)];
-  title.text = @"Howdy!";
-  title.font = [UIFont fontWithName:@"GothamRounded-Bold" size:42.0];
-  title.textAlignment = NSTextAlignmentCenter;
-  
-  UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 60, width, 1)];
-  lineView.backgroundColor = [UIColor grayColor];
-  [welcomeView addSubview:lineView];
 
-  UILabel * msg = [[UILabel alloc] initWithFrame:CGRectMake(10, 70, width - 10, height - 70)];
+  UILabel * title = [[UILabel alloc] initWithFrame:CGRectMake(width/4 ,30, width/4*2, width/4*2)];
+  title.text = @"Hello!";
+  title.font = [UIFont fontWithName:@"GothamRounded-Bold" size:35.0];
+  title.textColor = [UIColor whiteColor];
+  title.textAlignment = NSTextAlignmentCenter;
+
+  UIImageView* welcomeImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"welcomeScreenBaby"]];
+  welcomeImageView.frame = CGRectMake(width/4 ,25, width/4*2, width/4*2);
+  
+  UILabel * msg = [[UILabel alloc] initWithFrame:CGRectMake(10, welcomeImageView.frame.size.height +
+                                                            welcomeImageView.frame.origin.y - 40 , width - 10, height - 70)];
   msg.text = @"DataDads creates science from your baby's data and we help you track the development of your child.\n\n Start by filling in your baby's basic information";
   msg.lineBreakMode = NSLineBreakByTruncatingTail;
   msg.numberOfLines = 7;
   msg.font = [UIFont fontWithName:@"GothamRounded-Medium" size:19.0];
   msg.textAlignment = NSTextAlignmentCenter;
   
+  [welcomeView addSubview:welcomeImageView];
   [welcomeView addSubview:title];
   [welcomeView addSubview:msg];
   [alertView setContainerView:welcomeView];
