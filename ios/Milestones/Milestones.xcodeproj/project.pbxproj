@@ -31,6 +31,7 @@
 		E81B5888189AB2B900C74C2B /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B5887189AB2B900C74C2B /* Accounts.framework */; };
 		E81B588B189BCCD200C74C2B /* StandardMilestone.m in Sources */ = {isa = PBXBuildFile; fileRef = E81B588A189BCCD200C74C2B /* StandardMilestone.m */; };
 		E81B588E189BFFFE00C74C2B /* MilestoneAchievement.m in Sources */ = {isa = PBXBuildFile; fileRef = E81B588D189BFFFE00C74C2B /* MilestoneAchievement.m */; };
+		E840251918F0DEC800AF1B27 /* BabyInfoPhotoControllerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E840251818F0DEC800AF1B27 /* BabyInfoPhotoControllerViewController.m */; };
 		E876159B18EF83C100B0C6D9 /* BabyTagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E876159A18EF83C100B0C6D9 /* BabyTagsViewController.m */; };
 		E876159E18EF892C00B0C6D9 /* BabyTagsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E876159D18EF892C00B0C6D9 /* BabyTagsTableViewController.m */; };
 		E8BC76D518A50AD000983025 /* UIViewControllerWithHUDProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = E8BC76D418A50AD000983025 /* UIViewControllerWithHUDProgress.m */; };
@@ -110,6 +111,8 @@
 		E81B588A189BCCD200C74C2B /* StandardMilestone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StandardMilestone.m; sourceTree = "<group>"; };
 		E81B588C189BFFFE00C74C2B /* MilestoneAchievement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MilestoneAchievement.h; sourceTree = "<group>"; };
 		E81B588D189BFFFE00C74C2B /* MilestoneAchievement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MilestoneAchievement.m; sourceTree = "<group>"; };
+		E840251718F0DEC800AF1B27 /* BabyInfoPhotoControllerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyInfoPhotoControllerViewController.h; sourceTree = "<group>"; };
+		E840251818F0DEC800AF1B27 /* BabyInfoPhotoControllerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BabyInfoPhotoControllerViewController.m; sourceTree = "<group>"; };
 		E876159918EF83C100B0C6D9 /* BabyTagsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyTagsViewController.h; sourceTree = "<group>"; };
 		E876159A18EF83C100B0C6D9 /* BabyTagsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BabyTagsViewController.m; sourceTree = "<group>"; };
 		E876159C18EF892C00B0C6D9 /* BabyTagsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyTagsTableViewController.h; sourceTree = "<group>"; };
@@ -294,6 +297,8 @@
 				E876159A18EF83C100B0C6D9 /* BabyTagsViewController.m */,
 				E876159C18EF892C00B0C6D9 /* BabyTagsTableViewController.h */,
 				E876159D18EF892C00B0C6D9 /* BabyTagsTableViewController.m */,
+				E840251718F0DEC800AF1B27 /* BabyInfoPhotoControllerViewController.h */,
+				E840251818F0DEC800AF1B27 /* BabyInfoPhotoControllerViewController.m */,
 				E8D00A1B188F433E00DF2786 /* CreateMilestoneViewController.h */,
 				E8D00A1C188F433E00DF2786 /* CreateMilestoneViewController.m */,
 				E8D00A1E188F435300DF2786 /* NoteMilestoneViewController.h */,
@@ -537,6 +542,7 @@
 				E8DD48EE188EE5B900153095 /* AppDelegate.m in Sources */,
 				E8DD48EA188EE5B900153095 /* main.m in Sources */,
 				E8D00A1A188F362100DF2786 /* BabyInfoViewController.m in Sources */,
+				E840251918F0DEC800AF1B27 /* BabyInfoPhotoControllerViewController.m in Sources */,
 				E8D00A17188F348700DF2786 /* LoginViewController.m in Sources */,
 				E8E39C6A18EB063E0034982D /* MainMilestoneViewController.m in Sources */,
 				E876159E18EF892C00B0C6D9 /* BabyTagsTableViewController.m in Sources */,
