@@ -7,6 +7,7 @@
 //
 
 #import "BabyTagsViewController.h"
+#import "BabyInfoPhotoControllerViewController.h"
 
 @interface BabyTagsViewController ()
 
@@ -22,7 +23,7 @@
     _tagTableViewController = (BabyTagsTableViewController*) segue.destinationViewController;
   } else {
     self.baby.tags = [_tagTableViewController.selectedTags allObjects];
-    // TODO: Propigate baby to next screen
+    ((BabyInfoPhotoControllerViewController*) segue.destinationViewController).baby = self.baby;
   }
 }
 

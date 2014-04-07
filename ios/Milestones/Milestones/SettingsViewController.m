@@ -42,8 +42,10 @@
     
     [self.view addSubview:self.milestoneCountLabel];
     [UILabel animateWithDuration:2.0 delay:1.0 options:UIViewAnimationOptionTransitionNone animations:^{
-      self.milestoneCountLabel.transform = CGAffineTransformScale(self.milestoneCountLabel.transform, 0.05, 0.05);
-      self.milestoneCountLabel.center = self.babyAvatar.center;
+      // Causes crash on device
+      //self.milestoneCountLabel.transform = CGAffineTransformScale(self.milestoneCountLabel.transform, 0.05, 0.05);
+      //self.milestoneCountLabel.center = self.babyAvatar.center;
+      self.milestoneCountLabel.alpha = 0.0;
     } completion:^(BOOL finished) {
       [self.milestoneCountLabel removeFromSuperview];
     }];

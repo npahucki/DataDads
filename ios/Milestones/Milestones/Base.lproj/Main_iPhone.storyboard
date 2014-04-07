@@ -442,10 +442,10 @@
             </objects>
             <point key="canvasLocation" x="547" y="-2496"/>
         </scene>
-        <!--View Controller - Take a Photo-->
+        <!--Baby Info Photo Controller View Controller - Take a Photo-->
         <scene sceneID="pqV-Ld-GEY">
             <objects>
-                <viewController id="dN4-aX-Ggf" sceneMemberID="viewController">
+                <viewController id="dN4-aX-Ggf" customClass="BabyInfoPhotoControllerViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="XSj-ub-qla"/>
                         <viewControllerLayoutGuide type="bottom" id="jbn-iB-GKR"/>
@@ -454,23 +454,63 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rXh-qr-f9x">
-                                <rect key="frame" x="0.0" y="45" width="320" height="3"/>
+                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GwN-wb-KxG">
+                                <rect key="frame" x="46" y="127" width="227" height="227"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="227" id="1Zx-d2-R66"/>
+                                    <constraint firstAttribute="height" constant="227" id="Hdm-fB-Id9"/>
+                                </constraints>
+                                <state key="normal" image="cameraButton">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="selected" image="cameraButton_pressed"/>
+                                <connections>
+                                    <action selector="didClickPhotoButton:" destination="dN4-aX-Ggf" eventType="touchUpInside" id="yYD-Hp-rZf"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Say Daddy!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uPn-n1-k05">
+                                <rect key="frame" x="116" y="387" width="89" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="t6m-af-HKC">
+                                <rect key="frame" x="0.0" y="44" width="320" height="3"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="3" id="Ow4-sb-B34"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="3" id="6CM-Ht-3ws"/>
+                                    <constraint firstAttribute="height" constant="3" id="KCA-Wt-6WO"/>
                                 </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="t6m-af-HKC" firstAttribute="leading" secondItem="NrP-s9-2iJ" secondAttribute="leading" id="0Vd-V2-Dox"/>
+                            <constraint firstAttribute="centerX" secondItem="uPn-n1-k05" secondAttribute="centerX" id="2fn-JS-XIn"/>
+                            <constraint firstAttribute="centerY" secondItem="GwN-wb-KxG" secondAttribute="centerY" id="KPK-2G-rSl"/>
+                            <constraint firstAttribute="centerX" secondItem="GwN-wb-KxG" secondAttribute="centerX" id="XYf-0a-imy"/>
+                            <constraint firstItem="t6m-af-HKC" firstAttribute="top" secondItem="XSj-ub-qla" secondAttribute="bottom" id="ZZv-8k-o24"/>
+                            <constraint firstAttribute="trailing" secondItem="t6m-af-HKC" secondAttribute="trailing" id="kgA-jh-fGj"/>
+                            <constraint firstItem="uPn-n1-k05" firstAttribute="top" secondItem="GwN-wb-KxG" secondAttribute="bottom" constant="33" id="ovu-0Y-q5y"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Take a Photo" id="omR-Li-g04">
                         <barButtonItem key="backBarButtonItem" title="Back" id="d0c-zp-rTK"/>
-                        <barButtonItem key="rightBarButtonItem" title="Done" id="DjP-Df-ckD"/>
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="DjP-Df-ckD">
+                            <connections>
+                                <action selector="didClickDoneButton:" destination="dN4-aX-Ggf" id="xfO-a8-Wg8"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <nil key="simulatedStatusBarMetrics"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <outlet property="takePhotoButton" destination="GwN-wb-KxG" id="86b-2d-67B"/>
+                        <outlet property="theLabel" destination="uPn-n1-k05" id="e8I-wH-3Ho"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fgb-57-uR8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1145,6 +1185,8 @@
     </scenes>
     <resources>
         <image name="avatarShadow" width="129" height="127"/>
+        <image name="cameraButton" width="227" height="227"/>
+        <image name="cameraButton_pressed" width="213" height="213"/>
         <image name="femaleIcon" width="81" height="80"/>
         <image name="femaleIcon_selected" width="81" height="80"/>
         <image name="genderLines" width="255" height="105"/>

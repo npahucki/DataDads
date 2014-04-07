@@ -44,6 +44,12 @@
   [self updateCompletionDateTextField:datePicker]; // Make it have today's date by default
 }
 
+-(void) viewWillAppear:(BOOL)animated {
+  // This is needed to hack around the fact that the image picker turns on the status bar
+  [[UIApplication sharedApplication] setStatusBarHidden:YES];
+  [super viewWillAppear:animated];
+}
+
 - (IBAction)didClickTakePicture:(id)sender {
   [self.view endEditing:YES];
   _takeController = [[FDTakeController alloc] init];
@@ -142,11 +148,6 @@
   [self.takePictureButton setBackgroundImage:photo forState:UIControlStateNormal];
 }
 
--(void) viewWillAppear:(BOOL)animated {
-  // This is needed to hack around the fact that the image picker turns on the status bar
-  [[UIApplication sharedApplication] setStatusBarHidden:YES];
-  [super viewWillAppear:animated];
-}
 
 
 @end

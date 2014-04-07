@@ -7,9 +7,21 @@
 //
 
 #import "UIViewControllerWithHUDProgress.h"
+#import "FDTakeController.h"
 
-@interface BabyInfoPhotoControllerViewController : UIViewControllerWithHUDProgress
+
+@interface BabyInfoPhotoControllerViewController : UIViewControllerWithHUDProgress <FDTakeDelegate>
 
 @property (strong, nonatomic) IBOutlet UIButton *takePhotoButton;
 @property (strong, nonatomic) IBOutlet UILabel *theLabel;
+@property (strong, nonatomic) Baby *baby;
+
+
+
+
 @end
+
+BOOL _shouldAnimateCamera;
+FDTakeController* _takeController;
+NSData * _imageData;
+
