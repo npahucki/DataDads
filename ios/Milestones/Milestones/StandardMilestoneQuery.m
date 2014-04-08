@@ -17,7 +17,6 @@
  @param block The block to execute. The block should have the following argument signature:(NSArray *objects, NSError *error)
  */
 - (void)findObjectsInBackgroundWithBlock:(PFArrayResultBlock)queryBlock {
-  NSLog(@"%@",[NSNumber numberWithInteger:self.limit]);
   if(queryBlock) {
     [PFCloud callFunctionInBackground:@"queryMyMilestones"
                        withParameters:@{@"babyId": self.babyId,

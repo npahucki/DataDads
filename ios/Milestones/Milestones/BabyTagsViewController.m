@@ -15,6 +15,16 @@
 
 @implementation BabyTagsViewController
 
+- (IBAction)didClickAddNewTag:(id)sender {
+  [_tagTableViewController addNewTag:self.addTagTextField.text];
+  self.addTagTextField.text = nil;
+  [self.view endEditing:NO];
+}
+
+- (IBAction)didChageAddTagTextField:(id)sender {
+  self.addTagButton.enabled = self.addTagTextField.text.length > 0;
+}
+
 #pragma mark - Navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

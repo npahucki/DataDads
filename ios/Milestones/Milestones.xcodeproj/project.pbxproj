@@ -34,6 +34,7 @@
 		E840251918F0DEC800AF1B27 /* BabyInfoPhotoControllerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E840251818F0DEC800AF1B27 /* BabyInfoPhotoControllerViewController.m */; };
 		E876159B18EF83C100B0C6D9 /* BabyTagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E876159A18EF83C100B0C6D9 /* BabyTagsViewController.m */; };
 		E876159E18EF892C00B0C6D9 /* BabyTagsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E876159D18EF892C00B0C6D9 /* BabyTagsTableViewController.m */; };
+		E8A9A7C218F36E3F006224AC /* PFQueryWithExtendedResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A9A7C118F36E3F006224AC /* PFQueryWithExtendedResultSet.m */; };
 		E8BC76D518A50AD000983025 /* UIViewControllerWithHUDProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = E8BC76D418A50AD000983025 /* UIViewControllerWithHUDProgress.m */; };
 		E8BC76D818A8522F00983025 /* MilestoneDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8BC76D718A8522F00983025 /* MilestoneDetailsViewController.m */; };
 		E8D00A17188F348700DF2786 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D00A16188F348700DF2786 /* LoginViewController.m */; };
@@ -117,6 +118,8 @@
 		E876159A18EF83C100B0C6D9 /* BabyTagsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BabyTagsViewController.m; sourceTree = "<group>"; };
 		E876159C18EF892C00B0C6D9 /* BabyTagsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyTagsTableViewController.h; sourceTree = "<group>"; };
 		E876159D18EF892C00B0C6D9 /* BabyTagsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BabyTagsTableViewController.m; sourceTree = "<group>"; };
+		E8A9A7C018F36E3F006224AC /* PFQueryWithExtendedResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PFQueryWithExtendedResultSet.h; sourceTree = "<group>"; };
+		E8A9A7C118F36E3F006224AC /* PFQueryWithExtendedResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PFQueryWithExtendedResultSet.m; sourceTree = "<group>"; };
 		E8BC76D318A50AD000983025 /* UIViewControllerWithHUDProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIViewControllerWithHUDProgress.h; sourceTree = "<group>"; };
 		E8BC76D418A50AD000983025 /* UIViewControllerWithHUDProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIViewControllerWithHUDProgress.m; sourceTree = "<group>"; };
 		E8BC76D618A8522F00983025 /* MilestoneDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MilestoneDetailsViewController.h; sourceTree = "<group>"; };
@@ -215,6 +218,8 @@
 				E813465918DCD9FA0053EE6E /* StandardMilestoneQuery.m */,
 				E81B588C189BFFFE00C74C2B /* MilestoneAchievement.h */,
 				E81B588D189BFFFE00C74C2B /* MilestoneAchievement.m */,
+				E8A9A7C018F36E3F006224AC /* PFQueryWithExtendedResultSet.h */,
+				E8A9A7C118F36E3F006224AC /* PFQueryWithExtendedResultSet.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -546,6 +551,7 @@
 				E8D00A17188F348700DF2786 /* LoginViewController.m in Sources */,
 				E8E39C6A18EB063E0034982D /* MainMilestoneViewController.m in Sources */,
 				E876159E18EF892C00B0C6D9 /* BabyTagsTableViewController.m in Sources */,
+				E8A9A7C218F36E3F006224AC /* PFQueryWithExtendedResultSet.m in Sources */,
 				E8E39C6D18EB9A090034982D /* SettingsViewController.m in Sources */,
 				E81B588E189BFFFE00C74C2B /* MilestoneAchievement.m in Sources */,
 				E81B588B189BCCD200C74C2B /* StandardMilestone.m in Sources */,

@@ -7,6 +7,7 @@
 //
 
 #import "BabyTagsTableViewController.h"
+#import "PFQueryWithExtendedResultSet.h"
 
 @interface BabyTagsTableViewController ()
 
@@ -14,9 +15,12 @@
 
 @implementation BabyTagsTableViewController
 
+
+
 - (void)viewDidLoad
 {
   [super viewDidLoad];
+  _addedTags = [NSMutableArray array]; // holds any added tag objects.
   self.selectedTags = [[NSMutableSet alloc] init];
   self.objectsPerPage = 100; // small to load
   [self stylePFLoadingViewTheHardWay];
@@ -57,14 +61,27 @@
   }
 }
 
+-(void) addNewTag: (NSString*) tagText {
+  Tag * tag = [Tag object];
+  tag.tagName = tagText;
+  tag.objectId = tagText;
+  [_addedTags insertObject:tag atIndex:0];
+  [((NSMutableSet*)self.selectedTags) addObject:tagText]; // automatically select
+  [self loadObjects];
+}
+
+
+
 - (PFQuery *)queryForTable {
   NSString * language = [[NSLocale preferredLanguages] objectAtIndex:0];
   // TODO: Make a query that allows new object to be added or excluded.
-  PFQuery * query = [Tag query];
+  PFQueryWithExtendedResultSet * query = [[PFQueryWithExtendedResultSet alloc] initWithClassName:@"Tags"];
+  
   [query whereKey:@"languageId" equalTo:language]; // select only tags in your language
   [query orderByDescending:@"relevance"];
-  PFCachePolicy policy = self.objects.count ? kPFCachePolicyNetworkOnly : kPFCachePolicyCacheThenNetwork;
+  PFCachePolicy policy = self.objects.count ? kPFCachePolicyNetworkOnly : kPFCachePolicyCacheOnly;
   query.cachePolicy = policy;
+  query.headIncludeArray = _addedTags;
   return query;
 }
 
@@ -80,6 +97,7 @@
     [((NSMutableSet*)self.selectedTags) addObject:tag.tagName];
   }
 }
+
 
 
 -(void) setTagCell:(UITableViewCell*)cell selected:(BOOL) selected {

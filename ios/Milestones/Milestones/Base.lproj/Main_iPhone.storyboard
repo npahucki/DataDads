@@ -390,6 +390,9 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                <connections>
+                                    <action selector="didChageAddTagTextField:" destination="hr4-9U-bLr" eventType="editingChanged" id="B0e-yu-Rba"/>
+                                </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I0d-v9-pgN">
                                 <rect key="frame" x="270" y="55" width="30" height="30"/>
@@ -401,6 +404,9 @@
                                 <state key="normal" image="newMilestoneButton">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="didClickAddNewTag:" destination="hr4-9U-bLr" eventType="touchUpInside" id="Ml4-lv-MUk"/>
+                                </connections>
                             </button>
                             <containerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lec-cQ-60n">
                                 <rect key="frame" x="0.0" y="93" width="320" height="387"/>
@@ -437,6 +443,10 @@
                     </navigationItem>
                     <nil key="simulatedStatusBarMetrics"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <outlet property="addTagButton" destination="I0d-v9-pgN" id="uKY-3U-YLz"/>
+                        <outlet property="addTagTextField" destination="yjD-GB-Uaq" id="Nxy-ky-3A1"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mqN-vJ-NyH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
