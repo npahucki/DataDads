@@ -52,17 +52,16 @@
       for (UIView *loadingViewSubview in subview.subviews) {
         if ([loadingViewSubview isKindOfClass:[UILabel class]])
         {
+          //[loadingViewSubview removeFromSuperview];
           UILabel *label = (UILabel *)loadingViewSubview;
-          {
-            label.textColor = labelTextColor;
-            label.shadowColor = labelShadowColor;
-          }
+          label.textColor = labelTextColor;
+          label.shadowColor = labelShadowColor;
         }
         
         if ([loadingViewSubview isKindOfClass:[UIActivityIndicatorView class]])
         {
           UIImage * image = [UIImage animatedImageNamed:@"progress-" duration:1.0f];
-          UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(subview.frame.size.width / 2 - image.size.width / 2, subview.frame.size.height / 2 - image.size.height / 2, image.size.width, image.size.height)];
+          UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(subview.frame.size.width / 2 - image.size.width / 2, self.view.frame.size.height / 2 - (image.size.height / 2) , image.size.width, image.size.height)];
           [imageView setImage:image];
           [loadingViewSubview removeFromSuperview];
           [subview addSubview: imageView];

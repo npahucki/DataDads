@@ -51,7 +51,7 @@
         if ([loadingViewSubview isKindOfClass:[UIActivityIndicatorView class]])
         {
           UIImage * image = [UIImage animatedImageNamed:@"progress-" duration:1.0f];
-          UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(subview.frame.size.width / 2 - image.size.width / 2, subview.frame.size.height / 2 - image.size.height / 2, image.size.width, image.size.height)];
+          UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(subview.frame.size.width / 2 - image.size.width / 2, self.view.frame.size.height / 2 - (image.size.height / 2) , image.size.width, image.size.height)];
           [imageView setImage:image];
           [loadingViewSubview removeFromSuperview];
           [subview addSubview: imageView];
@@ -76,7 +76,6 @@
   NSString * language = [[NSLocale preferredLanguages] objectAtIndex:0];
   // TODO: Make a query that allows new object to be added or excluded.
   PFQueryWithExtendedResultSet * query = [[PFQueryWithExtendedResultSet alloc] initWithClassName:@"Tags"];
-  
   [query whereKey:@"languageId" equalTo:language]; // select only tags in your language
   [query orderByDescending:@"relevance"];
   PFCachePolicy policy = kPFCachePolicyCacheElseNetwork;
