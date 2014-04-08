@@ -680,7 +680,7 @@
             <objects>
                 <tableViewController title="Milestones" id="KNF-kK-rMK" customClass="PickAMilestoneTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelectionDuringEditing="YES" rowHeight="65" sectionHeaderHeight="22" sectionFooterHeight="22" id="R46-Uj-Hd1">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="465"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="512"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -734,7 +734,7 @@
                         <viewControllerLayoutGuide type="bottom" id="gIi-5Y-B4v"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Xul-cs-YPH">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="465"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="512"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Milestone Title" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="282" translatesAutoresizingMaskIntoConstraints="NO" id="C7R-JJ-Zi7">
@@ -808,7 +808,7 @@
                         <viewControllerLayoutGuide type="bottom" id="Bpa-ja-iHW"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="5Gp-mq-9qR">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="465"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="512"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Completion Date" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iRg-si-ECJ">
@@ -1058,16 +1058,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <containerView contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zSu-55-pxu">
-                                <rect key="frame" x="0.0" y="53" width="320" height="465"/>
+                            <containerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zSu-55-pxu">
+                                <rect key="frame" x="0.0" y="56" width="320" height="512"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <connections>
                                     <segue destination="KNF-kK-rMK" kind="embed" id="xPb-hy-ELq"/>
                                 </connections>
                             </containerView>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vpv-RJ-8CQ">
-                                <rect key="frame" x="274" y="383" width="41" height="43"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vpv-RJ-8CQ">
+                                <rect key="frame" x="274" y="520" width="41" height="43"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="41" id="Ruy-vl-S9B"/>
@@ -1081,8 +1081,8 @@
                                     <segue destination="iaF-4r-2f0" kind="push" identifier="createCustomMilesone" id="mMT-Ow-EBY"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dgH-97-8Oz">
-                                <rect key="frame" x="0.0" y="52" width="320" height="0.0"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dgH-97-8Oz">
+                                <rect key="frame" x="0.0" y="53" width="320" height="3"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.23529411759999999" green="0.57254901960000004" blue="0.81176470590000005" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -1106,8 +1106,8 @@
                                     <segue destination="QfA-Ku-3Fd" kind="modal" identifier="showSettings" modalTransitionStyle="flipHorizontal" id="8aw-YC-BF3"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Baby's Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uR3-UX-qnf">
-                                <rect key="frame" x="68" y="14" width="232" height="21"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Baby's Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uR3-UX-qnf">
+                                <rect key="frame" x="53" y="16" width="247" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="25" id="d3i-At-Ytv"/>

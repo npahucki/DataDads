@@ -30,6 +30,9 @@
   PFQuery * query = [MilestoneAchievement query];
   [query whereKey:@"baby" equalTo:Baby.currentBaby];
   [query setCachePolicy:kPFCachePolicyNetworkElseCache];
+  [query whereKey:@"isSkipped" notEqualTo:[NSNumber numberWithBool:YES]];
+  [query whereKey:@"isPostponed" notEqualTo:[NSNumber numberWithBool:YES]];
+  
   [query countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
     // Make the label show attributed text 
     NSDictionary *numberAttributes = @{NSFontAttributeName: [UIFont fontWithName:@"GothamRounded-Bold" size:95.0], NSForegroundColorAttributeName: [UIColor dataDadsBlueColor]};
