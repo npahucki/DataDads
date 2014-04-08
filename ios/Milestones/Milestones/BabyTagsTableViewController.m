@@ -79,7 +79,7 @@
   
   [query whereKey:@"languageId" equalTo:language]; // select only tags in your language
   [query orderByDescending:@"relevance"];
-  PFCachePolicy policy = self.objects.count ? kPFCachePolicyNetworkOnly : kPFCachePolicyCacheOnly;
+  PFCachePolicy policy = kPFCachePolicyCacheElseNetwork;
   query.cachePolicy = policy;
   query.headIncludeArray = _addedTags;
   return query;
