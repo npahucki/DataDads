@@ -45,17 +45,19 @@
     GothamRounded-LightItalic
     GothamRounded-Book
   */
-  [[UILabel appearance] setFont:[UIFont fontWithName:@"GothamRounded-Light" size:17.0]];
-  [[UITextField appearance] setFont:[UIFont fontWithName:@"GothamRounded-Bold" size:17.0]];
-  [[UITextField appearance] setTextColor:[UIColor blueColor]]; // TODO: Find out blue to use
-  [[UITextView appearance] setFont:[UIFont fontWithName:@"GothamRounded-Bold" size:17.0]];
-  [[UIButton appearance].titleLabel  setFont:[UIFont fontWithName:@"GothamRounded-Medium" size:17.0]];
+  [UILabel appearance].font= [UIFont fontWithName:@"GothamRounded-Light" size:17.0];
+  [UITextField appearance].font =[UIFont fontWithName:@"GothamRounded-Bold" size:17.0];
+  [UITextField appearance].textColor = [UIColor dataDadsBlueColor];
+  [UITextView appearance].font = [UIFont fontWithName:@"GothamRounded-Bold" size:17.0];
+  [UIButton appearance].titleLabel.font = [UIFont fontWithName:@"GothamRounded-Medium" size:17.0];
+  [UIButton appearance].titleLabel.textColor = [UIColor dataDadsBlueColor];
   [[UINavigationBar appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"GothamRounded-Bold" size:18.0]}];
-  [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"GothamRounded-Medium" size:17.0]} forState:UIControlStateNormal];
-  [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"GothamRounded-Bold" size:17.0]} forState:UIControlStateSelected];
+  [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"GothamRounded-Medium" size:17.0], NSForegroundColorAttributeName : [UIColor dataDadsBlueColor]} forState:UIControlStateNormal];
+  [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"GothamRounded-Bold" size:17.0], NSForegroundColorAttributeName : [UIColor dataDadsBlueActivatedColor]} forState:UIControlStateSelected];
 
   [[UITabBarItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"GothamRounded-Medium" size:13.0]} forState:UIControlStateNormal];
-   
+  [[UITabBarItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"GothamRounded-Medium" size:13.0], NSBackgroundColorAttributeName : [UIColor dataDadsBlueActivatedColor]} forState:UIControlStateSelected];
+  
    return YES;
 
 }

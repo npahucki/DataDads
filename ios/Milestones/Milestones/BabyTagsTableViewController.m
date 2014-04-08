@@ -29,8 +29,8 @@
 // Hack to customize the inititial loading view
 - (void)stylePFLoadingViewTheHardWay
 {
-  UIColor *labelTextColor = [UIColor blueColor];
-  UIColor *labelShadowColor = [UIColor darkGrayColor];
+  UIColor *labelTextColor = [UIColor dataDadsBlueColor];
+  UIColor *labelShadowColor = [UIColor dataDadsGreyTextColor];
   
   // go through all of the subviews until you find a PFLoadingView subclass
   for (UIView *subview in self.view.subviews)

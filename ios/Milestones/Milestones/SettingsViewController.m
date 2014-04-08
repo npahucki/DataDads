@@ -32,8 +32,8 @@
   [query setCachePolicy:kPFCachePolicyNetworkElseCache];
   [query countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
     // Make the label show attributed text 
-    NSDictionary *numberAttributes = @{NSFontAttributeName: [UIFont fontWithName:@"GothamRounded-Bold" size:95.0], NSForegroundColorAttributeName: [UIColor blueColor]};
-    NSDictionary *milestoneTextAttributes = @{NSFontAttributeName: [UIFont fontWithName:@"GothamRounded-Bold" size:18.0], NSForegroundColorAttributeName: [UIColor grayColor]};
+    NSDictionary *numberAttributes = @{NSFontAttributeName: [UIFont fontWithName:@"GothamRounded-Bold" size:95.0], NSForegroundColorAttributeName: [UIColor dataDadsBlueColor]};
+    NSDictionary *milestoneTextAttributes = @{NSFontAttributeName: [UIFont fontWithName:@"GothamRounded-Bold" size:18.0], NSForegroundColorAttributeName: [UIColor dataDadsGreyTextColor]};
     NSMutableAttributedString *milestoneString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%i\nmilestones logged",number]];
     NSUInteger numLen = [[@(number) stringValue] length];
     [milestoneString setAttributes:numberAttributes range:NSMakeRange(0, numLen)];

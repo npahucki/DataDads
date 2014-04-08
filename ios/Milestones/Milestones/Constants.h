@@ -28,4 +28,12 @@ extern NSString *const kDDNotificationCurrentBabyChanged;   // User data is NSDi
 extern NSString *const kDDNotificationMilestoneNoted;       // User data is NSDictionary with StandardMilestone object keyed by @""
 extern NSString *const kDDNotificationMilestoneNotedAndSaved;       // User data is NSDictionary with StandardMilestone object keyed by @""
 
+@interface UIColor (DataDads)
+
++(UIColor *) dataDadsBlueColor;
++(UIColor *) dataDadsBlueActivatedColor;
++(UIColor *) dataDadsGreyTextColor;
+@end
+
+
 #endif

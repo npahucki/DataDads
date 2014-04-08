@@ -99,6 +99,7 @@
   msg.lineBreakMode = NSLineBreakByTruncatingTail;
   msg.numberOfLines = 7;
   msg.font = [UIFont fontWithName:@"GothamRounded-Medium" size:19.0];
+  msg.textColor = [UIColor dataDadsGreyTextColor];
   msg.textAlignment = NSTextAlignmentCenter;
   
   [welcomeView addSubview:welcomeImageView];
@@ -117,7 +118,6 @@
     }
   }
   cancelButton.titleLabel.font = [UIFont fontWithName:@"GothamRounded-Medium" size:19.0];
-  
 }
 
 
