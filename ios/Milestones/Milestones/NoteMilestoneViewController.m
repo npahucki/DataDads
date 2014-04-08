@@ -60,15 +60,6 @@
   [_takeController takePhotoOrChooseFromLibrary];
 }
 
-- (IBAction)didClickSkipButton:(id)sender {
-  [self.view endEditing:YES];
-  [self showHUD:YES];
-  // Override any user input when skipping
-  ((UIDatePicker*)self.completionDateTextField.inputView).date = [NSDate date];
-  self.achievement.skipped = YES;
-  [self saveAchievementWithAttachment:nil andType:nil];
-}
-
 - (IBAction)didClickDoneButton:(id)sender {
   [self.view endEditing:YES];
   [self showHUD:YES];

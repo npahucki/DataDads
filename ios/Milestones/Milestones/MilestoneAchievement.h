@@ -19,7 +19,8 @@
 @property NSString* attachmentType;
 @property NSString* customTitle;      // optional, should be set if milestone is nil
 @property NSString* customDescription;
-@property BOOL skipped;
+@property BOOL isSkipped;
+@property BOOL isPostponed;
 
 -(BOOL) isCustom;
 

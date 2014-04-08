@@ -14,6 +14,7 @@
 #import "MilestoneDetailsViewController.h"
 #import "CreateMilestoneViewController.h"
 #import "StandardMilestoneQuery.h"
+#import "MilestoneAchievement.h"
 
 @implementation PickAMilestoneTableViewController
 
@@ -87,7 +88,7 @@
     NSMutableArray *leftUtilityButtons = [NSMutableArray new];
     NSMutableArray *rightUtilityButtons = [NSMutableArray new];
     
-    [leftUtilityButtons sw_addUtilityButtonWithColor: [UIColor dataDadsBlueColor] icon: [UIImage imageNamed:@"completeIcon"]];
+    [leftUtilityButtons sw_addUtilityButtonWithColor: [UIColor whiteColor] icon: [UIImage imageNamed:@"completeIcon"]];
     [rightUtilityButtons sw_addUtilityButtonWithColor: [UIColor dataDadsBlueColor] title:@"Ignore"];
     [rightUtilityButtons sw_addUtilityButtonWithColor: [UIColor dataDadsBlueActivatedColor] title:@"Postpone"];
     
@@ -186,12 +187,14 @@
 }
 
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
+  NSIndexPath * path = [self.tableView indexPathForCell:cell];
+  StandardMilestone* milestone = (StandardMilestone*) [self objectAtIndexPath:path];
   switch (index) {
     case 0:
-      NSLog(@"TODO: Ignore button was pressed");
+      [self logMilestoneAs:milestone  skipped:YES postponed:NO];
       break;
     case 1:
-      NSLog(@"TODO: Postpone button was pressed");
+      [self logMilestoneAs:milestone  skipped:NO postponed:YES];
       break;
     default:
       break;
@@ -199,6 +202,29 @@
 }
 
 #pragma mark - Private
+
+
+-(void) logMilestoneAs:(StandardMilestone*) milestone skipped:(BOOL) isSkipped postponed:(BOOL) isPostponed {
+  // TODO: HUD with progress
+  MilestoneAchievement * achievement = [MilestoneAchievement object];
+  achievement.standardMilestone = milestone;
+  achievement.isPostponed = isPostponed;
+  achievement.isSkipped = isSkipped;
+  achievement.baby = Baby.currentBaby;
+  achievement.completionDate =  [NSDate date];
+  [achievement saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+    if(succeeded) {
+      [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationMilestoneNotedAndSaved object:self userInfo:@{@"" : achievement}];
+      //[self showSaveSuccessAndDismissDialog];
+      [self loadObjects];
+    } else {
+      // [self showSaveError:error withMessage:@"Could not note milestone."];
+    }
+  }];
+  
+}
+
+
 
 // Hack to customize the inititial loading view
 - (void)stylePFLoadingViewTheHardWay
