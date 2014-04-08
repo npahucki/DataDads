@@ -83,6 +83,7 @@
   
   
   UIView *welcomeView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
+  welcomeView.backgroundColor = [UIColor whiteColor];
 
   UILabel * title = [[UILabel alloc] initWithFrame:CGRectMake(width/4 ,30, width/4*2, width/4*2)];
   title.text = @"Hello!";
@@ -118,6 +119,8 @@
     }
   }
   cancelButton.titleLabel.font = [UIFont fontWithName:@"GothamRounded-Medium" size:19.0];
+  cancelButton.backgroundColor = [UIColor whiteColor];
+  
 }
 
 

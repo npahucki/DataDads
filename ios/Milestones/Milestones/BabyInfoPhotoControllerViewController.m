@@ -20,8 +20,12 @@
   [super viewDidLoad];
   NSAssert(self.baby,@"Expected baby would be set before view loads");
   self.theLabel.font = [UIFont fontWithName:@"GothamRounded-Light" size:31.0];
-  _shouldAnimateCamera = YES;
-  [self animateCameraImage];
+  [UIButton animateWithDuration:1.0 delay:0.0 options:
+   UIViewAnimationOptionAllowUserInteraction |UIViewAnimationOptionBeginFromCurrentState |UIViewAnimationOptionAutoreverse | UIViewAnimationOptionRepeat
+                     animations:^{
+                       self.takePhotoButton.alpha = .75;
+                     } completion:nil];
+
 }
 
 -(void) viewWillAppear:(BOOL)animated {
@@ -35,22 +39,6 @@
   [self.takePhotoButton.layer setCornerRadius:self.takePhotoButton.frame.size.width/2];
   self.takePhotoButton.layer.masksToBounds = YES;
   self.takePhotoButton.layer.borderWidth = 1;
-  
-}
-
--(void) animateCameraImage {
-  [UIButton animateWithDuration:1.0 delay:0.0 options:
-   UIViewAnimationOptionAllowUserInteraction| UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionAutoreverse
-                     animations:^{
-                       self.takePhotoButton.alpha = .75;
-                     } completion:^(BOOL finished) {
-                       if(_shouldAnimateCamera) {
-                         [self animateCameraImage];
-                       } else {
-                         // reset
-                         self.takePhotoButton.alpha = 1.0;
-                       }
-                     }];
   
 }
 
@@ -117,12 +105,11 @@
 
 - (void)takeController:(FDTakeController *)controller gotPhoto:(UIImage *)photo withInfo:(NSDictionary *)info
 {
-  _shouldAnimateCamera = NO; // stop the animation cycle
   _imageData = UIImageJPEGRepresentation(photo, 0.5f);
-  [self.takePhotoButton.imageView.layer removeAllAnimations];
   [self.takePhotoButton.layer removeAllAnimations];
   self.takePhotoButton.contentMode = UIViewContentModeCenter;
   [self.takePhotoButton setImage:photo forState:UIControlStateNormal];
+  self.takePhotoButton.alpha = 1.0;
 }
 
 

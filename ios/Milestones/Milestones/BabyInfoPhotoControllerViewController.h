@@ -21,7 +21,6 @@
 
 @end
 
-BOOL _shouldAnimateCamera;
 FDTakeController* _takeController;
 NSData * _imageData;
 
