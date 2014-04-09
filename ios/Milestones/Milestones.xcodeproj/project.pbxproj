@@ -32,6 +32,7 @@
 		E81B588B189BCCD200C74C2B /* StandardMilestone.m in Sources */ = {isa = PBXBuildFile; fileRef = E81B588A189BCCD200C74C2B /* StandardMilestone.m */; };
 		E81B588E189BFFFE00C74C2B /* MilestoneAchievement.m in Sources */ = {isa = PBXBuildFile; fileRef = E81B588D189BFFFE00C74C2B /* MilestoneAchievement.m */; };
 		E840251918F0DEC800AF1B27 /* BabyInfoPhotoControllerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E840251818F0DEC800AF1B27 /* BabyInfoPhotoControllerViewController.m */; };
+		E862B81318F5FCE100EBAEFF /* FDTakeControllerNoStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = E862B81218F5FCE100EBAEFF /* FDTakeControllerNoStatusBar.m */; };
 		E876159B18EF83C100B0C6D9 /* BabyTagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E876159A18EF83C100B0C6D9 /* BabyTagsViewController.m */; };
 		E876159E18EF892C00B0C6D9 /* BabyTagsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E876159D18EF892C00B0C6D9 /* BabyTagsTableViewController.m */; };
 		E8A9A7C218F36E3F006224AC /* PFQueryWithExtendedResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A9A7C118F36E3F006224AC /* PFQueryWithExtendedResultSet.m */; };
@@ -114,6 +115,8 @@
 		E81B588D189BFFFE00C74C2B /* MilestoneAchievement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MilestoneAchievement.m; sourceTree = "<group>"; };
 		E840251718F0DEC800AF1B27 /* BabyInfoPhotoControllerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyInfoPhotoControllerViewController.h; sourceTree = "<group>"; };
 		E840251818F0DEC800AF1B27 /* BabyInfoPhotoControllerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BabyInfoPhotoControllerViewController.m; sourceTree = "<group>"; };
+		E862B81118F5FCE100EBAEFF /* FDTakeControllerNoStatusBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDTakeControllerNoStatusBar.h; sourceTree = "<group>"; };
+		E862B81218F5FCE100EBAEFF /* FDTakeControllerNoStatusBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDTakeControllerNoStatusBar.m; sourceTree = "<group>"; };
 		E876159918EF83C100B0C6D9 /* BabyTagsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyTagsViewController.h; sourceTree = "<group>"; };
 		E876159A18EF83C100B0C6D9 /* BabyTagsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BabyTagsViewController.m; sourceTree = "<group>"; };
 		E876159C18EF892C00B0C6D9 /* BabyTagsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyTagsTableViewController.h; sourceTree = "<group>"; };
@@ -308,6 +311,8 @@
 				E8D00A1C188F433E00DF2786 /* CreateMilestoneViewController.m */,
 				E8D00A1E188F435300DF2786 /* NoteMilestoneViewController.h */,
 				E8D00A1F188F435300DF2786 /* NoteMilestoneViewController.m */,
+				E862B81118F5FCE100EBAEFF /* FDTakeControllerNoStatusBar.h */,
+				E862B81218F5FCE100EBAEFF /* FDTakeControllerNoStatusBar.m */,
 				E8DD48FB188EE5B900153095 /* Images.xcassets */,
 				E8E39BFC18E6152D0034982D /* Resources */,
 				E81B58771896CE4600C74C2B /* Model */,
@@ -549,6 +554,7 @@
 				E8D00A1A188F362100DF2786 /* BabyInfoViewController.m in Sources */,
 				E840251918F0DEC800AF1B27 /* BabyInfoPhotoControllerViewController.m in Sources */,
 				E8D00A17188F348700DF2786 /* LoginViewController.m in Sources */,
+				E862B81318F5FCE100EBAEFF /* FDTakeControllerNoStatusBar.m in Sources */,
 				E8E39C6A18EB063E0034982D /* MainMilestoneViewController.m in Sources */,
 				E876159E18EF892C00B0C6D9 /* BabyTagsTableViewController.m in Sources */,
 				E8A9A7C218F36E3F006224AC /* PFQueryWithExtendedResultSet.m in Sources */,

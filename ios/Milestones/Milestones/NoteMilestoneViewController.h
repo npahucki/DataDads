@@ -19,10 +19,10 @@
 
 @property MilestoneAchievement *achievement;
 
-@property (strong, nonatomic) IBOutlet UIButton *doneButton;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *doneButton;
 
-@property (strong, nonatomic) IBOutlet UIButton *takePictureButton;
-@property (strong, nonatomic) IBOutlet UIButton *skipButton;
+@property (strong, nonatomic) IBOutlet UIButton *takePhotoButton;
+@property (strong, nonatomic) IBOutlet UILabel *takePhotoLabel;
 
 @end
 

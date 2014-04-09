@@ -7,6 +7,7 @@
 //
 
 #import "BabyInfoPhotoControllerViewController.h"
+#import "FDTakeControllerNoStatusBar.h"
 
 @interface BabyInfoPhotoControllerViewController ()
 
@@ -28,22 +29,15 @@
 
 }
 
--(void) viewWillAppear:(BOOL)animated {
-  // This is needed to hack around the fact that the image picker turns on the status bar
-  [[UIApplication sharedApplication] setStatusBarHidden:YES];
-  [super viewWillAppear:animated];
-}
-
 -(void) viewDidLayoutSubviews {
   [super viewDidLayoutSubviews];
   [self.takePhotoButton.layer setCornerRadius:self.takePhotoButton.frame.size.width/2];
   self.takePhotoButton.layer.masksToBounds = YES;
   self.takePhotoButton.layer.borderWidth = 1;
-  
 }
 
 - (IBAction)didClickPhotoButton:(id)sender {
-  _takeController = [[FDTakeController alloc] init];
+  _takeController = [[FDTakeControllerNoStatusBar alloc] init];
   _takeController.delegate = self;
   _takeController.viewControllerForPresentingImagePickerController = self;
   _takeController.allowsEditingPhoto = YES;

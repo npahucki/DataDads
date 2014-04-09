@@ -8,6 +8,7 @@
 
 #import "NoteMilestoneViewController.h"
 #import "MilestoneAchievement.h"
+#import "FDTakeControllerNoStatusBar.h"
 
 @interface NoteMilestoneViewController ()
 
@@ -24,9 +25,15 @@
   NSAssert(self.achievement.standardMilestone || self.achievement.customTitle,@"one of standardMilestone or customTitle must be set");
   NSAssert(self.achievement.baby, @"baby must be set on acheivement before view loads");
   
-  // Can't skip standard milestones
-  self.skipButton.hidden = self.achievement.standardMilestone == nil;
+  self.takePhotoLabel.font = [UIFont fontWithName:@"GothamRounded-Light" size:31.0];
+  [UIButton animateWithDuration:1.0 delay:0.0 options:
+   UIViewAnimationOptionAllowUserInteraction |UIViewAnimationOptionBeginFromCurrentState |UIViewAnimationOptionAutoreverse | UIViewAnimationOptionRepeat
+                     animations:^{
+                       self.takePhotoButton.alpha = .75;
+                     } completion:nil];
 
+  
+  
   UIToolbar* datePickerToolbar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
   datePickerToolbar.items = @[
                               [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
@@ -44,6 +51,14 @@
   [self updateCompletionDateTextField:datePicker]; // Make it have today's date by default
 }
 
+-(void) viewDidLayoutSubviews {
+  [super viewDidLayoutSubviews];
+  [self.takePhotoButton.layer setCornerRadius:self.takePhotoButton.frame.size.width/2];
+  self.takePhotoButton.layer.masksToBounds = YES;
+  self.takePhotoButton.layer.borderWidth = 1;
+}
+
+
 -(void) viewWillAppear:(BOOL)animated {
   // This is needed to hack around the fact that the image picker turns on the status bar
   [[UIApplication sharedApplication] setStatusBarHidden:YES];
@@ -52,7 +67,7 @@
 
 - (IBAction)didClickTakePicture:(id)sender {
   [self.view endEditing:YES];
-  _takeController = [[FDTakeController alloc] init];
+  _takeController = [[FDTakeControllerNoStatusBar alloc] init];
   _takeController.delegate = self;
   _takeController.viewControllerForPresentingImagePickerController = self;
   _takeController.allowsEditingPhoto = YES;
@@ -123,6 +138,11 @@
   self.completionDateTextField.text = [dateFormatter stringFromDate:picker.date];
 }
 
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+  [[UIApplication sharedApplication] setStatusBarHidden:YES];
+}
+
 #pragma mark - FDTakeDelegate
 
 - (void)takeController:(FDTakeController *)controller didCancelAfterAttempting:(BOOL)madeAttempt
@@ -135,8 +155,10 @@
   // TODO: Support video too!
   _imageOrVideo = UIImageJPEGRepresentation(photo, 0.5f);
   _imageOrVideoType = @"image/jpg";
-  self.takePictureButton.contentMode = UIViewContentModeCenter;
-  [self.takePictureButton setBackgroundImage:photo forState:UIControlStateNormal];
+  [self.takePhotoButton.layer removeAllAnimations];
+  self.takePhotoButton.contentMode = UIViewContentModeCenter;
+  [self.takePhotoButton setImage:photo forState:UIControlStateNormal];
+  self.takePhotoButton.alpha = 1.0;
 }
 
 

@@ -16,11 +16,11 @@
 -(void) viewDidLoad {
   [super viewDidLoad];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(babyUpdated:) name:kDDNotificationCurrentBabyChanged object:nil];
-  self.title = Baby.currentBaby.name;
+  self.navigationItem.title = Baby.currentBaby.name;
 }
 
 -(void) babyUpdated:(NSNotification*)notification {
-  self.title = Baby.currentBaby.name;
+  self.navigationItem.title = Baby.currentBaby.name;
 }
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
