@@ -52,6 +52,9 @@
   [UIButton appearance].titleLabel.font = [UIFont fontWithName:@"GothamRounded-Medium" size:17.0];
   [UIButton appearance].titleLabel.textColor = [UIColor dataDadsBlueColor];
   [[UINavigationBar appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"GothamRounded-Bold" size:18.0]}];
+  [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"header.png"] forBarMetrics:UIBarMetricsDefault];
+
+  
   [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"GothamRounded-Medium" size:17.0], NSForegroundColorAttributeName : [UIColor dataDadsBlueColor]} forState:UIControlStateNormal];
   [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"GothamRounded-Bold" size:17.0], NSForegroundColorAttributeName : [UIColor dataDadsBlueActivatedColor]} forState:UIControlStateSelected];
 
