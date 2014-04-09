@@ -10,7 +10,6 @@
 
 @interface MainMilestoneViewController : UIViewController
 
-@property (strong, nonatomic) IBOutlet UILabel *babyNameLabel;
 @property (strong, nonatomic) IBOutlet UIButton *addMilestoneButton;
 
 // Show an animation of the add button bouncing 3 time, to get attention

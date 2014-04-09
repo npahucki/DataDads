@@ -16,12 +16,11 @@
 -(void) viewDidLoad {
   [super viewDidLoad];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(babyUpdated:) name:kDDNotificationCurrentBabyChanged object:nil];
-  self.babyNameLabel.font =  [UIFont fontWithName:@"GothamRounded-Bold" size:21.0];
-  self.babyNameLabel.text = nil; // remove place holder text
+  self.title = Baby.currentBaby.name;
 }
 
 -(void) babyUpdated:(NSNotification*)notification {
-  self.babyNameLabel.text = Baby.currentBaby.name;
+  self.title = Baby.currentBaby.name;
 }
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {

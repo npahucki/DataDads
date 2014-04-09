@@ -40,17 +40,6 @@
   [self stylePFLoadingViewTheHardWay];
 }
 
--(void)viewWillDisappear:(BOOL)animated{
-  [super viewWillDisappear:animated];
-  [self.navigationController setNavigationBarHidden:NO];    // it shows
-}
-
--(void) viewWillAppear:(BOOL)animated {
-  [super viewWillAppear:animated];
-  [[[self navigationController] navigationBar] setNeedsLayout];
-  [self.navigationController setNavigationBarHidden:YES];
-}
-
 -(void) viewDidAppear:(BOOL)animated {
   [super viewDidAppear:animated];
   [[[self navigationController] navigationBar] setNeedsLayout];

@@ -53,14 +53,13 @@
   [UIButton appearance].titleLabel.textColor = [UIColor dataDadsBlueColor];
   [[UINavigationBar appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"GothamRounded-Bold" size:18.0]}];
   [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"header.png"] forBarMetrics:UIBarMetricsDefault];
-
-  
+  [UINavigationBar appearance].tintColor = [UIColor dataDadsBlueColor];
   [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"GothamRounded-Medium" size:17.0], NSForegroundColorAttributeName : [UIColor dataDadsBlueColor]} forState:UIControlStateNormal];
   [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"GothamRounded-Bold" size:17.0], NSForegroundColorAttributeName : [UIColor dataDadsBlueActivatedColor]} forState:UIControlStateSelected];
 
   [[UITabBarItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"GothamRounded-Medium" size:13.0]} forState:UIControlStateNormal];
   [[UITabBarItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"GothamRounded-Medium" size:13.0], NSBackgroundColorAttributeName : [UIColor dataDadsBlueActivatedColor]} forState:UIControlStateSelected];
-  
+  [UITabBar appearance].selectedImageTintColor = [UIColor dataDadsBlueColor];
    return YES;
 
 }
