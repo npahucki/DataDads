@@ -15,6 +15,7 @@
 #import "CreateMilestoneViewController.h"
 #import "StandardMilestoneQuery.h"
 #import "MilestoneAchievement.h"
+#import "MainMilestoneViewController.h"
 
 @implementation PickAMilestoneTableViewController
 
@@ -152,8 +153,8 @@
       _hud.mode = MBProgressHUDModeText;
       _hud.dimBackground = YES;
       _hud.labelText = @"No More Milestones";
-      _hud.detailsLabelText = @"There are no more milestones for your baby's age, enter your own by pressing 'New'";
-      // TODO: perhaps an animation with an arrow pointing to the new button, or flahing the new button.
+      _hud.detailsLabelText = @"There are no more milestones for your baby's age. Enter your own by pressing the + button";
+      [((MainMilestoneViewController*) self.parentViewController) bounceAddButton];
     }
   } else if(_hud) {
     [_hud hide:NO];

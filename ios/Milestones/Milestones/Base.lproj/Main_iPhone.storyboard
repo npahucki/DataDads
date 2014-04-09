@@ -1102,7 +1102,6 @@
                                 <state key="selected" image="openMenuButton_pressed"/>
                                 <state key="highlighted" image="openMenuButton_pressed.png"/>
                                 <connections>
-                                    <action selector="didPressShowMenuButton:" destination="4nI-5F-GIp" eventType="touchUpInside" id="ccn-wu-vla"/>
                                     <segue destination="QfA-Ku-3Fd" kind="modal" identifier="showSettings" modalTransitionStyle="flipHorizontal" id="8aw-YC-BF3"/>
                                 </connections>
                             </button>
@@ -1138,6 +1137,7 @@
                     <navigationItem key="navigationItem" id="kki-pT-UDA"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="addMilestoneButton" destination="Vpv-RJ-8CQ" id="gSb-pn-aeV"/>
                         <outlet property="babyNameLabel" destination="uR3-UX-qnf" id="DlX-Ro-vxh"/>
                     </connections>
                 </viewController>
