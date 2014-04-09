@@ -49,6 +49,8 @@
   [UITextField appearance].font =[UIFont fontWithName:@"GothamRounded-Bold" size:17.0];
   [UITextField appearance].textColor = [UIColor dataDadsBlueColor];
   [UITextView appearance].font = [UIFont fontWithName:@"GothamRounded-Bold" size:17.0];
+  [UITextView appearance].textColor = [UIColor dataDadsGreyTextColor];
+
   [UIButton appearance].titleLabel.font = [UIFont fontWithName:@"GothamRounded-Medium" size:17.0];
   [UIButton appearance].titleLabel.textColor = [UIColor dataDadsBlueColor];
   [[UINavigationBar appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"GothamRounded-Bold" size:18.0]}];

@@ -21,7 +21,6 @@
   [super viewDidLoad];
   NSAssert(self.achievement, @"Expected achievment would be set before view is loaded");
   
-  self.descriptionTextView.textColor = [UIColor lightGrayColor];
   self.descriptionTextView.text = DESCRIPTION_PLACEHOLDER_TEXT;
 
   // Needed to dimiss the keyboard once a user clicks outside the text boxes
@@ -45,7 +44,6 @@
 {
   if ([textView.text isEqualToString:DESCRIPTION_PLACEHOLDER_TEXT]) {
     textView.text = @"";
-    textView.textColor = [UIColor blackColor];
   }
   [textView becomeFirstResponder];
 }
