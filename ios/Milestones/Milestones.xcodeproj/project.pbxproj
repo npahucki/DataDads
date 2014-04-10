@@ -33,6 +33,7 @@
 		E81B588E189BFFFE00C74C2B /* MilestoneAchievement.m in Sources */ = {isa = PBXBuildFile; fileRef = E81B588D189BFFFE00C74C2B /* MilestoneAchievement.m */; };
 		E840251918F0DEC800AF1B27 /* BabyInfoPhotoControllerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E840251818F0DEC800AF1B27 /* BabyInfoPhotoControllerViewController.m */; };
 		E862B81318F5FCE100EBAEFF /* FDTakeControllerNoStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = E862B81218F5FCE100EBAEFF /* FDTakeControllerNoStatusBar.m */; };
+		E862B81718F6A6BA00EBAEFF /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E862B81618F6A6BA00EBAEFF /* iAd.framework */; };
 		E876159B18EF83C100B0C6D9 /* BabyTagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E876159A18EF83C100B0C6D9 /* BabyTagsViewController.m */; };
 		E876159E18EF892C00B0C6D9 /* BabyTagsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E876159D18EF892C00B0C6D9 /* BabyTagsTableViewController.m */; };
 		E8A9A7C218F36E3F006224AC /* PFQueryWithExtendedResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A9A7C118F36E3F006224AC /* PFQueryWithExtendedResultSet.m */; };
@@ -117,6 +118,8 @@
 		E840251818F0DEC800AF1B27 /* BabyInfoPhotoControllerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BabyInfoPhotoControllerViewController.m; sourceTree = "<group>"; };
 		E862B81118F5FCE100EBAEFF /* FDTakeControllerNoStatusBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDTakeControllerNoStatusBar.h; sourceTree = "<group>"; };
 		E862B81218F5FCE100EBAEFF /* FDTakeControllerNoStatusBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDTakeControllerNoStatusBar.m; sourceTree = "<group>"; };
+		E862B81418F6A69200EBAEFF /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		E862B81618F6A6BA00EBAEFF /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		E876159918EF83C100B0C6D9 /* BabyTagsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyTagsViewController.h; sourceTree = "<group>"; };
 		E876159A18EF83C100B0C6D9 /* BabyTagsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BabyTagsViewController.m; sourceTree = "<group>"; };
 		E876159C18EF892C00B0C6D9 /* BabyTagsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyTagsTableViewController.h; sourceTree = "<group>"; };
@@ -175,6 +178,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E862B81718F6A6BA00EBAEFF /* iAd.framework in Frameworks */,
 				E81B5888189AB2B900C74C2B /* Accounts.framework in Frameworks */,
 				E81B58681891EEDB00C74C2B /* SystemConfiguration.framework in Frameworks */,
 				E81B58661891EED100C74C2B /* StoreKit.framework in Frameworks */,
@@ -251,6 +255,8 @@
 		E8DD48DC188EE5B900153095 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E862B81618F6A6BA00EBAEFF /* iAd.framework */,
+				E862B81418F6A69200EBAEFF /* AdSupport.framework */,
 				E81B5887189AB2B900C74C2B /* Accounts.framework */,
 				E81B586C189345A800C74C2B /* FacebookSDK.framework */,
 				E81B58551891EE1100C74C2B /* Parse.framework */,

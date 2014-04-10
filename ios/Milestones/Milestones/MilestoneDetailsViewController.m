@@ -19,9 +19,8 @@
 {
   [super viewDidLoad];
   self.titleLabel.text = self.achievement.standardMilestone.title;
-  //[self.titleLabel sizeToFit];
-  self.descriptionLabel.text = self.achievement.standardMilestone.shortDescription;
-  //[self.descriptionLabel sizeToFit];
+  self.descriptionLabel.text = self.achievement.standardMilestone.shortDescription ? self.achievement.standardMilestone.shortDescription : @"No Description";
+  //self.enteredByLabel = self.achievement.standardMilestone.
   // TODO: format months if more than 30
   self.ageRangeLabel.text = [NSString stringWithFormat:@"%@ - %@ days", self.achievement.standardMilestone.rangeLow, self.achievement.standardMilestone.rangeHigh];
 }
