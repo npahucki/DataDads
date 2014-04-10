@@ -159,6 +159,10 @@
   self.takePhotoButton.contentMode = UIViewContentModeCenter;
   [self.takePhotoButton setImage:photo forState:UIControlStateNormal];
   self.takePhotoButton.alpha = 1.0;
+
+  // Hide the Label
+  self.takePhotoLabel.text = @"Nice Shot!";
+  [UILabel animateWithDuration:1.0 delay:2.0 options:UIViewAnimationOptionCurveEaseOut animations:^{ self.takePhotoLabel.alpha = 0.0; } completion:nil];
 }
 
 

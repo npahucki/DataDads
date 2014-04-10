@@ -723,10 +723,10 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Milestone Title" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="C7R-JJ-Zi7">
-                                <rect key="frame" x="20" y="47" width="280" height="66"/>
+                                <rect key="frame" x="20" y="52" width="280" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="66" id="U0J-S1-x0i"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="U0J-S1-x0i"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.23529411759999999" green="0.57254901960000004" blue="0.81176470590000005" alpha="1" colorSpace="calibratedRGB"/>
@@ -742,11 +742,11 @@
                                 </constraints>
                             </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WT0-Ml-n9X">
-                                <rect key="frame" x="20" y="121" width="280" height="170"/>
+                                <rect key="frame" x="20" y="110" width="280" height="181"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Description..." lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="9" adjustsLetterSpacingToFitWidth="YES" preferredMaxLayoutWidth="296" translatesAutoresizingMaskIntoConstraints="NO" id="Rg5-oE-OSa">
-                                        <rect key="frame" x="0.0" y="0.0" width="296" height="227"/>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Description..." lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="9" adjustsLetterSpacingToFitWidth="YES" preferredMaxLayoutWidth="276" translatesAutoresizingMaskIntoConstraints="NO" id="Rg5-oE-OSa">
+                                        <rect key="frame" x="4" y="0.0" width="276" height="20"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="0.66274509800000003" green="0.66274509800000003" blue="0.69411764710000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -754,7 +754,7 @@
                                     </label>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" priority="500" constant="170" id="CdV-0X-DmF"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" priority="500" constant="50" id="CdV-0X-DmF"/>
                                 </constraints>
                             </scrollView>
                             <adBannerView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" translatesAutoresizingMaskIntoConstraints="NO" id="V8d-FA-P1H">
@@ -767,7 +767,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="C7R-JJ-Zi7" firstAttribute="top" secondItem="PFC-vl-etI" secondAttribute="bottom" constant="3" id="76k-4a-Zw9"/>
+                            <constraint firstItem="C7R-JJ-Zi7" firstAttribute="top" secondItem="PFC-vl-etI" secondAttribute="bottom" constant="20" symbolic="YES" id="76k-4a-Zw9"/>
                             <constraint firstAttribute="trailing" secondItem="WT0-Ml-n9X" secondAttribute="trailing" constant="20" symbolic="YES" id="AfN-If-vZ4"/>
                             <constraint firstItem="WT0-Ml-n9X" firstAttribute="leading" secondItem="Xul-cs-YPH" secondAttribute="leading" constant="20" symbolic="YES" id="Etd-di-eec"/>
                             <constraint firstItem="WT0-Ml-n9X" firstAttribute="top" secondItem="C7R-JJ-Zi7" secondAttribute="bottom" constant="8" symbolic="YES" id="FUx-SM-2Xw"/>
