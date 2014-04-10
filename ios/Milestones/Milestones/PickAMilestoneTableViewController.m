@@ -79,8 +79,8 @@
     NSMutableArray *rightUtilityButtons = [NSMutableArray new];
     
     [leftUtilityButtons sw_addUtilityButtonWithColor: [UIColor whiteColor] icon: [UIImage imageNamed:@"completeIcon"]];
-    [rightUtilityButtons sw_addUtilityButtonWithColor: [UIColor dataDadsBlueColor] title:@"Ignore"];
-    [rightUtilityButtons sw_addUtilityButtonWithColor: [UIColor dataDadsBlueActivatedColor] title:@"Postpone"];
+    [rightUtilityButtons sw_addUtilityButtonWithColor: [UIColor appBlueColor] title:@"Ignore"];
+    [rightUtilityButtons sw_addUtilityButtonWithColor: [UIColor appBlueActivatedColor] title:@"Postpone"];
     
     weakCell.leftUtilityButtons = leftUtilityButtons;
     weakCell.rightUtilityButtons = rightUtilityButtons;
@@ -219,8 +219,8 @@
 // Hack to customize the inititial loading view
 - (void)stylePFLoadingViewTheHardWay
 {
-  UIColor *labelTextColor = [UIColor dataDadsBlueColor];
-  UIColor *labelShadowColor = [UIColor dataDadsGreyTextColor];
+  UIColor *labelTextColor = [UIColor appBlueColor];
+  UIColor *labelShadowColor = [UIColor appGreyTextColor];
   
   // go through all of the subviews until you find a PFLoadingView subclass
   for (UIView *subview in self.view.subviews)
