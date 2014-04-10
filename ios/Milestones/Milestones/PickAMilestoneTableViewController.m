@@ -88,7 +88,7 @@
     weakCell.delegate = self;
     weakCell.textLabel.numberOfLines = 3; // Multiline
     weakCell.textLabel.lineBreakMode = NSLineBreakByTruncatingTail; // Make wrap
-    weakCell.textLabel.font = [UIFont fontWithName:@"GothamRounded-Book" size:15.0];
+    weakCell.textLabel.font = [UIFont fontForAppWithType:Book andSize:15.0];
   } force:NO];
 
   cell.textLabel.text = milestone.title;
@@ -111,7 +111,7 @@
   cell.imageView.contentMode = UIViewContentModeScaleAspectFit;
   //cell.imageView.frame = CGRectMake(0,0,50,50);
   cell.textLabel.text = @"Loading more...";
-  cell.textLabel.font = [UIFont fontWithName:@"GothamRounded-Bold" size:15.0];
+  cell.textLabel.font = [UIFont fontForAppWithType:Bold andSize:15.0];
   cell.userInteractionEnabled = NO;
   return cell;
 }

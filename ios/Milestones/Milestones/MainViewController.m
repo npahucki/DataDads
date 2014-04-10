@@ -87,7 +87,7 @@
 
   UILabel * title = [[UILabel alloc] initWithFrame:CGRectMake(width/4 ,30, width/4*2, width/4*2)];
   title.text = @"Hello!";
-  title.font = [UIFont fontWithName:@"GothamRounded-Bold" size:35.0];
+  title.font = [UIFont fontForAppWithType:Bold andSize:35.0];
   title.textColor = [UIColor whiteColor];
   title.textAlignment = NSTextAlignmentCenter;
 
@@ -99,7 +99,7 @@
   msg.text = @"DataDads creates science from your baby's data and we help you track the development of your child.\n\n Start by filling in your baby's basic information";
   msg.lineBreakMode = NSLineBreakByTruncatingTail;
   msg.numberOfLines = 7;
-  msg.font = [UIFont fontWithName:@"GothamRounded-Medium" size:19.0];
+  msg.font = [UIFont fontForAppWithType:Medium andSize:19.0];
   msg.textColor = [UIColor appGreyTextColor];
   msg.textAlignment = NSTextAlignmentCenter;
   
@@ -118,7 +118,7 @@
       cancelButton = (UIButton*)view;
     }
   }
-  cancelButton.titleLabel.font = [UIFont fontWithName:@"GothamRounded-Medium" size:19.0];
+  cancelButton.titleLabel.font = [UIFont fontForAppWithType:Medium andSize:19.0];
   cancelButton.backgroundColor = [UIColor whiteColor];
   
 }

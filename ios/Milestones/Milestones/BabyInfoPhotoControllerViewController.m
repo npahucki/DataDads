@@ -20,7 +20,7 @@
 {
   [super viewDidLoad];
   NSAssert(self.baby,@"Expected baby would be set before view loads");
-  self.theLabel.font = [UIFont fontWithName:@"GothamRounded-Light" size:31.0];
+  self.theLabel.font = [UIFont fontForAppWithType:Light andSize:31.0];
   [UIButton animateWithDuration:1.0 delay:0.0 options:
    UIViewAnimationOptionAllowUserInteraction |UIViewAnimationOptionBeginFromCurrentState |UIViewAnimationOptionAutoreverse | UIViewAnimationOptionRepeat
                      animations:^{

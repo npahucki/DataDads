@@ -13,7 +13,7 @@
 NSString *const kDDUserScreenName = @"screenName";
 NSString *const kDDUserEmail = @"email";
 
-#pragma mark - Segues
+#pragma mark - Segue Names
 NSString *const kDDSegueEnterScreenName = @"enterScreenName";
 NSString *const kDDSegueNoteMilestone = @"noteMilestone";
 NSString *const kDDSegueCreateCustomMilestone = @"createCustomMilesone";
@@ -32,5 +32,43 @@ NSString *const kDDNotificationMilestoneNotedAndSaved = @"milestoneNotedAndSaved
 +(UIColor *) appBlueColor {return UIColorFromRGB(0x3C92CF);} // 60 146 207
 +(UIColor *) appBlueActivatedColor {return UIColorFromRGB(0x2E709E);} // 46 112 158
 +(UIColor *) appGreyTextColor {return UIColorFromRGB(0xA9A9B1);} // 169 169 177
-
 @end
+
+@implementation UIFont (DataDads)
+
+
+/*
+ Family Name: Gotham Rounded
+ GothamRounded-BookItalic
+ GothamRounded-MediumItalic
+ GothamRounded-BoldItalic
+ GothamRounded-Light
+ GothamRounded-Medium
+ GothamRounded-Bold
+ GothamRounded-LightItalic
+ GothamRounded-Book
+ */
++(UIFont *) fontForAppWithType:(AppFontType) type andSize:(int) size {
+  switch (type) {
+    default:
+    case Light:
+      return [UIFont fontWithName:@"GothamRounded-Light" size:size];
+    case LightItalic:
+      return [UIFont fontWithName:@"GothamRounded-LightItalic" size:size];
+    case Medium:
+      return [UIFont fontWithName:@"GothamRounded-Medium" size:size];
+    case MediumItalic:
+      return [UIFont fontWithName:@"GothamRounded-MediumItalic" size:size];
+    case Book:
+      return [UIFont fontWithName:@"GothamRounded-Book" size:size];
+    case BookItalic:
+      return [UIFont fontWithName:@"GothamRounded-BookItalic" size:size];
+    case Bold:
+      return [UIFont fontWithName:@"GothamRounded-Bold" size:size];
+    case BoldItalic:
+      return [UIFont fontWithName:@"GothamRounded-BoldItalic" size:size];
+  }
+}
+@end
+
+

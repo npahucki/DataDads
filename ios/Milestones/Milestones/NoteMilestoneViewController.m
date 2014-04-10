@@ -25,7 +25,7 @@
   NSAssert(self.achievement.standardMilestone || self.achievement.customTitle,@"one of standardMilestone or customTitle must be set");
   NSAssert(self.achievement.baby, @"baby must be set on acheivement before view loads");
   
-  self.takePhotoLabel.font = [UIFont fontWithName:@"GothamRounded-Light" size:31.0];
+  self.takePhotoLabel.font = [UIFont fontForAppWithType:Light andSize:31.0];
   [UIButton animateWithDuration:1.0 delay:0.0 options:
    UIViewAnimationOptionAllowUserInteraction |UIViewAnimationOptionBeginFromCurrentState |UIViewAnimationOptionAutoreverse | UIViewAnimationOptionRepeat
                      animations:^{

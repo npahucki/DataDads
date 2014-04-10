@@ -19,9 +19,9 @@
   self.milestoneCountLabel.textAlignment = NSTextAlignmentCenter;
   self.milestoneCountLabel.textColor = self.ageLabel.textColor; // use same as age
   
-  self.babyNameLabel.font = [UIFont fontWithName:@"GothamRounded-Bold" size:21.0];
+  self.babyNameLabel.font = [UIFont fontForAppWithType:Bold andSize:21.0];
   self.babyNameLabel.text = Baby.currentBaby.name;
-  self.ageLabel.font = [UIFont fontWithName:@"GothamRounded-Medium" size:18.0];
+  self.ageLabel.font = [UIFont fontForAppWithType:Medium andSize:18.0];
   self.ageLabel.text = [self timeDifferenceFormatedAsNiceString:Baby.currentBaby.birthDate];
 
   self.babyAvatar.file = Baby.currentBaby.avatarImage;
@@ -35,8 +35,8 @@
   
   [query countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
     // Make the label show attributed text 
-    NSDictionary *numberAttributes = @{NSFontAttributeName: [UIFont fontWithName:@"GothamRounded-Bold" size:95.0], NSForegroundColorAttributeName: [UIColor appBlueColor]};
-    NSDictionary *milestoneTextAttributes = @{NSFontAttributeName: [UIFont fontWithName:@"GothamRounded-Bold" size:18.0], NSForegroundColorAttributeName: [UIColor appGreyTextColor]};
+    NSDictionary *numberAttributes = @{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:95.0], NSForegroundColorAttributeName: [UIColor appBlueColor]};
+    NSDictionary *milestoneTextAttributes = @{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:18.0], NSForegroundColorAttributeName: [UIColor appGreyTextColor]};
     NSMutableAttributedString *milestoneString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%i\nmilestones logged",number]];
     NSUInteger numLen = [[@(number) stringValue] length];
     [milestoneString setAttributes:numberAttributes range:NSMakeRange(0, numLen)];

@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "Constants.h"
 #import "LoginViewController.h"
 #import <FacebookSDK/FacebookSDK.h>
 
@@ -33,34 +34,22 @@
   [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
   
   
-  // Set the fonts globally
-  /*
-    Family Name: Gotham Rounded
-    GothamRounded-BookItalic
-    GothamRounded-MediumItalic
-    GothamRounded-BoldItalic
-    GothamRounded-Light
-    GothamRounded-Medium
-    GothamRounded-Bold
-    GothamRounded-LightItalic
-    GothamRounded-Book
-  */
-  [UILabel appearance].font= [UIFont fontWithName:@"GothamRounded-Light" size:17.0];
-  [UITextField appearance].font =[UIFont fontWithName:@"GothamRounded-Bold" size:17.0];
+  [UILabel appearance].font= [UIFont fontForAppWithType:Light andSize:17.0];
+  [UITextField appearance].font =[UIFont fontForAppWithType:Bold andSize:17.0];
   [UITextField appearance].textColor = [UIColor appBlueColor];
-  [UITextView appearance].font = [UIFont fontWithName:@"GothamRounded-Bold" size:17.0];
+  [UITextView appearance].font = [UIFont fontForAppWithType:Bold andSize:17.0];
   [UITextView appearance].textColor = [UIColor appGreyTextColor];
 
-  [UIButton appearance].titleLabel.font = [UIFont fontWithName:@"GothamRounded-Medium" size:17.0];
+  [UIButton appearance].titleLabel.font = [UIFont fontForAppWithType:Medium andSize:17.0];
   [UIButton appearance].titleLabel.textColor = [UIColor appBlueColor];
-  [[UINavigationBar appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"GothamRounded-Bold" size:18.0]}];
+  [[UINavigationBar appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:18.0]}];
   [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"header.png"] forBarMetrics:UIBarMetricsDefault];
   [UINavigationBar appearance].tintColor = [UIColor appBlueColor];
-  [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"GothamRounded-Medium" size:17.0], NSForegroundColorAttributeName : [UIColor appBlueColor]} forState:UIControlStateNormal];
-  [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"GothamRounded-Bold" size:17.0], NSForegroundColorAttributeName : [UIColor appBlueActivatedColor]} forState:UIControlStateSelected];
+  [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Medium andSize:17.0], NSForegroundColorAttributeName : [UIColor appBlueColor]} forState:UIControlStateNormal];
+  [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:17.0], NSForegroundColorAttributeName : [UIColor appBlueActivatedColor]} forState:UIControlStateSelected];
 
-  [[UITabBarItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"GothamRounded-Medium" size:13.0]} forState:UIControlStateNormal];
-  [[UITabBarItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"GothamRounded-Medium" size:13.0], NSBackgroundColorAttributeName : [UIColor appBlueActivatedColor]} forState:UIControlStateSelected];
+  [[UITabBarItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Medium andSize:13.0]} forState:UIControlStateNormal];
+  [[UITabBarItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Medium andSize:13.0], NSBackgroundColorAttributeName : [UIColor appBlueActivatedColor]} forState:UIControlStateSelected];
   [UITabBar appearance].selectedImageTintColor = [UIColor appBlueColor];
    return YES;
 
