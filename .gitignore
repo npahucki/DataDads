@@ -152,6 +152,7 @@ xcuserdata
 
 # XCode 5
 *.xccheckout
+*.xcworkspace
 
 ####
 # Xcode 4 - Deprecated classes
