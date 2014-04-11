@@ -9,6 +9,10 @@
 #import "MainMilestoneViewController.h"
 #import "CreateMilestoneViewController.h"
 #import "SettingsViewController.h"
+#import "NoteMilestoneViewController.h"
+#import "MilestoneDetailsViewController.h"
+
+
 
 @implementation MainMilestoneViewController
 
@@ -19,16 +23,78 @@
   self.navigationItem.title = Baby.currentBaby.name;
 }
 
+-(void) viewDidAppear:(BOOL)animated {
+  [super viewDidAppear:animated];
+  self.addMilestoneButton.enabled = Baby.currentBaby != nil;
+}
+
 -(void) babyUpdated:(NSNotification*)notification {
   self.navigationItem.title = Baby.currentBaby.name;
 }
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-  MilestoneAchievement * achievement = [MilestoneAchievement object];
-  achievement.baby = Baby.currentBaby;
-  if([segue.identifier isEqualToString:kDDSegueCreateCustomMilestone]) {
-    ((CreateMilestoneViewController*)segue.destinationViewController).achievement = achievement;
+  // Embedded table
+  if([segue.destinationViewController isKindOfClass:[PickAMilestoneTableViewController class]]) {
+    _pickController = ((PickAMilestoneTableViewController*)segue.destinationViewController);
+    _pickController.delegate = self;
+    return;
   }
+  
+  // Navigation Segues
+  NSAssert(_currentAchievment, @"Expected currentAchievement to be set");
+  if([segue.identifier isEqualToString:kDDSegueNoteMilestone]) {
+    ((NoteMilestoneViewController*)segue.destinationViewController).achievement = _currentAchievment;
+  } else if([segue.identifier isEqualToString:kDDSegueShowMilestoneDetails]) {
+    ((MilestoneDetailsViewController*)segue.destinationViewController).achievement = _currentAchievment;
+  } else if([segue.identifier isEqualToString:kDDSegueCreateCustomMilestone]) {
+    ((CreateMilestoneViewController*)segue.destinationViewController).achievement = _currentAchievment;
+  }
+}
+
+#pragma mark PickAMilestoneTableViewControllerDelegate
+
+-(void) standardMilestoneIgnoreClicked:(StandardMilestone*) milestone {
+  [self createAchievementForMilestone:milestone].isSkipped = YES;
+  [self logCurrentAchievement];
+}
+-(void) standardMilestonePostponeClicked:(StandardMilestone*) milestone {
+  [self createAchievementForMilestone:milestone].isPostponed = YES;
+  [self logCurrentAchievement];
+}
+
+-(void) standardMilestoneCompleteClicked:(StandardMilestone*) milestone {
+  [self createAchievementForMilestone:milestone];
+  [self performSegueWithIdentifier:kDDSegueNoteMilestone sender:self];
+}
+
+-(void) standardMilestoneDetailsClicked:(StandardMilestone*) milestone {
+  [self createAchievementForMilestone:milestone];
+  [self performSegueWithIdentifier:kDDSegueShowMilestoneDetails sender:self];
+}
+
+# pragma mark - Private
+
+-(void) logCurrentAchievement {
+  NSAssert(_currentAchievment,@"Expected current acheivement to be set!");
+  // TODO: HUD with progress
+  [_currentAchievment saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+    if(succeeded) {
+      [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationMilestoneNotedAndSaved object:self userInfo:@{@"" : _currentAchievment}];
+      _currentAchievment = nil;
+      //[self showSaveSuccessAndDismissDialog];
+      [_pickController loadObjects];
+    } else {
+      // [self showSaveError:error withMessage:@"Could not note milestone."];
+    }
+  }];
+}
+
+-(MilestoneAchievement*) createAchievementForMilestone:(StandardMilestone*) milestone {
+  _currentAchievment = [MilestoneAchievement object];
+  _currentAchievment.baby = Baby.currentBaby;
+  _currentAchievment.standardMilestone = milestone;
+  _currentAchievment.completionDate =  [NSDate date];
+  return _currentAchievment;
 }
 
 -(void) bounceAddButton {

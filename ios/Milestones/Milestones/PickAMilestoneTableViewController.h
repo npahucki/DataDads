@@ -12,9 +12,19 @@
 #import "MBProgressHUD.h"
 #import "SWTableViewCell.h"
 
+
+@protocol PickAMilestoneTableViewControllerDelegate <NSObject>
+
+-(void) standardMilestoneIgnoreClicked:(StandardMilestone*) milestone;
+-(void) standardMilestonePostponeClicked:(StandardMilestone*) milestone;
+-(void) standardMilestoneCompleteClicked:(StandardMilestone*) milestone;
+-(void) standardMilestoneDetailsClicked:(StandardMilestone*) milestone;
+
+@end
+
 @interface PickAMilestoneTableViewController : PFQueryTableViewController <SWTableViewCellDelegate>
 
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *addNewButton;
+@property (nonatomic, weak) id <PickAMilestoneTableViewControllerDelegate> delegate;
 
 @end
 

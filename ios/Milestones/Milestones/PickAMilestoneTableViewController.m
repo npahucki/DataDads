@@ -7,14 +7,7 @@
 //
 
 #import "PickAMilestoneTableViewController.h"
-#import "MainViewController.h"
-#import "Baby.h"
-#import "StandardMilestone.h"
-#import "NoteMilestoneViewController.h"
-#import "MilestoneDetailsViewController.h"
-#import "CreateMilestoneViewController.h"
 #import "StandardMilestoneQuery.h"
-#import "MilestoneAchievement.h"
 #import "MainMilestoneViewController.h"
 
 @implementation PickAMilestoneTableViewController
@@ -38,27 +31,6 @@
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(babyUpdated:) name:kDDNotificationCurrentBabyChanged object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(milestoneNotedAndSaved:) name:kDDNotificationMilestoneNotedAndSaved object:nil];
   [self stylePFLoadingViewTheHardWay];
-}
-
--(void) viewDidAppear:(BOOL)animated {
-  [super viewDidAppear:animated];
-  [[[self navigationController] navigationBar] setNeedsLayout];
-  self.addNewButton.enabled = Baby.currentBaby != nil;
-}
-
--(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-  NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
-  MilestoneAchievement * achievement = [MilestoneAchievement object];
-  achievement.baby = Baby.currentBaby;
-  if([segue.identifier isEqualToString:kDDSegueNoteMilestone]) {
-    achievement.standardMilestone = (StandardMilestone*)[self objectAtIndexPath:selectedIndexPath];
-    ((NoteMilestoneViewController*)segue.destinationViewController).achievement = achievement;
-  } else if([segue.identifier isEqualToString:kDDSegueShowMilestoneDetails]) {
-    achievement.standardMilestone = (StandardMilestone*)[self objectAtIndexPath:selectedIndexPath];
-    ((MilestoneDetailsViewController*)segue.destinationViewController).achievement = achievement;
-  } else if([segue.identifier isEqualToString:kDDSegueCreateCustomMilestone]) {
-    ((CreateMilestoneViewController*)segue.destinationViewController).achievement = achievement;
-  }
 }
 
 #pragma mark - UITableViewContorller
@@ -100,7 +72,8 @@
   if ([indexPath row] <= self.objects.count -1 ) { // Ignore the Load More cell click
     [super tableView:tableView didSelectRowAtIndexPath:indexPath];
     [self.tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
-    [self performSegueWithIdentifier:kDDSegueShowMilestoneDetails sender:self];
+    StandardMilestone* milestone = (StandardMilestone*) [self objectAtIndexPath:indexPath];
+    [self.delegate standardMilestoneDetailsClicked:milestone];
   }
 }
 
@@ -172,8 +145,9 @@
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerLeftUtilityButtonWithIndex:(NSInteger)index {
   NSAssert(index == 0, @"Only expected zero index for left utility");
   NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+  StandardMilestone* milestone = (StandardMilestone*) [self objectAtIndexPath:indexPath];
   [self.tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
-  [self performSegueWithIdentifier:kDDSegueNoteMilestone sender:self];
+  [self.delegate standardMilestoneCompleteClicked:milestone];
 }
 
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
@@ -181,10 +155,10 @@
   StandardMilestone* milestone = (StandardMilestone*) [self objectAtIndexPath:path];
   switch (index) {
     case 0:
-      [self logMilestoneAs:milestone  skipped:YES postponed:NO];
+      [self.delegate standardMilestoneIgnoreClicked:milestone];
       break;
     case 1:
-      [self logMilestoneAs:milestone  skipped:NO postponed:YES];
+      [self.delegate standardMilestonePostponeClicked:milestone];
       break;
     default:
       break;
@@ -192,29 +166,6 @@
 }
 
 #pragma mark - Private
-
-
--(void) logMilestoneAs:(StandardMilestone*) milestone skipped:(BOOL) isSkipped postponed:(BOOL) isPostponed {
-  // TODO: HUD with progress
-  MilestoneAchievement * achievement = [MilestoneAchievement object];
-  achievement.standardMilestone = milestone;
-  achievement.isPostponed = isPostponed;
-  achievement.isSkipped = isSkipped;
-  achievement.baby = Baby.currentBaby;
-  achievement.completionDate =  [NSDate date];
-  [achievement saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-    if(succeeded) {
-      [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationMilestoneNotedAndSaved object:self userInfo:@{@"" : achievement}];
-      //[self showSaveSuccessAndDismissDialog];
-      [self loadObjects];
-    } else {
-      // [self showSaveError:error withMessage:@"Could not note milestone."];
-    }
-  }];
-  
-}
-
-
 
 // Hack to customize the inititial loading view
 - (void)stylePFLoadingViewTheHardWay
@@ -251,7 +202,6 @@
 }
 
 -(void) babyUpdated:(NSNotification*)notification {
-  self.addNewButton.enabled = Baby.currentBaby != nil;
   if(Baby.currentBaby) [self loadObjects];
 }
 

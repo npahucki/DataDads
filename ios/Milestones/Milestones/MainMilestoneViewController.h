@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PickAMilestoneTableViewController.h"
+#import "MilestoneAchievement.h"
 
-@interface MainMilestoneViewController : UIViewController
+@interface MainMilestoneViewController : UIViewController <PickAMilestoneTableViewControllerDelegate>
 
 @property (strong, nonatomic) IBOutlet UIButton *addMilestoneButton;
 
@@ -17,3 +19,5 @@
 
 @end
 
+MilestoneAchievement * _currentAchievment;
+PickAMilestoneTableViewController * _pickController;
