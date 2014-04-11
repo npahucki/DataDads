@@ -21,3 +21,5 @@
 
 MilestoneAchievement * _currentAchievment;
 PickAMilestoneTableViewController * _pickController;
+
+BOOL _isMorganTouch;

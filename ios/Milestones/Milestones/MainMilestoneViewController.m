@@ -26,6 +26,7 @@
 -(void) viewDidAppear:(BOOL)animated {
   [super viewDidAppear:animated];
   self.addMilestoneButton.enabled = Baby.currentBaby != nil;
+  _isMorganTouch = NO; // Hack work around a double segue bug, caused by touching the cell too long
 }
 
 -(void) babyUpdated:(NSNotification*)notification {
@@ -68,8 +69,17 @@
 }
 
 -(void) standardMilestoneDetailsClicked:(StandardMilestone*) milestone {
-  [self createAchievementForMilestone:milestone];
-  [self performSegueWithIdentifier:kDDSegueShowMilestoneDetails sender:self];
+  // TODO: Find the cause of this bug: If you click for a longer time on the tablecell, it somehow triggers two rapid
+  // events in row. I think this is caused by a bug in the Swipable Table Cell we are using. The work around for now
+  // is to ignore any further touches until this view shows again.
+  if(!_isMorganTouch) {
+    _isMorganTouch = YES;
+    [self createAchievementForMilestone:milestone];
+    [self performSegueWithIdentifier:kDDSegueShowMilestoneDetails sender:self];
+  } else {
+    // TODO: Log this to somewhere to see how many people have the morgan touch. 
+    NSLog(@"YOU GOT THE MORGAN TOUCH!!!!!");
+  }
 }
 
 # pragma mark - Private
