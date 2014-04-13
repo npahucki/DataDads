@@ -12,8 +12,14 @@
 
 - (void)setAppearanceWithBlock:(void (^)())appearanceBlock force:(BOOL)force;
 
+@property (nonatomic, strong) UIView* topLineView;
+@property (nonatomic, strong) UIView* bottomLineView;
+
 @end
 
 @interface HistoryViewController : PFQueryTableViewController
 
 @end
+
+
+static NSDateFormatter * _dateFormatter;

@@ -35,6 +35,7 @@
     });
   }
 }
+
 @end
 
 
@@ -44,7 +45,16 @@
 
 @implementation HistoryViewController
 
++ (void)initialize {
+  _dateFormatter = [[NSDateFormatter alloc] init];
+  [_dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+  [_dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+}
 
+-(void) viewDidLoad {
+  [super viewDidLoad];
+  self.objectsPerPage = 50;
+}
 
 // TODO: When we need to add sections, see https://parse.com/questions/using-pfquerytableviewcontroller-for-uitableview-sections
 - (PFQuery *)queryForTable {
@@ -52,7 +62,7 @@
   if(!Baby.currentBaby) return nil;
   PFQuery * query = [MilestoneAchievement query];
   [query whereKey:@"baby" equalTo:Baby.currentBaby];
-  [query orderByAscending:@"completionDate"];
+  [query orderByDescending:@"completionDate"];
   [query includeKey:@"standardMilestone"];
   // If no objects are loaded in memory, we look to the cache
   // first to fill the table and then subsequently do a query
@@ -98,31 +108,34 @@
     [weakCell.contentView addSubview:circle];
 
     
-    UIView * topLine = [[UIView alloc] initWithFrame:CGRectMake(circle.frame.origin.x + circle.frame.size.width / 2 , 0, 1,circle.frame.origin.y)];
-    topLine.backgroundColor = [UIColor appGreyTextColor];
-    [weakCell.contentView addSubview:topLine];
+    weakCell.topLineView = [[UIView alloc] initWithFrame:CGRectMake(circle.frame.origin.x + circle.frame.size.width / 2 , 0, 1,circle.frame.origin.y)];
+    weakCell.topLineView.backgroundColor = [UIColor appGreyTextColor];
+    [weakCell.contentView addSubview:weakCell.topLineView];
 
-    UIView * bottomLine = [[UIView alloc] initWithFrame:CGRectMake(circle.frame.origin.x + circle.frame.size.width / 2 , circle.frame.origin.y + circle.frame.size.height, 1, weakCell.frame.size.height - (circle.frame.origin.y + circle.frame.size.height))];
-    bottomLine.backgroundColor = [UIColor appGreyTextColor];
-    [weakCell.contentView addSubview:bottomLine];
+    weakCell.bottomLineView = [[UIView alloc] initWithFrame:CGRectMake(circle.frame.origin.x + circle.frame.size.width / 2 , circle.frame.origin.y + circle.frame.size.height, 1, weakCell.frame.size.height - (circle.frame.origin.y + circle.frame.size.height))];
+    weakCell.bottomLineView.backgroundColor = [UIColor appGreyTextColor];
+    [weakCell.contentView addSubview:weakCell.bottomLineView];
   } force:NO];
   
   
   // TODO: Make member
-  NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-  [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
-  [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
-  cell.textLabel.text = [dateFormatter stringFromDate:achievement.completionDate];
+  cell.textLabel.text = [_dateFormatter stringFromDate:achievement.completionDate];
   cell.detailTextLabel.text = achievement.standardMilestone ? achievement.standardMilestone.title : achievement.customTitle;
 
   cell.imageView.image = [UIImage imageNamed:@"historyNoPic"]; // Place holder
   if(achievement.attachment && [achievement.attachmentType rangeOfString : @"image"].location != NSNotFound) {
     [achievement.attachment getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
       if(!error) {
-        cell.imageView.image = [self imageWithImage:[[UIImage alloc] initWithData:[achievement.attachment getData]] scaledToSize:CGSizeMake(imageWidth,imageHeight)];
+        cell.imageView.image = [self imageWithImage:[[UIImage alloc] initWithData:data] scaledToSize:CGSizeMake(imageWidth,imageHeight)];
       }
     }];
   }
+
+  cell.bottomLineView.hidden =  indexPath.row >= [self tableView:tableView numberOfRowsInSection:indexPath.section] - 1;
+  cell.topLineView.hidden = indexPath.item == 0;
+  
+  
+  
   return cell;
 }
 
