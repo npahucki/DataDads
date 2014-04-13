@@ -11,6 +11,7 @@
 #import "StandardMilestone.h"
 #import "MBProgressHUD.h"
 #import "SWTableViewCell.h"
+#import "AppQueryTableViewController.h"
 
 
 @protocol PickAMilestoneTableViewControllerDelegate <NSObject>
@@ -22,11 +23,9 @@
 
 @end
 
-@interface PickAMilestoneTableViewController : PFQueryTableViewController <SWTableViewCellDelegate>
+@interface PickAMilestoneTableViewController : AppQueryTableViewController <SWTableViewCellDelegate>
 
 @property (nonatomic, weak) id <PickAMilestoneTableViewControllerDelegate> delegate;
 
 @end
 
-MBProgressHUD * _hud;
-NSIndexPath *_lastPageTriggeredBy;

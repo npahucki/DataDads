@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		D6CB8834E1A347069F6D2883 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7AE7A55BFBD3425490A0E0F5 /* libPods.a */; };
 		E813465A18DCD9FA0053EE6E /* StandardMilestoneQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = E813465918DCD9FA0053EE6E /* StandardMilestoneQuery.m */; };
+		E819A6C318FB2A490017B626 /* AppQueryTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E819A6C218FB2A490017B626 /* AppQueryTableViewController.m */; };
 		E81B58561891EE1100C74C2B /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B58551891EE1100C74C2B /* Parse.framework */; };
 		E81B58581891EE7D00C74C2B /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B58571891EE7D00C74C2B /* AudioToolbox.framework */; };
 		E81B585A1891EE8D00C74C2B /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B58591891EE8D00C74C2B /* CFNetwork.framework */; };
@@ -86,6 +87,8 @@
 		7AE7A55BFBD3425490A0E0F5 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E813465818DCD9FA0053EE6E /* StandardMilestoneQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StandardMilestoneQuery.h; sourceTree = "<group>"; };
 		E813465918DCD9FA0053EE6E /* StandardMilestoneQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StandardMilestoneQuery.m; sourceTree = "<group>"; };
+		E819A6C118FB2A490017B626 /* AppQueryTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppQueryTableViewController.h; sourceTree = "<group>"; };
+		E819A6C218FB2A490017B626 /* AppQueryTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppQueryTableViewController.m; sourceTree = "<group>"; };
 		E81B58551891EE1100C74C2B /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		E81B58571891EE7D00C74C2B /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		E81B58591891EE8D00C74C2B /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -290,6 +293,8 @@
 				E81B586F1896A75700C74C2B /* Contants.m */,
 				E8DD48EC188EE5B900153095 /* AppDelegate.h */,
 				E8DD48ED188EE5B900153095 /* AppDelegate.m */,
+				E819A6C118FB2A490017B626 /* AppQueryTableViewController.h */,
+				E819A6C218FB2A490017B626 /* AppQueryTableViewController.m */,
 				E8BC76D318A50AD000983025 /* UIViewControllerWithHUDProgress.h */,
 				E8BC76D418A50AD000983025 /* UIViewControllerWithHUDProgress.m */,
 				E8E39C6B18EB9A090034982D /* SettingsViewController.h */,
@@ -552,6 +557,7 @@
 				E81B586B1891F9C400C74C2B /* PickAMilestoneTableViewController.m in Sources */,
 				E81B587A1896CE7800C74C2B /* Baby.m in Sources */,
 				E8D00A1D188F433E00DF2786 /* CreateMilestoneViewController.m in Sources */,
+				E819A6C318FB2A490017B626 /* AppQueryTableViewController.m in Sources */,
 				E813465A18DCD9FA0053EE6E /* StandardMilestoneQuery.m in Sources */,
 				E8DD48FA188EE5B900153095 /* LogMeasurementViewController.m in Sources */,
 				E876159B18EF83C100B0C6D9 /* BabyTagsViewController.m in Sources */,
