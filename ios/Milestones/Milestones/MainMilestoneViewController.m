@@ -30,6 +30,7 @@
 }
 
 -(void) babyUpdated:(NSNotification*)notification {
+  self.addMilestoneButton.enabled = Baby.currentBaby != nil;
   self.navigationItem.title = Baby.currentBaby.name;
 }
 
