@@ -127,7 +127,7 @@
                             <constraint firstItem="ze6-Jl-x0b" firstAttribute="top" secondItem="O0d-B9-B9d" secondAttribute="bottom" constant="8" symbolic="YES" id="eca-nS-zgT"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Measurements" image="measurementsIcon.png" id="Z7h-1E-pvt"/>
+                    <tabBarItem key="tabBarItem" title="Measurements" image="hi" id="Z7h-1E-pvt"/>
                     <nil key="simulatedStatusBarMetrics"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
@@ -991,7 +991,7 @@
                                 <state key="selected" image="historyIcon_pressed"/>
                                 <state key="highlighted" image="historyIcon_pressed.png"/>
                                 <connections>
-                                    <segue destination="t73-mk-dgx" kind="push" id="suo-mr-e5m"/>
+                                    <segue destination="b71-m6-YKZ" kind="push" id="6xj-Ms-Z1W"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CyV-Rt-NSy">
@@ -1055,26 +1055,59 @@
             </objects>
             <point key="canvasLocation" x="4052" y="-3097"/>
         </scene>
-        <!--View Controller - History-->
-        <scene sceneID="KDv-lH-aTH">
+        <!--History View Controller - History-->
+        <scene sceneID="lrB-wz-bcW">
             <objects>
-                <viewController title="History" id="t73-mk-dgx" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="VyV-3Q-OoN"/>
-                        <viewControllerLayoutGuide type="bottom" id="rSu-zU-OTT"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="jo5-88-M0e">
+                <tableViewController title="History" extendedLayoutIncludesOpaqueBars="YES" id="b71-m6-YKZ" customClass="HistoryViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="108" sectionHeaderHeight="22" sectionFooterHeight="22" id="AxW-Cn-Ymw">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="History" id="heO-x9-eSk">
-                        <barButtonItem key="backBarButtonItem" title="Back" id="vWQ-f4-K6k"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" restorationIdentifier="simpleHistoryCell" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="simpleHistoryCell" textLabel="Gka-eD-bDJ" detailTextLabel="V0U-k6-hDp" imageView="ep1-ot-Hc0" rowHeight="108" style="IBUITableViewCellStyleSubtitle" id="Bck-82-6DC" customClass="HistoryTableViewCell">
+                                <rect key="frame" x="0.0" y="66" width="320" height="108"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Bck-82-6DC" id="hH9-Bu-41f">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="108"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Gka-eD-bDJ">
+                                            <rect key="frame" x="84" y="37" width="24" height="15"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <color key="textColor" red="0.23529411759999999" green="0.57254901960000004" blue="0.81176470590000005" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="V0U-k6-hDp">
+                                            <rect key="frame" x="84" y="52" width="56" height="20"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="historyNoPic" id="ep1-ot-Hc0">
+                                            <rect key="frame" x="15" y="27" width="54" height="54"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <rect key="contentStretch" x="0.0" y="0.0" width="0.0" height="0.0"/>
+                                        </imageView>
+                                    </subviews>
+                                </tableViewCellContentView>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="b71-m6-YKZ" id="M42-fx-gZh"/>
+                            <outlet property="delegate" destination="b71-m6-YKZ" id="Id1-65-kP2"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="History" id="Fgj-9z-f9G">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="O2X-ep-479"/>
                     </navigationItem>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="tar-xY-K31" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Hf7-xK-ZQL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5770" y="-2742"/>
+            <point key="canvasLocation" x="5256" y="-2803"/>
         </scene>
         <!--Main Milestone View Controller - My Baby-->
         <scene sceneID="m6x-fX-w2v">
@@ -1155,7 +1188,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="QfA-Ku-3Fd" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="huo-Fv-tVs">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="huo-Fv-tVs">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1196,12 +1229,13 @@
         <image name="femaleIcon" width="81" height="80"/>
         <image name="femaleIcon_selected" width="81" height="80"/>
         <image name="genderLines" width="255" height="105"/>
+        <image name="hi" width="30" height="30"/>
         <image name="historyIcon" width="27" height="27"/>
         <image name="historyIcon_pressed" width="27" height="27"/>
         <image name="historyIcon_pressed.png" width="27" height="27"/>
+        <image name="historyNoPic" width="54" height="54"/>
         <image name="maleIcon" width="80" height="80"/>
         <image name="maleIcon_selected" width="80" height="80"/>
-        <image name="measurementsIcon.png" width="30" height="30"/>
         <image name="milestonesIcon.png" width="23" height="23"/>
         <image name="newMilestoneButton" width="43" height="43"/>
         <image name="newMilestoneButton_pressed" width="43" height="43"/>

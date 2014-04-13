@@ -42,12 +42,14 @@
   }
   
   // Navigation Segues
-  NSAssert(_currentAchievment, @"Expected currentAchievement to be set");
   if([segue.identifier isEqualToString:kDDSegueNoteMilestone]) {
+    NSAssert(_currentAchievment, @"Expected currentAchievement to be set");
     ((NoteMilestoneViewController*)segue.destinationViewController).achievement = _currentAchievment;
   } else if([segue.identifier isEqualToString:kDDSegueShowMilestoneDetails]) {
+    NSAssert(_currentAchievment, @"Expected currentAchievement to be set");
     ((MilestoneDetailsViewController*)segue.destinationViewController).achievement = _currentAchievment;
   } else if([segue.identifier isEqualToString:kDDSegueCreateCustomMilestone]) {
+    NSAssert(_currentAchievment, @"Expected currentAchievement to be set");
     ((CreateMilestoneViewController*)segue.destinationViewController).achievement = _currentAchievment;
   }
 }
