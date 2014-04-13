@@ -23,42 +23,6 @@
   _addedTags = [NSMutableArray array]; // holds any added tag objects.
   self.selectedTags = [[NSMutableSet alloc] init];
   self.objectsPerPage = 100; // small to load
-  [self stylePFLoadingViewTheHardWay];
-}
-
-// Hack to customize the inititial loading view
-- (void)stylePFLoadingViewTheHardWay
-{
-  UIColor *labelTextColor = [UIColor appBlueColor];
-  UIColor *labelShadowColor = [UIColor appGreyTextColor];
-  
-  // go through all of the subviews until you find a PFLoadingView subclass
-  for (UIView *subview in self.view.subviews)
-  {
-    if ([subview class] == NSClassFromString(@"PFLoadingView"))
-    {
-      // find the loading label and loading activity indicator inside the PFLoadingView subviews
-      for (UIView *loadingViewSubview in subview.subviews) {
-        if ([loadingViewSubview isKindOfClass:[UILabel class]])
-        {
-          UILabel *label = (UILabel *)loadingViewSubview;
-          {
-            label.textColor = labelTextColor;
-            label.shadowColor = labelShadowColor;
-          }
-        }
-        
-        if ([loadingViewSubview isKindOfClass:[UIActivityIndicatorView class]])
-        {
-          UIImage * image = [UIImage animatedImageNamed:@"progress-" duration:1.0f];
-          UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(subview.frame.size.width / 2 - image.size.width / 2, self.view.frame.size.height / 2 - (image.size.height / 2) , image.size.width, image.size.height)];
-          [imageView setImage:image];
-          [loadingViewSubview removeFromSuperview];
-          [subview addSubview: imageView];
-        }
-      }
-    }
-  }
 }
 
 -(void) addNewTag: (NSString*) tagText {

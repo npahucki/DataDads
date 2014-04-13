@@ -7,8 +7,9 @@
 //
 
 #import <Parse/Parse.h>
+#import "AppQueryTableViewController.h"
 
-@interface BabyTagsTableViewController : PFQueryTableViewController
+@interface BabyTagsTableViewController : AppQueryTableViewController
 
 @property NSSet* selectedTags; // String Tags
 

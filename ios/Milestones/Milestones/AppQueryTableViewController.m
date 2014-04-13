@@ -26,8 +26,6 @@
 
 // Since we are going to load more items as we get near the bottom, we will return a cell saying more is loading
 - (PFTableViewCell *)tableView:(UITableView *)tableView cellForNextPageAtIndexPath:(NSIndexPath *)indexPath {
-  
-  if([super tableView:tableView cellForNextPageAtIndexPath:indexPath]) {
     PFTableViewCell * cell = [[PFTableViewCell alloc] init];
     cell.imageView.image = [UIImage animatedImageNamed:@"progress-" duration:1.0f];
     cell.imageView.contentMode = UIViewContentModeScaleAspectFit;
@@ -36,9 +34,6 @@
     cell.textLabel.font = [UIFont fontForAppWithType:Bold andSize:15.0];
     cell.userInteractionEnabled = NO;
     return cell;
-  } else {
-    return nil;
-  }
 }
 
 -(void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {

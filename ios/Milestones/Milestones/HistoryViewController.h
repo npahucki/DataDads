@@ -7,6 +7,7 @@
 //
 
 #import <Parse/Parse.h>
+#import "AppQueryTableViewController.h"
 
 @interface HistoryTableViewCell : UITableViewCell
 
@@ -17,7 +18,7 @@
 
 @end
 
-@interface HistoryViewController : PFQueryTableViewController
+@interface HistoryViewController : AppQueryTableViewController
 
 @end
 
