@@ -19,9 +19,13 @@
 
 -(void) viewDidLoad {
   [super viewDidLoad];
-  [self stylePFLoadingViewTheHardWay];
   self.pullToRefreshEnabled = YES;
   self.paginationEnabled = YES;
+}
+
+-(void) viewDidLayoutSubviews {
+  [super viewDidLayoutSubviews];
+  [self stylePFLoadingViewTheHardWay];
 }
 
 // Since we are going to load more items as we get near the bottom, we will return a cell saying more is loading
@@ -61,34 +65,40 @@
 - (void)stylePFLoadingViewTheHardWay
 {
   UIColor *labelTextColor = [UIColor appBlueColor];
-  UIColor *labelShadowColor = [UIColor appGreyTextColor];
   
   // go through all of the subviews until you find a PFLoadingView subclass
+  UILabel * label;
+  UIImageView* imageView;
+  
   for (UIView *subview in self.view.subviews)
   {
     if ([subview class] == NSClassFromString(@"PFLoadingView"))
     {
-      // find the loading label and loading activity indicator inside the PFLoadingView subviews
       for (UIView *loadingViewSubview in subview.subviews) {
-        if ([loadingViewSubview isKindOfClass:[UILabel class]])
-        {
-          //[loadingViewSubview removeFromSuperview];
-          UILabel *label = (UILabel *)loadingViewSubview;
+        if ([loadingViewSubview isKindOfClass:[UILabel class]]) {
+          label = (UILabel *)loadingViewSubview;
           label.textColor = labelTextColor;
-          label.shadowColor = labelShadowColor;
+          label.font = [UIFont fontForAppWithType:Bold andSize:27];
+          [label sizeToFit];
         }
-        
-        if ([loadingViewSubview isKindOfClass:[UIActivityIndicatorView class]])
-        {
-          UIImage * image = [UIImage animatedImageNamed:@"progress-" duration:1.0f];
-          UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(subview.frame.size.width / 2 - image.size.width / 2, self.view.frame.size.height / 2 - image.size.height * 2 + 10 , image.size.width, image.size.height)];
-          [imageView setImage:image];
+        if ([loadingViewSubview isKindOfClass:[UIActivityIndicatorView class]]) {
           [loadingViewSubview removeFromSuperview];
+          UIImage * image = [UIImage animatedImageNamed:@"progress-" duration:1.0f];
+          UIImageView* imageView = [[UIImageView alloc] initWithImage:image];
           [subview addSubview: imageView];
         }
+        if ([loadingViewSubview isKindOfClass:[UIImageView class]]) {
+          imageView = (UIImageView*) loadingViewSubview;
+        }
+        imageView.frame = CGRectMake((subview.frame.size.width - imageView.image.size.width) / 2, label.frame.origin.y - imageView.image.size.height - 15 , imageView.image.size.width, imageView.image.size.height);
       }
     }
   }
+
+
+
+
+
 }
 
 
