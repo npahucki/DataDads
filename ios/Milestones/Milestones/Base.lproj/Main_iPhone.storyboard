@@ -127,7 +127,7 @@
                             <constraint firstItem="ze6-Jl-x0b" firstAttribute="top" secondItem="O0d-B9-B9d" secondAttribute="bottom" constant="8" symbolic="YES" id="eca-nS-zgT"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Measurements" image="hi" id="Z7h-1E-pvt"/>
+                    <tabBarItem key="tabBarItem" title="Measurements" image="measurementsIcon" id="Z7h-1E-pvt"/>
                     <nil key="simulatedStatusBarMetrics"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
@@ -609,7 +609,7 @@
         <scene sceneID="YCf-cW-5Vn">
             <objects>
                 <navigationController definesPresentationContext="YES" id="mJ5-m9-7Sj" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Milestones" image="milestonesIcon.png" id="MPf-iA-FA8"/>
+                    <tabBarItem key="tabBarItem" title="Milestones" image="milestonesIcon" id="MPf-iA-FA8"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="dLV-Fg-va5">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1102,8 +1102,17 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="History" id="Fgj-9z-f9G">
                         <barButtonItem key="backBarButtonItem" title="Back" id="O2X-ep-479"/>
+                        <barButtonItem key="rightBarButtonItem" title="↓" id="l7M-Fz-3gl">
+                            <color key="tintColor" red="0.23529411759999999" green="0.57254901960000004" blue="0.81176470590000005" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="didClickSortButton:" destination="b71-m6-YKZ" id="k33-J5-Ray"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <connections>
+                        <outlet property="sortButton" destination="l7M-Fz-3gl" id="yVf-d8-RFj"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hf7-xK-ZQL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1229,14 +1238,14 @@
         <image name="femaleIcon" width="81" height="80"/>
         <image name="femaleIcon_selected" width="81" height="80"/>
         <image name="genderLines" width="255" height="105"/>
-        <image name="hi" width="30" height="30"/>
         <image name="historyIcon" width="27" height="27"/>
         <image name="historyIcon_pressed" width="27" height="27"/>
         <image name="historyIcon_pressed.png" width="27" height="27"/>
         <image name="historyNoPic" width="54" height="54"/>
         <image name="maleIcon" width="80" height="80"/>
         <image name="maleIcon_selected" width="80" height="80"/>
-        <image name="milestonesIcon.png" width="23" height="23"/>
+        <image name="measurementsIcon" width="19" height="22"/>
+        <image name="milestonesIcon" width="23" height="23"/>
         <image name="newMilestoneButton" width="43" height="43"/>
         <image name="newMilestoneButton_pressed" width="43" height="43"/>
         <image name="newMilestoneButton_pressed.png" width="43" height="43"/>

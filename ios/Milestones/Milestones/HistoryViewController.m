@@ -8,37 +8,6 @@
 
 #import "HistoryViewController.h"
 
-
-@interface HistoryTableViewCell ()
-{
-  dispatch_once_t onceToken;
-  
-  
-  
-  
-  
-}
-@end
-
-@implementation HistoryTableViewCell
-
-- (void)setAppearanceWithBlock:(void (^)())appearanceBlock force:(BOOL)force
-{
-  if (force)
-  {
-    appearanceBlock();
-  }
-  else
-  {
-    dispatch_once(&onceToken, ^{
-      appearanceBlock();
-    });
-  }
-}
-
-@end
-
-
 @interface HistoryViewController ()
 
 @end
@@ -49,6 +18,16 @@
   _dateFormatter = [[NSDateFormatter alloc] init];
   [_dateFormatter setDateStyle:NSDateFormatterMediumStyle];
   [_dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+}
+
+-(BOOL) reverseSort {
+  return _reverseSort;
+}
+
+-(void) setReverseSort: (BOOL) reverse {
+  _reverseSort = reverse;
+  self.sortButton.title = _reverseSort ? @"↑" : @"↓";
+  [self loadObjects];
 }
 
 -(void) viewDidLoad {
@@ -62,8 +41,13 @@
   if(!Baby.currentBaby) return nil;
   PFQuery * query = [MilestoneAchievement query];
   [query whereKey:@"baby" equalTo:Baby.currentBaby];
-  [query orderByDescending:@"completionDate"];
   [query includeKey:@"standardMilestone"];
+  if(_reverseSort) {
+    [query orderByAscending:@"completionDate"];
+  } else {
+    [query orderByDescending:@"completionDate"];
+  }
+  
   // If no objects are loaded in memory, we look to the cache
   // first to fill the table and then subsequently do a query
   // against the network.
@@ -71,6 +55,13 @@
   query.cachePolicy = policy;
   return query;
 }
+
+- (IBAction)didClickSortButton:(id)sender {
+    self.reverseSort = !self.reverseSort;
+}
+
+
+
 
 #pragma mark - UITableViewContorller
 
@@ -178,3 +169,29 @@
 */
 
 @end
+
+@interface HistoryTableViewCell ()
+{
+  dispatch_once_t onceToken;
+}
+@end
+
+@implementation HistoryTableViewCell
+
+- (void)setAppearanceWithBlock:(void (^)())appearanceBlock force:(BOOL)force
+{
+  if (force)
+  {
+    appearanceBlock();
+  }
+  else
+  {
+    dispatch_once(&onceToken, ^{
+      appearanceBlock();
+    });
+  }
+}
+
+@end
+
+

@@ -51,7 +51,7 @@
 {
   [super tableView:tableView didSelectRowAtIndexPath:indexPath];
   // We disabled user interaction above!
-  NSAssert([indexPath row] <= self.objects.count -1, @"Did not expect click on Load More Cell");
+  NSAssert([indexPath row] <= self.objects.count - 1, @"Did not expect click on Load More Cell");
 }
 
 
@@ -60,6 +60,18 @@
   // Must be reset so that more can load again.
   _lastPageTriggeredBy =  0;
 }
+
+//-(void) objectsDidLoad:(NSError *)error {
+//  [super objectsDidLoad:error];
+//  NSLog(@"Did Load Objects. Count: %lu", (unsigned long)self.objects.count);
+//}
+//
+//-(void) loadNextPage {
+//  [super loadNextPage];
+//  NSLog(@"Loading objects....");
+//  
+//}
+
 
 // Hack to customize the inititial loading view
 - (void)stylePFLoadingViewTheHardWay

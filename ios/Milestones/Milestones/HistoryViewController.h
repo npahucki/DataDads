@@ -8,6 +8,11 @@
 
 #import <Parse/Parse.h>
 #import "AppQueryTableViewController.h"
+@interface HistoryViewController : AppQueryTableViewController
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *sortButton;
+@property BOOL reverseSort;
+
+@end
 
 @interface HistoryTableViewCell : UITableViewCell
 
@@ -15,12 +20,8 @@
 
 @property (nonatomic, strong) UIView* topLineView;
 @property (nonatomic, strong) UIView* bottomLineView;
-
 @end
 
-@interface HistoryViewController : AppQueryTableViewController
-
-@end
-
+BOOL _reverseSort;
 
 static NSDateFormatter * _dateFormatter;
