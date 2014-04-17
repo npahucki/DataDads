@@ -11,6 +11,7 @@
 
 #pragma mark - Field Names
 NSString *const kDDUserScreenName = @"screenName";
+NSString *const kDDUserIsMale = @"isMale";
 NSString *const kDDUserEmail = @"email";
 
 #pragma mark - Segue Names

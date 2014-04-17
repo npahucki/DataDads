@@ -11,5 +11,12 @@
 @interface EnterScreenNameViewController : UIViewController 
 
 @property (strong, nonatomic) IBOutlet UITextField *screenNameField;
+@property (strong, nonatomic) IBOutlet UIButton *maleButton;
+@property (strong, nonatomic) IBOutlet UIButton *femaleButton;
+@property (strong, nonatomic) IBOutlet UILabel *maleLabel;
+@property (strong, nonatomic) IBOutlet UILabel *femaleLabel;
+@property (weak, nonatomic) IBOutlet UIButton *keepAnonymousButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *nextButton;
+
 
 @end

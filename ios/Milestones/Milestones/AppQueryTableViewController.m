@@ -40,6 +40,17 @@
     return cell;
 }
 
+-(void) objectsWillLoad {
+  [super objectsWillLoad];
+  for (UIView *subview in self.view.subviews)
+  {
+    if ([subview class] == NSClassFromString(@"UIRefreshControl")) {
+    
+    }
+
+  }
+}
+
 -(void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
   if (indexPath.row > _lastPageTriggeredBy.row && self.objects.count > 1 && indexPath.row == self.objects.count - 1 && !self.isLoading) {
     _lastPageTriggeredBy = indexPath;
@@ -60,17 +71,6 @@
   // Must be reset so that more can load again.
   _lastPageTriggeredBy =  0;
 }
-
-//-(void) objectsDidLoad:(NSError *)error {
-//  [super objectsDidLoad:error];
-//  NSLog(@"Did Load Objects. Count: %lu", (unsigned long)self.objects.count);
-//}
-//
-//-(void) loadNextPage {
-//  [super loadNextPage];
-//  NSLog(@"Loading objects....");
-//  
-//}
 
 
 // Hack to customize the inititial loading view

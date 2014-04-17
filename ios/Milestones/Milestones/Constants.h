@@ -12,6 +12,7 @@
 
 // User object constants
 extern NSString *const kDDUserScreenName;
+extern NSString *const kDDUserIsMale;
 extern NSString *const kDDUserEmail;
 
 
