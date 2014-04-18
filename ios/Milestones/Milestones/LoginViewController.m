@@ -7,6 +7,7 @@
 //
 
 #import "LoginViewController.h"
+#import "SignUpViewController.h"
 
 @interface LoginViewController ()
 
@@ -23,17 +24,15 @@
 
 - (void)viewDidLoad
 {
-  //[super viewDidLoad];
+  [super viewDidLoad];
   self.delegate = self;
-  self.signUpController.delegate = self;
   [self.logInView setBackgroundColor:[UIColor whiteColor]];
+  
+  // Setup Signin Controller
+  self.signUpController = [[SignUpViewController alloc] init];
+  self.signUpController.delegate = self;
+  
 
-  // Navigation Bar
-  UINavigationBar *myBar = [[UINavigationBar alloc]initWithFrame:CGRectMake(0, 0, self.logInView.frame.size.width, 44)];
-  [myBar setBackgroundImage:[UIImage imageNamed:@"header"] forBarMetrics:UIBarMetricsDefault];
-  [myBar pushNavigationItem:[[UINavigationItem alloc] init] animated:false];
-  myBar.topItem.title = @"Welcome!";
-  [self.logInView addSubview:myBar];
 
   
   // LOGO / Title
@@ -47,6 +46,16 @@
   //[self.logInView.logo addSubview:label];
   //[self.logInView.logo addSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"welcomeScreenBaby"]]];
 
+  // Navigation Bar
+  UINavigationBar *myBar = [[UINavigationBar alloc]initWithFrame:CGRectMake(0, 0, self.logInView.frame.size.width, 44)];
+  [myBar setBackgroundImage:[UIImage imageNamed:@"header"] forBarMetrics:UIBarMetricsDefault];
+  [myBar pushNavigationItem:[[UINavigationItem alloc] init] animated:false];
+  myBar.topItem.title = @"Welcome!";
+  myBar.translucent = NO;
+  [self.logInView insertSubview:myBar aboveSubview:self.logInView.logo];
+
+  
+  
   // Username
   self.logInView.usernameField.textColor = [UIColor appGreyTextColor];
   self.logInView.usernameField.layer.borderColor = [UIColor appGreyTextColor].CGColor;
