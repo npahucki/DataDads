@@ -34,7 +34,9 @@
   [query whereKey:@"isPostponed" notEqualTo:[NSNumber numberWithBool:YES]];
   
   [query countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
-    // Make the label show attributed text 
+    self.historyButton.enabled = number > 0;
+    
+    // Make the label show attributed text
     NSDictionary *numberAttributes = @{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:95.0], NSForegroundColorAttributeName: [UIColor appBlueColor]};
     NSDictionary *milestoneTextAttributes = @{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:18.0], NSForegroundColorAttributeName: [UIColor appGreyTextColor]};
     NSMutableAttributedString *milestoneString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%i\nmilestones logged",number]];

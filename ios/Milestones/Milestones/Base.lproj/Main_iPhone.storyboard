@@ -1077,7 +1077,7 @@
                                     <segue destination="qmW-lh-FBf" kind="push" id="nEa-Kq-fCt"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I7S-UM-7tB">
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I7S-UM-7tB">
                                 <rect key="frame" x="80" y="375" width="160" height="27"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
@@ -1149,6 +1149,7 @@
                         <outlet property="ageLabel" destination="gA7-xI-3xd" id="FHH-d9-s68"/>
                         <outlet property="babyAvatar" destination="WGV-my-gNj" id="2Ff-yH-tuj"/>
                         <outlet property="babyNameLabel" destination="ebC-H6-wqr" id="Wbi-QU-FcB"/>
+                        <outlet property="historyButton" destination="I7S-UM-7tB" id="4tL-IG-GO9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T5a-QN-MdC" userLabel="First Responder" sceneMemberID="firstResponder"/>
