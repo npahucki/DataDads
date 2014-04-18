@@ -70,6 +70,7 @@
 		E8E39C1B18EA13B40034982D /* CustomIOS7AlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = E8E39C1A18EA13B40034982D /* CustomIOS7AlertView.m */; };
 		E8E39C6A18EB063E0034982D /* MainMilestoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8E39C6918EB063E0034982D /* MainMilestoneViewController.m */; };
 		E8E39C6D18EB9A090034982D /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8E39C6C18EB9A090034982D /* SettingsViewController.m */; };
+		E8F485481901C6F90030912F /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8F485471901C6F90030912F /* SignUpViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -177,6 +178,8 @@
 		E8E39C6918EB063E0034982D /* MainMilestoneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMilestoneViewController.m; sourceTree = "<group>"; };
 		E8E39C6B18EB9A090034982D /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		E8E39C6C18EB9A090034982D /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SettingsViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		E8F485461901C6F90030912F /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
+		E8F485471901C6F90030912F /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -303,6 +306,8 @@
 				E81B58721896B89E00C74C2B /* MainViewController.m */,
 				E8D00A15188F348700DF2786 /* LoginViewController.h */,
 				E8D00A16188F348700DF2786 /* LoginViewController.m */,
+				E8F485461901C6F90030912F /* SignUpViewController.h */,
+				E8F485471901C6F90030912F /* SignUpViewController.m */,
 				E81B58741896C1A900C74C2B /* EnterScreenNameViewController.h */,
 				E81B58751896C1A900C74C2B /* EnterScreenNameViewController.m */,
 				E81B58691891F9C400C74C2B /* PickAMilestoneTableViewController.h */,
@@ -557,6 +562,7 @@
 				E81B586B1891F9C400C74C2B /* PickAMilestoneTableViewController.m in Sources */,
 				E81B587A1896CE7800C74C2B /* Baby.m in Sources */,
 				E8D00A1D188F433E00DF2786 /* CreateMilestoneViewController.m in Sources */,
+				E8F485481901C6F90030912F /* SignUpViewController.m in Sources */,
 				E819A6C318FB2A490017B626 /* AppQueryTableViewController.m in Sources */,
 				E813465A18DCD9FA0053EE6E /* StandardMilestoneQuery.m in Sources */,
 				E8DD48FA188EE5B900153095 /* LogMeasurementViewController.m in Sources */,

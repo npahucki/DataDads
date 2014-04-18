@@ -25,7 +25,12 @@
       if([PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]) {
         // TODO: Lookup Name in facebook to suggest as screen name
       } else {
-        [user setObject:user.username forKey:kDDUserScreenName];
+        NSInteger emailSymbol = [user.username rangeOfString:@"@"].location;
+        if(emailSymbol == NSNotFound) {
+          [user setObject:user.username forKey:kDDUserScreenName];
+        } else {
+          [user setObject:  [user.username substringToIndex:emailSymbol] forKey:kDDUserScreenName];
+        }
       }
       [self performSegueWithIdentifier:@"enterScreenName" sender:self];
     } else {
