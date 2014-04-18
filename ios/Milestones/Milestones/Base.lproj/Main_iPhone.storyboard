@@ -1284,6 +1284,7 @@
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="addMilestoneButton" destination="Vpv-RJ-8CQ" id="gSb-pn-aeV"/>
+                        <outlet property="menuButton" destination="qU1-vG-KKB" id="h3u-Mt-G7a"/>
                         <segue destination="z4V-2L-hGr" kind="push" identifier="showMilestoneDetails" id="HX1-rE-1hx"/>
                         <segue destination="z4V-2L-hGr" kind="push" identifier="noteMilestone" id="q7w-88-kEx"/>
                     </connections>

@@ -13,6 +13,7 @@
 @interface MainMilestoneViewController : UIViewController <PickAMilestoneTableViewControllerDelegate>
 
 @property (strong, nonatomic) IBOutlet UIButton *addMilestoneButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *menuButton;
 
 // Show an animation of the add button bouncing 3 time, to get attention
 -(void) bounceAddButton;

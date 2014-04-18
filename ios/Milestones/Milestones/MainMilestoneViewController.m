@@ -26,11 +26,13 @@
 -(void) viewDidAppear:(BOOL)animated {
   [super viewDidAppear:animated];
   self.addMilestoneButton.enabled = Baby.currentBaby != nil;
+  self.menuButton.enabled = Baby.currentBaby != nil;
   _isMorganTouch = NO; // Hack work around a double segue bug, caused by touching the cell too long
 }
 
 -(void) babyUpdated:(NSNotification*)notification {
   self.addMilestoneButton.enabled = Baby.currentBaby != nil;
+  self.menuButton.enabled = Baby.currentBaby != nil;
   self.navigationItem.title = Baby.currentBaby.name;
 }
 

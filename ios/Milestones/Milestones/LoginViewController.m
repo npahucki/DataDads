@@ -23,23 +23,145 @@
 
 - (void)viewDidLoad
 {
+  //[super viewDidLoad];
   self.delegate = self;
-  // self.view.backgroundColor = [UIColor colorWithPatternImage:
-  //                              [UIImage imageNamed:@"myBackgroundImage.png"]];
-  UILabel* label = [[UILabel alloc]init];
-  label.text = @"Data Dads";
-  [label sizeToFit];
-  self.logInView.logo = label; // logo can be any UIView
   self.signUpController.delegate = self;
-  [super viewDidLoad];
+  [self.logInView setBackgroundColor:[UIColor whiteColor]];
+
+  // Navigation Bar
+  UINavigationBar *myBar = [[UINavigationBar alloc]initWithFrame:CGRectMake(0, 0, self.logInView.frame.size.width, 44)];
+  [myBar setBackgroundImage:[UIImage imageNamed:@"header"] forBarMetrics:UIBarMetricsDefault];
+  [myBar pushNavigationItem:[[UINavigationItem alloc] init] animated:false];
+  myBar.topItem.title = @"Welcome!";
+  [self.logInView addSubview:myBar];
+
+  
+  // LOGO / Title
+  UILabel* label = [[UILabel alloc]init];
+  label.text = @"Login to Data Dads";
+  label.font = [UIFont fontForAppWithType:Bold andSize:27];
+  label.textColor = [UIColor appBlueColor];
+  [label sizeToFit];
+  self.logInView.logo = label;
+  //self.logInView.logo = [[UIView alloc]init];
+  //[self.logInView.logo addSubview:label];
+  //[self.logInView.logo addSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"welcomeScreenBaby"]]];
+
+  // Username
+  self.logInView.usernameField.textColor = [UIColor appGreyTextColor];
+  self.logInView.usernameField.layer.borderColor = [UIColor appGreyTextColor].CGColor;
+  self.logInView.usernameField.layer.borderWidth = 1;
+  self.logInView.usernameField.layer.cornerRadius = 8;
+  self.logInView.usernameField.backgroundColor = [UIColor whiteColor];
+  self.logInView.usernameField.layer.shadowOpacity = 0.0;
+  
+  // Pasword
+  self.logInView.passwordField.textColor = [UIColor appGreyTextColor];
+  self.logInView.passwordField.borderStyle = UITextBorderStyleRoundedRect;
+  self.logInView.passwordField.layer.borderColor = [UIColor appGreyTextColor].CGColor;
+  self.logInView.passwordField.layer.borderWidth = 1;
+  self.logInView.passwordField.layer.cornerRadius = 8;
+  self.logInView.passwordField.backgroundColor = [UIColor whiteColor];
+  self.logInView.passwordField.layer.shadowOpacity = 0.0;
+
+  
+  self.logInView.passwordForgottenButton.backgroundColor = [UIColor appBlueColor];
+  
+  // Loging button
+  [self.logInView.logInButton setImage:nil forState:UIControlStateHighlighted];
+  [self.logInView.logInButton setBackgroundImage:nil forState:UIControlStateHighlighted];
+  [self.logInView.logInButton setBackgroundImage:nil forState:UIControlStateNormal];
+  self.logInView.logInButton.backgroundColor = [UIColor appBlueColor];
+  self.logInView.logInButton.titleLabel.font = [UIFont fontForAppWithType:Bold andSize:13];
+  self.logInView.logInButton.titleLabel.textColor = [UIColor whiteColor];
+  [self.logInView.logInButton setTitle:@"Login" forState:UIControlStateNormal];
+  self.logInView.logInButton.titleLabel.backgroundColor = [UIColor appBlueColor];
+  self.logInView.logInButton.layer.cornerRadius = 8;
+  
+
+  // Or label
+  self.logInView.externalLogInLabel.text = @"or";
+  self.orSep = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"orSep"]];
+  [self.logInView addSubview:self.orSep];
+  
+  // Facebook button
+  [self.logInView.facebookButton setImage:[UIImage imageNamed:@"facebookIcon"] forState:UIControlStateNormal];
+  //[self.logInView.facebookButton setImage:nil forState:UIControlStateHighlighted];
+  [self.logInView.facebookButton setBackgroundImage:nil forState:UIControlStateHighlighted];
+  [self.logInView.facebookButton setBackgroundImage:nil forState:UIControlStateNormal];
+  self.logInView.facebookButton.backgroundColor = [UIColor appBlueColor];
+  self.logInView.facebookButton.titleLabel.font = [UIFont fontForAppWithType:Bold andSize:13];
+  [self.logInView.facebookButton setTitle:@" Login with Facebook" forState:UIControlStateNormal];
+  self.logInView.facebookButton.titleLabel.backgroundColor = [UIColor appBlueColor];
+  self.logInView.facebookButton.layer.cornerRadius = 8;
+
+  // Signup Sep
+  self.signupSep = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.logInView.frame.size.width,1)];
+  self.signupSep.backgroundColor = [UIColor appGreyTextColor];
+  self.signupSep.alpha = 0.5;
+  [self.logInView addSubview:self.signupSep];
+  self.logInView.signUpLabel.text = @"";
+  
+  
+  
+  // Signup button
+  NSMutableAttributedString * attrTitle = [[NSMutableAttributedString alloc] initWithString:@"No account yet? Sign Up!"];
+  [attrTitle addAttribute:NSForegroundColorAttributeName value:[UIColor appGreyTextColor] range:NSMakeRange(0,15)];
+  [attrTitle addAttribute:NSForegroundColorAttributeName value:[UIColor appBlueColor] range:NSMakeRange(16,attrTitle.length - 16 )];
+  [attrTitle addAttribute:NSFontAttributeName value:[UIFont fontForAppWithType:Bold andSize:13] range:NSMakeRange(0,attrTitle.length - 1)];
+  [self.logInView.signUpButton setAttributedTitle:attrTitle forState:UIControlStateNormal];
+  [self.logInView.signUpButton setBackgroundImage:nil forState:UIControlStateNormal];
+  [self.logInView.signUpButton setBackgroundImage:nil forState:UIControlStateHighlighted];
+  [self.logInView.signUpButton setTitleShadowColor:[UIColor clearColor] forState:UIControlStateNormal];
+  self.logInView.signUpButton.layer.borderColor = [UIColor appGreyTextColor].CGColor;
+  self.logInView.signUpButton.layer.borderWidth = 1.0;
+  self.logInView.signUpButton.layer.cornerRadius = 8;
+  self.logInView.signUpButton.titleLabel.font = [UIFont fontForAppWithType:Bold andSize:13];
+  self.logInView.signUpButton.titleLabel.layer.shadowOpacity = 0.0;
+
+  // Forgot password button
+  [self.logInView.passwordForgottenButton setBackgroundImage:[UIImage imageNamed:@"forgotPassword"] forState:UIControlStateNormal];
+  [self.logInView.passwordForgottenButton setImage:nil forState:UIControlStateHighlighted];
+  self.logInView.passwordForgottenButton.layer.cornerRadius = 8;
+  
   
 }
 
-- (void)didReceiveMemoryWarning
-{
-  [super didReceiveMemoryWarning];
-  // Dispose of any resources that can be recreated.
+-(void) viewDidLayoutSubviews {
+  [super viewDidLayoutSubviews];
+  self.orSep.center = self.logInView.externalLogInLabel.center;
+  self.logInView.facebookButton.center = CGPointMake(self.logInView.facebookButton.center.x, self.logInView.facebookButton.center.y + 15);
+  self.logInView.logInButton.center = CGPointMake(self.logInView.logInButton.center.x, self.logInView.logInButton.center.y + 10);
+  self.signupSep.center = self.logInView.signUpLabel.center;
+  
+  int logoY = (self.logInView.usernameField.frame.origin.y + self.logInView.logo.frame.size.height + 44) / 2;
+  self.logInView.logo.center = CGPointMake(self.logInView.logo.center.x,logoY - 150);
+  
+  self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.logInView];
+  UIGravityBehavior* gravityBehavior =
+  [[UIGravityBehavior alloc] initWithItems:@[ self.logInView.logo]];
+  [self.animator addBehavior:gravityBehavior];
+  
+  UICollisionBehavior* collisionBehavior =
+  [[UICollisionBehavior alloc] initWithItems:@[ self.logInView.logo]];
+  collisionBehavior.translatesReferenceBoundsIntoBoundary = NO;
+  [collisionBehavior addBoundaryWithIdentifier:@"logoBoundry" fromPoint:CGPointMake(0, logoY) toPoint:CGPointMake(self.logInView.bounds.size.width, logoY)];
+  [self.animator addBehavior:collisionBehavior];
+  
+  UIDynamicItemBehavior *elasticityBehavior =
+  [[UIDynamicItemBehavior alloc] initWithItems:@[ self.logInView.logo]];
+  elasticityBehavior.elasticity = 0.7f;
+  [self.animator addBehavior:elasticityBehavior];
+  
+  
+  
+//  
+//  [UIView animateWithDuration:.5 animations:^{
+//    self.logInView.logo.center = CGPointMake(self.logInView.logo.center.x,logoY);
+//  }];
+
 }
+
 
 
 /*!

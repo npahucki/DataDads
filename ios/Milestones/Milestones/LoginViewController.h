@@ -11,4 +11,9 @@
 
 @interface LoginViewController : PFLogInViewController<PFLogInViewControllerDelegate,PFSignUpViewControllerDelegate>
 
+@property (nonatomic, strong) UIImageView * orSep;
+@property (nonatomic, strong) UIView * signupSep;
+@property (nonatomic, strong) UIDynamicAnimator* animator;
+
+
 @end
