@@ -27,6 +27,7 @@
     if ([subview class] == NSClassFromString(@"PF_MBProgressHUD"))
     {
       [subview removeFromSuperview];
+      ((PF_MBProgressHUD *)subview).delegate = self;
     }
   }
   
@@ -112,7 +113,11 @@
   return YES;
 }
 
-
+- (void)hudWasHidden:(PF_MBProgressHUD *)hud {
+  // This is to work around where the HUD is not closed when certain error messages are shown.
+  if(self.hud.completionBlock == nil) // We are not already in the process of closing the dialog 
+    self.hud.hidden = YES;
+}
 
 #pragma mark Custom HUD Methods.
 
@@ -121,8 +126,10 @@
     self.hud = [MBProgressHUD showHUDAddedTo:self.navigationController ? self.navigationController.view : self.view animated:animated];
     self.hud.animationType = MBProgressHUDAnimationFade;
     self.hud.dimBackground = NO;
+    self.hud.completionBlock = nil;
   }
   [self.hud show:animated];
+  self.hud.hidden = NO;
 }
 
 -(void) showHUDWithMessage:(NSString*) msg andAnimation:(BOOL) animated {

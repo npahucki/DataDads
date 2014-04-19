@@ -7,9 +7,10 @@
 //
 
 #import <Parse/Parse.h>
+#import <Parse/PF_MBProgressHUD.h>
 #import "MBProgressHUD.h"
 
-@interface SignUpViewController : PFSignUpViewController
+@interface SignUpViewController : PFSignUpViewController <PF_MBProgressHUDDelegate>
 
 @property (nonatomic, strong) MBProgressHUD * hud;
 
