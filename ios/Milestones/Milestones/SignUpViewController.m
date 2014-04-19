@@ -7,6 +7,7 @@
 //
 
 #import "SignUpViewController.h"
+#import <Parse/PF_MBProgressHUD.h>
 
 @interface SignUpViewController ()
 
@@ -18,6 +19,17 @@
 - (void)viewDidLoad
 {
   [super viewDidLoad];
+  
+  // Hack because we can't seem to modify the behavior of the progress HUD and we want to show our own.
+  // The Login View Controller will show the Hud
+  for (UIView *subview in self.view.subviews)
+  {
+    if ([subview class] == NSClassFromString(@"PF_MBProgressHUD"))
+    {
+      [subview removeFromSuperview];
+    }
+  }
+  
   self.signUpView.backgroundColor = [UIColor whiteColor];
   self.fields = PFSignUpFieldsUsernameAndPassword
   | PFSignUpFieldsEmail
@@ -99,6 +111,68 @@
   }
   return YES;
 }
+
+
+
+#pragma mark Custom HUD Methods.
+
+-(void) showHUD: (BOOL) animated {
+  if(!self.hud) {
+    self.hud = [MBProgressHUD showHUDAddedTo:self.navigationController ? self.navigationController.view : self.view animated:animated];
+    self.hud.animationType = MBProgressHUDAnimationFade;
+    self.hud.dimBackground = NO;
+  }
+  [self.hud show:animated];
+}
+
+-(void) showHUDWithMessage:(NSString*) msg andAnimation:(BOOL) animated {
+  [self showHUD:animated];
+  self.hud.labelText = msg;
+}
+
+-(void) showStartSignUpProgress {
+  [self showHUDWithMessage:@"Just a sec please..." andAnimation:YES];
+  self.hud.mode = MBProgressHUDModeCustomView;
+  self.hud.customView =  [[UIImageView alloc] initWithImage:[UIImage animatedImageNamed:@"progress-" duration:1.0f]];
+}
+
+-(void) showSignupSuccessAndRunBlock:(dispatch_block_t)block {
+  [self showHUD:NO];
+  UIImageView * animatedView = [self animatedImageView:@"success" frames:9];
+  self.hud.customView = animatedView;
+  [animatedView startAnimating];
+  self.hud.mode = MBProgressHUDModeCustomView;
+  self.hud.completionBlock = block;
+  [self.hud hide:YES afterDelay:1.0f]; // when hidden will dismiss the dialog.
+}
+
+-(void) showSignupError:(NSError*) error withMessage:(NSString*) msg {
+  UIImageView * animatedView = [self animatedImageView:@"error" frames:9];
+  self.hud.customView = animatedView;
+  self.hud.mode = MBProgressHUDModeCustomView;
+  [animatedView startAnimating];
+  NSLog(@"%@ caused by %@", msg, error);
+  [self.hud hide:NO afterDelay:1.5]; // when hidden will dismiss the dialog.
+}
+
+-(UIImageView*) animatedImageView:(NSString*) imageName frames:(int) count {
+  NSMutableArray * images = [[NSMutableArray alloc] initWithCapacity:count];
+  for(int i=0; i<count; i++) {
+    [images addObject:[UIImage imageNamed:[NSString stringWithFormat:@"%@-%d.png",imageName, i]]];
+  }
+  UIImageView* view = [[UIImageView alloc] initWithImage:images[count - 1]];
+  view.animationImages = images;
+  view.animationDuration = .75;
+  view.animationRepeatCount = 1;
+  return view;
+  
+}
+
+
+
+  
+  
+
 
 
 @end

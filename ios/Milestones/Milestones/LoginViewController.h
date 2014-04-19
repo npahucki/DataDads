@@ -8,12 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
+#import "MBProgressHUD.h"
 
 @interface LoginViewController : PFLogInViewController<PFLogInViewControllerDelegate,PFSignUpViewControllerDelegate>
 
 @property (nonatomic, strong) UIImageView * orSep;
 @property (nonatomic, strong) UIView * signupSep;
 @property (nonatomic, strong) UIDynamicAnimator* animator;
+@property (nonatomic, strong) MBProgressHUD * hud;
 
 
 @end

@@ -161,60 +161,6 @@
   [[UIDynamicItemBehavior alloc] initWithItems:@[ self.logInView.logo]];
   elasticityBehavior.elasticity = 0.7f;
   [self.animator addBehavior:elasticityBehavior];
-  
-  
-  
-//  
-//  [UIView animateWithDuration:.5 animations:^{
-//    self.logInView.logo.center = CGPointMake(self.logInView.logo.center.x,logoY);
-//  }];
-
-}
-
-
-
-/*!
- Sent to the delegate to determine whether the log in request should be submitted to the server.
- @param username the username the user tries to log in with.
- @param password the password the user tries to log in with.
- @result a boolean indicating whether the log in should proceed.
- */
-- (BOOL)logInViewController:(PFLogInViewController *)logInController shouldBeginLogInWithUsername:(NSString *)username password:(NSString *)password {
-  return YES;
-}
-
-/*! @name Responding to Actions */
-/// Sent to the delegate when a PFUser is logged in.
-- (void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user {
-  
-  //BOOL isLinkedToTwitter = [PFTwitterUtils isLinkedWithUser:[PFUser currentUser]];
-  BOOL isLinkedToFacebook = [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]];
-  
-  if(isLinkedToFacebook) {
-    // We need to copy the email address and maybe some other attibutes here before we proceed.
-    // We can do this in the background so as to let the user get started without additional delay.
-    [self populateCurrentUserDetailsFromFacebook:user];
-  }
-  
-  [self dismissViewControllerAnimated:YES completion:nil];
-  
-}
-
-/// Sent to the delegate when the log in attempt fails.
-- (void)logInViewController:(PFLogInViewController *)logInController didFailToLogInWithError:(NSError *)error {
-  NSString *msg;
-  if([error.domain isEqualToString:@"com.facebook.sdk"] && error.code == (NSInteger)2) {
-    msg = @"If you want to log in with facebook go to Settings>Facebook and enable acceess for 'Milestones', then try to log in again with Facebook";
-  } else {
-    msg = @"Please check the username and password you entered and try again, or if you don't have an account already, press the signup button.";
-  }
-  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error logging in"
-                                                  message:msg
-                                                 delegate:nil
-                                        cancelButtonTitle:@"Dismiss"
-                                        otherButtonTitles:nil];
-  [alert show];
-
 }
 
 -(void) populateCurrentUserDetailsFromFacebook: (PFUser *) user {
@@ -234,11 +180,142 @@
   }];
 }
 
+
+
+# pragma PFLoginViewController methods
+
+/*!
+ Sent to the delegate to determine whether the log in request should be submitted to the server.
+ @param username the username the user tries to log in with.
+ @param password the password the user tries to log in with.
+ @result a boolean indicating whether the log in should proceed.
+ */
+- (BOOL)logInViewController:(PFLogInViewController *)logInController shouldBeginLogInWithUsername:(NSString *)username password:(NSString *)password {
+  [self showStartLoginProgress];
+  return YES;
+}
+
+/*! @name Responding to Actions */
+/// Sent to the delegate when a PFUser is logged in.
+- (void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user {
+  BOOL isLinkedToFacebook = [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]];
+  if(isLinkedToFacebook) {
+    // We need to copy the email address and maybe some other attibutes here before we proceed.
+    // We can do this in the background so as to let the user get started without additional delay.
+    [self populateCurrentUserDetailsFromFacebook:user];
+  }
+  
+  [self showLoginSuccessAndRunBlock:^{
+    [self dismissViewControllerAnimated:YES completion:nil];
+  }];
+}
+
+/// Sent to the delegate when the log in attempt fails.
+- (void)logInViewController:(PFLogInViewController *)logInController didFailToLogInWithError:(NSError *)error {
+  
+  NSString *msg;
+  if([error.domain isEqualToString:@"com.facebook.sdk"] && error.code == (NSInteger)2) {
+    msg = @"If you want to log in with facebook go to Settings>Facebook and enable acceess for 'Milestones', then try to log in again with Facebook";
+  } else {
+    msg = @"Please check the username and password you entered and try again, or if you don't have an account already, press the signup button.";
+  }
+
+  [self showLoginErrorAndRunBlock:^{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error logging in"
+                                                    message:msg
+                                                   delegate:nil
+                                          cancelButtonTitle:@"Dismiss"
+                                          otherButtonTitles:nil];
+    [alert show];
+  }];
+}
+
+- (void)logInViewControllerDidCancelLogIn:(PFLogInViewController *)logInController {
+  
+}
+
+
+
 # pragma PFSignUpViewController methods
 // Sent to the delegate when a PFUser is signed up.
 - (void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user {
-  [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+  [((SignUpViewController*)self.signUpController) showSignupSuccessAndRunBlock:^{
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+  }];
 }
+
+// TODO: Track this!
+- (BOOL)signUpViewController:(PFSignUpViewController *)signUpController shouldBeginSignUp:(NSDictionary *)info {
+  [((SignUpViewController*)self.signUpController) showStartSignUpProgress];
+    return YES;
+}
+
+/// Sent to the delegate when the sign up attempt fails.
+- (void)signUpViewController:(PFSignUpViewController *)signUpController didFailToSignUpWithError:(NSError *)error {
+  [((SignUpViewController*)self.signUpController) showSignupError:error withMessage:@"Bummer!"];
+}
+
+/// Sent to the delegate when the sign up screen is dismissed.
+- (void)signUpViewControllerDidCancelSignUp:(PFSignUpViewController *)signUpController {
+  NSLog(@"CANCEL");
+}
+
+
+#pragma mark Custom HUD Methods.
+
+-(void) showHUD: (BOOL) animated {
+  if(!self.hud) {
+    self.hud = [MBProgressHUD showHUDAddedTo:self.navigationController ? self.navigationController.view : self.view animated:animated];
+    self.hud.animationType = MBProgressHUDAnimationFade;
+    self.hud.dimBackground = YES;
+  }
+  [self.hud show:animated];
+}
+
+-(void) showHUDWithMessage:(NSString*) msg andAnimation:(BOOL) animated {
+  [self showHUD:animated];
+  self.hud.labelText = msg;
+}
+
+-(void) showStartLoginProgress {
+  [self showHUDWithMessage:@"Just a sec please..." andAnimation:YES];
+  self.hud.mode = MBProgressHUDModeCustomView;
+  self.hud.customView =  [[UIImageView alloc] initWithImage:[UIImage animatedImageNamed:@"progress-" duration:1.0f]];
+}
+
+-(void) showLoginSuccessAndRunBlock:(dispatch_block_t)block {
+  [self showHUD:NO];
+  UIImageView * animatedView = [self animatedImageView:@"success" frames:9];
+  self.hud.customView = animatedView;
+  [animatedView startAnimating];
+  self.hud.mode = MBProgressHUDModeCustomView;
+  self.hud.completionBlock = block;
+  [self.hud hide:YES afterDelay:1.0f]; // when hidden will dismiss the dialog.
+}
+
+-(void) showLoginErrorAndRunBlock:(dispatch_block_t)block {
+  UIImageView * animatedView = [self animatedImageView:@"error" frames:9];
+  self.hud.customView = animatedView;
+  self.hud.mode = MBProgressHUDModeCustomView;
+  self.hud.completionBlock = block;
+  [animatedView startAnimating];
+  [self.hud hide:NO afterDelay:1.5]; // when hidden will dismiss the dialog.
+}
+
+-(UIImageView*) animatedImageView:(NSString*) imageName frames:(int) count {
+  NSMutableArray * images = [[NSMutableArray alloc] initWithCapacity:count];
+  for(int i=0; i<count; i++) {
+    [images addObject:[UIImage imageNamed:[NSString stringWithFormat:@"%@-%d.png",imageName, i]]];
+  }
+  UIImageView* view = [[UIImageView alloc] initWithImage:images[count - 1]];
+  view.animationImages = images;
+  view.animationDuration = .75;
+  view.animationRepeatCount = 1;
+  return view;
+  
+}
+
+
 
 
 @end
