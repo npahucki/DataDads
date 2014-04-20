@@ -1,5 +1,5 @@
 # Don't keep pod files in source control
-PodFiles
+ios/Milestones/Pods/
 
 #########################
 # .gitignore file for Xcode4 and Xcode5 Source projects
