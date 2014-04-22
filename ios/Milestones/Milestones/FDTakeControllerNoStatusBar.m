@@ -18,6 +18,8 @@
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
   [[UIApplication sharedApplication] setStatusBarHidden:YES];
+  navigationController.navigationBar.barStyle = UIBarStyleDefault;
+  navigationController.navigationBar.translucent = NO;
 }
 
 @end
