@@ -1,11 +1,15 @@
 {
     "applications": {
-        "DataDads": {
+        "DataDadsDev": {
             "applicationId": "NlJHBG0NZgFS8JP76DBjA31MBRZ7kmb7dVSQQz3U", 
             "masterKey": "ScHR4mshg3TICZKsbPiLmCFLEidiChAwLpWHIUCO"
         }, 
+        "DataDadsProd": {
+            "applicationId": "Vxvqum0HRF1NB00LEf2faaJYFzxd2Xh8hyrdY8MY", 
+            "masterKey": "R31Ydbc7sD0A4zySlUgwozNHc6SstfeEk7JaRXhh"
+        }, 
         "_default": {
-            "link": "DataDads"
+            "link": "DataDadsDev"
         }
     }, 
     "global": {
