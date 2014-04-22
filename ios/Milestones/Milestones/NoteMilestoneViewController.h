@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AssetsLibrary/AssetsLibrary.h>
 #import "StandardMilestone.h"
 #import "FDTakeController.h"
 #import "UIViewControllerWithHUDProgress.h"
@@ -29,3 +30,5 @@
 FDTakeController* _takeController;
 NSData * _imageOrVideo;
 NSString * _imageOrVideoType;
+ALAssetsLibrary * _assetLibrary;
+NSDateFormatter * _dateFormatter;

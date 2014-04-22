@@ -19,6 +19,9 @@
 - (void)viewDidLoad
 {
   [super viewDidLoad];
+  _dateFormatter = [[NSDateFormatter alloc] init];
+  [_dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+
   _imageOrVideo = nil;
   _imageOrVideoType = nil;
   
@@ -133,9 +136,7 @@
 -(void)updateCompletionDateTextField:(id)sender
 {
   UIDatePicker *picker = (UIDatePicker*)sender;
-  NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-  [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
-  self.completionDateTextField.text = [dateFormatter stringFromDate:picker.date];
+  self.completionDateTextField.text = [_dateFormatter stringFromDate:picker.date];
 }
 
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
@@ -152,6 +153,45 @@
 
 - (void)takeController:(FDTakeController *)controller gotPhoto:(UIImage *)photo withInfo:(NSDictionary *)info
 {
+  
+  if(!_assetLibrary) {
+    _assetLibrary = [[ALAssetsLibrary alloc] init];
+  }
+  
+  // Attempt to use date from the photo taken, instead of the current date
+  NSURL *assetURL = [info objectForKey:UIImagePickerControllerReferenceURL];
+  if(assetURL) {
+    [_assetLibrary assetForURL:assetURL resultBlock:^(ALAsset *asset) {
+      NSDate * createDate = [asset valueForProperty:ALAssetPropertyDate];
+      if(createDate) {
+        UIDatePicker * picker = (UIDatePicker*)self.completionDateTextField.inputView;
+        if([picker.date compare:createDate]) {
+          picker.date = createDate;
+          // Label to show the date has been changed., based on the phtoto date
+          UILabel * newDateLabel = [[UILabel alloc] init];
+          newDateLabel.textColor =  self.completionDateTextField.textColor;
+          newDateLabel.font = self.completionDateTextField.font;
+          newDateLabel.text = [_dateFormatter stringFromDate:createDate];
+          [newDateLabel sizeToFit];
+          newDateLabel.center = self.takePhotoButton.center;
+          [self.view addSubview:newDateLabel];
+          
+          newDateLabel.transform = CGAffineTransformScale(newDateLabel.transform, 2.5, 2.5);
+          [UILabel animateWithDuration:0.5 animations:^{
+            newDateLabel.transform = CGAffineTransformScale(newDateLabel.transform, .5, .5);
+            newDateLabel.frame = CGRectMake(self.completionDateTextField.frame.origin.x + 5, self.completionDateTextField.frame.origin.y + 5, newDateLabel.frame.size.width, newDateLabel.frame.size.height);
+          } completion:^(BOOL finished) {
+            [newDateLabel removeFromSuperview];
+            self.completionDateTextField.text = newDateLabel.text;
+          }];
+        }
+      }
+    } failureBlock:^(NSError *error) {
+      // NSLog(@"Failed to get asset from library");
+    }];
+  }
+
+
   // TODO: Support video too!
   _imageOrVideo = UIImageJPEGRepresentation(photo, 0.5f);
   _imageOrVideoType = @"image/jpg";
