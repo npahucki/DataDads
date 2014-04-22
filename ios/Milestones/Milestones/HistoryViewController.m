@@ -41,6 +41,8 @@
   if(!Baby.currentBaby) return nil;
   PFQuery * query = [MilestoneAchievement query];
   [query whereKey:@"baby" equalTo:Baby.currentBaby];
+  [query whereKey:@"isSkipped" notEqualTo:[NSNumber numberWithBool:YES]];
+  [query whereKey:@"isPostponed" notEqualTo:[NSNumber numberWithBool:YES]];
   [query includeKey:@"standardMilestone"];
   if(_reverseSort) {
     [query orderByAscending:@"completionDate"];
