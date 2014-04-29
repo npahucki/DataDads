@@ -91,15 +91,15 @@
 
 -(void) logCurrentAchievement {
   NSAssert(_currentAchievment,@"Expected current acheivement to be set!");
-  // TODO: HUD with progress
+  [self showInProgressHUDWithMessage:@"Making it so.." andAnimation:YES andDimmedBackground:YES];
   [_currentAchievment saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
     if(succeeded) {
+      [self showSuccessThenRunBlock:nil];
+      // Note, firing the event, may make the progress dialog disappear before the animation completes.
       [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationMilestoneNotedAndSaved object:self userInfo:@{@"" : _currentAchievment}];
       _currentAchievment = nil;
-      //[self showSaveSuccessAndDismissDialog];
-      [_pickController loadObjects];
     } else {
-      // [self showSaveError:error withMessage:@"Could not note milestone."];
+      [self showErrorThenRunBlock:error withMessage:@"Could not note ignore/postpone" andBlock:nil];
     }
   }];
 }
