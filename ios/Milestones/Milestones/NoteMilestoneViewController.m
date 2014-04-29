@@ -80,7 +80,6 @@
 
 - (IBAction)didClickDoneButton:(id)sender {
   [self.view endEditing:YES];
-  [self showHUD:YES];
   if(_imageOrVideo) {
     [self saveImageOrPhoto];
   } else {
@@ -89,42 +88,30 @@
 }
 
 -(void) saveImageOrPhoto {
-  self.hud.mode = MBProgressHUDModeCustomView;
-  self.hud.customView =  [[UIImageView alloc] initWithImage:[UIImage animatedImageNamed:@"progress-" duration:1.0f]];
-  self.hud.labelText = NSLocalizedString(@"Uploading Photo", nil);
+  [self showInProgressHUDWithMessage:@"Uploading Photo" andAnimation:YES andDimmedBackground:YES];
   PFFile *file = [PFFile fileWithData:_imageOrVideo];
   [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
     if(error) {
-      [self showSaveError:error withMessage:@"Could not upload your photo."];
+      [self showErrorThenRunBlock:error withMessage:@"Could not upload the photo." andBlock:nil];
     } else {
       [self saveAchievementWithAttachment:file andType:_imageOrVideoType];
     }
-  } progressBlock:^(int percentDone) {
-    // This won't fucking work no matter what I do, after the first image change, no other images will be shown! I wasted 3 hours trying to get it to work
-    // to no avial, will have to revisit sometime in the future.
-    // The idea is to indicate the file progress by using one of the images (50 images) to correspond to the half the percent
-    //    int idx = percentDone / 2;
-    //    NSString * progressImageName = [NSString stringWithFormat:@"progress-%d.png", idx];
-    //    self.hud.customView =  [[UIImageView alloc] initWithImage:[UIImage imageNamed:progressImageName]]];
   }];
-}
+  }
+
+   
 
 -(void) saveAchievementWithAttachment:(PFFile*) attachment andType:(NSString*) type {
-  self.hud.mode = MBProgressHUDModeCustomView;
-  self.hud.customView =  [[UIImageView alloc] initWithImage:[UIImage animatedImageNamed:@"progress-" duration:1.0f]];
-  self.hud.labelText = @"Noting milestone";
   self.achievement.attachment = attachment;
   self.achievement.attachmentType = type;
   self.achievement.completionDate =  ((UIDatePicker*)self.completionDateTextField.inputView).date;
-  [self.achievement saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-    if(succeeded) {
+  [self saveObject:self.achievement withTitle:@"Noting Milestone" andFailureMessage:@"Could not note milestone." andBlock:^(NSError * error) {
+    if(!error) {
       [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationMilestoneNotedAndSaved object:self userInfo:@{@"" : self.achievement}];
-      [self showSaveSuccessAndDismissDialog];
-    } else {
-      [self showSaveError:error withMessage:@"Could not note milestone."];
+      [self dismiss];
     }
   }];
-
+  
   // TODO: Show Ranking
   
 }

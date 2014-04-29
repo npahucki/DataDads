@@ -95,7 +95,7 @@
   if(comps.year >= 1) format = [NSString stringWithFormat:@"%i year%s ",(int)comps.year, [self s:comps.year]];
   if(comps.month >= 1) format = [NSString stringWithFormat:@"%@%i month%s ",format, (int)comps.month, [self s:comps.month]];
   if(comps.day >= 1) format = [NSString stringWithFormat:@"%@%i day%s ",format, (int)comps.day, [self s:comps.day]];
-  return [NSString stringWithFormat:@"%@old",format];
+  return format.length ? [NSString stringWithFormat:@"%@old", format] : @"born today!";
 }
 
 -(char*) s:(NSInteger) number {

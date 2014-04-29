@@ -47,7 +47,6 @@
 
 - (IBAction)didClickDoneButton:(id)sender {
   [self.view endEditing:YES];
-  [self showHUD:YES];
   if(_imageData) {
     [self saveImageOrPhoto];
   } else {
@@ -56,13 +55,11 @@
 }
 
 -(void) saveImageOrPhoto {
-  self.hud.mode = MBProgressHUDModeCustomView;
-  self.hud.customView =  [[UIImageView alloc] initWithImage:[UIImage animatedImageNamed:@"progress-" duration:1.0f]];
-  self.hud.labelText = [NSString stringWithFormat:@"Uploading %@'s photo", self.baby.name];
+  [self showInProgressHUDWithMessage:[NSString stringWithFormat:@"Uploading %@'s photo", self.baby.name] andAnimation:YES andDimmedBackground:YES];
   PFFile *file = [PFFile fileWithData:_imageData];
   [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
     if(error) {
-      [self showSaveError:error withMessage:@"Could not upload your photo."];
+      [self showErrorThenRunBlock:error withMessage:@"Could not upload your photo." andBlock:nil];
     } else {
       [self saveBabyWithAvatar:file];
     }
@@ -71,16 +68,11 @@
 }
 
 -(void) saveBabyWithAvatar:(PFFile*) attachment {
-  self.hud.mode = MBProgressHUDModeCustomView;
-  self.hud.customView =  [[UIImageView alloc] initWithImage:[UIImage animatedImageNamed:@"progress-" duration:1.0f]];
-  self.hud.labelText = [NSString stringWithFormat:@"Saving %@'s info", self.baby.name];
   self.baby.avatarImage = attachment;
-  [self.baby saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-    if(succeeded) {
+  [self saveObject:self.baby withTitle:[NSString stringWithFormat:@"Saving %@'s info", self.baby.name] andFailureMessage:@"Could not save baby's information" andBlock:^(NSError *error) {
+    if(!error) {
       Baby.currentBaby = self.baby;
-      [self showSaveSuccessAndDismissDialog];
-    } else {
-      [self showSaveError:error withMessage:@"Could not save Baby information."];
+      [self dismiss];
     }
   }];
 }
