@@ -52,8 +52,7 @@
     NSAssert(_currentAchievment, @"Expected currentAchievement to be set");
     ((MilestoneDetailsViewController*)segue.destinationViewController).achievement = _currentAchievment;
   } else if([segue.identifier isEqualToString:kDDSegueCreateCustomMilestone]) {
-    NSAssert(_currentAchievment, @"Expected currentAchievement to be set");
-    ((CreateMilestoneViewController*)segue.destinationViewController).achievement = _currentAchievment;
+    ((CreateMilestoneViewController*)segue.destinationViewController).achievement = [self createAchievementForMilestone:nil];
   }
 }
 
@@ -107,8 +106,8 @@
 -(MilestoneAchievement*) createAchievementForMilestone:(StandardMilestone*) milestone {
   _currentAchievment = [MilestoneAchievement object];
   _currentAchievment.baby = Baby.currentBaby;
-  _currentAchievment.standardMilestone = milestone;
   _currentAchievment.completionDate =  [NSDate date];
+  if(milestone) _currentAchievment.standardMilestone = milestone;
   return _currentAchievment;
 }
 
