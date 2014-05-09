@@ -30,8 +30,8 @@ NSString *const kDDNotificationMilestoneNotedAndSaved = @"milestoneNotedAndSaved
 #pragma mark - Application Colors
 @implementation UIColor (DataDads)
 
-+(UIColor *) appBlueColor {return UIColorFromRGB(0x3C92CF);} // 60 146 207
-+(UIColor *) appBlueActivatedColor {return UIColorFromRGB(0x2E709E);} // 46 112 158
++(UIColor *) appBlueColor {return UIColorFromRGB(0x1A8E9F);} // 26 142 159
++(UIColor *) appBlueActivatedColor {return UIColorFromRGB(0x1F717E);} // 31 113 126
 +(UIColor *) appGreyTextColor {return UIColorFromRGB(0xA9A9B1);} // 169 169 177
 @end
 

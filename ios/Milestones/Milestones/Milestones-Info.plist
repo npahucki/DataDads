@@ -8,6 +8,10 @@
 	<string>${PRODUCT_NAME}</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
+	<key>CFBundleIcons</key>
+	<dict/>
+	<key>CFBundleIcons~ipad</key>
+	<dict/>
 	<key>CFBundleIdentifier</key>
 	<string>com.datadads.${PRODUCT_NAME:rfc1034identifier}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -37,6 +41,17 @@
 	<string>DataDads</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>GothamRounded-BookItalic.otf</string>
+		<string>GothamRounded-Light.otf</string>
+		<string>GothamRounded-Bold.otf</string>
+		<string>GothamRounded-LightItalic.otf</string>
+		<string>GothamRounded-BoldItalic.otf</string>
+		<string>GothamRounded-Medium.otf</string>
+		<string>GothamRounded-Book.otf</string>
+		<string>GothamRounded-MediumItalic.otf</string>
+	</array>
 	<key>UIMainStoryboardFile</key>
 	<string>Main_iPhone</string>
 	<key>UIMainStoryboardFile~ipad</key>
@@ -64,17 +79,6 @@
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-	</array>
-	<key>UIAppFonts</key>
-	<array>
-		<string>GothamRounded-BookItalic.otf</string>
-		<string>GothamRounded-Light.otf</string>
-		<string>GothamRounded-Bold.otf</string>
-		<string>GothamRounded-LightItalic.otf</string>
-		<string>GothamRounded-BoldItalic.otf</string>
-		<string>GothamRounded-Medium.otf</string>
-		<string>GothamRounded-Book.otf</string>
-		<string>GothamRounded-MediumItalic.otf</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>

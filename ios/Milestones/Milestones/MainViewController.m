@@ -123,6 +123,9 @@
       cancelButton = (UIButton*)view;
     }
   }
+  [cancelButton setTitleColor:[UIColor appBlueColor] forState:UIControlStateNormal];
+  [cancelButton setTitleColor:[UIColor appBlueActivatedColor] forState:UIControlStateHighlighted];
+  [cancelButton setTitleColor:[UIColor appBlueActivatedColor] forState:UIControlStateSelected];
   cancelButton.titleLabel.font = [UIFont fontForAppWithType:Medium andSize:19.0];
   cancelButton.backgroundColor = [UIColor whiteColor];
   
