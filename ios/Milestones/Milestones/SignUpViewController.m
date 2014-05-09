@@ -54,7 +54,7 @@
   UILabel* label = [[UILabel alloc]init];
   label.text = @"Sign Up!";
   label.font = [UIFont fontForAppWithType:Bold andSize:35];
-  label.textColor = [UIColor appBlueColor];
+  label.textColor = [UIColor appNormalColor];
   [label sizeToFit];
   self.signUpView.logo = label;
   //self.logInView.logo = [[UIView alloc]init];
@@ -87,11 +87,11 @@
   [self.signUpView.signUpButton setImage:nil forState:UIControlStateHighlighted];
   [self.signUpView.signUpButton setBackgroundImage:nil forState:UIControlStateHighlighted];
   [self.signUpView.signUpButton setBackgroundImage:nil forState:UIControlStateNormal];
-  self.signUpView.signUpButton.backgroundColor = [UIColor appBlueColor];
+  self.signUpView.signUpButton.backgroundColor = [UIColor appNormalColor];
   self.signUpView.signUpButton.titleLabel.font = [UIFont fontForAppWithType:Bold andSize:13];
   self.signUpView.signUpButton.titleLabel.textColor = [UIColor whiteColor];
   [self.signUpView.signUpButton setTitle:@"Sign Up" forState:UIControlStateNormal];
-  self.signUpView.signUpButton.titleLabel.backgroundColor = [UIColor appBlueColor];
+  self.signUpView.signUpButton.titleLabel.backgroundColor = [UIColor appNormalColor];
   self.signUpView.signUpButton.layer.cornerRadius = 8;
   
   

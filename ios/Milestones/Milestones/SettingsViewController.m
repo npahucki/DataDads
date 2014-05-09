@@ -37,7 +37,7 @@
     self.historyButton.enabled = number > 0;
     
     // Make the label show attributed text
-    NSDictionary *numberAttributes = @{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:95.0], NSForegroundColorAttributeName: [UIColor appBlueColor]};
+    NSDictionary *numberAttributes = @{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:95.0], NSForegroundColorAttributeName: [UIColor appNormalColor]};
     NSDictionary *milestoneTextAttributes = @{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:18.0], NSForegroundColorAttributeName: [UIColor appGreyTextColor]};
     NSMutableAttributedString *milestoneString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%i\nmilestones logged",number]];
     NSUInteger numLen = [[@(number) stringValue] length];

@@ -39,7 +39,7 @@
   UILabel* label = [[UILabel alloc]init];
   label.text = @"Login to Data Dads";
   label.font = [UIFont fontForAppWithType:Bold andSize:27];
-  label.textColor = [UIColor appBlueColor];
+  label.textColor = [UIColor appNormalColor];
   [label sizeToFit];
   self.logInView.logo = label;
   //self.logInView.logo = [[UIView alloc]init];
@@ -74,17 +74,17 @@
   self.logInView.passwordField.layer.shadowOpacity = 0.0;
 
   
-  self.logInView.passwordForgottenButton.backgroundColor = [UIColor appBlueColor];
+  self.logInView.passwordForgottenButton.backgroundColor = [UIColor appNormalColor];
   
   // Loging button
   [self.logInView.logInButton setImage:nil forState:UIControlStateHighlighted];
   [self.logInView.logInButton setBackgroundImage:nil forState:UIControlStateHighlighted];
   [self.logInView.logInButton setBackgroundImage:nil forState:UIControlStateNormal];
-  self.logInView.logInButton.backgroundColor = [UIColor appBlueColor];
+  self.logInView.logInButton.backgroundColor = [UIColor appNormalColor];
   self.logInView.logInButton.titleLabel.font = [UIFont fontForAppWithType:Bold andSize:13];
   self.logInView.logInButton.titleLabel.textColor = [UIColor whiteColor];
   [self.logInView.logInButton setTitle:@"Login" forState:UIControlStateNormal];
-  self.logInView.logInButton.titleLabel.backgroundColor = [UIColor appBlueColor];
+  self.logInView.logInButton.titleLabel.backgroundColor = [UIColor appNormalColor];
   self.logInView.logInButton.layer.cornerRadius = 8;
   
 
@@ -98,10 +98,10 @@
   //[self.logInView.facebookButton setImage:nil forState:UIControlStateHighlighted];
   [self.logInView.facebookButton setBackgroundImage:nil forState:UIControlStateHighlighted];
   [self.logInView.facebookButton setBackgroundImage:nil forState:UIControlStateNormal];
-  self.logInView.facebookButton.backgroundColor = [UIColor appBlueColor];
+  self.logInView.facebookButton.backgroundColor = [UIColor appNormalColor];
   self.logInView.facebookButton.titleLabel.font = [UIFont fontForAppWithType:Bold andSize:13];
   [self.logInView.facebookButton setTitle:@" Login with Facebook" forState:UIControlStateNormal];
-  self.logInView.facebookButton.titleLabel.backgroundColor = [UIColor appBlueColor];
+  self.logInView.facebookButton.titleLabel.backgroundColor = [UIColor appNormalColor];
   self.logInView.facebookButton.layer.cornerRadius = 8;
 
   // Signup Sep
@@ -116,7 +116,7 @@
   // Signup button
   NSMutableAttributedString * attrTitle = [[NSMutableAttributedString alloc] initWithString:@"No account yet? Sign Up!"];
   [attrTitle addAttribute:NSForegroundColorAttributeName value:[UIColor appGreyTextColor] range:NSMakeRange(0,15)];
-  [attrTitle addAttribute:NSForegroundColorAttributeName value:[UIColor appBlueColor] range:NSMakeRange(16,attrTitle.length - 16 )];
+  [attrTitle addAttribute:NSForegroundColorAttributeName value:[UIColor appNormalColor] range:NSMakeRange(16,attrTitle.length - 16 )];
   [attrTitle addAttribute:NSFontAttributeName value:[UIFont fontForAppWithType:Bold andSize:13] range:NSMakeRange(0,attrTitle.length - 1)];
   [self.logInView.signUpButton setAttributedTitle:attrTitle forState:UIControlStateNormal];
   [self.logInView.signUpButton setBackgroundImage:nil forState:UIControlStateNormal];

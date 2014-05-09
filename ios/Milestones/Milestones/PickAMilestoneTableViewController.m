@@ -40,8 +40,8 @@
     NSMutableArray *rightUtilityButtons = [NSMutableArray new];
     
     [leftUtilityButtons sw_addUtilityButtonWithColor: [UIColor whiteColor] icon: [UIImage imageNamed:@"completeIcon"]];
-    [rightUtilityButtons sw_addUtilityButtonWithColor: [UIColor appBlueColor] title:@"Ignore"];
-    [rightUtilityButtons sw_addUtilityButtonWithColor: [UIColor appBlueActivatedColor] title:@"Postpone"];
+    [rightUtilityButtons sw_addUtilityButtonWithColor: [UIColor appNormalColor] title:@"Ignore"];
+    [rightUtilityButtons sw_addUtilityButtonWithColor: [UIColor appSelectedColor] title:@"Postpone"];
     
     weakCell.leftUtilityButtons = leftUtilityButtons;
     weakCell.rightUtilityButtons = rightUtilityButtons;

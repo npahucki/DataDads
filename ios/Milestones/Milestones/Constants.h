@@ -35,8 +35,8 @@ extern NSString *const kDDNotificationMilestoneNotedAndSaved;       // User data
 
 @interface UIColor (DataDads)
 
-+(UIColor *) appBlueColor;
-+(UIColor *) appBlueActivatedColor;
++(UIColor *) appNormalColor;
++(UIColor *) appSelectedColor;
 +(UIColor *) appGreyTextColor;
 @end
 

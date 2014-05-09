@@ -43,22 +43,22 @@
   
   [UILabel appearance].font= [UIFont fontForAppWithType:Light andSize:17.0];
   [UITextField appearance].font =[UIFont fontForAppWithType:Bold andSize:17.0];
-  [UITextField appearance].textColor = [UIColor appBlueColor];
+  [UITextField appearance].textColor = [UIColor appNormalColor];
   [UITextView appearance].font = [UIFont fontForAppWithType:Bold andSize:17.0];
   [UITextView appearance].textColor = [UIColor appGreyTextColor];
 
   [UIButton appearance].titleLabel.font = [UIFont fontForAppWithType:Medium andSize:17.0];
-  [UIButton appearance].titleLabel.textColor = [UIColor appBlueColor];
+  [UIButton appearance].titleLabel.textColor = [UIColor appNormalColor];
   [[UINavigationBar appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:18.0]}];
   [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"header.png"] forBarMetrics:UIBarMetricsDefault];
-  [UINavigationBar appearance].tintColor = [UIColor appBlueColor];
-  [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Medium andSize:17.0], NSForegroundColorAttributeName : [UIColor appBlueColor]} forState:UIControlStateNormal];
-  [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:17.0], NSForegroundColorAttributeName : [UIColor appBlueActivatedColor]} forState:UIControlStateHighlighted];
+  [UINavigationBar appearance].tintColor = [UIColor appNormalColor];
+  [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Medium andSize:17.0], NSForegroundColorAttributeName : [UIColor appNormalColor]} forState:UIControlStateNormal];
+  [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:17.0], NSForegroundColorAttributeName : [UIColor appSelectedColor]} forState:UIControlStateHighlighted];
   [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:17.0], NSForegroundColorAttributeName : [UIColor appGreyTextColor]} forState:UIControlStateDisabled];
 
   [[UITabBarItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Medium andSize:13.0]} forState:UIControlStateNormal];
-  [[UITabBarItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Medium andSize:13.0], NSBackgroundColorAttributeName : [UIColor appBlueActivatedColor]} forState:UIControlStateHighlighted];
-  [UITabBar appearance].selectedImageTintColor = [UIColor appBlueColor];
+  [[UITabBarItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Medium andSize:13.0], NSBackgroundColorAttributeName : [UIColor appSelectedColor]} forState:UIControlStateHighlighted];
+  [UITabBar appearance].selectedImageTintColor = [UIColor appNormalColor];
    return YES;
 
 }
