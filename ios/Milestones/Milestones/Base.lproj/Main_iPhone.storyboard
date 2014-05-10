@@ -31,7 +31,7 @@
                                 <rect key="frame" x="20" y="59" width="280" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
                                 <connections>
                                     <action selector="editingTitleDidEnd:" destination="iaF-4r-2f0" eventType="editingDidEndOnExit" id="5ma-WJ-5FQ"/>
                                     <action selector="titleLabelDidChange:" destination="iaF-4r-2f0" eventType="editingChanged" id="aqV-Ym-Plx"/>
@@ -152,7 +152,7 @@
                                 <rect key="frame" x="17" y="93" width="280" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" keyboardType="namePhonePad" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardType="namePhonePad" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
                                 <connections>
                                     <action selector="textFieldEditingDidEnd:" destination="sg9-o2-9ju" eventType="editingDidEnd" id="6vW-gn-He6"/>
                                 </connections>
@@ -533,7 +533,7 @@
                                 <rect key="frame" x="20" y="64" width="280" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="namePhonePad" enablesReturnKeyAutomatically="YES"/>
                                 <connections>
                                     <action selector="didEndEditingScreenName:" destination="hRi-lO-rkm" eventType="editingDidEndOnExit" id="x8m-R7-rsE"/>
                                 </connections>
@@ -938,7 +938,7 @@
                                     <constraint firstAttribute="height" constant="30" id="Apy-hg-gHb"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textField>
                             <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pXk-qX-SOI">
                                 <rect key="frame" x="0.0" y="152" width="320" height="1"/>
