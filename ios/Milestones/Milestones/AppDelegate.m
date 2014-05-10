@@ -41,7 +41,9 @@
   [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
   
   
-  [UILabel appearance].font= [UIFont fontForAppWithType:Light andSize:17.0];
+  [UILabel appearance].font = [UIFont fontForAppWithType:Light andSize:17.0];
+  [UILabel appearanceWhenContainedIn:[UIDatePicker class], nil].font = [UIFont systemFontOfSize:24.0];
+  
   [UITextField appearance].font =[UIFont fontForAppWithType:Bold andSize:17.0];
   [UITextField appearance].textColor = [UIColor appNormalColor];
   [UITextView appearance].font = [UIFont fontForAppWithType:Bold andSize:17.0];
@@ -59,7 +61,9 @@
   [[UITabBarItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Medium andSize:13.0]} forState:UIControlStateNormal];
   [[UITabBarItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Medium andSize:13.0], NSBackgroundColorAttributeName : [UIColor appSelectedColor]} forState:UIControlStateHighlighted];
   [UITabBar appearance].selectedImageTintColor = [UIColor appNormalColor];
-   return YES;
+
+  
+  return YES;
 
 }
 

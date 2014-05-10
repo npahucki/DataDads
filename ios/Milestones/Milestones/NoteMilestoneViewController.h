@@ -10,13 +10,14 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "StandardMilestone.h"
 #import "FDTakeController.h"
+#import "UIDateField.h"
 #import "UIViewControllerWithHUDProgress.h"
 
 
 @interface NoteMilestoneViewController : UIViewControllerWithHUDProgress <FDTakeDelegate>
 
 
-@property (strong, nonatomic) IBOutlet UITextField *completionDateTextField;
+@property (strong, nonatomic) IBOutlet UIDateField *completionDateTextField;
 
 @property MilestoneAchievement *achievement;
 
@@ -31,4 +32,3 @@ FDTakeController* _takeController;
 NSData * _imageOrVideo;
 NSString * _imageOrVideoType;
 ALAssetsLibrary * _assetLibrary;
-NSDateFormatter * _dateFormatter;

@@ -19,8 +19,6 @@
 - (void)viewDidLoad
 {
   [super viewDidLoad];
-  _dateFormatter = [[NSDateFormatter alloc] init];
-  [_dateFormatter setDateStyle:NSDateFormatterMediumStyle];
 
   _imageOrVideo = nil;
   _imageOrVideoType = nil;
@@ -34,24 +32,6 @@
                      animations:^{
                        self.takePhotoButton.alpha = .75;
                      } completion:nil];
-
-  
-  
-  UIToolbar* datePickerToolbar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
-  datePickerToolbar.items = @[
-                              [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
-                              [[UIBarButtonItem alloc]initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneWithDatePicker)]
-                              ];
-  [datePickerToolbar sizeToFit];
-  
-  UIDatePicker *datePicker = [[UIDatePicker alloc]init];
-  datePicker.datePickerMode = UIDatePickerModeDate;
-  datePicker.date = [NSDate date];
-  datePicker.maximumDate = datePicker.date;
-  [datePicker addTarget:self action:@selector(updateCompletionDateTextField:) forControlEvents:UIControlEventValueChanged];
-  self.completionDateTextField.inputView = datePicker;
-  self.completionDateTextField.inputAccessoryView = datePickerToolbar;
-  [self updateCompletionDateTextField:datePicker]; // Make it have today's date by default
 }
 
 -(void) viewDidLayoutSubviews {
@@ -59,13 +39,6 @@
   [self.takePhotoButton.layer setCornerRadius:self.takePhotoButton.frame.size.width/2];
   self.takePhotoButton.layer.masksToBounds = YES;
   self.takePhotoButton.layer.borderWidth = 1;
-}
-
-
--(void) viewWillAppear:(BOOL)animated {
-  // This is needed to hack around the fact that the image picker turns on the status bar
-  [[UIApplication sharedApplication] setStatusBarHidden:YES];
-  [super viewWillAppear:animated];
 }
 
 - (IBAction)didClickTakePicture:(id)sender {
@@ -116,16 +89,6 @@
   
 }
 
--(void) doneWithDatePicker {
-  [self.view endEditing:YES];
-}
-
--(void)updateCompletionDateTextField:(id)sender
-{
-  UIDatePicker *picker = (UIDatePicker*)sender;
-  self.completionDateTextField.text = [_dateFormatter stringFromDate:picker.date];
-}
-
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
   [[UIApplication sharedApplication] setStatusBarHidden:YES];
@@ -158,7 +121,7 @@
           UILabel * newDateLabel = [[UILabel alloc] init];
           newDateLabel.textColor =  self.completionDateTextField.textColor;
           newDateLabel.font = self.completionDateTextField.font;
-          newDateLabel.text = [_dateFormatter stringFromDate:createDate];
+          newDateLabel.text = [self.completionDateTextField.dateFormatter stringFromDate:createDate];
           [newDateLabel sizeToFit];
           newDateLabel.center = self.takePhotoButton.center;
           [self.view addSubview:newDateLabel];

@@ -9,10 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "UIViewControllerWithHUDProgress.h"
 #import "BabyTagsTableViewController.h"
+#import "UIDateField.h"
 
 @interface BabyInfoViewController : UIViewControllerWithHUDProgress <UITextFieldDelegate>
-@property (strong, nonatomic) IBOutlet UITextField *dobTextField;
-@property (strong, nonatomic) IBOutlet UITextField *dueDateTextField;
+@property (strong, nonatomic) IBOutlet UIDateField *dobTextField;
+@property (strong, nonatomic) IBOutlet UIDateField *dueDateTextField;
 @property (strong, nonatomic) IBOutlet UITextField *babyName;
 @property (strong, nonatomic) IBOutlet UIButton *maleButton;
 @property (strong, nonatomic) IBOutlet UIButton *femaleButton;
