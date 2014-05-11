@@ -16,11 +16,4 @@
 @property (strong, nonatomic) IBOutlet UILabel *theLabel;
 @property (strong, nonatomic) Baby *baby;
 
-
-
-
 @end
-
-FDTakeController* _takeController;
-NSData * _imageData;
-

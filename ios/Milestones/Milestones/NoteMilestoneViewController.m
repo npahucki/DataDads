@@ -14,7 +14,12 @@
 
 @end
 
-@implementation NoteMilestoneViewController
+@implementation NoteMilestoneViewController {
+  FDTakeController* _takeController;
+  NSData * _imageOrVideo;
+  NSString * _imageOrVideoType;
+  ALAssetsLibrary * _assetLibrary;
+}
 
 - (void)viewDidLoad
 {

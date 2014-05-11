@@ -26,47 +26,52 @@
 
 @implementation UIViewController (UIViewController_MBProgressHUD)
 
+
+-(MBProgressHUD *) hud {
+  return [MBProgressHUD HUDForView:self.navigationController ? self.navigationController.view : self.view];
+}
+
 #pragma mark Custom HUD Methods.
 
 -(void) showHUD: (BOOL) animated withDimmedBackground: (BOOL) dimmed {
-  if(!_hud) {
-    _hud = [MBProgressHUD showHUDAddedTo:self.navigationController ? self.navigationController.view : self.view animated:animated];
-    _hud.animationType = MBProgressHUDAnimationFade;
-    _hud.dimBackground = dimmed;
-    _hud.completionBlock = nil;
+  if(!self.hud) {
+    MBProgressHUD * hud = [MBProgressHUD showHUDAddedTo:self.navigationController ? self.navigationController.view : self.view animated:animated];
+    hud.animationType = MBProgressHUDAnimationFade;
+    hud.completionBlock = nil;
   }
-  [_hud show:animated];
-  _hud.hidden = NO;
+  self.hud.dimBackground = dimmed;
+  [self.hud show:animated];
+  self.hud.hidden = NO;
 }
 
 -(void) showHUDWithMessage:(NSString*) msg andAnimation:(BOOL) animated andDimmedBackground: (BOOL) dimmed {
   [self showHUD:animated withDimmedBackground:dimmed];
-  _hud.labelText = msg;
+  self.hud.labelText = msg;
 }
 
 -(void) showInProgressHUDWithMessage:(NSString*) msg andAnimation:(BOOL) animated andDimmedBackground: (BOOL) dimmed {
   [self showHUDWithMessage:msg andAnimation:animated andDimmedBackground:dimmed];
-  _hud.mode = MBProgressHUDModeCustomView;
-  _hud.customView =  [[UIImageView alloc] initWithImage:[UIImage animatedImageNamed:@"progress-" duration:1.0f]];
+  self.hud.mode = MBProgressHUDModeCustomView;
+  self.hud.customView =  [[UIImageView alloc] initWithImage:[UIImage animatedImageNamed:@"progress-" duration:1.0f]];
 }
 
 -(void) showSuccessThenRunBlock:(dispatch_block_t)block {
-  [self showHUD:NO withDimmedBackground:_hud.dimBackground];
+  [self showHUD:NO withDimmedBackground:self.hud.dimBackground];
   UIImageView * animatedView = [self animatedImageView:@"success" frames:9];
-  _hud.customView = animatedView;
-  _hud.mode = MBProgressHUDModeCustomView;
-  _hud.completionBlock = block;
+  self.hud.customView = animatedView;
+  self.hud.mode = MBProgressHUDModeCustomView;
+  self.hud.completionBlock = block;
   [animatedView startAnimating];
-  [_hud hide:YES afterDelay:1.0f]; // when hidden will dismiss the dialog.
+  [self.hud hide:YES afterDelay:1.0f]; // when hidden will dismiss the dialog.
 }
 
 -(void) showErrorThenRunBlock:(NSError*) error withMessage:(NSString*) msg andBlock:(dispatch_block_t)block {
   NSLog(@"%@ caused by %@", msg ? msg : @"?", error);
   UIImageView * animatedView = [self animatedImageView:@"error" frames:9];
-  _hud.customView = animatedView;
-  _hud.mode = MBProgressHUDModeCustomView;
+  self.hud.customView = animatedView;
+  self.hud.mode = MBProgressHUDModeCustomView;
   if(msg) {
-      _hud.completionBlock = ^{
+      self.hud.completionBlock = ^{
         UIAlertViewWrapper * wrapper = [[UIAlertViewWrapper alloc] init];
         wrapper.block = block;
         // TODO: check for error 100 from Parse domain - this is internet connectivity error
@@ -74,10 +79,10 @@
         [alert show];
       };
   } else {
-    _hud.completionBlock = block;
+    self.hud.completionBlock = block;
   }
   [animatedView startAnimating];
-  [_hud hide:NO afterDelay:1.5]; // when hidden will dismiss the dialog.
+  [self.hud hide:NO afterDelay:1.5]; // when hidden will dismiss the dialog.
 }
 
 -(UIImageView*) animatedImageView:(NSString*) imageName frames:(int) count {

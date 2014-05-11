@@ -12,10 +12,10 @@
 
 @end
 
-@implementation AppQueryTableViewController
-
-
-
+@implementation AppQueryTableViewController {
+  MBProgressHUD * _hud;
+  NSIndexPath *_lastPageTriggeredBy;
+}
 
 -(void) viewDidLoad {
   [super viewDidLoad];

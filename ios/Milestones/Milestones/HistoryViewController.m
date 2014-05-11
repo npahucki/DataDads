@@ -12,7 +12,12 @@
 
 @end
 
-@implementation HistoryViewController
+@implementation HistoryViewController {
+  BOOL _reverseSort;
+}
+
+static NSDateFormatter * _dateFormatter;
+
 
 + (void)initialize {
   _dateFormatter = [[NSDateFormatter alloc] init];

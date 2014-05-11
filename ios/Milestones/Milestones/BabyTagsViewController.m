@@ -13,7 +13,9 @@
 
 @end
 
-@implementation BabyTagsViewController
+@implementation BabyTagsViewController {
+  BabyTagsTableViewController* _tagTableViewController;
+}
 
 - (IBAction)didClickAddNewTag:(id)sender {
   [_tagTableViewController addNewTag:self.addTagTextField.text];

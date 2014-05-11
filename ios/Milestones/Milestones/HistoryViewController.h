@@ -21,7 +21,3 @@
 @property (nonatomic, strong) UIView* topLineView;
 @property (nonatomic, strong) UIView* bottomLineView;
 @end
-
-BOOL _reverseSort;
-
-static NSDateFormatter * _dateFormatter;

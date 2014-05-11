@@ -16,7 +16,6 @@
  **/
 @interface UIViewController (UIViewController_MBProgressHUD)
 
-
 -(void) showHUD: (BOOL) animated withDimmedBackground: (BOOL) dimmed;
 
 -(void) showHUDWithMessage:(NSString*) msg andAnimation:(BOOL) animated andDimmedBackground: (BOOL) dimmed;
@@ -31,4 +30,3 @@
 @end
 
 
-MBProgressHUD * _hud;

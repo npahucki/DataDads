@@ -10,7 +10,9 @@
 #import "StandardMilestoneQuery.h"
 #import "MainMilestoneViewController.h"
 
-@implementation PickAMilestoneTableViewController
+@implementation PickAMilestoneTableViewController {
+  MBProgressHUD * _hud;
+}
 
 #pragma mark - UIViewController
 

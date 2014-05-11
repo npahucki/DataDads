@@ -16,7 +16,3 @@
 -(void) addNewTag: (NSString*) tagText;
 
 @end
-
-
-// Tag objects to be added to the list.
-NSMutableArray * _addedTags;

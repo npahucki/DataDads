@@ -11,11 +11,11 @@
 
 
 /**
- This class exists to present a iniformly customized version of the PFQueryTableViewController.
+ This class exists to present a uniformly customized version of the PFQueryTableViewController.
 */
 @interface AppQueryTableViewController : PFQueryTableViewController
 
 @end
 
-MBProgressHUD * _hud;
-NSIndexPath *_lastPageTriggeredBy;
+
+

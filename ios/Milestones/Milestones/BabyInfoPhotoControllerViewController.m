@@ -13,7 +13,10 @@
 
 @end
 
-@implementation BabyInfoPhotoControllerViewController
+@implementation BabyInfoPhotoControllerViewController {
+  FDTakeController* _takeController;
+  NSData * _imageData;
+}
 
 
 - (void)viewDidLoad

@@ -28,7 +28,3 @@
 
 @end
 
-FDTakeController* _takeController;
-NSData * _imageOrVideo;
-NSString * _imageOrVideoType;
-ALAssetsLibrary * _assetLibrary;

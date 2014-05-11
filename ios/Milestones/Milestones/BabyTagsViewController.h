@@ -18,4 +18,3 @@
 @end
 
 
-BabyTagsTableViewController* _tagTableViewController;

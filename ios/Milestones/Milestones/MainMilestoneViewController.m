@@ -14,7 +14,11 @@
 
 
 
-@implementation MainMilestoneViewController
+@implementation MainMilestoneViewController {
+  MilestoneAchievement * _currentAchievment;
+  PickAMilestoneTableViewController * _pickController;
+  BOOL _isMorganTouch;
+}
 
 
 -(void) viewDidLoad {
