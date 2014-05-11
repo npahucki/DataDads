@@ -20,4 +20,3 @@
 
 @end
 
-BOOL _descriptionDirty;

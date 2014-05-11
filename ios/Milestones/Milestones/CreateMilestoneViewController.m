@@ -13,7 +13,9 @@
 
 @end
 
-@implementation CreateMilestoneViewController
+@implementation CreateMilestoneViewController {
+  BOOL _descriptionDirty;
+}
 
 
 - (void)viewDidLoad
