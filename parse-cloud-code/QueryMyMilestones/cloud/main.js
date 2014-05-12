@@ -17,11 +17,11 @@ Parse.Cloud.define("queryMyMilestones", function(request, response) {
  innerQuery.equalTo("baby", {__type: "Pointer", className: "Babies", objectId : babyId});
  
  query = new Parse.Query("StandardMilestones");
- query.greaterThanOrEqualTo("rangeHigh", rangeDays);
- query.lessThanOrEqualTo("rangeLow", rangeDays);
+ query.greaterThanOrEqualTo("rangeLow", rangeDays);
+ //query.lessThanOrEqualTo("rangeLow", rangeDays);
  // Bit if a hack here, using string column here : See https://parse.com/questions/trouble-with-nested-query-using-objectid
  query.doesNotMatchKeyInQuery("objectId", "standardMilestoneId", innerQuery);
- query.ascending("rangeHigh");
+ query.ascending("rangeLow");
  query.limit(limit);
  query.skip(skip);
  query.find({
