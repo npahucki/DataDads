@@ -29,6 +29,15 @@
   return @"MilestoneAchievements";
 }
 
+-(id) init {
+  self = [super init];
+  if(self) {
+    self.isSkipped = NO;
+    self.isPostponed = NO;
+  }
+  return self;
+}
+
 -(void) setStandardMilestone:(StandardMilestone *)standardMilestone {
   [self setObject:standardMilestone forKey:@"standardMilestone"];
   [self setObject:standardMilestone.objectId forKey:@"standardMilestoneId"];

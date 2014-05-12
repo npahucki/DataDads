@@ -46,8 +46,9 @@ static NSDateFormatter * _dateFormatter;
   if(!Baby.currentBaby) return nil;
   PFQuery * query = [MilestoneAchievement query];
   [query whereKey:@"baby" equalTo:Baby.currentBaby];
-  [query whereKey:@"isSkipped" notEqualTo:[NSNumber numberWithBool:YES]];
-  [query whereKey:@"isPostponed" notEqualTo:[NSNumber numberWithBool:YES]];
+  [query whereKey:@"isSkipped" equalTo:[NSNumber numberWithBool:NO]];
+  [query whereKey:@"isPostponed" equalTo:[NSNumber numberWithBool:NO]];
+
   [query includeKey:@"standardMilestone"];
   if(_reverseSort) {
     [query orderByAscending:@"completionDate"];
