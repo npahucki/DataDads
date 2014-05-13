@@ -25,10 +25,12 @@
   
   // Setup Social Providers
   
-# ifdef DEBUG 
+# if defined(DEBUG) || defined(TARGET_IPHONE_SIMULATOR)
+  NSLog(@"Using Parse DEV account");
   [Parse setApplicationId:@"NlJHBG0NZgFS8JP76DBjA31MBRZ7kmb7dVSQQz3U"
                 clientKey:@"iMYPq4Fg751JyIOeHYnDH4LsuivOcm8uoi4DlwJ9"];
 #else
+  NSLog(@"Using Parse PRODUCTION account");
   [Parse setApplicationId:@"Vxvqum0HRF1NB00LEf2faaJYFzxd2Xh8hyrdY8MY"
                 clientKey:@"N4kS8ush3bY6Arb05tI86Gx9uA2EDiZEqzpVDrvq"];
 #endif
