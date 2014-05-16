@@ -32,6 +32,8 @@
 		E81B5888189AB2B900C74C2B /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B5887189AB2B900C74C2B /* Accounts.framework */; };
 		E81B588B189BCCD200C74C2B /* StandardMilestone.m in Sources */ = {isa = PBXBuildFile; fileRef = E81B588A189BCCD200C74C2B /* StandardMilestone.m */; };
 		E81B588E189BFFFE00C74C2B /* MilestoneAchievement.m in Sources */ = {isa = PBXBuildFile; fileRef = E81B588D189BFFFE00C74C2B /* MilestoneAchievement.m */; };
+		E8250F401925616F004A1B41 /* IntroScreenContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8250F3F1925616F004A1B41 /* IntroScreenContentViewController.m */; };
+		E8250F43192561A7004A1B41 /* IntroScreenPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8250F42192561A7004A1B41 /* IntroScreenPageViewController.m */; };
 		E832437018F895F500307356 /* HistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E832436F18F895F500307356 /* HistoryViewController.m */; };
 		E840251918F0DEC800AF1B27 /* BabyInfoPhotoControllerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E840251818F0DEC800AF1B27 /* BabyInfoPhotoControllerViewController.m */; };
 		E862B81318F5FCE100EBAEFF /* FDTakeControllerNoStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = E862B81218F5FCE100EBAEFF /* FDTakeControllerNoStatusBar.m */; };
@@ -121,6 +123,10 @@
 		E81B588A189BCCD200C74C2B /* StandardMilestone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StandardMilestone.m; sourceTree = "<group>"; };
 		E81B588C189BFFFE00C74C2B /* MilestoneAchievement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MilestoneAchievement.h; sourceTree = "<group>"; };
 		E81B588D189BFFFE00C74C2B /* MilestoneAchievement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MilestoneAchievement.m; sourceTree = "<group>"; };
+		E8250F3E1925616F004A1B41 /* IntroScreenContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntroScreenContentViewController.h; sourceTree = "<group>"; };
+		E8250F3F1925616F004A1B41 /* IntroScreenContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntroScreenContentViewController.m; sourceTree = "<group>"; };
+		E8250F41192561A7004A1B41 /* IntroScreenPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntroScreenPageViewController.h; sourceTree = "<group>"; };
+		E8250F42192561A7004A1B41 /* IntroScreenPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntroScreenPageViewController.m; sourceTree = "<group>"; };
 		E832436E18F895F500307356 /* HistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryViewController.h; sourceTree = "<group>"; };
 		E832436F18F895F500307356 /* HistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryViewController.m; sourceTree = "<group>"; };
 		E840251718F0DEC800AF1B27 /* BabyInfoPhotoControllerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyInfoPhotoControllerViewController.h; sourceTree = "<group>"; };
@@ -249,6 +255,10 @@
 		E8ABCFB6191D63980083ED25 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				E8250F41192561A7004A1B41 /* IntroScreenPageViewController.h */,
+				E8250F42192561A7004A1B41 /* IntroScreenPageViewController.m */,
+				E8250F3E1925616F004A1B41 /* IntroScreenContentViewController.h */,
+				E8250F3F1925616F004A1B41 /* IntroScreenContentViewController.m */,
 				E819A6C118FB2A490017B626 /* AppQueryTableViewController.h */,
 				E819A6C218FB2A490017B626 /* AppQueryTableViewController.m */,
 				E8BC76D318A50AD000983025 /* UIViewControllerWithHUDProgress.h */,
@@ -583,6 +593,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E81B58761896C1A900C74C2B /* EnterScreenNameViewController.m in Sources */,
+				E8250F401925616F004A1B41 /* IntroScreenContentViewController.m in Sources */,
 				E81B58731896B89E00C74C2B /* MainViewController.m in Sources */,
 				E832437018F895F500307356 /* HistoryViewController.m in Sources */,
 				E81B586B1891F9C400C74C2B /* PickAMilestoneTableViewController.m in Sources */,
@@ -590,6 +601,7 @@
 				E8D00A1D188F433E00DF2786 /* CreateMilestoneViewController.m in Sources */,
 				E8F485481901C6F90030912F /* SignUpViewController.m in Sources */,
 				E819A6C318FB2A490017B626 /* AppQueryTableViewController.m in Sources */,
+				E8250F43192561A7004A1B41 /* IntroScreenPageViewController.m in Sources */,
 				E813465A18DCD9FA0053EE6E /* StandardMilestoneQuery.m in Sources */,
 				E8DD48FA188EE5B900153095 /* LogMeasurementViewController.m in Sources */,
 				E876159B18EF83C100B0C6D9 /* BabyTagsViewController.m in Sources */,

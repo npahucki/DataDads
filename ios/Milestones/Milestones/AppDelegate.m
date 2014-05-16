@@ -64,6 +64,10 @@
   [[UITabBarItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Medium andSize:13.0], NSBackgroundColorAttributeName : [UIColor appSelectedColor]} forState:UIControlStateHighlighted];
   [UITabBar appearance].selectedImageTintColor = [UIColor appNormalColor];
 
+  UIPageControl *pageControl = [UIPageControl appearance];
+  pageControl.pageIndicatorTintColor =  [UIColor appSelectedColor];
+  pageControl.currentPageIndicatorTintColor = [UIColor appNormalColor];
+  pageControl.backgroundColor = [UIColor whiteColor];
   
   return YES;
 

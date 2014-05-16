@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="8YX-ce-x5E">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="orA-D6-c28">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -77,7 +77,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="frr-0F-Ihd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4047" y="-704"/>
+            <point key="canvasLocation" x="4573" y="-704"/>
         </scene>
         <!--Log Measurement View Controller - Second-->
         <scene sceneID="ot8-2e-RuS">
@@ -134,7 +134,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3qq-4t-Ow8" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2965" y="98"/>
+            <point key="canvasLocation" x="3491" y="98"/>
         </scene>
         <!--Baby Info View Controller - My Baby's Info-->
         <scene sceneID="UPV-5h-Uxu">
@@ -516,6 +516,105 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fJJ-wY-bXM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2224" y="-1930"/>
+        </scene>
+        <!--Intro Screen Page View Controller - Welcome-->
+        <scene sceneID="IS6-dm-d2U">
+            <objects>
+                <viewController title="Welcome" id="orA-D6-c28" customClass="IntroScreenPageViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="kTs-ep-tAp"/>
+                        <viewControllerLayoutGuide type="bottom" id="u47-YW-FTn"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="2nx-kh-it0">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.10000000149011612" contentMode="scaleAspectFit" fixedFrame="YES" image="welcomeScreenBaby" translatesAutoresizingMaskIntoConstraints="NO" id="ay3-m7-9gB">
+                                <rect key="frame" x="0.0" y="-10" width="320" height="480"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                            </imageView>
+                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vY6-l3-2y5">
+                                <rect key="frame" x="-7" y="0.0" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <items>
+                                    <navigationItem title="Welcome to Data Parenting" id="NGI-zN-QGH"/>
+                                </items>
+                            </navigationBar>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PXN-HT-bkb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="687" y="-386"/>
+        </scene>
+        <!--Page View Controller-->
+        <scene sceneID="rvT-wO-uEb">
+            <objects>
+                <pageViewController storyboardIdentifier="IntroScreenPageViewController" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="afk-lP-hkg" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                </pageViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hse-n1-zeg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1038" y="-386"/>
+        </scene>
+        <!--Intro Screen Content View Controller-->
+        <scene sceneID="g0h-Lq-Axd">
+            <objects>
+                <viewController storyboardIdentifier="IntroScreenContentViewController" id="L1z-qm-MWb" customClass="IntroScreenContentViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="wwX-HC-Y5e"/>
+                        <viewControllerLayoutGuide type="bottom" id="Pae-CG-7ZQ"/>
+                    </layoutGuides>
+                    <view key="view" opaque="NO" contentMode="scaleToFill" id="wrx-tj-AD1">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="blah blah" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="50" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="304" translatesAutoresizingMaskIntoConstraints="NO" id="4o7-eC-xW4">
+                                <rect key="frame" x="8" y="63" width="304" height="349"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kYX-nM-Lnt">
+                                <rect key="frame" x="112" y="430" width="96" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="dmu-U2-7jr"/>
+                                </constraints>
+                                <state key="normal" title="Get Started!">
+                                    <color key="titleColor" red="0.1019607843" green="0.5568627451" blue="0.62352941179999999" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="selected">
+                                    <color key="titleColor" red="0.1215686275" green="0.4431372549" blue="0.4941176471" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" red="0.1215686275" green="0.4431372549" blue="0.4941176471" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="didClickCloseButton:" destination="L1z-qm-MWb" eventType="touchUpInside" id="hA8-MT-xKg"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="4o7-eC-xW4" firstAttribute="leading" secondItem="wrx-tj-AD1" secondAttribute="leading" constant="8" id="TuC-yp-h4v"/>
+                            <constraint firstAttribute="trailing" secondItem="4o7-eC-xW4" secondAttribute="trailing" constant="8" id="gTE-IJ-81u"/>
+                            <constraint firstAttribute="bottom" secondItem="kYX-nM-Lnt" secondAttribute="bottom" constant="6" id="uGl-sy-QhW"/>
+                            <constraint firstItem="4o7-eC-xW4" firstAttribute="top" secondItem="wwX-HC-Y5e" secondAttribute="bottom" constant="43" id="wcd-42-fqz"/>
+                            <constraint firstItem="kYX-nM-Lnt" firstAttribute="top" secondItem="4o7-eC-xW4" secondAttribute="bottom" constant="18" id="x2J-jb-ci7"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="closeButton" destination="kYX-nM-Lnt" id="bDE-QK-zaS"/>
+                        <outlet property="titleLabel" destination="4o7-eC-xW4" id="K4I-Jg-Rpi"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="w4l-sY-1LP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1400" y="-386"/>
         </scene>
         <!--Enter Screen Name View Controller-->
         <scene sceneID="far-vz-13V">
@@ -999,7 +1098,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="poY-We-bkC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4697" y="-712"/>
+            <point key="canvasLocation" x="5223" y="-712"/>
         </scene>
         <!--View Controller - Account-->
         <scene sceneID="4Z9-oI-S9f">
@@ -1359,6 +1458,7 @@
         <image name="settingsIcon_pressed.png" width="27" height="27"/>
         <image name="tagCheckbox" width="20" height="20"/>
         <image name="tagCheckbox_checked" width="20" height="20"/>
+        <image name="welcomeScreenBaby" width="71" height="73"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
