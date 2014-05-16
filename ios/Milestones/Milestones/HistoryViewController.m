@@ -7,6 +7,7 @@
 //
 
 #import "HistoryViewController.h"
+#import "NSDate+HumanizedTime.h"
 
 @interface HistoryViewController ()
 
@@ -118,7 +119,7 @@ static NSDateFormatter * _dateFormatter;
   
   
   // TODO: Make member
-  cell.textLabel.text = [_dateFormatter stringFromDate:achievement.completionDate];
+  cell.textLabel.text = [achievement.completionDate stringWithHumanizedTimeDifference]; //[_dateFormatter stringFromDate:achievement.completionDate];
   cell.detailTextLabel.text = achievement.standardMilestone ? achievement.standardMilestone.title : achievement.customTitle;
 
   cell.imageView.image = [UIImage imageNamed:@"historyNoPic"]; // Place holder
