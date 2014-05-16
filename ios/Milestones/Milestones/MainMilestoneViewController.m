@@ -109,6 +109,8 @@
 
 -(MilestoneAchievement*) createAchievementForMilestone:(StandardMilestone*) milestone {
   _currentAchievment = [MilestoneAchievement object];
+  _currentAchievment.isSkipped = NO;
+  _currentAchievment.isPostponed = NO;
   _currentAchievment.baby = Baby.currentBaby;
   _currentAchievment.completionDate =  [NSDate date];
   if(milestone) _currentAchievment.standardMilestone = milestone;
