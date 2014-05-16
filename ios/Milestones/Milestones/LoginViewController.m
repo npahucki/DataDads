@@ -17,7 +17,7 @@
 @implementation LoginViewController
 
 -(void)awakeFromNib {
-  self.fields = PFLogInFieldsUsernameAndPassword | PFLogInFieldsLogInButton | PFLogInFieldsSignUpButton | PFLogInFieldsPasswordForgotten | PFLogInFieldsFacebook | /*PFLogInFieldsTwitter |*/ PFSignUpFieldsAdditional;
+  self.fields = PFLogInFieldsUsernameAndPassword | PFLogInFieldsLogInButton | PFLogInFieldsSignUpButton | PFLogInFieldsPasswordForgotten | PFLogInFieldsFacebook | /*PFLogInFieldsTwitter |*/ PFSignUpFieldsAdditional | PFLogInFieldsDismissButton;
   self.facebookPermissions = @[ @"user_about_me", @"email" ];
   
 }
@@ -42,19 +42,6 @@
   label.textColor = [UIColor appNormalColor];
   [label sizeToFit];
   self.logInView.logo = label;
-  //self.logInView.logo = [[UIView alloc]init];
-  //[self.logInView.logo addSubview:label];
-  //[self.logInView.logo addSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"welcomeScreenBaby"]]];
-
-  // Navigation Bar
-  UINavigationBar *myBar = [[UINavigationBar alloc]initWithFrame:CGRectMake(0, 0, self.logInView.frame.size.width, 44)];
-  [myBar setBackgroundImage:[UIImage imageNamed:@"header"] forBarMetrics:UIBarMetricsDefault];
-  [myBar pushNavigationItem:[[UINavigationItem alloc] init] animated:false];
-  myBar.topItem.title = @"Welcome!";
-  myBar.translucent = NO;
-  [self.logInView insertSubview:myBar aboveSubview:self.logInView.logo];
-
-  
   
   // Username
   self.logInView.usernameField.textColor = [UIColor appGreyTextColor];
@@ -143,7 +130,7 @@
   self.logInView.logInButton.center = CGPointMake(self.logInView.logInButton.center.x, self.logInView.logInButton.center.y + 10);
   self.signupSep.center = self.logInView.signUpLabel.center;
   
-  int logoY = (self.logInView.usernameField.frame.origin.y + self.logInView.logo.frame.size.height + 44) / 2;
+  int logoY = (self.logInView.usernameField.frame.origin.y + self.logInView.logo.frame.size.height) / 2;
   self.logInView.logo.center = CGPointMake(self.logInView.logo.center.x,logoY - 150);
   
   self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.logInView];
@@ -206,7 +193,7 @@
   }
   
   [self showLoginSuccessAndRunBlock:^{
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
   }];
 }
 
@@ -231,7 +218,7 @@
 }
 
 - (void)logInViewControllerDidCancelLogIn:(PFLogInViewController *)logInController {
-  
+ [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 
@@ -240,7 +227,7 @@
 // Sent to the delegate when a PFUser is signed up.
 - (void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user {
   [((SignUpViewController*)self.signUpController) showSignupSuccessAndRunBlock:^{
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    [self.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
   }];
 }
 

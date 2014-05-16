@@ -12,8 +12,6 @@
 
 @property NSUInteger pageIndex;
 @property NSString * text;
-@property BOOL last;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-@property (weak, nonatomic) IBOutlet UIButton *closeButton;
 
 @end

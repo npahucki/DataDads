@@ -76,7 +76,7 @@
     
   } else {
     // need to login before we can do anything
-    [self performSegueWithIdentifier:@"login" sender:self];
+    [self performSegueWithIdentifier:@"showIntroScreen" sender:self];
   }
 }
 

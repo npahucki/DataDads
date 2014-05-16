@@ -13,7 +13,9 @@
 
 @end
 
-@implementation IntroScreenPageViewController
+@implementation IntroScreenPageViewController {
+  NSUInteger _nextIndex;
+}
 
 
 - (void)viewDidLoad
@@ -27,17 +29,21 @@
   // Create page view controller
   self.pageViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"IntroScreenPageViewController"];
   self.pageViewController.dataSource = self;
+  self.pageViewController.delegate = self;
   
   IntroScreenContentViewController *startingViewController = [self viewControllerAtIndex:0];
   NSArray *viewControllers = @[startingViewController];
   [self.pageViewController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
   
   // Change the size of page view controller
-  self.pageViewController.view.frame = CGRectMake(0, 44, self.view.frame.size.width, self.view.frame.size.height - 44);
+  self.pageViewController.view.frame = CGRectMake(0, 44, self.view.frame.size.width, self.view.frame.size.height - 88);
   
   [self addChildViewController:_pageViewController];
   [self.view addSubview:_pageViewController.view];
   [self.pageViewController didMoveToParentViewController:self];
+  
+  
+  self.loginNowButton.titleLabel.font = [UIFont fontForAppWithType:Bold andSize:23];
   
 }
 
@@ -59,7 +65,6 @@
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController
 {
   NSUInteger index = ((IntroScreenContentViewController*) viewController).pageIndex;
-  
   if (index == NSNotFound) {
     return nil;
   }
@@ -81,7 +86,6 @@
   IntroScreenContentViewController *introScreenViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"IntroScreenContentViewController"];
   introScreenViewController.text = self.pageTitles[index];
   introScreenViewController.pageIndex = index;
-  introScreenViewController.last = index >= [_pageTitles count] -1;
   return introScreenViewController;
 }
 
@@ -91,6 +95,38 @@
 
 - (NSInteger)presentationIndexForPageViewController:(UIPageViewController *)pageViewController {
   return 0;
+}
+
+- (void)pageViewController:(UIPageViewController *)pageViewController willTransitionToViewControllers:(NSArray *)pendingViewControllers {
+    IntroScreenContentViewController* controller =  [pendingViewControllers firstObject];
+    _nextIndex = controller.pageIndex;
+}
+
+- (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed {
+
+  
+  if(completed && finished) {
+    if(_nextIndex == 0) {
+      [UIView transitionWithView:self.loginNowButton
+                        duration:0.4
+                         options:UIViewAnimationOptionTransitionCrossDissolve
+                      animations:NULL
+                      completion:NULL];
+      self.loginNowButton.hidden = NO;
+    } else {
+      [UIView transitionWithView:self.loginNowButton
+                        duration:0.4
+                         options:UIViewAnimationOptionTransitionCrossDissolve
+                      animations:NULL
+                      completion:NULL];
+      self.loginNowButton.hidden = YES;
+    }
+  }
+  
+}
+
+- (IBAction)didClickLoginNow:(id)sender {
+  NSLog(@"Log in now!");
 }
 
 

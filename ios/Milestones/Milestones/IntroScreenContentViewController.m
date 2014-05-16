@@ -17,11 +17,8 @@
   self.titleLabel.textColor = [UIColor appGreyTextColor];
   self.titleLabel.text = self.text;
   [self.titleLabel sizeToFit];
-  self.closeButton.hidden = !self.last;
 }
 
-- (IBAction)didClickCloseButton:(id)sender {
-  // TODO Close!
-}
+
 
 @end
