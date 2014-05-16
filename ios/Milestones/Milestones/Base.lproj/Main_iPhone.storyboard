@@ -533,8 +533,8 @@
                                 <rect key="frame" x="8" y="52" width="304" height="376"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tjl-8t-bK4">
-                                <rect key="frame" x="118" y="436" width="84" height="44"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tjl-8t-bK4">
+                                <rect key="frame" x="121" y="436" width="78" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="kQF-4o-vga"/>
@@ -561,7 +561,7 @@
                                     <constraint firstAttribute="height" constant="44" id="26a-5x-FX9"/>
                                 </constraints>
                                 <items>
-                                    <navigationItem title="Welcome to Data Parenting" id="NGI-zN-QGH"/>
+                                    <navigationItem title="Data Parenting" id="NGI-zN-QGH"/>
                                 </items>
                             </navigationBar>
                         </subviews>
@@ -609,8 +609,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="blah blah" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="50" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="304" translatesAutoresizingMaskIntoConstraints="NO" id="4o7-eC-xW4">
-                                <rect key="frame" x="8" y="63" width="304" height="349"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="blah blah" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="50" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="304" translatesAutoresizingMaskIntoConstraints="NO" id="4o7-eC-xW4">
+                                <rect key="frame" x="8" y="230" width="304" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -619,9 +619,9 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="centerY" secondItem="4o7-eC-xW4" secondAttribute="centerY" id="4HV-LX-FNo"/>
                             <constraint firstItem="4o7-eC-xW4" firstAttribute="leading" secondItem="wrx-tj-AD1" secondAttribute="leading" constant="8" id="TuC-yp-h4v"/>
                             <constraint firstAttribute="trailing" secondItem="4o7-eC-xW4" secondAttribute="trailing" constant="8" id="gTE-IJ-81u"/>
-                            <constraint firstItem="4o7-eC-xW4" firstAttribute="top" secondItem="wwX-HC-Y5e" secondAttribute="bottom" constant="43" id="wcd-42-fqz"/>
                         </constraints>
                     </view>
                     <connections>

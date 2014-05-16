@@ -65,7 +65,7 @@
   [UITabBar appearance].selectedImageTintColor = [UIColor appNormalColor];
 
   UIPageControl *pageControl = [UIPageControl appearance];
-  pageControl.pageIndicatorTintColor =  [UIColor appSelectedColor];
+  pageControl.pageIndicatorTintColor =  [UIColor appGreyTextColor];
   pageControl.currentPageIndicatorTintColor = [UIColor appNormalColor];
   pageControl.backgroundColor = [UIColor whiteColor];
   

@@ -21,9 +21,12 @@
 - (void)viewDidLoad
 {
   [super viewDidLoad];
-  _pageTitles = @[@"Scientific Parenting is here!\n\nWe're crowdsourcing science, collecting data on when babies complete serious (and fun) milestones.\nWe'll use these to predict your Baby's Milestones -- and to give you the right tips and risk alerts, right before they're needed.\n\nHere's how...",
-                  @"First, tell us some general things about your Baby: his birthdate & some tags.\n\nThen, start choosing which milestones your Baby completes as he completes them -- or add your own. Snap photos!\n\nWe'll show you the data related to that milestone, and your baby (if you create a user).",
-                  @"In the meantime, we'll start showing you surprising tips and risks for your baby, based on how he/she's developing.\n\nOnce you've recorded more than about 30 milestones, we'll have enough to start predicting better when the milestones should be happening.\n\nSo get started, and say 'Hi!' to us any time:\nteam@dataparenting.com"
+  _pageTitles = @[@"Help Create Parenting Science....\n\n...By Crowdsourcing Baby Data\n\nHere's How!",
+                  
+                  
+                  @"• Answer 4 simple questions about your Baby\n\n• Select fun & serious milestones your Baby completes, whenever he does\n\n• We'll show you the comparative data as you note them\n\nThen...",
+                  
+                  @"• We'll start showing you tips & risks, based on how your baby is developing\n\n• Once you've recorded ~30 milestones, we'll get better at predicting the next ones\n\n• Have fun & Say hi: team@dataparenting"
                   ];
   
   // Create page view controller
