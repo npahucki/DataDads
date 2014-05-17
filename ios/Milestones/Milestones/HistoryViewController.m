@@ -17,15 +17,6 @@
   BOOL _reverseSort;
 }
 
-static NSDateFormatter * _dateFormatter;
-
-
-+ (void)initialize {
-  _dateFormatter = [[NSDateFormatter alloc] init];
-  [_dateFormatter setDateStyle:NSDateFormatterMediumStyle];
-  [_dateFormatter setTimeStyle:NSDateFormatterNoStyle];
-}
-
 -(BOOL) reverseSort {
   return _reverseSort;
 }
@@ -38,8 +29,20 @@ static NSDateFormatter * _dateFormatter;
 
 -(void) viewDidLoad {
   [super viewDidLoad];
-  self.objectsPerPage = 50;
+  self.objectsPerPage = 25;
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(babyUpdated:) name:kDDNotificationCurrentBabyChanged object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(milestoneNotedAndSaved:) name:kDDNotificationMilestoneNotedAndSaved object:nil];
+  self.navigationItem.title = Baby.currentBaby.name;
 }
+
+-(void) babyUpdated:(NSNotification*)notification {
+  if(Baby.currentBaby) [self loadObjects];
+  self.navigationItem.title = Baby.currentBaby.name;
+}
+
+-(void) milestoneNotedAndSaved:(NSNotification*)notification {
+    [self loadObjects];
+  }
 
 // TODO: When we need to add sections, see https://parse.com/questions/using-pfquerytableviewcontroller-for-uitableview-sections
 - (PFQuery *)queryForTable {
