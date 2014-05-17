@@ -1297,13 +1297,13 @@
         <scene sceneID="lrB-wz-bcW">
             <objects>
                 <tableViewController title="History" extendedLayoutIncludesOpaqueBars="YES" id="b71-m6-YKZ" customClass="HistoryViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="108" sectionHeaderHeight="22" sectionFooterHeight="22" id="AxW-Cn-Ymw">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="108" sectionHeaderHeight="10" sectionFooterHeight="10" id="AxW-Cn-Ymw">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="436"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" restorationIdentifier="simpleHistoryCell" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="simpleHistoryCell" textLabel="Gka-eD-bDJ" detailTextLabel="V0U-k6-hDp" imageView="ep1-ot-Hc0" rowHeight="108" style="IBUITableViewCellStyleSubtitle" id="Bck-82-6DC" customClass="HistoryTableViewCell">
-                                <rect key="frame" x="0.0" y="66" width="320" height="108"/>
+                                <rect key="frame" x="0.0" y="99" width="320" height="108"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Bck-82-6DC" id="hH9-Bu-41f">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="108"/>

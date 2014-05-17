@@ -38,9 +38,10 @@
 		E840251918F0DEC800AF1B27 /* BabyInfoPhotoControllerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E840251818F0DEC800AF1B27 /* BabyInfoPhotoControllerViewController.m */; };
 		E862B81318F5FCE100EBAEFF /* FDTakeControllerNoStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = E862B81218F5FCE100EBAEFF /* FDTakeControllerNoStatusBar.m */; };
 		E862B81718F6A6BA00EBAEFF /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E862B81618F6A6BA00EBAEFF /* iAd.framework */; };
+		E86B1EAF19277E7700EA6167 /* HistoryViewTableModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E86B1EAE19277E7700EA6167 /* HistoryViewTableModel.m */; };
+		E86B1EB21927967800EA6167 /* PFQueryWithExtendedResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = E86B1EB01927967800EA6167 /* PFQueryWithExtendedResultSet.m */; };
 		E876159B18EF83C100B0C6D9 /* BabyTagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E876159A18EF83C100B0C6D9 /* BabyTagsViewController.m */; };
 		E876159E18EF892C00B0C6D9 /* BabyTagsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E876159D18EF892C00B0C6D9 /* BabyTagsTableViewController.m */; };
-		E8A9A7C218F36E3F006224AC /* PFQueryWithExtendedResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A9A7C118F36E3F006224AC /* PFQueryWithExtendedResultSet.m */; };
 		E8ABCFBA191D68FE0083ED25 /* UIDateField.m in Sources */ = {isa = PBXBuildFile; fileRef = E8ABCFB9191D68FE0083ED25 /* UIDateField.m */; };
 		E8BC76D518A50AD000983025 /* UIViewControllerWithHUDProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = E8BC76D418A50AD000983025 /* UIViewControllerWithHUDProgress.m */; };
 		E8BC76D818A8522F00983025 /* MilestoneDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8BC76D718A8522F00983025 /* MilestoneDetailsViewController.m */; };
@@ -135,12 +136,14 @@
 		E862B81218F5FCE100EBAEFF /* FDTakeControllerNoStatusBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDTakeControllerNoStatusBar.m; sourceTree = "<group>"; };
 		E862B81418F6A69200EBAEFF /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		E862B81618F6A6BA00EBAEFF /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
+		E86B1EAD19277E7700EA6167 /* HistoryViewTableModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryViewTableModel.h; sourceTree = "<group>"; };
+		E86B1EAE19277E7700EA6167 /* HistoryViewTableModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryViewTableModel.m; sourceTree = "<group>"; };
+		E86B1EB01927967800EA6167 /* PFQueryWithExtendedResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PFQueryWithExtendedResultSet.m; sourceTree = "<group>"; };
+		E86B1EB11927967800EA6167 /* PFQueryWithExtendedResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PFQueryWithExtendedResultSet.h; sourceTree = "<group>"; };
 		E876159918EF83C100B0C6D9 /* BabyTagsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyTagsViewController.h; sourceTree = "<group>"; };
 		E876159A18EF83C100B0C6D9 /* BabyTagsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BabyTagsViewController.m; sourceTree = "<group>"; };
 		E876159C18EF892C00B0C6D9 /* BabyTagsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyTagsTableViewController.h; sourceTree = "<group>"; };
 		E876159D18EF892C00B0C6D9 /* BabyTagsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = BabyTagsTableViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		E8A9A7C018F36E3F006224AC /* PFQueryWithExtendedResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PFQueryWithExtendedResultSet.h; sourceTree = "<group>"; };
-		E8A9A7C118F36E3F006224AC /* PFQueryWithExtendedResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PFQueryWithExtendedResultSet.m; sourceTree = "<group>"; };
 		E8ABCFB8191D68FE0083ED25 /* UIDateField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIDateField.h; sourceTree = "<group>"; };
 		E8ABCFB9191D68FE0083ED25 /* UIDateField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIDateField.m; sourceTree = "<group>"; };
 		E8BC76D318A50AD000983025 /* UIViewControllerWithHUDProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIViewControllerWithHUDProgress.h; sourceTree = "<group>"; };
@@ -246,8 +249,10 @@
 				E813465918DCD9FA0053EE6E /* StandardMilestoneQuery.m */,
 				E81B588C189BFFFE00C74C2B /* MilestoneAchievement.h */,
 				E81B588D189BFFFE00C74C2B /* MilestoneAchievement.m */,
-				E8A9A7C018F36E3F006224AC /* PFQueryWithExtendedResultSet.h */,
-				E8A9A7C118F36E3F006224AC /* PFQueryWithExtendedResultSet.m */,
+				E86B1EAD19277E7700EA6167 /* HistoryViewTableModel.h */,
+				E86B1EAE19277E7700EA6167 /* HistoryViewTableModel.m */,
+				E86B1EB01927967800EA6167 /* PFQueryWithExtendedResultSet.m */,
+				E86B1EB11927967800EA6167 /* PFQueryWithExtendedResultSet.h */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -611,6 +616,7 @@
 				E8D00A20188F435300DF2786 /* NoteMilestoneViewController.m in Sources */,
 				E81B588318992B7000C74C2B /* Tag.m in Sources */,
 				E8BC76D518A50AD000983025 /* UIViewControllerWithHUDProgress.m in Sources */,
+				E86B1EB21927967800EA6167 /* PFQueryWithExtendedResultSet.m in Sources */,
 				E8EC89D81907CB410073E012 /* UIViewController+MBProgressHUD.m in Sources */,
 				E8DD48EE188EE5B900153095 /* AppDelegate.m in Sources */,
 				E8DD48EA188EE5B900153095 /* main.m in Sources */,
@@ -618,9 +624,9 @@
 				E840251918F0DEC800AF1B27 /* BabyInfoPhotoControllerViewController.m in Sources */,
 				E8D00A17188F348700DF2786 /* LoginViewController.m in Sources */,
 				E862B81318F5FCE100EBAEFF /* FDTakeControllerNoStatusBar.m in Sources */,
+				E86B1EAF19277E7700EA6167 /* HistoryViewTableModel.m in Sources */,
 				E8E39C6A18EB063E0034982D /* MainMilestoneViewController.m in Sources */,
 				E876159E18EF892C00B0C6D9 /* BabyTagsTableViewController.m in Sources */,
-				E8A9A7C218F36E3F006224AC /* PFQueryWithExtendedResultSet.m in Sources */,
 				E8E39C6D18EB9A090034982D /* SettingsViewController.m in Sources */,
 				E8ABCFBA191D68FE0083ED25 /* UIDateField.m in Sources */,
 				E81B588E189BFFFE00C74C2B /* MilestoneAchievement.m in Sources */,

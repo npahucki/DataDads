@@ -8,9 +8,9 @@
 
 #import <Parse/Parse.h>
 #import "AppQueryTableViewController.h"
-@interface HistoryViewController : AppQueryTableViewController
+#import "HistoryViewTableModel.h"
+@interface HistoryViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate, HistoryViewTableModelDelegate>
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *sortButton;
-@property BOOL reverseSort;
 
 @end
 
