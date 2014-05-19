@@ -40,6 +40,7 @@
 		E862B81718F6A6BA00EBAEFF /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E862B81618F6A6BA00EBAEFF /* iAd.framework */; };
 		E86B1EAF19277E7700EA6167 /* HistoryViewTableModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E86B1EAE19277E7700EA6167 /* HistoryViewTableModel.m */; };
 		E86B1EB21927967800EA6167 /* PFQueryWithExtendedResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = E86B1EB01927967800EA6167 /* PFQueryWithExtendedResultSet.m */; };
+		E86B1EB4192917A400EA6167 /* backgroung.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E86B1EB3192917A400EA6167 /* backgroung.jpg */; };
 		E876159B18EF83C100B0C6D9 /* BabyTagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E876159A18EF83C100B0C6D9 /* BabyTagsViewController.m */; };
 		E876159E18EF892C00B0C6D9 /* BabyTagsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E876159D18EF892C00B0C6D9 /* BabyTagsTableViewController.m */; };
 		E8ABCFBA191D68FE0083ED25 /* UIDateField.m in Sources */ = {isa = PBXBuildFile; fileRef = E8ABCFB9191D68FE0083ED25 /* UIDateField.m */; };
@@ -140,6 +141,7 @@
 		E86B1EAE19277E7700EA6167 /* HistoryViewTableModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryViewTableModel.m; sourceTree = "<group>"; };
 		E86B1EB01927967800EA6167 /* PFQueryWithExtendedResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PFQueryWithExtendedResultSet.m; sourceTree = "<group>"; };
 		E86B1EB11927967800EA6167 /* PFQueryWithExtendedResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PFQueryWithExtendedResultSet.h; sourceTree = "<group>"; };
+		E86B1EB3192917A400EA6167 /* backgroung.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = backgroung.jpg; sourceTree = "<group>"; };
 		E876159918EF83C100B0C6D9 /* BabyTagsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyTagsViewController.h; sourceTree = "<group>"; };
 		E876159A18EF83C100B0C6D9 /* BabyTagsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BabyTagsViewController.m; sourceTree = "<group>"; };
 		E876159C18EF892C00B0C6D9 /* BabyTagsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyTagsTableViewController.h; sourceTree = "<group>"; };
@@ -415,6 +417,7 @@
 		E8E39BFC18E6152D0034982D /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E86B1EB3192917A400EA6167 /* backgroung.jpg */,
 				E8E39C0618E615D20034982D /* fonts */,
 			);
 			name = Resources;
@@ -542,6 +545,7 @@
 				E8E39C1318E615D20034982D /* GothamRounded-BookItalic.otf in Resources */,
 				E8E39C1718E615D20034982D /* GothamRounded-MediumItalic.otf in Resources */,
 				E8E39C1518E615D20034982D /* GothamRounded-LightItalic.otf in Resources */,
+				E86B1EB4192917A400EA6167 /* backgroung.jpg in Resources */,
 				E8E39C1418E615D20034982D /* GothamRounded-Light.otf in Resources */,
 				E8DD48FC188EE5B900153095 /* Images.xcassets in Resources */,
 				E8DD48F1188EE5B900153095 /* Main_iPhone.storyboard in Resources */,

@@ -9,14 +9,14 @@
 #import <Parse/Parse.h>
 #import "AppQueryTableViewController.h"
 #import "HistoryViewTableModel.h"
-@interface HistoryViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate, HistoryViewTableModelDelegate>
+#import "SWTableViewCell.h"
+
+@interface HistoryViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate, HistoryViewTableModelDelegate, SWTableViewCellDelegate>
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *sortButton;
 
 @end
 
-@interface HistoryTableViewCell : UITableViewCell
-
-- (void)setAppearanceWithBlock:(void (^)())appearanceBlock force:(BOOL)force;
+@interface HistoryTableViewCell : SWTableViewCell
 
 @property (nonatomic, strong) UIView* topLineView;
 @property (nonatomic, strong) UIView* bottomLineView;

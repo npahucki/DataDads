@@ -8,57 +8,118 @@
 
 #import "HistoryViewTableModel.h"
 
+
 @implementation HistoryViewTableModel
 
--(void) loadAllObjects {
 
-  [self loadAchievements];
-  
-  NSMutableArray *futureMilestones = [[NSMutableArray alloc] init];
-  _futureMilesstones = futureMilestones; // Non mutable array interface
-  NSMutableArray *pastMilestones = [[NSMutableArray alloc] init];
-  _pastMilesstones = pastMilestones;
-
-  for(int i=0; i<7; i++) {
-    StandardMilestone * milestone = [StandardMilestone object];
-    milestone.title = [NSString stringWithFormat:@"Future Milestone %d",i];
-    milestone.shortDescription = @"dfkjhsfk shfkjshdjkdhkfs jhafkjhdsafkj hdshdksjafh kashfdkasdf hkasdhfksak dhfkjshfkjs hdfkj sahf sdafhsakdfjh  sdfkhs dfsfdkjhs dkfhs dfhs dfjs dFHSKDFHKSAHJDF ";
-    [futureMilestones addObject:milestone];
-
-    milestone = [StandardMilestone object];
-    milestone.title = [NSString stringWithFormat:@"Past Milestone %d",i];
-    milestone.shortDescription = @"dfkjhsfk shfkjshdjkdhkfs jhafkjhdsafkj hdshdksjafh kashfdkasdf hkasdhfksak dhfkjshfkjs hdfkj sahf sdafhsakdfjh  sdfkhs dfsfdkjhs dkfhs dfhs dfjs dFHSKDFHKSAHJDF ";
-    [pastMilestones addObject:milestone];
+-(id) init {
+  self = [super init];
+  if(self) {
+    _hasMoreFutureMilestones = YES;
+    _hasMorePastMilestones = YES;
+    _hasMoreAchievements = YES;
   }
-  
-  [self.delegate objectsUpdated];
+  return self;
+}
+
+-(void) loadFutureMilestonesPage:(int) startIndex {
+  if(self.hasMoreFutureMilestones) {
+    [self loadMilestonesPage:startIndex forTimePeriod:@"future" withBlock:^(NSArray *objects, NSError *error) {
+      if(error) {
+        [self.delegate didFailToLoadFutureMilestones:error];
+      } else {
+        // if results, set the has more to false
+        if(!_futureMilesstones) _futureMilesstones = [[NSMutableArray alloc] initWithCapacity:self.pagingSize];
+        _hasMoreFutureMilestones = objects.count > 0 && objects.count < self.pagingSize;
+        [((NSMutableArray*) _futureMilesstones) addObjectsFromArray:objects];
+        [self.delegate didLoadFutureMilestones];
+      }
+    }];
+  } else {
+    // Must call to end loading
+    [self.delegate didLoadFutureMilestones];
+  }
+}
+
+-(void) loadPastMilestonesPage:(int) startIndex {
+  if(self.hasMorePastMilestones) {
+    [self loadMilestonesPage:startIndex forTimePeriod:@"past" withBlock:^(NSArray *objects, NSError *error) {
+      if(error) {
+        [self.delegate didFailToLoadPastMilestones:error];
+      } else {
+        // if results, set the has more to false
+        if(!_pastMilesstones) _pastMilesstones = [[NSMutableArray alloc] initWithCapacity:self.pagingSize];
+        _hasMorePastMilestones = objects.count > 0 && objects.count < self.pagingSize;
+        [((NSMutableArray*) _pastMilesstones) addObjectsFromArray:objects];
+        [self.delegate didLoadPastMilestones];
+      }
+    }];
+  } else {
+    // Must call to end loading
+    [self.delegate didLoadPastMilestones];
+  }
 }
 
 
--(void) loadAchievements {
-  NSMutableArray *achievements = [[NSMutableArray alloc] init];
-  _achievements = achievements;
+-(void) loadMilestonesPage:(int) startIndex forTimePeriod:(NSString*) timePeriod withBlock:(PFArrayResultBlock) block {
+  // TODO: caching!
+  if(self.baby) {
+    [PFCloud callFunctionInBackground:@"queryMyMilestones"
+           withParameters:@{@"babyId": self.baby.objectId,
+                            @"timePeriod" : timePeriod,
+                            @"rangeDays": [@(self.baby.daysSinceDueDate) stringValue],
+                            @"skip" : [@(startIndex) stringValue],
+                            @"limit" : [@(self.pagingSize) stringValue]}
+                    block:^(NSArray *results, NSError *error) {
+                      block(results, error);
+                    }];
+  } else {
+    block(nil, nil);
+  }
+}
+
+// a startIndex of 0 or less causes a default skip of 0
+-(void) loadAchievementsPage:(int) startIndex {
+  // If no Baby available yet, don't try to load anything
+  if(self.baby && self.hasMoreAchievements) {
+    PFQuery * query = [MilestoneAchievement query];
+    [query whereKey:@"baby" equalTo:Baby.currentBaby];
+    [query whereKey:@"isSkipped" equalTo:[NSNumber numberWithBool:NO]];
+    [query whereKey:@"isPostponed" equalTo:[NSNumber numberWithBool:NO]];
+    [query includeKey:@"standardMilestone"];
+    [query orderByDescending:@"completionDate"];
+    // If no objects are loaded in memory, we look to the cache
+    // first to fill the table and then subsequently do a query
+    // against the network.
+    query.cachePolicy = _achievements.count ? kPFCachePolicyNetworkOnly : kPFCachePolicyCacheThenNetwork;
+    query.limit = self.pagingSize;
+    query.skip = startIndex > 0 ? startIndex : 0;
+    
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+      if (error) {
+        if(error.code != kPFErrorCacheMiss) {
+          [self.delegate didFailToLoadAchievements:error];
+        }
+      } else {
+        // if results, set the has more to false
+        if(!_achievements) _achievements = [[NSMutableArray alloc] initWithCapacity:self.pagingSize];
+        _hasMoreAchievements = objects.count > 0 && objects.count < self.pagingSize;
+        [((NSMutableArray*) _achievements) addObjectsFromArray:objects];
+        [self.delegate didLoadAchievements];
+      }
+    }];
+  } else {
+    [self.delegate didLoadAchievements];
+  }
+}
 
   
-  for(int i=0; i<3; i++) {
-    MilestoneAchievement * achievement = [MilestoneAchievement object];
-    achievement.customTitle = [NSString stringWithFormat:@"Custom Achievement %d",i];
-    achievement.customDescription = @"dfkjhsfk shfkjshdjkdhkfs jhafkjhdsafkj hdshdksjafh kashfdkasdf hkasdhfksak dhfkjshfkjs hdfkj sahf sdafhsakdfjh  sdfkhs dfsfdkjhs dkfhs dfhs dfjs dFHSKDFHKSAHJDF ";
-    achievement.completionDate = [NSDate dateWithTimeIntervalSinceNow:i * 360 * -24];
-    [achievements addObject:achievement];
-  }
   
-  for(int i=0; i<3; i++) {
-    MilestoneAchievement * achievement = [MilestoneAchievement object];
-    StandardMilestone * milestone = [StandardMilestone object];
-    milestone.objectId = [NSString stringWithFormat:@"milestone-%d",i];
-    milestone.title = [NSString stringWithFormat:@"Completed Milestone %d",i];
-    milestone.shortDescription = @"dfkjhsfk shfkjshdjkdhkfs jhafkjhdsafkj hdshdksjafh kashfdkasdf hkasdhfksak dhfkjshfkjs hdfkj sahf sdafhsakdfjh  sdfkhs dfsfdkjhs dkfhs dfhs dfjs dFHSKDFHKSAHJDF ";
-    achievement.standardMilestone = milestone;
-    achievement.completionDate = [NSDate dateWithTimeIntervalSinceNow:i * 360 * -48];
-    [achievements addObject:achievement];
-  }
   
-}
+
+
+
+  
+  
 
 @end

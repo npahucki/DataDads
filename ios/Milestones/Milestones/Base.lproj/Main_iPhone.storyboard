@@ -516,9 +516,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.10000000149011612" contentMode="scaleAspectFit" image="welcomeScreenBaby" translatesAutoresizingMaskIntoConstraints="NO" id="ay3-m7-9gB">
-                                <rect key="frame" x="8" y="52" width="304" height="376"/>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.25000000149011609" contentMode="scaleAspectFill" image="backgroung.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="ay3-m7-9gB">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="418"/>
                                 <autoresizingMask key="autoresizingMask"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tjl-8t-bK4">
                                 <rect key="frame" x="121" y="436" width="78" height="44"/>
@@ -541,27 +542,14 @@
                                     <segue destination="Ug0-er-oah" kind="modal" id="CBA-bl-wSB"/>
                                 </connections>
                             </button>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vY6-l3-2y5">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="26a-5x-FX9"/>
-                                </constraints>
-                                <items>
-                                    <navigationItem title="Data Parenting" id="NGI-zN-QGH"/>
-                                </items>
-                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="vY6-l3-2y5" firstAttribute="top" secondItem="2nx-kh-it0" secondAttribute="top" id="2uc-xl-5aI"/>
-                            <constraint firstItem="ay3-m7-9gB" firstAttribute="leading" secondItem="2nx-kh-it0" secondAttribute="leading" constant="8" id="EXF-zc-T3O"/>
-                            <constraint firstItem="vY6-l3-2y5" firstAttribute="leading" secondItem="2nx-kh-it0" secondAttribute="leading" id="Et8-Dx-bbR"/>
+                            <constraint firstItem="ay3-m7-9gB" firstAttribute="leading" secondItem="2nx-kh-it0" secondAttribute="leading" id="EXF-zc-T3O"/>
                             <constraint firstItem="u47-YW-FTn" firstAttribute="top" secondItem="tjl-8t-bK4" secondAttribute="bottom" id="IAf-74-lWx"/>
-                            <constraint firstAttribute="trailing" secondItem="ay3-m7-9gB" secondAttribute="trailing" constant="8" id="aFx-rt-CZw"/>
-                            <constraint firstAttribute="trailing" secondItem="vY6-l3-2y5" secondAttribute="trailing" id="fm9-rC-iAD"/>
-                            <constraint firstItem="ay3-m7-9gB" firstAttribute="top" secondItem="vY6-l3-2y5" secondAttribute="bottom" constant="8" id="ixe-sC-hPz"/>
-                            <constraint firstItem="tjl-8t-bK4" firstAttribute="top" secondItem="ay3-m7-9gB" secondAttribute="bottom" constant="8" id="oYL-Er-Ube"/>
+                            <constraint firstAttribute="trailing" secondItem="ay3-m7-9gB" secondAttribute="trailing" id="aFx-rt-CZw"/>
+                            <constraint firstItem="ay3-m7-9gB" firstAttribute="top" secondItem="2nx-kh-it0" secondAttribute="top" id="ebq-F0-T2w"/>
+                            <constraint firstItem="tjl-8t-bK4" firstAttribute="top" secondItem="ay3-m7-9gB" secondAttribute="bottom" constant="18" id="oYL-Er-Ube"/>
                             <constraint firstAttribute="centerX" secondItem="tjl-8t-bK4" secondAttribute="centerX" id="tYL-3s-qFC"/>
                         </constraints>
                     </view>
@@ -1302,7 +1290,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" restorationIdentifier="simpleHistoryCell" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="simpleHistoryCell" textLabel="Gka-eD-bDJ" detailTextLabel="V0U-k6-hDp" imageView="ep1-ot-Hc0" rowHeight="108" style="IBUITableViewCellStyleSubtitle" id="Bck-82-6DC" customClass="HistoryTableViewCell">
+                            <tableViewCell contentMode="scaleToFill" restorationIdentifier="simpleHistoryCell" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="milestoneCell" textLabel="Gka-eD-bDJ" detailTextLabel="V0U-k6-hDp" imageView="ep1-ot-Hc0" rowHeight="108" style="IBUITableViewCellStyleSubtitle" id="Bck-82-6DC" customClass="HistoryTableViewCell">
                                 <rect key="frame" x="0.0" y="99" width="320" height="108"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Bck-82-6DC" id="hH9-Bu-41f">
@@ -1333,6 +1321,37 @@
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" restorationIdentifier="achievementCell" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="achievementCell" textLabel="AYk-HV-x0g" detailTextLabel="t6s-a6-fKD" imageView="jYv-AQ-HkY" rowHeight="108" style="IBUITableViewCellStyleSubtitle" id="xLW-9a-gLu" customClass="HistoryTableViewCell">
+                                <rect key="frame" x="0.0" y="207" width="320" height="108"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xLW-9a-gLu" id="zlK-2l-Rsw">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="108"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="AYk-HV-x0g">
+                                            <rect key="frame" x="83" y="37" width="24" height="15"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <color key="textColor" red="0.1019607843" green="0.5568627451" blue="0.62352941179999999" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="t6s-a6-fKD">
+                                            <rect key="frame" x="83" y="52" width="56" height="20"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="historyNoPic" id="jYv-AQ-HkY">
+                                            <rect key="frame" x="15" y="27" width="53" height="53"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <rect key="contentStretch" x="0.0" y="0.0" width="0.0" height="0.0"/>
+                                        </imageView>
+                                    </subviews>
+                                    <color key="tintColor" red="0.1019607843" green="0.5568627451" blue="0.62352941179999999" alpha="1" colorSpace="calibratedRGB"/>
+                                </tableViewCellContentView>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableViewCell>
                         </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="b71-m6-YKZ" id="M42-fx-gZh"/>
@@ -1341,17 +1360,8 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="History" id="Fgj-9z-f9G">
                         <barButtonItem key="backBarButtonItem" title="Back" id="O2X-ep-479"/>
-                        <barButtonItem key="rightBarButtonItem" title="↓" id="l7M-Fz-3gl">
-                            <color key="tintColor" red="0.23529411759999999" green="0.57254901960000004" blue="0.81176470590000005" alpha="1" colorSpace="calibratedRGB"/>
-                            <connections>
-                                <action selector="didClickSortButton:" destination="b71-m6-YKZ" id="k33-J5-Ray"/>
-                            </connections>
-                        </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
-                    <connections>
-                        <outlet property="sortButton" destination="l7M-Fz-3gl" id="yVf-d8-RFj"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hf7-xK-ZQL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1473,6 +1483,7 @@
     </scenes>
     <resources>
         <image name="avatarShadow" width="128" height="126"/>
+        <image name="backgroung.jpg" width="640" height="1136"/>
         <image name="cameraButton" width="226" height="226"/>
         <image name="cameraButton_pressed" width="212" height="212"/>
         <image name="femaleIcon" width="80" height="80"/>
@@ -1493,7 +1504,6 @@
         <image name="tagCheckbox" width="20" height="20"/>
         <image name="tagCheckbox_checked" width="20" height="20"/>
         <image name="tipsIcon" width="22" height="22"/>
-        <image name="welcomeScreenBaby" width="71" height="73"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
