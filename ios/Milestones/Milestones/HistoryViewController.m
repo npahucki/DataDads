@@ -23,7 +23,6 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
 
 @interface HistoryViewController () {
   CGSize _lastTableSize;
-  UIImage * _accomplishmentPlaceHolderImage;
 }
 
 @end
@@ -40,7 +39,6 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
   _model.delegate = self;
   _model.pagingSize = 10;
 
-  _accomplishmentPlaceHolderImage = [UIImage imageNamed:@"historyNoPic"];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(babyUpdated:) name:kDDNotificationCurrentBabyChanged object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(milestoneNotedAndSaved:) name:kDDNotificationMilestoneNotedAndSaved object:nil];
   
