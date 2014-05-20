@@ -88,18 +88,12 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
       if(!isLoadingRow) [self.delegate standardMilestoneClicked:_model.futureMilestones[indexPath.row - _model.hasMoreFutureMilestones ? 1 : 0]];
       break;
     case PastMilestoneSection:
-      isLoadingRow = indexPath.row == _model.pastMilesstones.count;
-      if(!isLoadingRow) [self.delegate standardMilestoneClicked:_model.pastMilesstones[indexPath.row]];
+      isLoadingRow = indexPath.row == _model.pastMilestones.count;
+      if(!isLoadingRow) [self.delegate standardMilestoneClicked:_model.pastMilestones[indexPath.row]];
       break;
     default:
       break;
   }
-
-//  if (!isLoadingRow) {
-//    [super tableView:tableView didSelectRowAtIndexPath:indexPath];
-//    [self.tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
-//  }
-
 }
 
 #pragma mark - UITableViewDelegate - Headers
@@ -110,7 +104,7 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
     case FutureMilestoneSection:
       return _model.futureMilestones.count + (_model.hasMoreFutureMilestones ? 1 : 0);
     case PastMilestoneSection:
-      return _model.pastMilesstones.count + (_model.hasMorePastMilestones ? 1 : 0);
+      return _model.pastMilestones.count + (_model.hasMorePastMilestones ? 1 : 0);
     case AchievementSection:
       return _model.achievements.count + (_model.hasMoreAchievements ? 1 : 0);
     default:
@@ -161,8 +155,8 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
       }
       break;
     case PastMilestoneSection:
-      if(indexPath.row == _model.pastMilesstones.count - PRELOAD_START_AT_IDX && _model.hasMorePastMilestones && !_model.isLoadingPastMilestones) {
-        [_model loadPastMilestonesPage:_model.pastMilesstones.count];
+      if(indexPath.row == _model.pastMilestones.count - PRELOAD_START_AT_IDX && _model.hasMorePastMilestones && !_model.isLoadingPastMilestones) {
+        [_model loadPastMilestonesPage:_model.pastMilestones.count];
       }
       break;
     case AchievementSection:
@@ -187,10 +181,10 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
         return [self tableView:tableView cellForMilestone:_model.futureMilestones[indexPath.row] atIndexPath:indexPath];
       }
   case PastMilestoneSection:
-      if (indexPath.row == _model.pastMilesstones.count)
+      if (indexPath.row == _model.pastMilestones.count)
         return [self tableView:tableView cellForLoadingIndicator:indexPath];
       else
-        return [self tableView:tableView cellForMilestone:_model.pastMilesstones[indexPath.row] atIndexPath:indexPath];
+        return [self tableView:tableView cellForMilestone:_model.pastMilestones[indexPath.row] atIndexPath:indexPath];
     case AchievementSection:
       if (indexPath.row == _model.achievements.count)
         return [self tableView:tableView cellForLoadingIndicator:indexPath];
@@ -320,28 +314,38 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
 
 
 #pragma mark - SWTableViewDelegate
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)buttonIndex {
 
-- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerLeftUtilityButtonWithIndex:(NSInteger)index {
-//  NSAssert(index == 0, @"Only expected zero index for left utility");
-//  NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-//  StandardMilestone* milestone = (StandardMilestone*) [self objectAtIndexPath:indexPath];
-//  [self.tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
-//  [self.delegate standardMilestoneCompleteClicked:milestone];
-}
+  NSIndexPath * path = [self.tableView indexPathForCell:cell];
+  if(path.section == AchievementSection) {
+    //MilestoneAchievement * achievement = (MilestoneAchievement*) _model.achievements[path.row];
+  } else {
+    BOOL ignored = buttonIndex == 0;
+    BOOL postponed = buttonIndex == 1;
+    
+    [self.tableView beginUpdates];
+    [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationLeft];
 
-- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
-//  NSIndexPath * path = [self.tableView indexPathForCell:cell];
-//  StandardMilestone* milestone = (StandardMilestone*) [self objectAtIndexPath:path];
-//  switch (index) {
-//    case 0:
-//      [self standardMilestoneIgnoreClicked:milestone];
-//      break;
-//    case 1:
-//      [self standardMilestonePostponeClicked:milestone];
-//      break;
-//    default:
-//      break;
-//  }
+    
+    NSMutableArray * reloadPaths = [NSMutableArray array];
+    NSInteger numRows = [self.tableView numberOfRowsInSection:path.section];
+    if(path.row == numRows - 1 && numRows > 1) {
+      // Last item
+      [reloadPaths addObject:[NSIndexPath indexPathForRow:path.row - 1 inSection:path.section]];
+    }
+    if(path.row == 0 && numRows > 1) {
+      [reloadPaths addObject:[NSIndexPath indexPathForRow:path.row + 1 inSection:path.section]];
+    }
+    [self.tableView reloadRowsAtIndexPaths:reloadPaths withRowAnimation:UITableViewRowAnimationNone];
+    
+    if(path.section == PastMilestoneSection) {
+      [_model markPastMilestone:path.row ignored:ignored postponed:postponed];
+    } else {
+      NSInteger index = path.row - (_model.hasMoreFutureMilestones ? 1 : 0);  // adjust for first loading row.
+      [_model markFutureMilestone:index ignored:ignored postponed:postponed];
+    }
+    [self.tableView endUpdates];
+  }
 }
 
 #pragma mark - HistoryViewTableModelDelegate
@@ -394,6 +398,7 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
 
 
 #pragma mark Utility Methods
+
 
 // TODO: Save thumbnails so we don't have to scale
 - (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize {

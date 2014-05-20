@@ -28,7 +28,7 @@
 
 @property (readonly) NSArray * futureMilestones;  // Array of StandardMilestone - Milestones that have not been marked completed, but still might be.
 @property (readonly) NSArray * achievements;       // Array of MilestoneAchievement - Milestones (standard and custom) that have been achieved already
-@property (readonly) NSArray * pastMilesstones;    // Array of StandardMilestone - Milestones that have not been marked completed, but past the page for the baby age.
+@property (readonly) NSArray * pastMilestones;    // Array of StandardMilestone - Milestones that have not been marked completed, but past the page for the baby age.
 @property (readonly) BOOL isLoadingAchievements;
 @property (readonly) BOOL isLoadingPastMilestones;
 @property (readonly) BOOL isLoadingFutureMilestones;
@@ -38,15 +38,21 @@
 @property (readonly) BOOL hasMoreAchievements;
 
 
+
+
 @property (weak) id <HistoryViewTableModelDelegate> delegate;
 @property Baby* baby;
 
 
 @property NSInteger pagingSize;
 
--(void) loadFutureMilestonesPage:(int) startIndex;
--(void) loadPastMilestonesPage:(int) startIndex;
+-(void) loadFutureMilestonesPage:(NSInteger) startIndex;
+-(void) loadPastMilestonesPage:(NSInteger) startIndex;
+-(void) loadAchievementsPage:(NSInteger) startIndex;
 
--(void) loadAchievementsPage:(NSUInteger) startIndex;
+-(void) markPastMilestone:(NSInteger)index ignored:(BOOL) ignored postponed:(BOOL) postponed;
+-(void) markFutureMilestone:(NSInteger)index ignored:(BOOL) ignored postponed:(BOOL) postponed;
+
+
 
 @end

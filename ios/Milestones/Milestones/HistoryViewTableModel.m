@@ -22,7 +22,7 @@
   return self;
 }
 
--(void) loadFutureMilestonesPage:(int) startIndex {
+-(void) loadFutureMilestonesPage:(NSInteger) startIndex {
   if(self.hasMoreFutureMilestones) {
     _isLoadingFutureMilestones = YES;
     [self loadMilestonesPage:startIndex forTimePeriod:@"future" withBlock:^(NSArray *objects, NSError *error) {
@@ -31,12 +31,11 @@
       } else {
         // if results, set the has more to false
         _hasMoreFutureMilestones = objects.count == self.pagingSize;
-        // NOTE: We must reverse the order so that they get redered bottom to top.
-        if(_futureMilestones) {
-          _futureMilestones =  [[[objects reverseObjectEnumerator] allObjects] arrayByAddingObjectsFromArray:_futureMilestones];
-        } else {
-          _futureMilestones = [[objects reverseObjectEnumerator] allObjects];
-        }
+        if(!_futureMilestones) _futureMilestones = [NSMutableArray arrayWithCapacity:objects.count * 3]; // enough for three pages
+        // NOTE: We must reverse the order so that they get rendered bottom to top.
+        NSIndexSet* indices = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,objects.count)];
+        NSArray * reversedObject = [[objects reverseObjectEnumerator] allObjects];
+        [((NSMutableArray*) _futureMilestones) insertObjects:reversedObject atIndexes:indices];
         [self.delegate didLoadFutureMilestones];
         _isLoadingFutureMilestones = NO;
       }
@@ -48,7 +47,7 @@
   }
 }
 
--(void) loadPastMilestonesPage:(int) startIndex {
+-(void) loadPastMilestonesPage:(NSInteger) startIndex {
   if(self.hasMorePastMilestones) {
     _isLoadingPastMilestones = YES;
     [self loadMilestonesPage:startIndex forTimePeriod:@"past" withBlock:^(NSArray *objects, NSError *error) {
@@ -57,9 +56,9 @@
         _isLoadingPastMilestones = NO;
       } else {
         // if results, set the has more to false
-        if(!_pastMilesstones) _pastMilesstones = [[NSMutableArray alloc] initWithCapacity:self.pagingSize];
+        if(!_pastMilestones) _pastMilestones = [[NSMutableArray alloc] initWithCapacity:self.pagingSize];
         _hasMorePastMilestones = objects.count == self.pagingSize;
-        [((NSMutableArray*) _pastMilesstones) addObjectsFromArray:objects];
+        [((NSMutableArray*) _pastMilestones) addObjectsFromArray:objects];
         [self.delegate didLoadPastMilestones];
         _isLoadingPastMilestones = NO;
       }
@@ -90,7 +89,7 @@
 }
 
 // a startIndex of 0 or less causes a default skip of 0
--(void) loadAchievementsPage:(NSUInteger) startIndex {
+-(void) loadAchievementsPage:(NSInteger) startIndex {
   // If no Baby available yet, don't try to load anything
   if(self.baby && self.hasMoreAchievements) {
     PFQuery * query = [MilestoneAchievement query];
@@ -129,7 +128,30 @@
   }
 }
 
+-(void) markPastMilestone:(NSInteger)index ignored:(BOOL) ignored postponed:(BOOL) postponed {
+  [self markMilestone:_pastMilestones[index] ignored:ignored postponed:postponed];
+  [(NSMutableArray*) _pastMilestones removeObjectAtIndex:index];
+}
+
+-(void) markFutureMilestone:(NSInteger)index ignored:(BOOL) ignored postponed:(BOOL) postponed {
+  [self markMilestone:_futureMilestones[index] ignored:ignored postponed:postponed];
+  [(NSMutableArray*) _futureMilestones removeObjectAtIndex:index];
+}
+
+-(void) markMilestone:(StandardMilestone *)milestone ignored:(BOOL) ignored postponed:(BOOL) postponed {
+  MilestoneAchievement * achievement = [MilestoneAchievement object];
+  achievement.isPostponed = postponed;
+  achievement.isSkipped = ignored;
+  achievement.baby = _baby;
+  achievement.standardMilestone = milestone;
+  achievement.completionDate = [NSDate date];
   
+  // This will make it looks like it happens right away, and it will save as soon as it can be done.
+  [achievement saveEventually];
+}
+
+
+
   
   
 
