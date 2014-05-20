@@ -330,7 +330,6 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
     NSMutableArray * reloadPaths = [NSMutableArray array];
     NSInteger numRows = [self.tableView numberOfRowsInSection:path.section];
     if(path.row == numRows - 1 && numRows > 1) {
-      // Last item
       [reloadPaths addObject:[NSIndexPath indexPathForRow:path.row - 1 inSection:path.section]];
     }
     if(path.row == 0 && numRows > 1) {
@@ -353,6 +352,8 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
 -(void) didLoadAchievements {
   [self.tableView reloadData];
   if(_isInitialDataLoad) {
+    NSIndexPath * scrollRow = [NSIndexPath indexPathForRow:0 inSection:AchievementSection];
+    [self.tableView scrollToRowAtIndexPath:scrollRow atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
     [_model loadFutureMilestonesPage:0];
   }
 }
