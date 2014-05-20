@@ -1352,6 +1352,45 @@
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" restorationIdentifier="loadingCell" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="loadingCell" rowHeight="108" id="5r5-Wv-ihK" customClass="LoadingTableViewCell">
+                                <rect key="frame" x="0.0" y="315" width="320" height="108"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5r5-Wv-ihK" id="5O8-aM-CtW">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="108"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="progress-0" translatesAutoresizingMaskIntoConstraints="NO" id="kRj-Av-eOz">
+                                            <rect key="frame" x="6" y="13" width="79" height="81"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="81" id="Kag-0l-hzU"/>
+                                                <constraint firstAttribute="width" constant="79" id="WR1-lr-Y0d"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wiR-u1-Zzu">
+                                            <rect key="frame" x="88" y="43" width="212" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="tintColor" red="0.1019607843" green="0.5568627451" blue="0.62352941179999999" alpha="1" colorSpace="calibratedRGB"/>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="wiR-u1-Zzu" secondAttribute="trailing" constant="20" id="0r3-lR-V38"/>
+                                        <constraint firstItem="kRj-Av-eOz" firstAttribute="leading" secondItem="5O8-aM-CtW" secondAttribute="leading" constant="6" id="3Ff-nL-9TQ"/>
+                                        <constraint firstItem="kRj-Av-eOz" firstAttribute="top" secondItem="5O8-aM-CtW" secondAttribute="top" constant="13" id="Bra-zy-LPH"/>
+                                        <constraint firstItem="wiR-u1-Zzu" firstAttribute="leading" secondItem="kRj-Av-eOz" secondAttribute="trailing" constant="3" id="LOI-UU-SMB"/>
+                                        <constraint firstItem="wiR-u1-Zzu" firstAttribute="top" secondItem="5O8-aM-CtW" secondAttribute="top" constant="43" id="X43-eW-Y0M"/>
+                                        <constraint firstAttribute="bottom" secondItem="wiR-u1-Zzu" secondAttribute="bottom" constant="44" id="fte-e0-LSi"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="loadingImageView" destination="kRj-Av-eOz" id="8Kg-aQ-Hh9"/>
+                                    <outlet property="loadingLabel" destination="wiR-u1-Zzu" id="7pK-EQ-iF8"/>
+                                </connections>
+                            </tableViewCell>
                         </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="b71-m6-YKZ" id="M42-fx-gZh"/>
@@ -1498,6 +1537,7 @@
         <image name="newMilestoneButton_pressed.png" width="43" height="43"/>
         <image name="openMenuButton" width="31" height="32"/>
         <image name="openMenuButton_pressed" width="31" height="32"/>
+        <image name="progress-0" width="74" height="75"/>
         <image name="settingsIcon" width="27" height="27"/>
         <image name="settingsIcon_pressed" width="27" height="27"/>
         <image name="settingsIcon_pressed.png" width="27" height="27"/>

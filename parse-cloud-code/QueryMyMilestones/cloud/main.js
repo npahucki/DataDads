@@ -21,8 +21,10 @@ Parse.Cloud.define("queryMyMilestones", function(request, response) {
  
  if(timePeriod == "future") {
 	 query.greaterThanOrEqualTo("rangeHigh", rangeDays);
+	 query.ascending("rangeHigh,rangeLow");
  } else if (timePeriod == "past") {
 	 query.lessThanOrEqualTo("rangeHigh", rangeDays);
+	 query.descending("rangeHigh,rangeLow");
  } else {
      response.error("Invalid query, unknown timePeriod '" + timePeriod + "'");
      return;
@@ -31,7 +33,6 @@ Parse.Cloud.define("queryMyMilestones", function(request, response) {
  //query.lessThanOrEqualTo("rangeLow", rangeDays);
  // Bit if a hack here, using string column here : See https://parse.com/questions/trouble-with-nested-query-using-objectid
  query.doesNotMatchKeyInQuery("objectId", "standardMilestoneId", innerQuery);
- query.descending("rangeLow");
  query.limit(limit);
  query.skip(skip);
  query.find({

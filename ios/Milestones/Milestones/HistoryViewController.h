@@ -12,9 +12,14 @@
 #import "SWTableViewCell.h"
 
 @interface HistoryViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate, HistoryViewTableModelDelegate, SWTableViewCellDelegate>
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *sortButton;
 
 @end
+
+@interface LoadingTableViewCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UIImageView *loadingImageView;
+@property (weak, nonatomic) IBOutlet UILabel *loadingLabel;
+@end
+
 
 @interface HistoryTableViewCell : SWTableViewCell
 

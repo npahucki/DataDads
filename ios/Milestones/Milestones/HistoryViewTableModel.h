@@ -29,6 +29,9 @@
 @property (readonly) NSArray * futureMilesstones;  // Array of StandardMilestone - Milestones that have not been marked completed, but still might be.
 @property (readonly) NSArray * achievements;       // Array of MilestoneAchievement - Milestones (standard and custom) that have been achieved already
 @property (readonly) NSArray * pastMilesstones;    // Array of StandardMilestone - Milestones that have not been marked completed, but past the page for the baby age.
+@property (readonly) BOOL isLoadingAchievements;
+@property (readonly) BOOL isLoadingPastMilestones;
+@property (readonly) BOOL isLoadingFutureMilestones;
 
 @property (readonly) BOOL hasMoreFutureMilestones;
 @property (readonly) BOOL hasMorePastMilestones;
@@ -43,6 +46,7 @@
 
 -(void) loadFutureMilestonesPage:(int) startIndex;
 -(void) loadPastMilestonesPage:(int) startIndex;
--(void) loadAchievementsPage:(int) startIndex;
+
+-(void) loadAchievementsPage:(NSUInteger) startIndex;
 
 @end

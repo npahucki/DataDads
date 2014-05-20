@@ -6,10 +6,14 @@
 //  Copyright (c) 2014 Nathan  Pahucki. All rights reserved.
 //
 
+// TODO:
+// Handle low memory by releasing past milestones not being looked at.
+
 #import "HistoryViewController.h"
 #import "NSDate+HumanizedTime.h"
 
 #define IMG_SIZE CGSizeMake(54,54)
+#define PRELOAD_START_AT_IDX 3
 
 typedef NS_ENUM(NSInteger, HistorySectionType) {
   FutureMilestoneSection,
@@ -17,7 +21,9 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
   PastMilestoneSection
 };
 
-@interface HistoryViewController ()
+@interface HistoryViewController () {
+  CGSize _lastTableSize;
+}
 
 @end
 
@@ -70,13 +76,13 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   switch (section) {
     case FutureMilestoneSection:
-      return _model.futureMilesstones.count;
+      return _model.futureMilesstones.count + (_model.hasMoreFutureMilestones ? 1 : 0);
     case PastMilestoneSection:
-      return _model.pastMilesstones.count;
+      return _model.pastMilesstones.count + (_model.hasMorePastMilestones ? 1 : 0);
     case AchievementSection:
-      return _model.achievements.count;
+      return _model.achievements.count + (_model.hasMoreAchievements ? 1 : 0);
     default:
-      NSAssert(NO,@"Invalid section type with numer %d", section);
+      NSAssert(NO,@"Invalid section type with numer %ld", (long)section);
       return 0;
   }
 }
@@ -94,7 +100,7 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
     case AchievementSection:
       return @"Completed Milestones";
     default:
-      NSAssert(NO,@"Invalid section type with numer %d", section);
+      NSAssert(NO,@"Invalid section type with numer %ld", (long)section);
       return nil;
   }
   
@@ -115,19 +121,61 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   switch (indexPath.section) {
     case FutureMilestoneSection:
-      return [self tableView:tableView cellForMilestone:_model.futureMilesstones[indexPath.row] atIndexPath:indexPath];
+      if (indexPath.row == 0 && _model.hasMoreFutureMilestones)
+        return [self tableView:tableView cellForLoadingIndicator:indexPath];
+      else {
+        if(_model.hasMoreFutureMilestones) {
+          indexPath = [NSIndexPath indexPathForRow:indexPath.row - 1 inSection:indexPath.section];
+        }
+        return [self tableView:tableView cellForMilestone:_model.futureMilesstones[indexPath.row] atIndexPath:indexPath];
+      }
   case PastMilestoneSection:
-    return [self tableView:tableView cellForMilestone:_model.pastMilesstones[indexPath.row] atIndexPath:indexPath];
+      if (indexPath.row == _model.pastMilesstones.count)
+        return [self tableView:tableView cellForLoadingIndicator:indexPath];
+      else
+        return [self tableView:tableView cellForMilestone:_model.pastMilesstones[indexPath.row] atIndexPath:indexPath];
     case AchievementSection:
-      return [self tableView:tableView cellForAchievement:_model.achievements[indexPath.row] atIndexPath:indexPath];
+      if (indexPath.row == _model.achievements.count)
+        return [self tableView:tableView cellForLoadingIndicator:indexPath];
+      else
+        return [self tableView:tableView cellForAchievement:_model.achievements[indexPath.row] atIndexPath:indexPath];
     default:
-      NSAssert(NO,@"Invalid section type with numer %d", indexPath.section);
+      NSAssert(NO,@"Invalid section type with numer %ld", (long)indexPath.section);
       return nil;
   }
 }
 
 -(void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-  // TODO: load next page!
+
+  switch (indexPath.section) {
+    case FutureMilestoneSection:
+      NSLog(@"index:%d count:%d hasMore:%d",indexPath.row,_model.futureMilesstones.count,_model.hasMoreFutureMilestones);
+      if(indexPath.row == PRELOAD_START_AT_IDX && _model.hasMoreFutureMilestones && !_model.isLoadingFutureMilestones) {
+        _lastTableSize = self.tableView.contentSize;
+        [_model loadFutureMilestonesPage:_model.futureMilesstones.count];
+      }
+      break;
+    case PastMilestoneSection:
+      if(indexPath.row == _model.pastMilesstones.count - PRELOAD_START_AT_IDX && _model.hasMorePastMilestones && !_model.isLoadingPastMilestones) {
+        [_model loadPastMilestonesPage:_model.pastMilesstones.count];
+      }
+      break;
+    case AchievementSection:
+      if(indexPath.row == _model.achievements.count - PRELOAD_START_AT_IDX && _model.hasMoreAchievements && !_model.isLoadingAchievements) {
+        [_model loadAchievementsPage:_model.achievements.count];
+      }
+      break;
+    default:
+      NSAssert(NO,@"Invalid section type with numer %ld", (long)indexPath.section);
+  }
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForLoadingIndicator:(NSIndexPath*) indexPath {
+  LoadingTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"loadingCell" forIndexPath:indexPath];
+  cell.loadingImageView.image = [UIImage animatedImageNamed:@"progress-" duration:1];
+  cell.loadingLabel.font = [UIFont fontForAppWithType:Bold andSize:14];
+  cell.loadingLabel.textColor = [UIColor appNormalColor];
+  return cell;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForMilestone:(StandardMilestone*) milestone atIndexPath:(NSIndexPath*) indexPath {
@@ -149,8 +197,8 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
 
   
   
-  NSString * humanRange = [self humanFormattedRangeBetween:[milestone.rangeLow intValue] - Baby.currentBaby.daysSinceDueDate
-                                                       and:[milestone.rangeHigh intValue] - Baby.currentBaby.daysSinceDueDate];
+  NSString * humanRange = [self humanFormattedRangeBetween:[milestone.rangeLow intValue] - (int)Baby.currentBaby.daysSinceDueDate
+                                                       and:[milestone.rangeHigh intValue] - (int)Baby.currentBaby.daysSinceDueDate];
   cell.textLabel.text =  [NSString stringWithFormat:@"%@ %@%@",
                          indexPath.section == FutureMilestoneSection ? @"in about" : @"normally",
                          humanRange,
@@ -158,7 +206,12 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
                          ];
   cell.detailTextLabel.text = milestone.title;
   cell.imageView.image = [UIImage imageNamed:@"historyNoPic"];
-  cell.bottomLineView.hidden =  indexPath.row >= [self tableView:tableView numberOfRowsInSection:indexPath.section] - 1;
+  if(indexPath.section == FutureMilestoneSection && _model.hasMoreFutureMilestones) {
+    // Special case because we add the loading cell to the 0 Zero Cell.
+    cell.bottomLineView.hidden =  indexPath.row >= [self tableView:tableView numberOfRowsInSection:indexPath.section] - 2;
+  } else {
+    cell.bottomLineView.hidden =  indexPath.row >= [self tableView:tableView numberOfRowsInSection:indexPath.section] - 1;
+  }
   cell.topLineView.hidden = indexPath.row == 0;
   return cell;
 }
@@ -294,7 +347,9 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
 #pragma mark - HistoryViewTableModelDelegate
 // TODO: show error and/or hide progress
 -(void) didLoadAchievements {
-  [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:AchievementSection]  withRowAnimation:UITableViewRowAnimationAutomatic];
+  [self.tableView reloadData]; // use instead of relaod section which makes the table jump!
+  NSLog(@"END LOAD Achievements....");
+
 }
 
 -(void) didFailToLoadAchievements:(NSError *) error {
@@ -302,18 +357,22 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
 }
 
 -(void) didLoadFutureMilestones {
-  [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:FutureMilestoneSection]  withRowAnimation:UITableViewRowAnimationAutomatic];
-  [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:AchievementSection] atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
-  
+  [self.tableView reloadData]; // use instead of relaod section which makes the table jump!
+  if(_lastTableSize.height > 0) {
+    CGPoint afterContentOffset = self.tableView.contentOffset;
+    CGSize afterContentSize = self.tableView.contentSize;
+    CGPoint newContentOffset = CGPointMake(afterContentOffset.x, afterContentOffset.y + afterContentSize.height - _lastTableSize.height);
+    self.tableView.contentOffset = newContentOffset;
+    _lastTableSize.height = 0; // reset it
+  }
 }
 
 -(void) didFailToLoadFutureMilestones:(NSError *) error {
   NSLog(@"Failed to future milestones %@", error);
-  
 }
 
 -(void) didLoadPastMilestones {
-  [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:PastMilestoneSection]  withRowAnimation:UITableViewRowAnimationAutomatic];
+  [self.tableView reloadData]; // use instead of relaod section which makes the table jump!
 }
 
 -(void) didFailToLoadPastMilestones:(NSError *) error {
@@ -329,7 +388,16 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
 -(NSString*) humanFormattedRangeBetween:(int)lowDays and:(int)highDays {
   
   if(lowDays < 1 && highDays > 0) { // Baby already in the range
-    return [NSString stringWithFormat:@"the next %d days",highDays];
+    if(highDays > 90) {
+      return [NSString stringWithFormat:@"the next %d months",highDays / 30];
+    } else {
+      if(highDays < 7) {
+        return @"the next few days";
+        
+      } else {
+        return [NSString stringWithFormat:@"the next %d days",highDays];
+      }
+    }
   }
   
   // When both minus, this is a past milestone, we swap them also because they are in the past.
@@ -364,6 +432,9 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
 
 
 
+@implementation LoadingTableViewCell
+
+@end
 
 
 #pragma HistoryTableCell impl
