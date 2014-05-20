@@ -23,6 +23,7 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
 
 @interface HistoryViewController () {
   CGSize _lastTableSize;
+  BOOL _isInitialDataLoad;
 }
 
 @end
@@ -48,9 +49,8 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
 }
 
 -(void) reloadTable {
+  _isInitialDataLoad = YES;
   [_model loadAchievementsPage:0];
-  [_model loadFutureMilestonesPage:0];
-  [_model loadPastMilestonesPage:0];
 }
 
 -(void) babyUpdated:(NSNotification*)notification {
@@ -63,7 +63,6 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
   self.navigationItem.title = Baby.currentBaby.name;
   _model.baby = Baby.currentBaby;
   [self reloadTable];
-  // TODO: scroll to correct place
 }
 
 -(void) milestoneNotedAndSaved:(NSNotification*)notification {
@@ -74,12 +73,42 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
 
 
 
-#pragma mark - UITableViewControllerDataSource
+#pragma mark - UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+  BOOL isLoadingRow;
+  switch (indexPath.section) {
+    case AchievementSection:
+      isLoadingRow = indexPath.row == _model.achievements.count;
+      if(!isLoadingRow) [self.delegate achievementClicked:_model.achievements[indexPath.row]];
+      break;
+    case FutureMilestoneSection:
+      isLoadingRow = indexPath.row == 0 && _model.hasMoreFutureMilestones;
+      if(!isLoadingRow) [self.delegate standardMilestoneClicked:_model.futureMilestones[indexPath.row - _model.hasMoreFutureMilestones ? 1 : 0]];
+      break;
+    case PastMilestoneSection:
+      isLoadingRow = indexPath.row == _model.pastMilesstones.count;
+      if(!isLoadingRow) [self.delegate standardMilestoneClicked:_model.pastMilesstones[indexPath.row]];
+      break;
+    default:
+      break;
+  }
+
+//  if (!isLoadingRow) {
+//    [super tableView:tableView didSelectRowAtIndexPath:indexPath];
+//    [self.tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+//  }
+
+}
+
+#pragma mark - UITableViewDelegate - Headers
+
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   switch (section) {
     case FutureMilestoneSection:
-      return _model.futureMilesstones.count + (_model.hasMoreFutureMilestones ? 1 : 0);
+      return _model.futureMilestones.count + (_model.hasMoreFutureMilestones ? 1 : 0);
     case PastMilestoneSection:
       return _model.pastMilesstones.count + (_model.hasMorePastMilestones ? 1 : 0);
     case AchievementSection:
@@ -120,42 +149,15 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
   return label;
 }
 
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  switch (indexPath.section) {
-    case FutureMilestoneSection:
-      if (indexPath.row == 0 && _model.hasMoreFutureMilestones)
-        return [self tableView:tableView cellForLoadingIndicator:indexPath];
-      else {
-        if(_model.hasMoreFutureMilestones) {
-          indexPath = [NSIndexPath indexPathForRow:indexPath.row - 1 inSection:indexPath.section];
-        }
-        return [self tableView:tableView cellForMilestone:_model.futureMilesstones[indexPath.row] atIndexPath:indexPath];
-      }
-  case PastMilestoneSection:
-      if (indexPath.row == _model.pastMilesstones.count)
-        return [self tableView:tableView cellForLoadingIndicator:indexPath];
-      else
-        return [self tableView:tableView cellForMilestone:_model.pastMilesstones[indexPath.row] atIndexPath:indexPath];
-    case AchievementSection:
-      if (indexPath.row == _model.achievements.count)
-        return [self tableView:tableView cellForLoadingIndicator:indexPath];
-      else
-        return [self tableView:tableView cellForAchievement:_model.achievements[indexPath.row] atIndexPath:indexPath];
-    default:
-      NSAssert(NO,@"Invalid section type with numer %ld", (long)indexPath.section);
-      return nil;
-  }
-}
+#pragma mark - UITableViewControllerDataSource - Cells
 
 -(void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-
+  
   switch (indexPath.section) {
     case FutureMilestoneSection:
-      NSLog(@"index:%d count:%d hasMore:%d",indexPath.row,_model.futureMilesstones.count,_model.hasMoreFutureMilestones);
       if(indexPath.row == PRELOAD_START_AT_IDX && _model.hasMoreFutureMilestones && !_model.isLoadingFutureMilestones) {
         _lastTableSize = self.tableView.contentSize;
-        [_model loadFutureMilestonesPage:_model.futureMilesstones.count];
+        [_model loadFutureMilestonesPage:_model.futureMilestones.count];
       }
       break;
     case PastMilestoneSection:
@@ -170,6 +172,33 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
       break;
     default:
       NSAssert(NO,@"Invalid section type with numer %ld", (long)indexPath.section);
+  }
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+  switch (indexPath.section) {
+    case FutureMilestoneSection:
+      if (indexPath.row == 0 && _model.hasMoreFutureMilestones)
+        return [self tableView:tableView cellForLoadingIndicator:indexPath];
+      else {
+        if(_model.hasMoreFutureMilestones) {
+          indexPath = [NSIndexPath indexPathForRow:indexPath.row - 1 inSection:indexPath.section];
+        }
+        return [self tableView:tableView cellForMilestone:_model.futureMilestones[indexPath.row] atIndexPath:indexPath];
+      }
+  case PastMilestoneSection:
+      if (indexPath.row == _model.pastMilesstones.count)
+        return [self tableView:tableView cellForLoadingIndicator:indexPath];
+      else
+        return [self tableView:tableView cellForMilestone:_model.pastMilesstones[indexPath.row] atIndexPath:indexPath];
+    case AchievementSection:
+      if (indexPath.row == _model.achievements.count)
+        return [self tableView:tableView cellForLoadingIndicator:indexPath];
+      else
+        return [self tableView:tableView cellForAchievement:_model.achievements[indexPath.row] atIndexPath:indexPath];
+    default:
+      NSAssert(NO,@"Invalid section type with numer %ld", (long)indexPath.section);
+      return nil;
   }
 }
 
@@ -188,17 +217,11 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
   [cell setAppearanceWithBlock:^{
     [self tableView:tableView configureBasicCellProperties:weakCell];
     
-    NSMutableArray *leftUtilityButtons = [NSMutableArray new];
-    [leftUtilityButtons sw_addUtilityButtonWithColor: [UIColor whiteColor] icon: [UIImage imageNamed:@"completeIcon"]];
     NSMutableArray *rightUtilityButtons = [NSMutableArray new];
     [rightUtilityButtons sw_addUtilityButtonWithColor: [UIColor appNormalColor] title:@"Ignore"];
     [rightUtilityButtons sw_addUtilityButtonWithColor: [UIColor appSelectedColor] title:@"Postpone"];
-
-    weakCell.leftUtilityButtons = leftUtilityButtons;
     weakCell.rightUtilityButtons = rightUtilityButtons;
   } force:NO];
-
-  
   
   NSString * humanRange = [self humanFormattedRangeBetween:[milestone.rangeLow intValue] - (int)Baby.currentBaby.daysSinceDueDate
                                                        and:[milestone.rangeHigh intValue] - (int)Baby.currentBaby.daysSinceDueDate];
@@ -226,21 +249,15 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
   [cell setAppearanceWithBlock:^{
     [self tableView:tableView configureBasicCellProperties:weakCell];
     
-//    NSMutableArray *leftUtilityButtons;
-//    if(!leftUtilityButtons) {
-//      leftUtilityButtons = [NSMutableArray new];
-//      [leftUtilityButtons sw_addUtilityButtonWithColor: [UIColor whiteColor] icon: [UIImage imageNamed:@"completeIcon"]];
-//    }
-//    
-//    NSMutableArray *rightUtilityButtons;
-//    if(!rightUtilityButtons) {
-//      rightUtilityButtons = [NSMutableArray new];
-//      [rightUtilityButtons sw_addUtilityButtonWithColor: [UIColor appNormalColor] title:@"Ignore"];
-//      [rightUtilityButtons sw_addUtilityButtonWithColor: [UIColor appSelectedColor] title:@"Postpone"];
-//    }
-//    
-//    weakCell.leftUtilityButtons = leftUtilityButtons;
-//    weakCell.rightUtilityButtons = rightUtilityButtons;
+    
+    NSMutableArray *rightUtilityButtons;
+    if(!rightUtilityButtons) {
+      rightUtilityButtons = [NSMutableArray new];
+      [rightUtilityButtons sw_addUtilityButtonWithColor: [UIColor appNormalColor] title:@"Share"];
+      [rightUtilityButtons sw_addUtilityButtonWithColor: [UIColor appSelectedColor] title:@"Favorite"];
+    }
+    
+    weakCell.rightUtilityButtons = rightUtilityButtons;
   } force:NO];
 
   cell.textLabel.text = [achievement.completionDate stringWithHumanizedTimeDifference];
@@ -300,33 +317,7 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
 }
 
 
-//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//  if ([indexPath row] <= self.objects.count -1 ) { // Ignore the Load More cell click
-//    [super tableView:tableView didSelectRowAtIndexPath:indexPath];
-//    [self.tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
-//    StandardMilestone* milestone = (StandardMilestone*) [self objectAtIndexPath:indexPath];
-//    [self.delegate standardMilestoneDetailsClicked:milestone];
-//  }
-//}
-//
 
-// TODO: Save thumbnails so we don't have to scale
-- (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize {
-  if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)]) {
-    if ([[UIScreen mainScreen] scale] == 2.0) {
-      UIGraphicsBeginImageContextWithOptions(newSize, YES, 2.0);
-    } else {
-      UIGraphicsBeginImageContext(newSize);
-    }
-  } else {
-    UIGraphicsBeginImageContext(newSize);
-  }
-  [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
-  UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
-  UIGraphicsEndImageContext();
-  return newImage;
-}
 
 #pragma mark - SWTableViewDelegate
 
@@ -354,11 +345,12 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
 }
 
 #pragma mark - HistoryViewTableModelDelegate
-// TODO: show error and/or hide progress
--(void) didLoadAchievements {
-  [self.tableView reloadData]; // use instead of relaod section which makes the table jump!
-  NSLog(@"END LOAD Achievements....");
 
+-(void) didLoadAchievements {
+  [self.tableView reloadData];
+  if(_isInitialDataLoad) {
+    [_model loadFutureMilestonesPage:0];
+  }
 }
 
 -(void) didFailToLoadAchievements:(NSError *) error {
@@ -367,12 +359,18 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
 
 -(void) didLoadFutureMilestones {
   [self.tableView reloadData]; // use instead of relaod section which makes the table jump!
-  if(_lastTableSize.height > 0) {
-    CGPoint afterContentOffset = self.tableView.contentOffset;
-    CGSize afterContentSize = self.tableView.contentSize;
-    CGPoint newContentOffset = CGPointMake(afterContentOffset.x, afterContentOffset.y + afterContentSize.height - _lastTableSize.height);
-    self.tableView.contentOffset = newContentOffset;
-    _lastTableSize.height = 0; // reset it
+  if(_isInitialDataLoad) {
+    NSIndexPath * scrollRow = [NSIndexPath indexPathForRow:0 inSection:AchievementSection];
+    [self.tableView scrollToRowAtIndexPath:scrollRow atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
+    [_model loadPastMilestonesPage:0];
+  } else {
+    if(_lastTableSize.height > 0) {
+      CGPoint afterContentOffset = self.tableView.contentOffset;
+      CGSize afterContentSize = self.tableView.contentSize;
+      CGPoint newContentOffset = CGPointMake(afterContentOffset.x, afterContentOffset.y + afterContentSize.height - _lastTableSize.height);
+      self.tableView.contentOffset = newContentOffset;
+      _lastTableSize.height = 0; // reset it
+    }
   }
 }
 
@@ -381,12 +379,37 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
 }
 
 -(void) didLoadPastMilestones {
-  [self.tableView reloadData]; // use instead of relaod section which makes the table jump!
+  [self.tableView reloadData];
+  if(_isInitialDataLoad) {
+    NSIndexPath * scrollRow = [NSIndexPath indexPathForRow:0 inSection:AchievementSection];
+    [self.tableView scrollToRowAtIndexPath:scrollRow atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
+    _isInitialDataLoad = NO;
+  }
 }
 
 -(void) didFailToLoadPastMilestones:(NSError *) error {
   NSLog(@"Failed to past milestones %@", error);
   
+}
+
+
+#pragma mark Utility Methods
+
+// TODO: Save thumbnails so we don't have to scale
+- (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize {
+  if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)]) {
+    if ([[UIScreen mainScreen] scale] == 2.0) {
+      UIGraphicsBeginImageContextWithOptions(newSize, YES, 2.0);
+    } else {
+      UIGraphicsBeginImageContext(newSize);
+    }
+  } else {
+    UIGraphicsBeginImageContext(newSize);
+  }
+  [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+  UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+  UIGraphicsEndImageContext();
+  return newImage;
 }
 
 

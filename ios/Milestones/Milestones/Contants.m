@@ -17,8 +17,8 @@ NSString *const kDDUserEmail = @"email";
 #pragma mark - Segue Names
 NSString *const kDDSegueEnterScreenName = @"enterScreenName";
 NSString *const kDDSegueNoteMilestone = @"noteMilestone";
+NSString *const kDDSegueShowAchievementDetails = @"showAchievementDetails";
 NSString *const kDDSegueCreateCustomMilestone = @"createCustomMilesone";
-NSString *const kDDSegueShowMilestoneDetails = @"showMilestoneDetails";
 NSString *const kDDSegueShowSettings = @"showSettings";
 
 

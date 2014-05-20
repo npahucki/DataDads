@@ -20,8 +20,8 @@ extern NSString *const kDDUserEmail;
 extern NSString *const kDDSegueEnterScreenName;
 extern NSString *const kDDSegueNoteMilestone;
 extern NSString *const kDDSegueCreateCustomMilestone;
-extern NSString *const kDDSegueShowMilestoneDetails;
 extern NSString *const kDDSegueShowSettings;
+extern NSString *const kDDSegueShowAchievementDetails;
 
 
 #pragma mark Notification Names

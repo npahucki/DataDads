@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PickAMilestoneTableViewController.h"
+#import "HistoryViewController.h"
 #import "MilestoneAchievement.h"
 
-@interface MainMilestoneViewController : UIViewController <PickAMilestoneTableViewControllerDelegate>
+@interface MainMilestoneViewController : UIViewController <HistoryViewControllerDelegate>
 
 @property (strong, nonatomic) IBOutlet UIButton *addMilestoneButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *menuButton;

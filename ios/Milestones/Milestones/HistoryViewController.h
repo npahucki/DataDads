@@ -11,7 +11,16 @@
 #import "HistoryViewTableModel.h"
 #import "SWTableViewCell.h"
 
+@protocol HistoryViewControllerDelegate <NSObject>
+
+-(void) standardMilestoneClicked:(StandardMilestone*) milestone;
+-(void) achievementClicked:(MilestoneAchievement*) achievement;
+
+@end
+
 @interface HistoryViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate, HistoryViewTableModelDelegate, SWTableViewCellDelegate>
+
+@property (nonatomic, weak) id <HistoryViewControllerDelegate> delegate;
 
 @end
 

@@ -16,7 +16,7 @@
 
 @implementation MainMilestoneViewController {
   MilestoneAchievement * _currentAchievment;
-  PickAMilestoneTableViewController * _pickController;
+  HistoryViewController * _historyController;
   BOOL _isMorganTouch;
 }
 
@@ -42,9 +42,9 @@
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
   // Embedded table
-  if([segue.destinationViewController isKindOfClass:[PickAMilestoneTableViewController class]]) {
-    _pickController = ((PickAMilestoneTableViewController*)segue.destinationViewController);
-    _pickController.delegate = self;
+  if([segue.destinationViewController isKindOfClass:[HistoryViewController class]]) {
+    _historyController = ((HistoryViewController*)segue.destinationViewController);
+    _historyController.delegate = self;
     return;
   }
   
@@ -52,42 +52,54 @@
   if([segue.identifier isEqualToString:kDDSegueNoteMilestone]) {
     NSAssert(_currentAchievment, @"Expected currentAchievement to be set");
     ((NoteMilestoneViewController*)segue.destinationViewController).achievement = _currentAchievment;
-  } else if([segue.identifier isEqualToString:kDDSegueShowMilestoneDetails]) {
-    NSAssert(_currentAchievment, @"Expected currentAchievement to be set");
-    ((MilestoneDetailsViewController*)segue.destinationViewController).achievement = _currentAchievment;
+  } else if([segue.identifier isEqualToString:kDDSegueShowAchievementDetails]) {
+    // TODO: Set Achievement
+    //    ((MilestoneDetailsViewController*)segue.destinationViewController).achievement = _currentAchievment;
   } else if([segue.identifier isEqualToString:kDDSegueCreateCustomMilestone]) {
     ((CreateMilestoneViewController*)segue.destinationViewController).achievement = [self createAchievementForMilestone:nil];
   }
 }
 
-#pragma mark PickAMilestoneTableViewControllerDelegate
+#pragma mark HistoryViewControllerDelegate
 
--(void) standardMilestoneIgnoreClicked:(StandardMilestone*) milestone {
-  [self createAchievementForMilestone:milestone].isSkipped = YES;
-  [self logCurrentAchievement];
-}
--(void) standardMilestonePostponeClicked:(StandardMilestone*) milestone {
-  [self createAchievementForMilestone:milestone].isPostponed = YES;
-  [self logCurrentAchievement];
-}
-
--(void) standardMilestoneCompleteClicked:(StandardMilestone*) milestone {
-  [self createAchievementForMilestone:milestone];
-  [self performSegueWithIdentifier:kDDSegueNoteMilestone sender:self];
-}
-
--(void) standardMilestoneDetailsClicked:(StandardMilestone*) milestone {
+-(void) standardMilestoneClicked:(StandardMilestone*) milestone {
   // TODO: Find the cause of this bug: If you click for a longer time on the tablecell, it somehow triggers two rapid
   // events in row. I think this is caused by a bug in the Swipable Table Cell we are using. The work around for now
   // is to ignore any further touches until this view shows again.
   if(!_isMorganTouch) {
     _isMorganTouch = YES;
     [self createAchievementForMilestone:milestone];
-    [self performSegueWithIdentifier:kDDSegueShowMilestoneDetails sender:self];
+    [self performSegueWithIdentifier:kDDSegueNoteMilestone sender:self];
   } else {
-    // TODO: Log this to somewhere to see how many people have the morgan touch. 
+    // TODO: Log this to somewhere to see how many people have the morgan touch.
     NSLog(@"YOU GOT THE MORGAN TOUCH!!!!!");
   }
+}
+
+-(void) achievementClicked:(MilestoneAchievement*) achievement {
+  if(!_isMorganTouch) {
+    _isMorganTouch = YES;
+    [self performSegueWithIdentifier:kDDSegueShowAchievementDetails sender:self];
+  } else {
+    // TODO: Log this to somewhere to see how many people have the morgan touch.
+    NSLog(@"YOU GOT THE MORGAN TOUCH!!!!!");
+  }
+  
+}
+
+//-(void) standardMilestoneIgnoreClicked:(StandardMilestone*) milestone {
+//  [self createAchievementForMilestone:milestone].isSkipped = YES;
+//  [self logCurrentAchievement];
+//}
+//-(void) standardMilestonePostponeClicked:(StandardMilestone*) milestone {
+//  [self createAchievementForMilestone:milestone].isPostponed = YES;
+//  [self logCurrentAchievement];
+//}
+
+-(void) standardMilestoneCompleteClicked:(StandardMilestone*) milestone {
+}
+
+-(void) standardMilestoneDetailsClicked:(StandardMilestone*) milestone {
 }
 
 # pragma mark - Private

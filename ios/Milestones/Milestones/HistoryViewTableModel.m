@@ -32,10 +32,10 @@
         // if results, set the has more to false
         _hasMoreFutureMilestones = objects.count == self.pagingSize;
         // NOTE: We must reverse the order so that they get redered bottom to top.
-        if(_futureMilesstones) {
-          _futureMilesstones =  [[[objects reverseObjectEnumerator] allObjects] arrayByAddingObjectsFromArray:_futureMilesstones];
+        if(_futureMilestones) {
+          _futureMilestones =  [[[objects reverseObjectEnumerator] allObjects] arrayByAddingObjectsFromArray:_futureMilestones];
         } else {
-          _futureMilesstones = [[objects reverseObjectEnumerator] allObjects];
+          _futureMilestones = [[objects reverseObjectEnumerator] allObjects];
         }
         [self.delegate didLoadFutureMilestones];
         _isLoadingFutureMilestones = NO;

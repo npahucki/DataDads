@@ -77,7 +77,39 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="frr-0F-Ihd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4573" y="-704"/>
+            <point key="canvasLocation" x="4681" y="-672"/>
+        </scene>
+        <!--View Controller - Achievement Details-->
+        <scene sceneID="qC1-5v-sk1">
+            <objects>
+                <viewController title="Achievement Details" id="eNM-aT-BTU" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="o9g-C3-Dza"/>
+                        <viewControllerLayoutGuide type="bottom" id="f49-4C-Wmc"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="yCy-qS-Ug2">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Work In Progress" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rwj-xb-q2t">
+                                <rect key="frame" x="55" y="229" width="210" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="rwj-xb-q2t" secondAttribute="trailing" constant="55" id="8ke-Ue-B4j"/>
+                            <constraint firstItem="rwj-xb-q2t" firstAttribute="top" secondItem="o9g-C3-Dza" secondAttribute="bottom" constant="185" id="LwO-dA-MuE"/>
+                            <constraint firstItem="f49-4C-Wmc" firstAttribute="top" secondItem="rwj-xb-q2t" secondAttribute="bottom" constant="230" id="f54-tI-KSA"/>
+                            <constraint firstItem="rwj-xb-q2t" firstAttribute="leading" secondItem="yCy-qS-Ug2" secondAttribute="leading" constant="55" id="vVD-sU-rbw"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4vd-fd-moN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3494" y="-520"/>
         </scene>
         <!--Log Measurement View Controller - Second-->
         <scene sceneID="ot8-2e-RuS">
@@ -1475,6 +1507,7 @@
                         <outlet property="menuButton" destination="qU1-vG-KKB" id="h3u-Mt-G7a"/>
                         <segue destination="z4V-2L-hGr" kind="push" identifier="showMilestoneDetails" id="HX1-rE-1hx"/>
                         <segue destination="z4V-2L-hGr" kind="push" identifier="noteMilestone" id="q7w-88-kEx"/>
+                        <segue destination="eNM-aT-BTU" kind="push" identifier="showAchievementDetails" id="QpM-9P-itO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HSl-NR-dz3" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1552,6 +1585,6 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="q7w-88-kEx"/>
-        <segue reference="pcD-te-VAY"/>
+        <segue reference="kR1-et-SkS"/>
     </inferredMetricsTieBreakers>
 </document>
