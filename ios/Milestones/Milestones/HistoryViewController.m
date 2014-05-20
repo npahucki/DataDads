@@ -23,6 +23,7 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
 
 @interface HistoryViewController () {
   CGSize _lastTableSize;
+  UIImage * _accomplishmentPlaceHolderImage;
 }
 
 @end
@@ -39,13 +40,12 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
   _model.delegate = self;
   _model.pagingSize = 10;
 
+  _accomplishmentPlaceHolderImage = [UIImage imageNamed:@"historyNoPic"];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(babyUpdated:) name:kDDNotificationCurrentBabyChanged object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(milestoneNotedAndSaved:) name:kDDNotificationMilestoneNotedAndSaved object:nil];
-  self.navigationItem.title = Baby.currentBaby.name;
   
   if(Baby.currentBaby) { // Only load if there is already a baby set
-    _model.baby = Baby.currentBaby;
-    [self reloadTable];
+    self.baby = Baby.currentBaby;
   }
 }
 
@@ -57,10 +57,15 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
 
 -(void) babyUpdated:(NSNotification*)notification {
   if(Baby.currentBaby) {
-    _model.baby = Baby.currentBaby;
-    [self reloadTable];
+    self.baby = Baby.currentBaby;
   }
+}
+
+-(void) setBaby:(Baby*) baby {
   self.navigationItem.title = Baby.currentBaby.name;
+  _model.baby = Baby.currentBaby;
+  [self reloadTable];
+  // TODO: scroll to correct place
 }
 
 -(void) milestoneNotedAndSaved:(NSNotification*)notification {
@@ -243,11 +248,17 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
   cell.textLabel.text = [achievement.completionDate stringWithHumanizedTimeDifference];
   cell.detailTextLabel.text = achievement.standardMilestone ? achievement.standardMilestone.title : achievement.customTitle;
 
-  cell.imageView.image = [UIImage imageNamed:@"historyNoPic"]; // Place holder
-  if(achievement.attachment && [achievement.attachmentType rangeOfString : @"image"].location != NSNotFound) {
-    [achievement.attachment getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+  
+  cell.imageView.image = [UIImage imageNamed:@"historyNoPic"]; // use in case of error
+  cell.imageView.alpha = 0.5;
+ 
+  PFFile * imageFile = (achievement.attachment && [achievement.attachmentType rangeOfString : @"image"].location != NSNotFound) ?
+  achievement.attachment : _model.baby.avatarImage;
+  if(imageFile) {
+    [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
       if(!error) {
         cell.imageView.image = [self imageWithImage:[[UIImage alloc] initWithData:data] scaledToSize:IMG_SIZE];
+        cell.imageView.alpha = imageFile == achievement.attachment ? 1.0 : 0.3;
       }
     }];
   }
