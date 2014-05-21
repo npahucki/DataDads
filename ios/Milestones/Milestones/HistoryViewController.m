@@ -66,15 +66,14 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
 }
 
 -(void) milestoneNotedAndSaved:(NSNotification*)notification {
-  // TODO: Need to add to the history, but remove from the milestones
-  NSMutableArray * reloadPaths = [NSMutableArray array];
   [self.tableView beginUpdates];
   MilestoneAchievement * achievement = [notification.userInfo objectForKey:@""];
+  NSMutableArray * reloadPaths;
+  
   if(achievement.standardMilestone) {
     StandardMilestone * m = achievement.standardMilestone;
     NSInteger index = [_model.futureMilestones indexOfObject:m];
     NSIndexPath* removedIndexPath;
-    NSMutableArray * reloadPaths;
     if(index != NSNotFound) {
       removedIndexPath = [NSIndexPath indexPathForRow:index inSection:FutureMilestoneSection];
       reloadPaths = [self reloadPathsForRemovedCell:removedIndexPath];
@@ -88,17 +87,17 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
       }
     }
     [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:removedIndexPath]  withRowAnimation:UITableViewRowAnimationLeft];
-
-    // Now add in the new achievement...
-    [_model addNewAchievement:achievement];
-    NSIndexPath* addedIndexPath = [NSIndexPath indexPathForRow:0 inSection:AchievementSection];
-    [reloadPaths addObject:addedIndexPath];
-    [self.tableView scrollToRowAtIndexPath:addedIndexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
-    [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:addedIndexPath] withRowAnimation:UITableViewRowAnimationLeft];
-    [self.tableView reloadRowsAtIndexPaths:reloadPaths withRowAnimation:UITableViewRowAnimationNone];
   }
-  [self.tableView endUpdates];
 
+  // Now add in the new achievement...
+  [_model addNewAchievement:achievement];
+  NSIndexPath* addedIndexPath = [NSIndexPath indexPathForRow:0 inSection:AchievementSection];
+  [reloadPaths addObject:addedIndexPath];
+  [self.tableView scrollToRowAtIndexPath:addedIndexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+  [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:addedIndexPath] withRowAnimation:UITableViewRowAnimationLeft];
+  [self.tableView reloadRowsAtIndexPaths:reloadPaths withRowAnimation:UITableViewRowAnimationNone];
+
+  [self.tableView endUpdates];
 }
 
 

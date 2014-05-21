@@ -18,7 +18,7 @@
 @property PFFile* attachment;
 @property NSString* attachmentType;
 @property NSString* customTitle;      // optional, should be set if milestone is nil
-@property NSString* customDescription;
+@property NSString* comment;
 @property BOOL isSkipped;
 @property BOOL isPostponed;
 

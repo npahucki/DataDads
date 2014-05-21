@@ -14,14 +14,15 @@
 #import "UIViewControllerWithHUDProgress.h"
 
 
-@interface NoteMilestoneViewController : UIViewControllerWithHUDProgress <FDTakeDelegate>
+@interface NoteMilestoneViewController : UIViewControllerWithHUDProgress <FDTakeDelegate,UITextFieldDelegate>
 
 @property MilestoneAchievement *achievement;
 @property (strong, nonatomic) IBOutlet UIDateField *completionDateTextField;
-//@property (strong, nonatomic) IBOutlet UIBarButtonItem *doneButton;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *doneButton;
 @property (weak, nonatomic) IBOutlet UITextField *commentsTextField;
 @property (strong, nonatomic) IBOutlet UIButton *takePhotoButton;
 @property (weak, nonatomic) IBOutlet UITextView *titleTextView;
+@property (weak, nonatomic) IBOutlet UITextField *customTitleTextField;
 
 
 @end

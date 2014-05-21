@@ -769,72 +769,6 @@
             </objects>
             <point key="canvasLocation" x="3002" y="-1267"/>
         </scene>
-        <!--View Controller - Measurement Logged-->
-        <scene sceneID="YFv-mC-AbW">
-            <objects>
-                <viewController title="Measurement Logged" id="Cjp-EY-8PA" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="h1a-Jb-Boy"/>
-                        <viewControllerLayoutGuide type="bottom" id="YOo-tI-cr6"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="vTk-eY-H9S">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9H0-bt-gmw">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <items>
-                                    <navigationItem title="Log a Measurement" id="jlq-Gf-xg1"/>
-                                </items>
-                            </navigationBar>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="WzD-uF-5ZE" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3572" y="854"/>
-        </scene>
-        <!--PickA Milestone Table View Controller - Milestones-->
-        <scene sceneID="xo6-T4-Ygk">
-            <objects>
-                <tableViewController title="Milestones" id="KNF-kK-rMK" customClass="PickAMilestoneTableViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelectionDuringEditing="YES" rowHeight="65" sectionHeaderHeight="22" sectionFooterHeight="22" id="R46-Uj-Hd1">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" restorationIdentifier="SwipeCell" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SwipeCell" textLabel="bWd-3Z-uLS" rowHeight="65" style="IBUITableViewCellStyleDefault" id="jUE-yY-zqv" customClass="SWTableViewCell">
-                                <rect key="frame" x="0.0" y="22" width="320" height="65"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jUE-yY-zqv" id="PTn-wx-85z">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="290" id="bWd-3Z-uLS">
-                                            <rect key="frame" x="15" y="0.0" width="290" height="64"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="KNF-kK-rMK" id="OBj-We-G2d"/>
-                            <outlet property="delegate" destination="KNF-kK-rMK" id="UDk-QN-ybX"/>
-                        </connections>
-                    </tableView>
-                    <toolbarItems/>
-                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="gN5-i8-qmY" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="5174" y="-1886"/>
-        </scene>
         <!--Note Milestone View Controller - Note It-->
         <scene sceneID="frl-ti-jdm">
             <objects>
@@ -865,12 +799,11 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="TopLeft" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8nC-ax-kTN">
-                                <rect key="frame" x="75" y="176" width="170" height="170"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8nC-ax-kTN">
+                                <rect key="frame" x="95" y="214" width="130" height="132"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="170" id="58K-Eq-RHR"/>
-                                    <constraint firstAttribute="height" constant="170" id="CCN-Fe-DJt"/>
+                                    <constraint firstAttribute="width" secondItem="8nC-ax-kTN" secondAttribute="height" multiplier="1:1" constant="-2" id="OkB-UT-uc5"/>
                                 </constraints>
                                 <state key="normal" image="cameraButton">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -885,7 +818,7 @@
                                 <color key="backgroundColor" red="0.66274509800000003" green="0.66274509800000003" blue="0.69411764710000001" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EId-wu-ags">
-                                <rect key="frame" x="0.0" y="167" width="320" height="1"/>
+                                <rect key="frame" x="0.0" y="205" width="320" height="1"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.66274509800000003" green="0.66274509800000003" blue="0.69411764710000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -899,23 +832,25 @@
                                     <constraint firstAttribute="height" constant="50" id="cyg-Ao-uPp"/>
                                 </constraints>
                             </adBannerView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="interactive" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TbU-9g-spx">
-                                <rect key="frame" x="0.0" y="44" width="320" height="122"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="interactive" editable="NO" usesAttributedText="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TbU-9g-spx">
+                                <rect key="frame" x="0.0" y="44" width="320" height="160"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="100" id="Aml-ta-eoe"/>
+                                    <constraint firstAttribute="height" constant="160" id="Aml-ta-eoe"/>
                                 </constraints>
-                                <attributedString key="attributedText">
-                                    <fragment content="Place Holder">
-                                        <attributes>
-                                            <font key="NSFont" metaFont="toolTip"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
+                                <attributedString key="attributedText"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
                             </textView>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Milestone Title" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="EQM-Xj-P5T">
+                                <rect key="frame" x="20" y="92" width="280" height="65"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
+                                <connections>
+                                    <action selector="didEndEditingCustomTitle:" destination="As4-O0-72y" eventType="editingDidEnd" id="rca-Jj-C05"/>
+                                </connections>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -926,18 +861,21 @@
                             <constraint firstItem="Bpa-ja-iHW" firstAttribute="top" secondItem="ln9-Xh-it5" secondAttribute="bottom" id="AuF-5K-vNy"/>
                             <constraint firstItem="EId-wu-ags" firstAttribute="leading" secondItem="5Gp-mq-9qR" secondAttribute="leading" id="FzF-Za-SK6"/>
                             <constraint firstItem="EId-wu-ags" firstAttribute="top" secondItem="TbU-9g-spx" secondAttribute="bottom" constant="1" id="GdT-UV-qkf"/>
-                            <constraint firstItem="ln9-Xh-it5" firstAttribute="top" secondItem="nem-Kr-roi" secondAttribute="bottom" constant="8" id="KfC-xA-4mD"/>
+                            <constraint firstAttribute="trailing" secondItem="EQM-Xj-P5T" secondAttribute="trailing" constant="20" id="Mwy-VW-UNc"/>
                             <constraint firstItem="ln9-Xh-it5" firstAttribute="top" secondItem="nem-Kr-roi" secondAttribute="bottom" constant="8" id="MxZ-2w-1jC"/>
+                            <constraint firstItem="EQM-Xj-P5T" firstAttribute="top" secondItem="EN0-Xo-UeH" secondAttribute="bottom" constant="48" id="Nss-ex-Mdb"/>
                             <constraint firstItem="8nC-ax-kTN" firstAttribute="top" secondItem="EId-wu-ags" secondAttribute="bottom" constant="8" id="Oia-A3-rvB"/>
                             <constraint firstItem="ln9-Xh-it5" firstAttribute="leading" secondItem="5Gp-mq-9qR" secondAttribute="leading" id="QBE-29-RLG"/>
                             <constraint firstAttribute="trailing" secondItem="EId-wu-ags" secondAttribute="trailing" id="QTP-Mv-7X8"/>
                             <constraint firstItem="nem-Kr-roi" firstAttribute="top" secondItem="iRg-si-ECJ" secondAttribute="bottom" constant="8" id="RLE-aL-a6r"/>
                             <constraint firstAttribute="trailing" secondItem="ln9-Xh-it5" secondAttribute="trailing" constant="1" id="au7-uw-gfF"/>
-                            <constraint firstItem="iRg-si-ECJ" firstAttribute="top" secondItem="8nC-ax-kTN" secondAttribute="bottom" constant="8" id="hkY-tJ-nHb"/>
+                            <constraint firstItem="EId-wu-ags" firstAttribute="top" secondItem="TbU-9g-spx" secondAttribute="bottom" constant="1" id="gI9-b8-kKR"/>
                             <constraint firstItem="TbU-9g-spx" firstAttribute="leading" secondItem="5Gp-mq-9qR" secondAttribute="leading" id="j1O-o7-taM"/>
                             <constraint firstAttribute="trailing" secondItem="nem-Kr-roi" secondAttribute="trailing" constant="20" id="jmX-hY-NGx"/>
+                            <constraint firstItem="EId-wu-ags" firstAttribute="top" secondItem="EQM-Xj-P5T" secondAttribute="bottom" constant="48" id="kUK-Rn-xod"/>
                             <constraint firstAttribute="trailing" secondItem="TbU-9g-spx" secondAttribute="trailing" id="mTd-x3-fDt"/>
                             <constraint firstItem="iRg-si-ECJ" firstAttribute="top" secondItem="8nC-ax-kTN" secondAttribute="bottom" constant="8" id="pgl-Gi-ONP"/>
+                            <constraint firstItem="EQM-Xj-P5T" firstAttribute="leading" secondItem="5Gp-mq-9qR" secondAttribute="leading" constant="20" id="yCh-NY-hld"/>
                             <constraint firstItem="TbU-9g-spx" firstAttribute="top" secondItem="EN0-Xo-UeH" secondAttribute="bottom" id="zoF-0D-VHa"/>
                         </constraints>
                     </view>
@@ -956,6 +894,8 @@
                     <connections>
                         <outlet property="commentsTextField" destination="nem-Kr-roi" id="afI-ee-Iav"/>
                         <outlet property="completionDateTextField" destination="iRg-si-ECJ" id="Kim-Yd-pwP"/>
+                        <outlet property="customTitleTextField" destination="EQM-Xj-P5T" id="Z83-gU-jsj"/>
+                        <outlet property="doneButton" destination="dRV-0n-DZI" id="bQ9-Jg-edh"/>
                         <outlet property="takePhotoButton" destination="8nC-ax-kTN" id="ztl-eF-oPT"/>
                         <outlet property="titleTextView" destination="TbU-9g-spx" id="Iei-9I-Vo1"/>
                     </connections>
@@ -1310,6 +1250,10 @@
                                 </state>
                                 <state key="selected" image="newMilestoneButton_pressed"/>
                                 <state key="highlighted" image="newMilestoneButton_pressed.png"/>
+                                <connections>
+                                    <action selector="didClickAddNewMilestone:" destination="4nI-5F-GIp" eventType="touchUpInside" id="Jqd-iU-F14"/>
+                                    <segue destination="As4-O0-72y" kind="push" identifier="noteMilestone" id="oem-D7-bAF"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -1344,7 +1288,6 @@
                         <outlet property="addMilestoneButton" destination="Vpv-RJ-8CQ" id="gSb-pn-aeV"/>
                         <outlet property="menuButton" destination="qU1-vG-KKB" id="h3u-Mt-G7a"/>
                         <segue destination="eNM-aT-BTU" kind="push" identifier="showAchievementDetails" id="QpM-9P-itO"/>
-                        <segue destination="As4-O0-72y" kind="push" identifier="noteMilestone" id="p00-AH-7NR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HSl-NR-dz3" userLabel="First Responder" sceneMemberID="firstResponder"/>

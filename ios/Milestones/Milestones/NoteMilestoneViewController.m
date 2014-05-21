@@ -28,18 +28,33 @@
   _imageOrVideo = nil;
   _imageOrVideoType = nil;
   
-  NSAssert(self.achievement.standardMilestone || self.achievement.customTitle,@"one of standardMilestone or customTitle must be set");
   NSAssert(self.achievement.baby, @"baby must be set on acheivement before view loads");
 
-  BOOL isCustom = !self.achievement.standardMilestone;
-  self.titleTextView.editable = isCustom;
-  self.titleTextView.selectable = isCustom;
+  self.commentsTextField.delegate = self;
+  self.customTitleTextField.delegate = self;
+  
+  self.titleTextView.hidden = self.isCustom;
+  self.customTitleTextField.hidden = !self.isCustom;
+  self.doneButton.enabled = !self.isCustom;
   
   [UIButton animateWithDuration:1.0 delay:0.0 options:
    UIViewAnimationOptionAllowUserInteraction |UIViewAnimationOptionBeginFromCurrentState |UIViewAnimationOptionAutoreverse | UIViewAnimationOptionRepeat
                      animations:^{
                        self.takePhotoButton.alpha = .75;
                      } completion:nil];
+
+  
+
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+  [textField resignFirstResponder];
+  return YES;
+}
+
+-(BOOL) isCustom {
+  return self.achievement.standardMilestone == nil;
 }
 
 -(void) viewDidLayoutSubviews {
@@ -50,6 +65,9 @@
 
   // NOTE: For some odd reson, this will not work is done in viewDidLoad!
   if(self.achievement.standardMilestone) self.titleTextView.attributedText = [self createTitleTextFromMilestone];
+}
+- (IBAction)didEndEditingCustomTitle:(id)sender {
+  self.doneButton.enabled = self.customTitleTextField.text.length > 1;
 }
 
 - (IBAction)didClickTakePicture:(id)sender {
@@ -84,6 +102,9 @@
   }
 
 -(void) saveAchievementWithAttachment:(PFFile*) attachment andType:(NSString*) type {
+  
+  if(self.commentsTextField.text.length) self.achievement.comment = self.commentsTextField.text;
+  if(self.customTitleTextField.text.length) self.achievement.customTitle = self.customTitleTextField.text;
   self.achievement.attachment = attachment;
   self.achievement.attachmentType = type;
   self.achievement.completionDate =  ((UIDatePicker*)self.completionDateTextField.inputView).date;

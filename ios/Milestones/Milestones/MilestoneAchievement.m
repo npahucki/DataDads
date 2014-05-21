@@ -21,7 +21,7 @@
 @dynamic attachment;
 @dynamic attachmentType;
 @dynamic customTitle;
-@dynamic customDescription;
+@dynamic comment;
 @dynamic isSkipped;
 @dynamic isPostponed;
 
