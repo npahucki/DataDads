@@ -68,7 +68,7 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
 -(void) milestoneNotedAndSaved:(NSNotification*)notification {
   [self.tableView beginUpdates];
   MilestoneAchievement * achievement = [notification.userInfo objectForKey:@""];
-  NSMutableArray * reloadPaths;
+  NSMutableArray * reloadPaths = [NSMutableArray arrayWithCapacity:5];
   
   if(achievement.standardMilestone) {
     StandardMilestone * m = achievement.standardMilestone;
@@ -76,13 +76,13 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
     NSIndexPath* removedIndexPath;
     if(index != NSNotFound) {
       removedIndexPath = [NSIndexPath indexPathForRow:index inSection:FutureMilestoneSection];
-      reloadPaths = [self reloadPathsForRemovedCell:removedIndexPath];
+      [reloadPaths addObjectsFromArray:[self reloadPathsForRemovedCell:removedIndexPath]];
       [_model markFutureMilestone:index ignored:NO postponed:NO]; // Removes it from the list
     } else {
       index = [_model.pastMilestones indexOfObject:m];
       if(index != NSNotFound) {
         removedIndexPath = [NSIndexPath indexPathForRow:index inSection:PastMilestoneSection];
-        reloadPaths = [self reloadPathsForRemovedCell:removedIndexPath];
+        [reloadPaths addObjectsFromArray:[self reloadPathsForRemovedCell:removedIndexPath]];
         [_model markPastMilestone:index ignored:NO postponed:NO]; // Removes it from the list
       }
     }
@@ -92,10 +92,10 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
   // Now add in the new achievement...
   [_model addNewAchievement:achievement];
   NSIndexPath* addedIndexPath = [NSIndexPath indexPathForRow:0 inSection:AchievementSection];
-  [reloadPaths addObject:addedIndexPath];
-  [self.tableView scrollToRowAtIndexPath:addedIndexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
-  [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:addedIndexPath] withRowAnimation:UITableViewRowAnimationLeft];
+  if(_model.achievements.count > 0) [reloadPaths addObject:addedIndexPath];
+  [self.tableView scrollToRowAtIndexPath:addedIndexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
   [self.tableView reloadRowsAtIndexPaths:reloadPaths withRowAnimation:UITableViewRowAnimationNone];
+  [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:addedIndexPath] withRowAnimation:UITableViewRowAnimationBottom];
 
   [self.tableView endUpdates];
 }

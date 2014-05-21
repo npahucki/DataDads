@@ -19,6 +19,7 @@
   NSData * _imageOrVideo;
   NSString * _imageOrVideoType;
   ALAssetsLibrary * _assetLibrary;
+  BOOL _startedAnimation;
 }
 
 - (void)viewDidLoad
@@ -36,15 +37,13 @@
   self.titleTextView.hidden = self.isCustom;
   self.customTitleTextField.hidden = !self.isCustom;
   self.doneButton.enabled = !self.isCustom;
-  
-  [UIButton animateWithDuration:1.0 delay:0.0 options:
-   UIViewAnimationOptionAllowUserInteraction |UIViewAnimationOptionBeginFromCurrentState |UIViewAnimationOptionAutoreverse | UIViewAnimationOptionRepeat
-                     animations:^{
-                       self.takePhotoButton.alpha = .75;
-                     } completion:nil];
+  // Needed to dimiss the keyboard once a user clicks outside the text boxes
+  UITapGestureRecognizer *viewTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
+  [self.view addGestureRecognizer:viewTap];
+}
 
-  
-
+-(void)handleSingleTap:(UITapGestureRecognizer *)sender {
+  [self.view endEditing:NO];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -65,6 +64,19 @@
 
   // NOTE: For some odd reson, this will not work is done in viewDidLoad!
   if(self.achievement.standardMilestone) self.titleTextView.attributedText = [self createTitleTextFromMilestone];
+
+
+  if(!_startedAnimation) {
+    
+    [UIButton animateWithDuration:1.0 delay:0.0 options:
+     UIViewAnimationOptionAllowUserInteraction |UIViewAnimationOptionBeginFromCurrentState |UIViewAnimationOptionAutoreverse | UIViewAnimationOptionRepeat
+                       animations:^{
+                         self.takePhotoButton.alpha = .75;
+                       } completion:nil];
+    _startedAnimation = YES;
+  }
+
+
 }
 - (IBAction)didEndEditingCustomTitle:(id)sender {
   self.doneButton.enabled = self.customTitleTextField.text.length > 1;
@@ -89,6 +101,11 @@
   }
 }
 
+- (IBAction)didClickCancelButton:(id)sender {
+  [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
 -(void) saveImageOrPhoto {
   [self showInProgressHUDWithMessage:@"Uploading Photo" andAnimation:YES andDimmedBackground:YES];
   PFFile *file = [PFFile fileWithData:_imageOrVideo];
@@ -111,7 +128,7 @@
   [self saveObject:self.achievement withTitle:@"Noting Milestone" andFailureMessage:@"Could not note milestone." andBlock:^(NSError * error) {
     if(!error) {
       [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationMilestoneNotedAndSaved object:self userInfo:@{@"" : self.achievement}];
-      [self dismiss];
+      [self dismissViewControllerAnimated:YES completion:nil];
     }
   }];
 }

@@ -805,9 +805,11 @@
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="8nC-ax-kTN" secondAttribute="height" multiplier="1:1" constant="-2" id="OkB-UT-uc5"/>
                                 </constraints>
-                                <state key="normal" image="cameraButton">
+                                <state key="normal" backgroundImage="cameraButton">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <state key="selected" backgroundImage="cameraButton_pressed"/>
+                                <state key="highlighted" backgroundImage="cameraButton_pressed"/>
                                 <connections>
                                     <action selector="didClickTakePicture:" destination="As4-O0-72y" eventType="touchUpInside" id="qis-KE-OZH"/>
                                 </connections>
@@ -881,7 +883,11 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Note Milestone" id="ya0-gI-NUc">
-                        <barButtonItem key="backBarButtonItem" title="Cancel" id="xgX-Us-ktE"/>
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="mfB-x3-5nI">
+                            <connections>
+                                <action selector="didClickCancelButton:" destination="As4-O0-72y" id="j4H-8B-7jc"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Note It" id="dRV-0n-DZI">
                             <connections>
                                 <action selector="didClickDoneButton:" destination="As4-O0-72y" id="XrG-MA-Ft1"/>
@@ -902,7 +908,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="poY-We-bkC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4205" y="-1237"/>
+            <point key="canvasLocation" x="4731" y="-1237"/>
         </scene>
         <!--View Controller - Account-->
         <scene sceneID="4Z9-oI-S9f">
@@ -1252,7 +1258,7 @@
                                 <state key="highlighted" image="newMilestoneButton_pressed.png"/>
                                 <connections>
                                     <action selector="didClickAddNewMilestone:" destination="4nI-5F-GIp" eventType="touchUpInside" id="Jqd-iU-F14"/>
-                                    <segue destination="As4-O0-72y" kind="push" identifier="noteMilestone" id="oem-D7-bAF"/>
+                                    <segue destination="n8g-sI-yKY" kind="modal" identifier="noteMilestone" customClass="UIStoryboardPopoverSegue" modalTransitionStyle="coverVertical" id="oem-D7-bAF"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -1331,6 +1337,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7jb-as-CnM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-400" y="-2496"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="QXJ-q7-63C">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="n8g-sI-yKY" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Ihz-Ho-vzu">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="As4-O0-72y" kind="relationship" relationship="rootViewController" id="RMi-Fg-WC3"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LXU-vw-Did" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4205" y="-1237"/>
         </scene>
     </scenes>
     <resources>

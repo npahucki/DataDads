@@ -49,16 +49,13 @@
   // Navigation Segues
   if([segue.identifier isEqualToString:kDDSegueNoteMilestone]) {
     NSAssert(_currentAchievment, @"Expected currentAchievement to be set");
-    ((NoteMilestoneViewController*)segue.destinationViewController).achievement = _currentAchievment;
+    NoteMilestoneViewController* noteMilestoneViewController =  (NoteMilestoneViewController*)
+    ((UINavigationController*)segue.destinationViewController ).visibleViewController;
+    noteMilestoneViewController.achievement = _currentAchievment;
   } else if([segue.identifier isEqualToString:kDDSegueShowAchievementDetails]) {
     // TODO: Set Achievement
     //    ((MilestoneDetailsViewController*)segue.destinationViewController).achievement = _currentAchievment;
-  }/* else if([segue.identifier isEqualToString:kDDSegueCreateCustomMilestone]) {
-    ((NoteMilestoneViewController*)segue.destinationViewController).achievement = _currentAchievment;
-
-    
-    //((CreateMilestoneViewController*)segue.destinationViewController).achievement = [self createAchievementForMilestone:nil];
-  }*/
+  }
 }
 - (IBAction)didClickAddNewMilestone:(id)sender {
   // Create an achievement with no milestone 

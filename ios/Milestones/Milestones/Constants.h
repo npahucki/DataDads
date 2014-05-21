@@ -19,7 +19,6 @@ extern NSString *const kDDUserEmail;
 #pragma mark Segue Names
 extern NSString *const kDDSegueEnterScreenName;
 extern NSString *const kDDSegueNoteMilestone;
-extern NSString *const kDDSegueCreateCustomMilestone;
 extern NSString *const kDDSegueShowSettings;
 extern NSString *const kDDSegueShowAchievementDetails;
 

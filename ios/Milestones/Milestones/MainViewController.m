@@ -52,7 +52,6 @@
               }
             } else if(!cachedResult) { // Don't show the baby screen when there are simply no objects in the cache.
               // Must show the enter baby screen since there are none registered yet
-              [self showWelcomeScreen];
               [self performSegueWithIdentifier:@"enterBabyInfo" sender:self];
             }
           } else {
@@ -80,56 +79,6 @@
   }
 }
 
--(void) showWelcomeScreen {
-  CustomIOS7AlertView *alertView = [[CustomIOS7AlertView alloc] init];
-  alertView.backgroundColor = [UIColor whiteColor];
-  const int width = 290;
-  const int height = 360;
-  
-  
-  UIView *welcomeView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
-  welcomeView.backgroundColor = [UIColor whiteColor];
-
-  UILabel * title = [[UILabel alloc] initWithFrame:CGRectMake(width/4 ,30, width/4*2, width/4*2)];
-  title.text = @"Hello!";
-  title.font = [UIFont fontForAppWithType:Bold andSize:35.0];
-  title.textColor = [UIColor whiteColor];
-  title.textAlignment = NSTextAlignmentCenter;
-
-  UIImageView* welcomeImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"welcomeScreenBaby"]];
-  welcomeImageView.frame = CGRectMake(width/4 ,25, width/4*2, width/4*2);
-  
-  UILabel * msg = [[UILabel alloc] initWithFrame:CGRectMake(10, welcomeImageView.frame.size.height +
-                                                            welcomeImageView.frame.origin.y - 40 , width - 10, height - 70)];
-  msg.text = @"DataDads creates science from your baby's data and we help you track the development of your child.\n\n Start by filling in your baby's basic information";
-  msg.lineBreakMode = NSLineBreakByTruncatingTail;
-  msg.numberOfLines = 7;
-  msg.font = [UIFont fontForAppWithType:Medium andSize:19.0];
-  msg.textColor = [UIColor appGreyTextColor];
-  msg.textAlignment = NSTextAlignmentCenter;
-  
-  [welcomeView addSubview:welcomeImageView];
-  [welcomeView addSubview:title];
-  [welcomeView addSubview:msg];
-  [alertView setContainerView:welcomeView];
-  [alertView setUseMotionEffects:TRUE];
-  [alertView setButtonTitles:[NSMutableArray arrayWithObjects:@"get started", nil]];
-  [alertView show];
-
-  // Icky hack, but there is no way to get a ref to the button before we show the alert.
-  UIButton * cancelButton;
-  for(UIView * view in alertView.dialogView.subviews) {
-    if([view isKindOfClass:[UIButton class]]) {
-      cancelButton = (UIButton*)view;
-    }
-  }
-  [cancelButton setTitleColor:[UIColor appNormalColor] forState:UIControlStateNormal];
-  [cancelButton setTitleColor:[UIColor appSelectedColor] forState:UIControlStateHighlighted];
-  [cancelButton setTitleColor:[UIColor appSelectedColor] forState:UIControlStateSelected];
-  cancelButton.titleLabel.font = [UIFont fontForAppWithType:Medium andSize:19.0];
-  cancelButton.backgroundColor = [UIColor whiteColor];
-  
-}
 
 
 @end
