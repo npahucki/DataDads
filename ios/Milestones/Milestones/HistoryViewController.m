@@ -65,11 +65,19 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
   [self reloadTable];
 }
 
+
 -(void) milestoneNotedAndSaved:(NSNotification*)notification {
+  NSIndexPath* addedIndexPath = [NSIndexPath indexPathForRow:0 inSection:AchievementSection];
+  [self.tableView selectRowAtIndexPath:addedIndexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+  [UIView beginAnimations:@"insertAnimationId" context:nil];
+  [UIView setAnimationDuration:1.0]; // Set duration here
+  [CATransaction begin];
+  [CATransaction setCompletionBlock:^{
+    //[self.tableView selectRowAtIndexPath:addedIndexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+  }];
   [self.tableView beginUpdates];
   MilestoneAchievement * achievement = [notification.userInfo objectForKey:@""];
   NSMutableArray * reloadPaths = [NSMutableArray arrayWithCapacity:5];
-  
   if(achievement.standardMilestone) {
     StandardMilestone * m = achievement.standardMilestone;
     NSInteger index = [_model.futureMilestones indexOfObject:m];
@@ -91,13 +99,17 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
 
   // Now add in the new achievement...
   [_model addNewAchievement:achievement];
-  NSIndexPath* addedIndexPath = [NSIndexPath indexPathForRow:0 inSection:AchievementSection];
   if(_model.achievements.count > 0) [reloadPaths addObject:addedIndexPath];
-  [self.tableView scrollToRowAtIndexPath:addedIndexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+  //  [self.tableView scrollToRowAtIndexPath:addedIndexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
   [self.tableView reloadRowsAtIndexPaths:reloadPaths withRowAnimation:UITableViewRowAnimationNone];
-  [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:addedIndexPath] withRowAnimation:UITableViewRowAnimationBottom];
+  [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:addedIndexPath] withRowAnimation:UITableViewRowAnimationRight];
 
+  
+  
   [self.tableView endUpdates];
+  [CATransaction commit];
+  [UIView commitAnimations];
+
 }
 
 
