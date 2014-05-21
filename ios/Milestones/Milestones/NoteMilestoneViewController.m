@@ -30,8 +30,11 @@
   
   NSAssert(self.achievement.standardMilestone || self.achievement.customTitle,@"one of standardMilestone or customTitle must be set");
   NSAssert(self.achievement.baby, @"baby must be set on acheivement before view loads");
+
+  BOOL isCustom = !self.achievement.standardMilestone;
+  self.titleTextView.editable = isCustom;
+  self.titleTextView.selectable = isCustom;
   
-  self.takePhotoLabel.font = [UIFont fontForAppWithType:Light andSize:31.0];
   [UIButton animateWithDuration:1.0 delay:0.0 options:
    UIViewAnimationOptionAllowUserInteraction |UIViewAnimationOptionBeginFromCurrentState |UIViewAnimationOptionAutoreverse | UIViewAnimationOptionRepeat
                      animations:^{
@@ -44,6 +47,9 @@
   [self.takePhotoButton.layer setCornerRadius:self.takePhotoButton.frame.size.width/2];
   self.takePhotoButton.layer.masksToBounds = YES;
   self.takePhotoButton.layer.borderWidth = 1;
+
+  // NOTE: For some odd reson, this will not work is done in viewDidLoad!
+  if(self.achievement.standardMilestone) self.titleTextView.attributedText = [self createTitleTextFromMilestone];
 }
 
 - (IBAction)didClickTakePicture:(id)sender {
@@ -77,8 +83,6 @@
   }];
   }
 
-   
-
 -(void) saveAchievementWithAttachment:(PFFile*) attachment andType:(NSString*) type {
   self.achievement.attachment = attachment;
   self.achievement.attachmentType = type;
@@ -89,14 +93,6 @@
       [self dismiss];
     }
   }];
-  
-  // TODO: Show Ranking
-  
-}
-
-- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
-{
-  [[UIApplication sharedApplication] setStatusBarHidden:YES];
 }
 
 #pragma mark - FDTakeDelegate
@@ -155,11 +151,41 @@
   [self.takePhotoButton setImage:photo forState:UIControlStateNormal];
   self.takePhotoButton.alpha = 1.0;
 
-  // Hide the Label
-  self.takePhotoLabel.text = @"Nice Shot!";
-  [UILabel animateWithDuration:1.0 delay:2.0 options:UIViewAnimationOptionCurveEaseOut animations:^{ self.takePhotoLabel.alpha = 0.0; } completion:nil];
+//  // Hide the Label
+//  self.takePhotoLabel.text = @"Nice Shot!";
+//  [UILabel animateWithDuration:1.0 delay:2.0 options:UIViewAnimationOptionCurveEaseOut animations:^{ self.takePhotoLabel.alpha = 0.0; } completion:nil];
 }
 
+-(NSAttributedString *) createTitleTextFromMilestone {
+  StandardMilestone * m = self.achievement.standardMilestone;
 
+  NSDictionary *dataLabelTextAttributes = @{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:15.0], NSForegroundColorAttributeName: [UIColor blackColor]};
+  NSDictionary *dataValueTextAttributes = @{NSFontAttributeName: [UIFont fontForAppWithType:Medium andSize:15.0], NSForegroundColorAttributeName: [UIColor blackColor]};
+  
+  NSAttributedString * titleString = [[NSAttributedString alloc] initWithString:m.title attributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:15.0], NSForegroundColorAttributeName: [UIColor appNormalColor]}];
+
+  NSAttributedString * descriptionString = [[NSAttributedString alloc] initWithString:m.shortDescription attributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Medium andSize:14.0], NSForegroundColorAttributeName: [UIColor appGreyTextColor]}];
+
+  NSAttributedString * enteredDateLabel = [[NSAttributedString alloc] initWithString:@"Entered By: " attributes:dataLabelTextAttributes];
+  NSAttributedString * enteredDateValue = [[NSAttributedString alloc] initWithString:@"DataParenting Staff" attributes:dataValueTextAttributes];
+  NSAttributedString * rangeLabel = [[NSAttributedString alloc] initWithString:@"Completion Range: " attributes:dataLabelTextAttributes];
+  NSAttributedString * rangeValue = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ to %@ days",m.rangeLow,m.rangeHigh] attributes:dataValueTextAttributes];
+  NSAttributedString * lf = [[NSAttributedString alloc] initWithString:@"\n"];
+
+
+  NSMutableAttributedString *attrText = [[NSMutableAttributedString alloc] init];
+  [attrText appendAttributedString:titleString];
+  [attrText appendAttributedString:lf];
+  [attrText appendAttributedString:descriptionString];
+  [attrText appendAttributedString:lf];
+  [attrText appendAttributedString:lf];
+  [attrText appendAttributedString:enteredDateLabel];
+  [attrText appendAttributedString:enteredDateValue];
+  [attrText appendAttributedString:lf];
+  [attrText appendAttributedString:rangeLabel];
+  [attrText appendAttributedString:rangeValue];
+
+  return attrText;
+}
 
 @end

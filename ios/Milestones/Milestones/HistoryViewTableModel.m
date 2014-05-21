@@ -139,6 +139,9 @@
 }
 
 -(void) markMilestone:(StandardMilestone *)milestone ignored:(BOOL) ignored postponed:(BOOL) postponed {
+  
+  if(!ignored && !postponed) return; // Don't save it, just used to remove from the arrays above. 
+  
   MilestoneAchievement * achievement = [MilestoneAchievement object];
   achievement.isPostponed = postponed;
   achievement.isSkipped = ignored;
@@ -150,12 +153,9 @@
   [achievement saveEventually];
 }
 
-
-
-  
-  
-
-
+-(void) addNewAchievement:(MilestoneAchievement *) achievement {
+  [(NSMutableArray*)_achievements insertObject:achievement atIndex:0];
+}
 
   
   

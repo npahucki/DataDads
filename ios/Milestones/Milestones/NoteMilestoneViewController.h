@@ -16,15 +16,13 @@
 
 @interface NoteMilestoneViewController : UIViewControllerWithHUDProgress <FDTakeDelegate>
 
-
-@property (strong, nonatomic) IBOutlet UIDateField *completionDateTextField;
-
 @property MilestoneAchievement *achievement;
-
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *doneButton;
-
+@property (strong, nonatomic) IBOutlet UIDateField *completionDateTextField;
+//@property (strong, nonatomic) IBOutlet UIBarButtonItem *doneButton;
+@property (weak, nonatomic) IBOutlet UITextField *commentsTextField;
 @property (strong, nonatomic) IBOutlet UIButton *takePhotoButton;
-@property (strong, nonatomic) IBOutlet UILabel *takePhotoLabel;
+@property (weak, nonatomic) IBOutlet UITextView *titleTextView;
+
 
 @end
 

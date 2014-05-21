@@ -52,6 +52,7 @@
 
 -(void) markPastMilestone:(NSInteger)index ignored:(BOOL) ignored postponed:(BOOL) postponed;
 -(void) markFutureMilestone:(NSInteger)index ignored:(BOOL) ignored postponed:(BOOL) postponed;
+-(void) addNewAchievement:(MilestoneAchievement *) achievement;
 
 
 

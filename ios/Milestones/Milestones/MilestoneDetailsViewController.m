@@ -18,8 +18,7 @@
 - (void)viewDidLoad
 {
   [super viewDidLoad];
-  self.titleLabel.text = self.achievement.standardMilestone.title;
-  self.titleLabel.font = [UIFont fontForAppWithType:Bold andSize:17];
+  
   self.descriptionLabel.text = self.achievement.standardMilestone.shortDescription ? self.achievement.standardMilestone.shortDescription : @"No Description";
   self.descriptionLabel.font = [UIFont fontForAppWithType:Book andSize:15];
   //self.enteredByLabel.text = self.achievement.standardMilestone.enteredBy;

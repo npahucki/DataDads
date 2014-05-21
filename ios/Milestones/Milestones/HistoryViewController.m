@@ -66,10 +66,40 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
 }
 
 -(void) milestoneNotedAndSaved:(NSNotification*)notification {
-//  // TODO: Load only acheievments
-//  [_model loadAllObjects];
-}
+  // TODO: Need to add to the history, but remove from the milestones
+  NSMutableArray * reloadPaths = [NSMutableArray array];
+  [self.tableView beginUpdates];
+  MilestoneAchievement * achievement = [notification.userInfo objectForKey:@""];
+  if(achievement.standardMilestone) {
+    StandardMilestone * m = achievement.standardMilestone;
+    NSInteger index = [_model.futureMilestones indexOfObject:m];
+    NSIndexPath* removedIndexPath;
+    NSMutableArray * reloadPaths;
+    if(index != NSNotFound) {
+      removedIndexPath = [NSIndexPath indexPathForRow:index inSection:FutureMilestoneSection];
+      reloadPaths = [self reloadPathsForRemovedCell:removedIndexPath];
+      [_model markFutureMilestone:index ignored:NO postponed:NO]; // Removes it from the list
+    } else {
+      index = [_model.pastMilestones indexOfObject:m];
+      if(index != NSNotFound) {
+        removedIndexPath = [NSIndexPath indexPathForRow:index inSection:PastMilestoneSection];
+        reloadPaths = [self reloadPathsForRemovedCell:removedIndexPath];
+        [_model markPastMilestone:index ignored:NO postponed:NO]; // Removes it from the list
+      }
+    }
+    [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:removedIndexPath]  withRowAnimation:UITableViewRowAnimationLeft];
 
+    // Now add in the new achievement...
+    [_model addNewAchievement:achievement];
+    NSIndexPath* addedIndexPath = [NSIndexPath indexPathForRow:0 inSection:AchievementSection];
+    [reloadPaths addObject:addedIndexPath];
+    [self.tableView scrollToRowAtIndexPath:addedIndexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+    [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:addedIndexPath] withRowAnimation:UITableViewRowAnimationLeft];
+    [self.tableView reloadRowsAtIndexPaths:reloadPaths withRowAnimation:UITableViewRowAnimationNone];
+  }
+  [self.tableView endUpdates];
+
+}
 
 
 
@@ -85,7 +115,7 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
       break;
     case FutureMilestoneSection:
       isLoadingRow = indexPath.row == 0 && _model.hasMoreFutureMilestones;
-      if(!isLoadingRow) [self.delegate standardMilestoneClicked:_model.futureMilestones[indexPath.row - _model.hasMoreFutureMilestones ? 1 : 0]];
+      if(!isLoadingRow) [self.delegate standardMilestoneClicked:_model.futureMilestones[indexPath.row - (_model.hasMoreFutureMilestones ? 1 : 0)]];
       break;
     case PastMilestoneSection:
       isLoadingRow = indexPath.row == _model.pastMilestones.count;
@@ -327,15 +357,7 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
     [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationLeft];
 
     
-    NSMutableArray * reloadPaths = [NSMutableArray array];
-    NSInteger numRows = [self.tableView numberOfRowsInSection:path.section];
-    if(path.row == numRows - 1 && numRows > 1) {
-      [reloadPaths addObject:[NSIndexPath indexPathForRow:path.row - 1 inSection:path.section]];
-    }
-    if(path.row == 0 && numRows > 1) {
-      [reloadPaths addObject:[NSIndexPath indexPathForRow:path.row + 1 inSection:path.section]];
-    }
-    [self.tableView reloadRowsAtIndexPaths:reloadPaths withRowAnimation:UITableViewRowAnimationNone];
+    [self.tableView reloadRowsAtIndexPaths:[self reloadPathsForRemovedCell:path] withRowAnimation:UITableViewRowAnimationNone];
     
     if(path.section == PastMilestoneSection) {
       [_model markPastMilestone:path.row ignored:ignored postponed:postponed];
@@ -399,6 +421,19 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
 
 
 #pragma mark Utility Methods
+
+-(NSMutableArray*) reloadPathsForRemovedCell:(NSIndexPath*) path {
+  NSMutableArray * reloadPaths = [NSMutableArray array];
+  NSInteger numRows = [self.tableView numberOfRowsInSection:path.section];
+  if(path.row == numRows - 1 && numRows > 1) {
+    [reloadPaths addObject:[NSIndexPath indexPathForRow:path.row - 1 inSection:path.section]];
+  }
+  if(path.row == 0 && numRows > 1) {
+    [reloadPaths addObject:[NSIndexPath indexPathForRow:path.row + 1 inSection:path.section]];
+  }
+  return reloadPaths;
+}
+
 
 
 // TODO: Save thumbnails so we don't have to scale

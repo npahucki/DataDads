@@ -7,7 +7,6 @@
 //
 
 #import "MainMilestoneViewController.h"
-#import "CreateMilestoneViewController.h"
 #import "SettingsViewController.h"
 #import "NoteMilestoneViewController.h"
 #import "MilestoneDetailsViewController.h"
@@ -56,7 +55,7 @@
     // TODO: Set Achievement
     //    ((MilestoneDetailsViewController*)segue.destinationViewController).achievement = _currentAchievment;
   } else if([segue.identifier isEqualToString:kDDSegueCreateCustomMilestone]) {
-    ((CreateMilestoneViewController*)segue.destinationViewController).achievement = [self createAchievementForMilestone:nil];
+    //((CreateMilestoneViewController*)segue.destinationViewController).achievement = [self createAchievementForMilestone:nil];
   }
 }
 
