@@ -50,6 +50,7 @@
   self.logInView.usernameField.layer.cornerRadius = 8;
   self.logInView.usernameField.backgroundColor = [UIColor whiteColor];
   self.logInView.usernameField.layer.shadowOpacity = 0.0;
+  self.logInView.usernameField.placeholder = @"Email Address";
   
   // Pasword
   self.logInView.passwordField.textColor = [UIColor appGreyTextColor];
