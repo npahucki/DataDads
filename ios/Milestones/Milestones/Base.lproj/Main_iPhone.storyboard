@@ -1240,7 +1240,7 @@
                                 </connections>
                             </containerView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vpv-RJ-8CQ">
-                                <rect key="frame" x="274" y="432" width="41" height="43"/>
+                                <rect key="frame" x="271" y="429" width="41" height="43"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="41" id="Ruy-vl-S9B"/>
@@ -1259,9 +1259,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="WJK-M9-FPI" firstAttribute="top" secondItem="zSu-55-pxu" secondAttribute="bottom" id="Pwi-8K-STd"/>
-                            <constraint firstAttribute="trailing" secondItem="Vpv-RJ-8CQ" secondAttribute="trailing" constant="5" id="biZ-R8-NZe"/>
+                            <constraint firstAttribute="trailing" secondItem="Vpv-RJ-8CQ" secondAttribute="trailing" constant="8" id="biZ-R8-NZe"/>
                             <constraint firstAttribute="trailing" secondItem="zSu-55-pxu" secondAttribute="trailing" id="cti-ZS-Z66"/>
-                            <constraint firstItem="WJK-M9-FPI" firstAttribute="top" secondItem="Vpv-RJ-8CQ" secondAttribute="bottom" constant="5" id="cwt-bt-cPv"/>
+                            <constraint firstItem="WJK-M9-FPI" firstAttribute="top" secondItem="Vpv-RJ-8CQ" secondAttribute="bottom" constant="8" id="cwt-bt-cPv"/>
                             <constraint firstItem="zSu-55-pxu" firstAttribute="top" secondItem="ROJ-ET-jsn" secondAttribute="bottom" id="iXW-WN-ANh"/>
                             <constraint firstItem="zSu-55-pxu" firstAttribute="leading" secondItem="qL2-Lg-TMR" secondAttribute="leading" id="xSW-bm-a3X"/>
                         </constraints>
