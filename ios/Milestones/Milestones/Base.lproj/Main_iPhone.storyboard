@@ -452,7 +452,6 @@
                                     <color key="titleColor" red="0.1215686275" green="0.4431372549" blue="0.4941176471" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="didClickLoginNow:" destination="orA-D6-c28" eventType="touchUpInside" id="riF-k5-n9p"/>
                                     <segue destination="Ug0-er-oah" kind="modal" identifier="showLoginScreen" id="CBA-bl-wSB"/>
                                 </connections>
                             </button>

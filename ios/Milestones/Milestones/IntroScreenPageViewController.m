@@ -163,9 +163,4 @@
   
 }
 
-- (IBAction)didClickLoginNow:(id)sender {
-  [self performSegueWithIdentifier:kDDSegueShowLoginScreen sender:sender];
-}
-
-
 @end
