@@ -22,12 +22,9 @@
                                                                                                      NSParagraphStyleAttributeName : paragrahStyle,
                                                                                                      NSForegroundColorAttributeName: [UIColor appSelectedColor]
                                                                                                      }];
-  //[self.titleLabel sizeToFit];
+  [self.titleLabel sizeToFit];
 }
 
--(void) viewDidAppear:(BOOL)animated {
-  
-}
 
 
 
