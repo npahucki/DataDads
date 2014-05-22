@@ -19,6 +19,10 @@ NSString *const kDDSegueEnterScreenName = @"enterScreenName";
 NSString *const kDDSegueNoteMilestone = @"noteMilestone";
 NSString *const kDDSegueShowAchievementDetails = @"showAchievementDetails";
 NSString *const kDDSegueShowSettings = @"showSettings";
+NSString *const kDDSegueShowLoginScreen = @"showLoginScreen";
+
+
+
 
 
 #pragma mark - Events

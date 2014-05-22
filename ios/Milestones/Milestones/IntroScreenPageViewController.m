@@ -164,7 +164,7 @@
 }
 
 - (IBAction)didClickLoginNow:(id)sender {
-  NSLog(@"Log in now!");
+  [self performSegueWithIdentifier:kDDSegueShowLoginScreen sender:sender];
 }
 
 

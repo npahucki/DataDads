@@ -21,6 +21,8 @@ extern NSString *const kDDSegueEnterScreenName;
 extern NSString *const kDDSegueNoteMilestone;
 extern NSString *const kDDSegueShowSettings;
 extern NSString *const kDDSegueShowAchievementDetails;
+extern NSString *const kDDSegueShowLoginScreen;
+
 
 
 #pragma mark Notification Names

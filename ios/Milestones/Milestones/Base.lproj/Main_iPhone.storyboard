@@ -37,50 +37,6 @@
             </objects>
             <point key="canvasLocation" x="3494" y="-520"/>
         </scene>
-        <!--Log Measurement View Controller - Second-->
-        <scene sceneID="ot8-2e-RuS">
-            <objects>
-                <viewController title="Second" id="QUy-BD-bpt" customClass="LogMeasurementViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Sjh-Yk-AQH"/>
-                        <viewControllerLayoutGuide type="bottom" id="NF0-uD-96e"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="gMD-aP-Fq6">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="O0d-B9-B9d">
-                                <rect key="frame" x="20" y="20" width="280" height="453"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Temp" id="vZY-8Q-Nn2">
-                                        <rect key="frame" x="0.0" y="22" width="280" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vZY-8Q-Nn2" id="git-oS-c1i">
-                                            <rect key="frame" x="0.0" y="0.0" width="280" height="43"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
-                            </tableView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="O0d-B9-B9d" firstAttribute="top" secondItem="gMD-aP-Fq6" secondAttribute="top" constant="20" symbolic="YES" id="A46-It-2RE"/>
-                            <constraint firstAttribute="trailing" secondItem="O0d-B9-B9d" secondAttribute="trailing" constant="20" symbolic="YES" id="EG2-KW-Nte"/>
-                            <constraint firstItem="O0d-B9-B9d" firstAttribute="leading" secondItem="gMD-aP-Fq6" secondAttribute="leading" constant="20" symbolic="YES" id="Zgy-p1-9Pk"/>
-                        </constraints>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="Tips and Alerts" image="tipsIcon" id="Z7h-1E-pvt"/>
-                    <nil key="simulatedStatusBarMetrics"/>
-                    <nil key="simulatedTopBarMetrics"/>
-                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="3qq-4t-Ow8" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3491" y="98"/>
-        </scene>
         <!--Baby Info View Controller - My Baby's Info-->
         <scene sceneID="UPV-5h-Uxu">
             <objects>
@@ -460,7 +416,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fJJ-wY-bXM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="687" y="201"/>
+            <point key="canvasLocation" x="1359" y="-386"/>
         </scene>
         <!--Intro Screen Page View Controller - Welcome-->
         <scene sceneID="IS6-dm-d2U">
@@ -497,7 +453,7 @@
                                 </state>
                                 <connections>
                                     <action selector="didClickLoginNow:" destination="orA-D6-c28" eventType="touchUpInside" id="riF-k5-n9p"/>
-                                    <segue destination="Ug0-er-oah" kind="modal" id="CBA-bl-wSB"/>
+                                    <segue destination="Ug0-er-oah" kind="modal" identifier="showLoginScreen" id="CBA-bl-wSB"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kkl-Yd-PXd">
@@ -543,7 +499,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PXN-HT-bkb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="687" y="-386"/>
+            <point key="canvasLocation" x="547" y="-386"/>
         </scene>
         <!--Page View Controller-->
         <scene sceneID="rvT-wO-uEb">
@@ -553,7 +509,7 @@
                 </pageViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hse-n1-zeg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1038" y="-386"/>
+            <point key="canvasLocation" x="547" y="274"/>
         </scene>
         <!--Intro Screen Content View Controller-->
         <scene sceneID="g0h-Lq-Axd">
@@ -595,7 +551,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w4l-sY-1LP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1400" y="-386"/>
+            <point key="canvasLocation" x="547" y="-1066"/>
         </scene>
         <!--Enter Screen Name View Controller-->
         <scene sceneID="far-vz-13V">
@@ -777,7 +733,6 @@
                         <segue destination="hRi-lO-rkm" kind="modal" identifier="enterScreenName" animates="NO" id="hgw-6c-coT"/>
                         <segue destination="rhT-8r-6px" kind="modal" identifier="enterBabyInfo" id="sMD-qa-HZ8"/>
                         <segue destination="mJ5-m9-7Sj" kind="relationship" relationship="viewControllers" id="dOe-5R-do2"/>
-                        <segue destination="QUy-BD-bpt" kind="relationship" relationship="viewControllers" id="M8t-EP-wfW"/>
                         <segue destination="orA-D6-c28" kind="modal" identifier="showIntroScreen" id="cB1-A4-HUt"/>
                     </connections>
                 </tabBarController>
@@ -940,7 +895,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="poY-We-bkC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4731" y="-1237"/>
+            <point key="canvasLocation" x="4731" y="-1267"/>
         </scene>
         <!--View Controller - Account-->
         <scene sceneID="4Z9-oI-S9f">
@@ -1017,7 +972,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zd7-sg-TGG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5256" y="-3399"/>
+            <point key="canvasLocation" x="4697" y="-3399"/>
         </scene>
         <!--Settings View Controller - Menu-->
         <scene sceneID="IiZ-vS-rqF">
@@ -1130,7 +1085,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T5a-QN-MdC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4052" y="-3097"/>
+            <point key="canvasLocation" x="4212" y="-3399"/>
         </scene>
         <!--History View Controller - History-->
         <scene sceneID="lrB-wz-bcW">
@@ -1255,7 +1210,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hf7-xK-ZQL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4697" y="-1886"/>
+            <point key="canvasLocation" x="4731" y="-1886"/>
         </scene>
         <!--Main Milestone View Controller - My Baby-->
         <scene sceneID="m6x-fX-w2v">
@@ -1348,7 +1303,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M7Z-J6-2V1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4568" y="-2484"/>
+            <point key="canvasLocation" x="3716" y="-3393"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="feg-Pg-yiv">
@@ -1386,7 +1341,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LXU-vw-Did" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4205" y="-1237"/>
+            <point key="canvasLocation" x="4205" y="-1267"/>
         </scene>
     </scenes>
     <resources>
@@ -1412,7 +1367,6 @@
         <image name="settingsIcon_pressed.png" width="27" height="27"/>
         <image name="tagCheckbox" width="20" height="20"/>
         <image name="tagCheckbox_checked" width="20" height="20"/>
-        <image name="tipsIcon" width="22" height="22"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

@@ -55,7 +55,6 @@
 		E8DD48EE188EE5B900153095 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E8DD48ED188EE5B900153095 /* AppDelegate.m */; };
 		E8DD48F1188EE5B900153095 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E8DD48EF188EE5B900153095 /* Main_iPhone.storyboard */; };
 		E8DD48F4188EE5B900153095 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E8DD48F2188EE5B900153095 /* Main_iPad.storyboard */; };
-		E8DD48FA188EE5B900153095 /* LogMeasurementViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8DD48F9188EE5B900153095 /* LogMeasurementViewController.m */; };
 		E8DD48FC188EE5B900153095 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E8DD48FB188EE5B900153095 /* Images.xcassets */; };
 		E8DD4903188EE5BA00153095 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8DD4902188EE5BA00153095 /* XCTest.framework */; };
 		E8DD4904188EE5BA00153095 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8DD48DD188EE5B900153095 /* Foundation.framework */; };
@@ -163,8 +162,6 @@
 		E8DD48ED188EE5B900153095 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AppDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		E8DD48F0188EE5B900153095 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
 		E8DD48F3188EE5B900153095 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
-		E8DD48F8188EE5B900153095 /* LogMeasurementViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LogMeasurementViewController.h; sourceTree = "<group>"; };
-		E8DD48F9188EE5B900153095 /* LogMeasurementViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LogMeasurementViewController.m; sourceTree = "<group>"; };
 		E8DD48FB188EE5B900153095 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		E8DD4901188EE5BA00153095 /* MilestonesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MilestonesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E8DD4902188EE5BA00153095 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -277,8 +274,6 @@
 				E832436F18F895F500307356 /* HistoryViewController.m */,
 				E8E39C6818EB063E0034982D /* MainMilestoneViewController.h */,
 				E8E39C6918EB063E0034982D /* MainMilestoneViewController.m */,
-				E8DD48F8188EE5B900153095 /* LogMeasurementViewController.h */,
-				E8DD48F9188EE5B900153095 /* LogMeasurementViewController.m */,
 				E8D00A18188F362100DF2786 /* BabyInfoViewController.h */,
 				E8D00A19188F362100DF2786 /* BabyInfoViewController.m */,
 				E876159918EF83C100B0C6D9 /* BabyTagsViewController.h */,
@@ -595,7 +590,6 @@
 				E819A6C318FB2A490017B626 /* AppQueryTableViewController.m in Sources */,
 				E8250F43192561A7004A1B41 /* IntroScreenPageViewController.m in Sources */,
 				E813465A18DCD9FA0053EE6E /* StandardMilestoneQuery.m in Sources */,
-				E8DD48FA188EE5B900153095 /* LogMeasurementViewController.m in Sources */,
 				E876159B18EF83C100B0C6D9 /* BabyTagsViewController.m in Sources */,
 				E8E39C1B18EA13B40034982D /* CustomIOS7AlertView.m in Sources */,
 				E81B58701896A75700C74C2B /* Contants.m in Sources */,
