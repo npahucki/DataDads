@@ -13,10 +13,20 @@
 
 -(void) viewDidLoad {
   [super viewDidLoad];
-  self.titleLabel.font = [UIFont fontForAppWithType:Book andSize:21];
-  self.titleLabel.textColor = [UIColor appGreyTextColor];
-  self.titleLabel.text = self.text;
-  [self.titleLabel sizeToFit];
+  self.titleLabel.font = [UIFont fontForAppWithType:Bold andSize:28.0]; // Very strange, if we don't call this, the NSFontAttrbuteName is not applied!
+  NSMutableParagraphStyle *paragrahStyle = [[NSMutableParagraphStyle alloc] init];
+  [paragrahStyle setLineSpacing:10];
+  [paragrahStyle setAlignment:NSTextAlignmentCenter];
+  self.titleLabel.attributedText = [[NSAttributedString alloc] initWithString:self.text attributes:@{
+                                                                                                     NSFontAttributeName: [UIFont fontForAppWithType:Book andSize:23.0],
+                                                                                                     NSParagraphStyleAttributeName : paragrahStyle,
+                                                                                                     NSForegroundColorAttributeName: [UIColor appSelectedColor]
+                                                                                                     }];
+  //[self.titleLabel sizeToFit];
+}
+
+-(void) viewDidAppear:(BOOL)animated {
+  
 }
 
 

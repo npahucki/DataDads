@@ -21,12 +21,11 @@
 - (void)viewDidLoad
 {
   [super viewDidLoad];
-  _pageTitles = @[@"Help Create Parenting Science....\n\n...By Crowdsourcing Baby Data\n\nHere's How!",
-                  
-                  
-                  @"• Answer 4 simple questions about your Baby\n\n• Select fun & serious milestones your Baby completes, whenever he does\n\n• We'll show you the comparative data as you note them\n\nThen...",
-                  
-                  @"• We'll start showing you tips & risks, based on how your baby is developing\n\n• Once you've recorded ~30 milestones, we'll get better at predicting the next ones\n\n• Have fun & Say hi: team@dataparenting"
+  _pageTitles = @[@"Help create Parenting Science...",
+                  @"By compiling your baby's milestones, fun and serious",
+                  @"We'll share the data anonymously -- and show you each one's comparative data",
+                  @"We'll start showing you tips & risks, based on how your baby is developing",
+                  @"Once you've noted ~30 milestones, we'll get better at predicting what comes next.\n\nLets go!"
                   ];
   
   // Create page view controller
@@ -96,7 +95,7 @@
 
 - (IntroScreenContentViewController *)viewControllerAtIndex:(NSUInteger)index
 {
-  if (([self.pageTitles count] == 0) || (index >= [self.pageTitles count])) {
+  if (([_pageTitles count] == 0) || (index >= [_pageTitles count])) {
     return nil;
   }
   
