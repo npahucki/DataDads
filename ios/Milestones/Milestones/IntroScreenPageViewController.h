@@ -14,6 +14,7 @@
 @property (strong, nonatomic) NSArray *pageTitles;
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundImage;
 @property (weak, nonatomic) IBOutlet UIButton *loginNowButton;
+@property (weak, nonatomic) IBOutlet UIButton *continueButton;
 
 
 @end

@@ -42,11 +42,26 @@
   self.pageViewController.view.frame = CGRectMake(0, 44, self.view.frame.size.width, self.view.frame.size.height - 88);
   
   [self addChildViewController:_pageViewController];
-  [self.view addSubview:_pageViewController.view];
+  [self.view insertSubview:_pageViewController.view belowSubview:self.continueButton];
   [self.pageViewController didMoveToParentViewController:self];
   
   
   self.loginNowButton.titleLabel.font = [UIFont fontForAppWithType:Bold andSize:23];
+  
+}
+
+- (IBAction)didClickContinueButton:(id)sender {
+  UIViewController *currentViewController = [self.pageViewController.viewControllers objectAtIndex:0];
+  UIViewController *nextViewController = [self pageViewController:self.pageViewController viewControllerAfterViewController:currentViewController];
+  if(nextViewController) {
+    // We need to simulate the same methods as would swiping the page because they do not get fired for us automatically.
+    [self pageViewController:self.pageViewController willTransitionToViewControllers:@[nextViewController]];
+    __weak IntroScreenPageViewController * weakSelf = self;
+    [self.pageViewController setViewControllers:@[nextViewController]
+                                    direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:^(BOOL finished) {
+                                      [weakSelf pageViewController:weakSelf.pageViewController didFinishAnimating:YES previousViewControllers:@[currentViewController] transitionCompleted:YES];
+                                    }];
+  }
   
 }
 
@@ -103,6 +118,27 @@
 - (void)pageViewController:(UIPageViewController *)pageViewController willTransitionToViewControllers:(NSArray *)pendingViewControllers {
     IntroScreenContentViewController* controller =  [pendingViewControllers firstObject];
     _nextIndex = controller.pageIndex;
+  
+    // Button animated effect
+    [UIView transitionWithView:self.continueButton
+                    duration:0.5
+                     options:UIViewAnimationOptionTransitionCrossDissolve
+                  animations:NULL
+                  completion:^(BOOL finished) {
+                     if(_nextIndex == _pageTitles.count - 1) {
+                       [self.continueButton setTitle:@"Get Started" forState:UIControlStateNormal];
+                     } else {
+                       [self.continueButton setTitle:@"Continue" forState:UIControlStateNormal];
+                     }
+                    // Make the continue button reappear
+                    [UIView transitionWithView:self.continueButton
+                                      duration:0.5
+                                       options:UIViewAnimationOptionTransitionCrossDissolve
+                                    animations:nil
+                                    completion:nil];
+                    self.continueButton.hidden = NO;
+                  }];
+    self.continueButton.hidden = YES;
 }
 
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed {
@@ -113,15 +149,15 @@
       [UIView transitionWithView:self.loginNowButton
                         duration:0.4
                          options:UIViewAnimationOptionTransitionCrossDissolve
-                      animations:NULL
-                      completion:NULL];
+                      animations:nil
+                      completion:nil];
       self.loginNowButton.hidden = NO;
     } else {
       [UIView transitionWithView:self.loginNowButton
                         duration:0.4
                          options:UIViewAnimationOptionTransitionCrossDissolve
-                      animations:NULL
-                      completion:NULL];
+                      animations:nil
+                      completion:nil];
       self.loginNowButton.hidden = YES;
     }
   }
