@@ -50,16 +50,20 @@
 }
 
 - (IBAction)didClickContinueButton:(id)sender {
-  UIViewController *currentViewController = [self.pageViewController.viewControllers objectAtIndex:0];
-  UIViewController *nextViewController = [self pageViewController:self.pageViewController viewControllerAfterViewController:currentViewController];
-  if(nextViewController) {
-    // We need to simulate the same methods as would swiping the page because they do not get fired for us automatically.
-    [self pageViewController:self.pageViewController willTransitionToViewControllers:@[nextViewController]];
-    __weak IntroScreenPageViewController * weakSelf = self;
-    [self.pageViewController setViewControllers:@[nextViewController]
-                                    direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:^(BOOL finished) {
-                                      [weakSelf pageViewController:weakSelf.pageViewController didFinishAnimating:YES previousViewControllers:@[currentViewController] transitionCompleted:YES];
-                                    }];
+  if(_nextIndex == _pageTitles.count - 1) {
+    [self performSegueWithIdentifier:kDDSegueEnterBabyInfo sender:self];
+  } else {
+    UIViewController *currentViewController = [self.pageViewController.viewControllers objectAtIndex:0];
+    UIViewController *nextViewController = [self pageViewController:self.pageViewController viewControllerAfterViewController:currentViewController];
+    if(nextViewController) {
+      // We need to simulate the same methods as would swiping the page because they do not get fired for us automatically.
+      [self pageViewController:self.pageViewController willTransitionToViewControllers:@[nextViewController]];
+      __weak IntroScreenPageViewController * weakSelf = self;
+      [self.pageViewController setViewControllers:@[nextViewController]
+                                      direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:^(BOOL finished) {
+                                        [weakSelf pageViewController:weakSelf.pageViewController didFinishAnimating:YES previousViewControllers:@[currentViewController] transitionCompleted:YES];
+                                      }];
+    }
   }
   
 }

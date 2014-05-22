@@ -7,7 +7,7 @@
 //
 
 #import "BabyTagsViewController.h"
-#import "BabyInfoPhotoControllerViewController.h"
+#import "BabyInfoPhotoViewController.h"
 
 @interface BabyTagsViewController ()
 
@@ -16,6 +16,8 @@
 @implementation BabyTagsViewController {
   BabyTagsTableViewController* _tagTableViewController;
 }
+
+// TODO: Check all tags the baby already has!
 
 - (IBAction)didClickAddNewTag:(id)sender {
   [_tagTableViewController addNewTag:self.addTagTextField.text];
@@ -35,7 +37,7 @@
     _tagTableViewController = (BabyTagsTableViewController*) segue.destinationViewController;
   } else {
     self.baby.tags = [_tagTableViewController.selectedTags allObjects];
-    ((BabyInfoPhotoControllerViewController*) segue.destinationViewController).baby = self.baby;
+    ((UIViewController<ViewControllerWithBaby>*)segue.destinationViewController).baby = self.baby;
   }
 }
 

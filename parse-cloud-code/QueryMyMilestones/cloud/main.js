@@ -8,7 +8,7 @@ Parse.Cloud.define("queryMyMilestones", function(request, response) {
  var limit = parseInt(request.params.limit);
  var skip = parseInt(request.params.skip);
 
- if(!babyId || rangeDays < 1) {
+ if(!babyId || rangeDays < 0) {
      response.error("Invalid query, need babyId and rangeDays parameters.");
      return;
  }

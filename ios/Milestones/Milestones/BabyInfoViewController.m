@@ -10,7 +10,7 @@
 #import "MainViewController.h"
 #import "Baby.h"
 #import "Tag.h"
-#import "BabyTagsViewController.h"
+#import "BabyInfoPhotoViewController.h"
 
 @interface BabyInfoViewController ()
 
@@ -27,6 +27,16 @@
   [self.view addGestureRecognizer:viewTap];
   
   self.babyName.delegate = self;
+  
+  
+  if(self.baby) {
+    self.babyName.text = self.baby.name;
+    self.maleButton.selected = self.baby.isMale;
+    ((UIDatePicker*)self.dobTextField.inputView).date = self.baby.birthDate;
+    ((UIDatePicker*)self.dueDateTextField.inputView).date = self.baby.dueDate;
+  } else {
+    self.baby = [Baby object];
+  }
 }
 
 -(void)handleSingleTap:(UITapGestureRecognizer *)sender {
@@ -73,13 +83,11 @@
 }
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-  Baby* baby = [Baby object];
-  baby.parentUserId = PFUser.currentUser.objectId;
-  baby.name = self.babyName.text;
-  baby.isMale = self.maleButton.isSelected;
-  baby.birthDate = ((UIDatePicker*)self.dobTextField.inputView).date;
-  baby.dueDate = ((UIDatePicker*)self.dueDateTextField.inputView).date;
-  ((BabyTagsViewController*) segue.destinationViewController).baby = baby;
+  self.baby.name = self.babyName.text;
+  self.baby.isMale = self.maleButton.isSelected;
+  self.baby.birthDate = ((UIDatePicker*)self.dobTextField.inputView).date;
+  self.baby.dueDate = ((UIDatePicker*)self.dueDateTextField.inputView).date;
+  ((UIViewController<ViewControllerWithBaby>*)segue.destinationViewController).baby = self.baby;
 }
 
 

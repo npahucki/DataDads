@@ -13,6 +13,7 @@
 NSString *const kDDUserScreenName = @"screenName";
 NSString *const kDDUserIsMale = @"isMale";
 NSString *const kDDUserEmail = @"email";
+NSString *const kDDUserKeepAnonymous = @"keepAnonymous";
 
 #pragma mark - Segue Names
 NSString *const kDDSegueEnterScreenName = @"enterScreenName";
@@ -20,6 +21,9 @@ NSString *const kDDSegueNoteMilestone = @"noteMilestone";
 NSString *const kDDSegueShowAchievementDetails = @"showAchievementDetails";
 NSString *const kDDSegueShowSettings = @"showSettings";
 NSString *const kDDSegueShowLoginScreen = @"showLoginScreen";
+NSString *const kDDSegueEnterBabyInfo = @"enterBabyInfo";
+
+
 
 
 

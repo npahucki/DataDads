@@ -8,9 +8,11 @@
 
 #import "UIViewControllerWithHUDProgress.h"
 #import "FDTakeController.h"
+#import "BabyInfoViewController.h"
 
 
-@interface BabyInfoPhotoControllerViewController : UIViewControllerWithHUDProgress <FDTakeDelegate>
+
+@interface BabyInfoPhotoViewController : UIViewController <FDTakeDelegate, ViewControllerWithBaby>
 
 @property (strong, nonatomic) IBOutlet UIButton *takePhotoButton;
 @property (strong, nonatomic) IBOutlet UILabel *theLabel;

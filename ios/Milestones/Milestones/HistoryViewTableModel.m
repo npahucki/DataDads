@@ -71,7 +71,7 @@
 }
 
 
--(void) loadMilestonesPage:(int) startIndex forTimePeriod:(NSString*) timePeriod withBlock:(PFArrayResultBlock) block {
+-(void) loadMilestonesPage:(NSInteger) startIndex forTimePeriod:(NSString*) timePeriod withBlock:(PFArrayResultBlock) block {
   // TODO: caching!
   if(self.baby) {
     [PFCloud callFunctionInBackground:@"queryMyMilestones"

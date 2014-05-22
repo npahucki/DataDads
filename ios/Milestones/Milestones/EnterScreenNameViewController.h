@@ -7,8 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BabyInfoViewController.h"
+#import "UIViewControllerWithHUDProgress.h"
 
-@interface EnterScreenNameViewController : UIViewController 
+@interface EnterScreenNameViewController : UIViewControllerWithHUDProgress<ViewControllerWithBaby>
+
+@property Baby* baby;
 
 @property (strong, nonatomic) IBOutlet UITextField *screenNameField;
 @property (strong, nonatomic) IBOutlet UIButton *maleButton;
@@ -16,7 +20,8 @@
 @property (strong, nonatomic) IBOutlet UILabel *maleLabel;
 @property (strong, nonatomic) IBOutlet UILabel *femaleLabel;
 @property (weak, nonatomic) IBOutlet UIButton *keepAnonymousButton;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *nextButton;
+@property (weak, nonatomic) IBOutlet UIButton *acceptTACButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *doneButton;
 
 
 @end

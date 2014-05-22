@@ -38,7 +38,8 @@
   [PFFacebookUtils initializeFacebook];
 //  [PFTwitterUtils initializeWithConsumerKey:@"4UXzyDxzZSDXwfCw1qK4ew"
 //                             consumerSecret:@"lzARes6UFvuHTynV0EleL1lmSclmv99k1AXuz5XeAk"];
-
+  //[PFUser enableAutomaticUser]; // Allows anonymous users
+  
   // Setup user tracking and A/B tests
   [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
   

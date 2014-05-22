@@ -67,8 +67,7 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
 
 
 -(void) milestoneNotedAndSaved:(NSNotification*)notification {
-  NSIndexPath* addedIndexPath = [NSIndexPath indexPathForRow:0 inSection:AchievementSection];
-  [self.tableView selectRowAtIndexPath:addedIndexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+  NSMutableArray * reloadPaths = [NSMutableArray arrayWithCapacity:5];
   [UIView beginAnimations:@"insertAnimationId" context:nil];
   [UIView setAnimationDuration:1.0]; // Set duration here
   [CATransaction begin];
@@ -76,8 +75,14 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
     //[self.tableView selectRowAtIndexPath:addedIndexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
   }];
   [self.tableView beginUpdates];
+
+  NSIndexPath* addedIndexPath = [NSIndexPath indexPathForRow:0 inSection:AchievementSection];
+  if([self.tableView numberOfRowsInSection:AchievementSection]) {
+    [self.tableView selectRowAtIndexPath:addedIndexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+    [reloadPaths addObject:addedIndexPath];
+  }
+  
   MilestoneAchievement * achievement = [notification.userInfo objectForKey:@""];
-  NSMutableArray * reloadPaths = [NSMutableArray arrayWithCapacity:5];
   if(achievement.standardMilestone) {
     StandardMilestone * m = achievement.standardMilestone;
     NSInteger index = [_model.futureMilestones indexOfObject:m];
@@ -99,12 +104,8 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
 
   // Now add in the new achievement...
   [_model addNewAchievement:achievement];
-  if(_model.achievements.count > 0) [reloadPaths addObject:addedIndexPath];
-  //  [self.tableView scrollToRowAtIndexPath:addedIndexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-  [self.tableView reloadRowsAtIndexPaths:reloadPaths withRowAnimation:UITableViewRowAnimationNone];
   [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:addedIndexPath] withRowAnimation:UITableViewRowAnimationRight];
-
-  
+  [self.tableView reloadRowsAtIndexPaths:reloadPaths withRowAnimation:UITableViewRowAnimationNone];
   
   [self.tableView endUpdates];
   [CATransaction commit];
@@ -385,8 +386,7 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
 -(void) didLoadAchievements {
   [self.tableView reloadData];
   if(_isInitialDataLoad) {
-    NSIndexPath * scrollRow = [NSIndexPath indexPathForRow:0 inSection:AchievementSection];
-    [self.tableView scrollToRowAtIndexPath:scrollRow atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
+    [self scrollToFirstAchievement];
     [_model loadFutureMilestonesPage:0];
   }
 }
@@ -396,12 +396,11 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
 }
 
 -(void) didLoadFutureMilestones {
-  [self.tableView reloadData]; // use instead of relaod section which makes the table jump!
   if(_isInitialDataLoad) {
-    NSIndexPath * scrollRow = [NSIndexPath indexPathForRow:0 inSection:AchievementSection];
-    [self.tableView scrollToRowAtIndexPath:scrollRow atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
+    [self scrollToFirstAchievement];
     [_model loadPastMilestonesPage:0];
   } else {
+    [self.tableView reloadData]; // use instead of relaod section which makes the table jump!
     if(_lastTableSize.height > 0) {
       CGPoint afterContentOffset = self.tableView.contentOffset;
       CGSize afterContentSize = self.tableView.contentSize;
@@ -419,8 +418,7 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
 -(void) didLoadPastMilestones {
   [self.tableView reloadData];
   if(_isInitialDataLoad) {
-    NSIndexPath * scrollRow = [NSIndexPath indexPathForRow:0 inSection:AchievementSection];
-    [self.tableView scrollToRowAtIndexPath:scrollRow atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
+    [self scrollToFirstAchievement];
     _isInitialDataLoad = NO;
   }
 }
@@ -432,6 +430,16 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
 
 
 #pragma mark Utility Methods
+
+-(void) scrollToFirstAchievement {
+  NSIndexPath * scrollRow = [NSIndexPath indexPathForRow:0 inSection:AchievementSection];
+  if([self.tableView numberOfRowsInSection:AchievementSection] > 0) {
+    [self.tableView scrollToRowAtIndexPath:scrollRow atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
+  } else if([self.tableView numberOfRowsInSection:FutureMilestoneSection] > 0) {
+    scrollRow = [NSIndexPath indexPathForRow:[self.tableView numberOfRowsInSection:FutureMilestoneSection] - 1 inSection:FutureMilestoneSection];
+    [self.tableView scrollToRowAtIndexPath:scrollRow atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
+  }
+}
 
 -(NSMutableArray*) reloadPathsForRemovedCell:(NSIndexPath*) path {
   NSMutableArray * reloadPaths = [NSMutableArray array];

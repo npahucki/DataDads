@@ -14,6 +14,11 @@
 -(void) viewDidLoad {
   [super viewDidLoad];
   NSAssert(Baby.currentBaby.name, @"Expected a current baby would be set before setting invoked");
+
+  if(!PFUser.currentUser.email) { // signed in if email present
+    [self.logOutOrSignUpButton setTitle:@"sign up now" forState:UIControlStateNormal];
+  }
+  
   self.milestoneCountLabel = [[UILabel alloc] initWithFrame:self.babyAvatar.frame];
   self.milestoneCountLabel.numberOfLines = 2;
   self.milestoneCountLabel.textAlignment = NSTextAlignmentCenter;
@@ -34,7 +39,6 @@
   [query whereKey:@"isPostponed" equalTo:[NSNumber numberWithBool:NO]];
   
   [query countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
-    self.historyButton.enabled = number > 0;
     
     // Make the label show attributed text
     NSDictionary *numberAttributes = @{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:95.0], NSForegroundColorAttributeName: [UIColor appNormalColor]};

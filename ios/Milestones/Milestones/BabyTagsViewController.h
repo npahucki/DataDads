@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "BabyTagsTableViewController.h"
+#import "BabyInfoViewController.h"
 
-@interface BabyTagsViewController : UIViewController
+
+@interface BabyTagsViewController : UIViewController<ViewControllerWithBaby>
 
 @property (strong, nonatomic) Baby *baby;
 @property (strong, nonatomic) IBOutlet UITextField *addTagTextField;

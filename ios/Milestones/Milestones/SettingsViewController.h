@@ -13,7 +13,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *ageLabel;
 @property (strong, nonatomic) IBOutlet PFImageView *babyAvatar;
 @property (strong, nonatomic) IBOutlet UILabel *milestoneCountLabel;
-@property (weak, nonatomic) IBOutlet UIButton *historyButton;
+@property (weak, nonatomic) IBOutlet UIButton *logOutOrSignUpButton;
 
 @end
 
