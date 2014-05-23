@@ -19,6 +19,10 @@
 - (void)viewDidLoad
 {
   [super viewDidLoad];
+  self.keepAnonymousButton.titleLabel.font = [UIFont fontForAppWithType:Bold andSize:13.0];
+  [self.keepAnonymousButton setTitleColor:[UIColor appNormalColor] forState:UIControlStateSelected];
+  self.acceptTACLabelButton.titleLabel.font = [UIFont fontForAppWithType:Bold andSize:13.0];
+
   
   // TODO: See if we can load a default screen name based on the hostname
   // The below API
@@ -104,19 +108,20 @@
           if(error) {
             [self showErrorThenRunBlock:error withMessage:@"Could not upload photo." andBlock:nil];
           } else {
-            [self dismiss];
+            [self saveBirthdayMilestone];
           }
         } progressBlock:^(int percentDone) {
         }];
       } else {
-        [self dismiss];
+        [self saveBirthdayMilestone];
       }
     }
   }];
+}
 
-  
-  
- 
+-(void) saveBirthdayMilestone {
+  // TODO:
+  [self dismiss];
 }
 
 -(void) dismiss {

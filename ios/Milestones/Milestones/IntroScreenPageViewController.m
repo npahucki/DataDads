@@ -47,6 +47,9 @@
   
   self.loginNowButton.titleLabel.font = [UIFont fontForAppWithType:Bold andSize:23];
   
+  [self.continueButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+  [self.continueButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+  
 }
 
 - (IBAction)didClickContinueButton:(id)sender {

@@ -22,6 +22,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *keepAnonymousButton;
 @property (weak, nonatomic) IBOutlet UIButton *acceptTACButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *doneButton;
+@property (weak, nonatomic) IBOutlet UIButton *acceptTACLabelButton;
 
 
 @end

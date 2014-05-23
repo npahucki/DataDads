@@ -53,7 +53,11 @@
   [UITextView appearance].textColor = [UIColor appGreyTextColor];
 
   [UIButton appearance].titleLabel.font = [UIFont fontForAppWithType:Medium andSize:17.0];
-  [UIButton appearance].titleLabel.textColor = [UIColor appNormalColor];
+  [[UIButton appearance] setTitleColor:[UIColor appNormalColor] forState:UIControlStateNormal];
+  [[UIButton appearance] setTitleColor:[UIColor appSelectedColor] forState:UIControlStateHighlighted];
+  [[UIButton appearance] setTitleColor:[UIColor appSelectedColor] forState:UIControlStateSelected];
+  
+  
   [[UINavigationBar appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:18.0]}];
   [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"header.png"] forBarMetrics:UIBarMetricsDefault];
   [UINavigationBar appearance].tintColor = [UIColor appNormalColor];
