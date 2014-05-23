@@ -25,6 +25,10 @@
   self.navigationItem.title = Baby.currentBaby.name;
 }
 
+-(void) dealloc {
+  [[NSNotificationCenter defaultCenter] removeObserver:self name:kDDNotificationCurrentBabyChanged object:nil];
+}
+
 -(void) viewDidAppear:(BOOL)animated {
   [super viewDidAppear:animated];
   self.addMilestoneButton.enabled = Baby.currentBaby != nil;

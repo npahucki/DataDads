@@ -48,6 +48,11 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
   }
 }
 
+-(void) dealloc {
+  [[NSNotificationCenter defaultCenter] removeObserver:self name:kDDNotificationCurrentBabyChanged object:nil];
+  [[NSNotificationCenter defaultCenter] removeObserver:self name:kDDNotificationMilestoneNotedAndSaved object:nil];
+}
+
 -(void) reloadTable {
   _isInitialDataLoad = YES;
   [_model loadAchievementsPage:0];
