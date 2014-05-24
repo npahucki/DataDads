@@ -52,6 +52,9 @@
   [UITextView appearance].font = [UIFont fontForAppWithType:Bold andSize:17.0];
   [UITextView appearance].textColor = [UIColor appGreyTextColor];
 
+  [[UISegmentedControl appearance] setTitleTextAttributes:@{NSFontAttributeName : [UIFont fontForAppWithType:Medium andSize:14]} forState:UIControlStateNormal];
+  [UISegmentedControl appearance].tintColor = [UIColor appNormalColor];
+  
   [UIButton appearance].titleLabel.font = [UIFont fontForAppWithType:Medium andSize:17.0];
   [[UIButton appearance] setTitleColor:[UIColor appNormalColor] forState:UIControlStateNormal];
   [[UIButton appearance] setTitleColor:[UIColor appSelectedColor] forState:UIControlStateHighlighted];

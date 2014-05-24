@@ -85,7 +85,6 @@
   } else {
     [PFUser logOut];
     Baby.currentBaby = nil;
-    PFUser.currentUser = il;
     [self dismissViewControllerAnimated:NO completion:nil];
   }
 }
