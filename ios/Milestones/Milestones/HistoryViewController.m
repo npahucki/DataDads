@@ -23,7 +23,10 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
 
 @interface HistoryViewController () {
   CGSize _lastTableSize;
-  BOOL _isInitialDataLoad;
+  BOOL _initialAchievementsLoaded;
+  BOOL _initialFutureMilestonesLoaded;
+  BOOL _initialPastMilestonesLoaded;
+  
 }
 
 @end
@@ -54,8 +57,12 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
 }
 
 -(void) reloadTable {
-  _isInitialDataLoad = YES;
+  _initialAchievementsLoaded = NO;
+  _initialFutureMilestonesLoaded = NO;
+  _initialPastMilestonesLoaded = NO;
   [_model loadAchievementsPage:0];
+  [_model loadFutureMilestonesPage:0];
+  [_model loadPastMilestonesPage:0];
 }
 
 -(void) babyUpdated:(NSNotification*)notification {
@@ -390,9 +397,10 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
 
 -(void) didLoadAchievements {
   [self.tableView reloadData];
-  if(_isInitialDataLoad) {
+  if(_initialAchievementsLoaded) {
+  } else {
+    _initialAchievementsLoaded = YES;
     [self scrollToFirstAchievement];
-    [_model loadFutureMilestonesPage:0];
   }
 }
 
@@ -401,11 +409,8 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
 }
 
 -(void) didLoadFutureMilestones {
-  if(_isInitialDataLoad) {
-    [self scrollToFirstAchievement];
-    [_model loadPastMilestonesPage:0];
-  } else {
-    [self.tableView reloadData]; // use instead of relaod section which makes the table jump!
+  [self.tableView reloadData]; // use instead of relaod section which makes the table jump!
+  if(_initialFutureMilestonesLoaded) {
     if(_lastTableSize.height > 0) {
       CGPoint afterContentOffset = self.tableView.contentOffset;
       CGSize afterContentSize = self.tableView.contentSize;
@@ -413,6 +418,9 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
       self.tableView.contentOffset = newContentOffset;
       _lastTableSize.height = 0; // reset it
     }
+  } else {
+    _initialFutureMilestonesLoaded = YES;
+    [self scrollToFirstAchievement];
   }
 }
 
@@ -422,9 +430,9 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
 
 -(void) didLoadPastMilestones {
   [self.tableView reloadData];
-  if(_isInitialDataLoad) {
+  if(!_initialPastMilestonesLoaded) {
+    _initialPastMilestonesLoaded = YES;
     [self scrollToFirstAchievement];
-    _isInitialDataLoad = NO;
   }
 }
 
@@ -435,6 +443,11 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
 
 
 #pragma mark Utility Methods
+
+
+-(BOOL) isInitialLoadComplete {
+  return _initialAchievementsLoaded && _initialFutureMilestonesLoaded && _initialPastMilestonesLoaded;
+}
 
 -(void) scrollToFirstAchievement {
   NSIndexPath * scrollRow = [NSIndexPath indexPathForRow:0 inSection:AchievementSection];

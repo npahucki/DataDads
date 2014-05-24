@@ -31,7 +31,7 @@
       } else {
         // if results, set the has more to false
         _hasMoreFutureMilestones = objects.count == self.pagingSize;
-        if(!_futureMilestones) _futureMilestones = [NSMutableArray arrayWithCapacity:objects.count * 3]; // enough for three pages
+        if(!_futureMilestones || startIndex == 0) _futureMilestones = [NSMutableArray arrayWithCapacity:objects.count * 3]; // enough for three pages
         // NOTE: We must reverse the order so that they get rendered bottom to top.
         NSIndexSet* indices = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,objects.count)];
         NSArray * reversedObject = [[objects reverseObjectEnumerator] allObjects];
