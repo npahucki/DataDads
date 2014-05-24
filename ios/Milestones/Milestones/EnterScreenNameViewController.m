@@ -34,7 +34,17 @@
   
   //self.screenNameField.text = [PFUser.currentUser objectForKey:kDDUserScreenName];
   //[self updateNextButtonState];
+  
+  // Needed to dimiss the keyboard once a user clicks outside the text boxes
+  UITapGestureRecognizer *viewTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
+  [self.view addGestureRecognizer:viewTap];
 }
+
+-(void)handleSingleTap:(UITapGestureRecognizer *)sender {
+  [self.view endEditing:NO];
+  [self updateNextButtonState];
+}
+
 
 - (IBAction)didEndEditingScreenName:(id)sender {
   [self.view endEditing:YES];
@@ -80,7 +90,7 @@
   self.maleLabel.highlighted = YES;
   self.femaleButton.selected = NO;
   self.femaleLabel.highlighted = NO;
-  [self updateNextButtonState];
+  [self.view endEditing:YES];
 }
 
 - (IBAction)didClickFemaleButton:(id)sender {
@@ -88,7 +98,7 @@
   self.femaleLabel.highlighted = YES;
   self.maleButton.selected = NO;
   self.maleLabel.highlighted = NO;
-  [self updateNextButtonState];
+  [self.view endEditing:YES];
 }
 
 -(void) updateNextButtonState {

@@ -44,6 +44,7 @@
 }
 
 - (IBAction)didClickMaleButton:(id)sender {
+  [self.view endEditing:NO];
   self.maleButton.selected = YES;
   self.maleLabel.highlighted = YES;
   self.femaleButton.selected = NO;
@@ -52,6 +53,7 @@
 }
 
 - (IBAction)didClickFemaleButton:(id)sender {
+  [self.view endEditing:NO];
   self.femaleButton.selected = YES;
   self.femaleLabel.highlighted = YES;
   self.maleButton.selected = NO;

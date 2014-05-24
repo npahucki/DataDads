@@ -8,16 +8,13 @@
 
 #import "SettingsViewController.h"
 #import "Baby.h"
+#import "SignUpViewController.h"
 
 @implementation SettingsViewController
 
 -(void) viewDidLoad {
   [super viewDidLoad];
   NSAssert(Baby.currentBaby.name, @"Expected a current baby would be set before setting invoked");
-
-  if(!PFUser.currentUser.email) { // signed in if email present
-    [self.logOutOrSignUpButton setTitle:@"sign up now" forState:UIControlStateNormal];
-  }
   
   self.milestoneCountLabel = [[UILabel alloc] initWithFrame:self.babyAvatar.frame];
   self.milestoneCountLabel.numberOfLines = 2;
@@ -51,9 +48,6 @@
     
     [self.view addSubview:self.milestoneCountLabel];
     [UILabel animateWithDuration:2.0 delay:1.0 options:UIViewAnimationOptionTransitionNone animations:^{
-      // Causes crash on device
-      //self.milestoneCountLabel.transform = CGAffineTransformScale(self.milestoneCountLabel.transform, 0.05, 0.05);
-      //self.milestoneCountLabel.center = self.babyAvatar.center;
       self.milestoneCountLabel.alpha = 0.0;
     } completion:^(BOOL finished) {
       [self.milestoneCountLabel removeFromSuperview];
@@ -64,7 +58,6 @@
       self.babyAvatar.alpha = 1.0;
     }];
   }];
-  
 }
 
 -(void) viewDidLayoutSubviews {
@@ -74,21 +67,27 @@
   self.babyAvatar.layer.borderWidth = 1;
   // This must be done after the final sizes for the image have been calculated, that's why it's not in viewDidLoad
   self.milestoneCountLabel.frame = self.babyAvatar.frame; // Put label ontop of image
+
 }
 
--(void) viewWillAppear:(BOOL)animated {
-  [super viewWillAppear:animated];
+-(void) viewDidAppear:(BOOL)animated {
+  [self updateLoginButtonTitle];
 }
-
 
 - (IBAction)doneButtonClicked:(id)sender {
   [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)logoutButtonPressed:(id)sender {
-  [PFUser logOut];
-  Baby.currentBaby = nil;
-  [self dismissViewControllerAnimated:NO completion:nil];
+  if(!PFUser.currentUser.email) { // signed in if email present
+    SignUpViewController* signupController = [[SignUpViewController alloc] init];
+    [self presentViewController:signupController animated:YES completion:nil];
+  } else {
+    [PFUser logOut];
+    Baby.currentBaby = nil;
+    PFUser.currentUser = il;
+    [self dismissViewControllerAnimated:NO completion:nil];
+  }
 }
 
 -(NSString*) timeDifferenceFormatedAsNiceString: (NSDate*) date {
@@ -104,6 +103,18 @@
 
 -(char*) s:(NSInteger) number {
   return number != 1 ? "s" : "";
+}
+
+-(void) userSignedUp:(id) sender {
+  [self updateLoginButtonTitle];
+}
+
+-(void) updateLoginButtonTitle {
+  if(!PFUser.currentUser.email) { // signed in if email present
+    [self.logOutOrSignUpButton setTitle:@"sign up now" forState:UIControlStateNormal];
+  } else {
+    [self.logOutOrSignUpButton setTitle:@"log out now" forState:UIControlStateNormal];
+  }
 }
 
 

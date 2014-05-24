@@ -30,9 +30,9 @@ extern NSString *const kDDSegueEnterBabyInfo;
 
 
 #pragma mark Notification Names
-extern NSString *const kDDNotificationCurrentBabyChanged;   // User data is NSDictionary with Baby object keyed by @""
-extern NSString *const kDDNotificationMilestoneNoted;       // User data is NSDictionary with StandardMilestone object keyed by @""
-extern NSString *const kDDNotificationMilestoneNotedAndSaved;       // User data is NSDictionary with StandardMilestone object keyed by @""
+extern NSString *const kDDNotificationCurrentBabyChanged;     // User data is NSDictionary with Baby object keyed by @""
+extern NSString *const kDDNotificationMilestoneNotedAndSaved; // User data is NSDictionary with StandardMilestone object keyed by @""
+extern NSString *const kDDNotificationUserSignedUp;           // User data is NSDictionary with Signed up User keyed by @""
 
 
 #pragma mark Application Colors

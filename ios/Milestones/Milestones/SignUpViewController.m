@@ -19,6 +19,7 @@
 - (void)viewDidLoad
 {
   [super viewDidLoad];
+  self.delegate = self;
   
   // Hack because we can't seem to modify the behavior of the progress HUD and we want to show our own.
   // The Login View Controller will show the Hud
@@ -175,10 +176,26 @@
   
 }
 
-
-
+# pragma PFSignUpViewControllerDelegate methods
+// Sent to the delegate when a PFUser is signed up.
+- (void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user {
+  [self showSignupSuccessAndRunBlock:^{
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:kDDNotificationUserSignedUp object:self userInfo:[NSDictionary dictionaryWithObject:user forKey:@""]];
+    [self dismissViewControllerAnimated:NO completion:nil];
+  }];
   
-  
+}
+
+- (BOOL)signUpViewController:(PFSignUpViewController *)signUpController shouldBeginSignUp:(NSDictionary *)info {
+  [self showStartSignUpProgress];
+  return YES;
+}
+
+/// Sent to the delegate when the sign up attempt fails.
+- (void)signUpViewController:(PFSignUpViewController *)signUpController didFailToSignUpWithError:(NSError *)error {
+  [self showSignupError:error withMessage:@"Bummer!"];
+}
 
 
 

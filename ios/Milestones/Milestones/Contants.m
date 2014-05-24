@@ -32,6 +32,8 @@ NSString *const kDDSegueEnterBabyInfo = @"enterBabyInfo";
 #pragma mark - Events
 NSString *const kDDNotificationCurrentBabyChanged = @"currentBabyChanged";
 NSString *const kDDNotificationMilestoneNotedAndSaved = @"milestoneNotedAndSaved";
+NSString *const kDDNotificationUserSignedUp = @"userSignedUp";
+
 
 
 #pragma mark - Application Colors

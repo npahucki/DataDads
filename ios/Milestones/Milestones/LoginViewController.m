@@ -22,12 +22,19 @@
   
 }
 
+-(void) dealloc {
+  [[NSNotificationCenter defaultCenter] removeObserver:self name:kDDNotificationUserSignedUp object:nil];
+}
+
+
+
 - (void)viewDidLoad
 {
   [super viewDidLoad];
   self.delegate = self;
   [self.logInView setBackgroundColor:[UIColor whiteColor]];
-  
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userSignedUp:) name:kDDNotificationUserSignedUp object:nil];
+
   // Setup Signin Controller
   self.signUpController = [[SignUpViewController alloc] init];
   self.signUpController.delegate = self;
@@ -222,32 +229,9 @@
  [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-
-
-# pragma PFSignUpViewController methods
-// Sent to the delegate when a PFUser is signed up.
-- (void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user {
-  [((SignUpViewController*)self.signUpController) showSignupSuccessAndRunBlock:^{
-    [self.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-  }];
+-(void) userSignedUp:(id) sender {
+  [self.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
-
-// TODO: Track this!
-- (BOOL)signUpViewController:(PFSignUpViewController *)signUpController shouldBeginSignUp:(NSDictionary *)info {
-  [((SignUpViewController*)self.signUpController) showStartSignUpProgress];
-    return YES;
-}
-
-/// Sent to the delegate when the sign up attempt fails.
-- (void)signUpViewController:(PFSignUpViewController *)signUpController didFailToSignUpWithError:(NSError *)error {
-  [((SignUpViewController*)self.signUpController) showSignupError:error withMessage:@"Bummer!"];
-}
-
-/// Sent to the delegate when the sign up screen is dismissed.
-- (void)signUpViewControllerDidCancelSignUp:(PFSignUpViewController *)signUpController {
-  NSLog(@"CANCEL");
-}
-
 
 #pragma mark Custom HUD Methods.
 
