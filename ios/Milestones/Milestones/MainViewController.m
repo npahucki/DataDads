@@ -39,8 +39,11 @@
             [self performSegueWithIdentifier:@"enterBabyInfo" sender:self];
           }
         } else {
-          UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Small Problem" message:@"Could not load info for your baby. You may want to check that you have an internet connection and/or try again a little later" delegate:nil cancelButtonTitle:@"Accept" otherButtonTitles:nil, nil];
-          [alert show];
+          if(error.code != kPFErrorCacheMiss) {
+            UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Small Problem" message:@"Could not load info for your baby. You may want to check that you have an internet connection and/or try again a little later" delegate:nil cancelButtonTitle:@"Accept" otherButtonTitles:nil, nil];
+            [alert show];
+            NSLog(@"Error trying to load baby : %@",  error);
+          }
         }
 
         // Flip the bit

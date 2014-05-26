@@ -21,6 +21,9 @@
   [super viewDidLoad];
   [self networkReachabilityChanged:nil]; // set the initial loading based on connectivity
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkReachabilityChanged:) name:kReachabilityChangedNotification object:nil];
+  
+  // TODO: Check all tags the baby already has!
+  
 }
 
 -(void) dealloc {
@@ -28,22 +31,26 @@
 }
 
 -(void) networkReachabilityChanged:(NSNotification*)notification {
+  [self reclacControlEnabledState];
+}
+
+-(void) reclacControlEnabledState {
   BOOL enabled = [Reachability isParseCurrentlyReachable];
-  self.addTagButton.enabled = enabled;
+  self.addTagButton.enabled = enabled && self.addTagTextField.text.length > 0;
   self.addTagTextField.enabled = enabled;
 }
 
-// TODO: Check all tags the baby already has!
+- (IBAction)didChageAddTagTextField:(id)sender {
+  [self reclacControlEnabledState];
+}
 
 - (IBAction)didClickAddNewTag:(id)sender {
   [_tagTableViewController addNewTag:self.addTagTextField.text];
   self.addTagTextField.text = nil;
   [self.view endEditing:NO];
+  self.addTagButton.enabled = NO;
 }
 
-- (IBAction)didChageAddTagTextField:(id)sender {
-  self.addTagButton.enabled = self.addTagTextField.text.length > 0;
-}
 
 #pragma mark - Navigation
 
