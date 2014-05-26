@@ -186,8 +186,12 @@
  @result a boolean indicating whether the log in should proceed.
  */
 - (BOOL)logInViewController:(PFLogInViewController *)logInController shouldBeginLogInWithUsername:(NSString *)username password:(NSString *)password {
-  [self showStartLoginProgress];
-  return YES;
+  if([Reachability showAlertIfParseNotReachable]) {
+    return NO;
+  } else {
+    [self showStartLoginProgress];
+    return YES;
+  }
 }
 
 /*! @name Responding to Actions */

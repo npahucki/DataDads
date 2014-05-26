@@ -21,6 +21,8 @@
   [super viewDidLoad];
   self.pullToRefreshEnabled = YES;
   self.paginationEnabled = YES;
+  // Call once here to make sure that the property values are set. 
+  [self stylePFLoadingViewTheHardWay];
 }
 
 -(void) viewDidLayoutSubviews {
@@ -79,8 +81,6 @@
   UIColor *labelTextColor = [UIColor appNormalColor];
   
   // go through all of the subviews until you find a PFLoadingView subclass
-  UILabel * label;
-  UIImageView* imageView;
   
   for (UIView *subview in self.view.subviews)
   {
@@ -88,21 +88,21 @@
     {
       for (UIView *loadingViewSubview in subview.subviews) {
         if ([loadingViewSubview isKindOfClass:[UILabel class]]) {
-          label = (UILabel *)loadingViewSubview;
-          label.textColor = labelTextColor;
-          label.font = [UIFont fontForAppWithType:Bold andSize:27];
-          [label sizeToFit];
+          _loadingTextLabel = (UILabel *)loadingViewSubview;
+          _loadingTextLabel.textColor = labelTextColor;
+          _loadingTextLabel.font = [UIFont fontForAppWithType:Bold andSize:27];
+          [_loadingTextLabel sizeToFit];
         }
         if ([loadingViewSubview isKindOfClass:[UIActivityIndicatorView class]]) {
           [loadingViewSubview removeFromSuperview];
           UIImage * image = [UIImage animatedImageNamed:@"progress-" duration:1.0f];
-          UIImageView* imageView = [[UIImageView alloc] initWithImage:image];
-          [subview addSubview: imageView];
+          _loadingImageView = [[UIImageView alloc] initWithImage:image];
+          [subview addSubview: _loadingImageView];
         }
         if ([loadingViewSubview isKindOfClass:[UIImageView class]]) {
-          imageView = (UIImageView*) loadingViewSubview;
+          _loadingImageView = (UIImageView*) loadingViewSubview;
         }
-        imageView.frame = CGRectMake((subview.frame.size.width - imageView.image.size.width) / 2, label.frame.origin.y - imageView.image.size.height - 15 , imageView.image.size.width, imageView.image.size.height);
+        _loadingImageView.frame = CGRectMake((subview.frame.size.width - _loadingImageView.image.size.width) / 2, _loadingTextLabel.frame.origin.y - _loadingImageView.image.size.height - 15 , _loadingImageView.image.size.width, _loadingImageView.image.size.height);
       }
     }
   }

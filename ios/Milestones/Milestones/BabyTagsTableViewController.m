@@ -22,9 +22,27 @@
 - (void)viewDidLoad
 {
   [super viewDidLoad];
+  [self networkReachabilityChanged:nil]; // set the initial loading based on connectivity
   _addedTags = [NSMutableArray array]; // holds any added tag objects.
   self.selectedTags = [[NSMutableSet alloc] init];
   self.objectsPerPage = 100; // small to load
+  self.pullToRefreshEnabled = NO;
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkReachabilityChanged:) name:kReachabilityChangedNotification object:nil];
+}
+
+-(void) dealloc {
+  [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
+}
+
+-(void) networkReachabilityChanged:(NSNotification*)notification {
+  if([Reachability isParseCurrentlyReachable]) {
+    self.loadingImageView.image = [UIImage animatedImageNamed:@"progress-" duration:1.0f];
+    self.loadingTextLabel.text = @"Loading...";
+  } else {
+    self.loadingImageView.image = [UIImage imageNamed:@"error-9"];
+    self.loadingTextLabel.text = @"No Network";
+  }
+  [self loadObjects:0 clear:YES];
 }
 
 -(void) addNewTag: (NSString*) tagText {
@@ -39,15 +57,19 @@
 
 
 - (PFQuery *)queryForTable {
-  NSString * language = [[NSLocale preferredLanguages] objectAtIndex:0];
-  // TODO: Make a query that allows new object to be added or excluded.
-  PFQueryWithExtendedResultSet * query = [[PFQueryWithExtendedResultSet alloc] initWithClassName:@"Tags"];
-  [query whereKey:@"languageId" equalTo:language]; // select only tags in your language
-  [query orderByDescending:@"relevance"];
-  PFCachePolicy policy = kPFCachePolicyCacheElseNetwork;
-  query.cachePolicy = policy;
-  query.headIncludeArray = _addedTags;
-  return query;
+  if([Reachability isParseCurrentlyReachable]) {
+    NSString * language = [[NSLocale preferredLanguages] objectAtIndex:0];
+    // TODO: Make a query that allows new object to be added or excluded.
+    PFQueryWithExtendedResultSet * query = [[PFQueryWithExtendedResultSet alloc] initWithClassName:@"Tags"];
+    [query whereKey:@"languageId" equalTo:language]; // select only tags in your language
+    [query orderByDescending:@"relevance"];
+    PFCachePolicy policy = kPFCachePolicyCacheElseNetwork;
+    query.cachePolicy = policy;
+    query.headIncludeArray = _addedTags;
+    return query;
+  } else {
+    return nil;
+  }
 }
 
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

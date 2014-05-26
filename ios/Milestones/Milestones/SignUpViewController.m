@@ -188,8 +188,12 @@
 }
 
 - (BOOL)signUpViewController:(PFSignUpViewController *)signUpController shouldBeginSignUp:(NSDictionary *)info {
-  [self showStartSignUpProgress];
-  return YES;
+  if([Reachability showAlertIfParseNotReachable]) {
+    return NO;
+  } else {
+    [self showStartSignUpProgress];
+    return YES;
+  }
 }
 
 /// Sent to the delegate when the sign up attempt fails.

@@ -197,6 +197,11 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="About Baby" prompt="Step 1 of 4" id="xSP-nG-Bsg">
                         <barButtonItem key="backBarButtonItem" title="Back" id="YUN-wx-crf"/>
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="t4f-eL-LF3">
+                            <connections>
+                                <action selector="didClickCancelButton:" destination="sg9-o2-9ju" id="rmk-D1-i5f"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" enabled="NO" title="Next" id="Rze-bB-4zI">
                             <connections>
                                 <segue destination="dN4-aX-Ggf" kind="push" id="5w2-Id-0d2"/>
@@ -2571,9 +2576,23 @@ Cg
                                     <segue destination="n8g-sI-yKY" kind="modal" identifier="noteMilestone" customClass="UIStoryboardPopoverSegue" modalTransitionStyle="coverVertical" id="oem-D7-bAF"/>
                                 </connections>
                             </button>
+                            <button clipsSubviews="YES" alpha="0.94999999999999996" contentMode="scaleAspectFit" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="DUF-5w-Jc1">
+                                <rect key="frame" x="0.0" y="44" width="320" height="75"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.96078437569999997" green="0.96078437569999997" blue="0.96078437569999997" alpha="1" colorSpace="deviceRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <inset key="imageEdgeInsets" minX="-6" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <state key="normal" title="Warning: There is no network connection" image="error-9">
+                                    <color key="titleColor" red="0.1019607843" green="0.5568627451" blue="0.62352941179999999" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="DUF-5w-Jc1" firstAttribute="top" secondItem="ROJ-ET-jsn" secondAttribute="bottom" id="4xO-Pb-4ta"/>
+                            <constraint firstAttribute="trailing" secondItem="DUF-5w-Jc1" secondAttribute="trailing" id="5He-xT-bsq"/>
+                            <constraint firstItem="DUF-5w-Jc1" firstAttribute="leading" secondItem="qL2-Lg-TMR" secondAttribute="leading" id="5lH-h2-q5y"/>
                             <constraint firstItem="WJK-M9-FPI" firstAttribute="top" secondItem="zSu-55-pxu" secondAttribute="bottom" id="Pwi-8K-STd"/>
                             <constraint firstAttribute="trailing" secondItem="Vpv-RJ-8CQ" secondAttribute="trailing" constant="8" id="biZ-R8-NZe"/>
                             <constraint firstAttribute="trailing" secondItem="zSu-55-pxu" secondAttribute="trailing" id="cti-ZS-Z66"/>
@@ -2603,6 +2622,7 @@ Cg
                     <connections>
                         <outlet property="addMilestoneButton" destination="Vpv-RJ-8CQ" id="gSb-pn-aeV"/>
                         <outlet property="menuButton" destination="qU1-vG-KKB" id="h3u-Mt-G7a"/>
+                        <outlet property="warningMsgButton" destination="DUF-5w-Jc1" id="wdL-9K-DR5"/>
                         <segue destination="eNM-aT-BTU" kind="push" identifier="showAchievementDetails" id="QpM-9P-itO"/>
                     </connections>
                 </viewController>
@@ -2878,6 +2898,7 @@ Cg
         <image name="backgroung.jpg" width="640" height="1136"/>
         <image name="cameraButton" width="226" height="226"/>
         <image name="cameraButton_pressed" width="212" height="212"/>
+        <image name="error-9" width="74" height="75"/>
         <image name="femaleIcon" width="80" height="80"/>
         <image name="femaleIcon_selected" width="80" height="80"/>
         <image name="genderLines" width="254" height="104"/>

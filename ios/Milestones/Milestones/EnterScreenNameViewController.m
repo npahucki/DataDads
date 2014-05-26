@@ -19,6 +19,8 @@
 - (void)viewDidLoad
 {
   [super viewDidLoad];
+  self.maleLabel.highlightedTextColor = [UIColor appNormalColor];
+  self.femaleLabel.highlightedTextColor = [UIColor appNormalColor];
   self.keepAnonymousButton.titleLabel.font = [UIFont fontForAppWithType:Bold andSize:13.0];
   [self.keepAnonymousButton setTitleColor:[UIColor appNormalColor] forState:UIControlStateSelected];
   self.acceptTACLabelButton.titleLabel.font = [UIFont fontForAppWithType:Bold andSize:13.0];
@@ -62,6 +64,8 @@
 
 - (IBAction)didClickDoneButton:(id)sender {
 
+  if([Reachability showAlertIfParseNotReachable]) return;
+  
   [self showInProgressHUDWithMessage:@"Creating an account for you" andAnimation:YES andDimmedBackground:YES];
   [PFAnonymousUtils logInWithBlock:^(PFUser *user, NSError *error) {
     if (error) {

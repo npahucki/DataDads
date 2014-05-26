@@ -45,6 +45,7 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
 
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(babyUpdated:) name:kDDNotificationCurrentBabyChanged object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(milestoneNotedAndSaved:) name:kDDNotificationMilestoneNotedAndSaved object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkReachabilityChanged:) name:kReachabilityChangedNotification object:nil];
   
   if(Baby.currentBaby) { // Only load if there is already a baby set
     self.baby = Baby.currentBaby;
@@ -54,15 +55,28 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
 -(void) dealloc {
   [[NSNotificationCenter defaultCenter] removeObserver:self name:kDDNotificationCurrentBabyChanged object:nil];
   [[NSNotificationCenter defaultCenter] removeObserver:self name:kDDNotificationMilestoneNotedAndSaved object:nil];
+  [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
+}
+
+-(void) networkReachabilityChanged:(NSNotification*)notification {
+  if([self isInitialLoadComplete]) {
+    [self.tableView reloadData];
+  } else {
+    if([Reachability isParseCurrentlyReachable] && _model.baby) {
+      [self reloadTable];
+    }
+  }
 }
 
 -(void) reloadTable {
-  _initialAchievementsLoaded = NO;
-  _initialFutureMilestonesLoaded = NO;
-  _initialPastMilestonesLoaded = NO;
-  [_model loadAchievementsPage:0];
-  [_model loadFutureMilestonesPage:0];
-  [_model loadPastMilestonesPage:0];
+    _initialAchievementsLoaded = NO;
+    [_model loadAchievementsPage:0];
+
+    _initialFutureMilestonesLoaded = NO;
+    [_model loadFutureMilestonesPage:0];
+
+    _initialPastMilestonesLoaded = NO;
+    [_model loadPastMilestonesPage:0];
 }
 
 -(void) babyUpdated:(NSNotification*)notification {

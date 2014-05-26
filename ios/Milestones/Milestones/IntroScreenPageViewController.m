@@ -71,6 +71,13 @@
   
 }
 
+-(BOOL) shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
+  if([identifier isEqual:kDDSegueShowLoginScreen]) {
+    return ![Reachability showAlertIfParseNotReachable];
+  }
+  
+  return YES;
+}
 
 #pragma mark - Page View Controller Data Source
 

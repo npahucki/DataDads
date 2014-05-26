@@ -18,60 +18,41 @@
 - (void)viewDidAppear:(BOOL)animated {
   PFUser * user = PFUser.currentUser;
   if(user) {
-    NSString * screenName = [user objectForKey:kDDUserScreenName];
-    if(![screenName length]) {
-      // Must show the propt to enter a screen name
-      // TODO: Set a default screen name based on Facebook name or user name.
-      if([PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]) {
-        // TODO: Lookup Name in facebook to suggest as screen name
-      } else {
-        NSInteger emailSymbol = [user.username rangeOfString:@"@"].location;
-        if(emailSymbol == NSNotFound) {
-          [user setObject:user.username forKey:kDDUserScreenName];
+    if([Baby currentBaby] == nil) {
+      // Finally, we must have at least one baby's info on file
+      PFQuery *query =  [Baby  queryForBabiesForUser:PFUser.currentUser];
+      query.cachePolicy = [Reachability isParseCurrentlyReachable] ? kPFCachePolicyCacheThenNetwork : kPFCachePolicyCacheOnly;
+      __block BOOL cachedResult = YES;
+      [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+          // NOTE: This block gets called twice, once for cache, then once for network
+          // With the Cache then Network Policy both are always called.
+          if([objects count] > 0) {
+            // First call will be cache, we use that, then when the network call is complete
+            // If and only if the Baby object is different do we replace it and send the notfication again
+            Baby *newBaby = [objects firstObject];
+            if(![Baby currentBaby] || [newBaby.updatedAt compare:[Baby currentBaby].updatedAt] == NSOrderedDescending) {
+              [Baby setCurrentBaby:newBaby];
+            }
+          } else if(!cachedResult) { // Don't show the baby screen when there are simply no objects in the cache.
+            // Must show the enter baby screen since there are none registered yet
+            [self performSegueWithIdentifier:@"enterBabyInfo" sender:self];
+          }
         } else {
-          [user setObject:  [user.username substringToIndex:emailSymbol] forKey:kDDUserScreenName];
+          UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Small Problem" message:@"Could not load info for your baby. You may want to check that you have an internet connection and/or try again a little later" delegate:nil cancelButtonTitle:@"Accept" otherButtonTitles:nil, nil];
+          [alert show];
         }
-      }
-      [self performSegueWithIdentifier:@"enterScreenName" sender:self];
-    } else {
-      if([Baby currentBaby] == nil) {
-        // Finally, we must have at least one baby's info on file
-        PFQuery *query =  [Baby  queryForBabiesForUser:PFUser.currentUser];
-        query.cachePolicy = kPFCachePolicyCacheThenNetwork;
-        __block BOOL cachedResult = YES;
-        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-          if (!error) {
-            // NOTE: This block gets called twice, once for cache, then once for network
-            // With the Cache then Network Policy both are always called.
-            if([objects count] > 0) {
-              // First call will be cache, we use that, then when the network call is complete
-              // If and only if the Baby object is different do we replace it and send the notfication again
-              Baby *newBaby = [objects firstObject];
-              if(![Baby currentBaby] || [newBaby.updatedAt compare:[Baby currentBaby].updatedAt] == NSOrderedDescending) {
-                [Baby setCurrentBaby:newBaby];
-              }
-            } else if(!cachedResult) { // Don't show the baby screen when there are simply no objects in the cache.
-              // Must show the enter baby screen since there are none registered yet
-              [self performSegueWithIdentifier:@"enterBabyInfo" sender:self];
-            }
-          } else {
-            if(error.code != kPFErrorCacheMiss) { // ignore cache miss
-              // TODO: display error to end user
-              NSLog(@"Could not load the list of babies now, must try later %@", error);
-            }
-          }
 
-          // Flip the bit
-          if (cachedResult) {
-            cachedResult = NO;
-          }
-        }];
-      }
-      
-      // TODO: Check to see if baby's info in file
-      //[self performSegueWithIdentifier:@"enterBabyInfo" sender:self];
-      [super viewDidAppear:animated];
+        // Flip the bit
+        if (cachedResult) {
+          cachedResult = NO;
+        }
+      }];
     }
+    
+    // TODO: Check to see if baby's info in file
+    //[self performSegueWithIdentifier:@"enterBabyInfo" sender:self];
+    [super viewDidAppear:animated];
     
   } else {
     // need to login before we can do anything

@@ -79,6 +79,9 @@
 }
 
 - (IBAction)logoutButtonPressed:(id)sender {
+
+  if([Reachability showAlertIfParseNotReachable]) return;
+  
   if(!PFUser.currentUser.email) { // signed in if email present
     SignUpViewController* signupController = [[SignUpViewController alloc] init];
     [self presentViewController:signupController animated:YES completion:nil];

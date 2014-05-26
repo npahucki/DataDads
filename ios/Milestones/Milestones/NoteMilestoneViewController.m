@@ -94,6 +94,9 @@
 
 - (IBAction)didClickDoneButton:(id)sender {
   [self.view endEditing:YES];
+  
+  if([Reachability showAlertIfParseNotReachable]) return;
+
   if(_imageOrVideo) {
     [self saveImageOrPhoto];
   } else {

@@ -22,10 +22,11 @@
 - (void)viewDidLoad
 {
   [super viewDidLoad];
+  self.maleLabel.highlightedTextColor = [UIColor appNormalColor];
+  self.femaleLabel.highlightedTextColor = [UIColor appNormalColor];
   // Needed to dimiss the keyboard once a user clicks outside the text boxes
   UITapGestureRecognizer *viewTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
   [self.view addGestureRecognizer:viewTap];
-  
   self.babyName.delegate = self;
   
   
@@ -90,6 +91,10 @@
   self.baby.birthDate = ((UIDatePicker*)self.dobTextField.inputView).date;
   self.baby.dueDate = ((UIDatePicker*)self.dueDateTextField.inputView).date;
   ((UIViewController<ViewControllerWithBaby>*)segue.destinationViewController).baby = self.baby;
+}
+
+- (IBAction)didClickCancelButton:(id)sender {
+  [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 

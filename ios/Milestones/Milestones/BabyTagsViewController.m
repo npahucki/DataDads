@@ -17,6 +17,22 @@
   BabyTagsTableViewController* _tagTableViewController;
 }
 
+-(void) viewDidLoad {
+  [super viewDidLoad];
+  [self networkReachabilityChanged:nil]; // set the initial loading based on connectivity
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkReachabilityChanged:) name:kReachabilityChangedNotification object:nil];
+}
+
+-(void) dealloc {
+  [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
+}
+
+-(void) networkReachabilityChanged:(NSNotification*)notification {
+  BOOL enabled = [Reachability isParseCurrentlyReachable];
+  self.addTagButton.enabled = enabled;
+  self.addTagTextField.enabled = enabled;
+}
+
 // TODO: Check all tags the baby already has!
 
 - (IBAction)didClickAddNewTag:(id)sender {

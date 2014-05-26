@@ -15,6 +15,10 @@
 */
 @interface AppQueryTableViewController : PFQueryTableViewController
 
+@property (readonly) UIImageView * loadingImageView;
+@property (readonly) UILabel * loadingTextLabel;
+
+
 @end
 
 

@@ -22,11 +22,13 @@
 -(void) viewDidLoad {
   [super viewDidLoad];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(babyUpdated:) name:kDDNotificationCurrentBabyChanged object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkReachabilityChanged:) name:kReachabilityChangedNotification object:nil];
   self.navigationItem.title = Baby.currentBaby.name;
 }
 
 -(void) dealloc {
   [[NSNotificationCenter defaultCenter] removeObserver:self name:kDDNotificationCurrentBabyChanged object:nil];
+  [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
 }
 
 -(void) viewDidAppear:(BOOL)animated {
@@ -36,6 +38,25 @@
   _isMorganTouch = NO; // Hack work around a double segue bug, caused by touching the cell too long
 }
 
+-(void) networkReachabilityChanged:(NSNotification*)notification {
+  [UIView transitionWithView:self.warningMsgButton
+                    duration:0.5
+                     options:UIViewAnimationOptionTransitionCrossDissolve
+                  animations:NULL
+                  completion:nil];
+  
+  if([Reachability isParseCurrentlyReachable]) {
+    if(!self.warningMsgButton.hidden) {
+      self.warningMsgButton.hidden = YES;
+    }
+  } else {
+    [self.warningMsgButton setTitle:@"Warning: there is no network connection" forState:UIControlStateNormal];
+    [self.warningMsgButton setImage:[UIImage imageNamed:@"error-9"] forState:UIControlStateNormal];
+    self.warningMsgButton.hidden = NO;
+  }
+}
+
+     
 -(void) babyUpdated:(NSNotification*)notification {
   self.addMilestoneButton.enabled = Baby.currentBaby != nil;
   self.menuButton.enabled = Baby.currentBaby != nil;
@@ -94,21 +115,6 @@
 }
 
 # pragma mark - Private
-
-//-(void) logCurrentAchievement {
-//  NSAssert(_currentAchievment,@"Expected current acheivement to be set!");
-//  [self showInProgressHUDWithMessage:@"Making it so.." andAnimation:YES andDimmedBackground:YES];
-//  [_currentAchievment saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-//    if(succeeded) {
-//      [self showSuccessThenRunBlock:nil];
-//      // Note, firing the event, may make the progress dialog disappear before the animation completes.
-//      [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationMilestoneNotedAndSaved object:self userInfo:@{@"" : _currentAchievment}];
-//      _currentAchievment = nil;
-//    } else {
-//      [self showErrorThenRunBlock:error withMessage:@"Could not note ignore/postpone" andBlock:nil];
-//    }
-//  }];
-//}
 
 -(MilestoneAchievement*) createAchievementForMilestone:(StandardMilestone*) milestone {
   _currentAchievment = [MilestoneAchievement object];

@@ -16,6 +16,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   
+  // Force class load and start monitoring network connection.
+  [Reachability reachabilityForParseHost];
   
   // Register custom subclasses
   [Baby registerSubclass];
@@ -56,6 +58,8 @@
   [UISegmentedControl appearance].tintColor = [UIColor appNormalColor];
   
   [UIButton appearance].titleLabel.font = [UIFont fontForAppWithType:Medium andSize:17.0];
+  [UILabel appearanceWhenContainedIn:[UIButton class], nil].font = [UIFont systemFontOfSize:17.0];
+  [UILabel appearanceWhenContainedIn:[UIButton class], nil].textColor = [UIColor appNormalColor];
   [[UIButton appearance] setTitleColor:[UIColor appNormalColor] forState:UIControlStateNormal];
   [[UIButton appearance] setTitleColor:[UIColor appSelectedColor] forState:UIControlStateHighlighted];
   [[UIButton appearance] setTitleColor:[UIColor appSelectedColor] forState:UIControlStateSelected];
@@ -76,11 +80,10 @@
   pageControl.pageIndicatorTintColor =  [UIColor appGreyTextColor];
   pageControl.currentPageIndicatorTintColor = [UIColor appNormalColor];
   pageControl.backgroundColor = [UIColor whiteColor];
-  
+
   return YES;
 
 }
-
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
   //return [PFFacebookUtils handleOpenURL:url]; - deprecated, use the below line instead
@@ -90,7 +93,6 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application {
   [FBAppCall handleDidBecomeActiveWithSession:[PFFacebookUtils session]];
 }
-
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
@@ -111,7 +113,6 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-  // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
 @end
