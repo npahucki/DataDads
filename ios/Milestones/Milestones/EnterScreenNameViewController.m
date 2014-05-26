@@ -21,8 +21,6 @@
   [super viewDidLoad];
   self.maleLabel.highlightedTextColor = [UIColor appNormalColor];
   self.femaleLabel.highlightedTextColor = [UIColor appNormalColor];
-  self.keepAnonymousButton.titleLabel.font = [UIFont fontForAppWithType:Bold andSize:13.0];
-  [self.keepAnonymousButton setTitleColor:[UIColor appNormalColor] forState:UIControlStateSelected];
   self.acceptTACLabelButton.titleLabel.font = [UIFont fontForAppWithType:Bold andSize:13.0];
 
   
@@ -58,10 +56,6 @@
   [self updateNextButtonState];
 }
 
-- (IBAction)didClickKeepAnonymousButton:(id)sender {
-  self.keepAnonymousButton.selected = !self.keepAnonymousButton.selected;
-}
-
 - (IBAction)didClickDoneButton:(id)sender {
 
   if([Reachability showAlertIfParseNotReachable]) return;
@@ -73,7 +67,6 @@
     } else {
       [user setObject:self.screenNameField.text forKey:kDDUserScreenName];
       [user setObject: [NSNumber numberWithBool:self.maleButton.isSelected] forKey:kDDUserIsMale];
-      [user setObject: [NSNumber numberWithBool:self.keepAnonymousButton.selected] forKey:kDDUserKeepAnonymous];
 
       [self showInProgressHUDWithMessage:@"Saving your preferences" andAnimation:YES andDimmedBackground:YES];
       [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
@@ -95,6 +88,7 @@
   self.femaleButton.selected = NO;
   self.femaleLabel.highlighted = NO;
   [self.view endEditing:YES];
+  [self updateNextButtonState];
 }
 
 - (IBAction)didClickFemaleButton:(id)sender {
@@ -103,6 +97,7 @@
   self.maleButton.selected = NO;
   self.maleLabel.highlighted = NO;
   [self.view endEditing:YES];
+  [self updateNextButtonState];
 }
 
 -(void) updateNextButtonState {

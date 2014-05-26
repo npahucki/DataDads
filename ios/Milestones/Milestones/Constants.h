@@ -14,9 +14,6 @@
 extern NSString *const kDDUserScreenName;
 extern NSString *const kDDUserIsMale;
 extern NSString *const kDDUserEmail;
-extern NSString *const kDDUserKeepAnonymous;
-
-
 
 
 #pragma mark Segue Names

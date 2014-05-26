@@ -19,7 +19,6 @@
 @property (strong, nonatomic) IBOutlet UIButton *femaleButton;
 @property (strong, nonatomic) IBOutlet UILabel *maleLabel;
 @property (strong, nonatomic) IBOutlet UILabel *femaleLabel;
-@property (weak, nonatomic) IBOutlet UIButton *keepAnonymousButton;
 @property (weak, nonatomic) IBOutlet UIButton *acceptTACButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *doneButton;
 @property (weak, nonatomic) IBOutlet UIButton *acceptTACLabelButton;

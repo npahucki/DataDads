@@ -13,7 +13,6 @@
 NSString *const kDDUserScreenName = @"screenName";
 NSString *const kDDUserIsMale = @"isMale";
 NSString *const kDDUserEmail = @"email";
-NSString *const kDDUserKeepAnonymous = @"keepAnonymous";
 
 #pragma mark - Segue Names
 NSString *const kDDSegueEnterScreenName = @"enterScreenName";
