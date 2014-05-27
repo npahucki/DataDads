@@ -9,7 +9,9 @@
 #import "StandardMilestone.h"
 #import <Parse/PFObject+Subclass.h>
 
-@implementation StandardMilestone
+@implementation StandardMilestone {
+  
+}
 
 @dynamic title;
 @dynamic shortDescription;
@@ -19,5 +21,6 @@
 + (NSString *)parseClassName {
   return @"StandardMilestones";
 }
+
 
 @end

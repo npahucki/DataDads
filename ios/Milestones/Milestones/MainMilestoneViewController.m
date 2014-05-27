@@ -10,6 +10,7 @@
 #import "SettingsViewController.h"
 #import "NoteMilestoneViewController.h"
 #import "AchievementDetailsViewController.h"
+#import "Baby.h"
 
 
 
@@ -23,11 +24,13 @@
 -(void) viewDidLoad {
   [super viewDidLoad];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(babyUpdated:) name:kDDNotificationCurrentBabyChanged object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(milestoneNotedAndSaved:) name:kDDNotificationMilestoneNotedAndSaved object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkReachabilityChanged:) name:kReachabilityChangedNotification object:nil];
   self.navigationItem.title = Baby.currentBaby.name;
 }
 
 -(void) dealloc {
+  [[NSNotificationCenter defaultCenter] removeObserver:self name:kDDNotificationMilestoneNotedAndSaved object:nil];
   [[NSNotificationCenter defaultCenter] removeObserver:self name:kDDNotificationCurrentBabyChanged object:nil];
   [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
 }
@@ -40,24 +43,29 @@
 }
 
 -(void) networkReachabilityChanged:(NSNotification*)notification {
-  [UIView transitionWithView:self.warningMsgButton
-                    duration:0.5
-                     options:UIViewAnimationOptionTransitionCrossDissolve
-                  animations:NULL
-                  completion:nil];
-  
   if([Reachability isParseCurrentlyReachable]) {
-    if(!self.warningMsgButton.hidden) {
-      self.warningMsgButton.hidden = YES;
-    }
+    self.warningMsgButton.hidden = YES;
   } else {
     [self.warningMsgButton setTitle:@"Warning: there is no network connection" forState:UIControlStateNormal];
     [self.warningMsgButton setImage:[UIImage imageNamed:@"error-9"] forState:UIControlStateNormal];
-    self.warningMsgButton.hidden = NO;
+    [self showWarningWindowAnimated];
   }
 }
 
-     
+-(void) milestoneNotedAndSaved:(NSNotification*)notification {
+  MilestoneAchievement * achievement = [notification.userInfo objectForKey:@""];
+  [achievement calculatePercentileRankingWithBlock:^(float percentile) {
+    if(percentile > 0) {
+      // Show the message once all the animations have settled down.
+      [NSTimer scheduledTimerWithTimeInterval:1.5 target:self selector:@selector(showWarningWindowAnimated) userInfo:nil repeats:false];
+      [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(hideWarningWindowAnimated) userInfo:nil repeats:false];
+      NSString * msg = [NSString stringWithFormat:@"%@ is in the %.02fth percentile for that milestone.", Baby.currentBaby.name,percentile];
+      [self.warningMsgButton setTitle:msg forState:UIControlStateNormal];
+      [self.warningMsgButton setImage:[UIImage imageNamed:@"success-8"] forState:UIControlStateNormal];
+    }
+  }];
+}
+
 -(void) babyUpdated:(NSNotification*)notification {
   self.addMilestoneButton.enabled = Baby.currentBaby != nil;
   self.menuButton.enabled = Baby.currentBaby != nil;
@@ -116,6 +124,30 @@
 }
 
 # pragma mark - Private
+
+-(void) hideWarningWindowAnimated {
+  if(!self.warningMsgButton.hidden) {
+    [UIView transitionWithView:self.warningMsgButton
+                      duration:1.0
+                       options:UIViewAnimationOptionTransitionFlipFromBottom
+                    animations:NULL
+                    completion:nil];
+    self.warningMsgButton.hidden = YES;
+  }
+}
+
+-(void) showWarningWindowAnimated {
+  if(self.warningMsgButton.hidden) {
+    [UIView transitionWithView:self.warningMsgButton
+                      duration:1.0
+                       options:UIViewAnimationOptionTransitionFlipFromBottom
+                    animations:NULL
+                    completion:nil];
+    self.warningMsgButton.hidden = NO;
+  }
+}
+
+
 
 -(MilestoneAchievement*) createAchievementForMilestone:(StandardMilestone*) milestone {
   _currentAchievment = [MilestoneAchievement object];

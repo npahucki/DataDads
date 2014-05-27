@@ -24,4 +24,11 @@
 
 -(BOOL) isCustom;
 
+/*!
+ * Calls the provided block back with a a float for the percentile. A negative value means there
+ * was an error OR there was not enough data to calculate the percentile.
+ */
+-(void) calculatePercentileRankingWithBlock: (void ( ^ )(float percentile) ) block;
+
+
 @end

@@ -32,6 +32,9 @@
 + (Baby*) currentBaby;
 + (void) setCurrentBaby:(Baby*)baby;
 
+-(NSInteger) daysSinceDueDate:(NSDate *) otherDate;
+
+
 @end
 
 

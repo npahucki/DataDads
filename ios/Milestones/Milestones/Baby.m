@@ -31,13 +31,17 @@ static Baby* _currentBaby;
   return [self daysSinceDate:self.birthDate];
 }
 
+-(NSInteger) daysSinceDueDate:(NSDate *) otherDate {
+  return [self daysDifference:self.dueDate toDate:otherDate];
+}
+
+
 -(NSInteger) daysSinceDueDate {
   return [self daysSinceDate:self.dueDate];
 }
 
 -(NSInteger) daysMissedDueDate {
-  NSDateComponents *components = [[NSCalendar currentCalendar] components:NSDayCalendarUnit fromDate:self.dueDate toDate:self.birthDate options:0];
-  return [components day];
+  return [self daysDifference:self.dueDate toDate:self.birthDate];
 }
 
 -(BOOL) wasBornPremature {
@@ -45,10 +49,14 @@ static Baby* _currentBaby;
 }
 
 -(NSInteger) daysSinceDate:(NSDate*) date {
-  NSDateComponents *components = [[NSCalendar currentCalendar] components:NSDayCalendarUnit fromDate:date toDate:[NSDate date] options:0];
-  return [components day];
-  
+  return [self daysDifference:date toDate:[NSDate date]];
 }
+
+-(NSInteger) daysDifference:(NSDate*) fromDate toDate:(NSDate*) toDate  {
+  NSDateComponents *components = [[NSCalendar currentCalendar] components:NSDayCalendarUnit fromDate:fromDate toDate:toDate  options:0];
+  return [components day];
+}
+
 
 + (NSString *)parseClassName {
   return @"Babies";

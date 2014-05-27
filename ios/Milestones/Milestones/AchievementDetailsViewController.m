@@ -12,7 +12,10 @@
 
 @end
 
-@implementation AchievementDetailsViewController
+@implementation AchievementDetailsViewController {
+  NSString * _shortDescription;
+  float _percentile;
+}
 
 // Global for all instances
 NSDateFormatter * _dateFormatter;
@@ -28,21 +31,42 @@ NSDateFormatter * _dateFormatter;
 {
   [super viewDidLoad];
   NSAssert(self.achievement,@"Expected Achievement to be set before loading view!");
-  if(!self.isCustom && !self.achievement.standardMilestone.shortDescription) {
-    // Load the description field, since this was defered for the table load.
-    PFQuery * query = [StandardMilestone query];
-    [query selectKeys:@[@"shortDescription"]];
-    [query getObjectInBackgroundWithId:self.achievement.standardMilestone.objectId block:^(PFObject *object, NSError *error) {
-      if(!error) {
-        self.achievement.standardMilestone.shortDescription  = ((StandardMilestone *) object).shortDescription;
-        [self.view layoutSubviews];
-        //self.detailsTextView.attributedText = [self createTitleTextFromAchievement];
+
+  // The references we have when these objects are loaded, do not have all the baby info in them, so we swap them out here.
+  if(!self.achievement.baby.isDataAvailable) {
+    NSAssert([self.achievement.baby.objectId isEqualToString:Baby.currentBaby.objectId],@"Expected achievements for current baby only!");
+    self.achievement.baby = Baby.currentBaby;
+  }
+  
+  if(!self.isCustom) {
+    
+    // Load the description since it was not included in the original milestone (for brevity)
+    if(self.achievement.standardMilestone.shortDescription) {
+      _shortDescription = self.achievement.standardMilestone.shortDescription;
+    } else {
+      // Load the description field, since this was defered for the table load.
+      PFQuery * query = [StandardMilestone query];
+      [query selectKeys:@[@"shortDescription"]];
+      [query getObjectInBackgroundWithId:self.achievement.standardMilestone.objectId block:^(PFObject *object, NSError *error) {
+        if(!error) {
+          _shortDescription  = ((StandardMilestone *) object).shortDescription;
+          self.detailsTextView.attributedText = [self createTitleTextFromAchievement];
+        }
+      }];
+    }
+    
+    // Calculate the percentile
+    [self.achievement calculatePercentileRankingWithBlock:^(float percentile) {
+      if(percentile > 0) {
+        _percentile = percentile;
+        self.detailsTextView.attributedText = [self createTitleTextFromAchievement];
       }
     }];
   }
   
+  // Load the image
   PFFile * imageFile = (self.achievement.attachment && [self.achievement.attachmentType rangeOfString : @"image"].location != NSNotFound) ?
-  self.achievement.attachment : Baby.currentBaby.avatarImage;
+  self.achievement.attachment : self.achievement.baby.avatarImage;
   if(imageFile) {
     [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
       if(!error) {
@@ -75,12 +99,7 @@ NSDateFormatter * _dateFormatter;
   self.detailsImageButton.layer.borderWidth = 1;
   self.detailsTextView.attributedText = [self createTitleTextFromAchievement];
   [self.detailsTextView  setContentOffset:CGPointZero animated:NO];
-  //[self.detailsTextView scrollRectToVisible:self.detailsTextView.frame animated:NO]; // scroll to top
 }
-
-//-(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-//  ((FullPhotoViewController*)segue.destinationViewController).imageView.file = self.achievement.attachment;
-//}
 
 -(NSAttributedString *) createTitleTextFromAchievement {
   StandardMilestone * m = self.achievement.standardMilestone;
@@ -95,18 +114,21 @@ NSDateFormatter * _dateFormatter;
   [attrText appendAttributedString:lf];
   
   // Desscription
-  if(m.shortDescription) {
-    NSAttributedString * descriptionString = [[NSAttributedString alloc] initWithString:m.shortDescription attributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Medium andSize:14.0], NSForegroundColorAttributeName: [UIColor appGreyTextColor]}];
+  if(_shortDescription) {
+    NSAttributedString * descriptionString = [[NSAttributedString alloc] initWithString:_shortDescription attributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Medium andSize:14.0], NSForegroundColorAttributeName: [UIColor appGreyTextColor]}];
     [attrText appendAttributedString:descriptionString];
     [attrText appendAttributedString:lf];
   }
 
   // TODO: Figure out relative score
-  if(!self.isCustom) {
-    // Note: the baby that is loaded into the standard milestones is minimal and does not include the name, thus we use the name from currentBaby which should always be the same as
-    // the achievement.
-    NSAssert([self.achievement.baby.objectId isEqual:Baby.currentBaby.objectId],@"Expected only acheivements for the current baby!");
-    NSAttributedString * placementString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"Congrats! %@ is ahead of 89%% of other babys for this milestone!",Baby.currentBaby.name] attributes:@{NSFontAttributeName: [UIFont fontForAppWithType:BoldItalic andSize:15.0], NSForegroundColorAttributeName: [UIColor appSelectedColor]}];
+  if(_percentile > 0) {
+    NSString * msg;
+    if(_percentile > 70) {
+      msg = [NSString stringWithFormat:@"Congrats! %@ is ahead of %.02f%% of other babys for this milestone!", self.achievement.baby.name,_percentile];
+    } else {
+      msg = [NSString stringWithFormat:@"%@ is in the %.02fth percentile for this milestone.", self.achievement.baby.name,_percentile];
+    }
+    NSAttributedString * placementString = [[NSAttributedString alloc] initWithString:msg attributes:@{NSFontAttributeName: [UIFont fontForAppWithType:BoldItalic andSize:15.0], NSForegroundColorAttributeName: [UIColor appSelectedColor]}];
     [attrText appendAttributedString:lf];
     [attrText appendAttributedString:placementString];
     [attrText appendAttributedString:lf];

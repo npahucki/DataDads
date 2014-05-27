@@ -38,9 +38,36 @@
   return [self objectForKey:@"standardMilestone"];
 }
 
+-(void) setCompletionDate:(NSDate *)completionDate {
+  [self setObject:completionDate forKey:@"completionDate"];
+  [self setObject:@([self.baby daysSinceDueDate:completionDate]) forKey:@"completionDays"];
+}
+
+-(NSDate *) completionDate {
+  return [self objectForKey:@"completionDate"];
+}
+
+
 -(BOOL) isCustom {
   return self.standardMilestone == nil;
 }
 
+-(void) calculatePercentileRankingWithBlock: (void ( ^ )(float percentile) ) block {
+  if(self.standardMilestone) {
+    [PFCloud callFunctionInBackground:@"percentileRanking"
+                       withParameters:@{@"milestoneId": self.standardMilestone.objectId,
+                                        @"completionDays": @([self.baby daysSinceDueDate:self.completionDate])}
+                                block:^(NSNumber *result, NSError *error) {
+                                  if(error) {
+                                    NSLog(@"Error trying to calulate percentile: %@", error);
+                                    block(-1);
+                                  } else {
+                                    block([result floatValue] );
+                                  }
+                                }];
+  } else {
+    block(-1);
+  }
+}
 
 @end
