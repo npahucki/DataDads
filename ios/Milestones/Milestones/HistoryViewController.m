@@ -98,9 +98,6 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
   [UIView beginAnimations:@"insertAnimationId" context:nil];
   [UIView setAnimationDuration:1.0]; // Set duration here
   [CATransaction begin];
-//  [CATransaction setCompletionBlock:^{
-//    [self.tableView selectRowAtIndexPath:addedIndexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
-//  }];
   [self.tableView beginUpdates];
 
   BOOL fromFuture;
@@ -111,15 +108,15 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
     NSIndexPath* removedIndexPath;
     if(index != NSNotFound) {
       fromFuture = YES;
-      removedIndexPath = [NSIndexPath indexPathForRow:index inSection:FutureMilestoneSection];
-      [reloadPaths addObjectsFromArray:[self reloadPathsForRemovedCell:removedIndexPath]];
       [_model markFutureMilestone:index ignored:NO postponed:NO]; // Removes it from the list
+      removedIndexPath = [NSIndexPath indexPathForRow:index + (_model.hasMoreFutureMilestones ? 1 : 0) inSection:FutureMilestoneSection]; // add one for the loading row
+      [reloadPaths addObjectsFromArray:[self reloadPathsForRemovedCell:removedIndexPath]];
     } else {
       index = [_model.pastMilestones indexOfObject:m];
       if(index != NSNotFound) {
+        [_model markPastMilestone:index ignored:NO postponed:NO]; // Removes it from the list
         removedIndexPath = [NSIndexPath indexPathForRow:index inSection:PastMilestoneSection];
         [reloadPaths addObjectsFromArray:[self reloadPathsForRemovedCell:removedIndexPath]];
-        [_model markPastMilestone:index ignored:NO postponed:NO]; // Removes it from the list
       }
     }
     [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:removedIndexPath]  withRowAnimation:UITableViewRowAnimationLeft];

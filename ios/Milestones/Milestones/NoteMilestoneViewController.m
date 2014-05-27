@@ -40,6 +40,18 @@
   // Needed to dimiss the keyboard once a user clicks outside the text boxes
   UITapGestureRecognizer *viewTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
   [self.view addGestureRecognizer:viewTap];
+  
+  if(!self.isCustom && !self.achievement.standardMilestone.shortDescription) {
+    // Load the description field, since this was defered for the table load.
+    PFQuery * query = [StandardMilestone query];
+    [query selectKeys:@[@"shortDescription"]];
+    [query getObjectInBackgroundWithId:self.achievement.standardMilestone.objectId block:^(PFObject *object, NSError *error) {
+      if(!error) {
+        self.achievement.standardMilestone.shortDescription  = ((StandardMilestone *) object).shortDescription;
+        self.titleTextView.attributedText = [self createTitleTextFromMilestone];
+      }
+    }];
+  }
 }
 
 -(void)handleSingleTap:(UITapGestureRecognizer *)sender {
@@ -205,7 +217,7 @@
   
   NSAttributedString * titleString = [[NSAttributedString alloc] initWithString:m.title attributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:15.0], NSForegroundColorAttributeName: [UIColor appNormalColor]}];
 
-  NSAttributedString * descriptionString = [[NSAttributedString alloc] initWithString:m.shortDescription attributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Medium andSize:14.0], NSForegroundColorAttributeName: [UIColor appGreyTextColor]}];
+  NSAttributedString * descriptionString = [[NSAttributedString alloc] initWithString:m.shortDescription ? m.shortDescription : @"" attributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Medium andSize:14.0], NSForegroundColorAttributeName: [UIColor appGreyTextColor]}];
 
   NSAttributedString * enteredDateLabel = [[NSAttributedString alloc] initWithString:@"Entered By: " attributes:dataLabelTextAttributes];
   NSAttributedString * enteredDateValue = [[NSAttributedString alloc] initWithString:@"DataParenting Staff" attributes:dataValueTextAttributes];

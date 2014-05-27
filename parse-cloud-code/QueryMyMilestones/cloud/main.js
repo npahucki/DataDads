@@ -16,6 +16,8 @@ Parse.Cloud.define("queryMyMilestones", function(request, response) {
 
  innerQuery = new Parse.Query("MilestoneAchievements");
  innerQuery.equalTo("baby", {__type: "Pointer", className: "Babies", objectId : babyId});
+ innerQuery.exists("standardMilestoneId");
+ innerQuery.select(["standardMilestoneId"]);
  
  query = new Parse.Query("StandardMilestones");
  
@@ -35,6 +37,7 @@ Parse.Cloud.define("queryMyMilestones", function(request, response) {
  query.doesNotMatchKeyInQuery("objectId", "standardMilestoneId", innerQuery);
  query.limit(limit);
  query.skip(skip);
+ query.select(["title","rangeHigh","rangeLow"])
  query.find({
    success: function(results) {
      response.success(results);
