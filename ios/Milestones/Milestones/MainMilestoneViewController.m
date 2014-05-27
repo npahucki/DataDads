@@ -9,6 +9,7 @@
 #import "MainMilestoneViewController.h"
 #import "SettingsViewController.h"
 #import "NoteMilestoneViewController.h"
+#import "AchievementDetailsViewController.h"
 
 
 
@@ -78,8 +79,7 @@
     ((UINavigationController*)segue.destinationViewController ).visibleViewController;
     noteMilestoneViewController.achievement = _currentAchievment;
   } else if([segue.identifier isEqualToString:kDDSegueShowAchievementDetails]) {
-    // TODO: Set Achievement
-    //    ((MilestoneDetailsViewController*)segue.destinationViewController).achievement = _currentAchievment;
+    ((AchievementDetailsViewController*)segue.destinationViewController).achievement = _currentAchievment;
   }
 }
 - (IBAction)didClickAddNewMilestone:(id)sender {
@@ -106,6 +106,7 @@
 -(void) achievementClicked:(MilestoneAchievement*) achievement {
   if(!_isMorganTouch) {
     _isMorganTouch = YES;
+    _currentAchievment = achievement;
     [self performSegueWithIdentifier:kDDSegueShowAchievementDetails sender:self];
   } else {
     // TODO: Log this to somewhere to see how many people have the morgan touch.

@@ -23,6 +23,7 @@ extern NSString *const kDDSegueShowSettings;
 extern NSString *const kDDSegueShowAchievementDetails;
 extern NSString *const kDDSegueShowLoginScreen;
 extern NSString *const kDDSegueEnterBabyInfo;
+extern NSString *const kDDSegueShowFullScreenImage;
 
 
 
