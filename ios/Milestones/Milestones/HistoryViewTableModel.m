@@ -153,8 +153,26 @@
   [achievement saveEventually];
 }
 
--(void) addNewAchievement:(MilestoneAchievement *) achievement {
-  [(NSMutableArray*)_achievements insertObject:achievement atIndex:0];
+-(NSInteger) addNewAchievement:(MilestoneAchievement *) achievement {
+  
+  // The achievement are already sorted by completion date (descending), so we need to run through the list and
+  // find the appropriate place to insert it. We could insert and sort the list again, but we would then not
+  // know where the item ended up in the list, which is needed to know which parts of the table to update.
+  int idx;
+  for(idx = 0; idx < _achievements.count; idx++) {
+    MilestoneAchievement * extant = (MilestoneAchievement*)_achievements[idx];
+    if([achievement.completionDate timeIntervalSinceDate:extant.completionDate] > 0) {
+      break; // leave IDX here.
+    }
+  }
+  // If we hit the end of the loop, then IDX should be the same as the last element, so it means we add to the end
+  if(idx >= _achievements.count && _hasMoreAchievements) {
+    return -1;
+  } else {
+    [(NSMutableArray*)_achievements insertObject:achievement atIndex:idx];
+    return idx;
+  }
+  
 }
 
   

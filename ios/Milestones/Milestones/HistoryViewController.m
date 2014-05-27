@@ -93,27 +93,24 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
 
 
 -(void) milestoneNotedAndSaved:(NSNotification*)notification {
+  MilestoneAchievement * achievement = [notification.userInfo objectForKey:@""];
   NSMutableArray * reloadPaths = [NSMutableArray arrayWithCapacity:5];
   [UIView beginAnimations:@"insertAnimationId" context:nil];
   [UIView setAnimationDuration:1.0]; // Set duration here
   [CATransaction begin];
-  [CATransaction setCompletionBlock:^{
-    //[self.tableView selectRowAtIndexPath:addedIndexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
-  }];
+//  [CATransaction setCompletionBlock:^{
+//    [self.tableView selectRowAtIndexPath:addedIndexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+//  }];
   [self.tableView beginUpdates];
 
-  NSIndexPath* addedIndexPath = [NSIndexPath indexPathForRow:0 inSection:AchievementSection];
-  if([self.tableView numberOfRowsInSection:AchievementSection]) {
-    [self.tableView selectRowAtIndexPath:addedIndexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
-    [reloadPaths addObject:addedIndexPath];
-  }
+  BOOL fromFuture;
   
-  MilestoneAchievement * achievement = [notification.userInfo objectForKey:@""];
   if(achievement.standardMilestone) {
     StandardMilestone * m = achievement.standardMilestone;
     NSInteger index = [_model.futureMilestones indexOfObject:m];
     NSIndexPath* removedIndexPath;
     if(index != NSNotFound) {
+      fromFuture = YES;
       removedIndexPath = [NSIndexPath indexPathForRow:index inSection:FutureMilestoneSection];
       [reloadPaths addObjectsFromArray:[self reloadPathsForRemovedCell:removedIndexPath]];
       [_model markFutureMilestone:index ignored:NO postponed:NO]; // Removes it from the list
@@ -128,9 +125,18 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
     [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:removedIndexPath]  withRowAnimation:UITableViewRowAnimationLeft];
   }
 
-  // Now add in the new achievement...
-  [_model addNewAchievement:achievement];
-  [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:addedIndexPath] withRowAnimation:UITableViewRowAnimationRight];
+  
+  NSInteger addedIndex = [_model addNewAchievement:achievement];
+  if(addedIndex >= 0) { // Negative means it was not added to the view at all because it is after what is loaded in the model now.
+    NSIndexPath* addedIndexPath = [NSIndexPath indexPathForRow:addedIndex inSection:AchievementSection];
+    if([self.tableView numberOfRowsInSection:AchievementSection]) {
+      [self.tableView selectRowAtIndexPath:addedIndexPath animated:NO scrollPosition:fromFuture ? UITableViewScrollPositionBottom : UITableViewScrollPositionMiddle];
+      [reloadPaths addObject:addedIndexPath];
+    }
+    [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:addedIndexPath] withRowAnimation:UITableViewRowAnimationRight];
+  }
+  
+
   [self.tableView reloadRowsAtIndexPaths:reloadPaths withRowAnimation:UITableViewRowAnimationNone];
   
   [self.tableView endUpdates];

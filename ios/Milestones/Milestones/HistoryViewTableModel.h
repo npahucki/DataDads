@@ -52,7 +52,14 @@
 
 -(void) markPastMilestone:(NSInteger)index ignored:(BOOL) ignored postponed:(BOOL) postponed;
 -(void) markFutureMilestone:(NSInteger)index ignored:(BOOL) ignored postponed:(BOOL) postponed;
--(void) addNewAchievement:(MilestoneAchievement *) achievement;
+
+/*!
+ * Adds a new achievement, and returns the index of where it was inserted in the list 
+ * which may not be the head of the list if the achievement has an older date. If the 
+ * item would be inserted after other items yet to be loaded, then -1 is returned, 
+ * and the UI shoud not expect to display it right away.
+ */
+-(NSInteger) addNewAchievement:(MilestoneAchievement *) achievement;
 
 
 
