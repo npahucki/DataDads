@@ -30,7 +30,7 @@
 }
 
 - (PFQuery *)queryForTable {
-  PFQuery * query = [Tip query];
+  PFQuery * query = [Baby.currentBaby relationForKey:@"currentTips"].query;
   [query selectKeys:@[@"title",@"shortDescription",@"url",@"tipType"]];
   query.cachePolicy = kPFCachePolicyCacheThenNetwork;
   if(_tipFilter) {
