@@ -17,7 +17,9 @@ Parse.Cloud.define("queryMyMilestones", function(request, response) {
  innerQuery = new Parse.Query("MilestoneAchievements");
  innerQuery.equalTo("baby", {__type: "Pointer", className: "Babies", objectId : babyId});
  innerQuery.exists("standardMilestoneId");
- //innerQuery.select(["standardMilestoneId"]);
+ innerQuery.select(["standardMilestoneId"]);
+ 
+ 
  
  query = new Parse.Query("StandardMilestones");
  
@@ -32,7 +34,6 @@ Parse.Cloud.define("queryMyMilestones", function(request, response) {
      return;
  }
  
- //query.lessThanOrEqualTo("rangeLow", rangeDays);
  // Bit if a hack here, using string column here : See https://parse.com/questions/trouble-with-nested-query-using-objectid
  query.doesNotMatchKeyInQuery("objectId", "standardMilestoneId", innerQuery);
  query.limit(limit);
@@ -72,7 +73,6 @@ Parse.Cloud.define("percentileRanking", function(request, response) {
    countQuery.exists("completionDays");
    promises.push(countQuery.count({
      success: function(result) {
-       console.log("TOTAL RESULT " + result);
        totalCount = result;
      },
      error: function(error) {
@@ -86,7 +86,6 @@ Parse.Cloud.define("percentileRanking", function(request, response) {
    scoreQuery.lessThan("completionDays", completionDays);
    promises.push(scoreQuery.count({
      success: function(result) {
-       console.log("SCORE RESULT " + result);
        scoreCount = result;
      },
      error: function(error) {
@@ -96,10 +95,8 @@ Parse.Cloud.define("percentileRanking", function(request, response) {
    // Return a new promise that is resolved when all of the queries are finished.
    return Parse.Promise.when(promises);
  }).then(function() {
-   console.log("BOTH QUERIES DONE"); 
    // Need at least mine and one other to compare
    var p = totalCount < 2 ? -1 : (scoreCount / totalCount) * 100;
-   console.log("P=" + p); 
    response.success(p);
    });
 });
