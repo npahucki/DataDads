@@ -42,17 +42,6 @@
     return cell;
 }
 
--(void) objectsWillLoad {
-  [super objectsWillLoad];
-  for (UIView *subview in self.view.subviews)
-  {
-    if ([subview class] == NSClassFromString(@"UIRefreshControl")) {
-    
-    }
-
-  }
-}
-
 -(void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
   if (indexPath.row > _lastPageTriggeredBy.row && self.objects.count > 1 && indexPath.row == self.objects.count - 1 && !self.isLoading) {
     _lastPageTriggeredBy = indexPath;

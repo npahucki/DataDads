@@ -8,15 +8,31 @@
 
 #import "MainNotificationsViewController.h"
 #import "CustomIOS7AlertView.h"
+#import "NotificationTableViewController.h"
 
 @interface MainNotificationsViewController ()
 
 @end
 
 @implementation MainNotificationsViewController {
+  NotificationTableViewController * _tableController;
   BOOL _isMorganTouch;
 }
 
+- (IBAction)didChangeFilter:(id)sender {
+  UISegmentedControl * ctl = (UISegmentedControl*)sender;
+  switch(ctl.selectedSegmentIndex) {
+    case 0:
+      _tableController.tipFilter = TipTypeNormal;
+      break;
+    case 1:
+      _tableController.tipFilter = TipTypeWanring;
+      break;
+    default:
+      _tableController.tipFilter = 0; // All
+      break;
+  }
+}
 
 -(void) viewDidLoad {
   [super viewDidLoad];
@@ -41,6 +57,13 @@
 -(void) babyUpdated:(NSNotification*)notification {
   //self.menuButton.enabled = Baby.currentBaby != nil;
   self.navigationItem.title = Baby.currentBaby.name;
+}
+
+-(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+  // The only segue is the embed
+  if([segue.destinationViewController isKindOfClass:[NotificationTableViewController class]]) {
+    _tableController = (NotificationTableViewController*) segue.destinationViewController;
+  }
 }
 
 

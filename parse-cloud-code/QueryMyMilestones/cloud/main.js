@@ -1,3 +1,6 @@
+var _ = require('underscore');
+require("cloud/jobs.js")
+
 Parse.Cloud.define("queryMyMilestones", function(request, response) {
 
  // TODO: May need to look up baby and verify against user for security!
@@ -100,4 +103,5 @@ Parse.Cloud.define("percentileRanking", function(request, response) {
    response.success(p);
    });
 });
+
 

@@ -22,6 +22,7 @@
   // Register custom subclasses
   [Baby registerSubclass];
   [Tag registerSubclass];
+  [Tip registerSubclass];
   [StandardMilestone registerSubclass];
   [MilestoneAchievement registerSubclass];
   
