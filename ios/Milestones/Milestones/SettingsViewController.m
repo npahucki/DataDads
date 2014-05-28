@@ -87,6 +87,7 @@
     [self presentViewController:signupController animated:YES completion:nil];
   } else {
     [PFUser logOut];
+    [PFQuery clearAllCachedResults];
     Baby.currentBaby = nil;
     [self dismissViewControllerAnimated:NO completion:nil];
   }
