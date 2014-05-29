@@ -7,8 +7,9 @@
 //
 
 #import "AppQueryTableViewController.h"
+#import "SWTableViewCell.h"
 
-@interface NotificationTableViewController : AppQueryTableViewController
+@interface NotificationTableViewController : AppQueryTableViewController <SWTableViewCellDelegate>
 
 @property TipType tipFilter;
 

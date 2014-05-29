@@ -44,6 +44,7 @@
 		E86B1EB4192917A400EA6167 /* backgroung.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E86B1EB3192917A400EA6167 /* backgroung.jpg */; };
 		E876159B18EF83C100B0C6D9 /* BabyTagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E876159A18EF83C100B0C6D9 /* BabyTagsViewController.m */; };
 		E876159E18EF892C00B0C6D9 /* BabyTagsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E876159D18EF892C00B0C6D9 /* BabyTagsTableViewController.m */; };
+		E877FCAD19368AE4002405BF /* BabyAssignedTip.m in Sources */ = {isa = PBXBuildFile; fileRef = E877FCAC19368AE4002405BF /* BabyAssignedTip.m */; };
 		E89035E51930328E004A4013 /* MainNotificationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89035E41930328E004A4013 /* MainNotificationsViewController.m */; };
 		E89035E819303D13004A4013 /* SignUpPromptViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89035E719303D13004A4013 /* SignUpPromptViewController.m */; };
 		E89035EB19337807004A4013 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = E89035EA19337807004A4013 /* Reachability.m */; };
@@ -150,6 +151,8 @@
 		E876159A18EF83C100B0C6D9 /* BabyTagsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BabyTagsViewController.m; sourceTree = "<group>"; };
 		E876159C18EF892C00B0C6D9 /* BabyTagsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyTagsTableViewController.h; sourceTree = "<group>"; };
 		E876159D18EF892C00B0C6D9 /* BabyTagsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = BabyTagsTableViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		E877FCAB19368AE4002405BF /* BabyAssignedTip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyAssignedTip.h; sourceTree = "<group>"; };
+		E877FCAC19368AE4002405BF /* BabyAssignedTip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BabyAssignedTip.m; sourceTree = "<group>"; };
 		E89035E31930328E004A4013 /* MainNotificationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainNotificationsViewController.h; sourceTree = "<group>"; };
 		E89035E41930328E004A4013 /* MainNotificationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainNotificationsViewController.m; sourceTree = "<group>"; };
 		E89035E619303D13004A4013 /* SignUpPromptViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpPromptViewController.h; sourceTree = "<group>"; };
@@ -253,6 +256,8 @@
 				E81B588218992B7000C74C2B /* Tag.m */,
 				E866E7F719364607004963C9 /* Tip.h */,
 				E866E7F819364607004963C9 /* Tip.m */,
+				E877FCAB19368AE4002405BF /* BabyAssignedTip.h */,
+				E877FCAC19368AE4002405BF /* BabyAssignedTip.m */,
 				E81B5889189BCCD200C74C2B /* StandardMilestone.h */,
 				E81B588A189BCCD200C74C2B /* StandardMilestone.m */,
 				E813465818DCD9FA0053EE6E /* StandardMilestoneQuery.h */,
@@ -636,6 +641,7 @@
 				E8DD48EA188EE5B900153095 /* main.m in Sources */,
 				E8D00A1A188F362100DF2786 /* BabyInfoViewController.m in Sources */,
 				E840251918F0DEC800AF1B27 /* BabyInfoPhotoViewController.m in Sources */,
+				E877FCAD19368AE4002405BF /* BabyAssignedTip.m in Sources */,
 				E8D00A17188F348700DF2786 /* LoginViewController.m in Sources */,
 				E862B81318F5FCE100EBAEFF /* FDTakeControllerNoStatusBar.m in Sources */,
 				E89035EB19337807004A4013 /* Reachability.m in Sources */,

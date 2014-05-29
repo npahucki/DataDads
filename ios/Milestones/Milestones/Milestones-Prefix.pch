@@ -22,4 +22,6 @@
 #import "Tip.h"
 #import "MilestoneAchievement.h"
 #import "StandardMilestone.h"
+#import "BabyAssignedTip.h"
 #import "Reachability.h"
+

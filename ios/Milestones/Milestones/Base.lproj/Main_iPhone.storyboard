@@ -2734,7 +2734,7 @@ Cg
                                     <segue destination="63e-7e-17H" kind="embed" id="7DP-Eo-Re4"/>
                                 </connections>
                             </containerView>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="hK7-AD-CNp">
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="2" translatesAutoresizingMaskIntoConstraints="NO" id="hK7-AD-CNp">
                                 <rect key="frame" x="8" y="52" width="304" height="29"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <segments>
@@ -2772,6 +2772,9 @@ Cg
                                 </state>
                                 <state key="selected" image="openMenuButton_pressed"/>
                             </button>
+                            <connections>
+                                <segue destination="QfA-Ku-3Fd" kind="modal" id="gVV-zd-MDa"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <nil key="simulatedStatusBarMetrics"/>
@@ -2965,5 +2968,6 @@ Cg
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="JWT-5h-xS8"/>
+        <segue reference="gVV-zd-MDa"/>
     </inferredMetricsTieBreakers>
 </document>

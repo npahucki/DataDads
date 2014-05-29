@@ -8,11 +8,60 @@
 
 #import "NotificationTableViewController.h"
 #import "SWTableViewCell.h"
+#import "NSDate+HumanizedTime.h"
+
+#define TITLE_FONT [UIFont fontForAppWithType:Book andSize:14]
+#define DETAIL_FONT [UIFont fontForAppWithType:Book andSize:12]
+
+@interface TipsFilterQuery : PFQuery
+@property TipType filter;
+@property PFQuery *target;
+@property NSMutableArray *exclude;
+@end
+
+@implementation TipsFilterQuery
+
+-(NSString*) parseClassName {
+  return _target.parseClassName;
+}
+
+/*!
+ Icky Hack to be able to filter based on the filter criteria since parse does not let you specify a whereKey on a pointed to object.
+ */
+- (void)findObjectsInBackgroundWithBlock:(PFArrayResultBlock)queryBlock {
+  if(queryBlock) {
+    _target.skip = self.skip;
+    _target.limit = self.limit;
+    [_target findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+      if(!error) {
+        if(_filter || _exclude.count) {
+          NSMutableArray * newArray = [NSMutableArray arrayWithCapacity:objects.count];
+          for(BabyAssignedTip* a in objects) {
+            if((!_filter || a.tip.tipType.integerValue == _filter) && ![_exclude containsObject:a.objectId]) {
+              [newArray addObject:a];
+            }
+          }
+          objects = newArray;
+        }
+      }
+      queryBlock(objects, error);
+    }];
+  }
+}
+
+@end
 
 
 @implementation NotificationTableViewController {
   NSIndexPath * _selectedPath;
-  TipType _tipFilter ;
+  TipType _tipFilter;
+  BOOL _needToClearCache;
+  NSMutableArray * _deleted;
+}
+
+-(void) viewDidLoad {
+  [super viewDidLoad];
+  _deleted = [NSMutableArray arrayWithCapacity:5];
 }
 
 -(TipType) tipFilter {
@@ -24,44 +73,63 @@
   [self loadObjects];
 }
 
--(void) viewDidLoad {
-  [super viewDidLoad];
-  _tipFilter = TipTypeNormal;
-}
-
 - (PFQuery *)queryForTable {
-  PFQuery * query = [Baby.currentBaby relationForKey:@"currentTips"].query;
-  [query selectKeys:@[@"title",@"shortDescription",@"url",@"tipType"]];
+  
+  PFQuery * query = [PFQuery queryWithClassName:[BabyAssignedTip parseClassName]];
+  [query includeKey:@"tip"];
+  [query whereKey:@"isHidden" equalTo:[NSNumber numberWithBool:NO]];
+  [query whereKey:@"baby" equalTo:Baby.currentBaby];
+  [query orderByDescending:@"createdOn"];
   query.cachePolicy = kPFCachePolicyCacheThenNetwork;
-  if(_tipFilter) {
-    [query whereKey:@"tipType" equalTo:@(_tipFilter)];
+  query.maxCacheAge = 60; // at max check once a day.
+
+  
+  
+  TipsFilterQuery * filterQuery = [[TipsFilterQuery alloc] init];
+  filterQuery.target = query;
+  filterQuery.filter = self.tipFilter;
+  filterQuery.exclude = _deleted;
+  filterQuery.maxCacheAge = 5;
+  filterQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
+
+  if(_needToClearCache) {
+    [filterQuery clearCachedResult];
+    filterQuery.cachePolicy = kPFCachePolicyNetworkOnly;
+    [query clearCachedResult];
+    query.cachePolicy = kPFCachePolicyNetworkOnly;
+    [_deleted removeAllObjects];
+    _needToClearCache = NO;
   }
-  return query;
+  
+  return filterQuery;
+  
 }
 
-
+#pragma mark UITableViewDelegate
 -(PFTableViewCell*) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
 
   SWTableViewCell *cell = (SWTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"tipCell" forIndexPath:indexPath];
   __weak SWTableViewCell *weakCell = cell;
   [cell setAppearanceWithBlock:^{
     NSMutableArray *rightUtilityButtons = [NSMutableArray new];
-    [rightUtilityButtons sw_addUtilityButtonWithColor: [UIColor appNormalColor] title:@"Delete"];
+    [rightUtilityButtons sw_addUtilityButtonWithColor: [UIColor appNormalColor] title:@"Hide"];
+    [rightUtilityButtons sw_addUtilityButtonWithColor: [UIColor appSelectedColor] title:@"Share"];
     weakCell.rightUtilityButtons = rightUtilityButtons;
     
-    weakCell.textLabel.font = [UIFont fontForAppWithType:Book andSize:14];
+    weakCell.textLabel.font = TITLE_FONT;
     weakCell.textLabel.textColor = [UIColor appNormalColor];
-    weakCell.detailTextLabel.font = [UIFont fontForAppWithType:Book andSize:12];
+    weakCell.detailTextLabel.font = DETAIL_FONT;
     weakCell.detailTextLabel.textColor = [UIColor appGreyTextColor];
     weakCell.containingTableView = tableView;
+    weakCell.delegate = self;
   } force:NO];
   
-  Tip* tip = (Tip*)[self objectAtIndexPath:indexPath];
+  BabyAssignedTip* tipAssignment = (BabyAssignedTip*)[self objectAtIndexPath:indexPath];
   
   [cell setCellHeight:cell.frame.size.height];
-  cell.textLabel.text = tip.title;
-  cell.detailTextLabel.text = tip.shortDescription;
-  cell.accessoryType = tip.url ? UITableViewCellAccessoryDetailButton : UITableViewCellAccessoryNone;
+  cell.textLabel.text = tipAssignment.tip.title;
+  cell.detailTextLabel.text = [NSString stringWithFormat:@"Delivered %@", [tipAssignment.createdAt stringWithHumanizedTimeDifference]];
+  cell.accessoryType = tipAssignment.tip.url.length ? UITableViewCellAccessoryDetailButton : UITableViewCellAccessoryNone;
   
   // TODO: Need graphic for wanring/tip
   
@@ -103,6 +171,8 @@
 //
 //}
 
+#pragma mark - private methods
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 
   
@@ -112,9 +182,10 @@
   }
   
   //  if([indexPath isEqual:_selectedPath]) {
-    Tip* tip = (Tip*)[self objectAtIndexPath:indexPath];
-    CGFloat newLabelSize = [self getLabelSize:tip.title andFont:[UIFont fontForAppWithType:Book andSize:15]] + 30;
-    return MAX(newLabelSize, defaultSize);
+    BabyAssignedTip* assignment = (BabyAssignedTip*)[self objectAtIndexPath:indexPath];
+    CGFloat newTitleLabelSize = [self getLabelSize:assignment.tip.title andFont:TITLE_FONT];
+    CGFloat newDateLabelSize = [self getLabelSize:[assignment.createdAt stringWithHumanizedTimeDifference] andFont:DETAIL_FONT];
+    return MAX(newTitleLabelSize + newDateLabelSize + 40, defaultSize);
 //  } else {
 //    return defaultSize;
 //  }
@@ -132,6 +203,26 @@
   
   return size.height;
 }
+
+#pragma mark - SWTableViewDelegate
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)buttonIndex {
+  // TODO: rework this to not use PF table view - so we can do animated deletes.
+  NSIndexPath * path = [self.tableView indexPathForCell:cell];
+  BabyAssignedTip * a = (BabyAssignedTip*)[self objectAtIndexPath:path];
+  BOOL deleted = buttonIndex == 0;
+  
+  if(deleted) {
+    a.isHidden = YES;
+    [a saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+      _needToClearCache = YES;
+      [self loadObjects];
+    }];
+    [_deleted addObject:a.objectId];
+    [self loadObjects];
+  }
+
+}
+
 
 
 @end

@@ -23,6 +23,7 @@
   [Baby registerSubclass];
   [Tag registerSubclass];
   [Tip registerSubclass];
+  [BabyAssignedTip registerSubclass];
   [StandardMilestone registerSubclass];
   [MilestoneAchievement registerSubclass];
   
