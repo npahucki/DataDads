@@ -34,13 +34,16 @@
   }
 }
 
+
 -(void) viewDidLoad {
   [super viewDidLoad];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(babyUpdated:) name:kDDNotificationCurrentBabyChanged object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkReachabilityChanged:) name:kReachabilityChangedNotification object:nil];
   self.navigationItem.title = Baby.currentBaby.name;
 }
 
 -(void) dealloc {
+  [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
   [[NSNotificationCenter defaultCenter] removeObserver:self name:kDDNotificationCurrentBabyChanged object:nil];
 }
 
@@ -59,12 +62,48 @@
   self.navigationItem.title = Baby.currentBaby.name;
 }
 
+-(void) networkReachabilityChanged:(NSNotification*)notification {
+  if([Reachability isParseCurrentlyReachable]) {
+    self.warningMsgButton.hidden = YES;
+  } else {
+    [self.warningMsgButton setTitle:@"Warning: there is no network connection" forState:UIControlStateNormal];
+    [self.warningMsgButton setImage:[UIImage imageNamed:@"error-9"] forState:UIControlStateNormal];
+    [self showWarningWindowAnimated];
+  }
+}
+
+
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
   // The only segue is the embed
   if([segue.destinationViewController isKindOfClass:[NotificationTableViewController class]]) {
     _tableController = (NotificationTableViewController*) segue.destinationViewController;
   }
 }
+
+# pragma mark - Private
+
+-(void) hideWarningWindowAnimated {
+  if(!self.warningMsgButton.hidden) {
+    [UIView transitionWithView:self.warningMsgButton
+                      duration:1.0
+                       options:UIViewAnimationOptionTransitionFlipFromBottom
+                    animations:NULL
+                    completion:nil];
+    self.warningMsgButton.hidden = YES;
+  }
+}
+
+-(void) showWarningWindowAnimated {
+  if(self.warningMsgButton.hidden) {
+    [UIView transitionWithView:self.warningMsgButton
+                      duration:1.0
+                       options:UIViewAnimationOptionTransitionFlipFromBottom
+                    animations:NULL
+                    completion:nil];
+    self.warningMsgButton.hidden = NO;
+  }
+}
+
 
 
 

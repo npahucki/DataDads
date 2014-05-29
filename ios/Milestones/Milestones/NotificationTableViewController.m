@@ -56,7 +56,7 @@
 @implementation NotificationTableViewController {
   NSIndexPath * _selectedPath;
   TipType _tipFilter;
-  BOOL _needToClearCache;
+  BOOL _loadBecauseChangedFilter;
   NSMutableArray * _deleted;
 }
 
@@ -71,6 +71,7 @@
 
 -(void) setTipFilter:(TipType) tipFilter {
   _tipFilter = tipFilter;
+  _loadBecauseChangedFilter = YES;
   [self loadObjects];
 }
 
@@ -82,9 +83,7 @@
   [query whereKey:@"baby" equalTo:Baby.currentBaby];
   [query orderByDescending:@"createdOn"];
   query.cachePolicy = kPFCachePolicyCacheThenNetwork;
-  query.maxCacheAge = 60; // at max check once a day.
-
-  
+  query.maxCacheAge = 60 * 60 * 24; // at max check once a day.
   
   TipsFilterQuery * filterQuery = [[TipsFilterQuery alloc] init];
   filterQuery.target = query;
@@ -93,13 +92,11 @@
   filterQuery.maxCacheAge = 5;
   filterQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
 
-  if(_needToClearCache) {
-    [filterQuery clearCachedResult];
-    filterQuery.cachePolicy = kPFCachePolicyNetworkOnly;
-    [query clearCachedResult];
-    query.cachePolicy = kPFCachePolicyNetworkOnly;
-    [_deleted removeAllObjects];
-    _needToClearCache = NO;
+  if(_loadBecauseChangedFilter) {
+    // In this case we dont want to hit network again
+    filterQuery.cachePolicy = kPFCachePolicyCacheOnly;
+    query.cachePolicy = kPFCachePolicyCacheOnly;
+    _loadBecauseChangedFilter = NO;
   }
   
   return filterQuery;
@@ -229,7 +226,6 @@
   if(deleted) {
     a.isHidden = YES;
     [a saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-      _needToClearCache = YES;
       [self loadObjects];
     }];
     [_deleted addObject:a.objectId];

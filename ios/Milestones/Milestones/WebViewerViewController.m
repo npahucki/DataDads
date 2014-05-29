@@ -28,11 +28,36 @@
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {
+  [UIView transitionWithView:self.loadingImage
+                    duration:0.5
+                     options:UIViewAnimationOptionTransitionCrossDissolve
+                  animations:NULL
+                  completion:nil];
   self.loadingImage.hidden = NO;
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
+  [UIView transitionWithView:self.loadingImage
+                    duration:0.2
+                     options:UIViewAnimationOptionTransitionCrossDissolve
+                  animations:NULL
+                  completion:nil];
   self.loadingImage.hidden = YES;
 }
+
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+  int count = 9;
+  NSMutableArray * images = [[NSMutableArray alloc] initWithCapacity:count];
+  for(int i=0; i<count; i++) {
+    [images addObject:[UIImage imageNamed:[NSString stringWithFormat:@"error-%d.png", i]]];
+  }
+  self.loadingImage.animationImages = images;
+  self.loadingImage.animationDuration = .75;
+  self.loadingImage.animationRepeatCount = 1;
+  self.loadingImage.image = [images lastObject];
+  [self.loadingImage startAnimating];
+}
+
+
 
 @end
