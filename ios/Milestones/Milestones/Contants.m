@@ -22,6 +22,7 @@ NSString *const kDDSegueShowSettings = @"showSettings";
 NSString *const kDDSegueShowLoginScreen = @"showLoginScreen";
 NSString *const kDDSegueEnterBabyInfo = @"enterBabyInfo";
 NSString *const kDDSegueShowFullScreenImage = @"showFullScreenImage";
+NSString *const kDDSegueShowWebView = @"showWebView";
 
 
 

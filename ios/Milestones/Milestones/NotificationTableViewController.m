@@ -9,6 +9,7 @@
 #import "NotificationTableViewController.h"
 #import "SWTableViewCell.h"
 #import "NSDate+HumanizedTime.h"
+#import "WebViewerViewController.h"
 
 #define TITLE_FONT [UIFont fontForAppWithType:Book andSize:14]
 #define DETAIL_FONT [UIFont fontForAppWithType:Book andSize:12]
@@ -138,6 +139,19 @@
   
 }
 
+-(void) tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
+  [self performSegueWithIdentifier:kDDSegueShowWebView sender:[self objectAtIndexPath:indexPath]];
+}
+
+-(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+  if([segue.identifier isEqualToString:kDDSegueShowWebView]) {
+    WebViewerViewController * webView = (WebViewerViewController *)segue.destinationViewController;
+    BabyAssignedTip * assignment = (BabyAssignedTip *)sender;
+    NSAssert(assignment.tip.url.length, @"This should only be called on a tip with a URL");
+    webView.url = assignment.tip.url;
+  }
+}
+
 // LOOKS COOL, BUT HAS ALL SORTS OF RENDERING ISSUES, MAYBE LATER!
 
 //- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -183,18 +197,19 @@
   
   //  if([indexPath isEqual:_selectedPath]) {
     BabyAssignedTip* assignment = (BabyAssignedTip*)[self objectAtIndexPath:indexPath];
-    CGFloat newTitleLabelSize = [self getLabelSize:assignment.tip.title andFont:TITLE_FONT];
-    CGFloat newDateLabelSize = [self getLabelSize:[assignment.createdAt stringWithHumanizedTimeDifference] andFont:DETAIL_FONT];
+    int width = assignment.tip.url.length ? self.tableView.frame.size.width - 44 : self.tableView.frame.size.width;
+    CGFloat newTitleLabelSize = [self getLabelSize:assignment.tip.title andFont:TITLE_FONT withMaxWidth:width];
+    CGFloat newDateLabelSize = [self getLabelSize:[assignment.createdAt stringWithHumanizedTimeDifference] andFont:DETAIL_FONT withMaxWidth:width];
     return MAX(newTitleLabelSize + newDateLabelSize + 40, defaultSize);
 //  } else {
 //    return defaultSize;
 //  }
 }
 
--(CGFloat)getLabelSize:(NSString *) text andFont:(UIFont *)font {
+-(CGFloat)getLabelSize:(NSString *) text andFont:(UIFont *)font withMaxWidth:(int) width {
   
   NSDictionary *attributesDictionary = @{NSFontAttributeName : font};
-  CGRect frame = [text boundingRectWithSize:CGSizeMake(320, 2000.0)
+  CGRect frame = [text boundingRectWithSize:CGSizeMake(width, 2000.0)
                                           options:NSStringDrawingUsesLineFragmentOrigin
                                        attributes:attributesDictionary
                                           context:nil];

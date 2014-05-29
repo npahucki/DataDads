@@ -45,6 +45,7 @@
 		E876159B18EF83C100B0C6D9 /* BabyTagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E876159A18EF83C100B0C6D9 /* BabyTagsViewController.m */; };
 		E876159E18EF892C00B0C6D9 /* BabyTagsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E876159D18EF892C00B0C6D9 /* BabyTagsTableViewController.m */; };
 		E877FCAD19368AE4002405BF /* BabyAssignedTip.m in Sources */ = {isa = PBXBuildFile; fileRef = E877FCAC19368AE4002405BF /* BabyAssignedTip.m */; };
+		E877FCB01936BA98002405BF /* WebViewerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E877FCAF1936BA98002405BF /* WebViewerViewController.m */; };
 		E89035E51930328E004A4013 /* MainNotificationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89035E41930328E004A4013 /* MainNotificationsViewController.m */; };
 		E89035E819303D13004A4013 /* SignUpPromptViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89035E719303D13004A4013 /* SignUpPromptViewController.m */; };
 		E89035EB19337807004A4013 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = E89035EA19337807004A4013 /* Reachability.m */; };
@@ -153,6 +154,8 @@
 		E876159D18EF892C00B0C6D9 /* BabyTagsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = BabyTagsTableViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		E877FCAB19368AE4002405BF /* BabyAssignedTip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyAssignedTip.h; sourceTree = "<group>"; };
 		E877FCAC19368AE4002405BF /* BabyAssignedTip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BabyAssignedTip.m; sourceTree = "<group>"; };
+		E877FCAE1936BA98002405BF /* WebViewerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewerViewController.h; sourceTree = "<group>"; };
+		E877FCAF1936BA98002405BF /* WebViewerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewerViewController.m; sourceTree = "<group>"; };
 		E89035E31930328E004A4013 /* MainNotificationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainNotificationsViewController.h; sourceTree = "<group>"; };
 		E89035E41930328E004A4013 /* MainNotificationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainNotificationsViewController.m; sourceTree = "<group>"; };
 		E89035E619303D13004A4013 /* SignUpPromptViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpPromptViewController.h; sourceTree = "<group>"; };
@@ -317,6 +320,8 @@
 				E81B58751896C1A900C74C2B /* EnterScreenNameViewController.m */,
 				E89035E619303D13004A4013 /* SignUpPromptViewController.h */,
 				E89035E719303D13004A4013 /* SignUpPromptViewController.m */,
+				E877FCAE1936BA98002405BF /* WebViewerViewController.h */,
+				E877FCAF1936BA98002405BF /* WebViewerViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -635,6 +640,7 @@
 				E8D00A20188F435300DF2786 /* NoteMilestoneViewController.m in Sources */,
 				E81B588318992B7000C74C2B /* Tag.m in Sources */,
 				E8BC76D518A50AD000983025 /* UIViewControllerWithHUDProgress.m in Sources */,
+				E877FCB01936BA98002405BF /* WebViewerViewController.m in Sources */,
 				E86B1EB21927967800EA6167 /* PFQueryWithExtendedResultSet.m in Sources */,
 				E8EC89D81907CB410073E012 /* UIViewController+MBProgressHUD.m in Sources */,
 				E8DD48EE188EE5B900153095 /* AppDelegate.m in Sources */,
