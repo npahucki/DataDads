@@ -1,0 +1,10 @@
+curl -X POST \
+  -H "X-Parse-Application-Id: NlJHBG0NZgFS8JP76DBjA31MBRZ7kmb7dVSQQz3U" \
+  -H "X-Parse-Master-Key: ScHR4mshg3TICZKsbPiLmCFLEidiChAwLpWHIUCO" \
+  -H "Content-Type: application/json" \
+  -d '{"plan":"paid"}' \
+  https://api.parse.com/1/jobs/tipsAssignment
+  
+  
+  
+  

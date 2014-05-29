@@ -1,0 +1,6 @@
+curl -X POST \
+  -H "X-Parse-Application-Id: Vxvqum0HRF1NB00LEf2faaJYFzxd2Xh8hyrdY8MY" \
+  -H "X-Parse-REST-API-Key: 6uk9jVGiMojQh6FgkDOhmHzJ8VVfJDPYndhzl4Uo" \
+  -H "Content-Type: application/json" \
+  -d '{"babyId":"1234", "rangeDays":"120"}' \
+  https://api.parse.com/1/functions/queryMyMilestones
