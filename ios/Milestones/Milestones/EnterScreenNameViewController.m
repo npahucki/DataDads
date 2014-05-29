@@ -75,7 +75,7 @@
           [self showErrorThenRunBlock:error withMessage:@"Unable to save preferences" andBlock:^{
           }];
         } else {
-          self.baby.parentUserId = user.objectId;
+          self.baby.parentUser = user;
           [self saveBaby];
         }
       }];

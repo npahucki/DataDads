@@ -13,7 +13,7 @@
 + (NSString *)parseClassName;
 
 @property NSString *name;
-@property NSString *parentUserId;
+@property PFUser *parentUser;
 @property NSDate *birthDate;
 @property NSDate *dueDate;
 @property BOOL isMale;

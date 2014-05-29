@@ -12,7 +12,7 @@
 @implementation Baby
 
 @dynamic name;
-@dynamic parentUserId;
+@dynamic parentUser;
 @dynamic dueDate;
 @dynamic birthDate;
 @dynamic avatarImage;
@@ -23,7 +23,7 @@ static Baby* _currentBaby;
 
 + (PFQuery*) queryForBabiesForUser:(PFUser*)user {
   PFQuery *query =  [self  query];
-  [query whereKey:@"parentUserId" equalTo:user.objectId];
+  [query whereKey:@"parentUser" equalTo:user];
   return query;
 }
 
