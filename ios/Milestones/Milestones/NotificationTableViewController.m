@@ -126,7 +126,7 @@
   
   [cell setCellHeight:cell.frame.size.height];
   cell.textLabel.text = tipAssignment.tip.title;
-  cell.detailTextLabel.text = [NSString stringWithFormat:@"Delivered %@", [tipAssignment.createdAt stringWithHumanizedTimeDifference]];
+  cell.detailTextLabel.text = [NSString stringWithFormat:@"Delivered %@", [tipAssignment.assignmentDate stringWithHumanizedTimeDifference]];
   cell.accessoryType = tipAssignment.tip.url.length ? UITableViewCellAccessoryDetailButton : UITableViewCellAccessoryNone;
   
   // TODO: Need graphic for wanring/tip

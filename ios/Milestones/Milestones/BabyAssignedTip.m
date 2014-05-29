@@ -14,6 +14,8 @@
 @dynamic baby;
 @dynamic tip;
 @dynamic isHidden;
+@dynamic assignmentDate;
+
 
 + (NSString *)parseClassName {
   return @"BabyAssignedTips";
