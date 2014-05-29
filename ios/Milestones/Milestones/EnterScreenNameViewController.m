@@ -7,6 +7,7 @@
 //
 
 #import "EnterScreenNameViewController.h"
+#import "WebViewerViewController.h"
 
 @interface EnterScreenNameViewController ()
 
@@ -102,6 +103,13 @@
 
 -(void) updateNextButtonState {
   self.doneButton.enabled = self.screenNameField.text.length > 1 && (self.maleButton.isSelected || self.femaleButton.isSelected) && self.acceptTACButton.selected;
+}
+
+-(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+  if([segue.identifier isEqualToString:kDDSegueShowWebView]) {
+    WebViewerViewController * webView = (WebViewerViewController *)segue.destinationViewController;
+    webView.url = @"http://datadads.parseapp.com/DDTC.html";
+  }
 }
 
 // TODO: Move save baby logic somewhere else that can be shared.
