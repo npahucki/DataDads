@@ -104,14 +104,16 @@
 }
 
 #pragma mark UITableViewDelegate
+
+
 -(PFTableViewCell*) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
 
   SWTableViewCell *cell = (SWTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"tipCell" forIndexPath:indexPath];
   __weak SWTableViewCell *weakCell = cell;
   [cell setAppearanceWithBlock:^{
     NSMutableArray *rightUtilityButtons = [NSMutableArray new];
-    [rightUtilityButtons sw_addUtilityButtonWithColor: [UIColor appNormalColor] title:@"Hide"];
     [rightUtilityButtons sw_addUtilityButtonWithColor: [UIColor appSelectedColor] title:@"Share"];
+    [rightUtilityButtons sw_addUtilityButtonWithColor: [UIColor redColor] title:@"Hide"];
     weakCell.rightUtilityButtons = rightUtilityButtons;
     
     weakCell.textLabel.font = TITLE_FONT;
@@ -131,7 +133,6 @@
   
   // TODO: Need graphic for wanring/tip
   
-  //cell.imageView.image = [UIImage imageNamed:@"historyNoPic"]; // TODO: tip icon?
   return (PFTableViewCell*)cell; // Hacky!!! Could break!
   
 }
@@ -216,22 +217,50 @@
   return size.height;
 }
 
+-(void) hideNotification:(BabyAssignedTip*) notificaiton withIndexPath:(NSIndexPath*) path {
+  notificaiton.isHidden = YES;
+  [notificaiton saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+    [self loadObjects];
+  }];
+  [_deleted addObject:notificaiton.objectId];
+  [self loadObjects];
+}
+
+-(void) shareNotification:(BabyAssignedTip*) notificaiton withIndexPath:(NSIndexPath*) path {
+  [[[UIAlertView alloc] initWithTitle:@"Keep your pants on!" message:@"This feature is scheduled for next sprint!" delegate:nil cancelButtonTitle:@"Yeah, I got it" otherButtonTitles:nil, nil] show];
+}
+
 #pragma mark - SWTableViewDelegate
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)buttonIndex {
   // TODO: rework this to not use PF table view - so we can do animated deletes.
   NSIndexPath * path = [self.tableView indexPathForCell:cell];
   BabyAssignedTip * a = (BabyAssignedTip*)[self objectAtIndexPath:path];
-  BOOL deleted = buttonIndex == 0;
-  
-  if(deleted) {
-    a.isHidden = YES;
-    [a saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-      [self loadObjects];
-    }];
-    [_deleted addObject:a.objectId];
-    [self loadObjects];
+  if(buttonIndex == 0) {
+    [self shareNotification:a withIndexPath:path];
+  } else if(buttonIndex == 1) {
+    [self hideNotification:a withIndexPath:path];
   }
+}
 
+- (BOOL)swipeableTableViewCell:(SWTableViewCell *)cell canSwipeToState:(SWCellState)state {
+  if(state != kCellStateCenter) {
+    cell.accessoryType = UITableViewCellAccessoryNone;
+  }
+  return YES;
+}
+
+
+// Work around a bug where the accessory view is on top of the slide cell.
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell scrollingToState:(SWCellState)state {
+  if(state == kCellStateCenter) {
+    // Back to normal. Must use delay to not interfere with scroll animation.
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+      NSIndexPath * path = [self.tableView indexPathForCell:cell];
+      BabyAssignedTip * tipAssignment = (BabyAssignedTip*)[self objectAtIndexPath:path];
+      cell.accessoryType = tipAssignment.tip.url.length ? UITableViewCellAccessoryDetailButton : UITableViewCellAccessoryNone;
+    });
+  }
 }
 
 
