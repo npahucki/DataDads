@@ -16,7 +16,7 @@ var utils = require("cloud/utils");
 var _ = require('underscore');
 
 Parse.Cloud.job("tipsAssignment", function(request, status) {
-  var DEFAULT_DELIVERY_INTERVAL_DAYS = 7;
+  var DEFAULT_DELIVERY_INTERVAL_DAYS = 3;
   var PUSH_EXP_SECONDS = 60 * 60 * 24 * (DEFAULT_DELIVERY_INTERVAL_DAYS - 1); // Give up one day before next push (don't flood user)
 
 
