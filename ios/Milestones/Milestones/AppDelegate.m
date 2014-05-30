@@ -142,8 +142,9 @@
 
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-  AudioServicesPlaySystemSound(1003); // Hope this does not get us rejected if it does use : https://developer.apple.com/library/ios/samplecode/SysSound/Introduction/Intro.html
-  [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationPushReceieved object:self userInfo:userInfo];
+  // Hope this does not get us rejected if it does use :
+  //      https://developer.apple.com/library/ios/samplecode/SysSound/Introduction/Intro.html
+  AudioServicesPlaySystemSound(1003);   [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationPushReceieved object:self userInfo:userInfo];
 }
 
 @end
