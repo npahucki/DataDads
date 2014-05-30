@@ -34,11 +34,18 @@
 }
 
 -(void) updateNotificationTabBadge:(NSInteger) badge {
-  if(badge == -1) {
-    // use default
-    badge = [PFInstallation currentInstallation].badge;
+  if(self.selectedViewController.tabBarItem == _notificationsTabItem) {
+    // clear the notificaiton, we are already on it
+    _notificationsTabItem.badgeValue = nil;
+    [PFInstallation currentInstallation].badge = 0;
+    [[PFInstallation currentInstallation] saveEventually];
+  } else {
+    if(badge == -1) {
+      // use default
+      badge = [PFInstallation currentInstallation].badge;
+    }
+    _notificationsTabItem.badgeValue = badge ? [NSString stringWithFormat:@"%ld", badge] : nil;
   }
-  _notificationsTabItem.badgeValue = badge ? [NSString stringWithFormat:@"%ld", badge] : nil;
 }
   
   

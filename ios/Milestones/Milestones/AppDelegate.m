@@ -142,9 +142,8 @@
 
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-  NSLog(@"PUSH ALERT DATA:%@", userInfo);
+  AudioServicesPlaySystemSound(1003); // Hope this does not get us rejected if it does use : https://developer.apple.com/library/ios/samplecode/SysSound/Introduction/Intro.html
   [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationPushReceieved object:self userInfo:userInfo];
-  [PFPush handlePush:userInfo];
 }
 
 @end

@@ -39,12 +39,13 @@
   [super viewDidLoad];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(babyUpdated:) name:kDDNotificationCurrentBabyChanged object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkReachabilityChanged:) name:kReachabilityChangedNotification object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appEnterForeground:) name:UIApplicationDidBecomeActiveNotification object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gotPushNotification:) name:kDDNotificationPushReceieved object:nil];
   self.navigationItem.title = Baby.currentBaby.name;
 }
 
 -(void) dealloc {
-  [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
-  [[NSNotificationCenter defaultCenter] removeObserver:self name:kDDNotificationCurrentBabyChanged object:nil];
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 -(void) viewDidAppear:(BOOL)animated {
@@ -72,6 +73,13 @@
   }
 }
 
+-(void) appEnterForeground:(NSNotification*)notice {
+  [_tableController loadObjects];
+}
+
+-(void) gotPushNotification:(NSNotification*)notice {
+  [_tableController loadObjects];
+}
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
   // The only segue is the embed
