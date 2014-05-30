@@ -46,7 +46,15 @@
   
   // Setup user tracking and A/B tests
   [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
+
   
+  // Register for push notifications
+  // TODO: Do this only if the user is logged in.
+  [application registerForRemoteNotificationTypes:
+   UIRemoteNotificationTypeBadge |
+   UIRemoteNotificationTypeAlert |
+   UIRemoteNotificationTypeSound];
+
   
   [UILabel appearance].font = [UIFont fontForAppWithType:Light andSize:17.0];
   [UILabel appearanceWhenContainedIn:[UIDatePicker class], nil].font = [UIFont systemFontOfSize:24.0];
@@ -83,6 +91,8 @@
   pageControl.currentPageIndicatorTintColor = [UIColor appNormalColor];
   pageControl.backgroundColor = [UIColor whiteColor];
 
+  
+  
   return YES;
 
 }
@@ -115,6 +125,19 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
+}
+
+
+#pragma mark Push Notification
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)newDeviceToken {
+  // Store the deviceToken in the current installation and save it to Parse.
+  PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+  [currentInstallation setDeviceTokenFromData:newDeviceToken];
+  [currentInstallation saveInBackground];
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+  [PFPush handlePush:userInfo];
 }
 
 @end

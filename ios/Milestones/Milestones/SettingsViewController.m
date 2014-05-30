@@ -86,6 +86,8 @@
     SignUpViewController* signupController = [[SignUpViewController alloc] init];
     [self presentViewController:signupController animated:YES completion:nil];
   } else {
+    [[PFInstallation currentInstallation] setObject:[NSNull null] forKey:@"user"];
+    [[PFInstallation currentInstallation] saveEventually];
     [PFUser logOut];
     [PFQuery clearAllCachedResults];
     Baby.currentBaby = nil;

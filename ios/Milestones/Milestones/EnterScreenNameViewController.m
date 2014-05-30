@@ -68,7 +68,6 @@
     } else {
       [user setObject:self.screenNameField.text forKey:kDDUserScreenName];
       [user setObject: [NSNumber numberWithBool:self.maleButton.isSelected] forKey:kDDUserIsMale];
-
       [self showInProgressHUDWithMessage:@"Saving your preferences" andAnimation:YES andDimmedBackground:YES];
       [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if(error) {

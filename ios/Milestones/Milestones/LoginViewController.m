@@ -51,6 +51,7 @@
   self.logInView.logo = label;
   
   // Username
+  [self.logInView.usernameField setKeyboardType:UIKeyboardTypeEmailAddress];
   self.logInView.usernameField.textColor = [UIColor appGreyTextColor];
   self.logInView.usernameField.layer.borderColor = [UIColor appGreyTextColor].CGColor;
   self.logInView.usernameField.layer.borderWidth = 1;
@@ -197,6 +198,11 @@
 /*! @name Responding to Actions */
 /// Sent to the delegate when a PFUser is logged in.
 - (void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user {
+
+  // Make sure the current user is associated with the device.
+  [[PFInstallation currentInstallation] setObject:user forKey:@"user"];
+  [[PFInstallation currentInstallation] saveEventually];
+  
   BOOL isLinkedToFacebook = [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]];
   if(isLinkedToFacebook) {
     // We need to copy the email address and maybe some other attibutes here before we proceed.

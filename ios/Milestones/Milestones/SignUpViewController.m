@@ -63,6 +63,7 @@
   //[self.logInView.logo addSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"welcomeScreenBaby"]]];
 
   // Username
+  [self.signUpView.usernameField setKeyboardType:UIKeyboardTypeEmailAddress];
   self.signUpView.usernameField.textColor = [UIColor appGreyTextColor];
   self.signUpView.usernameField.layer.borderColor = [UIColor appGreyTextColor].CGColor;
   self.signUpView.usernameField.layer.borderWidth = 1;
@@ -179,6 +180,9 @@
 # pragma PFSignUpViewControllerDelegate methods
 // Sent to the delegate when a PFUser is signed up.
 - (void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user {
+  [[PFInstallation currentInstallation] setObject:user forKey:@"user"];
+  [[PFInstallation currentInstallation] saveEventually];
+  
   [self showSignupSuccessAndRunBlock:^{
     [[NSNotificationCenter defaultCenter]
      postNotificationName:kDDNotificationUserSignedUp object:self userInfo:[NSDictionary dictionaryWithObject:user forKey:@""]];
