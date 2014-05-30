@@ -44,7 +44,7 @@
       // use default
       badge = [PFInstallation currentInstallation].badge;
     }
-    _notificationsTabItem.badgeValue = badge ? [NSString stringWithFormat:@"%ld", badge] : nil;
+    _notificationsTabItem.badgeValue = badge ? [NSString stringWithFormat:@"%ld", (long)badge] : nil;
   }
 }
   
