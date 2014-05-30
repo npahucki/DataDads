@@ -16,6 +16,11 @@ var utils = require("cloud/utils");
 var _ = require('underscore');
 
 Parse.Cloud.job("tipsAssignment", function(request, status) {
+  var DEFAULT_DELIVERY_INTERVAL_DAYS = 7;
+  var PUSH_EXP_SECONDS = 60 * 60 * 24 * (DEFAULT_DELIVERY_INTERVAL_DAYS - 1); // Give up one day before next push (don't flood user)
+
+
+
   // Set up to modify user data
   Parse.Cloud.useMasterKey();
 
@@ -67,13 +72,24 @@ Parse.Cloud.job("tipsAssignment", function(request, status) {
     return assignment.save();
   }
 
-  var pushMessageToUserForBaby = function(tipAssignment) {
-    console.log("Pushed tip assignment " + JSON.stringify(tipAssignment));
-    return Parse.Promise.as("Pushed!");
+  var pushMessageToUserForBaby = function(tipAssignment, parentUser) {
+    console.log("Pushing tip assignment " + tipAssignment.id + " to user " + parentUser.id);
+    var pushQuery = new Parse.Query(Parse.Installation);
+    pushQuery.equalTo("user", parentUser);
+    return Parse.Push.send({
+        where: pushQuery,
+        data: {
+          alert: tipAssignment.get("tip").get("title"),
+          cdata : { "tipAssignmentId" : tipAssignment.id },
+          badge : 3,
+          sound : "",
+          expiration_interval: PUSH_EXP_SECONDS
+        }
+      });
   }
 
   var testIfDueForDelivery = function(baby,lastAssignmentDate) {
-    var frequencyDays = 7; // TODO: calc based on user is premium or not
+    var frequencyDays = DEFAULT_DELIVERY_INTERVAL_DAYS; // TODO: calc based on user is premium or not
     var daysDiff = lastAssignmentDate == null ? -1 : Math.abs(utils.dayDiffFromNow(lastAssignmentDate));
     console.log("For baby "+ baby.id + " there are "+ daysDiff +" days since last assignment");
     if(daysDiff == -1 || daysDiff > frequencyDays) return Parse.Promise.as(true);
@@ -105,8 +121,8 @@ Parse.Cloud.job("tipsAssignment", function(request, status) {
     }).
     then(function(tipAssignment) {
         if(tipAssignment) {
-            console.log("Will push message for tip assignment " + tipAssignment.id +"to "+ baby.id);
-            return pushMessageToUserForBaby(tipAssignment);
+            console.log("Will push message for tip assignment " + tipAssignment.id +" to baby "+ baby.id);
+            return pushMessageToUserForBaby(tipAssignment, baby.get("parentUser"));
         }
     }).
     then(function(){
@@ -123,7 +139,7 @@ Parse.Cloud.job("tipsAssignment", function(request, status) {
   var babyQuery = new Parse.Query("Babies");
   // TODO: Filter by active babies/users + exclude babies over 5 years old?
   babyQuery.include("parentUser");
-  babyQuery.select("name","dueDate");
+  babyQuery.select("name","dueDate","parentUser");
   console.log("Doing query lookup..");
   babyQuery.find().then(function(babies) {
     //console.log("Babies query result " + JSON.stringify(babies));

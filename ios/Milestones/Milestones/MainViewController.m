@@ -9,13 +9,42 @@
 #import "MainViewController.h"
 #import "CustomIOS7AlertView.h"
 
-@implementation MainViewController
+@implementation MainViewController {
+  UITabBarItem * _notificationsTabItem;
+}
 
 -(void) viewDidLoad {
   [super viewDidLoad];
+  _notificationsTabItem = ((UIViewController*)[self.viewControllers objectAtIndex:1]).tabBarItem;
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appEnterForeground:) name:UIApplicationDidBecomeActiveNotification object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gotPushNotification:) name:kDDNotificationPushReceieved object:nil];
 }
 
+-(void) dealloc {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+-(void) appEnterForeground:(NSNotification*)notice {
+  [self updateNotificationTabBadge:-1];
+}
+
+-(void) gotPushNotification:(NSNotification*)notice {
+  NSNumber * badgeNumber = [[notice.userInfo objectForKey:@"aps"] objectForKey:@"badge"];
+  [self updateNotificationTabBadge:badgeNumber.integerValue];
+}
+
+-(void) updateNotificationTabBadge:(NSInteger) badge {
+  if(badge == -1) {
+    // use default
+    badge = [PFInstallation currentInstallation].badge;
+  }
+  _notificationsTabItem.badgeValue = badge ? [NSString stringWithFormat:@"%ld", badge] : nil;
+}
+  
+  
 - (void)viewDidAppear:(BOOL)animated {
+  [self updateNotificationTabBadge:-1];
+  
   PFUser * user = PFUser.currentUser;
   if(user) {
     if([Baby currentBaby] == nil) {
@@ -60,6 +89,18 @@
   } else {
     // need to login before we can do anything
     [self performSegueWithIdentifier:@"showIntroScreen" sender:self];
+  }
+}
+
+-(void) tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
+  if(item == _notificationsTabItem) {
+    // Reset badge count when the view is shown
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    if (currentInstallation.badge != 0) {
+      currentInstallation.badge = 0;
+      [currentInstallation saveEventually];
+    }
+    item.badgeValue = nil;
   }
 }
 

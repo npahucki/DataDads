@@ -32,6 +32,7 @@ extern NSString *const kDDSegueShowWebView;
 extern NSString *const kDDNotificationCurrentBabyChanged;     // User data is NSDictionary with Baby object keyed by @""
 extern NSString *const kDDNotificationMilestoneNotedAndSaved; // User data is NSDictionary with StandardMilestone object keyed by @""
 extern NSString *const kDDNotificationUserSignedUp;           // User data is NSDictionary with Signed up User keyed by @""
+extern NSString *const kDDNotificationPushReceieved;          // Got push notification
 
 
 #pragma mark Application Colors

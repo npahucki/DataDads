@@ -136,7 +136,14 @@
   [currentInstallation saveInBackground];
 }
 
+-(void) application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+  NSLog(@"Failed to register for push noticiations :%@", error);
+}
+
+
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+  NSLog(@"PUSH ALERT DATA:%@", userInfo);
+  [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationPushReceieved object:self userInfo:userInfo];
   [PFPush handlePush:userInfo];
 }
 

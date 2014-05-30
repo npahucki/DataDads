@@ -35,6 +35,10 @@ NSString *const kDDSegueShowWebView = @"showWebView";
 NSString *const kDDNotificationCurrentBabyChanged = @"currentBabyChanged";
 NSString *const kDDNotificationMilestoneNotedAndSaved = @"milestoneNotedAndSaved";
 NSString *const kDDNotificationUserSignedUp = @"userSignedUp";
+NSString *const kDDNotificationPushReceieved = @"notificationPushReceived";
+
+
+
 
 
 
