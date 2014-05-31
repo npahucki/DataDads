@@ -1,6 +1,9 @@
 # Don't keep pod files in source control
 ios/Milestones/Pods/
 
+# And no IDEA IntelliJ project files either
+.idea
+
 #########################
 # .gitignore file for Xcode4 and Xcode5 Source projects
 #
