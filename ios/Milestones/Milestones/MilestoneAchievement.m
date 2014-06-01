@@ -20,6 +20,7 @@
 @dynamic completionDate;
 @dynamic attachment;
 @dynamic attachmentType;
+@dynamic attachmentThumbnail;
 @dynamic customTitle;
 @dynamic comment;
 @dynamic isSkipped;
@@ -40,7 +41,10 @@
 
 -(void) setCompletionDate:(NSDate *)completionDate {
   [self setObject:completionDate forKey:@"completionDate"];
-  [self setObject:@([self.baby daysSinceDueDate:completionDate]) forKey:@"completionDays"];
+  // Skip any thing in the past. This can happen if the user has entered bad dates
+  // or uploads a photo with a bad date on it. 
+  NSInteger days = [self.baby daysSinceDueDate:completionDate];
+  if(days >= 0) [self setObject:@(days) forKey:@"completionDays"];
 }
 
 -(NSDate *) completionDate {

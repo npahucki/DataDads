@@ -139,6 +139,16 @@
 
 -(void) saveAchievementWithAttachment:(PFFile*) attachment andType:(NSString*) type {
   
+  // Bit of a hacky work around to the fact that CLoudCode beforeSave trigger reloads the object after a save
+  // buts does not load the pointers, so the achievement object has the Baby and StandardMilestone fields set to
+  // hollow pointers (do data but the objectId). We would normally need to make two more network calls to get
+  // these two objects back (needed for code that runs in the notification handlers). However, we assume
+  // that the CloudCode trigger scripts are NOT changing the baby or StandardMilestone, meaning that we can save the
+  // values here, and restore them later (after asserting that the objectIds are the same of course!).
+  StandardMilestone* originalMilestone = self.achievement.standardMilestone; // this will be nil for custom milestones.
+  Baby * originalBaby = self.achievement.baby;
+  
+  
   if(self.commentsTextField.text.length) self.achievement.comment = self.commentsTextField.text;
   if(self.customTitleTextField.text.length) self.achievement.customTitle = self.customTitleTextField.text;
   self.achievement.attachment = attachment;
@@ -146,6 +156,16 @@
   self.achievement.completionDate =  ((UIDatePicker*)self.completionDateTextField.inputView).date;
   [self saveObject:self.achievement withTitle:@"Noting Milestone" andFailureMessage:@"Could not note milestone." andBlock:^(NSError * error) {
     if(!error) {
+      // SEE NOTE ABOVE
+      if(!self.achievement.baby.isDataAvailable) {
+        NSAssert([self.achievement.baby.objectId isEqualToString:originalBaby.objectId],@"The server unexpectedly changed the Baby in the achievement!");
+        self.achievement.baby = originalBaby; // avoid network call
+      }
+      if(originalMilestone && !self.achievement.standardMilestone.isDataAvailable) {
+        NSAssert([self.achievement.standardMilestone.objectId isEqualToString:originalMilestone.objectId],@"The server unexpectedly changed the Milestone in the achievement!");
+        self.achievement.standardMilestone = originalMilestone; // avoid network call
+      }
+      
       [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationMilestoneNotedAndSaved object:self userInfo:@{@"" : self.achievement}];
       [self dismissViewControllerAnimated:YES completion:nil];
     }
@@ -172,6 +192,12 @@
     [_assetLibrary assetForURL:assetURL resultBlock:^(ALAsset *asset) {
       NSDate * createDate = [asset valueForProperty:ALAssetPropertyDate];
       if(createDate) {
+
+        if([self.achievement.baby daysSinceBirthDate:createDate] < 0) {
+          [[[UIAlertView alloc] initWithTitle:@"Hmmmm" message:@"This photo seems to have been taken before baby was born - we'll use baby's birthdate instead, but feel free to correct it." delegate:nil cancelButtonTitle:@"Accept" otherButtonTitles:nil, nil] show];
+          createDate = self.achievement.baby.birthDate;
+        }
+        
         UIDatePicker * picker = (UIDatePicker*)self.completionDateTextField.inputView;
         if([picker.date compare:createDate]) {
           picker.date = createDate;

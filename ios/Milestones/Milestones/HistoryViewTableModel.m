@@ -175,7 +175,24 @@
   
 }
 
-  
+-(NSInteger) indexOfFutureMilestone:(StandardMilestone*) milestone {
+  for(NSInteger idx = 0; idx < _futureMilestones.count; idx++) {
+    if([milestone.objectId isEqualToString:((StandardMilestone*)_futureMilestones[idx]).objectId]) {
+      return idx;
+    }
+  }
+  return NSNotFound;
+}
+
+-(NSInteger) indexOfPastMilestone:(StandardMilestone*) milestone {
+  for(NSInteger idx = 0; idx < _pastMilestones.count; idx++) {
+    if([milestone.objectId isEqualToString:((StandardMilestone*)_pastMilestones[idx]).objectId]) {
+      return idx;
+    }
+  }
+  return NSNotFound;
+}
+
   
 
 @end

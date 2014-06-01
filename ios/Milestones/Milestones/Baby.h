@@ -19,6 +19,7 @@
 @property BOOL isMale;
 @property NSArray* tags;
 @property PFFile* avatarImage;
+@property PFFile* avatarImageThumbnail;
 
 @property (readonly) NSInteger daysSinceBirth;
 @property (readonly) NSInteger daysSinceDueDate;
@@ -33,6 +34,8 @@
 + (void) setCurrentBaby:(Baby*)baby;
 
 -(NSInteger) daysSinceDueDate:(NSDate *) otherDate;
+-(NSInteger) daysSinceBirthDate:(NSDate *) otherDate;
+
 
 
 @end

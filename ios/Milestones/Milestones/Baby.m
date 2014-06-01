@@ -16,6 +16,7 @@
 @dynamic dueDate;
 @dynamic birthDate;
 @dynamic avatarImage;
+@dynamic avatarImageThumbnail;
 @dynamic tags;
 @dynamic isMale;
 
@@ -34,6 +35,11 @@ static Baby* _currentBaby;
 -(NSInteger) daysSinceDueDate:(NSDate *) otherDate {
   return [self daysDifference:self.dueDate toDate:otherDate];
 }
+
+-(NSInteger) daysSinceBirthDate:(NSDate *) otherDate {
+  return [self daysDifference:self.birthDate toDate:otherDate];
+}
+
 
 
 -(NSInteger) daysSinceDueDate {

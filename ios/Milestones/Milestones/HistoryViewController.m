@@ -53,9 +53,7 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
 }
 
 -(void) dealloc {
-  [[NSNotificationCenter defaultCenter] removeObserver:self name:kDDNotificationCurrentBabyChanged object:nil];
-  [[NSNotificationCenter defaultCenter] removeObserver:self name:kDDNotificationMilestoneNotedAndSaved object:nil];
-  [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 -(void) networkReachabilityChanged:(NSNotification*)notification {
@@ -104,7 +102,7 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
   
   if(achievement.standardMilestone) {
     StandardMilestone * m = achievement.standardMilestone;
-    NSInteger index = [_model.futureMilestones indexOfObject:m];
+    NSInteger index = [_model indexOfFutureMilestone:m];
     NSIndexPath* removedIndexPath;
     if(index != NSNotFound) {
       fromFuture = YES;
@@ -112,21 +110,21 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
       removedIndexPath = [NSIndexPath indexPathForRow:index + (_model.hasMoreFutureMilestones ? 1 : 0) inSection:FutureMilestoneSection]; // add one for the loading row
       [reloadPaths addObjectsFromArray:[self reloadPathsForRemovedCell:removedIndexPath]];
     } else {
-      index = [_model.pastMilestones indexOfObject:m];
+      index = [_model indexOfPastMilestone:m];
       if(index != NSNotFound) {
-        [_model markPastMilestone:index ignored:NO postponed:NO]; // Removes it from the list
+        [_model  markPastMilestone:index ignored:NO postponed:NO]; // Removes it from the list
         removedIndexPath = [NSIndexPath indexPathForRow:index inSection:PastMilestoneSection];
         [reloadPaths addObjectsFromArray:[self reloadPathsForRemovedCell:removedIndexPath]];
       }
     }
+    NSAssert(removedIndexPath,@"Milestone was not found in past or future!");
     [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:removedIndexPath]  withRowAnimation:UITableViewRowAnimationLeft];
   }
-
   
   NSInteger addedIndex = [_model addNewAchievement:achievement];
   if(addedIndex >= 0) { // Negative means it was not added to the view at all because it is after what is loaded in the model now.
     NSIndexPath* addedIndexPath = [NSIndexPath indexPathForRow:addedIndex inSection:AchievementSection];
-    if([self.tableView numberOfRowsInSection:AchievementSection]) {
+    if([self.tableView numberOfRowsInSection:AchievementSection] > addedIndex) {
       [self.tableView selectRowAtIndexPath:addedIndexPath animated:NO scrollPosition:fromFuture ? UITableViewScrollPositionBottom : UITableViewScrollPositionMiddle];
       [reloadPaths addObject:addedIndexPath];
     }
@@ -332,13 +330,25 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
   cell.imageView.image = [UIImage imageNamed:@"historyNoPic"]; // use in case of error
   cell.imageView.alpha = 0.5;
  
-  PFFile * imageFile = (achievement.attachment && [achievement.attachmentType rangeOfString : @"image"].location != NSNotFound) ?
-  achievement.attachment : _model.baby.avatarImage;
+  PFFile * imageFile;
+  BOOL isThumbnail = NO;
+  BOOL hasAttachmentImage = (achievement.attachment && [achievement.attachmentType rangeOfString : @"image"].location != NSNotFound);
+  if(hasAttachmentImage) {
+    isThumbnail = achievement.attachmentThumbnail != nil;
+    imageFile = isThumbnail ? achievement.attachmentThumbnail : achievement.attachment;
+  } else {
+    NSAssert([achievement.baby.objectId isEqualToString:Baby.currentBaby.objectId], @"Expected only milestones for current baby");
+    isThumbnail = Baby.currentBaby.avatarImageThumbnail != nil;
+    imageFile = Baby.currentBaby.avatarImageThumbnail ? Baby.currentBaby.avatarImageThumbnail : Baby.currentBaby.avatarImage;
+  }
   if(imageFile) {
     [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
       if(!error) {
+        // TODO: It would be nice to not have to scale the image here, but if we don't, on
+        // return from the milestone page, the image explodes into a much larger size (occupying the full height of the cell)
+        // until the cell refreshes. Perhaps we could use programmed constrants to fix this? For now, we scale the image and that's it.
         cell.imageView.image = [self imageWithImage:[[UIImage alloc] initWithData:data] scaledToSize:IMG_SIZE];
-        cell.imageView.alpha = imageFile == achievement.attachment ? 1.0 : 0.3;
+        cell.imageView.alpha = hasAttachmentImage ? 1.0 : 0.3;
       }
     }];
   }
@@ -358,7 +368,7 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
   weakCell.detailTextLabel.numberOfLines = 4;
   
   weakCell.imageView.frame = CGRectMake(15, weakCell.frame.size.height / 2 - (IMG_SIZE.height / 2),IMG_SIZE.width, IMG_SIZE.height);
-  weakCell.imageView.contentMode = UIViewContentModeScaleToFill;
+  weakCell.imageView.contentMode = UIViewContentModeCenter; // Don't do any more scaling since we scale ourselves.
   weakCell.imageView.layer.masksToBounds = YES;
   [weakCell.imageView.layer setCornerRadius:weakCell.imageView.frame.size.width/2];
   

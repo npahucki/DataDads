@@ -40,6 +40,8 @@
 
 
 
+
+
 @property (weak) id <HistoryViewTableModelDelegate> delegate;
 @property Baby* baby;
 
@@ -60,6 +62,18 @@
  * and the UI shoud not expect to display it right away.
  */
 -(NSInteger) addNewAchievement:(MilestoneAchievement *) achievement;
+
+/*!
+ * Use this instead of doing indexOfObject on the array property since that does not do equality checking based on the object Id.
+ */
+-(NSInteger) indexOfFutureMilestone:(StandardMilestone*) milestone;
+
+/*!
+ * Use this instead of doing indexOfObject on the array property since that does not do equality checking based on the object Id.
+ */
+-(NSInteger) indexOfPastMilestone:(StandardMilestone*) milestone;
+
+
 
 
 

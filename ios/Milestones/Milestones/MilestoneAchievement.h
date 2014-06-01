@@ -16,6 +16,7 @@
 @property StandardMilestone *standardMilestone; // optional, could be custom in which case customTitle and customDescription should be set
 @property NSDate* completionDate;
 @property PFFile* attachment;
+@property PFFile* attachmentThumbnail; // populated by trigger
 @property NSString* attachmentType;
 @property NSString* customTitle;      // optional, should be set if milestone is nil
 @property NSString* comment;
