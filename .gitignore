@@ -3,6 +3,7 @@ ios/Milestones/Pods/
 
 # And no IDEA IntelliJ project files either
 .idea
+*.iml
 
 #########################
 # .gitignore file for Xcode4 and Xcode5 Source projects
