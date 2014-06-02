@@ -118,7 +118,6 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
                                 <connections>
-                                    <action selector="didChangeBirthDateField:" destination="sg9-o2-9ju" eventType="valueChanged" id="IoX-cH-srr"/>
                                     <action selector="textFieldEditingDidEnd:" destination="sg9-o2-9ju" eventType="editingDidEnd" id="9tM-gS-D4L"/>
                                 </connections>
                             </textField>
@@ -193,7 +192,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Baby is:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ytA-VT-FUy">
-                                <rect key="frame" x="129" y="290" width="62" height="21"/>
+                                <rect key="frame" x="129" y="281" width="62" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.66274509803921566" green="0.66274509803921566" blue="0.69411764705882351" alpha="1" colorSpace="calibratedRGB"/>
@@ -216,7 +215,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="ENC-Jr-qf0" firstAttribute="top" secondItem="ytA-VT-FUy" secondAttribute="bottom" constant="-13" id="266-AZ-xus"/>
+                            <constraint firstItem="ENC-Jr-qf0" firstAttribute="top" secondItem="ytA-VT-FUy" secondAttribute="bottom" constant="-4" id="266-AZ-xus"/>
                             <constraint firstAttribute="centerX" secondItem="ENC-Jr-qf0" secondAttribute="centerX" id="71m-Wh-h0k"/>
                             <constraint firstItem="ENC-Jr-qf0" firstAttribute="centerX" secondItem="ytA-VT-FUy" secondAttribute="centerX" id="BQJ-rb-Sdp"/>
                             <constraint firstItem="4Fl-AS-kct" firstAttribute="top" secondItem="sCk-G8-yo7" secondAttribute="bottom" constant="8" symbolic="YES" id="C0E-O6-FJa"/>
@@ -239,7 +238,7 @@
                             <constraint firstItem="YcI-T2-9sh" firstAttribute="leading" secondItem="ENC-Jr-qf0" secondAttribute="leading" id="e5A-46-WSs"/>
                             <constraint firstItem="YcI-T2-9sh" firstAttribute="leading" secondItem="4Fl-AS-kct" secondAttribute="leading" id="eI1-aw-ttA"/>
                             <constraint firstItem="ENC-Jr-qf0" firstAttribute="leading" secondItem="zHR-9I-ONZ" secondAttribute="trailing" constant="-99" id="fav-X1-43d"/>
-                            <constraint firstItem="ENC-Jr-qf0" firstAttribute="top" secondItem="ytA-VT-FUy" secondAttribute="bottom" constant="-13" id="gWc-3Y-U28"/>
+                            <constraint firstItem="ENC-Jr-qf0" firstAttribute="top" secondItem="ytA-VT-FUy" secondAttribute="bottom" constant="-4" id="gWc-3Y-U28"/>
                             <constraint firstItem="zNi-AL-0bh" firstAttribute="top" secondItem="ENC-Jr-qf0" secondAttribute="bottom" constant="19" id="hE3-ZB-cpw"/>
                             <constraint firstItem="efa-CG-cYS" firstAttribute="top" secondItem="YcI-T2-9sh" secondAttribute="bottom" constant="6" id="lpW-By-OD3"/>
                             <constraint firstItem="rDq-EU-ZLQ" firstAttribute="centerX" secondItem="OKK-Fo-Qon" secondAttribute="centerX" id="ooz-AN-Npl"/>
@@ -263,10 +262,13 @@
                     </navigationItem>
                     <connections>
                         <outlet property="babyName" destination="sCk-G8-yo7" id="VrG-vc-0kf"/>
+                        <outlet property="birthDateLabel" destination="4Fl-AS-kct" id="ELW-tU-cGc"/>
                         <outlet property="dobTextField" destination="D63-oo-pUF" id="qKB-bu-ywc"/>
+                        <outlet property="dueDateLabel" destination="YcI-T2-9sh" id="lKa-Bn-Taz"/>
                         <outlet property="dueDateTextField" destination="efa-CG-cYS" id="x6V-fM-bF3"/>
                         <outlet property="femaleButton" destination="OKK-Fo-Qon" id="Keu-nK-rMd"/>
                         <outlet property="femaleLabel" destination="rDq-EU-ZLQ" id="DAu-ET-gOT"/>
+                        <outlet property="genderLabel" destination="ytA-VT-FUy" id="MTU-St-A1N"/>
                         <outlet property="maleButton" destination="zHR-9I-ONZ" id="GU4-15-TB8"/>
                         <outlet property="maleLabel" destination="zNi-AL-0bh" id="KIY-Mf-bCX"/>
                         <outlet property="nextButton" destination="Rze-bB-4zI" id="Z2o-zg-MEd"/>

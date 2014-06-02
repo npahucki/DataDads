@@ -47,9 +47,6 @@
     self.baby = [Baby object];
   }
 }
-- (IBAction)didChangeBirthDateField:(id)sender {
-  
-}
 
 -(void)handleSingleTap:(UITapGestureRecognizer *)sender {
   [self.view endEditing:NO];
@@ -80,7 +77,15 @@
 }
 
 - (IBAction)textFieldEditingDidEnd:(id)sender {
+  
+  if(sender == self.babyName && self.babyName.text.length) {
+    self.birthDateLabel.text = [NSString stringWithFormat:@"%@ was born on:",self.babyName.text];
+    self.dueDateLabel.text = [NSString stringWithFormat:@"%@ was due on:",self.babyName.text];
+    self.genderLabel.text = [NSString stringWithFormat:@"%@ is a:",self.babyName.text];
+  }
+  
   if(sender == self.dueDateTextField) _dueDateDirty = YES;
+  
   if(sender == self.dobTextField) {
     self.dueDateTextField.picker.maximumDate =  [self.dobTextField.date dateByAddingDays:MAX_DUE_AFTER];
     self.dueDateTextField.picker.minimumDate =  [self.dobTextField.date dateByAddingDays:MIN_DUE_BEFORE];

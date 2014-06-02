@@ -32,6 +32,9 @@
 
 @property (strong, nonatomic) IBOutlet UILabel *maleLabel;
 @property (strong, nonatomic) IBOutlet UILabel *femaleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *dueDateLabel;
+@property (weak, nonatomic) IBOutlet UILabel *birthDateLabel;
+@property (weak, nonatomic) IBOutlet UILabel *genderLabel;
 
 @end
 
