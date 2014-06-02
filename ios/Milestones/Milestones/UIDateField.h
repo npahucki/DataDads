@@ -12,5 +12,6 @@
 
 @property (readonly) NSDateFormatter * dateFormatter;
 @property (strong, nonatomic) NSDate * date;
+@property (strong, nonatomic) UIDatePicker * picker;
 
 @end

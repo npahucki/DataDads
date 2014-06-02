@@ -8,6 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import "Baby.h"
+#import "NSDate+Utils.h"
 
 @interface BabyTests : XCTestCase
 
@@ -30,22 +31,22 @@
 - (void)testDaysSinceBirthReturnsCorrectNumber
 {
   Baby * baby = [Baby object];
-  baby.birthDate = [self dateFromDaysFromToday:-2];
-  XCTAssert(baby.daysSinceBirth == 2);
+  baby.birthDate = [NSDate dateInDaysFromNow:-2];
+  XCTAssertEqual(baby.daysSinceBirth, 2);
 }
 
 - (void)testDaysSinceDueReturnsCorrectNumber
 {
   Baby * baby = [Baby object];
-  baby.dueDate = [self dateFromDaysFromToday:-180];
+  baby.dueDate = [NSDate dateInDaysFromNow:-180];
   XCTAssertEqual(baby.daysSinceDueDate, (NSInteger) 180);
 }
 
 - (void)testDaysBetweenDueAndBirthDateWhenBornAfterDueDate
 {
   Baby * baby = [Baby object];
-  baby.dueDate = [self dateFromDaysFromToday:-3];
-  baby.birthDate = [self dateFromDaysFromToday:-1];
+  baby.dueDate = [NSDate dateInDaysFromNow:-3];
+  baby.birthDate = [NSDate dateInDaysFromNow:-1];
   XCTAssertEqual(baby.daysMissedDueDate, (NSInteger)2);
   XCTAssertFalse(baby.wasBornPremature);
   
@@ -54,8 +55,8 @@
 - (void)testDaysBetweenDueAndBirthDateWhenBornBeforeDueDate
 {
   Baby * baby = [Baby object];
-  baby.dueDate = [self dateFromDaysFromToday:1];
-  baby.birthDate = [self dateFor:-5 fromDate:baby.dueDate];
+  baby.dueDate = [NSDate dateInDaysFromNow:1];
+  baby.birthDate = [baby.dueDate dateByAddingDays:-5];
   NSLog(@"************* Due: %@, Birth: %@ Days: %ld", baby.dueDate, baby.birthDate, (long)baby.daysMissedDueDate);
   XCTAssertEqual(baby.daysMissedDueDate, (NSInteger)-5);
   XCTAssertTrue(baby.wasBornPremature);
@@ -64,17 +65,7 @@
 
 
 
-- (NSDate*) dateFromDaysFromToday:(NSInteger)days {
-  return [self dateFor:days fromDate:[NSDate date]];
-}
 
-- (NSDate*) dateFor:(NSInteger)days fromDate:(NSDate*)date {
-  NSCalendar *gregorian = [[NSCalendar alloc]
-                           initWithCalendarIdentifier:NSGregorianCalendar];
-  NSDateComponents *offsetComponents = [[NSDateComponents alloc] init];
-  [offsetComponents setDay:days];
-  return [gregorian dateByAddingComponents:offsetComponents toDate:date options:0];
-}
 
 
 

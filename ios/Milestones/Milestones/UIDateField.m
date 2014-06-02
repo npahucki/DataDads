@@ -23,20 +23,20 @@ NSDateFormatter * _dateFormatter;
     [_dateFormatter setDoesRelativeDateFormatting:YES];
   }
 
-  UIDatePicker * datePicker = [[UIDatePicker alloc]init];
-  datePicker.datePickerMode = UIDatePickerModeDate;
-  datePicker.date = [NSDate date];
-  datePicker.maximumDate = datePicker.date;
-  [datePicker addTarget:self action:@selector(updateTextField:) forControlEvents:UIControlEventValueChanged];
-  UIToolbar* datePickerToolbar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, datePicker.frame.size.width, 50)];
+  _picker = [[UIDatePicker alloc]init];
+  _picker.datePickerMode = UIDatePickerModeDate;
+  _picker.date = [NSDate date];
+  _picker.maximumDate = _picker.date; // default
+  [_picker addTarget:self action:@selector(updateTextField:) forControlEvents:UIControlEventValueChanged];
+  UIToolbar* datePickerToolbar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, _picker.frame.size.width, 50)];
   datePickerToolbar.items = @[
                               [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
                               [[UIBarButtonItem alloc]initWithTitle:@"Close" style:UIBarButtonItemStyleDone target:self action:@selector(doneWithDatePicker)]
                               ];
   [datePickerToolbar sizeToFit];
-  self.inputView = datePicker;
+  self.inputView = _picker;
   self.inputAccessoryView = datePickerToolbar;
-  [self updateTextField:datePicker];
+  [self updateTextField:_picker];
   [super awakeFromNib];
   
 }

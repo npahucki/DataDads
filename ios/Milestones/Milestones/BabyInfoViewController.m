@@ -11,12 +11,20 @@
 #import "Baby.h"
 #import "Tag.h"
 #import "BabyInfoPhotoViewController.h"
+#import "NSDate+Utils.h"
+
+#define MIN_DUE_BEFORE -60
+#define MAX_DUE_AFTER 21
+
+
 
 @interface BabyInfoViewController ()
 
 @end
 
-@implementation BabyInfoViewController
+@implementation BabyInfoViewController {
+  BOOL _dueDateDirty;
+}
 
 
 - (void)viewDidLoad
@@ -28,7 +36,7 @@
   UITapGestureRecognizer *viewTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
   [self.view addGestureRecognizer:viewTap];
   self.babyName.delegate = self;
-  
+  self.dobTextField.picker.maximumDate = [NSDate date];
   
   if(self.baby) {
     self.babyName.text = self.baby.name;
@@ -38,6 +46,9 @@
   } else {
     self.baby = [Baby object];
   }
+}
+- (IBAction)didChangeBirthDateField:(id)sender {
+  
 }
 
 -(void)handleSingleTap:(UITapGestureRecognizer *)sender {
@@ -68,21 +79,20 @@
   return YES;
 }
 
-- (IBAction)editingDidBeginForDueDate:(id)sender {
-  if([self.dueDateTextField.text length] == 0) {
-//    UIDatePicker *dueDatePicker = (UIDatePicker*)self.dueDateTextField.inputView;
-//    UIDatePicker *birthDatePicker = (UIDatePicker*)self.dobTextField.inputView;
-//    dueDatePicker.date = birthDatePicker.date;
-//    [self updateDueDateTextField:self];
-  }
-}
-
 - (IBAction)textFieldEditingDidEnd:(id)sender {
+  if(sender == self.dueDateTextField) _dueDateDirty = YES;
+  if(sender == self.dobTextField) {
+    self.dueDateTextField.picker.maximumDate =  [self.dobTextField.date dateByAddingDays:MAX_DUE_AFTER];
+    self.dueDateTextField.picker.minimumDate =  [self.dobTextField.date dateByAddingDays:MIN_DUE_BEFORE];
+    if(!_dueDateDirty)
+      self.dueDateTextField.date = self.dobTextField.date;
+  }
   [self updateNextButtonState];
 }
 
 -(void) updateNextButtonState {
   self.nextButton.enabled = self.dueDateTextField.text.length && self.dobTextField.text.length && self.babyName.text.length > 1 && (self.maleButton.isSelected || self.femaleButton.isSelected);
+  
 }
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {

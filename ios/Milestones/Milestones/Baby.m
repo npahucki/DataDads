@@ -8,6 +8,7 @@
 
 #import "Baby.h"
 #import <Parse/PFObject+Subclass.h>
+#import "NSDate+Utils.h"
 
 @implementation Baby
 
@@ -28,39 +29,30 @@ static Baby* _currentBaby;
   return query;
 }
 
+
+-(NSInteger) daysSinceDueDate {
+  return -1 * [self.dueDate daysDifferenceFromNow];
+}
+
 -(NSInteger) daysSinceBirth {
-  return [self daysSinceDate:self.birthDate];
+  return -1 * [self.birthDate daysDifferenceFromNow]; // will be negative since it happened in the past
 }
 
 -(NSInteger) daysSinceDueDate:(NSDate *) otherDate {
-  return [self daysDifference:self.dueDate toDate:otherDate];
+  return -1 * [self.dueDate daysDifference:otherDate]; // flip it because this function say 'since' assuming target day is future of dueDate
 }
 
 -(NSInteger) daysSinceBirthDate:(NSDate *) otherDate {
-  return [self daysDifference:self.birthDate toDate:otherDate];
+  return -1 * [self.birthDate daysDifference:otherDate]; // flip it because this function say 'since' assuming target day is future of birthDate
 }
 
-
-
--(NSInteger) daysSinceDueDate {
-  return [self daysSinceDate:self.dueDate];
-}
 
 -(NSInteger) daysMissedDueDate {
-  return [self daysDifference:self.dueDate toDate:self.birthDate];
+  return [self.dueDate daysDifference:self.birthDate];
 }
 
 -(BOOL) wasBornPremature {
   return [self daysMissedDueDate] < 0;
-}
-
--(NSInteger) daysSinceDate:(NSDate*) date {
-  return [self daysDifference:date toDate:[NSDate date]];
-}
-
--(NSInteger) daysDifference:(NSDate*) fromDate toDate:(NSDate*) toDate  {
-  NSDateComponents *components = [[NSCalendar currentCalendar] components:NSDayCalendarUnit fromDate:fromDate toDate:toDate  options:0];
-  return [components day];
 }
 
 
