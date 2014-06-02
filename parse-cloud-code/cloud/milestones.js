@@ -5,6 +5,8 @@ Parse.Cloud.define("queryMyMilestones", function(request, response) {
  // TODO: May need to look up baby and verify against user for security!
 
  var babyId = request.params.babyId;
+ var babySex = request.params.babyIsMale ? 1 :0;
+ var parentSex = request.params.parentIsMale ? 1 : 0;
  var timePeriod = request.params.timePeriod;
  var rangeDays =  parseInt(request.params.rangeDays);
  var limit = parseInt(request.params.limit);
@@ -14,17 +16,19 @@ Parse.Cloud.define("queryMyMilestones", function(request, response) {
      response.error("Invalid query, need babyId and rangeDays parameters.");
      return;
  }
- //console.log("Request for queryMyMilestones with babyId:" + babyId + " rangeDays:" + rangeDays + " limit:" + limit + " skip:" + skip);
+ console.log("BabySex: " + babySex + " ParentSex:" + parentSex);
+
 
  innerQuery = new Parse.Query("MilestoneAchievements");
  innerQuery.equalTo("baby", {__type: "Pointer", className: "Babies", objectId : babyId});
  innerQuery.exists("standardMilestoneId");
  innerQuery.select(["standardMilestoneId"]);
- 
- 
+ innerQuery.limit(1000); // NOTE: if we start gettting over 1000 achievements, this is not going to work!!!
  
  query = new Parse.Query("StandardMilestones");
- 
+ query.containedIn("babySex", [-1,babySex]);
+ query.containedIn("parentSex", [-1,parentSex]);
+
  if(timePeriod == "future") {
 	 query.greaterThanOrEqualTo("rangeHigh", rangeDays);
 	 query.ascending("rangeHigh,rangeLow");

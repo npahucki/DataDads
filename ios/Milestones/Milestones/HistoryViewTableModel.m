@@ -74,8 +74,14 @@
 -(void) loadMilestonesPage:(NSInteger) startIndex forTimePeriod:(NSString*) timePeriod withBlock:(PFArrayResultBlock) block {
   // TODO: caching!
   if(self.baby) {
+    
+    NSNumber * babySex = @(self.baby.isMale);
+    NSNumber * parentSex = (NSNumber*) [[PFUser currentUser] objectForKey:kDDUserIsMale];
+    
     [PFCloud callFunctionInBackground:@"queryMyMilestones"
            withParameters:@{@"babyId": self.baby.objectId,
+                            @"babyIsMale": babySex,
+                            @"parentIsMale": parentSex ,
                             @"timePeriod" : timePeriod,
                             @"rangeDays": [@(self.baby.daysSinceDueDate) stringValue],
                             @"skip" : [@(startIndex) stringValue],
