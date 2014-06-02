@@ -14,7 +14,7 @@
 #import "UIViewControllerWithHUDProgress.h"
 
 
-@interface NoteMilestoneViewController : UIViewControllerWithHUDProgress <FDTakeDelegate,UITextFieldDelegate>
+@interface NoteMilestoneViewController : UIViewControllerWithHUDProgress <FDTakeDelegate,UITextFieldDelegate, UITextViewDelegate>
 
 @property MilestoneAchievement *achievement;
 @property (strong, nonatomic) IBOutlet UIDateField *completionDateTextField;

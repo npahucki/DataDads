@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AchievementDetailsViewController : UIViewController
+@interface AchievementDetailsViewController : UIViewController <UITextViewDelegate>
 
 @property MilestoneAchievement * achievement;
 @property (weak, nonatomic) IBOutlet UITextView *detailsTextView;

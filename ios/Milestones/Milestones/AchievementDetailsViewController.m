@@ -7,13 +7,13 @@
 //
 
 #import "AchievementDetailsViewController.h"
+#import "WebViewerViewController.h"
 
 @interface AchievementDetailsViewController ()
 
 @end
 
 @implementation AchievementDetailsViewController {
-  NSString * _shortDescription;
   float _percentile;
 }
 
@@ -32,6 +32,13 @@ NSDateFormatter * _dateFormatter;
   [super viewDidLoad];
   NSAssert(self.achievement,@"Expected Achievement to be set before loading view!");
 
+  self.detailsTextView.delegate = self;
+  NSDictionary *linkAttributes = @{NSForegroundColorAttributeName: [UIColor appSelectedColor],
+                                   NSUnderlineColorAttributeName: [UIColor appSelectedColor],
+                                   NSUnderlineStyleAttributeName: @(NSUnderlinePatternSolid)};
+  self.detailsTextView.linkTextAttributes = linkAttributes; // customizes the appearance of links
+
+  
   // The references we have when these objects are loaded, do not have all the baby info in them, so we swap them out here.
   if(!self.achievement.baby.isDataAvailable) {
     NSAssert([self.achievement.baby.objectId isEqualToString:Baby.currentBaby.objectId],@"Expected achievements for current baby only!");
@@ -39,22 +46,6 @@ NSDateFormatter * _dateFormatter;
   }
   
   if(!self.isCustom) {
-    
-    // Load the description since it was not included in the original milestone (for brevity)
-    if(self.achievement.standardMilestone.shortDescription) {
-      _shortDescription = self.achievement.standardMilestone.shortDescription;
-    } else {
-      // Load the description field, since this was defered for the table load.
-      PFQuery * query = [StandardMilestone query];
-      [query selectKeys:@[@"shortDescription"]];
-      [query getObjectInBackgroundWithId:self.achievement.standardMilestone.objectId block:^(PFObject *object, NSError *error) {
-        if(!error) {
-          _shortDescription  = ((StandardMilestone *) object).shortDescription;
-          self.detailsTextView.attributedText = [self createTitleTextFromAchievement];
-        }
-      }];
-    }
-    
     // Calculate the percentile
     [self.achievement calculatePercentileRankingWithBlock:^(float percentile) {
       if(percentile > 0) {
@@ -108,17 +99,17 @@ NSDateFormatter * _dateFormatter;
   NSDictionary *dataLabelTextAttributes = @{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:15.0], NSForegroundColorAttributeName: [UIColor blackColor]};
   NSDictionary *dataValueTextAttributes = @{NSFontAttributeName: [UIFont fontForAppWithType:Medium andSize:15.0], NSForegroundColorAttributeName: [UIColor blackColor]};
   
-  // Title
-  NSAttributedString * titleString = [[NSAttributedString alloc] initWithString:m ? m.title : self.achievement.customTitle attributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:15.0], NSForegroundColorAttributeName: [UIColor appNormalColor]}];
+  // Title - Always use the custom title if not empty, this way, if later on we link a standard milestone, we still read the text that we enetered.
+  NSAttributedString * titleString = [[NSAttributedString alloc] initWithString:self.achievement.customTitle.length ? self.achievement.customTitle : m.title attributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:15.0], NSForegroundColorAttributeName: [UIColor appNormalColor]}];
   [attrText appendAttributedString:titleString];
   [attrText appendAttributedString:lf];
   
-  // Desscription
-  if(_shortDescription) {
-    NSAttributedString * descriptionString = [[NSAttributedString alloc] initWithString:_shortDescription attributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Medium andSize:14.0], NSForegroundColorAttributeName: [UIColor appGreyTextColor]}];
-    [attrText appendAttributedString:descriptionString];
-    [attrText appendAttributedString:lf];
-  }
+//  // Desscription
+//  if(_shortDescription) {
+//    NSAttributedString * descriptionString = [[NSAttributedString alloc] initWithString:_shortDescription attributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Medium andSize:14.0], NSForegroundColorAttributeName: [UIColor appGreyTextColor]}];
+//    [attrText appendAttributedString:descriptionString];
+//    [attrText appendAttributedString:lf];
+//  }
 
   // TODO: Figure out relative score
   if(_percentile > 0) {
@@ -160,10 +151,28 @@ NSDateFormatter * _dateFormatter;
     [attrText appendAttributedString:rangeValue];
     [attrText appendAttributedString:lf];
   }
+  
+  if(m.url) {
+    [attrText appendAttributedString:lf];
+    NSMutableAttributedString *readMoreLabel = [[NSMutableAttributedString alloc] initWithString:@"Read More..." attributes:@{
+                                                                                                                              NSFontAttributeName: [UIFont fontForAppWithType:BoldItalic andSize:17.0],
+                                                                                                                              NSForegroundColorAttributeName: [UIColor appSelectedColor]
+                                                                                                                              }];
+    [readMoreLabel addAttribute:NSLinkAttributeName value:m.url range:NSMakeRange(0, readMoreLabel.length)];
+    [attrText appendAttributedString:readMoreLabel];
+  }
+
+  
   return attrText;
 }
 
-  
+- (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)url inRange:(NSRange)characterRange {
+  [self presentViewController:[WebViewerViewController webViewForUrl:url] animated:YES completion:NULL];
+  return NO;
+}
+
+
+
 
 
 

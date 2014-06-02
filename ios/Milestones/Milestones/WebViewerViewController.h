@@ -10,7 +10,14 @@
 
 @interface WebViewerViewController : UIViewController <UIWebViewDelegate>
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
-@property NSString * url;
+@property NSURL * url;
 
 @property (weak, nonatomic) IBOutlet UIImageView *loadingImage;
+
+
+
++ (WebViewerViewController*) webViewForUrlString:(NSString*) url;
++ (WebViewerViewController*) webViewForUrl:(NSURL*) url;
+
+
 @end

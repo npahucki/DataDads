@@ -14,6 +14,21 @@
 
 @implementation WebViewerViewController
 
++ (WebViewerViewController*) webViewForUrlString:(NSString*) url {
+  return [self webViewForUrl:[NSURL URLWithString:url]];
+}
+
++ (WebViewerViewController*) webViewForUrl:(NSURL*) url {
+  UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
+  WebViewerViewController *vc = [sb instantiateViewControllerWithIdentifier:@"webViewController"];
+  vc.url = url;
+  vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+  return vc;
+}
+
+
+
+
 - (IBAction)didClickCloseButton:(id)sender {
   [self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -22,7 +37,7 @@
 {
   [super viewDidLoad];
   self.webView.delegate = self;
-  NSURLRequest *requestObj = [NSURLRequest requestWithURL:[NSURL URLWithString:self.url]];
+  NSURLRequest *requestObj = [NSURLRequest requestWithURL:self.url];
   [self.webView loadRequest:requestObj];
   self.loadingImage.image = [UIImage animatedImageNamed:@"progress-" duration:1.0];
 }

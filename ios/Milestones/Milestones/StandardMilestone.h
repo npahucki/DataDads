@@ -16,6 +16,7 @@
 
 @property NSString *title;
 @property NSString *shortDescription;
+@property NSString *url;
 @property NSNumber *rangeLow;
 @property NSNumber *rangeHigh;
 

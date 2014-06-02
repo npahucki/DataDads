@@ -15,6 +15,7 @@
 
 @dynamic title;
 @dynamic shortDescription;
+@dynamic url;
 @dynamic rangeHigh;
 @dynamic rangeLow;
 

@@ -324,7 +324,7 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
   } force:NO];
 
   cell.textLabel.text = [achievement.completionDate stringWithHumanizedTimeDifference];
-  cell.detailTextLabel.text = achievement.standardMilestone ? achievement.standardMilestone.title : achievement.customTitle;
+  cell.detailTextLabel.text = achievement.customTitle.length ? achievement.customTitle : achievement.standardMilestone.title;
 
   
   cell.imageView.image = [UIImage imageNamed:@"historyNoPic"]; // use in case of error

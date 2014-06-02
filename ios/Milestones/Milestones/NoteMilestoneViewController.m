@@ -8,6 +8,7 @@
 
 #import "NoteMilestoneViewController.h"
 #import "MilestoneAchievement.h"
+#import "WebViewerViewController.h"
 #import "FDTakeControllerNoStatusBar.h"
 
 @interface NoteMilestoneViewController ()
@@ -35,27 +36,17 @@
   self.commentsTextField.delegate = self;
   self.customTitleTextField.delegate = self;
   
+  self.titleTextView.delegate = self;
+  NSDictionary *linkAttributes = @{NSForegroundColorAttributeName: [UIColor appSelectedColor],
+                                   NSUnderlineColorAttributeName: [UIColor appSelectedColor],
+                                   NSUnderlineStyleAttributeName: @(NSUnderlinePatternSolid)};
+  self.titleTextView.linkTextAttributes = linkAttributes; // customizes the appearance of links
   self.titleTextView.hidden = self.isCustom;
   self.customTitleTextField.hidden = !self.isCustom;
   self.doneButton.enabled = !self.isCustom;
   // Needed to dimiss the keyboard once a user clicks outside the text boxes
   UITapGestureRecognizer *viewTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
   [self.view addGestureRecognizer:viewTap];
-  
-  if(self.achievement.standardMilestone) {
-    _shortDescription = self.achievement.standardMilestone.shortDescription;
-    if(!_shortDescription) {
-      // Load the description field, since this was defered for the table load.
-      PFQuery * query = [StandardMilestone query];
-      [query selectKeys:@[@"shortDescription"]];
-      [query getObjectInBackgroundWithId:self.achievement.standardMilestone.objectId block:^(PFObject *object, NSError *error) {
-        if(!error) {
-          _shortDescription  = ((StandardMilestone *) object).shortDescription;
-          self.titleTextView.attributedText = [self createTitleTextFromMilestone];
-        }
-      }];
-    }
-  }
 }
 
 -(void)handleSingleTap:(UITapGestureRecognizer *)sender {
@@ -91,8 +82,6 @@
                        } completion:nil];
     _startedAnimation = YES;
   }
-
-
 }
 - (IBAction)didEndEditingCustomTitle:(id)sender {
   self.doneButton.enabled = self.customTitleTextField.text.length > 1;
@@ -241,34 +230,47 @@
 
 -(NSAttributedString *) createTitleTextFromMilestone {
   StandardMilestone * m = self.achievement.standardMilestone;
-
+  NSMutableAttributedString *attrText = [[NSMutableAttributedString alloc] init];
+  NSAttributedString * lf = [[NSAttributedString alloc] initWithString:@"\n"];
   NSDictionary *dataLabelTextAttributes = @{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:15.0], NSForegroundColorAttributeName: [UIColor blackColor]};
   NSDictionary *dataValueTextAttributes = @{NSFontAttributeName: [UIFont fontForAppWithType:Medium andSize:15.0], NSForegroundColorAttributeName: [UIColor blackColor]};
   
-  NSAttributedString * titleString = [[NSAttributedString alloc] initWithString:m.title attributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:15.0], NSForegroundColorAttributeName: [UIColor appNormalColor]}];
 
-  NSAttributedString * descriptionString = [[NSAttributedString alloc] initWithString:_shortDescription ? _shortDescription : @"" attributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Medium andSize:14.0], NSForegroundColorAttributeName: [UIColor appGreyTextColor]}];
+  
+  NSAttributedString * titleString = [[NSAttributedString alloc] initWithString:m.title attributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:15.0], NSForegroundColorAttributeName: [UIColor appNormalColor]}];
+  [attrText appendAttributedString:titleString];
+  [attrText appendAttributedString:lf];
 
   NSAttributedString * enteredDateLabel = [[NSAttributedString alloc] initWithString:@"Entered By: " attributes:dataLabelTextAttributes];
   NSAttributedString * enteredDateValue = [[NSAttributedString alloc] initWithString:@"DataParenting Staff" attributes:dataValueTextAttributes];
-  NSAttributedString * rangeLabel = [[NSAttributedString alloc] initWithString:@"Completion Range: " attributes:dataLabelTextAttributes];
-  NSAttributedString * rangeValue = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ to %@ days",m.rangeLow,m.rangeHigh] attributes:dataValueTextAttributes];
-  NSAttributedString * lf = [[NSAttributedString alloc] initWithString:@"\n"];
-
-
-  NSMutableAttributedString *attrText = [[NSMutableAttributedString alloc] init];
-  [attrText appendAttributedString:titleString];
-  [attrText appendAttributedString:lf];
-  [attrText appendAttributedString:descriptionString];
-  [attrText appendAttributedString:lf];
   [attrText appendAttributedString:lf];
   [attrText appendAttributedString:enteredDateLabel];
   [attrText appendAttributedString:enteredDateValue];
   [attrText appendAttributedString:lf];
+
+  NSAttributedString * rangeLabel = [[NSAttributedString alloc] initWithString:@"Completion Range: " attributes:dataLabelTextAttributes];
+  NSAttributedString * rangeValue = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ to %@ days",m.rangeLow,m.rangeHigh] attributes:dataValueTextAttributes];
   [attrText appendAttributedString:rangeLabel];
   [attrText appendAttributedString:rangeValue];
+  [attrText appendAttributedString:lf];
+
+  if(m.url) {
+    [attrText appendAttributedString:lf];
+    NSMutableAttributedString *readMoreLabel = [[NSMutableAttributedString alloc] initWithString:@"Read More..." attributes:@{
+                                                                                                                                                   NSFontAttributeName: [UIFont fontForAppWithType:BoldItalic andSize:17.0],
+                                                                                                                                                   NSForegroundColorAttributeName: [UIColor appSelectedColor]
+                                                                                                                                                   }];
+    [readMoreLabel addAttribute:NSLinkAttributeName value:m.url range:NSMakeRange(0, readMoreLabel.length)];
+    [attrText appendAttributedString:readMoreLabel];
+  }
 
   return attrText;
+  
+}
+
+- (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)url inRange:(NSRange)characterRange {
+  [self presentViewController:[WebViewerViewController webViewForUrl:url] animated:YES completion:NULL];
+  return NO;
 }
 
 @end

@@ -146,7 +146,7 @@
     WebViewerViewController * webView = (WebViewerViewController *)segue.destinationViewController;
     BabyAssignedTip * assignment = (BabyAssignedTip *)sender;
     NSAssert(assignment.tip.url.length, @"This should only be called on a tip with a URL");
-    webView.url = assignment.tip.url;
+    webView.url = [NSURL URLWithString:assignment.tip.url] ;
   }
 }
 

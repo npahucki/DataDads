@@ -16,7 +16,7 @@ Parse.Cloud.define("queryMyMilestones", function(request, response) {
      response.error("Invalid query, need babyId and rangeDays parameters.");
      return;
  }
- console.log("BabySex: " + babySex + " ParentSex:" + parentSex);
+
 
 
  innerQuery = new Parse.Query("MilestoneAchievements");
@@ -44,7 +44,7 @@ Parse.Cloud.define("queryMyMilestones", function(request, response) {
  query.doesNotMatchKeyInQuery("objectId", "standardMilestoneId", innerQuery);
  query.limit(limit);
  query.skip(skip);
- query.select(["title","rangeHigh","rangeLow"])
+ query.select(["title","url","rangeHigh","rangeLow"])
  query.find({
    success: function(results) {
      response.success(results);
