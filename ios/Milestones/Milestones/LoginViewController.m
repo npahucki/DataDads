@@ -91,11 +91,12 @@
   
   // Facebook button
   [self.logInView.facebookButton setImage:[UIImage imageNamed:@"facebookIcon"] forState:UIControlStateNormal];
-  //[self.logInView.facebookButton setImage:nil forState:UIControlStateHighlighted];
+  [self.logInView.facebookButton setImage:nil forState:UIControlStateHighlighted];
   [self.logInView.facebookButton setBackgroundImage:nil forState:UIControlStateHighlighted];
   [self.logInView.facebookButton setBackgroundImage:nil forState:UIControlStateNormal];
   self.logInView.facebookButton.backgroundColor = [UIColor appNormalColor];
   self.logInView.facebookButton.titleLabel.font = [UIFont fontForAppWithType:Bold andSize:13];
+  [self.logInView.facebookButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
   [self.logInView.facebookButton setTitle:@" Login with Facebook" forState:UIControlStateNormal];
   self.logInView.facebookButton.titleLabel.backgroundColor = [UIColor appNormalColor];
   self.logInView.facebookButton.layer.cornerRadius = 8;
@@ -163,9 +164,26 @@
   [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
     if (!error) {
       NSString *facebookEMail = result[@"email"];
-      if (facebookEMail && [facebookEMail length] != 0) {
-        // TODO: Just use first name and last initial
+      NSString *firstName = result[@"first_name"];
+      NSString *lastName = result[@"last_name"];
+      NSString *username = result[@"username"];
+      NSString *gender = result[@"gender"];
+      
+      if (facebookEMail.length) {
         [user setObject:facebookEMail forKey:kDDUserEmail];
+        [user setUsername:facebookEMail];
+      }
+      if([@"male" isEqualToString:gender]) {
+          [user setObject:@(YES) forKey:kDDUserIsMale];
+      } else if([@"female" isEqualToString:gender]) {
+        [user setObject:@(NO) forKey:kDDUserIsMale];
+      }
+      
+      if(firstName.length && lastName.length) {
+        NSString * suggestedName = [NSString stringWithFormat:@"%@ %@.",firstName, [lastName substringToIndex:1]];
+        [user setObject:suggestedName forKey:kDDUserScreenName];
+      } else {
+        [user setObject:username forKey:kDDUserScreenName];
       }
       [user saveEventually];
     } else {

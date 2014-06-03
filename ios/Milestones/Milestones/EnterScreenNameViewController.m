@@ -33,8 +33,13 @@
 //  NSString *userNameString = [hostNameArray objectAtIndex:0];
 //  NSLog(@”UserName : %@”, userNameString);
   
-  //self.screenNameField.text = [PFUser.currentUser objectForKey:kDDUserScreenName];
-  //[self updateNextButtonState];
+  self.screenNameField.text = [PFUser.currentUser objectForKey:kDDUserScreenName];
+  NSNumber* gender = [PFUser.currentUser objectForKey:kDDUserIsMale];
+  if(gender && gender.boolValue) {
+    [self didClickMaleButton:self];
+  } else if(gender && !gender.boolValue) {
+    [self didClickFemaleButton:self];
+  }
   
   // Needed to dimiss the keyboard once a user clicks outside the text boxes
   UITapGestureRecognizer *viewTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
