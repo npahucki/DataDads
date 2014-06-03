@@ -147,6 +147,7 @@ Parse.Cloud.job("tipsAssignment", function(request, status) {
   console.log("Starting tipsAssignment job...")
   var babyQuery = new Parse.Query("Babies");
   // TODO: Filter by active babies/users + exclude babies over 5 years old?
+  babyQuery.limit(1000); // NOTE: Max is 1000, when we get over this, we will need to find a better way to query
   babyQuery.include("parentUser");
   babyQuery.select("name","dueDate","parentUser");
   console.log("Doing query lookup..");
@@ -168,3 +169,38 @@ Parse.Cloud.job("tipsAssignment", function(request, status) {
   });
 
  });
+
+
+
+
+
+
+ Parse.Cloud.job("convertBadObjectIdSymbols2", function(request, status) {
+  console.log ("Starting cleanup of ids");
+
+  // Set up to modify user data
+  Parse.Cloud.useMasterKey();
+  var promises = [];
+  var milestones = new Parse.Query("StandardMilestones");
+  milestones.limit(10); // MAX
+  milestones.find().then(function(milestones) {
+    _.each(milestones, function(milestone) {
+      if(milestone.id.indexOf("+") >= 0 || milestone.id.indexOf("/") >= 0) {
+        milestone.id = milestone.id.replace(new RegExp("\\/", "g"),"0");
+        milestone.id = milestone.id.replace(new RegExp("\\+", "g"),"1");
+        promises.push(milestone.save());
+      }
+    });
+
+    console.log("Saving " + promises.length + " objects!!");
+    return Parse.Promise.when(promises);
+  }).then(function() {
+    // Set the job's success status
+    console.log ("Fixed ids!");
+    status.success("Fixed all ids");
+  }, function(error) {
+    // Set the job's error status
+    status.error("Failed to fix ids : " + JSON.stringify(error));
+  });
+
+});
