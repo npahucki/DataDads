@@ -115,7 +115,7 @@
 }
 
 -(void) updateLoginButtonTitle {
-  if(!PFUser.currentUser.email) { // signed in if email present
+  if(!PFUser.currentUser.email.length) { // signed in if email present
     [self.logOutOrSignUpButton setTitle:@"sign up now" forState:UIControlStateNormal];
   } else {
     [self.logOutOrSignUpButton setTitle:@"log out now" forState:UIControlStateNormal];

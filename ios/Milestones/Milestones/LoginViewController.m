@@ -170,8 +170,8 @@
       NSString *gender = result[@"gender"];
       
       if (facebookEMail.length) {
-        [user setObject:facebookEMail forKey:kDDUserEmail];
-        [user setUsername:facebookEMail];
+        user.email = facebookEMail;
+        user.username = facebookEMail;
       }
       if([@"male" isEqualToString:gender]) {
           [user setObject:@(YES) forKey:kDDUserIsMale];

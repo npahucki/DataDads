@@ -65,24 +65,33 @@
 - (IBAction)didClickDoneButton:(id)sender {
 
   if([Reachability showAlertIfParseNotReachable]) return;
+
   
-  [self showInProgressHUDWithMessage:@"Creating an account for you" andAnimation:YES andDimmedBackground:YES];
-  [PFAnonymousUtils logInWithBlock:^(PFUser *user, NSError *error) {
-    if (error) {
-      [self showErrorThenRunBlock:error withMessage:@"Unable create your account" andBlock:nil];
+  if([PFUser currentUser].username.length) {
+    // Account already exists (logged in before, perhaps with facebook).
+    [self saveUserPreferences:[PFUser currentUser]];
+  } else {
+    [self showInProgressHUDWithMessage:@"Creating your anonymous account" andAnimation:YES andDimmedBackground:YES];
+    [PFAnonymousUtils logInWithBlock:^(PFUser *user, NSError *error) {
+      if (error) {
+        [self showErrorThenRunBlock:error withMessage:@"Unable create your account" andBlock:nil];
+      } else {
+        [self saveUserPreferences:[PFUser currentUser]];
+      }
+    }];
+  }
+}
+
+-(void) saveUserPreferences:(PFUser*) user {
+  [user setObject:self.screenNameField.text forKey:kDDUserScreenName];
+  [user setObject: [NSNumber numberWithBool:self.maleButton.isSelected] forKey:kDDUserIsMale];
+  [self showInProgressHUDWithMessage:@"Saving your preferences" andAnimation:YES andDimmedBackground:YES];
+  [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+    if(error) {
+      [self showErrorThenRunBlock:error withMessage:@"Unable to save preferences" andBlock:nil];
     } else {
-      [user setObject:self.screenNameField.text forKey:kDDUserScreenName];
-      [user setObject: [NSNumber numberWithBool:self.maleButton.isSelected] forKey:kDDUserIsMale];
-      [self showInProgressHUDWithMessage:@"Saving your preferences" andAnimation:YES andDimmedBackground:YES];
-      [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        if(error) {
-          [self showErrorThenRunBlock:error withMessage:@"Unable to save preferences" andBlock:^{
-          }];
-        } else {
-          self.baby.parentUser = user;
-          [self saveBaby];
-        }
-      }];
+      self.baby.parentUser = user;
+      [self saveBaby];
     }
   }];
 }
