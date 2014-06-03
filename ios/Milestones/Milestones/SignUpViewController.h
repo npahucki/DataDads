@@ -13,6 +13,12 @@
 @interface SignUpViewController : PFSignUpViewController <PF_MBProgressHUDDelegate,PFSignUpViewControllerDelegate>
 
 @property (nonatomic, strong) MBProgressHUD * hud;
+@property (nonatomic, strong) UIImageView * orSep;
+@property (nonatomic, strong) UILabel * orLabel;
+@property (nonatomic, strong) UIView * signupSep;
+@property (nonatomic,strong) UIButton * facebookButton;
+@property (nonatomic, strong) NSArray * facebookPermissions;
+@property BOOL showExternal;
 
 -(void) showStartSignUpProgress;
 

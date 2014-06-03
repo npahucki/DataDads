@@ -84,6 +84,7 @@
   
   if(!PFUser.currentUser.email) { // signed in if email present
     SignUpViewController* signupController = [[SignUpViewController alloc] init];
+    signupController.showExternal = YES;
     [self presentViewController:signupController animated:YES completion:nil];
   } else {
     [[PFInstallation currentInstallation] setObject:[NSNull null] forKey:@"user"];

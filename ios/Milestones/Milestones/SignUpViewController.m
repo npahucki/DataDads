@@ -15,11 +15,11 @@
 
 @implementation SignUpViewController
 
-
 - (void)viewDidLoad
 {
   [super viewDidLoad];
   self.delegate = self;
+  self.facebookPermissions = @[ @"user_about_me", @"email" ];
   
   // Hack because we can't seem to modify the behavior of the progress HUD and we want to show our own.
   // The Login View Controller will show the Hud
@@ -58,9 +58,6 @@
   label.textColor = [UIColor appNormalColor];
   [label sizeToFit];
   self.signUpView.logo = label;
-  //self.logInView.logo = [[UIView alloc]init];
-  //[self.logInView.logo addSubview:label];
-  //[self.logInView.logo addSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"welcomeScreenBaby"]]];
 
   // Username
   [self.signUpView.usernameField setKeyboardType:UIKeyboardTypeEmailAddress];
@@ -91,12 +88,36 @@
   [self.signUpView.signUpButton setBackgroundImage:nil forState:UIControlStateNormal];
   self.signUpView.signUpButton.backgroundColor = [UIColor appNormalColor];
   self.signUpView.signUpButton.titleLabel.font = [UIFont fontForAppWithType:Bold andSize:13];
-  self.signUpView.signUpButton.titleLabel.textColor = [UIColor whiteColor];
+  [self.signUpView.signUpButton setTitleColor:[UIColor appSelectedColor] forState:UIControlStateSelected];
+  [self.signUpView.signUpButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
   [self.signUpView.signUpButton setTitle:@"Sign Up" forState:UIControlStateNormal];
-  self.signUpView.signUpButton.titleLabel.backgroundColor = [UIColor appNormalColor];
   self.signUpView.signUpButton.layer.cornerRadius = 8;
   
-  
+  if(self.showExternal) {
+
+    self.orSep = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"orSep"]];
+    [self.signUpView addSubview:self.orSep];
+    // Or label
+    self.orLabel = [[UILabel alloc] initWithFrame:self.orSep.frame];
+    self.orLabel.text= @"or";
+    self.orLabel.textColor = [UIColor appGreyTextColor];
+    self.orLabel.font = [UIFont fontForAppWithType:Medium andSize:13];
+    self.orLabel.textAlignment = NSTextAlignmentCenter;
+    [self.signUpView addSubview:self.orLabel];
+    
+    // Facebook button
+    self.facebookButton = [[UIButton alloc] initWithFrame:self.signUpView.signUpButton.frame]; // position later
+    [self.facebookButton setImage:[UIImage imageNamed:@"facebookIcon"] forState:UIControlStateNormal];
+    self.facebookButton.backgroundColor = [UIColor appNormalColor];
+    self.facebookButton.titleLabel.font = [UIFont fontForAppWithType:Bold andSize:13];
+    [self.facebookButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.facebookButton setTitleColor:[UIColor appSelectedColor] forState:UIControlStateSelected];
+    [self.facebookButton setTitle:@" Sign in with Facebook" forState:UIControlStateNormal];
+    self.facebookButton.titleLabel.backgroundColor = [UIColor appNormalColor];
+    self.facebookButton.layer.cornerRadius = 8;
+    [self.facebookButton addTarget:self action:@selector(didClickFacebookButton:) forControlEvents:UIControlEventTouchUpInside];
+    [self.signUpView addSubview:self.facebookButton];
+  }
 }
 
 
@@ -104,7 +125,44 @@
   [super viewDidLayoutSubviews];
   // Make up for hidden email field.
   self.signUpView.signUpButton.center = CGPointMake(self.signUpView.signUpButton.center.x, self.signUpView.signUpButton.center.y - self.signUpView.emailField.frame.size.height);
+
+  self.orSep.center = CGPointMake(self.signUpView.signUpButton.center.x, self.signUpView.signUpButton.center.y + self.signUpView.emailField.frame.size.height + 8);
+  self.orLabel.frame = self.orSep.frame;
+  self.facebookButton.frame = self.signUpView.signUpButton.frame;
+  self.facebookButton.center = CGPointMake(self.orSep.center.x, self.orSep.center.y + self.orSep.frame.size.height + 24);
+
 }
+
+-(void) didClickFacebookButton:(id) sender {
+  [self showStartSignUpProgress];
+  [PFFacebookUtils logInWithPermissions:self.facebookPermissions block:^(PFUser *user, NSError *error) {
+    if (error) {
+      [self signUpViewController:self didFailToSignUpWithError:error];
+    } else {
+      if(user) {
+        // Set the user's email and username to facebook email
+        [self populateCurrentUserDetailsFromFacebook:user];
+      } // else use canceled
+    }
+  }];
+}
+
+-(void) populateCurrentUserDetailsFromFacebook: (PFUser *) user {
+  [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+    if (!error) {
+      NSString *facebookEMail = result[@"email"];
+      if (facebookEMail.length) {
+        user.email = facebookEMail;
+        user.username = facebookEMail;
+      }
+      [user saveEventually];
+      [self signUpViewController:self didSignUpUser:user];
+    } else {
+      [self signUpViewController:self didFailToSignUpWithError:error];
+    }
+  }];
+}
+
 
 // Copy username to email
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField {

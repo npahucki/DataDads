@@ -288,10 +288,10 @@
 		E8ABCFB6191D63980083ED25 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				E8250F41192561A7004A1B41 /* IntroScreenPageViewController.h */,
-				E8250F42192561A7004A1B41 /* IntroScreenPageViewController.m */,
-				E8250F3E1925616F004A1B41 /* IntroScreenContentViewController.h */,
-				E8250F3F1925616F004A1B41 /* IntroScreenContentViewController.m */,
+				E8BDE6BE193E6F40001D6995 /* Milestones */,
+				E8BDE6BF193E6F82001D6995 /* Notifications */,
+				E8BDE6BC193E6EC7001D6995 /* Intro */,
+				E8BDE6BD193E6F0B001D6995 /* Signup */,
 				E819A6C118FB2A490017B626 /* AppQueryTableViewController.h */,
 				E819A6C218FB2A490017B626 /* AppQueryTableViewController.m */,
 				E8BC76D318A50AD000983025 /* UIViewControllerWithHUDProgress.h */,
@@ -302,34 +302,6 @@
 				E8E39C6C18EB9A090034982D /* SettingsViewController.m */,
 				E81B58711896B89E00C74C2B /* MainViewController.h */,
 				E81B58721896B89E00C74C2B /* MainViewController.m */,
-				E8D00A15188F348700DF2786 /* LoginViewController.h */,
-				E8D00A16188F348700DF2786 /* LoginViewController.m */,
-				E8F485461901C6F90030912F /* SignUpViewController.h */,
-				E8F485471901C6F90030912F /* SignUpViewController.m */,
-				E8E39C6818EB063E0034982D /* MainMilestoneViewController.h */,
-				E8E39C6918EB063E0034982D /* MainMilestoneViewController.m */,
-				E832436E18F895F500307356 /* HistoryViewController.h */,
-				E832436F18F895F500307356 /* HistoryViewController.m */,
-				E89035ED1934C97F004A4013 /* AchievementDetailsViewController.h */,
-				E89035EE1934C97F004A4013 /* AchievementDetailsViewController.m */,
-				E8D00A1E188F435300DF2786 /* NoteMilestoneViewController.h */,
-				E8D00A1F188F435300DF2786 /* NoteMilestoneViewController.m */,
-				E89035E31930328E004A4013 /* MainNotificationsViewController.h */,
-				E89035E41930328E004A4013 /* MainNotificationsViewController.m */,
-				E866E7F11936448C004963C9 /* NotificationTableViewController.h */,
-				E866E7F21936448C004963C9 /* NotificationTableViewController.m */,
-				E8D00A18188F362100DF2786 /* BabyInfoViewController.h */,
-				E8D00A19188F362100DF2786 /* BabyInfoViewController.m */,
-				E840251718F0DEC800AF1B27 /* BabyInfoPhotoViewController.h */,
-				E840251818F0DEC800AF1B27 /* BabyInfoPhotoViewController.m */,
-				E876159918EF83C100B0C6D9 /* BabyTagsViewController.h */,
-				E876159A18EF83C100B0C6D9 /* BabyTagsViewController.m */,
-				E876159C18EF892C00B0C6D9 /* BabyTagsTableViewController.h */,
-				E876159D18EF892C00B0C6D9 /* BabyTagsTableViewController.m */,
-				E81B58741896C1A900C74C2B /* EnterScreenNameViewController.h */,
-				E81B58751896C1A900C74C2B /* EnterScreenNameViewController.m */,
-				E89035E619303D13004A4013 /* SignUpPromptViewController.h */,
-				E89035E719303D13004A4013 /* SignUpPromptViewController.m */,
 				E877FCAE1936BA98002405BF /* WebViewerViewController.h */,
 				E877FCAF1936BA98002405BF /* WebViewerViewController.m */,
 			);
@@ -352,6 +324,66 @@
 				E8BDE6B1193E0951001D6995 /* Pronouns.strings */,
 			);
 			name = Util;
+			sourceTree = "<group>";
+		};
+		E8BDE6BC193E6EC7001D6995 /* Intro */ = {
+			isa = PBXGroup;
+			children = (
+				E8250F41192561A7004A1B41 /* IntroScreenPageViewController.h */,
+				E8250F42192561A7004A1B41 /* IntroScreenPageViewController.m */,
+				E8250F3E1925616F004A1B41 /* IntroScreenContentViewController.h */,
+				E8250F3F1925616F004A1B41 /* IntroScreenContentViewController.m */,
+			);
+			name = Intro;
+			sourceTree = "<group>";
+		};
+		E8BDE6BD193E6F0B001D6995 /* Signup */ = {
+			isa = PBXGroup;
+			children = (
+				E8D00A15188F348700DF2786 /* LoginViewController.h */,
+				E8D00A16188F348700DF2786 /* LoginViewController.m */,
+				E8F485461901C6F90030912F /* SignUpViewController.h */,
+				E8F485471901C6F90030912F /* SignUpViewController.m */,
+				E8D00A18188F362100DF2786 /* BabyInfoViewController.h */,
+				E8D00A19188F362100DF2786 /* BabyInfoViewController.m */,
+				E840251718F0DEC800AF1B27 /* BabyInfoPhotoViewController.h */,
+				E840251818F0DEC800AF1B27 /* BabyInfoPhotoViewController.m */,
+				E876159918EF83C100B0C6D9 /* BabyTagsViewController.h */,
+				E876159A18EF83C100B0C6D9 /* BabyTagsViewController.m */,
+				E876159C18EF892C00B0C6D9 /* BabyTagsTableViewController.h */,
+				E876159D18EF892C00B0C6D9 /* BabyTagsTableViewController.m */,
+				E81B58741896C1A900C74C2B /* EnterScreenNameViewController.h */,
+				E81B58751896C1A900C74C2B /* EnterScreenNameViewController.m */,
+			);
+			name = Signup;
+			sourceTree = "<group>";
+		};
+		E8BDE6BE193E6F40001D6995 /* Milestones */ = {
+			isa = PBXGroup;
+			children = (
+				E8E39C6818EB063E0034982D /* MainMilestoneViewController.h */,
+				E8E39C6918EB063E0034982D /* MainMilestoneViewController.m */,
+				E832436E18F895F500307356 /* HistoryViewController.h */,
+				E832436F18F895F500307356 /* HistoryViewController.m */,
+				E89035ED1934C97F004A4013 /* AchievementDetailsViewController.h */,
+				E89035EE1934C97F004A4013 /* AchievementDetailsViewController.m */,
+				E8D00A1E188F435300DF2786 /* NoteMilestoneViewController.h */,
+				E8D00A1F188F435300DF2786 /* NoteMilestoneViewController.m */,
+			);
+			name = Milestones;
+			sourceTree = "<group>";
+		};
+		E8BDE6BF193E6F82001D6995 /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				E89035E619303D13004A4013 /* SignUpPromptViewController.h */,
+				E89035E719303D13004A4013 /* SignUpPromptViewController.m */,
+				E89035E31930328E004A4013 /* MainNotificationsViewController.h */,
+				E89035E41930328E004A4013 /* MainNotificationsViewController.m */,
+				E866E7F11936448C004963C9 /* NotificationTableViewController.h */,
+				E866E7F21936448C004963C9 /* NotificationTableViewController.m */,
+			);
+			name = Notifications;
 			sourceTree = "<group>";
 		};
 		E8DD48D1188EE5B900153095 = {

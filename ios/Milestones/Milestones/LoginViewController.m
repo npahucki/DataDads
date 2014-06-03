@@ -173,18 +173,23 @@
         user.email = facebookEMail;
         user.username = facebookEMail;
       }
+      
       if([@"male" isEqualToString:gender]) {
           [user setObject:@(YES) forKey:kDDUserIsMale];
       } else if([@"female" isEqualToString:gender]) {
         [user setObject:@(NO) forKey:kDDUserIsMale];
       }
       
-      if(firstName.length && lastName.length) {
-        NSString * suggestedName = [NSString stringWithFormat:@"%@ %@.",firstName, [lastName substringToIndex:1]];
-        [user setObject:suggestedName forKey:kDDUserScreenName];
-      } else {
-        [user setObject:username forKey:kDDUserScreenName];
+      // Only set if not set previously.
+      if(![user objectForKey:kDDUserScreenName]) {
+        if(firstName.length && lastName.length) {
+          NSString * suggestedName = [NSString stringWithFormat:@"%@ %@.",firstName, [lastName substringToIndex:1]];
+          [user setObject:suggestedName forKey:kDDUserScreenName];
+        } else {
+          [user setObject:username forKey:kDDUserScreenName];
+        }
       }
+      
       [user saveEventually];
     } else {
       // TODO: more elegant logging
