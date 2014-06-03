@@ -1,0 +1,31 @@
+/* 
+  Pronouns.strings
+  Milestones
+
+  Created by Nathan  Pahucki on 6/3/14.
+  Copyright (c) 2014 Nathan  Pahucki. All rights reserved.
+ 
+  These are the strings used for replacement of pronouns in Milestones and Tips.
+ 
+  The key is the pronoun token found in the string, with a colon and a true for male and false for fem
+ 
+*/
+
+"${he}:1" = "he";
+"${he}:0" = "she";
+"${He}:1" = "He";
+"${He}:0" = "She";
+
+"${his}:1" =  "his";
+"${his}:0" =  "her";
+"${his:p}:0" =  "hers";
+"${his:p}:1" =  "his";
+"${His}:1" =  "His";
+"${His}:0" =  "Her";
+"${His:p}:0" =  "Hers";
+"${His:p}:1" =  "His";
+
+"${him}:1" =  "him";
+"${him}:0" =  "her";
+
+

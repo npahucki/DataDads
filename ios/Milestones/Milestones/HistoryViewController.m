@@ -293,7 +293,7 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
                          humanRange,
                          indexPath.section == FutureMilestoneSection ? @"" : @" ago"
                          ];
-  cell.detailTextLabel.text = milestone.title;
+  cell.detailTextLabel.text = milestone.titleForCurrentBaby;
   cell.imageView.image = [UIImage imageNamed:@"historyNoPic"];
   if(indexPath.section == FutureMilestoneSection && _model.hasMoreFutureMilestones) {
     // Special case because we add the loading cell to the 0 Zero Cell.
@@ -323,8 +323,11 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
     weakCell.rightUtilityButtons = rightUtilityButtons;
   } force:NO];
 
+  NSAssert([achievement.baby.objectId isEqualToString:Baby.currentBaby.objectId], @"Expected only milestones for current baby");
+
+  
   cell.textLabel.text = [achievement.completionDate stringWithHumanizedTimeDifference];
-  cell.detailTextLabel.text = achievement.customTitle.length ? achievement.customTitle : achievement.standardMilestone.title;
+  cell.detailTextLabel.text = achievement.customTitle.length ? achievement.customTitle : [achievement.standardMilestone titleForBaby:achievement.baby];
 
   
   cell.imageView.image = [UIImage imageNamed:@"historyNoPic"]; // use in case of error
@@ -337,7 +340,6 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
     isThumbnail = achievement.attachmentThumbnail != nil;
     imageFile = isThumbnail ? achievement.attachmentThumbnail : achievement.attachment;
   } else {
-    NSAssert([achievement.baby.objectId isEqualToString:Baby.currentBaby.objectId], @"Expected only milestones for current baby");
     isThumbnail = Baby.currentBaby.avatarImageThumbnail != nil;
     imageFile = Baby.currentBaby.avatarImageThumbnail ? Baby.currentBaby.avatarImageThumbnail : Baby.currentBaby.avatarImage;
   }

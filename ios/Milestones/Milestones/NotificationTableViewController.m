@@ -127,7 +127,7 @@
   BabyAssignedTip* tipAssignment = (BabyAssignedTip*)[self objectAtIndexPath:indexPath];
   
   [cell setCellHeight:cell.frame.size.height];
-  cell.textLabel.text = tipAssignment.tip.title;
+  cell.textLabel.text = tipAssignment.tip.titleForCurrentBaby;
   cell.detailTextLabel.text = [NSString stringWithFormat:@"Delivered %@", [tipAssignment.assignmentDate stringWithHumanizedTimeDifference]];
   cell.accessoryType = tipAssignment.tip.url.length ? UITableViewCellAccessoryDetailButton : UITableViewCellAccessoryNone;
   
@@ -196,7 +196,7 @@
   //  if([indexPath isEqual:_selectedPath]) {
     BabyAssignedTip* assignment = (BabyAssignedTip*)[self objectAtIndexPath:indexPath];
     int width = assignment.tip.url.length ? self.tableView.frame.size.width - 44 : self.tableView.frame.size.width;
-    CGFloat newTitleLabelSize = [self getLabelSize:assignment.tip.title andFont:TITLE_FONT withMaxWidth:width];
+    CGFloat newTitleLabelSize = [self getLabelSize:assignment.tip.titleForCurrentBaby andFont:TITLE_FONT withMaxWidth:width];
     CGFloat newDateLabelSize = [self getLabelSize:[assignment.createdAt stringWithHumanizedTimeDifference] andFont:DETAIL_FONT withMaxWidth:width];
     return MAX(newTitleLabelSize + newDateLabelSize + 40, defaultSize);
 //  } else {

@@ -18,8 +18,11 @@ typedef enum _TipType : NSUInteger {
 + (NSString *)parseClassName;
 
 @property NSString *title;
+@property(readonly) NSString * titleForCurrentBaby;
 @property NSString *shortDescription;
 @property NSNumber* tipType;
 @property NSString * url;
+
+-(NSString*) titleForBaby:(Baby*) baby;
 
 @end

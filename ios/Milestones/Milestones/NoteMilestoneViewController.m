@@ -237,7 +237,7 @@
   
 
   
-  NSAttributedString * titleString = [[NSAttributedString alloc] initWithString:m.title attributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:15.0], NSForegroundColorAttributeName: [UIColor appNormalColor]}];
+  NSAttributedString * titleString = [[NSAttributedString alloc] initWithString:[m titleForBaby:self.achievement.baby] attributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:15.0], NSForegroundColorAttributeName: [UIColor appNormalColor]}];
   [attrText appendAttributedString:titleString];
   [attrText appendAttributedString:lf];
 

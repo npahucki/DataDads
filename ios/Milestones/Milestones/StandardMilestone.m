@@ -8,16 +8,27 @@
 
 #import "StandardMilestone.h"
 #import <Parse/PFObject+Subclass.h>
+#import "PronounHelper.h"
 
-@implementation StandardMilestone {
-  
-}
+
+@implementation StandardMilestone
 
 @dynamic title;
 @dynamic shortDescription;
 @dynamic url;
 @dynamic rangeHigh;
 @dynamic rangeLow;
+
+-(NSString*) titleForBaby:(Baby*) baby {
+  return [PronounHelper replacePronounTokens:self.title forBaby:baby];
+}
+
+-(NSString*) titleForCurrentBaby {
+  return  [self titleForBaby:Baby.currentBaby];
+}
+
+
+
 
 + (NSString *)parseClassName {
   return @"StandardMilestones";

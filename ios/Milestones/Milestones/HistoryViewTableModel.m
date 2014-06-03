@@ -122,7 +122,14 @@
         // if results, set the has more to false
         if(!_achievements || startIndex == 0) _achievements = [[NSMutableArray alloc] initWithCapacity:self.pagingSize];
         _hasMoreAchievements = objects.count == self.pagingSize;
-        [((NSMutableArray*) _achievements) addObjectsFromArray:objects];
+        
+        for(MilestoneAchievement* achievement in objects) {
+          NSAssert([achievement.baby.objectId isEqualToString:Baby.currentBaby.objectId],@"Expected only achievements that match current baby!");
+          // So we can use a populated object, assign the object to the current baby object
+          achievement.baby = Baby.currentBaby;
+          [((NSMutableArray*) _achievements) addObject:achievement];
+        }
+        
         [self.delegate didLoadAchievements];
         _isLoadingAchievements = NO;
       }

@@ -53,6 +53,9 @@
 		E8ABCFBA191D68FE0083ED25 /* UIDateField.m in Sources */ = {isa = PBXBuildFile; fileRef = E8ABCFB9191D68FE0083ED25 /* UIDateField.m */; };
 		E8BC76D518A50AD000983025 /* UIViewControllerWithHUDProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = E8BC76D418A50AD000983025 /* UIViewControllerWithHUDProgress.m */; };
 		E8BDE6B0193CC106001D6995 /* NSDate+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = E8BDE6AF193CC106001D6995 /* NSDate+Utils.m */; };
+		E8BDE6B2193E0951001D6995 /* Pronouns.strings in Resources */ = {isa = PBXBuildFile; fileRef = E8BDE6B1193E0951001D6995 /* Pronouns.strings */; };
+		E8BDE6B8193E0CF7001D6995 /* PronounHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = E8BDE6B7193E0CF7001D6995 /* PronounHelper.m */; };
+		E8BDE6BA193E1522001D6995 /* PronounHelperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E8BDE6B9193E1522001D6995 /* PronounHelperTests.m */; };
 		E8D00A17188F348700DF2786 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D00A16188F348700DF2786 /* LoginViewController.m */; };
 		E8D00A1A188F362100DF2786 /* BabyInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D00A19188F362100DF2786 /* BabyInfoViewController.m */; };
 		E8D00A20188F435300DF2786 /* NoteMilestoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D00A1F188F435300DF2786 /* NoteMilestoneViewController.m */; };
@@ -171,6 +174,10 @@
 		E8BC76D418A50AD000983025 /* UIViewControllerWithHUDProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIViewControllerWithHUDProgress.m; sourceTree = "<group>"; };
 		E8BDE6AE193CC106001D6995 /* NSDate+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Utils.h"; sourceTree = "<group>"; };
 		E8BDE6AF193CC106001D6995 /* NSDate+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Utils.m"; sourceTree = "<group>"; };
+		E8BDE6B1193E0951001D6995 /* Pronouns.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Pronouns.strings; sourceTree = "<group>"; };
+		E8BDE6B6193E0CF7001D6995 /* PronounHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PronounHelper.h; sourceTree = "<group>"; };
+		E8BDE6B7193E0CF7001D6995 /* PronounHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PronounHelper.m; sourceTree = "<group>"; };
+		E8BDE6B9193E1522001D6995 /* PronounHelperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PronounHelperTests.m; sourceTree = "<group>"; };
 		E8D00A15188F348700DF2786 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		E8D00A16188F348700DF2786 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		E8D00A18188F362100DF2786 /* BabyInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyInfoViewController.h; sourceTree = "<group>"; };
@@ -340,6 +347,9 @@
 				E8ABCFB9191D68FE0083ED25 /* UIDateField.m */,
 				E8BDE6AE193CC106001D6995 /* NSDate+Utils.h */,
 				E8BDE6AF193CC106001D6995 /* NSDate+Utils.m */,
+				E8BDE6B6193E0CF7001D6995 /* PronounHelper.h */,
+				E8BDE6B7193E0CF7001D6995 /* PronounHelper.m */,
+				E8BDE6B1193E0951001D6995 /* Pronouns.strings */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -425,6 +435,7 @@
 			isa = PBXGroup;
 			children = (
 				E81B58841899A95600C74C2B /* BabyTests.m */,
+				E8BDE6B9193E1522001D6995 /* PronounHelperTests.m */,
 				E8DD4909188EE5BA00153095 /* Supporting Files */,
 			);
 			path = MilestonesTests;
@@ -572,6 +583,7 @@
 				E8E39C1518E615D20034982D /* GothamRounded-LightItalic.otf in Resources */,
 				E86B1EB4192917A400EA6167 /* backgroung.jpg in Resources */,
 				E8E39C1418E615D20034982D /* GothamRounded-Light.otf in Resources */,
+				E8BDE6B2193E0951001D6995 /* Pronouns.strings in Resources */,
 				E8DD48FC188EE5B900153095 /* Images.xcassets in Resources */,
 				E8DD48F1188EE5B900153095 /* Main_iPhone.storyboard in Resources */,
 				E8DD48E8188EE5B900153095 /* InfoPlist.strings in Resources */,
@@ -637,6 +649,7 @@
 				E8F485481901C6F90030912F /* SignUpViewController.m in Sources */,
 				E819A6C318FB2A490017B626 /* AppQueryTableViewController.m in Sources */,
 				E8250F43192561A7004A1B41 /* IntroScreenPageViewController.m in Sources */,
+				E8BDE6B8193E0CF7001D6995 /* PronounHelper.m in Sources */,
 				E813465A18DCD9FA0053EE6E /* StandardMilestoneQuery.m in Sources */,
 				E89035EF1934C97F004A4013 /* AchievementDetailsViewController.m in Sources */,
 				E876159B18EF83C100B0C6D9 /* BabyTagsViewController.m in Sources */,
@@ -673,6 +686,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E81B58851899A95600C74C2B /* BabyTests.m in Sources */,
+				E8BDE6BA193E1522001D6995 /* PronounHelperTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

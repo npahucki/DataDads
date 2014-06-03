@@ -10,14 +10,21 @@
 #import <Parse/Parse.h>
 
 
+
 @interface StandardMilestone : PFObject <PFSubclassing>
 
 + (NSString *)parseClassName;
 
 @property NSString *title;
+@property(readonly) NSString * titleForCurrentBaby;
 @property NSString *shortDescription;
 @property NSString *url;
 @property NSNumber *rangeLow;
 @property NSNumber *rangeHigh;
+
+/*!
+ * Returns the title with the correct pronoun replacements for the provided baby.
+ */
+-(NSString*) titleForBaby:(Baby*) baby;
 
 @end
