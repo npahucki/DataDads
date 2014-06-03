@@ -39,11 +39,11 @@ static Baby* _currentBaby;
 }
 
 -(NSInteger) daysSinceDueDate:(NSDate *) otherDate {
-  return -1 * [self.dueDate daysDifference:otherDate]; // flip it because this function say 'since' assuming target day is future of dueDate
+  return [self.dueDate daysDifference:otherDate];
 }
 
 -(NSInteger) daysSinceBirthDate:(NSDate *) otherDate {
-  return -1 * [self.birthDate daysDifference:otherDate]; // flip it because this function say 'since' assuming target day is future of birthDate
+  return [self.birthDate daysDifference:otherDate];
 }
 
 

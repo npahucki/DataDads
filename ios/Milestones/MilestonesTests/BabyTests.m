@@ -28,19 +28,51 @@
     [super tearDown];
 }
 
-- (void)testDaysSinceBirthReturnsCorrectNumber
+- (void)testPastDaysSinceBirthReturnsCorrectNumber
 {
   Baby * baby = [Baby object];
   baby.birthDate = [NSDate dateInDaysFromNow:-2];
   XCTAssertEqual(baby.daysSinceBirth, 2);
 }
 
-- (void)testDaysSinceDueReturnsCorrectNumber
+- (void)testFutureDaysSinceBirthReturnsCorrectNumber
+{
+  Baby * baby = [Baby object];
+  baby.birthDate = [NSDate dateInDaysFromNow:2];
+  XCTAssertEqual(baby.daysSinceBirth, -1);
+}
+
+
+- (void)testPastDaysSinceDueReturnsCorrectNumber
 {
   Baby * baby = [Baby object];
   baby.dueDate = [NSDate dateInDaysFromNow:-180];
   XCTAssertEqual(baby.daysSinceDueDate, (NSInteger) 180);
 }
+
+- (void)testFutureDaysSinceDueReturnsCorrectNumber
+{
+  Baby * baby = [Baby object];
+  baby.dueDate = [NSDate dateInDaysFromNow:180];
+  XCTAssertEqual(baby.daysSinceDueDate, (NSInteger) -179);
+}
+
+- (void)testFutureDaysSinceDueReturnsCorrectNumber2
+{
+  Baby * baby = [Baby object];
+  baby.dueDate = [NSDate dateInDaysFromNow:180];
+  XCTAssertEqual([baby daysSinceDueDate:[NSDate dateInDaysFromNow:181]], (NSInteger) 1);
+}
+
+- (void)testPastDaysSinceDueReturnsCorrectNumber2
+{
+  Baby * baby = [Baby object];
+  baby.dueDate = [NSDate dateInDaysFromNow:1];
+  XCTAssertEqual([baby daysSinceDueDate:[baby.dueDate dateByAddingDays:180]], (NSInteger) 180);
+}
+
+
+
 
 - (void)testDaysBetweenDueAndBirthDateWhenBornAfterDueDate
 {

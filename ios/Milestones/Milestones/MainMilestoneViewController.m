@@ -55,11 +55,11 @@
 -(void) milestoneNotedAndSaved:(NSNotification*)notification {
   MilestoneAchievement * achievement = [notification.userInfo objectForKey:@""];
   [achievement calculatePercentileRankingWithBlock:^(float percentile) {
-    if(percentile > 0) {
+    if(percentile >= 0) {
       // Show the message once all the animations have settled down.
       [NSTimer scheduledTimerWithTimeInterval:1.5 target:self selector:@selector(showWarningWindowAnimated) userInfo:nil repeats:false];
       [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(hideWarningWindowAnimated) userInfo:nil repeats:false];
-      NSString * msg = [NSString stringWithFormat:@"%@ is in the %.02fth percentile for that milestone.", Baby.currentBaby.name,percentile];
+      NSString * msg = [NSString stringWithFormat:@"%@ is ahead of %.02f%% of other babies for that milestone so far.", Baby.currentBaby.name,percentile];
       [self.warningMsgButton setTitle:msg forState:UIControlStateNormal];
       [self.warningMsgButton setImage:[UIImage imageNamed:@"success-8"] forState:UIControlStateNormal];
     }

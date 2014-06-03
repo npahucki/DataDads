@@ -18,32 +18,29 @@ Parse.Cloud.define("percentileRanking", function(request, response) {
    countQuery = new Parse.Query("MilestoneAchievements");
    countQuery.equalTo("standardMilestoneId", milestoneId);
    countQuery.exists("completionDays");
-   promises.push(countQuery.count({
-     success: function(result) {
+   promises.push(countQuery.count().then(function(result){
        totalCount = result;
-     },
-     error: function(error) {
-       response.error(error);
-     }
    }));
-   
+
    scoreQuery = new Parse.Query("MilestoneAchievements");
    scoreQuery.equalTo("standardMilestoneId", milestoneId);
    scoreQuery.exists("completionDays");
-   scoreQuery.lessThan("completionDays", completionDays);
-   promises.push(scoreQuery.count({
-     success: function(result) {
+   // NOTE: A completion day greater represents a lower score. 
+   scoreQuery.greaterThan("completionDays", completionDays);
+   promises.push(scoreQuery.count().then(function(result){
        scoreCount = result;
-     },
-     error: function(error) {
-       response.error(error);
-     }
    }));
-   // Return a new promise that is resolved when all of the queries are finished.
    return Parse.Promise.when(promises);
  }).then(function() {
    // Need at least mine and one other to compare
-   var p = totalCount < 2 ? -1 : (scoreCount / totalCount) * 100;
+   if(totalCount>=0 && totalCount <= 1) {
+    // Nothing to compare to, just say that you are ahead of 100% of babies.
+    p = 99.99;
+   } else {
+    p = (scoreCount / totalCount) * 100;
+   }
    response.success(p);
+   }, function(error){
+    response.error(error);
    });
 });
