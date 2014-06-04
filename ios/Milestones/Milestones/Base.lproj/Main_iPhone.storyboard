@@ -1242,15 +1242,11 @@
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
-                                    <outlet property="loadingImageView" destination="kRj-Av-eOz" id="8Kg-aQ-Hh9"/>
-                                    <outlet property="loadingLabel" destination="wiR-u1-Zzu" id="7pK-EQ-iF8"/>
+                                    <outlet property="loadingImageView" destination="kRj-Av-eOz" id="W20-UD-C8Z"/>
+                                    <outlet property="loadingLabel" destination="wiR-u1-Zzu" id="cwD-vV-fmD"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="b71-m6-YKZ" id="M42-fx-gZh"/>
-                            <outlet property="delegate" destination="b71-m6-YKZ" id="Id1-65-kP2"/>
-                        </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="History" id="Fgj-9z-f9G">
                         <barButtonItem key="backBarButtonItem" title="Back" id="O2X-ep-479"/>

@@ -24,6 +24,8 @@
 
 -(void) loadFutureMilestonesPage:(NSInteger) startIndex {
   if(self.hasMoreFutureMilestones) {
+    if([self.delegate respondsToSelector:@selector(willLoadFutureMilestones:)])
+      [self.delegate willLoadFutureMilestones:startIndex];
     _isLoadingFutureMilestones = YES;
     [self loadMilestonesPage:startIndex forTimePeriod:@"future" withBlock:^(NSArray *objects, NSError *error) {
       if(error) {
@@ -49,6 +51,8 @@
 
 -(void) loadPastMilestonesPage:(NSInteger) startIndex {
   if(self.hasMorePastMilestones) {
+    if([self.delegate respondsToSelector:@selector(willLoadPastMilestones:)])
+      [self.delegate willLoadPastMilestones:startIndex];
     _isLoadingPastMilestones = YES;
     [self loadMilestonesPage:startIndex forTimePeriod:@"past" withBlock:^(NSArray *objects, NSError *error) {
       if(error) {
@@ -98,6 +102,8 @@
 -(void) loadAchievementsPage:(NSInteger) startIndex {
   // If no Baby available yet, don't try to load anything
   if(self.baby && self.hasMoreAchievements) {
+    if([self.delegate respondsToSelector:@selector(willLoadAchievements:)])
+      [self.delegate willLoadAchievements:startIndex];
     PFQuery * query = [MilestoneAchievement query];
     [query whereKey:@"baby" equalTo:Baby.currentBaby];
     [query whereKey:@"isSkipped" equalTo:[NSNumber numberWithBool:NO]];

@@ -21,6 +21,12 @@
 -(void) didLoadPastMilestones;
 -(void) didFailToLoadPastMilestones:(NSError *) error;
 
+@optional
+
+-(void) willLoadAchievements:(NSInteger) startIdx;
+-(void) willLoadFutureMilestones:(NSInteger) startIdx;
+-(void) willLoadPastMilestones:(NSInteger) startIdx;
+
 @end
 
 
@@ -43,8 +49,7 @@
 
 
 @property (weak) id <HistoryViewTableModelDelegate> delegate;
-@property Baby* baby;
-
+@property (nonatomic, strong) Baby* baby;
 
 @property NSInteger pagingSize;
 

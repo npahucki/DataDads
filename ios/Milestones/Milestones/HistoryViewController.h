@@ -8,8 +8,7 @@
 
 #import <Parse/Parse.h>
 #import "AppQueryTableViewController.h"
-#import "HistoryViewTableModel.h"
-#import "SWTableViewCell.h"
+#import "HistoryViewControllerDataSource.h"
 
 @protocol HistoryViewControllerDelegate <NSObject>
 
@@ -18,20 +17,10 @@
 
 @end
 
-@interface HistoryViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate, HistoryViewTableModelDelegate, SWTableViewCellDelegate>
+@interface HistoryViewController : UITableViewController <UITableViewDelegate, HistoryViewTableModelDelegate, SWTableViewCellDelegate>
 
 @property (nonatomic, weak) id <HistoryViewControllerDelegate> delegate;
 
 @end
 
-@interface LoadingTableViewCell : UITableViewCell
-@property (weak, nonatomic) IBOutlet UIImageView *loadingImageView;
-@property (weak, nonatomic) IBOutlet UILabel *loadingLabel;
-@end
 
-
-@interface HistoryTableViewCell : SWTableViewCell
-
-@property (nonatomic, strong) UIView* topLineView;
-@property (nonatomic, strong) UIView* bottomLineView;
-@end
