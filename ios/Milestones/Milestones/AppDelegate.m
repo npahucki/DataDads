@@ -26,6 +26,7 @@
   [BabyAssignedTip registerSubclass];
   [StandardMilestone registerSubclass];
   [MilestoneAchievement registerSubclass];
+  [ParentUser registerSubclass];
   
   // Setup Social Providers
   
@@ -98,7 +99,6 @@
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-  //return [PFFacebookUtils handleOpenURL:url]; - deprecated, use the below line instead
   return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication withSession:[PFFacebookUtils session]];
 }
 

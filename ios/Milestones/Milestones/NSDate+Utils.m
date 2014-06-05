@@ -10,6 +10,14 @@
 
 @implementation NSDate (NSDate_Utils)
 
+-(NSString*) asISO8601String {
+  NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+  NSLocale *enUSPOSIXLocale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
+  [dateFormatter setLocale:enUSPOSIXLocale];
+  [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZZZZZ"];
+  return  [dateFormatter stringFromDate:self];
+}
+
 +(NSDate*) dateInDaysFromNow:(NSInteger)days {
   return [[NSDate date] dateByAddingDays:days];
 }

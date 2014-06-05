@@ -12,6 +12,7 @@
 #import "FDTakeController.h"
 #import "UIDateField.h"
 #import "UIViewControllerWithHUDProgress.h"
+#import "SevenSwitch.h"
 
 
 @interface NoteMilestoneViewController : UIViewControllerWithHUDProgress <FDTakeDelegate,UITextFieldDelegate, UITextViewDelegate>
@@ -23,6 +24,8 @@
 @property (strong, nonatomic) IBOutlet UIButton *takePhotoButton;
 @property (weak, nonatomic) IBOutlet UITextView *titleTextView;
 @property (weak, nonatomic) IBOutlet UITextField *customTitleTextField;
+@property (weak, nonatomic) IBOutlet UISwitch *placeHolderSwitch;
+@property (strong, nonatomic) SevenSwitch *fbSwitch;
 
 
 @end

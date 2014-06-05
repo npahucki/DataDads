@@ -23,6 +23,9 @@
 @property BOOL isSkipped;
 @property BOOL isPostponed;
 
+// Derives a title from the customTitle or Milestone title.
+@property (readonly) NSString* displayTitle;
+
 -(BOOL) isCustom;
 
 /*!

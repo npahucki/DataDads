@@ -32,7 +32,7 @@
   _imageOrVideoType = nil;
   
   NSAssert(self.achievement.baby, @"baby must be set on acheivement before view loads");
-
+  
   self.commentsTextField.delegate = self;
   self.customTitleTextField.delegate = self;
   
@@ -47,6 +47,19 @@
   // Needed to dimiss the keyboard once a user clicks outside the text boxes
   UITapGestureRecognizer *viewTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
   [self.view addGestureRecognizer:viewTap];
+  
+  self.fbSwitch = [[SevenSwitch alloc] initWithFrame:CGRectMake(10, 10, 50, 30)];
+  [self.view addSubview:_fbSwitch];
+  [_fbSwitch addTarget:self action:@selector(didChangeFacebookSwitch:) forControlEvents:UIControlEventValueChanged];
+  _fbSwitch.thumbImage = [UIImage imageNamed:@"facebookSwitch"];
+  _fbSwitch.thumbTintColor = UIColorFromRGB(0x3B5999); // Facebook color
+  _fbSwitch.isRounded = NO;
+  _fbSwitch.inactiveColor = [UIColor appGreyTextColor];
+  _fbSwitch.onTintColor = [UIColor appNormalColor];
+  _fbSwitch.activeColor = _fbSwitch.onTintColor;
+  _fbSwitch.borderColor = [UIColor blackColor];
+  //_fbSwitch.shadowColor = [UIColor blackColor];
+  [_fbSwitch setOn:ParentUser.currentUser.autoPublishToFacebook animated:NO];
 }
 
 -(void)handleSingleTap:(UITapGestureRecognizer *)sender {
@@ -65,6 +78,7 @@
 
 -(void) viewDidLayoutSubviews {
   [super viewDidLayoutSubviews];
+  self.fbSwitch.frame = self.placeHolderSwitch.frame;
   [self.takePhotoButton.layer setCornerRadius:self.takePhotoButton.frame.size.width/2];
   self.takePhotoButton.layer.masksToBounds = YES;
   self.takePhotoButton.layer.borderWidth = 1;
@@ -113,6 +127,27 @@
   [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (void)didChangeFacebookSwitch:(id)sender {
+  if(self.fbSwitch.on) {
+      [PFFacebookUtils ensureHasPublishPermissions:ParentUser.currentUser block:^(BOOL succeeded, NSError *error) {
+        if(error) {
+          [[[UIAlertView alloc] initWithTitle:@"Could enable Facebook sharing" message:error.localizedDescription delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
+          [self.fbSwitch setOn:NO animated:YES];
+        } else if(!succeeded) {
+          // User did not link or did not give permissions.
+          [self.fbSwitch setOn:NO animated:YES];
+        }
+      }];
+  }
+
+  // Remember for future uses.
+  if(ParentUser.currentUser.autoPublishToFacebook != self.fbSwitch.on) {
+    ParentUser.currentUser.autoPublishToFacebook = self.fbSwitch.on;
+    [ParentUser.currentUser saveEventually];
+  }
+  
+
+}
 
 -(void) saveImageOrPhoto {
   [self showInProgressHUDWithMessage:@"Uploading Photo" andAnimation:YES andDimmedBackground:YES];
@@ -155,7 +190,18 @@
         self.achievement.standardMilestone = originalMilestone; // avoid network call
       }
       
+      // Notify locally
       [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationMilestoneNotedAndSaved object:self userInfo:@{@"" : self.achievement}];
+      
+      // Publish the achievement to facebook
+      if(self.fbSwitch.on) {
+        [PFFacebookUtils shareAchievement:self.achievement block:^(BOOL succeeded, NSError *error) {
+          if(error) {
+            [[[UIAlertView alloc] initWithTitle:@"Could share the milestone on Facebook" message:error.localizedDescription delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
+          }
+        }];
+      }
+      
       [self dismissViewControllerAnimated:YES completion:nil];
     }
   }];

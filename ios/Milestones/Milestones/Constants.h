@@ -9,11 +9,7 @@
 #ifndef Milestones_Contants_h
 #define Milestones_Contants_h
 
-
-// User object constants
-extern NSString *const kDDUserScreenName;
-extern NSString *const kDDUserIsMale;
-extern NSString *const kDDUserEmail;
+#define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
 
 #pragma mark Segue Names

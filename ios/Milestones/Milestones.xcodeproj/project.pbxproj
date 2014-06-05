@@ -43,6 +43,9 @@
 		E86B1EB21927967800EA6167 /* PFQueryWithExtendedResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = E86B1EB01927967800EA6167 /* PFQueryWithExtendedResultSet.m */; };
 		E86B1EB4192917A400EA6167 /* backgroung.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E86B1EB3192917A400EA6167 /* backgroung.jpg */; };
 		E872D4C1193F6975003F461C /* HistoryViewControllerDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = E872D4C0193F6975003F461C /* HistoryViewControllerDataSource.m */; };
+		E872D4C71940943F003F461C /* SevenSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = E872D4C51940943F003F461C /* SevenSwitch.m */; };
+		E872D4CA1940B412003F461C /* ParentUser.m in Sources */ = {isa = PBXBuildFile; fileRef = E872D4C91940B412003F461C /* ParentUser.m */; };
+		E872D4CD1940B8D6003F461C /* PFFacebookUtils+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = E872D4CC1940B8D6003F461C /* PFFacebookUtils+Extras.m */; };
 		E876159B18EF83C100B0C6D9 /* BabyTagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E876159A18EF83C100B0C6D9 /* BabyTagsViewController.m */; };
 		E876159E18EF892C00B0C6D9 /* BabyTagsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E876159D18EF892C00B0C6D9 /* BabyTagsTableViewController.m */; };
 		E877FCAD19368AE4002405BF /* BabyAssignedTip.m in Sources */ = {isa = PBXBuildFile; fileRef = E877FCAC19368AE4002405BF /* BabyAssignedTip.m */; };
@@ -155,6 +158,12 @@
 		E86B1EB3192917A400EA6167 /* backgroung.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = backgroung.jpg; sourceTree = "<group>"; };
 		E872D4BF193F6975003F461C /* HistoryViewControllerDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryViewControllerDataSource.h; sourceTree = "<group>"; };
 		E872D4C0193F6975003F461C /* HistoryViewControllerDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryViewControllerDataSource.m; sourceTree = "<group>"; };
+		E872D4C51940943F003F461C /* SevenSwitch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SevenSwitch.m; sourceTree = "<group>"; };
+		E872D4C61940943F003F461C /* SevenSwitch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SevenSwitch.h; sourceTree = "<group>"; };
+		E872D4C81940B412003F461C /* ParentUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParentUser.h; sourceTree = "<group>"; };
+		E872D4C91940B412003F461C /* ParentUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParentUser.m; sourceTree = "<group>"; };
+		E872D4CB1940B8D6003F461C /* PFFacebookUtils+Extras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PFFacebookUtils+Extras.h"; sourceTree = "<group>"; };
+		E872D4CC1940B8D6003F461C /* PFFacebookUtils+Extras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PFFacebookUtils+Extras.m"; sourceTree = "<group>"; };
 		E876159918EF83C100B0C6D9 /* BabyTagsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyTagsViewController.h; sourceTree = "<group>"; };
 		E876159A18EF83C100B0C6D9 /* BabyTagsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BabyTagsViewController.m; sourceTree = "<group>"; };
 		E876159C18EF892C00B0C6D9 /* BabyTagsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyTagsTableViewController.h; sourceTree = "<group>"; };
@@ -268,6 +277,8 @@
 			children = (
 				E81B58781896CE7800C74C2B /* Baby.h */,
 				E81B58791896CE7800C74C2B /* Baby.m */,
+				E872D4C81940B412003F461C /* ParentUser.h */,
+				E872D4C91940B412003F461C /* ParentUser.m */,
 				E81B588118992B7000C74C2B /* Tag.h */,
 				E81B588218992B7000C74C2B /* Tag.m */,
 				E866E7F719364607004963C9 /* Tip.h */,
@@ -325,6 +336,8 @@
 				E8BDE6B6193E0CF7001D6995 /* PronounHelper.h */,
 				E8BDE6B7193E0CF7001D6995 /* PronounHelper.m */,
 				E8BDE6B1193E0951001D6995 /* Pronouns.strings */,
+				E872D4CB1940B8D6003F461C /* PFFacebookUtils+Extras.h */,
+				E872D4CC1940B8D6003F461C /* PFFacebookUtils+Extras.m */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -522,6 +535,8 @@
 		E8E39C1818EA137F0034982D /* ThirdParty */ = {
 			isa = PBXGroup;
 			children = (
+				E872D4C51940943F003F461C /* SevenSwitch.m */,
+				E872D4C61940943F003F461C /* SevenSwitch.h */,
 				E8E39C1918EA13B40034982D /* CustomIOS7AlertView.h */,
 				E8E39C1A18EA13B40034982D /* CustomIOS7AlertView.m */,
 			);
@@ -697,11 +712,14 @@
 				E8BC76D518A50AD000983025 /* UIViewControllerWithHUDProgress.m in Sources */,
 				E877FCB01936BA98002405BF /* WebViewerViewController.m in Sources */,
 				E86B1EB21927967800EA6167 /* PFQueryWithExtendedResultSet.m in Sources */,
+				E872D4CD1940B8D6003F461C /* PFFacebookUtils+Extras.m in Sources */,
 				E8EC89D81907CB410073E012 /* UIViewController+MBProgressHUD.m in Sources */,
+				E872D4CA1940B412003F461C /* ParentUser.m in Sources */,
 				E8DD48EE188EE5B900153095 /* AppDelegate.m in Sources */,
 				E8DD48EA188EE5B900153095 /* main.m in Sources */,
 				E8D00A1A188F362100DF2786 /* BabyInfoViewController.m in Sources */,
 				E840251918F0DEC800AF1B27 /* BabyInfoPhotoViewController.m in Sources */,
+				E872D4C71940943F003F461C /* SevenSwitch.m in Sources */,
 				E877FCAD19368AE4002405BF /* BabyAssignedTip.m in Sources */,
 				E8D00A17188F348700DF2786 /* LoginViewController.m in Sources */,
 				E862B81318F5FCE100EBAEFF /* FDTakeControllerNoStatusBar.m in Sources */,

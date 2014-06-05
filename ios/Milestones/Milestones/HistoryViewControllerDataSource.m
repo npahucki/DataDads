@@ -165,19 +165,18 @@
   [cell setAppearanceWithBlock:^{
     [self tableView:tableView configureBasicCellProperties:weakCell];
     
-    
-    NSMutableArray *rightUtilityButtons;
-    if(!rightUtilityButtons) {
-      rightUtilityButtons = [NSMutableArray new];
-      [rightUtilityButtons sw_addUtilityButtonWithColor: [UIColor appNormalColor] title:@"Share"];
-      [rightUtilityButtons sw_addUtilityButtonWithColor: [UIColor appSelectedColor] title:@"Favorite"];
-    }
-    
-    weakCell.rightUtilityButtons = rightUtilityButtons;
+      // TODO: Maybe add delete?
+//    NSMutableArray *rightUtilityButtons;
+//    if(!rightUtilityButtons) {
+//      rightUtilityButtons = [NSMutableArray new];
+//      [rightUtilityButtons sw_addUtilityButtonWithColor: [UIColor appNormalColor] title:@"Share"];
+//      [rightUtilityButtons sw_addUtilityButtonWithColor: [UIColor appSelectedColor] title:@"Favorite"];
+//    }
+//    
+//    weakCell.rightUtilityButtons = rightUtilityButtons;
   } force:NO];
   
   NSAssert([achievement.baby.objectId isEqualToString:Baby.currentBaby.objectId], @"Expected only milestones for current baby");
-  
   
   cell.textLabel.text = [achievement.completionDate stringWithHumanizedTimeDifference];
   cell.detailTextLabel.text = achievement.customTitle.length ? achievement.customTitle : [achievement.standardMilestone titleForBaby:achievement.baby];

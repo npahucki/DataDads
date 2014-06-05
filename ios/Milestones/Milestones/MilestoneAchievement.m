@@ -51,6 +51,9 @@
   return [self objectForKey:@"completionDate"];
 }
 
+-(NSString*) displayTitle {
+  return self.customTitle.length ? self.customTitle : [self.standardMilestone titleForBaby:self.baby];
+}
 
 -(BOOL) isCustom {
   return self.standardMilestone == nil;

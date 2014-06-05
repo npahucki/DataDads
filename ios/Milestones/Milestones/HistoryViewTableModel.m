@@ -80,8 +80,7 @@
   if(self.baby) {
     
     NSNumber * babySex = @(self.baby.isMale);
-    NSNumber * parentSex = (NSNumber*) [[PFUser currentUser] objectForKey:kDDUserIsMale];
-    
+    NSNumber * parentSex = @(ParentUser.currentUser.isMale);
     [PFCloud callFunctionInBackground:@"queryMyMilestones"
            withParameters:@{@"babyId": self.baby.objectId,
                             @"babyIsMale": babySex,

@@ -11,6 +11,9 @@
 
 #import "HistoryViewController.h"
 #import "HistoryViewControllerDataSource.h"
+#import <FacebookSDK/FBSession.h>
+#import "NSDate+Utils.h"
+
 
 
 @interface HistoryViewController () {
@@ -167,7 +170,7 @@
 
   NSIndexPath * path = [self.tableView indexPathForCell:cell];
   if(path.section == AchievementSection) {
-    //MilestoneAchievement * achievement = (MilestoneAchievement*) _model.achievements[path.row];
+    // TODO: something here, maybe share by email later?
   } else {
     BOOL ignored = buttonIndex == 0;
     BOOL postponed = buttonIndex == 1;

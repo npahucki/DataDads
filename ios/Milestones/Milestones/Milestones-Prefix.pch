@@ -17,6 +17,7 @@
 
 #import <Parse/Parse.h>
 #import "Constants.h"
+#import "ParentUser.h"
 #import "Baby.h"
 #import "Tag.h"
 #import "Tip.h"
@@ -24,4 +25,5 @@
 #import "StandardMilestone.h"
 #import "BabyAssignedTip.h"
 #import "Reachability.h"
+#import "PFFacebookUtils+Extras.h"
 

@@ -160,7 +160,7 @@
   [self.animator addBehavior:elasticityBehavior];
 }
 
--(void) populateCurrentUserDetailsFromFacebook: (PFUser *) user {
+-(void) populateCurrentUserDetailsFromFacebook: (ParentUser *) user {
   [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
     if (!error) {
       NSString *facebookEMail = result[@"email"];
@@ -175,18 +175,17 @@
       }
       
       if([@"male" isEqualToString:gender]) {
-          [user setObject:@(YES) forKey:kDDUserIsMale];
+        user.isMale = YES;
       } else if([@"female" isEqualToString:gender]) {
-        [user setObject:@(NO) forKey:kDDUserIsMale];
-      }
+        user.isMale = NO;
+      } // else don't set it
       
       // Only set if not set previously.
-      if(![user objectForKey:kDDUserScreenName]) {
+      if(!user.screenName) {
         if(firstName.length && lastName.length) {
-          NSString * suggestedName = [NSString stringWithFormat:@"%@ %@.",firstName, [lastName substringToIndex:1]];
-          [user setObject:suggestedName forKey:kDDUserScreenName];
+          user.screenName = [NSString stringWithFormat:@"%@ %@.",firstName, [lastName substringToIndex:1]];
         } else {
-          [user setObject:username forKey:kDDUserScreenName];
+          user.screenName = username;
         }
       }
       
@@ -230,7 +229,7 @@
   if(isLinkedToFacebook) {
     // We need to copy the email address and maybe some other attibutes here before we proceed.
     // We can do this in the background so as to let the user get started without additional delay.
-    [self populateCurrentUserDetailsFromFacebook:user];
+    [self populateCurrentUserDetailsFromFacebook:(ParentUser*) user];
   }
   
   [self showLoginSuccessAndRunBlock:^{

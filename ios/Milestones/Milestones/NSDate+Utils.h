@@ -10,6 +10,8 @@
 
 @interface NSDate (NSDate_Utils)
 
+-(NSString*) asISO8601String;
+
 /*!
  * The difference in number of days from Now. If the result is negative, it means the target date happened N days before Now.
  * Postive denotes the target date happens after Now. 

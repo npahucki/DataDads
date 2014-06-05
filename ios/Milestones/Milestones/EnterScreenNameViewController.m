@@ -33,8 +33,8 @@
 //  NSString *userNameString = [hostNameArray objectAtIndex:0];
 //  NSLog(@”UserName : %@”, userNameString);
   
-  self.screenNameField.text = [PFUser.currentUser objectForKey:kDDUserScreenName];
-  NSNumber* gender = [PFUser.currentUser objectForKey:kDDUserIsMale];
+  self.screenNameField.text = ParentUser.currentUser.screenName;
+  NSNumber* gender = [ParentUser.currentUser objectForKey:@"isMale"];
   if(gender && gender.boolValue) {
     [self didClickMaleButton:self];
   } else if(gender && !gender.boolValue) {
@@ -66,25 +66,25 @@
 
   if([Reachability showAlertIfParseNotReachable]) return;
 
-  
-  if([PFUser currentUser].username.length) {
+  ParentUser * parent = [ParentUser currentUser];
+  if(parent.username.length) {
     // Account already exists (logged in before, perhaps with facebook).
-    [self saveUserPreferences:[PFUser currentUser]];
+    [self saveUserPreferences:parent];
   } else {
     [self showInProgressHUDWithMessage:@"Creating your anonymous account" andAnimation:YES andDimmedBackground:YES];
     [PFAnonymousUtils logInWithBlock:^(PFUser *user, NSError *error) {
       if (error) {
         [self showErrorThenRunBlock:error withMessage:@"Unable create your account" andBlock:nil];
       } else {
-        [self saveUserPreferences:[PFUser currentUser]];
+        [self saveUserPreferences:(ParentUser*)user];
       }
     }];
   }
 }
 
--(void) saveUserPreferences:(PFUser*) user {
-  [user setObject:self.screenNameField.text forKey:kDDUserScreenName];
-  [user setObject: [NSNumber numberWithBool:self.maleButton.isSelected] forKey:kDDUserIsMale];
+-(void) saveUserPreferences:(ParentUser*) user {
+  user.screenName = self.screenNameField.text;
+  user.isMale = self.maleButton.isSelected;
   [self showInProgressHUDWithMessage:@"Saving your preferences" andAnimation:YES andDimmedBackground:YES];
   [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
     if(error) {
