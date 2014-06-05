@@ -46,6 +46,7 @@
 		E872D4C71940943F003F461C /* SevenSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = E872D4C51940943F003F461C /* SevenSwitch.m */; };
 		E872D4CA1940B412003F461C /* ParentUser.m in Sources */ = {isa = PBXBuildFile; fileRef = E872D4C91940B412003F461C /* ParentUser.m */; };
 		E872D4CD1940B8D6003F461C /* PFFacebookUtils+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = E872D4CC1940B8D6003F461C /* PFFacebookUtils+Extras.m */; };
+		E872D4D01940E9FD003F461C /* UIAlertView+BlockSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = E872D4CF1940E9FD003F461C /* UIAlertView+BlockSupport.m */; };
 		E876159B18EF83C100B0C6D9 /* BabyTagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E876159A18EF83C100B0C6D9 /* BabyTagsViewController.m */; };
 		E876159E18EF892C00B0C6D9 /* BabyTagsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E876159D18EF892C00B0C6D9 /* BabyTagsTableViewController.m */; };
 		E877FCAD19368AE4002405BF /* BabyAssignedTip.m in Sources */ = {isa = PBXBuildFile; fileRef = E877FCAC19368AE4002405BF /* BabyAssignedTip.m */; };
@@ -164,6 +165,8 @@
 		E872D4C91940B412003F461C /* ParentUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParentUser.m; sourceTree = "<group>"; };
 		E872D4CB1940B8D6003F461C /* PFFacebookUtils+Extras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PFFacebookUtils+Extras.h"; sourceTree = "<group>"; };
 		E872D4CC1940B8D6003F461C /* PFFacebookUtils+Extras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PFFacebookUtils+Extras.m"; sourceTree = "<group>"; };
+		E872D4CE1940E9FD003F461C /* UIAlertView+BlockSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+BlockSupport.h"; sourceTree = "<group>"; };
+		E872D4CF1940E9FD003F461C /* UIAlertView+BlockSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+BlockSupport.m"; sourceTree = "<group>"; };
 		E876159918EF83C100B0C6D9 /* BabyTagsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyTagsViewController.h; sourceTree = "<group>"; };
 		E876159A18EF83C100B0C6D9 /* BabyTagsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BabyTagsViewController.m; sourceTree = "<group>"; };
 		E876159C18EF892C00B0C6D9 /* BabyTagsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyTagsTableViewController.h; sourceTree = "<group>"; };
@@ -338,6 +341,8 @@
 				E8BDE6B1193E0951001D6995 /* Pronouns.strings */,
 				E872D4CB1940B8D6003F461C /* PFFacebookUtils+Extras.h */,
 				E872D4CC1940B8D6003F461C /* PFFacebookUtils+Extras.m */,
+				E872D4CE1940E9FD003F461C /* UIAlertView+BlockSupport.h */,
+				E872D4CF1940E9FD003F461C /* UIAlertView+BlockSupport.m */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -724,6 +729,7 @@
 				E8D00A17188F348700DF2786 /* LoginViewController.m in Sources */,
 				E862B81318F5FCE100EBAEFF /* FDTakeControllerNoStatusBar.m in Sources */,
 				E89035EB19337807004A4013 /* Reachability.m in Sources */,
+				E872D4D01940E9FD003F461C /* UIAlertView+BlockSupport.m in Sources */,
 				E872D4C1193F6975003F461C /* HistoryViewControllerDataSource.m in Sources */,
 				E86B1EAF19277E7700EA6167 /* HistoryViewTableModel.m in Sources */,
 				E8BDE6B0193CC106001D6995 /* NSDate+Utils.m in Sources */,

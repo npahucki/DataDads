@@ -24,7 +24,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *takePhotoButton;
 @property (weak, nonatomic) IBOutlet UITextView *titleTextView;
 @property (weak, nonatomic) IBOutlet UITextField *customTitleTextField;
-@property (weak, nonatomic) IBOutlet UISwitch *placeHolderSwitch;
+@property (weak, nonatomic) IBOutlet UIView *placeHolderSwitch;
 @property (strong, nonatomic) SevenSwitch *fbSwitch;
 
 

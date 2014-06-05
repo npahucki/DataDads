@@ -59,7 +59,7 @@
   _fbSwitch.activeColor = _fbSwitch.onTintColor;
   _fbSwitch.borderColor = [UIColor blackColor];
   //_fbSwitch.shadowColor = [UIColor blackColor];
-  [_fbSwitch setOn:ParentUser.currentUser.autoPublishToFacebook animated:NO];
+  [_fbSwitch setOn:ParentUser.currentUser.autoPublishToFacebook && [PFFacebookUtils userHasAuthorizedPublishPermissions:ParentUser.currentUser] animated:NO];
 }
 
 -(void)handleSingleTap:(UITapGestureRecognizer *)sender {
@@ -131,7 +131,7 @@
   if(self.fbSwitch.on) {
       [PFFacebookUtils ensureHasPublishPermissions:ParentUser.currentUser block:^(BOOL succeeded, NSError *error) {
         if(error) {
-          [[[UIAlertView alloc] initWithTitle:@"Could enable Facebook sharing" message:error.localizedDescription delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
+          [PFFacebookUtils showAlertIfFacebookDisplayableError:error];
           [self.fbSwitch setOn:NO animated:YES];
         } else if(!succeeded) {
           // User did not link or did not give permissions.
@@ -197,7 +197,7 @@
       if(self.fbSwitch.on) {
         [PFFacebookUtils shareAchievement:self.achievement block:^(BOOL succeeded, NSError *error) {
           if(error) {
-            [[[UIAlertView alloc] initWithTitle:@"Could share the milestone on Facebook" message:error.localizedDescription delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
+            [[[UIAlertView alloc] initWithTitle:@"Could share the milestone on Facebook" message:@"Make sure that you have authorized the DataParenting App at https://www.facebook.com/settings?tab=applications" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
           }
         }];
       }

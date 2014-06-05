@@ -168,7 +168,6 @@
 
 - (BOOL)beginTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
     [super beginTrackingWithTouch:touch withEvent:event];
-
     startTrackingValue = self.on;
     didChangeWhileTracking = NO;
 
@@ -193,7 +192,7 @@
 
 - (BOOL)continueTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
     [super continueTrackingWithTouch:touch withEvent:event];
-
+  
     // Get touch location
     CGPoint lastPoint = [touch locationInView:self];
 
@@ -217,7 +216,6 @@
 
 - (void)endTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
     [super endTrackingWithTouch:touch withEvent:event];
-
     BOOL previousValue = self.on;
     
     if (didChangeWhileTracking) {
@@ -239,6 +237,11 @@
         [self showOn:YES];
     else
         [self showOff:YES];
+}
+
+-(void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+  // Handle a single tap
+  [self setOn:!self.on animated:YES];
 }
 
 

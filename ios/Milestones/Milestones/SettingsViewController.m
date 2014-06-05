@@ -91,6 +91,8 @@
     [[PFInstallation currentInstallation] saveEventually];
     [PFUser logOut];
     [PFQuery clearAllCachedResults];
+    [[PFFacebookUtils session] close];
+    [[PFFacebookUtils session] closeAndClearTokenInformation];
     Baby.currentBaby = nil;
     [self dismissViewControllerAnimated:NO completion:nil];
   }

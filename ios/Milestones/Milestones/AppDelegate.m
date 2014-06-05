@@ -103,7 +103,9 @@
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
+  //[[PFFacebookUtils session] handleDidBecomeActive];
   [FBAppCall handleDidBecomeActiveWithSession:[PFFacebookUtils session]];
+  
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -125,6 +127,7 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
+  [[PFFacebookUtils session] close];
 }
 
 

@@ -160,46 +160,6 @@
   [self.animator addBehavior:elasticityBehavior];
 }
 
--(void) populateCurrentUserDetailsFromFacebook: (ParentUser *) user {
-  [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-    if (!error) {
-      NSString *facebookEMail = result[@"email"];
-      NSString *firstName = result[@"first_name"];
-      NSString *lastName = result[@"last_name"];
-      NSString *username = result[@"username"];
-      NSString *gender = result[@"gender"];
-      
-      if (facebookEMail.length) {
-        user.email = facebookEMail;
-        user.username = facebookEMail;
-      }
-      
-      if([@"male" isEqualToString:gender]) {
-        user.isMale = YES;
-      } else if([@"female" isEqualToString:gender]) {
-        user.isMale = NO;
-      } // else don't set it
-      
-      // Only set if not set previously.
-      if(!user.screenName) {
-        if(firstName.length && lastName.length) {
-          user.screenName = [NSString stringWithFormat:@"%@ %@.",firstName, [lastName substringToIndex:1]];
-        } else {
-          user.screenName = username;
-        }
-      }
-      
-      [user saveEventually];
-    } else {
-      // TODO: more elegant logging
-      NSLog(@"Facebook error while trying to fecth data about me to populate user: %@", error);
-      
-    }
-  }];
-}
-
-
-
 # pragma PFLoginViewController methods
 
 /*!
@@ -229,7 +189,7 @@
   if(isLinkedToFacebook) {
     // We need to copy the email address and maybe some other attibutes here before we proceed.
     // We can do this in the background so as to let the user get started without additional delay.
-    [self populateCurrentUserDetailsFromFacebook:(ParentUser*) user];
+    [PFFacebookUtils populateCurrentUserDetailsFromFacebook:(ParentUser*)user block:nil];
   }
   
   [self showLoginSuccessAndRunBlock:^{
@@ -239,22 +199,17 @@
 
 /// Sent to the delegate when the log in attempt fails.
 - (void)logInViewController:(PFLogInViewController *)logInController didFailToLogInWithError:(NSError *)error {
-  
-  NSString *msg;
-  if([error.domain isEqualToString:@"com.facebook.sdk"] && error.code == (NSInteger)2) {
-    msg = @"If you want to log in with facebook go to Settings>Facebook and enable acceess for 'Milestones', then try to log in again with Facebook";
-  } else {
-    msg = @"Please check the username and password you entered and try again, or if you don't have an account already, press the signup button.";
+  if(![PFFacebookUtils showAlertIfFacebookDisplayableError:error]) {
+    NSString * msg = @"Please check the username and password you entered and try again, or if you don't have an account already, press the signup button.";
+    [self showLoginErrorAndRunBlock:^{
+      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error logging in"
+                                                      message:msg
+                                                     delegate:nil
+                                            cancelButtonTitle:@"OK"
+                                            otherButtonTitles:nil];
+      [alert show];
+    }];
   }
-
-  [self showLoginErrorAndRunBlock:^{
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error logging in"
-                                                    message:msg
-                                                   delegate:nil
-                                          cancelButtonTitle:@"Dismiss"
-                                          otherButtonTitles:nil];
-    [alert show];
-  }];
 }
 
 - (void)logInViewControllerDidCancelLogIn:(PFLogInViewController *)logInController {

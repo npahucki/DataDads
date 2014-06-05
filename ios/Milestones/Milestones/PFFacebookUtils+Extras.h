@@ -8,11 +8,14 @@
 
 #import <Parse/Parse.h>
 
+#define FB_PUBLISH_PERMISSION_ARRAY @[@"publish_actions",@"email",@"public_profile"]
 
 @interface PFFacebookUtils (PFFacebookUtils_Extras)
 
 +(void) shareAchievement:(MilestoneAchievement*) achievement block:(PFBooleanResultBlock) block;
++(BOOL) userHasAuthorizedPublishPermissions:(PFUser *) user;
 +(void) ensureHasPublishPermissions:(ParentUser *) user block:(PFBooleanResultBlock) block;
-
++(void) populateCurrentUserDetailsFromFacebook: (ParentUser *) user block:(PFBooleanResultBlock) block;
++(BOOL) showAlertIfFacebookDisplayableError:(NSError*) error;
 
 @end
