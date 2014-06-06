@@ -100,7 +100,7 @@ NSDateFormatter * _dateFormatter;
   NSDictionary *dataValueTextAttributes = @{NSFontAttributeName: [UIFont fontForAppWithType:Medium andSize:15.0], NSForegroundColorAttributeName: [UIColor blackColor]};
   
   // Title - Always use the custom title if not empty, this way, if later on we link a standard milestone, we still read the text that we enetered.
-  NSAttributedString * titleString = [[NSAttributedString alloc] initWithString:self.achievement.customTitle.length ? self.achievement.customTitle : [m titleForBaby:self.achievement.baby] attributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:15.0], NSForegroundColorAttributeName: [UIColor appNormalColor]}];
+  NSAttributedString * titleString = [[NSAttributedString alloc] initWithString:self.achievement.displayTitle attributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:15.0], NSForegroundColorAttributeName: [UIColor appNormalColor]}];
   [attrText appendAttributedString:titleString];
   [attrText appendAttributedString:lf];
   

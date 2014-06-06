@@ -191,7 +191,7 @@
   NSAssert([achievement.baby.objectId isEqualToString:Baby.currentBaby.objectId], @"Expected only milestones for current baby");
   
   cell.textLabel.text = [achievement.completionDate stringWithHumanizedTimeDifference];
-  cell.detailTextLabel.text = achievement.customTitle.length ? achievement.customTitle : [achievement.standardMilestone titleForBaby:achievement.baby];
+  cell.detailTextLabel.text = achievement.displayTitle;
   
   
   cell.imageView.image = [UIImage imageNamed:@"historyNoPic"]; // use in case of error
