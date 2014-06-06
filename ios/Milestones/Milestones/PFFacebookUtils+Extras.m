@@ -118,6 +118,8 @@
           // cancel
           block(NO, nil);
         } else {
+          // NOTE: If the user denies the auth, The call back is never called!
+          // We should file an issue with Parse over this. 
           [PFFacebookUtils reauthorizeUser:user withPublishPermissions:FB_PUBLISH_PERMISSION_ARRAY audience:FBSessionDefaultAudienceFriends block:^(BOOL succeeded, NSError *error) {
             if(error) {
               block(NO, error);

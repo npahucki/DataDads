@@ -8,6 +8,7 @@
 
 #import "MainViewController.h"
 #import "CustomIOS7AlertView.h"
+#import <Appsee/Appsee.h>
 
 @implementation MainViewController {
   UITabBarItem * _notificationsTabItem;
@@ -54,6 +55,7 @@
   
   PFUser * user = PFUser.currentUser;
   if(user) {
+    [Appsee setUserID:user.objectId];
     if([Baby currentBaby] == nil) {
       // Finally, we must have at least one baby's info on file
       PFQuery *query =  [Baby  queryForBabiesForUser:PFUser.currentUser];
