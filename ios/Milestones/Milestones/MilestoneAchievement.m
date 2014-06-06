@@ -52,7 +52,13 @@
 }
 
 -(NSString*) displayTitle {
-  return self.customTitle.length ? self.customTitle : [self.standardMilestone titleForBaby:self.baby];
+  if(self.customTitle.length) {
+    return self.customTitle;
+  } else if(self.standardMilestone) {
+    return [self.standardMilestone titleForBaby:self.baby];
+  } else {
+    return @"???";
+  }
 }
 
 -(BOOL) isCustom {

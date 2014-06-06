@@ -11,6 +11,7 @@
 #import "LoginViewController.h"
 #import <FacebookSDK/FacebookSDK.h>
 #import <Appsee/Appsee.h>
+#import "Flurry.h"
 
 @implementation AppDelegate
 
@@ -29,7 +30,12 @@
   [MilestoneAchievement registerSubclass];
   [ParentUser registerSubclass];
   
-  // Setup Social Providers
+  // Setup Social Providers ANd Trakcing Services
+
+  // TODO: Move to production only
+  //note: iOS only allows one crash reporting tool per app; if using another, set to: NO
+  [Flurry setCrashReportingEnabled:NO]; // Appsee is doing crash reporting
+  [Flurry startSession:@"PYD2CGMG7MSGVNRG95DF"];
   
 # if DEBUG || TARGET_IPHONE_SIMULATOR
   NSLog(@"Using Parse DEV account");

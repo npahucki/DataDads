@@ -9,6 +9,7 @@
 #import "MainViewController.h"
 #import "CustomIOS7AlertView.h"
 #import <Appsee/Appsee.h>
+#import "Flurry.h"
 
 @implementation MainViewController {
   UITabBarItem * _notificationsTabItem;
@@ -53,9 +54,12 @@
 - (void)viewDidAppear:(BOOL)animated {
   [self updateNotificationTabBadge:-1];
   
-  PFUser * user = PFUser.currentUser;
+  ParentUser * user = ParentUser.currentUser;
   if(user) {
     [Appsee setUserID:user.objectId];
+    [Flurry setUserID:user.objectId];
+    [Flurry setGender:user.isMale ?  @"m" : @"f"];
+    
     if([Baby currentBaby] == nil) {
       // Finally, we must have at least one baby's info on file
       PFQuery *query =  [Baby  queryForBabiesForUser:PFUser.currentUser];

@@ -51,6 +51,7 @@
 		E872D4D81942026F003F461C /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E872D4D71942026F003F461C /* AVFoundation.framework */; };
 		E872D4DA1942027D003F461C /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E872D4D91942027D003F461C /* CoreMedia.framework */; };
 		E872D4DC19420287003F461C /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E872D4DB19420287003F461C /* CoreVideo.framework */; };
+		E872D62519424091003F461C /* libFlurry_5.0.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E872D62419424091003F461C /* libFlurry_5.0.0.a */; };
 		E876159B18EF83C100B0C6D9 /* BabyTagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E876159A18EF83C100B0C6D9 /* BabyTagsViewController.m */; };
 		E876159E18EF892C00B0C6D9 /* BabyTagsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E876159D18EF892C00B0C6D9 /* BabyTagsTableViewController.m */; };
 		E877FCAD19368AE4002405BF /* BabyAssignedTip.m in Sources */ = {isa = PBXBuildFile; fileRef = E877FCAC19368AE4002405BF /* BabyAssignedTip.m */; };
@@ -175,6 +176,8 @@
 		E872D4D71942026F003F461C /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		E872D4D91942027D003F461C /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		E872D4DB19420287003F461C /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		E872D62319424091003F461C /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
+		E872D62419424091003F461C /* libFlurry_5.0.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_5.0.0.a; sourceTree = "<group>"; };
 		E876159918EF83C100B0C6D9 /* BabyTagsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyTagsViewController.h; sourceTree = "<group>"; };
 		E876159A18EF83C100B0C6D9 /* BabyTagsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BabyTagsViewController.m; sourceTree = "<group>"; };
 		E876159C18EF892C00B0C6D9 /* BabyTagsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyTagsTableViewController.h; sourceTree = "<group>"; };
@@ -268,6 +271,7 @@
 				E8DD48E2188EE5B900153095 /* UIKit.framework in Frameworks */,
 				E81B58561891EE1100C74C2B /* Parse.framework in Frameworks */,
 				E8DD48DE188EE5B900153095 /* Foundation.framework in Frameworks */,
+				E872D62519424091003F461C /* libFlurry_5.0.0.a in Frameworks */,
 				E81B586D189345A800C74C2B /* FacebookSDK.framework in Frameworks */,
 				D6CB8834E1A347069F6D2883 /* libPods.a in Frameworks */,
 			);
@@ -313,6 +317,15 @@
 			);
 			name = Model;
 			sourceTree = "<group>";
+		};
+		E872D62219424091003F461C /* Flurry */ = {
+			isa = PBXGroup;
+			children = (
+				E872D62319424091003F461C /* Flurry.h */,
+				E872D62419424091003F461C /* libFlurry_5.0.0.a */,
+			);
+			path = Flurry;
+			sourceTree = SOURCE_ROOT;
 		};
 		E8ABCFB6191D63980083ED25 /* ViewControllers */ = {
 			isa = PBXGroup;
@@ -427,8 +440,9 @@
 				E8DD48E3188EE5B900153095 /* Milestones */,
 				E8DD4908188EE5BA00153095 /* MilestonesTests */,
 				E8DD48DC188EE5B900153095 /* Frameworks */,
-				E8DD48DB188EE5B900153095 /* Products */,
+				E872D62219424091003F461C /* Flurry */,
 				E8E39C1818EA137F0034982D /* ThirdParty */,
+				E8DD48DB188EE5B900153095 /* Products */,
 				38FA7AFE5F694C389969CCDD /* Pods.xcconfig */,
 			);
 			sourceTree = "<group>";
@@ -904,6 +918,10 @@
 				GCC_PREFIX_HEADER = "Milestones/Milestones-Prefix.pch";
 				INFOPLIST_FILE = "Milestones/Milestones-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Flurry",
+				);
 				PRODUCT_NAME = "DataDads Baby Milestones";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -928,6 +946,10 @@
 				GCC_PREFIX_HEADER = "Milestones/Milestones-Prefix.pch";
 				INFOPLIST_FILE = "Milestones/Milestones-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Flurry",
+				);
 				PRODUCT_NAME = "DataDads Baby Milestones";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
