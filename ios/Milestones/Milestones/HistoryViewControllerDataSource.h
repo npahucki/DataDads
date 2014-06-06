@@ -13,13 +13,9 @@
 
 
 
-#define IMG_SIZE CGSizeMake(54,54)
+#define IMG_SIZE CGSizeMake(53,53)
 #define PRELOAD_START_AT_IDX 3
 
-@interface LoadingTableViewCell : UITableViewCell
-@property (weak, nonatomic) IBOutlet UIImageView *loadingImageView;
-@property (weak, nonatomic) IBOutlet UILabel *loadingLabel;
-@end
 
 
 @interface HistoryTableViewCell : SWTableViewCell
@@ -27,6 +23,13 @@
 @property (nonatomic, strong) UIView* topLineView;
 @property (nonatomic, strong) UIView* bottomLineView;
 @end
+
+@interface LoadingTableViewCell : HistoryTableViewCell
+@property (weak, nonatomic) IBOutlet UIImageView *loadingImageView;
+@property (weak, nonatomic) IBOutlet UILabel *loadingLabel;
+@end
+
+
 
 @interface HistoryViewControllerDataSource : NSObject <UITableViewDataSource>
 

@@ -68,29 +68,6 @@
 
 #pragma mark - UITableViewControllerDataSource - Cells
 
--(void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-  
-  switch (indexPath.section) {
-    case FutureMilestoneSection:
-      if(indexPath.row == PRELOAD_START_AT_IDX && _model.hasMoreFutureMilestones && !_model.isLoadingFutureMilestones) {
-        [_model loadFutureMilestonesPage:_model.futureMilestones.count];
-      }
-      break;
-    case PastMilestoneSection:
-      if(indexPath.row == _model.pastMilestones.count - PRELOAD_START_AT_IDX && _model.hasMorePastMilestones && !_model.isLoadingPastMilestones) {
-        [_model loadPastMilestonesPage:_model.pastMilestones.count];
-      }
-      break;
-    case AchievementSection:
-      if(indexPath.row == _model.achievements.count - PRELOAD_START_AT_IDX && _model.hasMoreAchievements && !_model.isLoadingAchievements) {
-        [_model loadAchievementsPage:_model.achievements.count];
-      }
-      break;
-    default:
-      NSAssert(NO,@"Invalid section type with numer %ld", (long)indexPath.section);
-  }
-}
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   switch (indexPath.section) {
     case FutureMilestoneSection:
@@ -119,10 +96,44 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForLoadingIndicator:(NSIndexPath*) indexPath {
+
   LoadingTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"loadingCell" forIndexPath:indexPath];
+  __weak LoadingTableViewCell *weakCell = cell;
+  [cell setAppearanceWithBlock:^{
+    weakCell.loadingLabel.font = [UIFont fontForAppWithType:Bold andSize:14];
+    weakCell.loadingLabel.textColor = [UIColor appNormalColor];
+
+    static int circleOffset = 10;
+    UIView * circle = [[UIView alloc] initWithFrame:CGRectMake(weakCell.loadingImageView.frame.origin.x - circleOffset, weakCell.loadingImageView.frame.origin.y - circleOffset,
+                                                               weakCell.loadingImageView.frame.size.width + circleOffset * 2, weakCell.loadingImageView.frame.size.height + circleOffset * 2)];
+    circle.layer.borderWidth = 1;
+    circle.layer.borderColor = [UIColor appGreyTextColor].CGColor;
+    [circle.layer setCornerRadius:circle.frame.size.width/2];
+    [weakCell.contentView addSubview:circle];
+
+    
+    
+    weakCell.topLineView = [[UIView alloc] initWithFrame:CGRectMake(circle.frame.origin.x + circle.frame.size.width / 2 , 0, 1,circle.frame.origin.y)];
+    weakCell.topLineView.backgroundColor = [UIColor appGreyTextColor];
+    [weakCell.contentView addSubview:weakCell.topLineView];
+    
+    weakCell.bottomLineView = [[UIView alloc] initWithFrame:CGRectMake(circle.frame.origin.x + circle.frame.size.width / 2 , circle.frame.origin.y + circle.frame.size.height, 1, weakCell.frame.size.height - (circle.frame.origin.y + circle.frame.size.height))];
+    weakCell.bottomLineView.backgroundColor = [UIColor appGreyTextColor];
+    [weakCell.contentView addSubview:weakCell.bottomLineView];
+    weakCell.delegate = self.cellSwipeDelegate;
+    weakCell.containingTableView = tableView;
+  } force:NO];
+
+  if(indexPath.section == FutureMilestoneSection && _model.hasMoreFutureMilestones) {
+    // Special case because we add the loading cell to the 0 Zero Cell.
+    cell.bottomLineView.hidden =  indexPath.row >= [self tableView:tableView numberOfRowsInSection:indexPath.section] - 2;
+  } else {
+    cell.bottomLineView.hidden =  indexPath.row >= [self tableView:tableView numberOfRowsInSection:indexPath.section] - 1;
+  }
+  cell.topLineView.hidden = indexPath.row == 0;
+
+  
   cell.loadingImageView.image = [UIImage animatedImageNamed:@"progress-" duration:1];
-  cell.loadingLabel.font = [UIFont fontForAppWithType:Bold andSize:14];
-  cell.loadingLabel.textColor = [UIColor appNormalColor];
   return cell;
 }
 
@@ -151,10 +162,11 @@
   if(indexPath.section == FutureMilestoneSection && _model.hasMoreFutureMilestones) {
     // Special case because we add the loading cell to the 0 Zero Cell.
     cell.bottomLineView.hidden =  indexPath.row >= [self tableView:tableView numberOfRowsInSection:indexPath.section] - 2;
+    cell.topLineView.hidden = indexPath.row == 0 && !_model.hasMoreFutureMilestones;
   } else {
     cell.bottomLineView.hidden =  indexPath.row >= [self tableView:tableView numberOfRowsInSection:indexPath.section] - 1;
+    cell.topLineView.hidden = indexPath.row == 0;
   }
-  cell.topLineView.hidden = indexPath.row == 0;
   return cell;
 }
 

@@ -143,6 +143,29 @@
 
 #pragma mark - UITableViewDelegate
 
+-(void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+  
+  switch (indexPath.section) {
+    case FutureMilestoneSection:
+      if(indexPath.row == PRELOAD_START_AT_IDX && _model.hasMoreFutureMilestones && !_model.isLoadingFutureMilestones) {
+        [_model loadFutureMilestonesPage:_model.futureMilestones.count];
+      }
+      break;
+    case PastMilestoneSection:
+      if(indexPath.row == _model.pastMilestones.count - PRELOAD_START_AT_IDX && _model.hasMorePastMilestones && !_model.isLoadingPastMilestones) {
+        [_model loadPastMilestonesPage:_model.pastMilestones.count];
+      }
+      break;
+    case AchievementSection:
+      if(indexPath.row == _model.achievements.count - PRELOAD_START_AT_IDX && _model.hasMoreAchievements && !_model.isLoadingAchievements) {
+        [_model loadAchievementsPage:_model.achievements.count];
+      }
+      break;
+    default:
+      NSAssert(NO,@"Invalid section type with numer %ld", (long)indexPath.section);
+  }
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
   BOOL isLoadingRow;

@@ -1228,17 +1228,20 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="108"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="progress-0" translatesAutoresizingMaskIntoConstraints="NO" id="kRj-Av-eOz">
-                                            <rect key="frame" x="6" y="13" width="79" height="81"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="progress-0" translatesAutoresizingMaskIntoConstraints="NO" id="kRj-Av-eOz">
+                                            <rect key="frame" x="15" y="23" width="53" height="53"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="81" id="Kag-0l-hzU"/>
-                                                <constraint firstAttribute="width" constant="79" id="WR1-lr-Y0d"/>
+                                                <constraint firstAttribute="height" constant="53" id="Kag-0l-hzU"/>
+                                                <constraint firstAttribute="width" constant="53" id="WR1-lr-Y0d"/>
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wiR-u1-Zzu">
-                                            <rect key="frame" x="88" y="43" width="212" height="21"/>
+                                            <rect key="frame" x="96" y="43" width="204" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="21" id="PMU-hS-13D"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
@@ -1247,11 +1250,10 @@
                                     <color key="tintColor" red="0.1019607843" green="0.5568627451" blue="0.62352941179999999" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="trailing" secondItem="wiR-u1-Zzu" secondAttribute="trailing" constant="20" id="0r3-lR-V38"/>
-                                        <constraint firstItem="kRj-Av-eOz" firstAttribute="leading" secondItem="5O8-aM-CtW" secondAttribute="leading" constant="6" id="3Ff-nL-9TQ"/>
-                                        <constraint firstItem="kRj-Av-eOz" firstAttribute="top" secondItem="5O8-aM-CtW" secondAttribute="top" constant="13" id="Bra-zy-LPH"/>
-                                        <constraint firstItem="wiR-u1-Zzu" firstAttribute="leading" secondItem="kRj-Av-eOz" secondAttribute="trailing" constant="3" id="LOI-UU-SMB"/>
-                                        <constraint firstItem="wiR-u1-Zzu" firstAttribute="top" secondItem="5O8-aM-CtW" secondAttribute="top" constant="43" id="X43-eW-Y0M"/>
-                                        <constraint firstAttribute="bottom" secondItem="wiR-u1-Zzu" secondAttribute="bottom" constant="44" id="fte-e0-LSi"/>
+                                        <constraint firstItem="kRj-Av-eOz" firstAttribute="leading" secondItem="5O8-aM-CtW" secondAttribute="leading" constant="15" id="3Ff-nL-9TQ"/>
+                                        <constraint firstAttribute="centerY" secondItem="kRj-Av-eOz" secondAttribute="centerY" constant="4.5" id="DCt-OA-GB3"/>
+                                        <constraint firstItem="wiR-u1-Zzu" firstAttribute="leading" secondItem="kRj-Av-eOz" secondAttribute="trailing" constant="28" id="LOI-UU-SMB"/>
+                                        <constraint firstAttribute="centerY" secondItem="wiR-u1-Zzu" secondAttribute="centerY" id="gAT-DE-vP8"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
