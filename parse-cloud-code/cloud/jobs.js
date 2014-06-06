@@ -175,20 +175,32 @@ Parse.Cloud.job("tipsAssignment", function(request, status) {
 
 
 
- Parse.Cloud.job("convertBadObjectIdSymbols2", function(request, status) {
+ Parse.Cloud.job("convertBadObjectIdSymbols", function(request, status) {
+  //'use strict';
   console.log ("Starting cleanup of ids");
 
   // Set up to modify user data
   Parse.Cloud.useMasterKey();
   var promises = [];
-  var milestones = new Parse.Query("StandardMilestones");
-  milestones.limit(10); // MAX
-  milestones.find().then(function(milestones) {
-    _.each(milestones, function(milestone) {
+
+  var achievementsQuerySlash = new Parse.Query("MilestoneAchievements");
+  achievementsQuerySlash.contains("standardMilestoneId","/");
+  var achievementsQueryPlus = new Parse.Query("MilestoneAchievements");
+  achievementsQueryPlus.contains("standardMilestoneId","+");
+
+
+  var achievementsQuery = Parse.Query.or(achievementsQuerySlash,achievementsQueryPlus);
+  achievementsQuery.limit(1000); // MAX
+  achievementsQuery.ascending("createdAt");
+  achievementsQuery.find().then(function(achievements) {
+    _.each(achievements, function(achievement) {
+      var milestone = achievement.get('standardMilestone');
       if(milestone.id.indexOf("+") >= 0 || milestone.id.indexOf("/") >= 0) {
         milestone.id = milestone.id.replace(new RegExp("\\/", "g"),"0");
         milestone.id = milestone.id.replace(new RegExp("\\+", "g"),"1");
-        promises.push(milestone.save());
+        achievement.set('standardMilestone',milestone);
+        achievement.set('standardMilestoneId',milestone.id);
+        promises.push(achievement.save());
       }
     });
 
