@@ -75,11 +75,9 @@ Parse.Cloud.job("tipsAssignment", function(request, status) {
   var pushMessageToUserForBaby = function(tipAssignment, parentUser) {
     console.log("Pushing tip assignment " + tipAssignment.id + " to user " + parentUser.id);
     title = tipAssignment.get("tip").get("title");
-    console.log("Old title is long :" + title.length);
     // IOS allows 256 bytes max
     if(title.length > 100) {
         title = title.substring(0, 100) + "...";
-    console.log("New Title is :" + title);
     }
 
     var pushQuery = new Parse.Query(Parse.Installation);
@@ -131,7 +129,12 @@ Parse.Cloud.job("tipsAssignment", function(request, status) {
     then(function(tipAssignment) {
         if(tipAssignment) {
             console.log("Will push message for tip assignment " + tipAssignment.id +" to baby "+ baby.id);
-            return pushMessageToUserForBaby(tipAssignment, baby.get("parentUser"));
+            var parentUser = baby.get("parentUser");
+            if(parentUser) {
+              return pushMessageToUserForBaby(tipAssignment, parentUser);
+            } else {
+              console.log("Skipped baby " + baby.id + " b/c he has no parentUser");
+            }
         }
     }).
     then(function(){
