@@ -138,12 +138,13 @@
           // cancel
           block(NO, nil);
         } else {
-          [PFFacebookUtils logInWithPermissions:FB_PUBLISH_PERMISSION_ARRAY block:^(PFUser *user, NSError *error) {
+          NSAssert(user != nil, @"DId not expect a completely non logged in user here!");
+          [PFFacebookUtils linkUser:user permissions:FB_PUBLISH_PERMISSION_ARRAY block:^(BOOL succeeded, NSError *error) {
             if(error) {
               block(NO, error);
             } else {
               [PFFacebookUtils populateCurrentUserDetailsFromFacebook:(ParentUser*)user block:nil]; // this will be done in the background
-              block(user != nil,nil);
+              block(succeeded,nil);
             }
           }];
         }
