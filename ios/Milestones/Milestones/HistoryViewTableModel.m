@@ -15,11 +15,19 @@
 -(id) init {
   self = [super init];
   if(self) {
-    _hasMoreFutureMilestones = YES;
-    _hasMorePastMilestones = YES;
-    _hasMoreAchievements = YES;
+    [self reset];
   }
   return self;
+}
+
+-(void) reset {
+    _baby = nil;
+    _achievements = nil;
+    _futureMilestones = nil;
+    _pastMilestones = nil;
+    _hasMoreAchievements = YES;
+    _hasMoreFutureMilestones = YES;
+    _hasMorePastMilestones = YES;
 }
 
 -(void) loadFutureMilestonesPage:(NSInteger) startIndex {

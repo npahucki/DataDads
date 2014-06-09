@@ -77,14 +77,18 @@
 }
 
 -(void) babyUpdated:(NSNotification*)notification {
-  if(Baby.currentBaby) {
-    self.baby = Baby.currentBaby;
-  }
+  self.baby = Baby.currentBaby;
 }
 
 -(void) setBaby:(Baby*) baby {
-  self.navigationItem.title = Baby.currentBaby.name;
-  _model.baby = Baby.currentBaby;
+  if(baby == nil) {
+    // Logged out
+    self.navigationItem.title = nil;
+    [_model reset];
+  } else {
+    self.navigationItem.title = Baby.currentBaby.name;
+    _model.baby = Baby.currentBaby;
+  }
   [self reloadTable];
 }
 
@@ -142,6 +146,18 @@
 
 
 #pragma mark - UITableViewDelegate
+
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+  UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 18)];
+  label.textAlignment = NSTextAlignmentCenter;
+  [label setFont:[UIFont fontForAppWithType:Book andSize:17]];
+  label.text = [_dataSource tableView:tableView titleForHeaderInSection:section];
+  label.textColor = [UIColor appNormalColor];
+  [label sizeToFit];
+  return label;
+}
+
 
 -(void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
   

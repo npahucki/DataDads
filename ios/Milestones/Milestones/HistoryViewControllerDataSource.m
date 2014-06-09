@@ -54,18 +54,6 @@
   
 }
 
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-  UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 18)];
-  label.textAlignment = NSTextAlignmentCenter;
-  [label setFont:[UIFont fontForAppWithType:Book andSize:17]];
-  label.text =  [self tableView:tableView titleForHeaderInSection:section];
-  label.textColor = [UIColor appNormalColor];
-  [label sizeToFit];
-  return label;
-}
-
-
 #pragma mark - UITableViewControllerDataSource - Cells
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

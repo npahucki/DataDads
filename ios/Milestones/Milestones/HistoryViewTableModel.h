@@ -53,6 +53,10 @@
 
 @property NSInteger pagingSize;
 
+// clears all the properties and make ready for use.
+-(void) reset;
+
+
 -(void) loadFutureMilestonesPage:(NSInteger) startIndex;
 -(void) loadPastMilestonesPage:(NSInteger) startIndex;
 -(void) loadAchievementsPage:(NSInteger) startIndex;
