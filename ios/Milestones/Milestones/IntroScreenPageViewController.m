@@ -25,7 +25,7 @@
                   @"By compiling your baby's milestones, fun and serious",
                   @"We'll share the data anonymously -- and show you each one's comparative data",
                   @"We'll start showing you tips & risks, based on how your baby is developing",
-                  @"Once you've noted ~30 milestones, we'll get better at predicting what comes next.\n\nLets go!"
+                  @"The more milestones you note, the better it'll be at predicting what comes next.\n\nLets go!"
                   ];
   
   // Create page view controller
