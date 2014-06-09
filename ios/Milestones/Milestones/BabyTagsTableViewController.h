@@ -8,8 +8,9 @@
 
 #import <Parse/Parse.h>
 #import "AppQueryTableViewController.h"
+#import "UIViewController+MBProgressHUD.h"
 
-@interface BabyTagsTableViewController : AppQueryTableViewController
+@interface BabyTagsTableViewController : UITableViewController <UITableViewDataSource,UITableViewDelegate>
 
 @property NSSet* selectedTags; // String Tags
 

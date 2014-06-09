@@ -1140,10 +1140,14 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Menu" id="3nD-wd-fEG">
-                        <barButtonItem key="backBarButtonItem" title="Done" id="3bA-53-LMv"/>
-                        <barButtonItem key="rightBarButtonItem" title="Done" id="XiA-te-TDF">
+                        <barButtonItem key="leftBarButtonItem" systemItem="done" id="XiA-te-TDF">
                             <connections>
                                 <action selector="doneButtonClicked:" destination="5nR-pr-Hy0" id="pU3-vN-l5k"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="Hmd-6o-Qc5">
+                            <connections>
+                                <segue destination="rhT-8r-6px" kind="modal" identifier="enterBabyInfo" modalTransitionStyle="flipHorizontal" id="zMK-LI-8Wn"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -1349,12 +1353,13 @@
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="mVe-t7-qKM">
                                 <rect key="frame" x="16" y="2" width="40" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <inset key="imageEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <state key="normal" image="openMenuButton">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <state key="selected" image="openMenuButton_pressed"/>
                                 <connections>
-                                    <segue destination="QfA-Ku-3Fd" kind="modal" modalTransitionStyle="flipHorizontal" id="6HZ-Iq-Yef"/>
+                                    <segue destination="QfA-Ku-3Fd" kind="modal" identifier="" modalTransitionStyle="coverVertical" id="6HZ-Iq-Yef"/>
                                 </connections>
                             </button>
                         </barButtonItem>

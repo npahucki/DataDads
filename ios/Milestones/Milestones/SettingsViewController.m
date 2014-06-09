@@ -7,8 +7,8 @@
 //
 
 #import "SettingsViewController.h"
-#import "Baby.h"
 #import "SignUpViewController.h"
+#import "BabyInfoViewController.h"
 
 @implementation SettingsViewController
 
@@ -16,6 +16,7 @@
   [super viewDidLoad];
   NSAssert(Baby.currentBaby.name, @"Expected a current baby would be set before setting invoked");
   
+  self.navigationItem.title = ParentUser.currentUser.screenName;
   self.milestoneCountLabel = [[UILabel alloc] initWithFrame:self.babyAvatar.frame];
   self.milestoneCountLabel.numberOfLines = 2;
   self.milestoneCountLabel.textAlignment = NSTextAlignmentCenter;
@@ -95,6 +96,14 @@
     [[PFFacebookUtils session] closeAndClearTokenInformation];
     Baby.currentBaby = nil;
     [self dismissViewControllerAnimated:NO completion:nil];
+  }
+}
+
+-(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+  if([segue.identifier isEqualToString:kDDSegueEnterBabyInfo]) {
+    UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
+    id<ViewControllerWithBaby> controllerWithBaby = [[navigationController viewControllers] lastObject];
+    [controllerWithBaby setBaby:Baby.currentBaby];
   }
 }
 

@@ -15,7 +15,8 @@
 
 @implementation BabyTagsTableViewController {
   // Tag objects to be added to the list.
-  NSMutableArray * _addedTags;
+  NSMutableArray * _allTags;
+  BOOL _isLoading;
 }
 
 
@@ -23,10 +24,14 @@
 {
   [super viewDidLoad];
   [self networkReachabilityChanged:nil]; // set the initial loading based on connectivity
-  _addedTags = [NSMutableArray array]; // holds any added tag objects.
-  self.selectedTags = [[NSMutableSet alloc] init];
-  self.objectsPerPage = 100; // small to load
-  self.pullToRefreshEnabled = NO;
+  _allTags = [NSMutableArray array]; // holds any added tag objects.
+  if(_selectedTags) {
+    _selectedTags = [[NSMutableSet alloc] initWithSet:_selectedTags];
+  } else {
+    _selectedTags = [[NSMutableSet alloc] init];
+  }
+  
+  [self loadStandardTags];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkReachabilityChanged:) name:kReachabilityChangedNotification object:nil];
 }
 
@@ -36,52 +41,64 @@
 
 -(void) networkReachabilityChanged:(NSNotification*)notification {
   if([Reachability isParseCurrentlyReachable]) {
-    self.loadingImageView.image = [UIImage animatedImageNamed:@"progress-" duration:1.0f];
-    self.loadingTextLabel.text = @"Loading...";
+    //self.loadingImageView.image = [UIImage animatedImageNamed:@"progress-" duration:1.0f];
+    //self.loadingTextLabel.text = @"Loading...";
   } else {
-    self.loadingImageView.image = [UIImage imageNamed:@"error-9"];
-    self.loadingTextLabel.text = @"No Network";
+    //self.loadingImageView.image = [UIImage imageNamed:@"error-9"];
+    //self.loadingTextLabel.text = @"No Network";
   }
-  [self loadObjects:0 clear:YES];
+  [self loadStandardTags];
 }
 
--(void) addNewTag: (NSString*) tagText {
-  Tag * tag = [Tag object];
-  tag.tagName = tagText;
-  tag.objectId = tagText;
-  [_addedTags insertObject:tag atIndex:0];
-  [((NSMutableSet*)self.selectedTags) addObject:tagText]; // automatically select
-  [self loadObjects];
-}
-
-
-
-- (PFQuery *)queryForTable {
+-(void) loadStandardTags {
   if([Reachability isParseCurrentlyReachable]) {
     NSString * language = [[NSLocale preferredLanguages] objectAtIndex:0];
-    // TODO: Make a query that allows new object to be added or excluded.
-    PFQueryWithExtendedResultSet * query = [[PFQueryWithExtendedResultSet alloc] initWithClassName:@"Tags"];
+    PFQuery * query = [Tag query];
     [query whereKey:@"languageId" equalTo:language]; // select only tags in your language
     [query orderByDescending:@"relevance"];
     PFCachePolicy policy = kPFCachePolicyCacheElseNetwork;
     query.cachePolicy = policy;
-    query.headIncludeArray = _addedTags;
-    return query;
-  } else {
-    return nil;
+    query.limit = 500; // TODO: Find more relevant tags?
+    _isLoading = YES;
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+      if(error) {
+        NSLog(@"Failed to load tags, will try again :%@", error);
+        [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(loadStandardTags) userInfo:nil repeats:false];
+      } else {
+        _isLoading = NO;
+        _allTags = [[NSMutableArray alloc] initWithCapacity:objects.count + _selectedTags.count];
+        // Selected Tags first
+        [_allTags addObjectsFromArray:[_selectedTags allObjects]];
+        for(Tag * tag in objects) {
+          if(![_selectedTags containsObject:tag.tagName]) {
+            [_allTags addObject:tag.tagName];
+          }
+        }
+        [self.tableView reloadData];
+      }
+    }];
   }
+}
+
+
+-(void) addNewTag: (NSString*) tagName {
+  [self.tableView beginUpdates];
+  [_allTags insertObject:tagName atIndex:0];
+  [((NSMutableSet*)self.selectedTags) addObject:tagName]; // automatically select
+  [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
+  [self.tableView endUpdates];
 }
 
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   UITableViewCell* cell = [self.tableView cellForRowAtIndexPath:indexPath];
-  Tag* tag = (Tag*)[self objectAtIndexPath:indexPath];
+  NSString * tagName = _allTags[indexPath.row];
 
-  if([self.selectedTags containsObject:tag.tagName]) {
+  if([self.selectedTags containsObject:tagName]) {
     [self setTagCell:cell selected:NO];
-    [((NSMutableSet*)self.selectedTags) removeObject:tag.tagName];
+    [((NSMutableSet*)self.selectedTags) removeObject:tagName];
   } else {
     [self setTagCell:cell selected:YES];
-    [((NSMutableSet*)self.selectedTags) addObject:tag.tagName];
+    [((NSMutableSet*)self.selectedTags) addObject:tagName];
   }
 }
 
@@ -91,14 +108,17 @@
   cell.imageView.image = [UIImage imageNamed: selected ? @"tagCheckbox_checked" : @"tagCheckbox"];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView
-         cellForRowAtIndexPath:(NSIndexPath *)indexPath
-                        object:(Tag *)tag {
+-(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+  return _allTags.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   static NSString *CellIdentifier = @"TagCell";
   
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-  cell.textLabel.text = tag.tagName;
-  [self setTagCell:cell selected:[self.selectedTags containsObject:tag.tagName]];
+  NSString * tagName = _allTags[indexPath.row];
+  cell.textLabel.text = tagName;
+  [self setTagCell:cell selected:[self.selectedTags containsObject:tagName]];
   return cell;
 }
 

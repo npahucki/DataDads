@@ -21,9 +21,6 @@
   [super viewDidLoad];
   [self networkReachabilityChanged:nil]; // set the initial loading based on connectivity
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkReachabilityChanged:) name:kReachabilityChangedNotification object:nil];
-  
-  // TODO: Check all tags the baby already has!
-  
 }
 
 -(void) dealloc {
@@ -58,6 +55,7 @@
 {
   if([segue.identifier isEqual:@"embed"]) {
     _tagTableViewController = (BabyTagsTableViewController*) segue.destinationViewController;
+    _tagTableViewController.selectedTags = [NSSet setWithArray:self.baby.tags];
   } else {
     self.baby.tags = [_tagTableViewController.selectedTags allObjects];
     ((UIViewController<ViewControllerWithBaby>*)segue.destinationViewController).baby = self.baby;

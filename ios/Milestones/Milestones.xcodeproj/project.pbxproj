@@ -76,7 +76,6 @@
 		E8DD48EA188EE5B900153095 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E8DD48E9188EE5B900153095 /* main.m */; };
 		E8DD48EE188EE5B900153095 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E8DD48ED188EE5B900153095 /* AppDelegate.m */; };
 		E8DD48F1188EE5B900153095 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E8DD48EF188EE5B900153095 /* Main_iPhone.storyboard */; };
-		E8DD48F4188EE5B900153095 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E8DD48F2188EE5B900153095 /* Main_iPad.storyboard */; };
 		E8DD48FC188EE5B900153095 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E8DD48FB188EE5B900153095 /* Images.xcassets */; };
 		E8DD4903188EE5BA00153095 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8DD4902188EE5BA00153095 /* XCTest.framework */; };
 		E8DD4904188EE5BA00153095 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8DD48DD188EE5B900153095 /* Foundation.framework */; };
@@ -221,7 +220,6 @@
 		E8DD48EC188EE5B900153095 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E8DD48ED188EE5B900153095 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AppDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		E8DD48F0188EE5B900153095 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
-		E8DD48F3188EE5B900153095 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
 		E8DD48FB188EE5B900153095 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		E8DD4901188EE5BA00153095 /* MilestonesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MilestonesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E8DD4902188EE5BA00153095 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -490,7 +488,6 @@
 			isa = PBXGroup;
 			children = (
 				E8DD48EF188EE5B900153095 /* Main_iPhone.storyboard */,
-				E8DD48F2188EE5B900153095 /* Main_iPad.storyboard */,
 				E81B586E1896A42400C74C2B /* Constants.h */,
 				E81B586F1896A75700C74C2B /* Contants.m */,
 				E8DD48EC188EE5B900153095 /* AppDelegate.h */,
@@ -662,7 +659,6 @@
 			files = (
 				E8E39C1618E615D20034982D /* GothamRounded-Medium.otf in Resources */,
 				E8E39C1218E615D20034982D /* GothamRounded-Book.otf in Resources */,
-				E8DD48F4188EE5B900153095 /* Main_iPad.storyboard in Resources */,
 				E8E39C1018E615D20034982D /* GothamRounded-Bold.otf in Resources */,
 				E8E39C1118E615D20034982D /* GothamRounded-BoldItalic.otf in Resources */,
 				E8E39C1318E615D20034982D /* GothamRounded-BookItalic.otf in Resources */,
@@ -807,14 +803,6 @@
 				E8DD48F0188EE5B900153095 /* Base */,
 			);
 			name = Main_iPhone.storyboard;
-			sourceTree = "<group>";
-		};
-		E8DD48F2188EE5B900153095 /* Main_iPad.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E8DD48F3188EE5B900153095 /* Base */,
-			);
-			name = Main_iPad.storyboard;
 			sourceTree = "<group>";
 		};
 		E8DD490B188EE5BA00153095 /* InfoPlist.strings */ = {
