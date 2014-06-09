@@ -240,6 +240,8 @@
 - (void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user {
   [[PFInstallation currentInstallation] setObject:user forKey:@"user"];
   [[PFInstallation currentInstallation] saveEventually];
+  user.ACL = [PFACL ACLWithUser:user];
+  [user saveEventually];
   
   [self showSignupSuccessAndRunBlock:^{
     [[NSNotificationCenter defaultCenter]

@@ -68,6 +68,8 @@
  */
 -(NSInteger) addNewAchievement:(MilestoneAchievement *) achievement;
 
+-(MilestoneAchievement *) deleteAchievementAtIndex:(NSInteger) index;
+
 /*!
  * Use this instead of doing indexOfObject on the array property since that does not do equality checking based on the object Id.
  */

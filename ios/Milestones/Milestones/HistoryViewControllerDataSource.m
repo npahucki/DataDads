@@ -177,15 +177,13 @@
   [cell setAppearanceWithBlock:^{
     [self tableView:tableView configureBasicCellProperties:weakCell];
     
-      // TODO: Maybe add delete?
-//    NSMutableArray *rightUtilityButtons;
-//    if(!rightUtilityButtons) {
-//      rightUtilityButtons = [NSMutableArray new];
-//      [rightUtilityButtons sw_addUtilityButtonWithColor: [UIColor appNormalColor] title:@"Share"];
-//      [rightUtilityButtons sw_addUtilityButtonWithColor: [UIColor appSelectedColor] title:@"Favorite"];
-//    }
-//    
-//    weakCell.rightUtilityButtons = rightUtilityButtons;
+    NSMutableArray *rightUtilityButtons;
+    if(!rightUtilityButtons) {
+      rightUtilityButtons = [NSMutableArray new];
+      [rightUtilityButtons sw_addUtilityButtonWithColor: [UIColor redColor] title:@"Delete"];
+    }
+    
+    weakCell.rightUtilityButtons = rightUtilityButtons;
   } force:NO];
   
   NSAssert([achievement.baby.objectId isEqualToString:Baby.currentBaby.objectId], @"Expected only milestones for current baby");

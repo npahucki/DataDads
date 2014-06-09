@@ -23,6 +23,13 @@
 }
 
 -(void) loadFutureMilestonesPage:(NSInteger) startIndex {
+  if(startIndex == 0) {
+    // Need to reset
+    _futureMilestones = nil;
+    _hasMoreFutureMilestones = YES;
+  }
+
+  
   if(self.hasMoreFutureMilestones) {
     if([self.delegate respondsToSelector:@selector(willLoadFutureMilestones:)])
       [self.delegate willLoadFutureMilestones:startIndex];
@@ -50,6 +57,12 @@
 }
 
 -(void) loadPastMilestonesPage:(NSInteger) startIndex {
+  if(startIndex == 0) {
+    // Need to reset
+    _pastMilestones = nil;
+    _hasMorePastMilestones = YES;
+  }
+  
   if(self.hasMorePastMilestones) {
     if([self.delegate respondsToSelector:@selector(willLoadPastMilestones:)])
       [self.delegate willLoadPastMilestones:startIndex];
@@ -99,6 +112,12 @@
 
 // a startIndex of 0 or less causes a default skip of 0
 -(void) loadAchievementsPage:(NSInteger) startIndex {
+  if(startIndex == 0) {
+    // Need to reset
+    _achievements = nil;
+    _hasMoreAchievements = YES;
+  }
+  
   // If no Baby available yet, don't try to load anything
   if(self.baby && self.hasMoreAchievements) {
     if([self.delegate respondsToSelector:@selector(willLoadAchievements:)])
@@ -191,6 +210,13 @@
     return idx;
   }
   
+}
+
+-(MilestoneAchievement *) deleteAchievementAtIndex:(NSInteger) index {
+  MilestoneAchievement * achievement = _achievements[index];
+  [((NSMutableArray*)_achievements) removeObjectAtIndex:index];
+  [achievement deleteEventually];
+  return achievement;
 }
 
 -(NSInteger) indexOfFutureMilestone:(StandardMilestone*) milestone {

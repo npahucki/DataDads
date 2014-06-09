@@ -193,7 +193,23 @@
 
   NSIndexPath * path = [self.tableView indexPathForCell:cell];
   if(path.section == AchievementSection) {
-    // TODO: something here, maybe share by email later?
+    BOOL delete = buttonIndex == 0;
+    if(delete) {
+      [self.tableView beginUpdates];
+      [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationLeft];
+      [self.tableView reloadRowsAtIndexPaths:[self reloadPathsForRemovedCell:path] withRowAnimation:UITableViewRowAnimationNone];
+      MilestoneAchievement * deletedAchievement = [_model deleteAchievementAtIndex:path.row];
+      [self.tableView endUpdates];
+      // Put the thing back in the milestone list. 
+      if(deletedAchievement.standardMilestone) {
+        // need to put this back into the list.
+        if(_model.baby.daysSinceDueDate >= [deletedAchievement.standardMilestone.rangeHigh integerValue]) {
+          [_model loadPastMilestonesPage:0];
+        } else {
+          [_model loadFutureMilestonesPage:0];
+        }
+      }
+    }
   } else {
     BOOL ignored = buttonIndex == 0;
     BOOL postponed = buttonIndex == 1;

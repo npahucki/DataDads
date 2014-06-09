@@ -184,6 +184,8 @@
   // Make sure the current user is associated with the device.
   [[PFInstallation currentInstallation] setObject:user forKey:@"user"];
   [[PFInstallation currentInstallation] saveEventually];
+  user.ACL = [PFACL ACLWithUser:user];
+  [user saveEventually];
   
   BOOL isLinkedToFacebook = [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]];
   if(isLinkedToFacebook) {

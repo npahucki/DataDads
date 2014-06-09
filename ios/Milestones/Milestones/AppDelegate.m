@@ -30,6 +30,9 @@
   [MilestoneAchievement registerSubclass];
   [ParentUser registerSubclass];
   
+  // Make sure only users can read thier own data!
+  [PFACL setDefaultACL:[PFACL ACL] withAccessForCurrentUser:YES];
+  
   // Setup Social Providers ANd Trakcing Services
 
   // TODO: Move to production only

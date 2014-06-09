@@ -77,14 +77,19 @@
         [self showErrorThenRunBlock:error withMessage:@"Unable create your account" andBlock:nil];
       } else {
         [self saveUserPreferences:(ParentUser*)user];
+        [[PFInstallation currentInstallation] setObject:user forKey:@"user"];
+        [[PFInstallation currentInstallation] saveEventually];
       }
     }];
   }
 }
 
 -(void) saveUserPreferences:(ParentUser*) user {
+  user.ACL = [PFACL ACLWithUser:user];
+  [user saveEventually];
   user.screenName = self.screenNameField.text;
   user.isMale = self.maleButton.isSelected;
+  
   [self showInProgressHUDWithMessage:@"Saving your preferences" andAnimation:YES andDimmedBackground:YES];
   [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
     if(error) {
