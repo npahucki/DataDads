@@ -29,10 +29,11 @@
 
 -(void) networkReachabilityChanged:(NSNotification*)notification {
   if([Reachability isParseCurrentlyReachable]) {
-    self.warningButton.hidden = YES;
+    [self hideWarningWindowAnimated];
   } else {
     [self.warningButton setTitle:@"Warning: there is no network connection" forState:UIControlStateNormal];
     [self.warningButton setImage:[UIImage imageNamed:@"error-9"] forState:UIControlStateNormal];
+    [self showWarningWindowAnimated];
     [self reclacControlEnabledState];
   }
 }
