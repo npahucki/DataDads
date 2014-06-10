@@ -297,7 +297,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TagCell" textLabel="Yi9-A0-ONU" imageView="k7a-3L-yes" style="IBUITableViewCellStyleDefault" id="PAw-N6-ikK">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="tagCell" textLabel="Yi9-A0-ONU" imageView="k7a-3L-yes" style="IBUITableViewCellStyleDefault" id="PAw-N6-ikK">
                                 <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="PAw-N6-ikK" id="2YX-2x-Iyg">
@@ -313,6 +313,27 @@
                                         </label>
                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="tagCheckbox" id="k7a-3L-yes">
                                             <rect key="frame" x="15" y="11" width="20" height="20"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </imageView>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationWidth="0.0" reuseIdentifier="loadingCell" textLabel="iJG-wN-bDY" imageView="Lxq-u7-Xez" rowHeight="46" style="IBUITableViewCellStyleDefault" id="yxm-jz-ppr">
+                                <rect key="frame" x="0.0" y="66" width="320" height="46"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="yxm-jz-ppr" id="gCM-KO-aG2">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="45"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Loading..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="iJG-wN-bDY">
+                                            <rect key="frame" x="74" y="0.0" width="231" height="45"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="progress-0" id="Lxq-u7-Xez">
+                                            <rect key="frame" x="15" y="0.0" width="44" height="45"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
                                     </subviews>
@@ -372,6 +393,20 @@
                                     <segue destination="0jV-Sj-0xk" kind="embed" identifier="embed" id="bfl-LJ-TVm"/>
                                 </connections>
                             </containerView>
+                            <button clipsSubviews="YES" alpha="0.94999998807907104" contentMode="scaleAspectFit" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Jye-2k-gXY">
+                                <rect key="frame" x="0.0" y="74" width="320" height="75"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.96078437569999997" green="0.96078437569999997" blue="0.96078437569999997" alpha="1" colorSpace="deviceRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="75" id="xtP-Ux-hVd"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <inset key="imageEdgeInsets" minX="-6" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <state key="normal" title="Warning: There is no network connection" image="error-9">
+                                    <color key="titleColor" red="0.1019607843" green="0.5568627451" blue="0.62352941179999999" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -380,7 +415,10 @@
                             <constraint firstItem="yjD-GB-Uaq" firstAttribute="leading" secondItem="Lhr-pI-EpL" secondAttribute="leading" constant="20" id="Rn2-fK-EeB"/>
                             <constraint firstAttribute="trailing" secondItem="I0d-v9-pgN" secondAttribute="trailing" constant="20" id="SAz-D4-IHT"/>
                             <constraint firstItem="lec-cQ-60n" firstAttribute="leading" secondItem="Lhr-pI-EpL" secondAttribute="leading" id="bOT-4D-lZF"/>
+                            <constraint firstItem="Jye-2k-gXY" firstAttribute="leading" secondItem="Lhr-pI-EpL" secondAttribute="leading" id="dSs-6u-26D"/>
+                            <constraint firstItem="Jye-2k-gXY" firstAttribute="top" secondItem="1Zk-SL-GNf" secondAttribute="bottom" id="gQc-QH-u8Z"/>
                             <constraint firstAttribute="trailing" secondItem="lec-cQ-60n" secondAttribute="trailing" id="kbe-us-Dze"/>
+                            <constraint firstAttribute="trailing" secondItem="Jye-2k-gXY" secondAttribute="trailing" id="m7u-XU-JaV"/>
                             <constraint firstItem="I0d-v9-pgN" firstAttribute="centerY" secondItem="yjD-GB-Uaq" secondAttribute="centerY" id="pzS-YP-ZgO"/>
                             <constraint firstItem="lec-cQ-60n" firstAttribute="top" secondItem="yjD-GB-Uaq" secondAttribute="bottom" constant="8" id="rC1-HH-wxf"/>
                             <constraint firstItem="I0d-v9-pgN" firstAttribute="leading" secondItem="yjD-GB-Uaq" secondAttribute="trailing" constant="24" id="wXG-YZ-dd6"/>
@@ -397,6 +435,7 @@
                     <connections>
                         <outlet property="addTagButton" destination="I0d-v9-pgN" id="uKY-3U-YLz"/>
                         <outlet property="addTagTextField" destination="yjD-GB-Uaq" id="Nxy-ky-3A1"/>
+                        <outlet property="warningButton" destination="Jye-2k-gXY" id="xVD-WN-Ihr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mqN-vJ-NyH" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1323,7 +1362,7 @@
                                     <segue destination="n8g-sI-yKY" kind="modal" identifier="noteMilestone" customClass="UIStoryboardPopoverSegue" modalTransitionStyle="coverVertical" id="oem-D7-bAF"/>
                                 </connections>
                             </button>
-                            <button clipsSubviews="YES" alpha="0.94999999999999996" contentMode="scaleAspectFit" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="DUF-5w-Jc1">
+                            <button hidden="YES" clipsSubviews="YES" alpha="0.94999999999999996" contentMode="scaleAspectFit" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="DUF-5w-Jc1">
                                 <rect key="frame" x="0.0" y="44" width="320" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.96078437569999997" green="0.96078437569999997" blue="0.96078437569999997" alpha="1" colorSpace="deviceRGB"/>

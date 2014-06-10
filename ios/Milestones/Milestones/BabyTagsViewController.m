@@ -28,7 +28,13 @@
 }
 
 -(void) networkReachabilityChanged:(NSNotification*)notification {
-  [self reclacControlEnabledState];
+  if([Reachability isParseCurrentlyReachable]) {
+    self.warningButton.hidden = YES;
+  } else {
+    [self.warningButton setTitle:@"Warning: there is no network connection" forState:UIControlStateNormal];
+    [self.warningButton setImage:[UIImage imageNamed:@"error-9"] forState:UIControlStateNormal];
+    [self reclacControlEnabledState];
+  }
 }
 
 -(void) reclacControlEnabledState {
@@ -61,5 +67,30 @@
     ((UIViewController<ViewControllerWithBaby>*)segue.destinationViewController).baby = self.baby;
   }
 }
+
+# pragma mark - Private
+
+-(void) hideWarningWindowAnimated {
+  if(!self.warningButton.hidden) {
+    [UIView transitionWithView:self.warningButton
+                      duration:1.0
+                       options:UIViewAnimationOptionTransitionFlipFromBottom
+                    animations:NULL
+                    completion:nil];
+    self.warningButton.hidden = YES;
+  }
+}
+
+-(void) showWarningWindowAnimated {
+  if(self.warningButton.hidden) {
+    [UIView transitionWithView:self.warningButton
+                      duration:1.0
+                       options:UIViewAnimationOptionTransitionFlipFromBottom
+                    animations:NULL
+                    completion:nil];
+    self.warningButton.hidden = NO;
+  }
+}
+
 
 @end

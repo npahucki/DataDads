@@ -40,13 +40,6 @@
 }
 
 -(void) networkReachabilityChanged:(NSNotification*)notification {
-  if([Reachability isParseCurrentlyReachable]) {
-    //self.loadingImageView.image = [UIImage animatedImageNamed:@"progress-" duration:1.0f];
-    //self.loadingTextLabel.text = @"Loading...";
-  } else {
-    //self.loadingImageView.image = [UIImage imageNamed:@"error-9"];
-    //self.loadingTextLabel.text = @"No Network";
-  }
   [self loadStandardTags];
 }
 
@@ -60,6 +53,7 @@
     query.cachePolicy = policy;
     query.limit = 500; // TODO: Find more relevant tags?
     _isLoading = YES;
+    //[self.tableView reloadData]; // make sure loading row shows up
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
       if(error) {
         NSLog(@"Failed to load tags, will try again :%@", error);
@@ -82,23 +76,27 @@
 
 
 -(void) addNewTag: (NSString*) tagName {
+  NSIndexPath * topPath = [NSIndexPath indexPathForRow:0 inSection:0];
+  [self.tableView scrollToRowAtIndexPath:topPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
   [self.tableView beginUpdates];
   [_allTags insertObject:tagName atIndex:0];
   [((NSMutableSet*)self.selectedTags) addObject:tagName]; // automatically select
-  [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
+  [self.tableView insertRowsAtIndexPaths:@[topPath] withRowAnimation:UITableViewRowAnimationTop];
   [self.tableView endUpdates];
 }
 
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  UITableViewCell* cell = [self.tableView cellForRowAtIndexPath:indexPath];
-  NSString * tagName = _allTags[indexPath.row];
+  if(!_isLoading) {
+    UITableViewCell* cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    NSString * tagName = _allTags[indexPath.row];
 
-  if([self.selectedTags containsObject:tagName]) {
-    [self setTagCell:cell selected:NO];
-    [((NSMutableSet*)self.selectedTags) removeObject:tagName];
-  } else {
-    [self setTagCell:cell selected:YES];
-    [((NSMutableSet*)self.selectedTags) addObject:tagName];
+    if([self.selectedTags containsObject:tagName]) {
+      [self setTagCell:cell selected:NO];
+      [((NSMutableSet*)self.selectedTags) removeObject:tagName];
+    } else {
+      [self setTagCell:cell selected:YES];
+      [((NSMutableSet*)self.selectedTags) addObject:tagName];
+    }
   }
 }
 
@@ -109,16 +107,22 @@
 }
 
 -(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return _allTags.count;
+  return _isLoading ? 1 : _allTags.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  static NSString *CellIdentifier = @"TagCell";
+  UITableViewCell *cell;
+
+  if(_isLoading) {
+    cell = [tableView dequeueReusableCellWithIdentifier:@"loadingCell" forIndexPath:indexPath];
+    cell.imageView.image = [UIImage animatedImageNamed:@"progress-" duration:1.0];
+  } else {
+    cell = [tableView dequeueReusableCellWithIdentifier:@"tagCell" forIndexPath:indexPath];
+    NSString * tagName = _allTags[indexPath.row];
+    cell.textLabel.text = tagName;
+    [self setTagCell:cell selected:[self.selectedTags containsObject:tagName]];
+  }
   
-  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-  NSString * tagName = _allTags[indexPath.row];
-  cell.textLabel.text = tagName;
-  [self setTagCell:cell selected:[self.selectedTags containsObject:tagName]];
   return cell;
 }
 
