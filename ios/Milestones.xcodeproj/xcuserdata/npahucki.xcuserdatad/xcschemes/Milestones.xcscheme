@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E8DD48D9188EE5B900153095"
-               BuildableName = "DataDads Baby Milestones.app"
+               BuildableName = "DataParenting.app"
                BlueprintName = "Milestones"
                ReferencedContainer = "container:Milestones.xcodeproj">
             </BuildableReference>
@@ -48,7 +48,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E8DD48D9188EE5B900153095"
-            BuildableName = "DataDads Baby Milestones.app"
+            BuildableName = "DataParenting.app"
             BlueprintName = "Milestones"
             ReferencedContainer = "container:Milestones.xcodeproj">
          </BuildableReference>
@@ -67,7 +67,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E8DD48D9188EE5B900153095"
-            BuildableName = "DataDads Baby Milestones.app"
+            BuildableName = "DataParenting.app"
             BlueprintName = "Milestones"
             ReferencedContainer = "container:Milestones.xcodeproj">
          </BuildableReference>
@@ -85,7 +85,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E8DD48D9188EE5B900153095"
-            BuildableName = "DataDads Baby Milestones.app"
+            BuildableName = "DataParenting.app"
             BlueprintName = "Milestones"
             ReferencedContainer = "container:Milestones.xcodeproj">
          </BuildableReference>

@@ -558,7 +558,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kkl-Yd-PXd">
-                                <rect key="frame" x="195" y="452" width="125" height="30"/>
+                                <rect key="frame" x="195" y="350" width="125" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.1019607843" green="0.5568627451" blue="0.62352941179999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -582,9 +582,9 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="bottom" secondItem="Kkl-Yd-PXd" secondAttribute="bottom" constant="100" id="0Vd-re-eOa"/>
                             <constraint firstItem="ay3-m7-9gB" firstAttribute="leading" secondItem="2nx-kh-it0" secondAttribute="leading" id="EXF-zc-T3O"/>
                             <constraint firstItem="u47-YW-FTn" firstAttribute="top" secondItem="tjl-8t-bK4" secondAttribute="bottom" id="IAf-74-lWx"/>
-                            <constraint firstItem="Kkl-Yd-PXd" firstAttribute="top" secondItem="kTs-ep-tAp" secondAttribute="bottom" constant="432" id="Kj5-bf-uUq"/>
                             <constraint firstAttribute="trailing" secondItem="ay3-m7-9gB" secondAttribute="trailing" id="aFx-rt-CZw"/>
                             <constraint firstItem="ay3-m7-9gB" firstAttribute="top" secondItem="2nx-kh-it0" secondAttribute="top" id="ebq-F0-T2w"/>
                             <constraint firstAttribute="trailing" secondItem="Kkl-Yd-PXd" secondAttribute="trailing" id="f2I-by-Wlb"/>
@@ -1804,7 +1804,7 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="JWT-5h-xS8"/>
+        <segue reference="leH-KX-3OX"/>
         <segue reference="9u5-1o-6Cv"/>
     </inferredMetricsTieBreakers>
 </document>
