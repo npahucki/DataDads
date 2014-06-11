@@ -13,7 +13,7 @@
 	<key>CFBundleIcons~ipad</key>
 	<dict/>
 	<key>CFBundleIdentifier</key>
-	<string>com.datadads.DataDads-Baby-Milestones</string>
+	<string>com.dataparenting.DataParenting</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -21,18 +21,18 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.1.0</string>
+	<string>1.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
 	<array>
-    <dict>
-        <key>CFBundleURLSchemes</key>
-        <array>
-            <string>fb682520505147994</string>
-        </array>
-    </dict>
-    <dict>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb682520505147994</string>
+			</array>
+		</dict>
+		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
@@ -44,7 +44,7 @@
 	<key>FacebookAppID</key>
 	<string>682520505147994</string>
 	<key>FacebookDisplayName</key>
-	<string>DataDads</string>
+	<string>DataParenting</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIAppFonts</key>

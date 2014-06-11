@@ -69,6 +69,9 @@
    UIRemoteNotificationTypeBadge |
    UIRemoteNotificationTypeAlert |
    UIRemoteNotificationTypeSound];
+  
+  
+  NSLog(@"%lu", [application enabledRemoteNotificationTypes]);
 
   
   [UILabel appearance].font = [UIFont fontForAppWithType:Light andSize:17.0];
