@@ -22,6 +22,8 @@
   ALAssetsLibrary * _assetLibrary;
   BOOL _startedAnimation;
   NSString * _shortDescription;
+  UITextField * _activeField;
+  BOOL _isKeyboardShowing;
 }
 
 - (void)viewDidLoad
@@ -33,10 +35,19 @@
   
   NSAssert(self.achievement.baby, @"baby must be set on acheivement before view loads");
   
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(keyboardWasShown:)
+                                               name:UIKeyboardWillShowNotification object:nil];
+  
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(keyboardWillBeHidden:)
+                                               name:UIKeyboardWillHideNotification object:nil];
+  
   self.commentsTextField.delegate = self;
   self.customTitleTextField.delegate = self;
-  
   self.titleTextView.delegate = self;
+  self.completionDateTextField.delegate = self;
+
   NSDictionary *linkAttributes = @{NSForegroundColorAttributeName: [UIColor appSelectedColor],
                                    NSUnderlineColorAttributeName: [UIColor appSelectedColor],
                                    NSUnderlineStyleAttributeName: @(NSUnderlinePatternSolid)};
@@ -62,6 +73,50 @@
   [_fbSwitch setOn:ParentUser.currentUser.autoPublishToFacebook && [PFFacebookUtils userHasAuthorizedPublishPermissions:ParentUser.currentUser] animated:NO];
 }
 
+-(void) dealloc {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+// Called when the UIKeyboardDidShowNotification is sent.
+- (void)keyboardWasShown:(NSNotification*)aNotification
+{
+  _isKeyboardShowing = YES;
+  NSDictionary* info = [aNotification userInfo];
+  CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+  int totalHeight = kbSize.height + _activeField.inputAccessoryView.frame.size.height;
+  
+  UIScrollView * scrollView = (UIScrollView*) self.view;
+  scrollView.delegate = self;
+
+  UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, totalHeight, 0.0);
+  scrollView.contentInset = contentInsets;
+  scrollView.scrollIndicatorInsets = contentInsets;
+  
+  // If active text field is hidden by keyboard, scroll it so it's visible
+  CGRect aRect = self.view.frame;
+  aRect.size.height -= kbSize.height;
+  if (!CGRectContainsPoint(aRect, _activeField.frame.origin) ) {
+    [scrollView scrollRectToVisible:_activeField.frame animated:YES];
+  }
+}
+
+  
+// Called when the UIKeyboardWillHideNotification is sent
+- (void)keyboardWillBeHidden:(NSNotification*)aNotification
+{
+  _isKeyboardShowing = NO;
+  UIScrollView * scrollView = (UIScrollView*) self.view;
+  [scrollView scrollRectToVisible:CGRectMake(0,0,10,10) animated:YES];
+}
+
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
+  if(!_isKeyboardShowing) {
+    UIEdgeInsets contentInsets = UIEdgeInsetsZero;
+    scrollView.contentInset = contentInsets;
+    scrollView.scrollIndicatorInsets = contentInsets;
+  }
+}
+
 -(void)handleSingleTap:(UITapGestureRecognizer *)sender {
   [self.view endEditing:NO];
 }
@@ -70,6 +125,16 @@
 {
   [textField resignFirstResponder];
   return YES;
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+  _activeField = textField;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+  _activeField = nil;
 }
 
 -(BOOL) isCustom {

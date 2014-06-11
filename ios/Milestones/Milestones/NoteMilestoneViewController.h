@@ -15,7 +15,7 @@
 #import "SevenSwitch.h"
 
 
-@interface NoteMilestoneViewController : UIViewControllerWithHUDProgress <FDTakeDelegate,UITextFieldDelegate, UITextViewDelegate>
+@interface NoteMilestoneViewController : UIViewControllerWithHUDProgress <FDTakeDelegate,UITextFieldDelegate, UITextViewDelegate, UIScrollViewDelegate>
 
 @property MilestoneAchievement *achievement;
 @property (strong, nonatomic) IBOutlet UIDateField *completionDateTextField;

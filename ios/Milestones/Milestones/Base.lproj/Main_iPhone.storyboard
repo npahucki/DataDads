@@ -860,7 +860,7 @@
                         <viewControllerLayoutGuide type="top" id="EN0-Xo-UeH"/>
                         <viewControllerLayoutGuide type="bottom" id="Bpa-ja-iHW"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="5Gp-mq-9qR">
+                    <view key="view" contentMode="scaleToFill" id="5Gp-mq-9qR" customClass="UIScrollView">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
