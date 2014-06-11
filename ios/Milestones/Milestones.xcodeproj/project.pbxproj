@@ -209,7 +209,7 @@
 		E8D00A19188F362100DF2786 /* BabyInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BabyInfoViewController.m; sourceTree = "<group>"; };
 		E8D00A1E188F435300DF2786 /* NoteMilestoneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteMilestoneViewController.h; sourceTree = "<group>"; };
 		E8D00A1F188F435300DF2786 /* NoteMilestoneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteMilestoneViewController.m; sourceTree = "<group>"; };
-		E8DD48DA188EE5B900153095 /* DataDads Baby Milestones.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DataDads Baby Milestones.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E8DD48DA188EE5B900153095 /* DataParenting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DataParenting.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E8DD48DD188EE5B900153095 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E8DD48DF188EE5B900153095 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		E8DD48E1188EE5B900153095 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -448,7 +448,7 @@
 		E8DD48DB188EE5B900153095 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E8DD48DA188EE5B900153095 /* DataDads Baby Milestones.app */,
+				E8DD48DA188EE5B900153095 /* DataParenting.app */,
 				E8DD4901188EE5BA00153095 /* MilestonesTests.xctest */,
 			);
 			name = Products;
@@ -595,7 +595,7 @@
 			);
 			name = Milestones;
 			productName = Milestones;
-			productReference = E8DD48DA188EE5B900153095 /* DataDads Baby Milestones.app */;
+			productReference = E8DD48DA188EE5B900153095 /* DataParenting.app */;
 			productType = "com.apple.product-type.application";
 		};
 		E8DD4900188EE5BA00153095 /* MilestonesTests */ = {
@@ -910,7 +910,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flurry",
 				);
-				PRODUCT_NAME = "DataDads Baby Milestones";
+				PRODUCT_NAME = DataParenting;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
@@ -938,7 +938,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flurry",
 				);
-				PRODUCT_NAME = "DataDads Baby Milestones";
+				PRODUCT_NAME = DataParenting;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
