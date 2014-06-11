@@ -22,8 +22,10 @@
   ALAssetsLibrary * _assetLibrary;
   BOOL _startedAnimation;
   NSString * _shortDescription;
-  UITextField * _activeField;
   BOOL _isKeyboardShowing;
+  CGRect _originalFrame;
+  UITextField * _activeField;
+  
 }
 
 - (void)viewDidLoad
@@ -47,6 +49,7 @@
   self.customTitleTextField.delegate = self;
   self.titleTextView.delegate = self;
   self.completionDateTextField.delegate = self;
+  self.completionDateTextField.inputAccessoryView = nil;
 
   NSDictionary *linkAttributes = @{NSForegroundColorAttributeName: [UIColor appSelectedColor],
                                    NSUnderlineColorAttributeName: [UIColor appSelectedColor],
@@ -80,23 +83,24 @@
 // Called when the UIKeyboardDidShowNotification is sent.
 - (void)keyboardWasShown:(NSNotification*)aNotification
 {
-  _isKeyboardShowing = YES;
   NSDictionary* info = [aNotification userInfo];
   CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-  int totalHeight = kbSize.height + _activeField.inputAccessoryView.frame.size.height;
+  NSLog(@"%f", kbSize.height);
   
-  UIScrollView * scrollView = (UIScrollView*) self.view;
-  scrollView.delegate = self;
+  if(!_isKeyboardShowing) {
+    _isKeyboardShowing = YES;
+    _originalFrame = self.view.frame;
+  }
+  // NOTE: we use this instead of scroll view because working woth autolayout and the scroll view is almost impossible
+  // becasue we resize some content based on the size of the screen, and in scrollview, this means that the content is
+  // as large as it can be, but is scrollable which is NOT what we want!
 
-  UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, totalHeight, 0.0);
-  scrollView.contentInset = contentInsets;
-  scrollView.scrollIndicatorInsets = contentInsets;
-  
-  // If active text field is hidden by keyboard, scroll it so it's visible
-  CGRect aRect = self.view.frame;
-  aRect.size.height -= kbSize.height;
-  if (!CGRectContainsPoint(aRect, _activeField.frame.origin) ) {
-    [scrollView scrollRectToVisible:_activeField.frame animated:YES];
+  if(_activeField.frame.size.height + _activeField.frame.origin.y > self.view.frame.size.height - kbSize.height) {
+    [UIView
+     animateWithDuration:0.5
+     animations:^{
+       self.view.frame = CGRectMake(0,_originalFrame.origin.y - kbSize.height + self.adBanner.frame.size.height , _originalFrame.size.width, _originalFrame.size.height);
+     }];
   }
 }
 
@@ -105,26 +109,11 @@
 - (void)keyboardWillBeHidden:(NSNotification*)aNotification
 {
   _isKeyboardShowing = NO;
-  UIScrollView * scrollView = (UIScrollView*) self.view;
-  [scrollView scrollRectToVisible:CGRectMake(0,0,10,10) animated:YES];
-}
-
-- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
-  if(!_isKeyboardShowing) {
-    UIEdgeInsets contentInsets = UIEdgeInsetsZero;
-    scrollView.contentInset = contentInsets;
-    scrollView.scrollIndicatorInsets = contentInsets;
-  }
-}
-
--(void)handleSingleTap:(UITapGestureRecognizer *)sender {
-  [self.view endEditing:NO];
-}
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-  [textField resignFirstResponder];
-  return YES;
+  [UIView
+   animateWithDuration:0.5
+   animations:^{
+     self.view.frame = _originalFrame;
+   }];
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
@@ -135,6 +124,16 @@
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
   _activeField = nil;
+}
+
+-(void)handleSingleTap:(UITapGestureRecognizer *)sender {
+  [self.view endEditing:NO];
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+  [textField resignFirstResponder];
+  return YES;
 }
 
 -(BOOL) isCustom {

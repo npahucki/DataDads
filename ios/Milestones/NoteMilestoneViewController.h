@@ -15,6 +15,7 @@
 #import "SevenSwitch.h"
 
 
+
 @interface NoteMilestoneViewController : UIViewControllerWithHUDProgress <FDTakeDelegate,UITextFieldDelegate, UITextViewDelegate, UIScrollViewDelegate>
 
 @property MilestoneAchievement *achievement;
@@ -25,6 +26,7 @@
 @property (weak, nonatomic) IBOutlet UITextView *titleTextView;
 @property (weak, nonatomic) IBOutlet UITextField *customTitleTextField;
 @property (weak, nonatomic) IBOutlet UIView *placeHolderSwitch;
+@property (weak, nonatomic) IBOutlet UIView *adBanner;
 @property (strong, nonatomic) SevenSwitch *fbSwitch;
 
 
