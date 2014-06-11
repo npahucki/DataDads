@@ -126,7 +126,7 @@
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
   if([segue.identifier isEqualToString:kDDSegueShowWebView]) {
     WebViewerViewController * webView = (WebViewerViewController *)segue.destinationViewController;
-    webView.url = [NSURL URLWithString:@"http://datadads.parseapp.com/DDTC.html"];
+    webView.url = [NSURL URLWithString:@"http://dataparenting.parseapp.com/DDTC.html"];
   }
 }
 
