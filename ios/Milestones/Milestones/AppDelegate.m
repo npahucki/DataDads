@@ -71,8 +71,6 @@
    UIRemoteNotificationTypeSound];
   
   
-  NSLog(@"%lu", [application enabledRemoteNotificationTypes]);
-
   
   [UILabel appearance].font = [UIFont fontForAppWithType:Light andSize:17.0];
   [UILabel appearanceWhenContainedIn:[UIDatePicker class], nil].font = [UIFont systemFontOfSize:24.0];
