@@ -28,6 +28,7 @@
   [BabyAssignedTip registerSubclass];
   [StandardMilestone registerSubclass];
   [MilestoneAchievement registerSubclass];
+  [Measurement registerSubclass];
   [ParentUser registerSubclass];
   
   // Make sure only users can read thier own data!
@@ -77,8 +78,6 @@
   
   [UITextField appearance].font =[UIFont fontForAppWithType:Bold andSize:17.0];
   [UITextField appearance].textColor = [UIColor appNormalColor];
-  //[UITextView appearance].font = [UIFont fontForAppWithType:Bold andSize:17.0];
-  //[UITextView appearance].textColor = [UIColor appGreyTextColor];
 
   [[UISegmentedControl appearance] setTitleTextAttributes:@{NSFontAttributeName : [UIFont fontForAppWithType:Medium andSize:14]} forState:UIControlStateNormal];
   [UISegmentedControl appearance].tintColor = [UIColor appNormalColor];

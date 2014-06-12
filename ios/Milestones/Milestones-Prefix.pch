@@ -23,6 +23,7 @@
 #import "Tag.h"
 #import "Tip.h"
 #import "MilestoneAchievement.h"
+#import "Measurement.h"
 #import "StandardMilestone.h"
 #import "BabyAssignedTip.h"
 #import "Reachability.h"
