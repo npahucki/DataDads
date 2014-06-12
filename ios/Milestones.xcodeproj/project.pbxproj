@@ -53,6 +53,7 @@
 		E872D4DC19420287003F461C /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E872D4DB19420287003F461C /* CoreVideo.framework */; };
 		E872D62519424091003F461C /* libFlurry_5.0.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E872D62419424091003F461C /* libFlurry_5.0.0.a */; };
 		E872D62B1949E9C0003F461C /* Measurement.m in Sources */ = {isa = PBXBuildFile; fileRef = E872D62A1949E9C0003F461C /* Measurement.m */; };
+		E872D62E194A5425003F461C /* UnitHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = E872D62D194A5425003F461C /* UnitHelper.m */; };
 		E876159B18EF83C100B0C6D9 /* BabyTagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E876159A18EF83C100B0C6D9 /* BabyTagsViewController.m */; };
 		E876159E18EF892C00B0C6D9 /* BabyTagsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E876159D18EF892C00B0C6D9 /* BabyTagsTableViewController.m */; };
 		E877FCAD19368AE4002405BF /* BabyAssignedTip.m in Sources */ = {isa = PBXBuildFile; fileRef = E877FCAC19368AE4002405BF /* BabyAssignedTip.m */; };
@@ -180,6 +181,8 @@
 		E872D62419424091003F461C /* libFlurry_5.0.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_5.0.0.a; sourceTree = "<group>"; };
 		E872D6291949E9C0003F461C /* Measurement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Measurement.h; sourceTree = "<group>"; };
 		E872D62A1949E9C0003F461C /* Measurement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Measurement.m; sourceTree = "<group>"; };
+		E872D62C194A5425003F461C /* UnitHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnitHelper.h; sourceTree = "<group>"; };
+		E872D62D194A5425003F461C /* UnitHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnitHelper.m; sourceTree = "<group>"; };
 		E876159918EF83C100B0C6D9 /* BabyTagsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyTagsViewController.h; sourceTree = "<group>"; };
 		E876159A18EF83C100B0C6D9 /* BabyTagsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BabyTagsViewController.m; sourceTree = "<group>"; };
 		E876159C18EF892C00B0C6D9 /* BabyTagsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyTagsTableViewController.h; sourceTree = "<group>"; };
@@ -371,6 +374,8 @@
 				E872D4CC1940B8D6003F461C /* PFFacebookUtils+Extras.m */,
 				E872D4CE1940E9FD003F461C /* UIAlertView+BlockSupport.h */,
 				E872D4CF1940E9FD003F461C /* UIAlertView+BlockSupport.m */,
+				E872D62C194A5425003F461C /* UnitHelper.h */,
+				E872D62D194A5425003F461C /* UnitHelper.m */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -733,6 +738,7 @@
 				E89035E819303D13004A4013 /* SignUpPromptViewController.m in Sources */,
 				E832437018F895F500307356 /* HistoryViewController.m in Sources */,
 				E866E7F31936448C004963C9 /* NotificationTableViewController.m in Sources */,
+				E872D62E194A5425003F461C /* UnitHelper.m in Sources */,
 				E81B587A1896CE7800C74C2B /* Baby.m in Sources */,
 				E8F485481901C6F90030912F /* SignUpViewController.m in Sources */,
 				E819A6C318FB2A490017B626 /* AppQueryTableViewController.m in Sources */,

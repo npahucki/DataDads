@@ -14,6 +14,6 @@
 @dynamic screenName;
 @dynamic isMale;
 @dynamic autoPublishToFacebook;
-
+@dynamic usesMetric;
 
 @end

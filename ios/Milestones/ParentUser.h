@@ -13,5 +13,6 @@
 @property NSString * screenName;
 @property BOOL isMale;
 @property BOOL autoPublishToFacebook;
+@property BOOL usesMetric;
 
 @end

@@ -10,6 +10,7 @@
 #import "MilestoneAchievement.h"
 #import "WebViewerViewController.h"
 #import "FDTakeControllerNoStatusBar.h"
+#import "UnitHelper.h"
 
 @interface NoteMilestoneViewController ()
 
@@ -50,6 +51,9 @@
   NSDictionary *linkAttributes = @{NSForegroundColorAttributeName: [UIColor appSelectedColor],
                                    NSUnderlineColorAttributeName: [UIColor appSelectedColor],
                                    NSUnderlineStyleAttributeName: @(NSUnderlinePatternSolid)};
+
+  self.heightUnitLabel.text = [UnitHelper unitForHeight];
+  self.weightUnitLabel.text = [UnitHelper unitForWeight];
   self.titleTextView.linkTextAttributes = linkAttributes; // customizes the appearance of links
   self.titleTextView.hidden = self.isCustom;
   self.scrollView.hidden = !self.isCustom;
