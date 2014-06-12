@@ -125,10 +125,10 @@
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
   NSUInteger newLength = [textField.text length] + [string length] - range.length;
   if(textField == self.weightTextField) {
-    self.doneButton.enabled = newLength > 0 && self.heightTextField.text.length > 0;
+    self.doneButton.enabled = string.floatValue > 0 && self.heightTextField.text.floatValue > 0;
     return (newLength < 5);
   } else if(textField == self.heightTextField) {
-    self.doneButton.enabled = newLength > 0 && self.weightTextField.text.length > 0;
+    self.doneButton.enabled = string.floatValue > 0 && self.weightTextField.text.floatValue > 0;
     return (newLength < 5);
   } else if(textField == self.customTitleTextField) {
     self.doneButton.enabled = newLength > 0;
@@ -157,7 +157,7 @@
   CGFloat w = self.scrollView.bounds.size.width;
   [self.scrollView setContentOffset:CGPointMake(p*w,0) animated:YES];
   if(self.isMeasurement) {
-      self.doneButton.enabled = self.weightTextField.text.length > 0 && self.weightTextField.text.length > 0;
+      self.doneButton.enabled = self.weightTextField.text.floatValue > 0 && self.weightTextField.text.floatValue > 0;
   } else {
     self.doneButton.enabled = self.customTitleTextField.text.length > 0;
   }
