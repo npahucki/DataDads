@@ -15,7 +15,7 @@
 @dynamic type;
 @dynamic quantity;
 @dynamic achievement;
-
+@dynamic baby;
 
 + (NSString *)parseClassName {
   return @"Measurements";

@@ -15,5 +15,6 @@
 @property NSString * type;
 @property NSNumber * quantity;
 @property MilestoneAchievement * achievement;
+@property Baby * baby;
 
 @end

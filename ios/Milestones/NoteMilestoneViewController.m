@@ -269,12 +269,14 @@
     heightMeasurement.unit = self.heightUnitLabel.text;
     heightMeasurement.quantity = @(self.heightTextField.text.floatValue);
     heightMeasurement.achievement = self.achievement;
+    heightMeasurement.baby = self.achievement.baby;
     
     weightMeasurement = [Measurement object];
     weightMeasurement.type = @"weight";
     weightMeasurement.unit = self.weightUnitLabel.text;
     weightMeasurement.quantity = @(self.weightTextField.text.floatValue);
     weightMeasurement.achievement = self.achievement;
+    weightMeasurement.baby = self.achievement.baby;
 
     self.achievement.customTitle = [NSString stringWithFormat:@"${He} reaches %@%@ and %@%@!",heightMeasurement.quantity, heightMeasurement.unit, weightMeasurement.quantity, weightMeasurement.unit];
   } else if(self.isCustom) {
