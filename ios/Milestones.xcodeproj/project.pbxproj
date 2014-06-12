@@ -93,7 +93,7 @@
 		E8E39C1718E615D20034982D /* GothamRounded-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C0F18E615D20034982D /* GothamRounded-MediumItalic.otf */; };
 		E8E39C1B18EA13B40034982D /* CustomIOS7AlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = E8E39C1A18EA13B40034982D /* CustomIOS7AlertView.m */; };
 		E8E39C6A18EB063E0034982D /* MainMilestoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8E39C6918EB063E0034982D /* MainMilestoneViewController.m */; };
-		E8E39C6D18EB9A090034982D /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8E39C6C18EB9A090034982D /* SettingsViewController.m */; };
+		E8E39C6D18EB9A090034982D /* OverviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8E39C6C18EB9A090034982D /* OverviewViewController.m */; };
 		E8EC89D81907CB410073E012 /* UIViewController+MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = E8EC89D71907CB410073E012 /* UIViewController+MBProgressHUD.m */; };
 		E8F485481901C6F90030912F /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8F485471901C6F90030912F /* SignUpViewController.m */; };
 /* End PBXBuildFile section */
@@ -243,8 +243,8 @@
 		E8E39C1A18EA13B40034982D /* CustomIOS7AlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomIOS7AlertView.m; sourceTree = "<group>"; };
 		E8E39C6818EB063E0034982D /* MainMilestoneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMilestoneViewController.h; sourceTree = "<group>"; };
 		E8E39C6918EB063E0034982D /* MainMilestoneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMilestoneViewController.m; sourceTree = "<group>"; };
-		E8E39C6B18EB9A090034982D /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
-		E8E39C6C18EB9A090034982D /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SettingsViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		E8E39C6B18EB9A090034982D /* OverviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OverviewViewController.h; sourceTree = "<group>"; };
+		E8E39C6C18EB9A090034982D /* OverviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OverviewViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		E8EC89D61907CB410073E012 /* UIViewController+MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+MBProgressHUD.h"; sourceTree = "<group>"; };
 		E8EC89D71907CB410073E012 /* UIViewController+MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+MBProgressHUD.m"; sourceTree = "<group>"; };
 		E8F485461901C6F90030912F /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
@@ -346,8 +346,8 @@
 				E8BC76D418A50AD000983025 /* UIViewControllerWithHUDProgress.m */,
 				E8EC89D61907CB410073E012 /* UIViewController+MBProgressHUD.h */,
 				E8EC89D71907CB410073E012 /* UIViewController+MBProgressHUD.m */,
-				E8E39C6B18EB9A090034982D /* SettingsViewController.h */,
-				E8E39C6C18EB9A090034982D /* SettingsViewController.m */,
+				E8E39C6B18EB9A090034982D /* OverviewViewController.h */,
+				E8E39C6C18EB9A090034982D /* OverviewViewController.m */,
 				E81B58711896B89E00C74C2B /* MainViewController.h */,
 				E81B58721896B89E00C74C2B /* MainViewController.m */,
 				E877FCAE1936BA98002405BF /* WebViewerViewController.h */,
@@ -773,7 +773,7 @@
 				E8BDE6B0193CC106001D6995 /* NSDate+Utils.m in Sources */,
 				E8E39C6A18EB063E0034982D /* MainMilestoneViewController.m in Sources */,
 				E876159E18EF892C00B0C6D9 /* BabyTagsTableViewController.m in Sources */,
-				E8E39C6D18EB9A090034982D /* SettingsViewController.m in Sources */,
+				E8E39C6D18EB9A090034982D /* OverviewViewController.m in Sources */,
 				E8ABCFBA191D68FE0083ED25 /* UIDateField.m in Sources */,
 				E866E7F919364607004963C9 /* Tip.m in Sources */,
 				E81B588E189BFFFE00C74C2B /* MilestoneAchievement.m in Sources */,

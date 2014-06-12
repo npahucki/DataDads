@@ -6,11 +6,11 @@
 //  Copyright (c) 2014 Nathan  Pahucki. All rights reserved.
 //
 
-#import "SettingsViewController.h"
+#import "OverviewViewController.h"
 #import "SignUpViewController.h"
 #import "BabyInfoViewController.h"
 
-@implementation SettingsViewController
+@implementation OverviewViewController
 
 -(void) viewDidLoad {
   [super viewDidLoad];

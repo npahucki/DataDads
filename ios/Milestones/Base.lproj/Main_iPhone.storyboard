@@ -1215,10 +1215,10 @@
             </objects>
             <point key="canvasLocation" x="5129" y="-3319"/>
         </scene>
-        <!--Settings View Controller - Menu-->
+        <!--Overview View Controller - Menu-->
         <scene sceneID="IiZ-vS-rqF">
             <objects>
-                <viewController title="Menu" id="5nR-pr-Hy0" customClass="SettingsViewController" sceneMemberID="viewController">
+                <viewController title="Menu" id="5nR-pr-Hy0" customClass="OverviewViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="zu6-gI-gFI"/>
                         <viewControllerLayoutGuide type="bottom" id="Dvh-rc-jy7"/>

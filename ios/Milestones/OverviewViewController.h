@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SettingsViewController : UIViewController
+@interface OverviewViewController : UIViewController
 @property (strong, nonatomic) IBOutlet UILabel *babyNameLabel;
 @property (strong, nonatomic) IBOutlet UILabel *ageLabel;
 @property (strong, nonatomic) IBOutlet PFImageView *babyAvatar;
