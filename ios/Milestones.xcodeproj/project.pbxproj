@@ -58,6 +58,7 @@
 		E876159E18EF892C00B0C6D9 /* BabyTagsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E876159D18EF892C00B0C6D9 /* BabyTagsTableViewController.m */; };
 		E877FCAD19368AE4002405BF /* BabyAssignedTip.m in Sources */ = {isa = PBXBuildFile; fileRef = E877FCAC19368AE4002405BF /* BabyAssignedTip.m */; };
 		E877FCB01936BA98002405BF /* WebViewerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E877FCAF1936BA98002405BF /* WebViewerViewController.m */; };
+		E88F3635194A5A4100BE74E9 /* SettingPanelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E88F3634194A5A4100BE74E9 /* SettingPanelViewController.m */; };
 		E89035E51930328E004A4013 /* MainNotificationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89035E41930328E004A4013 /* MainNotificationsViewController.m */; };
 		E89035E819303D13004A4013 /* SignUpPromptViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89035E719303D13004A4013 /* SignUpPromptViewController.m */; };
 		E89035EB19337807004A4013 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = E89035EA19337807004A4013 /* Reachability.m */; };
@@ -191,6 +192,8 @@
 		E877FCAC19368AE4002405BF /* BabyAssignedTip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BabyAssignedTip.m; sourceTree = "<group>"; };
 		E877FCAE1936BA98002405BF /* WebViewerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewerViewController.h; sourceTree = "<group>"; };
 		E877FCAF1936BA98002405BF /* WebViewerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewerViewController.m; sourceTree = "<group>"; };
+		E88F3633194A5A4100BE74E9 /* SettingPanelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingPanelViewController.h; sourceTree = "<group>"; };
+		E88F3634194A5A4100BE74E9 /* SettingPanelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingPanelViewController.m; sourceTree = "<group>"; };
 		E89035E31930328E004A4013 /* MainNotificationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainNotificationsViewController.h; sourceTree = "<group>"; };
 		E89035E41930328E004A4013 /* MainNotificationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainNotificationsViewController.m; sourceTree = "<group>"; };
 		E89035E619303D13004A4013 /* SignUpPromptViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpPromptViewController.h; sourceTree = "<group>"; };
@@ -350,6 +353,8 @@
 				E8E39C6C18EB9A090034982D /* OverviewViewController.m */,
 				E81B58711896B89E00C74C2B /* MainViewController.h */,
 				E81B58721896B89E00C74C2B /* MainViewController.m */,
+				E88F3633194A5A4100BE74E9 /* SettingPanelViewController.h */,
+				E88F3634194A5A4100BE74E9 /* SettingPanelViewController.m */,
 				E877FCAE1936BA98002405BF /* WebViewerViewController.h */,
 				E877FCAF1936BA98002405BF /* WebViewerViewController.m */,
 			);
@@ -757,6 +762,7 @@
 				E872D4CD1940B8D6003F461C /* PFFacebookUtils+Extras.m in Sources */,
 				E8EC89D81907CB410073E012 /* UIViewController+MBProgressHUD.m in Sources */,
 				E872D4CA1940B412003F461C /* ParentUser.m in Sources */,
+				E88F3635194A5A4100BE74E9 /* SettingPanelViewController.m in Sources */,
 				E8DD48EE188EE5B900153095 /* AppDelegate.m in Sources */,
 				E8DD48EA188EE5B900153095 /* main.m in Sources */,
 				E8D00A1A188F362100DF2786 /* BabyInfoViewController.m in Sources */,

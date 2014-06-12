@@ -1138,10 +1138,10 @@
             </objects>
             <point key="canvasLocation" x="4843" y="-1963"/>
         </scene>
-        <!--View Controller - Account-->
+        <!--Setting Panel View Controller - Account-->
         <scene sceneID="4Z9-oI-S9f">
             <objects>
-                <viewController title="Account" id="qmW-lh-FBf" sceneMemberID="viewController">
+                <viewController title="Account" id="qmW-lh-FBf" customClass="SettingPanelViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="PGi-e7-PbJ"/>
                         <viewControllerLayoutGuide type="bottom" id="xsO-uH-6Az"/>
@@ -1153,16 +1153,19 @@
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="hfi-Fl-q2c">
                                 <rect key="frame" x="227" y="71" width="51" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="didChangeUseMetricSwitch:" destination="qmW-lh-FBf" eventType="valueChanged" id="Ur3-nJ-asR"/>
+                                </connections>
                             </switch>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jcV-JO-zmY">
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="jcV-JO-zmY">
                                 <rect key="frame" x="227" y="124" width="51" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </switch>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gvX-Rh-n2L">
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="gvX-Rh-n2L">
                                 <rect key="frame" x="227" y="178" width="51" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </switch>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="rzp-an-sKY">
+                            <slider opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="rzp-an-sKY">
                                 <rect key="frame" x="18" y="239" width="284" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </slider>
@@ -1210,6 +1213,9 @@
                     <navigationItem key="navigationItem" title="Settings" id="Ov2-46-1eN">
                         <barButtonItem key="backBarButtonItem" title="Back" id="aa1-En-TwQ"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="useMetricSwitch" destination="hfi-Fl-q2c" id="3CV-JE-NWl"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zd7-sg-TGG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1935,7 +1941,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="leH-KX-3OX"/>
+        <segue reference="zMK-LI-8Wn"/>
         <segue reference="9u5-1o-6Cv"/>
     </inferredMetricsTieBreakers>
 </document>
