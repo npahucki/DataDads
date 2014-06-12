@@ -52,7 +52,8 @@
                                    NSUnderlineStyleAttributeName: @(NSUnderlinePatternSolid)};
   self.titleTextView.linkTextAttributes = linkAttributes; // customizes the appearance of links
   self.titleTextView.hidden = self.isCustom;
-  self.customTitleTextField.hidden = !self.isCustom;
+  self.scrollView.hidden = !self.isCustom;
+  self.segmentControl.hidden = !self.isCustom;
   self.doneButton.enabled = !self.isCustom;
   // Needed to dimiss the keyboard once a user clicks outside the text boxes
   UITapGestureRecognizer *viewTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
@@ -81,7 +82,6 @@
 {
   NSDictionary* info = [aNotification userInfo];
   CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-  NSLog(@"%f", kbSize.height);
   
   if(!_isKeyboardShowing) {
     _isKeyboardShowing = YES;
@@ -273,11 +273,10 @@
     weightMeasurement.achievement = self.achievement;
 
     self.achievement.customTitle = [NSString stringWithFormat:@"${He} reaches %@%@ and %@%@!",heightMeasurement.quantity, heightMeasurement.unit, weightMeasurement.quantity, weightMeasurement.unit];
-  } else {
-    NSAssert(self.customTitleTextField.text.length, @"Expected non empty custom title!");
-    self.achievement.customTitle = self.customTitleTextField.text;
+  } else if(self.isCustom) {
+      NSAssert(self.customTitleTextField.text.length, @"Expected non empty custom title!");
+      self.achievement.customTitle = self.customTitleTextField.text;
   }
-  
   
   if(self.commentsTextField.text.length) self.achievement.comment = self.commentsTextField.text;
   self.achievement.attachment = attachment;
@@ -296,7 +295,7 @@
       }
       
       // Notify locally
-      [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationMilestoneNotedAndSaved object:self userInfo:@{@"" : self.achievement}];
+      [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationMilestoneNotedAndSaved object:self.achievement];
       
       // Publish the achievement to facebook
       if(self.fbSwitch.on) {
@@ -318,7 +317,7 @@
         if(error) {
           NSLog(@"Could not save the weight measurement %@", error);
         }
-        [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationMeasurementNotedAndSaved object:heightMeasurement];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationMeasurementNotedAndSaved object:weightMeasurement];
       }];
 
       
@@ -329,7 +328,7 @@
 }
 
 -(BOOL) isMeasurement {
-  return self.segmentControl.selectedSegmentIndex == 1;
+  return self.isCustom && self.segmentControl.selectedSegmentIndex == 1;
 }
 
 -(BOOL) isCustom {

@@ -70,7 +70,7 @@ static Baby* _currentBaby;
     _currentBaby = baby;
     // Let others know the current baby has changed so they can update thier views
     [[NSNotificationCenter defaultCenter]
-     postNotificationName:kDDNotificationCurrentBabyChanged object:self userInfo:baby == nil ? nil : [NSDictionary dictionaryWithObject:_currentBaby forKey:@""]];
+     postNotificationName:kDDNotificationCurrentBabyChanged object:_currentBaby];
   }
 }
 

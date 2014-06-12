@@ -94,7 +94,7 @@
 
 
 -(void) milestoneNotedAndSaved:(NSNotification*)notification {
-  MilestoneAchievement * achievement = [notification.userInfo objectForKey:@""];
+  MilestoneAchievement * achievement = notification.object;
   NSMutableArray * reloadPaths = [NSMutableArray arrayWithCapacity:5];
   [UIView beginAnimations:@"insertAnimationId" context:nil];
   [UIView setAnimationDuration:1.0]; // Set duration here

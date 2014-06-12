@@ -245,7 +245,7 @@
   
   [self showSignupSuccessAndRunBlock:^{
     [[NSNotificationCenter defaultCenter]
-     postNotificationName:kDDNotificationUserSignedUp object:self userInfo:[NSDictionary dictionaryWithObject:user forKey:@""]];
+     postNotificationName:kDDNotificationUserSignedUp object:user];
     [self dismissViewControllerAnimated:NO completion:nil];
   }];
   

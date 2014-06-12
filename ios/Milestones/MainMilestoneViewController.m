@@ -53,7 +53,7 @@
 }
 
 -(void) milestoneNotedAndSaved:(NSNotification*)notification {
-  MilestoneAchievement * achievement = [notification.userInfo objectForKey:@""];
+  MilestoneAchievement * achievement = notification.object;
   [achievement calculatePercentileRankingWithBlock:^(float percentile) {
     if(percentile >= 0) {
       // Show the message once all the animations have settled down.
