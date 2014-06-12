@@ -14,10 +14,11 @@
 @dynamic unit;
 @dynamic type;
 @dynamic quantity;
+@dynamic achievement;
 
 
 + (NSString *)parseClassName {
-  return @"Measurments";
+  return @"Measurements";
 }
 
 

@@ -29,6 +29,12 @@
 @property (weak, nonatomic) IBOutlet UIView *adBanner;
 @property (strong, nonatomic) SevenSwitch *fbSwitch;
 
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentControl;
+@property (weak, nonatomic) IBOutlet UITextField *heightTextField;
+@property (weak, nonatomic) IBOutlet UILabel *weightUnitLabel;
+@property (weak, nonatomic) IBOutlet UILabel *heightUnitLabel;
 
+@property (weak, nonatomic) IBOutlet UITextField *weightTextField;
 @end
 

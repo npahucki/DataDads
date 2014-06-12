@@ -26,6 +26,7 @@ NSString *const kDDSegueShowWebView = @"showWebView";
 #pragma mark - Events
 NSString *const kDDNotificationCurrentBabyChanged = @"currentBabyChanged";
 NSString *const kDDNotificationMilestoneNotedAndSaved = @"milestoneNotedAndSaved";
+NSString *const kDDNotificationMeasurementNotedAndSaved = @"measurementNotedAndSaved";
 NSString *const kDDNotificationUserSignedUp = @"userSignedUp";
 NSString *const kDDNotificationPushReceieved = @"notificationPushReceived";
 

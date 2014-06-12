@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MilestoneAchievement.h"
 
 @interface Measurement : PFObject<PFSubclassing>
 
 @property NSString * unit;
 @property NSString * type;
 @property NSNumber * quantity;
+@property MilestoneAchievement * achievement;
 
 @end

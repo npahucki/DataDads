@@ -7,6 +7,7 @@
 //
 
 #import "MilestoneAchievement.h"
+#import "PronounHelper.h"
 #import <Parse/PFObject+Subclass.h>
 
 
@@ -25,6 +26,7 @@
 @dynamic comment;
 @dynamic isSkipped;
 @dynamic isPostponed;
+
 
 + (NSString *)parseClassName {
   return @"MilestoneAchievements";
@@ -53,7 +55,7 @@
 
 -(NSString*) displayTitle {
   if(self.customTitle.length) {
-    return self.customTitle;
+    return [PronounHelper replacePronounTokens:self.customTitle forBaby:self.baby];
   } else if(self.standardMilestone) {
     return [self.standardMilestone titleForBaby:self.baby];
   } else {

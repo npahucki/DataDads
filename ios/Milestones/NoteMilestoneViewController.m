@@ -45,10 +45,6 @@
                                            selector:@selector(keyboardWillBeHidden:)
                                                name:UIKeyboardWillHideNotification object:nil];
   
-  self.commentsTextField.delegate = self;
-  self.customTitleTextField.delegate = self;
-  self.titleTextView.delegate = self;
-  self.completionDateTextField.delegate = self;
   self.completionDateTextField.inputAccessoryView = nil;
 
   NSDictionary *linkAttributes = @{NSForegroundColorAttributeName: [UIColor appSelectedColor],
@@ -126,6 +122,21 @@
   _activeField = nil;
 }
 
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+  NSUInteger newLength = [textField.text length] + [string length] - range.length;
+  if(textField == self.weightTextField) {
+    self.doneButton.enabled = newLength > 0 && self.heightTextField.text.length > 0;
+    return (newLength < 5);
+  } else if(textField == self.heightTextField) {
+    self.doneButton.enabled = newLength > 0 && self.weightTextField.text.length > 0;
+    return (newLength < 5);
+  } else if(textField == self.customTitleTextField) {
+    self.doneButton.enabled = newLength > 0;
+  }
+
+  return YES;
+}
+
 -(void)handleSingleTap:(UITapGestureRecognizer *)sender {
   [self.view endEditing:NO];
 }
@@ -136,8 +147,20 @@
   return YES;
 }
 
--(BOOL) isCustom {
-  return self.achievement.standardMilestone == nil;
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+  CGFloat x = scrollView.contentOffset.x;
+  CGFloat w = scrollView.bounds.size.width;
+  self.segmentControl.selectedSegmentIndex = x/w;
+}
+- (IBAction)userDidPage:(id)sender {
+  NSInteger p = self.segmentControl.selectedSegmentIndex;
+  CGFloat w = self.scrollView.bounds.size.width;
+  [self.scrollView setContentOffset:CGPointMake(p*w,0) animated:YES];
+  if(self.isMeasurement) {
+      self.doneButton.enabled = self.weightTextField.text.length > 0 && self.weightTextField.text.length > 0;
+  } else {
+    self.doneButton.enabled = self.customTitleTextField.text.length > 0;
+  }
 }
 
 -(void) viewDidLayoutSubviews {
@@ -161,9 +184,7 @@
     _startedAnimation = YES;
   }
 }
-- (IBAction)didEndEditingCustomTitle:(id)sender {
-  self.doneButton.enabled = self.customTitleTextField.text.length > 1;
-}
+
 
 - (IBAction)didClickTakePicture:(id)sender {
   [self.view endEditing:YES];
@@ -227,7 +248,7 @@
 
 -(void) saveAchievementWithAttachment:(PFFile*) attachment andType:(NSString*) type {
   
-  // Bit of a hacky work around to the fact that CLoudCode beforeSave trigger reloads the object after a save
+  // Bit of a hacky work around to the fact that CloudCode beforeSave trigger reloads the object after a save
   // buts does not load the pointers, so the achievement object has the Baby and StandardMilestone fields set to
   // hollow pointers (do data but the objectId). We would normally need to make two more network calls to get
   // these two objects back (needed for code that runs in the notification handlers). However, we assume
@@ -236,9 +257,29 @@
   StandardMilestone* originalMilestone = self.achievement.standardMilestone; // this will be nil for custom milestones.
   Baby * originalBaby = self.achievement.baby;
   
+  Measurement * heightMeasurement;
+  Measurement * weightMeasurement;
+  if(self.isMeasurement) {
+    heightMeasurement = [Measurement object];
+    heightMeasurement.type = @"height";
+    heightMeasurement.unit = self.heightUnitLabel.text;
+    heightMeasurement.quantity = @(self.heightTextField.text.floatValue);
+    heightMeasurement.achievement = self.achievement;
+    
+    weightMeasurement = [Measurement object];
+    weightMeasurement.type = @"weight";
+    weightMeasurement.unit = self.weightUnitLabel.text;
+    weightMeasurement.quantity = @(self.weightTextField.text.floatValue);
+    weightMeasurement.achievement = self.achievement;
+
+    self.achievement.customTitle = [NSString stringWithFormat:@"${He} reaches %@%@ and %@%@!",heightMeasurement.quantity, heightMeasurement.unit, weightMeasurement.quantity, weightMeasurement.unit];
+  } else {
+    NSAssert(self.customTitleTextField.text.length, @"Expected non empty custom title!");
+    self.achievement.customTitle = self.customTitleTextField.text;
+  }
+  
   
   if(self.commentsTextField.text.length) self.achievement.comment = self.commentsTextField.text;
-  if(self.customTitleTextField.text.length) self.achievement.customTitle = self.customTitleTextField.text;
   self.achievement.attachment = attachment;
   self.achievement.attachmentType = type;
   self.achievement.completionDate =  ((UIDatePicker*)self.completionDateTextField.inputView).date;
@@ -261,14 +302,38 @@
       if(self.fbSwitch.on) {
         [PFFacebookUtils shareAchievement:self.achievement block:^(BOOL succeeded, NSError *error) {
           if(error) {
-            [[[UIAlertView alloc] initWithTitle:@"Could share the milestone on Facebook" message:@"Make sure that you have authorized the DataParenting App at https://www.facebook.com/settings?tab=applications" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
+            [[[UIAlertView alloc] initWithTitle:@"Could not share the milestone on Facebook" message:@"Make sure that you have authorized the DataParenting App at https://www.facebook.com/settings?tab=applications" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
           }
         }];
       }
       
+      // Save the measurments (if any)
+      if(heightMeasurement) [heightMeasurement saveEventually:^(BOOL succeeded, NSError *error) {
+        if(error) {
+          NSLog(@"Could not save the height measurement %@", error);
+        }
+        [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationMeasurementNotedAndSaved object:heightMeasurement];
+      }];
+      if(weightMeasurement) [weightMeasurement saveEventually:^(BOOL succeeded, NSError *error) {
+        if(error) {
+          NSLog(@"Could not save the weight measurement %@", error);
+        }
+        [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationMeasurementNotedAndSaved object:heightMeasurement];
+      }];
+
+      
+      
       [self dismissViewControllerAnimated:YES completion:nil];
     }
   }];
+}
+
+-(BOOL) isMeasurement {
+  return self.segmentControl.selectedSegmentIndex == 1;
+}
+
+-(BOOL) isCustom {
+  return self.achievement.standardMilestone == nil;
 }
 
 #pragma mark - FDTakeDelegate
