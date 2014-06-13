@@ -16,8 +16,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E8DD48D9188EE5B900153095"
                BuildableName = "DataParenting.app"
-               BlueprintName = "Milestones"
-               ReferencedContainer = "container:Milestones.xcodeproj">
+               BlueprintName = "DataParenting"
+               ReferencedContainer = "container:DataParenting.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E8DD4900188EE5BA00153095"
-               BuildableName = "MilestonesTests.xctest"
-               BlueprintName = "MilestonesTests"
-               ReferencedContainer = "container:Milestones.xcodeproj">
+               BuildableName = "DataParentingTests.xctest"
+               BlueprintName = "DataParentingTests"
+               ReferencedContainer = "container:DataParenting.xcodeproj">
             </BuildableReference>
             <SkippedTests>
                <Test
@@ -49,8 +49,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E8DD48D9188EE5B900153095"
             BuildableName = "DataParenting.app"
-            BlueprintName = "Milestones"
-            ReferencedContainer = "container:Milestones.xcodeproj">
+            BlueprintName = "DataParenting"
+            ReferencedContainer = "container:DataParenting.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -68,8 +68,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E8DD48D9188EE5B900153095"
             BuildableName = "DataParenting.app"
-            BlueprintName = "Milestones"
-            ReferencedContainer = "container:Milestones.xcodeproj">
+            BlueprintName = "DataParenting"
+            ReferencedContainer = "container:DataParenting.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -86,8 +86,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E8DD48D9188EE5B900153095"
             BuildableName = "DataParenting.app"
-            BlueprintName = "Milestones"
-            ReferencedContainer = "container:Milestones.xcodeproj">
+            BlueprintName = "DataParenting"
+            ReferencedContainer = "container:DataParenting.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

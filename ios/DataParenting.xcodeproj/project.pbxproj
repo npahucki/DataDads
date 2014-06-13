@@ -178,8 +178,8 @@
 		E872D4D71942026F003F461C /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		E872D4D91942027D003F461C /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		E872D4DB19420287003F461C /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
-		E872D62319424091003F461C /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
-		E872D62419424091003F461C /* libFlurry_5.0.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_5.0.0.a; sourceTree = "<group>"; };
+		E872D62319424091003F461C /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Flurry.h; path = ../Flurry/Flurry.h; sourceTree = "<group>"; };
+		E872D62419424091003F461C /* libFlurry_5.0.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFlurry_5.0.0.a; path = ../Flurry/libFlurry_5.0.0.a; sourceTree = "<group>"; };
 		E872D6291949E9C0003F461C /* Measurement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Measurement.h; sourceTree = "<group>"; };
 		E872D62A1949E9C0003F461C /* Measurement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Measurement.m; sourceTree = "<group>"; };
 		E872D62C194A5425003F461C /* UnitHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnitHelper.h; sourceTree = "<group>"; };
@@ -222,17 +222,17 @@
 		E8DD48DD188EE5B900153095 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E8DD48DF188EE5B900153095 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		E8DD48E1188EE5B900153095 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		E8DD48E5188EE5B900153095 /* Milestones-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Milestones-Info.plist"; sourceTree = "<group>"; };
+		E8DD48E5188EE5B900153095 /* DataParenting-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DataParenting-Info.plist"; sourceTree = "<group>"; };
 		E8DD48E7188EE5B900153095 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E8DD48E9188EE5B900153095 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		E8DD48EB188EE5B900153095 /* Milestones-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Milestones-Prefix.pch"; sourceTree = "<group>"; };
+		E8DD48EB188EE5B900153095 /* DataParenting-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DataParenting-Prefix.pch"; sourceTree = "<group>"; };
 		E8DD48EC188EE5B900153095 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E8DD48ED188EE5B900153095 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AppDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		E8DD48F0188EE5B900153095 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
 		E8DD48FB188EE5B900153095 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		E8DD4901188EE5BA00153095 /* MilestonesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MilestonesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E8DD4901188EE5BA00153095 /* DataParentingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DataParentingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E8DD4902188EE5BA00153095 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		E8DD490A188EE5BA00153095 /* MilestonesTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MilestonesTests-Info.plist"; sourceTree = "<group>"; };
+		E8DD490A188EE5BA00153095 /* DataParentingTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DataParentingTests-Info.plist"; sourceTree = "<group>"; };
 		E8DD490C188EE5BA00153095 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E8E39C0818E615D20034982D /* GothamRounded-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamRounded-Bold.otf"; sourceTree = "<group>"; };
 		E8E39C0918E615D20034982D /* GothamRounded-BoldItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GothamRounded-BoldItalic.otf"; sourceTree = "<group>"; };
@@ -326,15 +326,6 @@
 			);
 			name = Model;
 			sourceTree = "<group>";
-		};
-		E872D62219424091003F461C /* Flurry */ = {
-			isa = PBXGroup;
-			children = (
-				E872D62319424091003F461C /* Flurry.h */,
-				E872D62419424091003F461C /* libFlurry_5.0.0.a */,
-			);
-			path = Flurry;
-			sourceTree = SOURCE_ROOT;
 		};
 		E8ABCFB6191D63980083ED25 /* ViewControllers */ = {
 			isa = PBXGroup;
@@ -450,10 +441,9 @@
 		E8DD48D1188EE5B900153095 = {
 			isa = PBXGroup;
 			children = (
-				E8DD48E3188EE5B900153095 /* Milestones */,
-				E8DD4908188EE5BA00153095 /* MilestonesTests */,
+				E8DD48E3188EE5B900153095 /* Main */,
+				E8DD4908188EE5BA00153095 /* Tests */,
 				E8DD48DC188EE5B900153095 /* Frameworks */,
-				E872D62219424091003F461C /* Flurry */,
 				E8E39C1818EA137F0034982D /* ThirdParty */,
 				E8DD48DB188EE5B900153095 /* Products */,
 				38FA7AFE5F694C389969CCDD /* Pods.xcconfig */,
@@ -464,7 +454,7 @@
 			isa = PBXGroup;
 			children = (
 				E8DD48DA188EE5B900153095 /* DataParenting.app */,
-				E8DD4901188EE5BA00153095 /* MilestonesTests.xctest */,
+				E8DD4901188EE5BA00153095 /* DataParentingTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -499,7 +489,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		E8DD48E3188EE5B900153095 /* Milestones */ = {
+		E8DD48E3188EE5B900153095 /* Main */ = {
 			isa = PBXGroup;
 			children = (
 				E8DD48EF188EE5B900153095 /* Main_iPhone.storyboard */,
@@ -514,34 +504,36 @@
 				E81B58771896CE4600C74C2B /* Model */,
 				E8DD48E4188EE5B900153095 /* Supporting Files */,
 			);
+			name = Main;
 			path = Milestones;
 			sourceTree = "<group>";
 		};
 		E8DD48E4188EE5B900153095 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				E8DD48E5188EE5B900153095 /* Milestones-Info.plist */,
+				E8DD48E5188EE5B900153095 /* DataParenting-Info.plist */,
 				E8DD48E6188EE5B900153095 /* InfoPlist.strings */,
 				E8DD48E9188EE5B900153095 /* main.m */,
-				E8DD48EB188EE5B900153095 /* Milestones-Prefix.pch */,
+				E8DD48EB188EE5B900153095 /* DataParenting-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		E8DD4908188EE5BA00153095 /* MilestonesTests */ = {
+		E8DD4908188EE5BA00153095 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
 				E81B58841899A95600C74C2B /* BabyTests.m */,
 				E8BDE6B9193E1522001D6995 /* PronounHelperTests.m */,
 				E8DD4909188EE5BA00153095 /* Supporting Files */,
 			);
+			name = Tests;
 			path = MilestonesTests;
 			sourceTree = "<group>";
 		};
 		E8DD4909188EE5BA00153095 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				E8DD490A188EE5BA00153095 /* MilestonesTests-Info.plist */,
+				E8DD490A188EE5BA00153095 /* DataParentingTests-Info.plist */,
 				E8DD490B188EE5BA00153095 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -586,6 +578,8 @@
 				E872D4C61940943F003F461C /* SevenSwitch.h */,
 				E8E39C1918EA13B40034982D /* CustomIOS7AlertView.h */,
 				E8E39C1A18EA13B40034982D /* CustomIOS7AlertView.m */,
+				E872D62319424091003F461C /* Flurry.h */,
+				E872D62419424091003F461C /* libFlurry_5.0.0.a */,
 			);
 			name = ThirdParty;
 			path = Milestones;
@@ -594,9 +588,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		E8DD48D9188EE5B900153095 /* Milestones */ = {
+		E8DD48D9188EE5B900153095 /* DataParenting */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E8DD4912188EE5BA00153095 /* Build configuration list for PBXNativeTarget "Milestones" */;
+			buildConfigurationList = E8DD4912188EE5BA00153095 /* Build configuration list for PBXNativeTarget "DataParenting" */;
 			buildPhases = (
 				7B33C7CA9A6742DC86D81DA9 /* Check Pods Manifest.lock */,
 				E8DD48D6188EE5B900153095 /* Sources */,
@@ -608,14 +602,14 @@
 			);
 			dependencies = (
 			);
-			name = Milestones;
+			name = DataParenting;
 			productName = Milestones;
 			productReference = E8DD48DA188EE5B900153095 /* DataParenting.app */;
 			productType = "com.apple.product-type.application";
 		};
-		E8DD4900188EE5BA00153095 /* MilestonesTests */ = {
+		E8DD4900188EE5BA00153095 /* DataParentingTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E8DD4915188EE5BA00153095 /* Build configuration list for PBXNativeTarget "MilestonesTests" */;
+			buildConfigurationList = E8DD4915188EE5BA00153095 /* Build configuration list for PBXNativeTarget "DataParentingTests" */;
 			buildPhases = (
 				E8DD48FD188EE5BA00153095 /* Sources */,
 				E8DD48FE188EE5BA00153095 /* Frameworks */,
@@ -626,9 +620,9 @@
 			dependencies = (
 				E8DD4907188EE5BA00153095 /* PBXTargetDependency */,
 			);
-			name = MilestonesTests;
+			name = DataParentingTests;
 			productName = MilestonesTests;
-			productReference = E8DD4901188EE5BA00153095 /* MilestonesTests.xctest */;
+			productReference = E8DD4901188EE5BA00153095 /* DataParentingTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -638,7 +632,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0510;
-				ORGANIZATIONNAME = "Nathan  Pahucki";
+				ORGANIZATIONNAME = DataParenting;
 				TargetAttributes = {
 					E8DD48D9188EE5B900153095 = {
 						DevelopmentTeam = 7F4YJQGJ9E;
@@ -648,7 +642,7 @@
 					};
 				};
 			};
-			buildConfigurationList = E8DD48D5188EE5B900153095 /* Build configuration list for PBXProject "Milestones" */;
+			buildConfigurationList = E8DD48D5188EE5B900153095 /* Build configuration list for PBXProject "DataParenting" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -661,8 +655,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				E8DD48D9188EE5B900153095 /* Milestones */,
-				E8DD4900188EE5BA00153095 /* MilestonesTests */,
+				E8DD48D9188EE5B900153095 /* DataParenting */,
+				E8DD4900188EE5BA00153095 /* DataParentingTests */,
 			);
 		};
 /* End PBXProject section */
@@ -801,7 +795,7 @@
 /* Begin PBXTargetDependency section */
 		E8DD4907188EE5BA00153095 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = E8DD48D9188EE5B900153095 /* Milestones */;
+			target = E8DD48D9188EE5B900153095 /* DataParenting */;
 			targetProxy = E8DD4906188EE5BA00153095 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -921,8 +915,8 @@
 					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Milestones/Milestones-Prefix.pch";
-				INFOPLIST_FILE = "Milestones/Milestones-Info.plist";
+				GCC_PREFIX_HEADER = "Milestones/DataParenting-Prefix.pch";
+				INFOPLIST_FILE = "Milestones/DataParenting-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -949,8 +943,8 @@
 					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Milestones/Milestones-Prefix.pch";
-				INFOPLIST_FILE = "Milestones/Milestones-Info.plist";
+				GCC_PREFIX_HEADER = "Milestones/DataParenting-Prefix.pch";
+				INFOPLIST_FILE = "Milestones/DataParenting-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -979,7 +973,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "MilestonesTests/MilestonesTests-Info.plist";
+				INFOPLIST_FILE = "MilestonesTests/DataParentingTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -998,7 +992,7 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Milestones/Milestones-Prefix.pch";
-				INFOPLIST_FILE = "MilestonesTests/MilestonesTests-Info.plist";
+				INFOPLIST_FILE = "MilestonesTests/DataParentingTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -1008,7 +1002,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		E8DD48D5188EE5B900153095 /* Build configuration list for PBXProject "Milestones" */ = {
+		E8DD48D5188EE5B900153095 /* Build configuration list for PBXProject "DataParenting" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E8DD4910188EE5BA00153095 /* Debug */,
@@ -1017,7 +1011,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E8DD4912188EE5BA00153095 /* Build configuration list for PBXNativeTarget "Milestones" */ = {
+		E8DD4912188EE5BA00153095 /* Build configuration list for PBXNativeTarget "DataParenting" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E8DD4913188EE5BA00153095 /* Debug */,
@@ -1026,7 +1020,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E8DD4915188EE5BA00153095 /* Build configuration list for PBXNativeTarget "MilestonesTests" */ = {
+		E8DD4915188EE5BA00153095 /* Build configuration list for PBXNativeTarget "DataParentingTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E8DD4916188EE5BA00153095 /* Debug */,
