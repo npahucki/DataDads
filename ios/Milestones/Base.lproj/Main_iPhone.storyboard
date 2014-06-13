@@ -289,10 +289,10 @@
             </objects>
             <point key="canvasLocation" x="-444" y="-2496"/>
         </scene>
-        <!--Baby Tags Table View Controller-->
+        <!--Baby Tags Table View Controller - Tag View Controller-->
         <scene sceneID="oRH-xo-cku">
             <objects>
-                <tableViewController id="0jV-Sj-0xk" customClass="BabyTagsTableViewController" sceneMemberID="viewController">
+                <tableViewController title="Tag View Controller" id="0jV-Sj-0xk" customClass="BabyTagsTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="lmR-pq-LVb">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="448"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -318,6 +318,9 @@
                                         </imageView>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <accessibility key="accessibilityConfiguration" label="">
+                                    <bool key="isElement" value="YES"/>
+                                </accessibility>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationWidth="0.0" reuseIdentifier="loadingCell" textLabel="iJG-wN-bDY" imageView="Lxq-u7-Xez" rowHeight="46" style="IBUITableViewCellStyleDefault" id="yxm-jz-ppr">
                                 <rect key="frame" x="0.0" y="66" width="320" height="46"/>
@@ -341,6 +344,9 @@
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="tagTable"/>
+                        </userDefinedRuntimeAttributes>
                         <connections>
                             <outlet property="dataSource" destination="0jV-Sj-0xk" id="kBe-2n-CRz"/>
                             <outlet property="delegate" destination="0jV-Sj-0xk" id="vXY-ki-YMM"/>
@@ -375,6 +381,7 @@
                             <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I0d-v9-pgN">
                                 <rect key="frame" x="270" y="82" width="30" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <accessibility key="accessibilityConfiguration" label=""/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="9kf-vx-3S0"/>
                                     <constraint firstAttribute="width" constant="30" id="XCe-WD-F63"/>
@@ -382,6 +389,9 @@
                                 <state key="normal" image="newMilestoneButton">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="addNewTagButton"/>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="didClickAddNewTag:" destination="hr4-9U-bLr" eventType="touchUpInside" id="Ml4-lv-MUk"/>
                                 </connections>
@@ -420,7 +430,11 @@
                             <constraint firstItem="Jye-2k-gXY" firstAttribute="top" secondItem="1Zk-SL-GNf" secondAttribute="bottom" id="gQc-QH-u8Z"/>
                             <constraint firstAttribute="trailing" secondItem="lec-cQ-60n" secondAttribute="trailing" id="kbe-us-Dze"/>
                             <constraint firstAttribute="trailing" secondItem="Jye-2k-gXY" secondAttribute="trailing" id="m7u-XU-JaV"/>
-                            <constraint firstItem="I0d-v9-pgN" firstAttribute="centerY" secondItem="yjD-GB-Uaq" secondAttribute="centerY" id="pzS-YP-ZgO"/>
+                            <constraint firstItem="I0d-v9-pgN" firstAttribute="centerY" secondItem="yjD-GB-Uaq" secondAttribute="centerY" id="pzS-YP-ZgO">
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="newTagTextField"/>
+                                </userDefinedRuntimeAttributes>
+                            </constraint>
                             <constraint firstItem="lec-cQ-60n" firstAttribute="top" secondItem="yjD-GB-Uaq" secondAttribute="bottom" constant="8" id="rC1-HH-wxf"/>
                             <constraint firstItem="I0d-v9-pgN" firstAttribute="leading" secondItem="yjD-GB-Uaq" secondAttribute="trailing" constant="24" id="wXG-YZ-dd6"/>
                         </constraints>
@@ -554,6 +568,9 @@
                                 <state key="highlighted">
                                     <color key="titleColor" red="0.1215686275" green="0.4431372549" blue="0.4941176471" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="loginNowButton"/>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <segue destination="Ug0-er-oah" kind="modal" identifier="showLoginScreen" id="CBA-bl-wSB"/>
                                 </connections>
@@ -576,6 +593,9 @@
                                 <state key="highlighted">
                                     <color key="titleColor" red="0.96078437569999997" green="0.96078437569999997" blue="0.96078437569999997" alpha="1" colorSpace="deviceRGB"/>
                                 </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="continueButton"/>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="didClickContinueButton:" destination="orA-D6-c28" eventType="touchUpInside" id="RjU-rK-JzM"/>
                                 </connections>
@@ -1941,7 +1961,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="zMK-LI-8Wn"/>
+        <segue reference="leH-KX-3OX"/>
         <segue reference="9u5-1o-6Cv"/>
     </inferredMetricsTieBreakers>
 </document>
