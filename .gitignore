@@ -1,7 +1,7 @@
 # Don't keep pod files in source control
 ios/Pods/
-ios/build
-ios/integration/tmp
+build
+tmp
 
 # And no IDEA IntelliJ project files either
 .idea
