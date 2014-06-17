@@ -216,17 +216,7 @@
 
 - (void)endTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
     [super endTrackingWithTouch:touch withEvent:event];
-    BOOL previousValue = self.on;
-    
-    if (didChangeWhileTracking) {
-        [self setOn:currentVisualValue animated:YES];
-    }
-    else {
-        [self setOn:!self.on animated:YES];
-    }
-
-    if (previousValue != self.on)
-        [self sendActionsForControlEvents:UIControlEventValueChanged];
+    [self toggleValue];
 }
 
 - (void)cancelTrackingWithEvent:(UIEvent *)event {
@@ -241,7 +231,23 @@
 
 -(void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
   // Handle a single tap
-  [self setOn:!self.on animated:YES];
+  [super cancelTrackingWithEvent:event];
+  [self toggleValue];
+}
+
+-(void) toggleValue {
+  BOOL previousValue = self.on;
+  
+  if (didChangeWhileTracking) {
+    [self setOn:currentVisualValue animated:YES];
+  }
+  else {
+    [self setOn:!self.on animated:YES];
+  }
+  
+  if (previousValue != self.on)
+    [self sendActionsForControlEvents:UIControlEventValueChanged];
+
 }
 
 
