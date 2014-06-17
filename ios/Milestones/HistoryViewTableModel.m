@@ -9,8 +9,22 @@
 #import "HistoryViewTableModel.h"
 
 
-@implementation HistoryViewTableModel
+@implementation HistoryViewTableModel {
+  NSString * _filter;
+}
 
+-(void) setFilter:(NSString *)filter {
+  if(_filter != filter && ![_filter isEqualToString:filter]) {
+    _filter = filter;
+    [self loadAchievementsPage:0];
+    [self loadPastMilestonesPage:0];
+    [self loadFutureMilestonesPage:0];
+  }
+}
+
+-(NSString * ) filter {
+  return _filter;
+}
 
 -(id) init {
   self = [super init];
@@ -21,13 +35,14 @@
 }
 
 -(void) reset {
-    _baby = nil;
-    _achievements = nil;
-    _futureMilestones = nil;
-    _pastMilestones = nil;
-    _hasMoreAchievements = YES;
-    _hasMoreFutureMilestones = YES;
-    _hasMorePastMilestones = YES;
+  _baby = nil;
+  _achievements = nil;
+  _futureMilestones = nil;
+  _pastMilestones = nil;
+  _hasMoreAchievements = YES;
+  _hasMoreFutureMilestones = YES;
+  _hasMorePastMilestones = YES;
+  _filter = nil;
 }
 
 -(void) loadFutureMilestonesPage:(NSInteger) startIndex {
@@ -109,7 +124,8 @@
                             @"timePeriod" : timePeriod,
                             @"rangeDays": [@(self.baby.daysSinceDueDate) stringValue],
                             @"skip" : [@(startIndex) stringValue],
-                            @"limit" : [@(self.pagingSize) stringValue]}
+                            @"limit" : [@(self.pagingSize) stringValue],
+                            @"filter": _filter ? _filter : [NSNull null]}
                     block:^(NSArray *results, NSError *error) {
                       block(results, error);
                     }];
@@ -130,10 +146,28 @@
   if(self.baby && self.hasMoreAchievements) {
     if([self.delegate respondsToSelector:@selector(willLoadAchievements:)])
       [self.delegate willLoadAchievements:startIndex];
-    PFQuery * query = [MilestoneAchievement query];
+    PFQuery * query;
+
+    if(_filter.length) {
+      PFQuery * customTitleQuery = [MilestoneAchievement query];
+      [customTitleQuery whereKey:@"customTitle" containsString:_filter];
+      
+      PFQuery * standardMilestoneTitleQuery = [MilestoneAchievement query];
+      PFQuery * matchingStandardMilestones = [StandardMilestone query];
+      matchingStandardMilestones.limit = 1000; // TODO: this may be problematic once we mave more than 1000 std milestones.
+      [matchingStandardMilestones whereKey:@"title" containsString:_filter];
+      [standardMilestoneTitleQuery whereKey:@"standardMilestoneId" matchesKey:@"objectId" inQuery:matchingStandardMilestones];
+      // Special case where this achievement is linked to a standardMilestone but also has a customTitle, in which case we don't want to match.
+      [standardMilestoneTitleQuery whereKeyDoesNotExist:@"customTitle"]; // TODO: might be faster to do post filtering?
+      query = [PFQuery orQueryWithSubqueries:@[customTitleQuery,standardMilestoneTitleQuery]];
+    } else {
+       query = [MilestoneAchievement query];
+    }
+    
     [query whereKey:@"baby" equalTo:Baby.currentBaby];
     [query whereKey:@"isSkipped" equalTo:[NSNumber numberWithBool:NO]];
     [query whereKey:@"isPostponed" equalTo:[NSNumber numberWithBool:NO]];
+    
     [query includeKey:@"standardMilestone"];
     [query orderByDescending:@"completionDate"];
     // If no objects are loaded in memory, we look to the cache

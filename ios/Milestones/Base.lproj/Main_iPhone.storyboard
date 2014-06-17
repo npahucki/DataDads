@@ -1538,19 +1538,42 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
+                            <searchBar hidden="YES" contentMode="redraw" searchBarStyle="prominent" placeholder="Filter Text" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ba8-Ol-INx">
+                                <rect key="frame" x="0.0" y="44" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="khm-V0-uFI"/>
+                                </constraints>
+                                <color key="barTintColor" red="0.96078437569999997" green="0.96078437569999997" blue="0.96078437569999997" alpha="1" colorSpace="deviceRGB"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <scopeButtonTitles>
+                                    <string>All</string>
+                                    <string>Noted</string>
+                                    <string>Unnoted</string>
+                                </scopeButtonTitles>
+                                <connections>
+                                    <outlet property="delegate" destination="4nI-5F-GIp" id="1bS-Gv-Rck"/>
+                                </connections>
+                            </searchBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="DUF-5w-Jc1" firstAttribute="top" secondItem="ROJ-ET-jsn" secondAttribute="bottom" id="4xO-Pb-4ta"/>
                             <constraint firstAttribute="trailing" secondItem="DUF-5w-Jc1" secondAttribute="trailing" id="5He-xT-bsq"/>
                             <constraint firstItem="DUF-5w-Jc1" firstAttribute="leading" secondItem="qL2-Lg-TMR" secondAttribute="leading" id="5lH-h2-q5y"/>
+                            <constraint firstAttribute="trailing" secondItem="ba8-Ol-INx" secondAttribute="trailing" id="Csu-8Z-q4E"/>
                             <constraint firstItem="WJK-M9-FPI" firstAttribute="top" secondItem="zSu-55-pxu" secondAttribute="bottom" id="Pwi-8K-STd"/>
+                            <constraint firstItem="ba8-Ol-INx" firstAttribute="top" secondItem="ROJ-ET-jsn" secondAttribute="bottom" id="XFV-1U-BdO"/>
                             <constraint firstAttribute="trailing" secondItem="Vpv-RJ-8CQ" secondAttribute="trailing" constant="8" id="biZ-R8-NZe"/>
                             <constraint firstAttribute="trailing" secondItem="zSu-55-pxu" secondAttribute="trailing" id="cti-ZS-Z66"/>
                             <constraint firstItem="WJK-M9-FPI" firstAttribute="top" secondItem="Vpv-RJ-8CQ" secondAttribute="bottom" constant="8" id="cwt-bt-cPv"/>
                             <constraint firstItem="zSu-55-pxu" firstAttribute="top" secondItem="ROJ-ET-jsn" secondAttribute="bottom" id="iXW-WN-ANh"/>
+                            <constraint firstItem="ba8-Ol-INx" firstAttribute="leading" secondItem="qL2-Lg-TMR" secondAttribute="leading" id="xRi-jE-Uxa"/>
                             <constraint firstItem="zSu-55-pxu" firstAttribute="leading" secondItem="qL2-Lg-TMR" secondAttribute="leading" id="xSW-bm-a3X"/>
                         </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="searchBar"/>
+                        </userDefinedRuntimeAttributes>
                     </view>
                     <navigationItem key="navigationItem" title="My Baby" id="kki-pT-UDA">
                         <barButtonItem key="leftBarButtonItem" id="qU1-vG-KKB">
@@ -1567,6 +1590,12 @@
                                 </connections>
                             </button>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="PLl-CE-R5i">
+                            <color key="tintColor" red="0.1019607843" green="0.5568627451" blue="0.62352941179999999" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="didClickSearch:" destination="4nI-5F-GIp" id="Cq8-hb-KL9"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <nil key="simulatedStatusBarMetrics"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
@@ -1574,6 +1603,7 @@
                     <connections>
                         <outlet property="addMilestoneButton" destination="Vpv-RJ-8CQ" id="gSb-pn-aeV"/>
                         <outlet property="menuButton" destination="qU1-vG-KKB" id="h3u-Mt-G7a"/>
+                        <outlet property="searchBar" destination="ba8-Ol-INx" id="1UF-E7-F80"/>
                         <outlet property="warningMsgButton" destination="DUF-5w-Jc1" id="wdL-9K-DR5"/>
                         <segue destination="eNM-aT-BTU" kind="push" identifier="showAchievementDetails" id="QpM-9P-itO"/>
                     </connections>

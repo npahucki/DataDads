@@ -18,6 +18,9 @@
   MilestoneAchievement * _currentAchievment;
   HistoryViewController * _historyController;
   BOOL _isMorganTouch;
+  BOOL _isShowingSearchBar;
+  UIDynamicAnimator * _animator;
+  
 }
 
 
@@ -27,6 +30,11 @@
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(milestoneNotedAndSaved:) name:kDDNotificationMilestoneNotedAndSaved object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkReachabilityChanged:) name:kReachabilityChangedNotification object:nil];
   self.navigationItem.title = Baby.currentBaby.name;
+  
+  
+  UISwipeGestureRecognizer *swipeUp = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(hideSearchBar)];
+  swipeUp.direction = UISwipeGestureRecognizerDirectionUp;
+  [self.searchBar addGestureRecognizer:swipeUp];
 }
 
 -(void) dealloc {
@@ -83,6 +91,7 @@
   // Navigation Segues
   if([segue.identifier isEqualToString:kDDSegueNoteMilestone]) {
     NSAssert(_currentAchievment, @"Expected currentAchievement to be set");
+    [self hideSearchBar];
     NoteMilestoneViewController* noteMilestoneViewController =  (NoteMilestoneViewController*)
     ((UINavigationController*)segue.destinationViewController ).visibleViewController;
     noteMilestoneViewController.achievement = _currentAchievment;
@@ -91,8 +100,75 @@
   }
 }
 - (IBAction)didClickAddNewMilestone:(id)sender {
-  // Create an achievement with no milestone 
+  // Create an achievement with no milestone
   [self createAchievementForMilestone:nil];
+}
+
+-(void) hideSearchBar {
+  if(_isShowingSearchBar ) {
+    [self.searchBar resignFirstResponder];
+    _historyController.filterString = nil;
+    int finalY = self.navigationController.navigationBar.bounds.size.height + self.searchBar.bounds.size.height;
+    self.navigationItem.rightBarButtonItem.tintColor = [UIColor appNormalColor];
+    _animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
+    UIGravityBehavior* gravityBehavior = [[UIGravityBehavior alloc] initWithItems:@[self.searchBar]];
+    gravityBehavior.magnitude = -2.0;
+    [_animator addBehavior:gravityBehavior];
+    
+    UICollisionBehavior* collisionBehavior =
+    [[UICollisionBehavior alloc] initWithItems:@[ self.searchBar]];
+    collisionBehavior.translatesReferenceBoundsIntoBoundary = NO;
+    [collisionBehavior addBoundaryWithIdentifier:@"hideSearchBarBoundry" fromPoint:CGPointMake(0, -finalY) toPoint:CGPointMake(self.searchBar.bounds.size.width, -finalY)];
+    collisionBehavior.collisionDelegate = self;
+    [_animator addBehavior:collisionBehavior];
+  }
+}
+
+- (void)collisionBehavior:(UICollisionBehavior*)behavior endedContactForItem:(id <UIDynamicItem>)item withBoundaryIdentifier:(id <NSCopying>)identifier {
+  if([@"hideSearchBarBoundry" isEqual:identifier]) {
+    self.searchBar.hidden = YES;
+    self.searchBar.text = nil;
+    _isShowingSearchBar = NO;
+  } else if([@"showSearchBarBoundry" isEqual:identifier]) {
+    //[self.searchBar becomeFirstResponder];
+  }
+}
+
+-(void) showSearchBar {
+  int finalY = self.navigationController.navigationBar.bounds.size.height + self.searchBar.bounds.size.height;
+  if(!_isShowingSearchBar) {
+    // Start it up above the frame so it can fall down.
+    self.searchBar.frame = CGRectMake(self.searchBar.frame.origin.x, -finalY, self.searchBar.frame.size.width, self.searchBar.frame.size.height);
+    self.searchBar.hidden = NO;
+    _isShowingSearchBar = YES;
+    self.navigationItem.rightBarButtonItem.tintColor = [UIColor appSelectedColor];
+    _animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
+    UIGravityBehavior* gravityBehavior = [[UIGravityBehavior alloc] initWithItems:@[self.searchBar]];
+    gravityBehavior.magnitude = 2.0;
+    [_animator addBehavior:gravityBehavior];
+    
+    UICollisionBehavior* collisionBehavior =
+    [[UICollisionBehavior alloc] initWithItems:@[ self.searchBar]];
+    collisionBehavior.translatesReferenceBoundsIntoBoundary = NO;
+    
+    [collisionBehavior addBoundaryWithIdentifier:@"showSearchBarBoundry" fromPoint:CGPointMake(0, finalY) toPoint:CGPointMake(self.searchBar.bounds.size.width, finalY)];
+    collisionBehavior.collisionDelegate = self;
+    [_animator addBehavior:collisionBehavior];
+    
+    UIDynamicItemBehavior *elasticityBehavior =
+    [[UIDynamicItemBehavior alloc] initWithItems:@[self.searchBar]];
+    elasticityBehavior.elasticity = 0.3f;
+    [_animator addBehavior:elasticityBehavior];
+  }
+}
+
+
+- (IBAction)didClickSearch:(id)sender {
+  if(_isShowingSearchBar ) {
+    [self hideSearchBar];
+  } else {
+    [self showSearchBar];
+  }
 }
 
 #pragma mark HistoryViewControllerDelegate
@@ -121,6 +197,13 @@
     NSLog(@"YOU GOT THE MORGAN TOUCH!!!!!");
   }
   
+}
+
+#pragma mark UISearchBarDelegate
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+  _historyController.filterString = searchBar.text;
+  [searchBar resignFirstResponder]; // hide the keyboard
 }
 
 # pragma mark - Private
@@ -158,6 +241,9 @@
   if(milestone) _currentAchievment.standardMilestone = milestone;
   return _currentAchievment;
 }
+
+
+
 
 //-(void) bounceAddButton {
 //  CAKeyframeAnimation *animation = [self jumpAnimation];

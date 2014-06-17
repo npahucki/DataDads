@@ -65,6 +65,17 @@
   }
 }
 
+-(void) setFilterString:(NSString *)filterString {
+  _initialAchievementsLoaded = NO;
+  _initialFutureMilestonesLoaded  = NO;
+  _initialPastMilestonesLoaded = NO;
+  _model.filter = filterString;
+}
+
+-(NSString*) filterString {
+  return _model.filter;
+}
+
 -(void) reloadTable {
     _initialAchievementsLoaded = NO;
     [_model loadAchievementsPage:0];

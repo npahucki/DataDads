@@ -42,7 +42,7 @@ Parse.Cloud.job("tipsAssignment", function(request, status) {
       promise.reject(error);
     });
     return promise;
-  }
+  };
 
   var findNextTip = function(baby) {
     innerQuery = new Parse.Query("BabyAssignedTips");
@@ -57,7 +57,7 @@ Parse.Cloud.job("tipsAssignment", function(request, status) {
     // See https://parse.com/questions/trouble-with-nested-query-using-objectid
     tipsQuery.doesNotMatchKeyInQuery("objectId","tipId", innerQuery);
     return tipsQuery.first();
-  }
+  };
 
 
   var doAssignTip = function(tip, baby) {
@@ -70,7 +70,7 @@ Parse.Cloud.job("tipsAssignment", function(request, status) {
     assignment.set("tipId", tip.id);
     assignment.set("assignmentDate", new Date());
     return assignment.save();
-  }
+  };
 
   var pushMessageToUserForBaby = function(tipAssignment, parentUser) {
     console.log("Pushing tip assignment " + tipAssignment.id + " to user " + parentUser.id);
@@ -93,14 +93,14 @@ Parse.Cloud.job("tipsAssignment", function(request, status) {
           expiration_interval: PUSH_EXP_SECONDS
         }
       });
-  }
+  };
 
   var testIfDueForDelivery = function(baby,lastAssignmentDate) {
     var frequencyDays = DEFAULT_DELIVERY_INTERVAL_DAYS; // TODO: calc based on user is premium or not
     var daysDiff = lastAssignmentDate == null ? -1 : Math.abs(utils.dayDiffFromNow(lastAssignmentDate));
     console.log("For baby "+ baby.id + " there are "+ daysDiff +" days since last assignment");
     if(daysDiff == -1 || daysDiff > frequencyDays) return Parse.Promise.as(true);
-  }
+  };
 
   // Takes a single baby, returns a Promise that 
   //  writes an assignment record (if needed)
@@ -142,7 +142,7 @@ Parse.Cloud.job("tipsAssignment", function(request, status) {
     }, function(error) {
         console.error("Could not process baby " + baby.id + " Error:" + JSON.stringify(error));
     });
-  }
+  };
 
 
   

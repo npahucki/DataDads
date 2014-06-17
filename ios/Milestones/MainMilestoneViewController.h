@@ -10,11 +10,12 @@
 #import "HistoryViewController.h"
 #import "MilestoneAchievement.h"
 
-@interface MainMilestoneViewController : UIViewController <HistoryViewControllerDelegate>
+@interface MainMilestoneViewController : UIViewController <HistoryViewControllerDelegate,UISearchBarDelegate,UICollisionBehaviorDelegate>
 
 @property (strong, nonatomic) IBOutlet UIButton *addMilestoneButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *menuButton;
 @property (weak, nonatomic) IBOutlet UIButton *warningMsgButton;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 
 @end
 
