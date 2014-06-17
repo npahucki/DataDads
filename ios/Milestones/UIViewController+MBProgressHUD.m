@@ -7,22 +7,7 @@
 //
 
 #import "UIViewController+MBProgressHUD.h"
-
-@interface UIAlertViewWrapper : NSObject
-
-@property (copy) void(^block)();
-
-
-@end
-
-@implementation UIAlertViewWrapper
-
-- (void)alertViewCancel:(UIAlertView *)alertView {
-  self.block();
-}
-
-@end
-
+#import "UIAlertView+BlockSupport.h"
 
 @implementation UIViewController (UIViewController_MBProgressHUD)
 
@@ -72,11 +57,11 @@
   self.hud.mode = MBProgressHUDModeCustomView;
   if(msg) {
       self.hud.completionBlock = ^{
-        UIAlertViewWrapper * wrapper = [[UIAlertViewWrapper alloc] init];
-        wrapper.block = block;
         // TODO: check for error 100 from Parse domain - this is internet connectivity error
-        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:msg message:error.localizedDescription delegate:wrapper cancelButtonTitle:@"Accept" otherButtonTitles:nil];
-        [alert show];
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:msg message:error.localizedDescription delegate:nil cancelButtonTitle:@"Accept" otherButtonTitles:nil];
+        [alert showWithButtonBlock:^(NSInteger buttonIndex) {
+          block();
+        }];
       };
   } else {
     self.hud.completionBlock = block;
