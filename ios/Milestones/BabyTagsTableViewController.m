@@ -104,6 +104,7 @@
 
 -(void) setTagCell:(UITableViewCell*)cell selected:(BOOL) selected {
   cell.imageView.image = [UIImage imageNamed: selected ? @"tagCheckbox_checked" : @"tagCheckbox"];
+  cell.accessibilityValue = selected ? @"checked" : @"unchecked";
 }
 
 -(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -120,6 +121,7 @@
     cell = [tableView dequeueReusableCellWithIdentifier:@"tagCell" forIndexPath:indexPath];
     NSString * tagName = _allTags[indexPath.row];
     cell.textLabel.text = tagName;
+    cell.accessibilityLabel = tagName;
     [self setTagCell:cell selected:[self.selectedTags containsObject:tagName]];
   }
   
