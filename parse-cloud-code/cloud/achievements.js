@@ -10,10 +10,10 @@ Parse.Cloud.beforeSave("MilestoneAchievements", function (request, response) {
         achievement.set("standardMilestoneId",achievement.get("standardMilestone").id);
     }
 
-    // Create the search normalized text.
-    // TODO: I'm not sure this is the best way to handle this, as it duplicates and denormalizes the data.
-//    var normalized = search.normalize(achievement.get("standardMilestone").get("title"), achievement.get("customTitle"));
-//    achievement.set("normalizedSearchText",normalized);
+    if(achievement.get("customTitle")) {
+        var tokens = search.tokenize(achievement.get("customTitle"));
+        achievement.set("searchIndex", tokens);
+    }
 
     // Make the thumbnail is needed.
     var isImage = achievement.get("attachmentType") && achievement.get("attachmentType").indexOf("image/") == 0;

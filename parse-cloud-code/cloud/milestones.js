@@ -1,7 +1,8 @@
+var search = require("cloud/search.js");
+
 Parse.Cloud.define("queryMyMilestones", function (request, response) {
 
     // TODO: May need to look up baby and verify against user for security!
-
     var babyId = request.params.babyId;
     var babySex = request.params.babyIsMale ? 1 : 0;
     var parentSex = request.params.parentIsMale ? 1 : 0;
@@ -26,7 +27,7 @@ Parse.Cloud.define("queryMyMilestones", function (request, response) {
     query = new Parse.Query("StandardMilestones");
     query.containedIn("babySex", [-1, babySex]);
     query.containedIn("parentSex", [-1, parentSex]);
-    if(filter) query.contains("title", filter);
+    if(filter) query.containsAll("searchIndex", search.tokenize(filter));
 
     if (timePeriod == "future") {
         query.greaterThanOrEqualTo("rangeHigh", rangeDays);

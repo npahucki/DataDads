@@ -8,14 +8,21 @@
 
 #import "HistoryViewTableModel.h"
 
+#define STOP_WORDS @[@"the", @"in", @"and", @"he", @"she",@"him",@"her",@"his"]
+
 
 @implementation HistoryViewTableModel {
   NSString * _filter;
+  NSArray * _filterTokens;
 }
 
 -(void) setFilter:(NSString *)filter {
   if(_filter != filter && ![_filter isEqualToString:filter]) {
     _filter = filter;
+    NSMutableArray * filterTokens = [NSMutableArray arrayWithArray:[[_filter lowercaseString] componentsSeparatedByString:@" "]];
+    [filterTokens removeObjectsInArray:STOP_WORDS];
+    _filterTokens = filterTokens;
+
     [self loadAchievementsPage:0];
     [self loadPastMilestonesPage:0];
     [self loadFutureMilestonesPage:0];
@@ -114,7 +121,6 @@
 -(void) loadMilestonesPage:(NSInteger) startIndex forTimePeriod:(NSString*) timePeriod withBlock:(PFArrayResultBlock) block {
   // TODO: caching!
   if(self.baby) {
-    
     NSNumber * babySex = @(self.baby.isMale);
     NSNumber * parentSex = @(ParentUser.currentUser.isMale);
     [PFCloud callFunctionInBackground:@"queryMyMilestones"
@@ -150,12 +156,11 @@
 
     if(_filter.length) {
       PFQuery * customTitleQuery = [MilestoneAchievement query];
-      [customTitleQuery whereKey:@"customTitle" containsString:_filter];
-      
+      [customTitleQuery whereKey:@"searchIndex" containsAllObjectsInArray:_filterTokens];
       PFQuery * standardMilestoneTitleQuery = [MilestoneAchievement query];
       PFQuery * matchingStandardMilestones = [StandardMilestone query];
       matchingStandardMilestones.limit = 1000; // TODO: this may be problematic once we mave more than 1000 std milestones.
-      [matchingStandardMilestones whereKey:@"title" containsString:_filter];
+      [matchingStandardMilestones whereKey:@"searchIndex" containsAllObjectsInArray:_filterTokens];
       [standardMilestoneTitleQuery whereKey:@"standardMilestoneId" matchesKey:@"objectId" inQuery:matchingStandardMilestones];
       // Special case where this achievement is linked to a standardMilestone but also has a customTitle, in which case we don't want to match.
       [standardMilestoneTitleQuery whereKeyDoesNotExist:@"customTitle"]; // TODO: might be faster to do post filtering?
