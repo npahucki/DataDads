@@ -1,6 +1,6 @@
 var Image = require("parse-image");
 
-var makeImageThumbnail = function(parseFile, width, height) {
+module.exports.makeImageThumbnail = function(parseFile, width, height) {
   return Parse.Cloud.httpRequest({
     url: parseFile.url()
   }).then(function(response) {
