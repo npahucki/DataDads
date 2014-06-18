@@ -10,7 +10,7 @@ Parse.Cloud.define("queryMyMilestones", function (request, response) {
     var rangeDays = parseInt(request.params.rangeDays);
     var limit = parseInt(request.params.limit);
     var skip = parseInt(request.params.skip);
-    var filter = request.params.filter;
+    var filterTokens = request.params.filterTokens;
 
     if (!babyId || rangeDays < 0) {
         response.error("Invalid query, need babyId and rangeDays parameters.");
@@ -27,7 +27,7 @@ Parse.Cloud.define("queryMyMilestones", function (request, response) {
     query = new Parse.Query("StandardMilestones");
     query.containedIn("babySex", [-1, babySex]);
     query.containedIn("parentSex", [-1, parentSex]);
-    if(filter) query.containsAll("searchIndex", search.tokenize(filter));
+    if(filterTokens) query.containsAll("searchIndex", filterTokens);
 
     if (timePeriod == "future") {
         query.greaterThanOrEqualTo("rangeHigh", rangeDays);
@@ -44,7 +44,7 @@ Parse.Cloud.define("queryMyMilestones", function (request, response) {
     query.doesNotMatchKeyInQuery("objectId", "standardMilestoneId", innerQuery);
     query.limit(limit);
     query.skip(skip);
-    query.select(["title", "url", "rangeHigh", "rangeLow"])
+    query.select(["title", "url", "rangeHigh", "rangeLow"]);
     query.find({
         success:function (results) {
             response.success(results);

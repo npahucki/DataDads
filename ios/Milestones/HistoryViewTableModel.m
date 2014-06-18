@@ -131,7 +131,7 @@
                             @"rangeDays": [@(self.baby.daysSinceDueDate) stringValue],
                             @"skip" : [@(startIndex) stringValue],
                             @"limit" : [@(self.pagingSize) stringValue],
-                            @"filter": _filter ? _filter : [NSNull null]}
+                            @"filterTokens": _filter ? _filterTokens : [NSNull null]}
                     block:^(NSArray *results, NSError *error) {
                       block(results, error);
                     }];
