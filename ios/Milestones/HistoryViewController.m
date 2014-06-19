@@ -217,7 +217,7 @@
 #pragma mark - UITableViewDelegate
 
 -(CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-  return 36;
+  return 44;
 }
 
 -(HistoryHeaderView *)tableView:(UITableView *)tableView viewForFloatingHeaderInSection:(NSInteger)section {
@@ -478,7 +478,7 @@
   UITapGestureRecognizer * recognizer = sender;
   if(recognizer.view == _floatingFutureMilestonesHeaderView) {
     _isJumpingToIndex = YES;
-    int lastRow = [self.tableView numberOfRowsInSection:0] - 1;
+    long lastRow = [self.tableView numberOfRowsInSection:0] - 1;
     [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:lastRow inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
   } else if(recognizer.view == _floatingAchievementsHeaderView) {
     _isJumpingToIndex = YES;
