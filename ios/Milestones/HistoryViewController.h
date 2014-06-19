@@ -17,7 +17,8 @@
 
 @end
 
-@interface HistoryViewController : UITableViewController <UITableViewDelegate, HistoryViewTableModelDelegate, SWTableViewCellDelegate>
+
+@interface HistoryViewController : UITableViewController <UITableViewDelegate, HistoryViewTableModelDelegate, SWTableViewCellDelegate, UIScrollViewDelegate>
 
 @property (nonatomic, weak) id <HistoryViewControllerDelegate> delegate;
 @property NSString * filterString;

@@ -14,9 +14,6 @@
 
 
 #define IMG_SIZE CGSizeMake(53,53)
-#define PRELOAD_START_AT_IDX 3
-
-
 
 @interface HistoryTableViewCell : SWTableViewCell
 

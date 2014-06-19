@@ -14,6 +14,34 @@
 #import <FacebookSDK/FBSession.h>
 #import "NSDate+Utils.h"
 
+#define PRELOAD_START_AT_IDX 1
+
+
+
+@interface HistoryHeaderView : UIView
+@property (weak, nonatomic) UILabel * label;
+
+-(void) setHighlighted:(BOOL)highlighted;
+-(void) setPosition:(int) position;
+
+@end
+
+@implementation HistoryHeaderView {
+  BOOL _highlighted;
+}
+
+-(void) setHighlighted:(BOOL)highlighted {
+  if(highlighted != _highlighted) {
+    _highlighted = highlighted;
+    _label.font = [UIFont fontForAppWithType:highlighted ? Bold : Book andSize:17];
+  }
+}
+
+-(void) setPosition:(int)position {
+  self.frame = CGRectMake(0,position, self.bounds.size.width, self.bounds.size.height);
+}
+
+@end
 
 
 @interface HistoryViewController () {
@@ -21,6 +49,14 @@
   BOOL _initialAchievementsLoaded;
   BOOL _initialFutureMilestonesLoaded;
   BOOL _initialPastMilestonesLoaded;
+  
+  
+  HistoryHeaderView * _floatingAchievementsHeaderView;
+  HistoryHeaderView * _floatingPastMilestonesHeaderView;
+  HistoryHeaderView * _floatingFutureMilestonesHeaderView;
+  
+  NSIndexPath * _pendingNextPageTriggerIndex;
+  BOOL _isJumpingToIndex;
   
 }
 
@@ -41,7 +77,7 @@
   _dataSource.cellSwipeDelegate = self;
   self.tableView.dataSource = _dataSource;
   self.tableView.delegate = self;
-
+  
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(babyUpdated:) name:kDDNotificationCurrentBabyChanged object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(milestoneNotedAndSaved:) name:kDDNotificationMilestoneNotedAndSaved object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkReachabilityChanged:) name:kReachabilityChangedNotification object:nil];
@@ -154,38 +190,79 @@
 
 }
 
+-(void) viewDidLayoutSubviews {
+  [super viewDidLayoutSubviews];
+  [self layoutFloatingHeaders];
+}
 
+#pragma mark - UIScrollViewDelegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+  [self layoutFloatingHeaders];
+}
+
+-(void) scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
+  [self layoutFloatingHeaders];
+  _isJumpingToIndex = NO;
+}
+
+-(void) scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+  [self checkAndLoadPendingNextPage];
+}
+
+-(void) scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+  if(!decelerate) [self checkAndLoadPendingNextPage]; // if decelerate, handle when decelerated
+}
 
 #pragma mark - UITableViewDelegate
 
+-(CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+  return 36;
+}
+
+-(HistoryHeaderView *)tableView:(UITableView *)tableView viewForFloatingHeaderInSection:(NSInteger)section {
+  HistoryHeaderView * floater = [[HistoryHeaderView alloc] initWithFrame:CGRectMake(0,0,tableView.frame.size.width,[self tableView:tableView heightForHeaderInSection:section])];
+  floater.label  = (UILabel*)[self tableView:self.tableView viewForHeaderInSection:section];
+  [floater addSubview:floater.label];
+  floater.backgroundColor = self.tableView.backgroundColor;
+  floater.opaque = YES;
+  floater.hidden = YES;
+  floater.alpha = .95;
+  floater.userInteractionEnabled = YES;
+  UITapGestureRecognizer *viewTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleHeaderTap:)];
+  [floater addGestureRecognizer:viewTap];
+  return floater;
+}
+
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-  UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 18)];
+  int height = [self tableView:self.tableView heightForHeaderInSection:section];
+  UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, height)];
   label.textAlignment = NSTextAlignmentCenter;
-  [label setFont:[UIFont fontForAppWithType:Book andSize:17]];
+  [label setFont:[UIFont fontForAppWithType:Bold andSize:17]];
   label.text = [_dataSource tableView:tableView titleForHeaderInSection:section];
   label.textColor = [UIColor appNormalColor];
-  [label sizeToFit];
   return label;
 }
 
 
 -(void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+  if(_isJumpingToIndex) return;
   
   switch (indexPath.section) {
     case FutureMilestoneSection:
       if(indexPath.row == PRELOAD_START_AT_IDX && _model.hasMoreFutureMilestones && !_model.isLoadingFutureMilestones) {
-        [_model loadFutureMilestonesPage:_model.futureMilestones.count];
+        _pendingNextPageTriggerIndex = indexPath;
       }
       break;
     case PastMilestoneSection:
       if(indexPath.row == _model.pastMilestones.count - PRELOAD_START_AT_IDX && _model.hasMorePastMilestones && !_model.isLoadingPastMilestones) {
-        [_model loadPastMilestonesPage:_model.pastMilestones.count];
+        _pendingNextPageTriggerIndex = indexPath;
       }
       break;
     case AchievementSection:
       if(indexPath.row == _model.achievements.count - PRELOAD_START_AT_IDX && _model.hasMoreAchievements && !_model.isLoadingAchievements) {
-        [_model loadAchievementsPage:_model.achievements.count];
+        _pendingNextPageTriggerIndex = indexPath;
       }
       break;
     default:
@@ -310,9 +387,111 @@
   
 }
 
+#pragma mark Floating Headers
+
+-(void) layoutFloatingHeaders {
+  int tableHeight = self.tableView.frame.size.height;
+  
+  int futureMilestoneHeaderHeight = [self tableView:self.tableView heightForHeaderInSection:FutureMilestoneSection];
+  int achievementHeaderHeight = [self tableView:self.tableView heightForHeaderInSection:AchievementSection];
+  int pastMilestoneHeaderHeight = [self tableView:self.tableView heightForHeaderInSection:PastMilestoneSection];
+  
+  int futureMilestoneHeaderPosition = [self calculateHeaderPostionForSection:FutureMilestoneSection];
+  int achievementMilestoneHeaderPosition = [self calculateHeaderPostionForSection:AchievementSection];
+  int pastMilestoneHeaderPosition = [self calculateHeaderPostionForSection:PastMilestoneSection];
+  
+  BOOL futureMilestoneHeaderIsAbove = futureMilestoneHeaderPosition <= 0;
+  BOOL achievementMilestoneHeaderIsAbove = achievementMilestoneHeaderPosition <= futureMilestoneHeaderHeight;
+  BOOL achievementMilestoneHeaderIsBelow = achievementMilestoneHeaderPosition + achievementHeaderHeight >= self.tableView.frame.size.height - pastMilestoneHeaderHeight;
+  BOOL pastMilestoneHeaderHeightIsAbove = pastMilestoneHeaderPosition <= futureMilestoneHeaderHeight + achievementHeaderHeight;
+  BOOL pastMilestoneHeaderHeightIsBelow = pastMilestoneHeaderPosition + pastMilestoneHeaderHeight >= self.tableView.frame.size.height;
+  
+  // Future Header
+  if(futureMilestoneHeaderPosition == MAXFLOAT) {
+    // No rows in section, hide the floating header.
+    _floatingFutureMilestonesHeaderView.hidden = YES;
+  } else {
+    if(!_floatingFutureMilestonesHeaderView) {
+      _floatingFutureMilestonesHeaderView = [self tableView:self.tableView viewForFloatingHeaderInSection:FutureMilestoneSection];
+      [self.tableView.superview insertSubview:_floatingFutureMilestonesHeaderView aboveSubview:self.tableView];
+    }
+    if(futureMilestoneHeaderIsAbove && _floatingFutureMilestonesHeaderView.hidden) {
+      _floatingFutureMilestonesHeaderView.position = 0;
+      _floatingFutureMilestonesHeaderView.hidden = NO;
+    } else if(!futureMilestoneHeaderIsAbove && !_floatingAchievementsHeaderView.hidden) {
+      _floatingFutureMilestonesHeaderView.hidden = YES;
+    }
+    _floatingFutureMilestonesHeaderView.highlighted = !achievementMilestoneHeaderIsAbove;
+  }
+  
+  // Achievement Header
+  if(achievementMilestoneHeaderPosition == MAXFLOAT) {
+    // No rows in section, hide the floating header.
+    _floatingAchievementsHeaderView.hidden = YES;
+  } else {
+    if(!_floatingAchievementsHeaderView) {
+      _floatingAchievementsHeaderView = [self tableView:self.tableView viewForFloatingHeaderInSection:AchievementSection];
+      [self.tableView.superview insertSubview:_floatingAchievementsHeaderView aboveSubview:self.tableView];
+    }
+    if((achievementMilestoneHeaderIsAbove || achievementMilestoneHeaderIsBelow) && _floatingAchievementsHeaderView.hidden) {
+      _floatingAchievementsHeaderView.position = achievementMilestoneHeaderIsBelow ? tableHeight - (achievementHeaderHeight + pastMilestoneHeaderHeight) : futureMilestoneHeaderHeight;
+      _floatingAchievementsHeaderView.hidden = NO;
+    } else if(!achievementMilestoneHeaderIsBelow && !achievementMilestoneHeaderIsAbove && !_floatingAchievementsHeaderView.hidden) {
+      _floatingAchievementsHeaderView.hidden = YES;
+    }
+    _floatingAchievementsHeaderView.highlighted = achievementMilestoneHeaderIsAbove && !pastMilestoneHeaderHeightIsAbove;
+  }
+  
+  // Past Header
+  if(pastMilestoneHeaderPosition == MAXFLOAT) {
+    // No rows in section, hide the floating header.
+    _floatingPastMilestonesHeaderView.hidden = YES;
+  } else {
+    if(!_floatingPastMilestonesHeaderView.superview) {
+      _floatingPastMilestonesHeaderView = [self tableView:self.tableView viewForFloatingHeaderInSection:PastMilestoneSection];
+      [self.tableView.superview insertSubview:_floatingPastMilestonesHeaderView aboveSubview:self.tableView];
+    }
+    if((pastMilestoneHeaderHeightIsAbove || pastMilestoneHeaderHeightIsBelow) && _floatingPastMilestonesHeaderView.hidden) {
+      _floatingPastMilestonesHeaderView.position = pastMilestoneHeaderHeightIsBelow ? tableHeight - pastMilestoneHeaderHeight : futureMilestoneHeaderHeight + achievementHeaderHeight;
+      _floatingPastMilestonesHeaderView.hidden = NO;
+      _floatingPastMilestonesHeaderView.highlighted = pastMilestoneHeaderHeightIsAbove;
+    } else if(!pastMilestoneHeaderHeightIsBelow && !pastMilestoneHeaderHeightIsAbove && !_floatingPastMilestonesHeaderView.hidden) {
+      _floatingPastMilestonesHeaderView.hidden = YES;
+    }
+  }
+}
+
+-(CGFloat) calculateHeaderPostionForSection:(NSInteger) section {
+  if([self.tableView numberOfRowsInSection:section] < 1 ) return MAXFLOAT;
+  int headerHeight = [self tableView:self.tableView heightForHeaderInSection:section];
+  CGRect rectInTableView = [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:section]];
+  CGRect rectInSuperview = [self.tableView convertRect:rectInTableView toView:self.tableView.superview];
+  return rectInSuperview.origin.y - headerHeight;
+}
+
+
+-(void) handleHeaderTap:(id) sender {
+  int futureMilestoneHeaderHeight = [self tableView:self.tableView heightForHeaderInSection:0];
+  int achievementHeaderHeight = [self tableView:self.tableView heightForHeaderInSection:1];
+  int pastMilestoneHeaderHeight = [self tableView:self.tableView heightForHeaderInSection:2];
+  
+  UITapGestureRecognizer * recognizer = sender;
+  if(recognizer.view == _floatingFutureMilestonesHeaderView) {
+    _isJumpingToIndex = YES;
+    int lastRow = [self.tableView numberOfRowsInSection:0] - 1;
+    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:lastRow inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+  } else if(recognizer.view == _floatingAchievementsHeaderView) {
+    _isJumpingToIndex = YES;
+    int headerPosY = [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]].origin.y - (futureMilestoneHeaderHeight + achievementHeaderHeight);
+    [self.tableView setContentOffset:CGPointMake(0, headerPosY) animated:YES];
+  } else if(recognizer.view == _floatingPastMilestonesHeaderView) {
+    _isJumpingToIndex = YES;
+    int headerPosY = [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]].origin.y - (futureMilestoneHeaderHeight + achievementHeaderHeight + pastMilestoneHeaderHeight);
+    [self.tableView setContentOffset:CGPointMake(0, headerPosY) animated:YES];
+  }
+}
 
 #pragma mark Utility Methods
-
 
 -(BOOL) isInitialLoadComplete {
   return _initialAchievementsLoaded && _initialFutureMilestonesLoaded && _initialPastMilestonesLoaded;
@@ -339,6 +518,33 @@
   }
   return reloadPaths;
 }
+
+-(void) checkAndLoadPendingNextPage {
+  if(_pendingNextPageTriggerIndex) {
+    NSLog(@"Checking pending load request %d:%d", _pendingNextPageTriggerIndex.section, _pendingNextPageTriggerIndex.row);
+    for(NSIndexPath * path in self.tableView.indexPathsForVisibleRows) {
+      NSLog(@"Visible: %d:%d", path.section, path.row);
+    }
+  }
+  
+  if([self.tableView.indexPathsForVisibleRows containsObject:_pendingNextPageTriggerIndex]) {
+    switch (_pendingNextPageTriggerIndex.section) {
+      case FutureMilestoneSection:
+        if(!_model.isLoadingFutureMilestones) [_model loadFutureMilestonesPage:_model.futureMilestones.count];
+        break;
+      case PastMilestoneSection:
+        if(!_model.isLoadingPastMilestones) [_model loadPastMilestonesPage:_model.pastMilestones.count];
+        break;
+      case AchievementSection:
+        if(!_model.isLoadingAchievements) [_model loadAchievementsPage:_model.achievements.count];
+        break;
+      default:
+        NSAssert(NO,@"Invalid section type with numer %ld", (long)_pendingNextPageTriggerIndex.section);
+    }
+  }
+  _pendingNextPageTriggerIndex = nil;
+}
+
 
 
 
