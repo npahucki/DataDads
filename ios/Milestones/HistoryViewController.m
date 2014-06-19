@@ -520,13 +520,6 @@
 }
 
 -(void) checkAndLoadPendingNextPage {
-  if(_pendingNextPageTriggerIndex) {
-    NSLog(@"Checking pending load request %d:%d", _pendingNextPageTriggerIndex.section, _pendingNextPageTriggerIndex.row);
-    for(NSIndexPath * path in self.tableView.indexPathsForVisibleRows) {
-      NSLog(@"Visible: %d:%d", path.section, path.row);
-    }
-  }
-  
   if([self.tableView.indexPathsForVisibleRows containsObject:_pendingNextPageTriggerIndex]) {
     switch (_pendingNextPageTriggerIndex.section) {
       case FutureMilestoneSection:
