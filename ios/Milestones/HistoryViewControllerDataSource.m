@@ -184,13 +184,10 @@
   cell.imageView.alpha = 0.5;
   
   PFFile * imageFile;
-  BOOL isThumbnail = NO;
   BOOL hasAttachmentImage = (achievement.attachment && [achievement.attachmentType rangeOfString : @"image"].location != NSNotFound);
   if(hasAttachmentImage) {
-    isThumbnail = achievement.attachmentThumbnail != nil;
-    imageFile = isThumbnail ? achievement.attachmentThumbnail : achievement.attachment;
+    imageFile = achievement.attachmentThumbnail ? achievement.attachmentThumbnail : achievement.attachment;
   } else {
-    isThumbnail = Baby.currentBaby.avatarImageThumbnail != nil;
     imageFile = Baby.currentBaby.avatarImageThumbnail ? Baby.currentBaby.avatarImageThumbnail : Baby.currentBaby.avatarImage;
   }
   if(imageFile) {

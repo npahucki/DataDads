@@ -19,7 +19,7 @@
 
 
 @interface HistoryHeaderView : UIView
-@property (weak, nonatomic) UILabel * label;
+@property (strong, nonatomic) UILabel * label;
 
 -(void) setHighlighted:(BOOL)highlighted;
 -(void) setPosition:(int) position;
@@ -77,6 +77,11 @@
   _dataSource.cellSwipeDelegate = self;
   self.tableView.dataSource = _dataSource;
   self.tableView.delegate = self;
+  
+  
+  self.automaticallyAdjustsScrollViewInsets = NO;
+  self.tableView.contentInset = UIEdgeInsetsZero;
+  
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(babyUpdated:) name:kDDNotificationCurrentBabyChanged object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(milestoneNotedAndSaved:) name:kDDNotificationMilestoneNotedAndSaved object:nil];
@@ -148,7 +153,7 @@
   [CATransaction begin];
   [self.tableView beginUpdates];
 
-  BOOL fromFuture;
+  BOOL fromFuture = NO;
   
   if(achievement.standardMilestone) {
     StandardMilestone * m = achievement.standardMilestone;
@@ -222,7 +227,7 @@
 
 -(HistoryHeaderView *)tableView:(UITableView *)tableView viewForFloatingHeaderInSection:(NSInteger)section {
   HistoryHeaderView * floater = [[HistoryHeaderView alloc] initWithFrame:CGRectMake(0,0,tableView.frame.size.width,[self tableView:tableView heightForHeaderInSection:section])];
-  floater.label  = (UILabel*)[self tableView:self.tableView viewForHeaderInSection:section];
+  floater.label  = (UILabel*)[self tableView:tableView viewForHeaderInSection:section];
   [floater addSubview:floater.label];
   floater.backgroundColor = self.tableView.backgroundColor;
   floater.opaque = YES;
@@ -237,7 +242,7 @@
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
   int height = [self tableView:self.tableView heightForHeaderInSection:section];
-  UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, height)];
+  UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320 /*tableView.frame.size.width*/, height)];
   label.textAlignment = NSTextAlignmentCenter;
   [label setFont:[UIFont fontForAppWithType:Bold andSize:17]];
   label.text = [_dataSource tableView:tableView titleForHeaderInSection:section];
