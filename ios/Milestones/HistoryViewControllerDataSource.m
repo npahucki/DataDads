@@ -196,8 +196,12 @@
         // TODO: It would be nice to not have to scale the image here, but if we don't, on
         // return from the milestone page, the image explodes into a much larger size (occupying the full height of the cell)
         // until the cell refreshes. Perhaps we could use programmed constrants to fix this? For now, we scale the image and that's it.
-        cell.imageView.image = [self imageWithImage:[[UIImage alloc] initWithData:data] scaledToSize:IMG_SIZE];
-        cell.imageView.alpha = hasAttachmentImage ? 1.0 : 0.3;
+        UIImage * image = [[UIImage alloc] initWithData:data];
+        // NOTE: Image will be null if the image data is bad, which can happen for example if parse returns a 200 code but error text instead.
+        if(image) {
+          cell.imageView.image = [self imageWithImage:image scaledToSize:IMG_SIZE];
+          cell.imageView.alpha = hasAttachmentImage ? 1.0 : 0.3;
+        }
       }
     }];
   }
