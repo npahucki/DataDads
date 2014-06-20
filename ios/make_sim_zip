@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Creates a zip with an App that can be run in the sumulator with the command: 
+#  ios-sim launch DataParenting.app
+export OUT_DIR=/tmp/DataParentingBuildOutput 
+xcodebuild -arch i386 -workspace DataParenting.xcworkspace -scheme DataParenting -sdk iphonesimulator7.1 CONFIGURATION_BUILD_DIR=$OUT_DIR
+cd $OUT_DIR
+zip -9 -r ~/Downloads/DataParenting.app.zip DataParenting.app
+rm -rf $OUT_DIR
+echo DONE!
