@@ -75,6 +75,8 @@ Parse.Cloud.job("tipsAssignment", function (request, status) {
     var pushMessageToUserForBaby = function (tipAssignment, parentUser) {
         console.log("Pushing tip assignment " + tipAssignment.id + " to user " + parentUser.id);
         title = tipAssignment.get("tip").get("title");
+        // TODO: get languange from parent profile!
+        title = utils.replacePronounTokens(title,tipAssignment.get("baby").get("isMale"), "en");
         // IOS allows 256 bytes max
         if (title.length > 100) {
             title = title.substring(0, 100) + "...";
@@ -150,7 +152,7 @@ Parse.Cloud.job("tipsAssignment", function (request, status) {
     // TODO: Filter by active babies/users + exclude babies over 5 years old?
     babyQuery.limit(1000); // NOTE: Max is 1000, when we get over this, we will need to find a better way to query
     babyQuery.include("parentUser");
-    babyQuery.select("name", "dueDate", "parentUser");
+    babyQuery.select("name", "dueDate", "parentUser", "isMale");
     console.log("Doing query lookup..");
     babyQuery.find().then(function (babies) {
         //console.log("Babies query result " + JSON.stringify(babies));
