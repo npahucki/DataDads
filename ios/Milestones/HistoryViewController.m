@@ -78,11 +78,6 @@
   self.tableView.dataSource = _dataSource;
   self.tableView.delegate = self;
   
-  
-  self.automaticallyAdjustsScrollViewInsets = NO;
-  self.tableView.contentInset = UIEdgeInsetsZero;
-  
-  
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(babyUpdated:) name:kDDNotificationCurrentBabyChanged object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(milestoneNotedAndSaved:) name:kDDNotificationMilestoneNotedAndSaved object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkReachabilityChanged:) name:kReachabilityChangedNotification object:nil];
@@ -242,7 +237,7 @@
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
   int height = [self tableView:self.tableView heightForHeaderInSection:section];
-  UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320 /*tableView.frame.size.width*/, height)];
+  UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, height)];
   label.textAlignment = NSTextAlignmentCenter;
   [label setFont:[UIFont fontForAppWithType:Bold andSize:17]];
   label.text = [_dataSource tableView:tableView titleForHeaderInSection:section];
