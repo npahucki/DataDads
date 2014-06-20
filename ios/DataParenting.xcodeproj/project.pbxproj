@@ -35,6 +35,7 @@
 		E8250F43192561A7004A1B41 /* IntroScreenPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8250F42192561A7004A1B41 /* IntroScreenPageViewController.m */; };
 		E832437018F895F500307356 /* HistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E832436F18F895F500307356 /* HistoryViewController.m */; };
 		E840251918F0DEC800AF1B27 /* BabyInfoPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E840251818F0DEC800AF1B27 /* BabyInfoPhotoViewController.m */; };
+		E84A2CF01953C3D300BFA857 /* NSDate+HumanizedTime.m in Sources */ = {isa = PBXBuildFile; fileRef = E84A2CEF1953C3D300BFA857 /* NSDate+HumanizedTime.m */; };
 		E862B81318F5FCE100EBAEFF /* FDTakeControllerNoStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = E862B81218F5FCE100EBAEFF /* FDTakeControllerNoStatusBar.m */; };
 		E862B81718F6A6BA00EBAEFF /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E862B81618F6A6BA00EBAEFF /* iAd.framework */; };
 		E866E7F31936448C004963C9 /* NotificationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E866E7F21936448C004963C9 /* NotificationTableViewController.m */; };
@@ -151,6 +152,8 @@
 		E832436F18F895F500307356 /* HistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryViewController.m; sourceTree = "<group>"; };
 		E840251718F0DEC800AF1B27 /* BabyInfoPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyInfoPhotoViewController.h; sourceTree = "<group>"; };
 		E840251818F0DEC800AF1B27 /* BabyInfoPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BabyInfoPhotoViewController.m; sourceTree = "<group>"; };
+		E84A2CEE1953C3D300BFA857 /* NSDate+HumanizedTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+HumanizedTime.h"; sourceTree = "<group>"; };
+		E84A2CEF1953C3D300BFA857 /* NSDate+HumanizedTime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+HumanizedTime.m"; sourceTree = "<group>"; };
 		E862B81118F5FCE100EBAEFF /* FDTakeControllerNoStatusBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDTakeControllerNoStatusBar.h; sourceTree = "<group>"; };
 		E862B81218F5FCE100EBAEFF /* FDTakeControllerNoStatusBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDTakeControllerNoStatusBar.m; sourceTree = "<group>"; };
 		E862B81418F6A69200EBAEFF /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
@@ -574,6 +577,8 @@
 		E8E39C1818EA137F0034982D /* ThirdParty */ = {
 			isa = PBXGroup;
 			children = (
+				E84A2CEE1953C3D300BFA857 /* NSDate+HumanizedTime.h */,
+				E84A2CEF1953C3D300BFA857 /* NSDate+HumanizedTime.m */,
 				E872D4C51940943F003F461C /* SevenSwitch.m */,
 				E872D4C61940943F003F461C /* SevenSwitch.h */,
 				E8E39C1918EA13B40034982D /* CustomIOS7AlertView.h */,
@@ -776,6 +781,7 @@
 				E8E39C6D18EB9A090034982D /* OverviewViewController.m in Sources */,
 				E8ABCFBA191D68FE0083ED25 /* UIDateField.m in Sources */,
 				E866E7F919364607004963C9 /* Tip.m in Sources */,
+				E84A2CF01953C3D300BFA857 /* NSDate+HumanizedTime.m in Sources */,
 				E81B588E189BFFFE00C74C2B /* MilestoneAchievement.m in Sources */,
 				E81B588B189BCCD200C74C2B /* StandardMilestone.m in Sources */,
 			);
