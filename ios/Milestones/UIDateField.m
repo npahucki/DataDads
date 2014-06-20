@@ -19,12 +19,14 @@ NSDateFormatter * _dateFormatter;
 
   if(!_dateFormatter) {
     _dateFormatter = [[NSDateFormatter alloc] init];
+    _dateFormatter.timeZone = [NSTimeZone localTimeZone];
     [_dateFormatter setDateStyle:NSDateFormatterMediumStyle];
     [_dateFormatter setDoesRelativeDateFormatting:YES];
   }
 
   _picker = [[UIDatePicker alloc]init];
   _picker.datePickerMode = UIDatePickerModeDate;
+  _picker.timeZone = [NSTimeZone localTimeZone];
   _picker.date = [NSDate date];
   _picker.maximumDate = _picker.date; // default
   [_picker addTarget:self action:@selector(updateTextField:) forControlEvents:UIControlEventValueChanged];
@@ -35,6 +37,7 @@ NSDateFormatter * _dateFormatter;
                               ];
   [datePickerToolbar sizeToFit];
   self.inputView = _picker;
+
   self.inputAccessoryView = datePickerToolbar;
   [self updateTextField:_picker];
   [super awakeFromNib];
