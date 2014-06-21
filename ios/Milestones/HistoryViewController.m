@@ -57,7 +57,7 @@
   
   NSIndexPath * _pendingNextPageTriggerIndex;
   BOOL _isJumpingToIndex;
-  
+  SInt8 _scrollStatus; // -1 going up, 0 not scrolling, 1 scrolling down.
 }
 
 @end
@@ -201,6 +201,17 @@
   [self layoutFloatingHeaders];
 }
 
+-(void) scrollViewWillBeginDecelerating:(UIScrollView *)scrollView {
+  CGFloat dir = [scrollView.panGestureRecognizer translationInView:scrollView.superview].y;
+  _scrollStatus = (dir > 0) - (dir < 0);
+}
+
+-(void) scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+  CGFloat dir = [scrollView.panGestureRecognizer translationInView:scrollView.superview].y;
+  _scrollStatus = (dir > 0) - (dir < 0);
+}
+
+
 -(void) scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
   [self layoutFloatingHeaders];
   _isJumpingToIndex = NO;
@@ -208,10 +219,14 @@
 
 -(void) scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
   [self checkAndLoadPendingNextPage];
+  _scrollStatus = 0;
 }
 
 -(void) scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-  if(!decelerate) [self checkAndLoadPendingNextPage]; // if decelerate, handle when decelerated
+  if(!decelerate) { // if decelerate, handle when decelerated
+    _scrollStatus = 0;
+    [self checkAndLoadPendingNextPage];
+  }
 }
 
 #pragma mark - UITableViewDelegate
@@ -403,8 +418,8 @@
   BOOL futureMilestoneHeaderIsAbove = futureMilestoneHeaderPosition <= 0;
   BOOL achievementMilestoneHeaderIsAbove = achievementMilestoneHeaderPosition <= futureMilestoneHeaderHeight;
   BOOL achievementMilestoneHeaderIsBelow = achievementMilestoneHeaderPosition + achievementHeaderHeight >= self.tableView.frame.size.height - pastMilestoneHeaderHeight;
-  BOOL pastMilestoneHeaderHeightIsAbove = pastMilestoneHeaderPosition <= futureMilestoneHeaderHeight + achievementHeaderHeight;
-  BOOL pastMilestoneHeaderHeightIsBelow = pastMilestoneHeaderPosition + pastMilestoneHeaderHeight >= self.tableView.frame.size.height;
+  BOOL pastMilestoneHeaderIsAbove = pastMilestoneHeaderPosition <= futureMilestoneHeaderHeight + achievementHeaderHeight;
+  BOOL pastMilestoneHeaderIsBelow = pastMilestoneHeaderPosition + pastMilestoneHeaderHeight >= self.tableView.frame.size.height;
   
   // Future Header
   if(futureMilestoneHeaderPosition == MAXFLOAT) {
@@ -439,7 +454,7 @@
     } else if(!achievementMilestoneHeaderIsBelow && !achievementMilestoneHeaderIsAbove && !_floatingAchievementsHeaderView.hidden) {
       _floatingAchievementsHeaderView.hidden = YES;
     }
-    _floatingAchievementsHeaderView.highlighted = achievementMilestoneHeaderIsAbove && !pastMilestoneHeaderHeightIsAbove;
+    _floatingAchievementsHeaderView.highlighted = achievementMilestoneHeaderIsAbove && !pastMilestoneHeaderIsAbove;
   }
   
   // Past Header
@@ -451,13 +466,13 @@
       _floatingPastMilestonesHeaderView = [self tableView:self.tableView viewForFloatingHeaderInSection:PastMilestoneSection];
       [self.tableView.superview insertSubview:_floatingPastMilestonesHeaderView aboveSubview:self.tableView];
     }
-    if((pastMilestoneHeaderHeightIsAbove || pastMilestoneHeaderHeightIsBelow) && _floatingPastMilestonesHeaderView.hidden) {
-      _floatingPastMilestonesHeaderView.position = pastMilestoneHeaderHeightIsBelow ? tableHeight - pastMilestoneHeaderHeight : futureMilestoneHeaderHeight + achievementHeaderHeight;
+    if((pastMilestoneHeaderIsAbove || pastMilestoneHeaderIsBelow) && _floatingPastMilestonesHeaderView.hidden) {
+      _floatingPastMilestonesHeaderView.position = pastMilestoneHeaderIsBelow ? tableHeight - pastMilestoneHeaderHeight : futureMilestoneHeaderHeight + achievementHeaderHeight;
       _floatingPastMilestonesHeaderView.hidden = NO;
-      _floatingPastMilestonesHeaderView.highlighted = pastMilestoneHeaderHeightIsAbove;
-    } else if(!pastMilestoneHeaderHeightIsBelow && !pastMilestoneHeaderHeightIsAbove && !_floatingPastMilestonesHeaderView.hidden) {
+    } else if(!pastMilestoneHeaderIsBelow && !pastMilestoneHeaderIsAbove && !_floatingPastMilestonesHeaderView.hidden) {
       _floatingPastMilestonesHeaderView.hidden = YES;
     }
+    _floatingPastMilestonesHeaderView.highlighted = !pastMilestoneHeaderIsBelow;
   }
 }
 
@@ -471,23 +486,36 @@
 
 
 -(void) handleHeaderTap:(id) sender {
-  int futureMilestoneHeaderHeight = [self tableView:self.tableView heightForHeaderInSection:0];
-  int achievementHeaderHeight = [self tableView:self.tableView heightForHeaderInSection:1];
-  int pastMilestoneHeaderHeight = [self tableView:self.tableView heightForHeaderInSection:2];
-  
-  UITapGestureRecognizer * recognizer = sender;
-  if(recognizer.view == _floatingFutureMilestonesHeaderView) {
-    _isJumpingToIndex = YES;
-    long lastRow = [self.tableView numberOfRowsInSection:0] - 1;
-    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:lastRow inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-  } else if(recognizer.view == _floatingAchievementsHeaderView) {
-    _isJumpingToIndex = YES;
-    int headerPosY = [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]].origin.y - (futureMilestoneHeaderHeight + achievementHeaderHeight);
-    [self.tableView setContentOffset:CGPointMake(0, headerPosY) animated:YES];
-  } else if(recognizer.view == _floatingPastMilestonesHeaderView) {
-    _isJumpingToIndex = YES;
-    int headerPosY = [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]].origin.y - (futureMilestoneHeaderHeight + achievementHeaderHeight + pastMilestoneHeaderHeight);
-    [self.tableView setContentOffset:CGPointMake(0, headerPosY) animated:YES];
+  if(_scrollStatus == 0 && !_isJumpingToIndex) { // Only if done scrolling.
+    int futureMilestoneHeaderHeight = [self tableView:self.tableView heightForHeaderInSection:0];
+    int achievementHeaderHeight = [self tableView:self.tableView heightForHeaderInSection:1];
+    int pastMilestoneHeaderHeight = [self tableView:self.tableView heightForHeaderInSection:2];
+    
+    UITapGestureRecognizer * recognizer = sender;
+    if(recognizer.view == _floatingFutureMilestonesHeaderView) {
+      long lastRow = [self.tableView numberOfRowsInSection:0] - 1;
+      NSIndexPath * path = [NSIndexPath indexPathForRow:lastRow inSection:0];
+      int rowHeight = [self tableView:self.tableView heightForRowAtIndexPath:path];
+      int headerPosY = [self.tableView rectForRowAtIndexPath:path].origin.y - (self.tableView.bounds.size.height - (achievementHeaderHeight + pastMilestoneHeaderHeight + rowHeight));
+      if(self.tableView.contentOffset.y != headerPosY) {
+        _isJumpingToIndex = YES;
+        [self.tableView setContentOffset:CGPointMake(0, headerPosY) animated:YES];
+      }
+      
+//      [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:lastRow inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+    } else if(recognizer.view == _floatingAchievementsHeaderView) {
+      int headerPosY = [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]].origin.y - (futureMilestoneHeaderHeight + achievementHeaderHeight);
+      if(self.tableView.contentOffset.y != headerPosY) {
+        _isJumpingToIndex = YES;
+        [self.tableView setContentOffset:CGPointMake(0, headerPosY) animated:YES];
+      }
+    } else if(recognizer.view == _floatingPastMilestonesHeaderView) {
+      int headerPosY = [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]].origin.y - (futureMilestoneHeaderHeight + achievementHeaderHeight + pastMilestoneHeaderHeight);
+      if(self.tableView.contentOffset.y != headerPosY) {
+        _isJumpingToIndex = YES;
+        [self.tableView setContentOffset:CGPointMake(0, headerPosY) animated:YES];
+      }
+    }
   }
 }
 
