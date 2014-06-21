@@ -61,12 +61,12 @@
 
   
   if(self.hasMoreFutureMilestones) {
-    if([self.delegate respondsToSelector:@selector(willLoadFutureMilestones:)])
-      [self.delegate willLoadFutureMilestones:startIndex];
+    if([self.delegate respondsToSelector:@selector(willLoadFutureMilestonesAtPageIndex:)])
+      [self.delegate willLoadFutureMilestonesAtPageIndex:startIndex];
     _isLoadingFutureMilestones = YES;
     [self loadMilestonesPage:startIndex forTimePeriod:@"future" withBlock:^(NSArray *objects, NSError *error) {
       if(error) {
-        [self.delegate didFailToLoadFutureMilestones:error];
+        [self.delegate didFailToLoadFutureMilestones:error atPageIndex:startIndex];
       } else {
         // if results, set the has more to false
         _hasMoreFutureMilestones = objects.count == self.pagingSize;
@@ -75,13 +75,13 @@
         NSIndexSet* indices = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,objects.count)];
         NSArray * reversedObject = [[objects reverseObjectEnumerator] allObjects];
         [((NSMutableArray*) _futureMilestones) insertObjects:reversedObject atIndexes:indices];
-        [self.delegate didLoadFutureMilestones];
+        [self.delegate didLoadFutureMilestonesAtPageIndex:startIndex];
         _isLoadingFutureMilestones = NO;
       }
     }];
   } else {
     // Must call to end loading
-    [self.delegate didLoadFutureMilestones];
+    [self.delegate didLoadFutureMilestonesAtPageIndex:startIndex];
     _isLoadingFutureMilestones = NO;
   }
 }
@@ -94,25 +94,25 @@
   }
   
   if(self.hasMorePastMilestones) {
-    if([self.delegate respondsToSelector:@selector(willLoadPastMilestones:)])
-      [self.delegate willLoadPastMilestones:startIndex];
+    if([self.delegate respondsToSelector:@selector(willLoadPastMilestonesAtPageIndex:)])
+      [self.delegate willLoadPastMilestonesAtPageIndex:startIndex];
     _isLoadingPastMilestones = YES;
     [self loadMilestonesPage:startIndex forTimePeriod:@"past" withBlock:^(NSArray *objects, NSError *error) {
       if(error) {
-        [self.delegate didFailToLoadPastMilestones:error];
+        [self.delegate didFailToLoadPastMilestones:error atPageIndex:startIndex];
         _isLoadingPastMilestones = NO;
       } else {
         // if results, set the has more to false
         if(!_pastMilestones) _pastMilestones = [[NSMutableArray alloc] initWithCapacity:self.pagingSize];
         _hasMorePastMilestones = objects.count == self.pagingSize;
         [((NSMutableArray*) _pastMilestones) addObjectsFromArray:objects];
-        [self.delegate didLoadPastMilestones];
+        [self.delegate didLoadPastMilestonesAtPageIndex:startIndex];
         _isLoadingPastMilestones = NO;
       }
     }];
   } else {
     // Must call to end loading
-    [self.delegate didLoadPastMilestones];
+    [self.delegate didLoadPastMilestonesAtPageIndex:startIndex];
     _isLoadingPastMilestones = NO;
   }
 }
@@ -150,8 +150,8 @@
   
   // If no Baby available yet, don't try to load anything
   if(self.baby && self.hasMoreAchievements) {
-    if([self.delegate respondsToSelector:@selector(willLoadAchievements:)])
-      [self.delegate willLoadAchievements:startIndex];
+    if([self.delegate respondsToSelector:@selector(willLoadAchievementsAtPageIndex:)])
+      [self.delegate willLoadAchievementsAtPageIndex:startIndex];
     PFQuery * query;
 
     if(_filter.length) {
@@ -186,7 +186,7 @@
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
       if (error) {
         if(error.code != kPFErrorCacheMiss) {
-          [self.delegate didFailToLoadAchievements:error];
+          [self.delegate didFailToLoadAchievements:error atPageIndex:startIndex];
           _isLoadingAchievements = NO;
         }
       } else {
@@ -201,13 +201,13 @@
           [((NSMutableArray*) _achievements) addObject:achievement];
         }
         
-        [self.delegate didLoadAchievements];
+        [self.delegate didLoadAchievementsAtPageIndex:startIndex];
         _isLoadingAchievements = NO;
       }
       if(cachedResult) cachedResult = NO;
     }];
   } else {
-    [self.delegate didLoadAchievements];
+    [self.delegate didLoadAchievementsAtPageIndex:startIndex];
     _isLoadingAchievements = NO;
   }
 }

@@ -12,20 +12,20 @@
 
 @required
 // Called back when the objects have been updated
--(void) didLoadAchievements;
--(void) didFailToLoadAchievements:(NSError *) error;
+-(void) didLoadAchievementsAtPageIndex:(NSInteger) pageIndex;
+-(void) didFailToLoadAchievements:(NSError *) error atPageIndex:(NSInteger) pageIndex;
 
--(void) didLoadFutureMilestones;
--(void) didFailToLoadFutureMilestones:(NSError *) error;
+-(void) didLoadFutureMilestonesAtPageIndex:(NSInteger) pageIndex;
+-(void) didFailToLoadFutureMilestones:(NSError *) error atPageIndex:(NSInteger) pageIndex;
 
--(void) didLoadPastMilestones;
--(void) didFailToLoadPastMilestones:(NSError *) error;
+-(void) didLoadPastMilestonesAtPageIndex:(NSInteger) pageIndex;
+-(void) didFailToLoadPastMilestones:(NSError *) error atPageIndex:(NSInteger) pageIndex;
 
 @optional
 
--(void) willLoadAchievements:(NSInteger) startIdx;
--(void) willLoadFutureMilestones:(NSInteger) startIdx;
--(void) willLoadPastMilestones:(NSInteger) startIdx;
+-(void) willLoadAchievementsAtPageIndex:(NSInteger) pageIndex;
+-(void) willLoadFutureMilestonesAtPageIndex:(NSInteger) pageIndex;
+-(void) willLoadPastMilestonesAtPageIndex:(NSInteger) pageIndex;
 
 @end
 

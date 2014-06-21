@@ -46,10 +46,6 @@
 
 @interface HistoryViewController () {
   CGSize _lastTableSize;
-  BOOL _initialAchievementsLoaded;
-  BOOL _initialFutureMilestonesLoaded;
-  BOOL _initialPastMilestonesLoaded;
-  
   
   HistoryHeaderView * _floatingAchievementsHeaderView;
   HistoryHeaderView * _floatingPastMilestonesHeaderView;
@@ -92,19 +88,12 @@
 }
 
 -(void) networkReachabilityChanged:(NSNotification*)notification {
-  if([self isInitialLoadComplete]) {
-    [self.tableView reloadData];
-  } else {
     if([Reachability isParseCurrentlyReachable] && _model.baby) {
       [self reloadTable];
-    }
   }
 }
 
 -(void) setFilterString:(NSString *)filterString {
-  _initialAchievementsLoaded = NO;
-  _initialFutureMilestonesLoaded  = NO;
-  _initialPastMilestonesLoaded = NO;
   _model.filter = filterString;
 }
 
@@ -113,13 +102,8 @@
 }
 
 -(void) reloadTable {
-    _initialAchievementsLoaded = NO;
     [_model loadAchievementsPage:0];
-
-    _initialFutureMilestonesLoaded = NO;
     [_model loadFutureMilestonesPage:0];
-
-    _initialPastMilestonesLoaded = NO;
     [_model loadPastMilestonesPage:0];
 }
 
@@ -351,22 +335,22 @@
 
 #pragma mark - HistoryViewTableModelDelegate
 
--(void) didLoadAchievements {
+-(void) didLoadAchievementsAtPageIndex:(NSInteger)pageIndex {
   [self.tableView reloadData];
-  if(_initialAchievementsLoaded) {
-  } else {
-    _initialAchievementsLoaded = YES;
+  if(pageIndex > 0) {
     [self scrollToFirstAchievement];
   }
 }
 
--(void) didFailToLoadAchievements:(NSError *) error {
-  NSLog(@"Failed to load achievements %@", error);
+-(void) didFailToLoadAchievements:(NSError *) error atPageIndex:(NSInteger)pageIndex {
+  [self handleMilestoneLoadError:error withRetrySelector:@selector(loadAchievementsPage:) forPageIndex:pageIndex];
 }
 
--(void) didLoadFutureMilestones {
+-(void) didLoadFutureMilestonesAtPageIndex:(NSInteger)pageIndex {
   [self.tableView reloadData]; // use instead of relaod section which makes the table jump!
-  if(_initialFutureMilestonesLoaded) {
+  if(pageIndex == 0) {
+    [self scrollToFirstAchievement];
+  } else {
     if(_lastTableSize.height > 0) {
       CGPoint afterContentOffset = self.tableView.contentOffset;
       CGSize afterContentSize = self.tableView.contentSize;
@@ -374,33 +358,55 @@
       self.tableView.contentOffset = newContentOffset;
       _lastTableSize.height = 0; // reset it
     }
-  } else {
-    _initialFutureMilestonesLoaded = YES;
-    [self scrollToFirstAchievement];
   }
 }
 
--(void) willLoadFutureMilestones:(NSInteger)startIdx {
+-(void) willLoadFutureMilestonesAtPageIndex:(NSInteger)pageIndex {
   // Mark the table size before the load begins
   _lastTableSize = self.tableView.contentSize;
 }
 
--(void) didFailToLoadFutureMilestones:(NSError *) error {
-  NSLog(@"Failed to future milestones %@", error);
+-(void) didFailToLoadFutureMilestones:(NSError *) error atPageIndex:(NSInteger)pageIndex {
+  [self handleMilestoneLoadError:error withRetrySelector:@selector(loadFutureMilestonesPage:) forPageIndex:pageIndex];
 }
 
--(void) didLoadPastMilestones {
+-(void) didLoadPastMilestonesAtPageIndex:(NSInteger)pageIndex {
   [self.tableView reloadData];
-  if(!_initialPastMilestonesLoaded) {
-    _initialPastMilestonesLoaded = YES;
+  if(pageIndex == 0) { // first time, jump to first achievement
     [self scrollToFirstAchievement];
   }
 }
 
--(void) didFailToLoadPastMilestones:(NSError *) error {
-  NSLog(@"Failed to past milestones %@", error);
+-(void) didFailToLoadPastMilestones:(NSError *) error atPageIndex:(NSInteger)pageIndex {
+  
+  [self handleMilestoneLoadError:error withRetrySelector:@selector(loadPastMilestonesPage:) forPageIndex:pageIndex];
+  
   
 }
+
+-(void) handleMilestoneLoadError:(NSError *) error withRetrySelector:(SEL)retrySelector forPageIndex:(NSInteger) pageIdx {
+  if ([error code] == kPFErrorConnectionFailed || [error code] == kPFErrorInternalServer) {
+    if([Reachability isParseCurrentlyReachable]) {
+      NSLog(@"Connection failure to parse loading future milestones, will try again...");
+      NSMethodSignature * retryMethod = [_model methodSignatureForSelector:retrySelector];
+      NSInvocation * retryInvocation = [NSInvocation invocationWithMethodSignature:retryMethod];
+      [retryInvocation setTarget:_model];
+      [retryInvocation setSelector:retrySelector];
+      [retryInvocation setArgument:&pageIdx atIndex:2];
+      [NSTimer scheduledTimerWithTimeInterval:3.0 invocation:retryInvocation repeats:NO];
+    } else {
+      NSLog(@"Connection failure to parse, but no network available, will not retry until network is back.");
+    }
+  } else {
+    // TODO: Send to central logging!
+    NSLog(@"Error loading future achievements: %@", [error userInfo][@"error"]);
+    [[[UIAlertView alloc] initWithTitle:@"Bummer" message:@"Could not load some of your data. This has been reported to us and we will fix it as soon as possible." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show ];
+  }
+}
+
+
+
+
 
 #pragma mark Floating Headers
 
@@ -520,10 +526,6 @@
 }
 
 #pragma mark Utility Methods
-
--(BOOL) isInitialLoadComplete {
-  return _initialAchievementsLoaded && _initialFutureMilestonesLoaded && _initialPastMilestonesLoaded;
-}
 
 -(void) scrollToFirstAchievement {
   NSIndexPath * scrollRow = [NSIndexPath indexPathForRow:0 inSection:AchievementSection];
