@@ -195,7 +195,7 @@
   _takeController = [[FDTakeControllerNoStatusBar alloc] init];
   _takeController.delegate = self;
   _takeController.viewControllerForPresentingImagePickerController = self;
-  _takeController.allowsEditingPhoto = YES;
+  _takeController.allowsEditingPhoto = NO;
   _takeController.allowsEditingVideo = NO;
   [_takeController takePhotoOrChooseFromLibrary];
 }
