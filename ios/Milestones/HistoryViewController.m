@@ -13,6 +13,7 @@
 #import "HistoryViewControllerDataSource.h"
 #import <FacebookSDK/FBSession.h>
 #import "NSDate+Utils.h"
+#import "limits.h"
 
 #define PRELOAD_START_AT_IDX 1
 
@@ -413,22 +414,25 @@
 -(void) layoutFloatingHeaders {
   int tableHeight = self.tableView.frame.size.height;
   
-  int futureMilestoneHeaderHeight = [self tableView:self.tableView heightForHeaderInSection:FutureMilestoneSection];
-  int achievementHeaderHeight = [self tableView:self.tableView heightForHeaderInSection:AchievementSection];
-  int pastMilestoneHeaderHeight = [self tableView:self.tableView heightForHeaderInSection:PastMilestoneSection];
   
   int futureMilestoneHeaderPosition = [self calculateHeaderPostionForSection:FutureMilestoneSection];
-  int achievementMilestoneHeaderPosition = [self calculateHeaderPostionForSection:AchievementSection];
+  int achievementHeaderPosition = [self calculateHeaderPostionForSection:AchievementSection];
   int pastMilestoneHeaderPosition = [self calculateHeaderPostionForSection:PastMilestoneSection];
+
+  int futureMilestoneHeaderHeight = futureMilestoneHeaderPosition == INT_MIN ? 0: [self tableView:self.tableView heightForHeaderInSection:FutureMilestoneSection];
+  int achievementHeaderHeight = achievementHeaderPosition == INT_MIN ? 0 : [self tableView:self.tableView heightForHeaderInSection:AchievementSection];
+  int pastMilestoneHeaderHeight = pastMilestoneHeaderPosition == INT_MIN ? 0 : [self tableView:self.tableView heightForHeaderInSection:PastMilestoneSection];
+
+  
   
   BOOL futureMilestoneHeaderIsAbove = futureMilestoneHeaderPosition <= 0;
-  BOOL achievementMilestoneHeaderIsAbove = achievementMilestoneHeaderPosition <= futureMilestoneHeaderHeight;
-  BOOL achievementMilestoneHeaderIsBelow = achievementMilestoneHeaderPosition + achievementHeaderHeight >= self.tableView.frame.size.height - pastMilestoneHeaderHeight;
+  BOOL achievementMilestoneHeaderIsAbove = achievementHeaderPosition <= futureMilestoneHeaderHeight;
+  BOOL achievementMilestoneHeaderIsBelow = achievementHeaderPosition + achievementHeaderHeight >= self.tableView.frame.size.height - pastMilestoneHeaderHeight;
   BOOL pastMilestoneHeaderIsAbove = pastMilestoneHeaderPosition <= futureMilestoneHeaderHeight + achievementHeaderHeight;
   BOOL pastMilestoneHeaderIsBelow = pastMilestoneHeaderPosition + pastMilestoneHeaderHeight >= self.tableView.frame.size.height;
   
   // Future Header
-  if(futureMilestoneHeaderPosition == MAXFLOAT) {
+  if(!futureMilestoneHeaderHeight) {
     // No rows in section, hide the floating header.
     _floatingFutureMilestonesHeaderView.hidden = YES;
   } else {
@@ -446,7 +450,7 @@
   }
   
   // Achievement Header
-  if(achievementMilestoneHeaderPosition == MAXFLOAT) {
+  if(!achievementHeaderHeight) {
     // No rows in section, hide the floating header.
     _floatingAchievementsHeaderView.hidden = YES;
   } else {
@@ -464,7 +468,7 @@
   }
   
   // Past Header
-  if(pastMilestoneHeaderPosition == MAXFLOAT) {
+  if(!pastMilestoneHeaderHeight) {
     // No rows in section, hide the floating header.
     _floatingPastMilestonesHeaderView.hidden = YES;
   } else {
@@ -482,8 +486,8 @@
   }
 }
 
--(CGFloat) calculateHeaderPostionForSection:(NSInteger) section {
-  if([self.tableView numberOfRowsInSection:section] < 1 ) return MAXFLOAT;
+-(int) calculateHeaderPostionForSection:(NSInteger) section {
+  if([self.tableView numberOfRowsInSection:section] < 1 ) return INT_MIN;
   int headerHeight = [self tableView:self.tableView heightForHeaderInSection:section];
   CGRect rectInTableView = [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:section]];
   CGRect rectInSuperview = [self.tableView convertRect:rectInTableView toView:self.tableView.superview];
