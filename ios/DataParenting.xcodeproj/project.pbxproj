@@ -64,6 +64,7 @@
 		E89035EB19337807004A4013 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = E89035EA19337807004A4013 /* Reachability.m */; };
 		E89035EF1934C97F004A4013 /* AchievementDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89035EE1934C97F004A4013 /* AchievementDetailsViewController.m */; };
 		E89AC31D1955E83D00AD3869 /* UsageAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E89AC31C1955E83D00AD3869 /* UsageAnalytics.m */; };
+		E89AC31F195A0D1C00AD3869 /* NSDateHumanizedTime.strings in Resources */ = {isa = PBXBuildFile; fileRef = E89AC31E195A0D1C00AD3869 /* NSDateHumanizedTime.strings */; };
 		E8ABCFBA191D68FE0083ED25 /* UIDateField.m in Sources */ = {isa = PBXBuildFile; fileRef = E8ABCFB9191D68FE0083ED25 /* UIDateField.m */; };
 		E8BC76D518A50AD000983025 /* UIViewControllerWithHUDProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = E8BC76D418A50AD000983025 /* UIViewControllerWithHUDProgress.m */; };
 		E8BDE6B0193CC106001D6995 /* NSDate+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = E8BDE6AF193CC106001D6995 /* NSDate+Utils.m */; };
@@ -205,6 +206,7 @@
 		E89035EE1934C97F004A4013 /* AchievementDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AchievementDetailsViewController.m; sourceTree = "<group>"; };
 		E89AC31B1955E83D00AD3869 /* UsageAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UsageAnalytics.h; sourceTree = "<group>"; };
 		E89AC31C1955E83D00AD3869 /* UsageAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UsageAnalytics.m; sourceTree = "<group>"; };
+		E89AC31E195A0D1C00AD3869 /* NSDateHumanizedTime.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = NSDateHumanizedTime.strings; sourceTree = "<group>"; };
 		E8ABCFB8191D68FE0083ED25 /* UIDateField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIDateField.h; sourceTree = "<group>"; };
 		E8ABCFB9191D68FE0083ED25 /* UIDateField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIDateField.m; sourceTree = "<group>"; };
 		E8BC76D318A50AD000983025 /* UIViewControllerWithHUDProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIViewControllerWithHUDProgress.h; sourceTree = "<group>"; };
@@ -580,6 +582,7 @@
 			children = (
 				E84A2CEE1953C3D300BFA857 /* NSDate+HumanizedTime.h */,
 				E84A2CEF1953C3D300BFA857 /* NSDate+HumanizedTime.m */,
+				E89AC31E195A0D1C00AD3869 /* NSDateHumanizedTime.strings */,
 				E872D4C51940943F003F461C /* SevenSwitch.m */,
 				E872D4C61940943F003F461C /* SevenSwitch.h */,
 				E8E39C1918EA13B40034982D /* CustomIOS7AlertView.h */,
@@ -677,6 +680,7 @@
 				E8E39C1318E615D20034982D /* GothamRounded-BookItalic.otf in Resources */,
 				E8E39C1718E615D20034982D /* GothamRounded-MediumItalic.otf in Resources */,
 				E8E39C1518E615D20034982D /* GothamRounded-LightItalic.otf in Resources */,
+				E89AC31F195A0D1C00AD3869 /* NSDateHumanizedTime.strings in Resources */,
 				E86B1EB4192917A400EA6167 /* backgroung.jpg in Resources */,
 				E8E39C1418E615D20034982D /* GothamRounded-Light.otf in Resources */,
 				E8BDE6B2193E0951001D6995 /* Pronouns.strings in Resources */,

@@ -7,6 +7,7 @@
 //
 
 #import "NSDate+HumanizedTime.h"
+#define NSDATE_TABLE_NAME @"NSDateHumanizedTime"
 
 @implementation NSDate (HumanizedTime)
 
@@ -22,7 +23,7 @@
   int minutesDiff = abs((abs(timeInterval) - ((daysDiff * secondsInADay) + (hoursDiff * 60))) / 60);
   //int secondsDiff = (abs(timeInterval) - ((daysDiff * secondsInADay) + (hoursDiff * 3600) + (minutesDiff * 60)));
   
-  NSString *positivity = [NSString stringWithFormat:@"%@", timeInterval < 0 ? NSLocalizedString(@"AgoKey", @""):NSLocalizedString(@"LaterKey", @"")];
+  NSString *positivity = [NSString stringWithFormat:@"%@", timeInterval < 0 ? NSLocalizedStringFromTable(@"AgoKey", NSDATE_TABLE_NAME, @""):NSLocalizedStringFromTable(@"LaterKey",NSDATE_TABLE_NAME, @"")];
   
   
   //Some languages don't need whitespeces between words.
@@ -35,28 +36,28 @@
   }
   
   if (yearsDiff > 1)
-    return [NSString stringWithFormat:@"%d%@%@%@%@", yearsDiff, spaceBetweenWords, NSLocalizedString(@"YearsKey", @""), spaceBetweenWords, positivity];
+    return [NSString stringWithFormat:@"%d%@%@%@%@", yearsDiff, spaceBetweenWords, NSLocalizedStringFromTable(@"YearsKey",NSDATE_TABLE_NAME, @""), spaceBetweenWords, positivity];
   else if (yearsDiff == 1)
-    return [NSString stringWithFormat:@"%@%@%@", NSLocalizedString(@"YearKey", @""), spaceBetweenWords, positivity];
+    return [NSString stringWithFormat:@"%@%@%@", NSLocalizedStringFromTable(@"YearKey",NSDATE_TABLE_NAME, @""), spaceBetweenWords, positivity];
   
   if (daysDiff > 0) {
     if (hoursDiff == 0 || daysDiff > 2)
-      return [NSString stringWithFormat:@"%d%@%@%@%@", daysDiff, spaceBetweenWords, daysDiff == 1 ? NSLocalizedString(@"DayKey", @""):NSLocalizedString(@"DaysKey", @""), spaceBetweenWords, positivity];
+      return [NSString stringWithFormat:@"%d%@%@%@%@", daysDiff, spaceBetweenWords, daysDiff == 1 ? NSLocalizedStringFromTable(@"DayKey",NSDATE_TABLE_NAME, @""):NSLocalizedStringFromTable(@"DaysKey",NSDATE_TABLE_NAME, @""), spaceBetweenWords, positivity];
     else
-      return [NSString stringWithFormat:@"%d%@%@%@%d%@%@%@%@", daysDiff, spaceBetweenWords, daysDiff == 1 ? NSLocalizedString(@"DayKey", @""):NSLocalizedString(@"DaysKey", @""), spaceBetweenWords, hoursDiff, spaceBetweenWords, NSLocalizedString(@"HoursKey", @""), spaceBetweenWords, positivity];
+      return [NSString stringWithFormat:@"%d%@%@%@%d%@%@%@%@", daysDiff, spaceBetweenWords, daysDiff == 1 ? NSLocalizedStringFromTable(@"DayKey",NSDATE_TABLE_NAME, @""):NSLocalizedStringFromTable(@"DaysKey",NSDATE_TABLE_NAME, @""), spaceBetweenWords, hoursDiff, spaceBetweenWords, NSLocalizedStringFromTable(@"HoursKey",NSDATE_TABLE_NAME, @""), spaceBetweenWords, positivity];
   }
   else {
     if (hoursDiff == 0) {
       if (minutesDiff == 0)
-        return [NSString stringWithFormat:@"%@%@%@", NSLocalizedString(@"SecondKey", @""), spaceBetweenWords, positivity];
+        return [NSString stringWithFormat:@"%@%@%@", NSLocalizedStringFromTable(@"SecondKey",NSDATE_TABLE_NAME, @""), spaceBetweenWords, positivity];
       else
-        return [NSString stringWithFormat:@"%d%@%@%@%@", minutesDiff, spaceBetweenWords, minutesDiff == 1 ? NSLocalizedString(@"MinuteKey", @""):NSLocalizedString(@"MinutesKey", @""), spaceBetweenWords, positivity];
+        return [NSString stringWithFormat:@"%d%@%@%@%@", minutesDiff, spaceBetweenWords, minutesDiff == 1 ? NSLocalizedStringFromTable(@"MinuteKey",NSDATE_TABLE_NAME, @""):NSLocalizedStringFromTable(@"MinutesKey",NSDATE_TABLE_NAME, @""), spaceBetweenWords, positivity];
     }
     else {
       if (hoursDiff == 1)
-        return [NSString stringWithFormat:@"%@%@%@%@%@", NSLocalizedString(@"AboutKey", @""), spaceBetweenWords, NSLocalizedString(@"HourKey", @""), spaceBetweenWords, positivity];
+        return [NSString stringWithFormat:@"%@%@%@%@%@", NSLocalizedStringFromTable(@"AboutKey",NSDATE_TABLE_NAME, @""), spaceBetweenWords, NSLocalizedStringFromTable(@"HourKey",NSDATE_TABLE_NAME, @""), spaceBetweenWords, positivity];
       else
-        return [NSString stringWithFormat:@"%d%@%@%@%@", hoursDiff, spaceBetweenWords, NSLocalizedString(@"HoursKey", @""), spaceBetweenWords, positivity];
+        return [NSString stringWithFormat:@"%d%@%@%@%@", hoursDiff, spaceBetweenWords, NSLocalizedStringFromTable(@"HoursKey", NSDATE_TABLE_NAME,@""), spaceBetweenWords, positivity];
     }
   }
 }
