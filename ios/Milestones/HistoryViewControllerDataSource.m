@@ -215,7 +215,7 @@
 
 -(void) tableView:(UITableView*) tableView configureBasicCellProperties:(HistoryTableViewCell*) weakCell {
   
-  static int circleOffset = 10;
+  static int circleOffset = 8;
   
   weakCell.textLabel.font = [UIFont fontForAppWithType:Bold andSize:13];
   weakCell.detailTextLabel.font = [UIFont fontForAppWithType:Medium andSize:14];
@@ -243,27 +243,8 @@
   [weakCell.contentView addSubview:weakCell.bottomLineView];
   weakCell.delegate = self.cellSwipeDelegate;
   weakCell.containingTableView = tableView;
+  [weakCell setCellHeight:tableView.rowHeight];
 }
-
-// TODO: Save thumbnails so we don't have to scale
-- (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize {
-  
-  float ratio = newSize.height/image.size.height;
-  if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)]) {
-    if ([[UIScreen mainScreen] scale] == 2.0) {
-      UIGraphicsBeginImageContextWithOptions(newSize, YES, 2.0);
-    } else {
-      UIGraphicsBeginImageContext(newSize);
-    }
-  } else {
-    UIGraphicsBeginImageContext(newSize);
-  }
-  [image drawInRect:CGRectMake(0, 0, ratio * image.size.width, newSize.height)];
-  UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
-  UIGraphicsEndImageContext();
-  return newImage;
-}
-
 
 -(char*) s:(NSInteger) number {
   return number != 1 ? "s" : "";

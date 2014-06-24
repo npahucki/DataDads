@@ -74,6 +74,7 @@
   _dataSource.cellSwipeDelegate = self;
   self.tableView.dataSource = _dataSource;
   self.tableView.delegate = self;
+  self.tableView.rowHeight = 84;
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(babyUpdated:) name:kDDNotificationCurrentBabyChanged object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(milestoneNotedAndSaved:) name:kDDNotificationMilestoneNotedAndSaved object:nil];
