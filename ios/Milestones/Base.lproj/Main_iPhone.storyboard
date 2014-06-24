@@ -182,29 +182,29 @@
                                     <action selector="didClickMaleButton:" destination="sg9-o2-9ju" eventType="touchUpInside" id="7Lu-oH-mjj"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Baby's name is:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RP2-6d-k9r">
-                                <rect key="frame" x="20" y="82" width="123" height="21"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your baby's name is:" lineBreakMode="headTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RP2-6d-k9r">
+                                <rect key="frame" x="20" y="82" width="280" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.66248588102409633" green="0.6628741528614458" blue="0.69270048945783136" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Baby was born on:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Fl-AS-kct">
-                                <rect key="frame" x="20" y="149" width="145" height="21"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your baby was born on:" lineBreakMode="headTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Fl-AS-kct">
+                                <rect key="frame" x="20" y="149" width="280" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.66274509803921566" green="0.66274509803921566" blue="0.69411764705882351" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Baby was due on:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YcI-T2-9sh">
-                                <rect key="frame" x="20" y="216" width="138" height="21"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your baby was due on:" lineBreakMode="headTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YcI-T2-9sh">
+                                <rect key="frame" x="20" y="216" width="280" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.66274509803921566" green="0.66274509803921566" blue="0.69411764705882351" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Baby is:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ytA-VT-FUy">
-                                <rect key="frame" x="129" y="362" width="62" height="21"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your baby is:" textAlignment="center" lineBreakMode="headTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ytA-VT-FUy">
+                                <rect key="frame" x="20" y="362" width="280" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.66274509803921566" green="0.66274509803921566" blue="0.69411764705882351" alpha="1" colorSpace="calibratedRGB"/>
@@ -227,6 +227,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="RP2-6d-k9r" firstAttribute="width" secondItem="efa-CG-cYS" secondAttribute="width" id="4vF-Df-eAd"/>
                             <constraint firstAttribute="centerX" secondItem="ENC-Jr-qf0" secondAttribute="centerX" id="71m-Wh-h0k"/>
                             <constraint firstItem="ENC-Jr-qf0" firstAttribute="centerX" secondItem="ytA-VT-FUy" secondAttribute="centerX" id="BQJ-rb-Sdp"/>
                             <constraint firstItem="4Fl-AS-kct" firstAttribute="top" secondItem="sCk-G8-yo7" secondAttribute="bottom" constant="8" symbolic="YES" id="C0E-O6-FJa"/>
@@ -234,16 +235,19 @@
                             <constraint firstItem="sCk-G8-yo7" firstAttribute="top" secondItem="RP2-6d-k9r" secondAttribute="bottom" constant="8" symbolic="YES" id="Gcd-BM-Prk"/>
                             <constraint firstItem="RP2-6d-k9r" firstAttribute="leading" secondItem="4Fl-AS-kct" secondAttribute="leading" id="KY3-Ux-r4M"/>
                             <constraint firstItem="zNi-AL-0bh" firstAttribute="centerX" secondItem="zHR-9I-ONZ" secondAttribute="centerX" id="LWF-GI-HBe"/>
+                            <constraint firstItem="ENC-Jr-qf0" firstAttribute="width" secondItem="ytA-VT-FUy" secondAttribute="width" id="LZH-uW-c22"/>
                             <constraint firstAttribute="trailing" secondItem="D63-oo-pUF" secondAttribute="trailing" constant="23" id="MuR-L3-z8H"/>
                             <constraint firstItem="sCk-G8-yo7" firstAttribute="leading" secondItem="LzZ-5f-Ke3" secondAttribute="leading" constant="17" id="Nh0-mx-wVl"/>
                             <constraint firstItem="D63-oo-pUF" firstAttribute="top" secondItem="4Fl-AS-kct" secondAttribute="bottom" constant="8" id="OQv-4t-00O"/>
                             <constraint firstItem="OKK-Fo-Qon" firstAttribute="leading" secondItem="ENC-Jr-qf0" secondAttribute="trailing" constant="-100" id="Pr8-O3-vbA"/>
                             <constraint firstItem="zHR-9I-ONZ" firstAttribute="top" secondItem="ENC-Jr-qf0" secondAttribute="bottom" constant="-101" id="S4z-90-tLD"/>
                             <constraint firstItem="ENC-Jr-qf0" firstAttribute="top" secondItem="OKK-Fo-Qon" secondAttribute="bottom" constant="-101" id="V1Z-zR-wX4"/>
+                            <constraint firstItem="RP2-6d-k9r" firstAttribute="width" secondItem="D63-oo-pUF" secondAttribute="width" id="V53-j5-zXE"/>
                             <constraint firstAttribute="trailing" secondItem="efa-CG-cYS" secondAttribute="trailing" constant="23" id="VWZ-fo-fQg"/>
                             <constraint firstItem="YcI-T2-9sh" firstAttribute="top" secondItem="D63-oo-pUF" secondAttribute="bottom" constant="8" id="VcQ-3y-q5n"/>
                             <constraint firstItem="RP2-6d-k9r" firstAttribute="top" secondItem="bmY-mf-4zp" secondAttribute="bottom" constant="8" id="Y37-Zi-57z"/>
                             <constraint firstItem="efa-CG-cYS" firstAttribute="leading" secondItem="LzZ-5f-Ke3" secondAttribute="leading" constant="17" id="Yy8-ck-JRd"/>
+                            <constraint firstItem="RP2-6d-k9r" firstAttribute="width" secondItem="YcI-T2-9sh" secondAttribute="width" id="cFO-vg-9NA"/>
                             <constraint firstAttribute="bottom" secondItem="ENC-Jr-qf0" secondAttribute="bottom" constant="60" id="cwC-GF-D0L"/>
                             <constraint firstAttribute="trailing" secondItem="sCk-G8-yo7" secondAttribute="trailing" constant="23" id="dBr-oS-QZM"/>
                             <constraint firstItem="YcI-T2-9sh" firstAttribute="leading" secondItem="ENC-Jr-qf0" secondAttribute="leading" id="e5A-46-WSs"/>
@@ -252,13 +256,15 @@
                             <constraint firstItem="ENC-Jr-qf0" firstAttribute="top" secondItem="ytA-VT-FUy" secondAttribute="bottom" constant="3" id="gWc-3Y-U28"/>
                             <constraint firstItem="zNi-AL-0bh" firstAttribute="top" secondItem="ENC-Jr-qf0" secondAttribute="bottom" constant="19" id="hE3-ZB-cpw"/>
                             <constraint firstItem="efa-CG-cYS" firstAttribute="top" secondItem="YcI-T2-9sh" secondAttribute="bottom" constant="6" id="lpW-By-OD3"/>
+                            <constraint firstItem="RP2-6d-k9r" firstAttribute="width" secondItem="sCk-G8-yo7" secondAttribute="width" id="n1y-xW-NJr"/>
                             <constraint firstItem="rDq-EU-ZLQ" firstAttribute="centerX" secondItem="OKK-Fo-Qon" secondAttribute="centerX" id="ooz-AN-Npl"/>
                             <constraint firstItem="rDq-EU-ZLQ" firstAttribute="top" secondItem="ENC-Jr-qf0" secondAttribute="bottom" constant="19" id="owe-n7-X8l"/>
                             <constraint firstItem="RP2-6d-k9r" firstAttribute="leading" secondItem="LzZ-5f-Ke3" secondAttribute="leading" constant="20" symbolic="YES" id="pyU-sc-8NO"/>
+                            <constraint firstItem="RP2-6d-k9r" firstAttribute="width" secondItem="4Fl-AS-kct" secondAttribute="width" id="szs-bV-OOB"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="About Baby" prompt="Step 1 of 4" id="xSP-nG-Bsg">
+                    <navigationItem key="navigationItem" title="About Your Baby" prompt="Step 1 of 4" id="xSP-nG-Bsg">
                         <barButtonItem key="backBarButtonItem" title="Back" id="YUN-wx-crf"/>
                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="t4f-eL-LF3">
                             <connections>
@@ -445,7 +451,7 @@
                             <constraint firstItem="I0d-v9-pgN" firstAttribute="leading" secondItem="yjD-GB-Uaq" secondAttribute="trailing" constant="24" id="wXG-YZ-dd6"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Baby's Tags" prompt="Step 3 of 4 (Optional)" id="X8W-HA-qht">
+                    <navigationItem key="navigationItem" title="Your Baby's Tags" prompt="Step 3 of 4 (Optional)" id="X8W-HA-qht">
                         <barButtonItem key="backBarButtonItem" title="Back" id="u6n-3P-oVr"/>
                         <barButtonItem key="rightBarButtonItem" title="Next" id="I3c-Bn-qNB">
                             <connections>
@@ -463,7 +469,7 @@
             </objects>
             <point key="canvasLocation" x="481" y="-2496"/>
         </scene>
-        <!--Baby Info Photo View Controller - Baby's Mug Shot-->
+        <!--Baby Info Photo View Controller - Your Baby's Mug Shot-->
         <scene sceneID="pqV-Ld-GEY">
             <objects>
                 <viewController id="dN4-aX-Ggf" customClass="BabyInfoPhotoViewController" sceneMemberID="viewController">
@@ -506,7 +512,7 @@
                             <constraint firstItem="uPn-n1-k05" firstAttribute="top" secondItem="GwN-wb-KxG" secondAttribute="bottom" constant="33" id="ovu-0Y-q5y"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Baby's Mug Shot" prompt="Step 2 of 4 (Optional)" id="omR-Li-g04">
+                    <navigationItem key="navigationItem" title="Your Baby's Mug Shot" prompt="Step 2 of 4 (Optional)" id="omR-Li-g04">
                         <barButtonItem key="backBarButtonItem" title="Back" id="d0c-zp-rTK"/>
                         <barButtonItem key="rightBarButtonItem" title="Next" id="DjP-Df-ckD">
                             <connections>
@@ -2000,7 +2006,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="leH-KX-3OX"/>
+        <segue reference="zMK-LI-8Wn"/>
         <segue reference="9u5-1o-6Cv"/>
     </inferredMetricsTieBreakers>
 </document>
