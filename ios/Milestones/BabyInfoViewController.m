@@ -36,7 +36,7 @@
   UITapGestureRecognizer *viewTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
   [self.view addGestureRecognizer:viewTap];
   self.babyName.delegate = self;
-  self.dobTextField.picker.maximumDate = [NSDate date];
+  self.dobTextField.maximumDate = [NSDate date];
   
   if(self.baby) {
     self.babyName.text = self.baby.name;
@@ -91,8 +91,8 @@
   if(sender == self.dueDateTextField) _dueDateDirty = YES;
   
   if(sender == self.dobTextField) {
-    self.dueDateTextField.picker.maximumDate =  [self.dobTextField.date dateByAddingDays:MAX_DUE_AFTER];
-    self.dueDateTextField.picker.minimumDate =  [self.dobTextField.date dateByAddingDays:MIN_DUE_BEFORE];
+    self.dueDateTextField.maximumDate =  [self.dobTextField.date dateByAddingDays:MAX_DUE_AFTER];
+    self.dueDateTextField.minimumDate =  [self.dobTextField.date dateByAddingDays:MIN_DUE_BEFORE];
     if(!_dueDateDirty)
       self.dueDateTextField.date = self.dobTextField.date;
   }

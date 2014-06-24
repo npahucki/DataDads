@@ -10,12 +10,16 @@
 
 
 
-@implementation UIDateField
+@implementation UIDateField {
+  NSDate * _date;                 // Need to be able to store a full date, and DatePicker seems to erase the time part of the date
+  UIDatePicker * _picker;
+}
 
 // Global for all instances
 NSDateFormatter * _dateFormatter;
 
 -(void) awakeFromNib {
+  _date = [NSDate date];
 
   if(!_dateFormatter) {
     _dateFormatter = [[NSDateFormatter alloc] init];
@@ -24,12 +28,14 @@ NSDateFormatter * _dateFormatter;
     [_dateFormatter setDoesRelativeDateFormatting:YES];
   }
 
+  self.text = [_dateFormatter stringFromDate:_date];
+  
   _picker = [[UIDatePicker alloc]init];
+  _picker.date = _date;
   _picker.datePickerMode = UIDatePickerModeDate;
   _picker.timeZone = [NSTimeZone localTimeZone];
-  _picker.date = [NSDate date];
   _picker.maximumDate = _picker.date; // default
-  [_picker addTarget:self action:@selector(updateTextField:) forControlEvents:UIControlEventValueChanged];
+  [_picker addTarget:self action:@selector(pickerValueChanged:) forControlEvents:UIControlEventValueChanged];
   UIToolbar* datePickerToolbar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, _picker.frame.size.width, 50)];
   datePickerToolbar.items = @[
                               [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
@@ -39,15 +45,13 @@ NSDateFormatter * _dateFormatter;
   self.inputView = _picker;
 
   self.inputAccessoryView = datePickerToolbar;
-  [self updateTextField:_picker];
   [super awakeFromNib];
   
 }
 
-
-
--(void) updateTextField: (id) sender {
-  self.text = [_dateFormatter stringFromDate:((UIDatePicker*) sender).date];
+-(void) pickerValueChanged: (id) sender {
+  _date = ((UIDatePicker*)sender).date;
+  self.text = [_dateFormatter stringFromDate:_date];
 }
 
 -(void) doneWithDatePicker {
@@ -55,12 +59,30 @@ NSDateFormatter * _dateFormatter;
 }
 
 -(void) setDate:(NSDate*) date {
-  ((UIDatePicker*)self.inputView).date = date;
-  [self updateTextField:self.inputView];
+  UIDatePicker * picker = ((UIDatePicker*)self.inputView);
+  _date = date;
+  picker.date = _date;
+  self.text = [_dateFormatter stringFromDate:_date];
 }
 
 -(NSDate*) date {
-  return ((UIDatePicker*)self.inputView).date;
+  return _date;
+}
+
+-(NSDate * ) maximumDate {
+  return _picker.maximumDate;
+}
+
+-(void) setMaximumDate:(NSDate *)maximumDate {
+  _picker.maximumDate = maximumDate;
+}
+
+-(NSDate * ) minimumDate {
+  return _picker.minimumDate;
+}
+
+-(void) setMinimumDate:(NSDate *)minimumDate {
+  _picker.minimumDate = minimumDate;
 }
 
 

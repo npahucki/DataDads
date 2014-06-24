@@ -287,7 +287,7 @@
   if(self.commentsTextField.text.length) self.achievement.comment = self.commentsTextField.text;
   self.achievement.attachment = attachment;
   self.achievement.attachmentType = type;
-  self.achievement.completionDate =  ((UIDatePicker*)self.completionDateTextField.inputView).date;
+  self.achievement.completionDate =  self.completionDateTextField.date;
   
   [self saveObject:self.achievement withTitle:@"Noting Milestone" andFailureMessage:@"Could not note milestone." andBlock:^(NSError * error) {
     if(!error) {
@@ -374,9 +374,8 @@
           createDate = self.achievement.baby.birthDate;
         }
         
-        UIDatePicker * picker = (UIDatePicker*)self.completionDateTextField.inputView;
-        if([picker.date compare:createDate]) {
-          picker.date = createDate;
+        
+        if([self.completionDateTextField.date compare:createDate]) {
           // Label to show the date has been changed., based on the phtoto date
           UILabel * newDateLabel = [[UILabel alloc] init];
           newDateLabel.textColor =  self.completionDateTextField.textColor;
@@ -392,7 +391,7 @@
             newDateLabel.frame = CGRectMake(self.completionDateTextField.frame.origin.x + 5, self.completionDateTextField.frame.origin.y + 5, newDateLabel.frame.size.width, newDateLabel.frame.size.height);
           } completion:^(BOOL finished) {
             [newDateLabel removeFromSuperview];
-            self.completionDateTextField.text = newDateLabel.text;
+            self.completionDateTextField.date = createDate;
           }];
         }
       }
