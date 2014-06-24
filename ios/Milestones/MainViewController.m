@@ -8,8 +8,6 @@
 
 #import "MainViewController.h"
 #import "CustomIOS7AlertView.h"
-#import <Appsee/Appsee.h>
-#import "Flurry.h"
 
 @implementation MainViewController {
   UITabBarItem * _notificationsTabItem;
@@ -56,11 +54,8 @@
   
   ParentUser * user = ParentUser.currentUser;
   if(user) {
-    [Appsee setUserID:user.objectId];
-    [Flurry setUserID:user.objectId];
-    [Flurry setGender:user.isMale ?  @"m" : @"f"];
-    
-    if([Baby currentBaby] == nil) {
+    [UsageAnalytics idenfity:user withBaby:nil];
+    if(Baby.currentBaby == nil) {
       // Finally, we must have at least one baby's info on file
       PFQuery *query =  [Baby  queryForBabiesForUser:PFUser.currentUser];
       query.cachePolicy = [Reachability isParseCurrentlyReachable] ? kPFCachePolicyCacheThenNetwork : kPFCachePolicyCacheOnly;
@@ -94,13 +89,9 @@
         }
       }];
     }
-    
-    // TODO: Check to see if baby's info in file
-    //[self performSegueWithIdentifier:@"enterBabyInfo" sender:self];
+    [UsageAnalytics idenfity:user withBaby:Baby.currentBaby];
     [super viewDidAppear:animated];
-    
   } else {
-    // need to login before we can do anything
     [self performSegueWithIdentifier:@"showIntroScreen" sender:self];
   }
 }

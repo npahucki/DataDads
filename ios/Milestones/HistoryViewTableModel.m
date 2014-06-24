@@ -232,13 +232,12 @@
   achievement.baby = _baby;
   achievement.standardMilestone = milestone;
   achievement.completionDate = [NSDate date];
-  
   // This will make it looks like it happens right away, and it will save as soon as it can be done.
   [achievement saveEventually];
+  [UsageAnalytics trackAchievementLogged:achievement sharedOnFacebook:NO];
 }
 
 -(NSInteger) addNewAchievement:(MilestoneAchievement *) achievement {
-  
   // The achievement are already sorted by completion date (descending), so we need to run through the list and
   // find the appropriate place to insert it. We could insert and sort the list again, but we would then not
   // know where the item ended up in the list, which is needed to know which parts of the table to update.

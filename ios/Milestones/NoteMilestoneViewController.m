@@ -288,6 +288,7 @@
   self.achievement.attachment = attachment;
   self.achievement.attachmentType = type;
   self.achievement.completionDate =  ((UIDatePicker*)self.completionDateTextField.inputView).date;
+  
   [self saveObject:self.achievement withTitle:@"Noting Milestone" andFailureMessage:@"Could not note milestone." andBlock:^(NSError * error) {
     if(!error) {
       // SEE NOTE ABOVE
@@ -312,6 +313,8 @@
         }];
       }
       
+
+      
       // Save the measurments (if any)
       if(heightMeasurement) [heightMeasurement saveEventually:^(BOOL succeeded, NSError *error) {
         if(error) {
@@ -326,8 +329,12 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationMeasurementNotedAndSaved object:weightMeasurement];
       }];
 
-      
-      
+      if(self.isMeasurement) {
+        if(heightMeasurement) [UsageAnalytics trackMeasurement:heightMeasurement];
+        if(weightMeasurement) [UsageAnalytics trackMeasurement:weightMeasurement];
+      } else {
+        [UsageAnalytics trackAchievementLogged:self.achievement sharedOnFacebook:self.fbSwitch.on];
+      }
       [self dismissViewControllerAnimated:YES completion:nil];
     }
   }];

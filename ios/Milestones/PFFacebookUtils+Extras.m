@@ -116,11 +116,13 @@
       [alert showWithButtonBlock:^(NSInteger buttonIndex) {
         if(buttonIndex == 0) {
           // cancel
+          [UsageAnalytics trackUserLinkedWithFacebook:(ParentUser*)user forPublish:YES withError:[NSError errorWithDomain:@"DataParenting" code:kDDErrorUserRefusedFacebookPermissions userInfo:nil]];
           block(NO, nil);
         } else {
           // NOTE: If the user denies the auth, The call back is never called!
           // We should file an issue with Parse over this. 
           [PFFacebookUtils reauthorizeUser:user withPublishPermissions:FB_PUBLISH_PERMISSION_ARRAY audience:FBSessionDefaultAudienceFriends block:^(BOOL succeeded, NSError *error) {
+            [UsageAnalytics trackUserLinkedWithFacebook:(ParentUser*)user forPublish:YES withError:error];
             if(error) {
               block(NO, error);
             } else {
@@ -140,6 +142,7 @@
         } else {
           NSAssert(user != nil, @"DId not expect a completely non logged in user here!");
           [PFFacebookUtils linkUser:user permissions:FB_PUBLISH_PERMISSION_ARRAY block:^(BOOL succeeded, NSError *error) {
+            [UsageAnalytics trackUserLinkedWithFacebook:(ParentUser*)user forPublish:YES withError:error];
             if(error) {
               block(NO, error);
             } else {
@@ -154,6 +157,7 @@
 
 +(void) populateCurrentUserDetailsFromFacebook: (ParentUser *) user block:(PFBooleanResultBlock) block {
   [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+    [UsageAnalytics trackUserLinkedWithFacebook:user forPublish:NO withError:error];
     if (error) {
       if(block) block(NO,error);
     } else {

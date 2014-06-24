@@ -52,7 +52,6 @@
 		E872D4D81942026F003F461C /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E872D4D71942026F003F461C /* AVFoundation.framework */; };
 		E872D4DA1942027D003F461C /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E872D4D91942027D003F461C /* CoreMedia.framework */; };
 		E872D4DC19420287003F461C /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E872D4DB19420287003F461C /* CoreVideo.framework */; };
-		E872D62519424091003F461C /* libFlurry_5.0.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E872D62419424091003F461C /* libFlurry_5.0.0.a */; };
 		E872D62B1949E9C0003F461C /* Measurement.m in Sources */ = {isa = PBXBuildFile; fileRef = E872D62A1949E9C0003F461C /* Measurement.m */; };
 		E872D62E194A5425003F461C /* UnitHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = E872D62D194A5425003F461C /* UnitHelper.m */; };
 		E876159B18EF83C100B0C6D9 /* BabyTagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E876159A18EF83C100B0C6D9 /* BabyTagsViewController.m */; };
@@ -64,6 +63,7 @@
 		E89035E819303D13004A4013 /* SignUpPromptViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89035E719303D13004A4013 /* SignUpPromptViewController.m */; };
 		E89035EB19337807004A4013 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = E89035EA19337807004A4013 /* Reachability.m */; };
 		E89035EF1934C97F004A4013 /* AchievementDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89035EE1934C97F004A4013 /* AchievementDetailsViewController.m */; };
+		E89AC31D1955E83D00AD3869 /* UsageAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E89AC31C1955E83D00AD3869 /* UsageAnalytics.m */; };
 		E8ABCFBA191D68FE0083ED25 /* UIDateField.m in Sources */ = {isa = PBXBuildFile; fileRef = E8ABCFB9191D68FE0083ED25 /* UIDateField.m */; };
 		E8BC76D518A50AD000983025 /* UIViewControllerWithHUDProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = E8BC76D418A50AD000983025 /* UIViewControllerWithHUDProgress.m */; };
 		E8BDE6B0193CC106001D6995 /* NSDate+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = E8BDE6AF193CC106001D6995 /* NSDate+Utils.m */; };
@@ -181,8 +181,6 @@
 		E872D4D71942026F003F461C /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		E872D4D91942027D003F461C /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		E872D4DB19420287003F461C /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
-		E872D62319424091003F461C /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Flurry.h; path = ../Flurry/Flurry.h; sourceTree = "<group>"; };
-		E872D62419424091003F461C /* libFlurry_5.0.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFlurry_5.0.0.a; path = ../Flurry/libFlurry_5.0.0.a; sourceTree = "<group>"; };
 		E872D6291949E9C0003F461C /* Measurement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Measurement.h; sourceTree = "<group>"; };
 		E872D62A1949E9C0003F461C /* Measurement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Measurement.m; sourceTree = "<group>"; };
 		E872D62C194A5425003F461C /* UnitHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnitHelper.h; sourceTree = "<group>"; };
@@ -205,6 +203,8 @@
 		E89035EA19337807004A4013 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		E89035ED1934C97F004A4013 /* AchievementDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AchievementDetailsViewController.h; sourceTree = "<group>"; };
 		E89035EE1934C97F004A4013 /* AchievementDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AchievementDetailsViewController.m; sourceTree = "<group>"; };
+		E89AC31B1955E83D00AD3869 /* UsageAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UsageAnalytics.h; sourceTree = "<group>"; };
+		E89AC31C1955E83D00AD3869 /* UsageAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UsageAnalytics.m; sourceTree = "<group>"; };
 		E8ABCFB8191D68FE0083ED25 /* UIDateField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIDateField.h; sourceTree = "<group>"; };
 		E8ABCFB9191D68FE0083ED25 /* UIDateField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIDateField.m; sourceTree = "<group>"; };
 		E8BC76D318A50AD000983025 /* UIViewControllerWithHUDProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIViewControllerWithHUDProgress.h; sourceTree = "<group>"; };
@@ -281,7 +281,6 @@
 				E8DD48E2188EE5B900153095 /* UIKit.framework in Frameworks */,
 				E81B58561891EE1100C74C2B /* Parse.framework in Frameworks */,
 				E8DD48DE188EE5B900153095 /* Foundation.framework in Frameworks */,
-				E872D62519424091003F461C /* libFlurry_5.0.0.a in Frameworks */,
 				E81B586D189345A800C74C2B /* FacebookSDK.framework in Frameworks */,
 				D6CB8834E1A347069F6D2883 /* libPods.a in Frameworks */,
 			);
@@ -375,6 +374,8 @@
 				E872D4CF1940E9FD003F461C /* UIAlertView+BlockSupport.m */,
 				E872D62C194A5425003F461C /* UnitHelper.h */,
 				E872D62D194A5425003F461C /* UnitHelper.m */,
+				E89AC31B1955E83D00AD3869 /* UsageAnalytics.h */,
+				E89AC31C1955E83D00AD3869 /* UsageAnalytics.m */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -583,8 +584,6 @@
 				E872D4C61940943F003F461C /* SevenSwitch.h */,
 				E8E39C1918EA13B40034982D /* CustomIOS7AlertView.h */,
 				E8E39C1A18EA13B40034982D /* CustomIOS7AlertView.m */,
-				E872D62319424091003F461C /* Flurry.h */,
-				E872D62419424091003F461C /* libFlurry_5.0.0.a */,
 			);
 			name = ThirdParty;
 			path = Milestones;
@@ -757,6 +756,7 @@
 				E81B588318992B7000C74C2B /* Tag.m in Sources */,
 				E8BC76D518A50AD000983025 /* UIViewControllerWithHUDProgress.m in Sources */,
 				E877FCB01936BA98002405BF /* WebViewerViewController.m in Sources */,
+				E89AC31D1955E83D00AD3869 /* UsageAnalytics.m in Sources */,
 				E86B1EB21927967800EA6167 /* PFQueryWithExtendedResultSet.m in Sources */,
 				E872D4CD1940B8D6003F461C /* PFFacebookUtils+Extras.m in Sources */,
 				E8EC89D81907CB410073E012 /* UIViewController+MBProgressHUD.m in Sources */,
@@ -924,10 +924,7 @@
 				GCC_PREFIX_HEADER = "Milestones/DataParenting-Prefix.pch";
 				INFOPLIST_FILE = "Milestones/DataParenting-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Flurry",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = DataParenting;
 				PROVISIONING_PROFILE = "9E2AE755-312B-4AC0-8442-45E42684A555";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -952,10 +949,7 @@
 				GCC_PREFIX_HEADER = "Milestones/DataParenting-Prefix.pch";
 				INFOPLIST_FILE = "Milestones/DataParenting-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Flurry",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = DataParenting;
 				PROVISIONING_PROFILE = "9E2AE755-312B-4AC0-8442-45E42684A555";
 				TARGETED_DEVICE_FAMILY = 1;

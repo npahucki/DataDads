@@ -13,11 +13,14 @@
 
 @end
 
-@implementation SignUpViewController
+@implementation SignUpViewController {
+  NSString * _methodName;
+}
 
 - (void)viewDidLoad
 {
   [super viewDidLoad];
+  _methodName = @"parse";
   self.delegate = self;
   self.facebookPermissions = @[ @"user_about_me", @"email" ];
   
@@ -134,8 +137,10 @@
 }
 
 -(void) didClickFacebookButton:(id) sender {
+  _methodName = @"facebook";
   [self showStartSignUpProgress];
   [PFFacebookUtils logInWithPermissions:self.facebookPermissions block:^(PFUser *user, NSError *error) {
+    [UsageAnalytics trackUserLinkedWithFacebook:(ParentUser*)user forPublish:NO withError:error];
     if (error) {
       [self signUpViewController:self didFailToSignUpWithError:error];
     } else {
@@ -237,12 +242,12 @@
 
 # pragma PFSignUpViewControllerDelegate methods
 // Sent to the delegate when a PFUser is signed up.
-- (void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user {
+- (void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(ParentUser *)user {
   [[PFInstallation currentInstallation] setObject:user forKey:@"user"];
   [[PFInstallation currentInstallation] saveEventually];
   user.ACL = [PFACL ACLWithUser:user];
   [user saveEventually];
-  
+  [UsageAnalytics trackUserSignup:user usingMethod:_methodName];
   [self showSignupSuccessAndRunBlock:^{
     [[NSNotificationCenter defaultCenter]
      postNotificationName:kDDNotificationUserSignedUp object:user];
@@ -262,6 +267,7 @@
 
 /// Sent to the delegate when the sign up attempt fails.
 - (void)signUpViewController:(PFSignUpViewController *)signUpController didFailToSignUpWithError:(NSError *)error {
+  [UsageAnalytics trackUserSignupError:error usingMethod:_methodName];
   [self showSignupError:error withMessage:@"Bummer!"];
 }
 

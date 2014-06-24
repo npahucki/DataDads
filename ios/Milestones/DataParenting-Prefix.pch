@@ -28,4 +28,5 @@
 #import "BabyAssignedTip.h"
 #import "Reachability.h"
 #import "PFFacebookUtils+Extras.h"
+#import "UsageAnalytics.h"
 

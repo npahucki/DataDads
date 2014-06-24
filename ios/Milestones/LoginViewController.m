@@ -179,7 +179,7 @@
 
 /*! @name Responding to Actions */
 /// Sent to the delegate when a PFUser is logged in.
-- (void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user {
+- (void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(ParentUser *)user {
 
   // Make sure the current user is associated with the device.
   [[PFInstallation currentInstallation] setObject:user forKey:@"user"];
@@ -187,11 +187,12 @@
   user.ACL = [PFACL ACLWithUser:user];
   [user saveEventually];
   
-  BOOL isLinkedToFacebook = [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]];
+  BOOL isLinkedToFacebook = [PFFacebookUtils isLinkedWithUser:user];
   if(isLinkedToFacebook) {
     // We need to copy the email address and maybe some other attibutes here before we proceed.
     // We can do this in the background so as to let the user get started without additional delay.
     [PFFacebookUtils populateCurrentUserDetailsFromFacebook:(ParentUser*)user block:nil];
+    [UsageAnalytics trackUserSignup:user usingMethod:@"facebook"];
   }
   
   [self showLoginSuccessAndRunBlock:^{

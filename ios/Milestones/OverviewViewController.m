@@ -88,6 +88,7 @@
     signupController.showExternal = YES;
     [self presentViewController:signupController animated:YES completion:nil];
   } else {
+    [UsageAnalytics trackUserSignout:ParentUser.currentUser];
     [[PFInstallation currentInstallation] setObject:[NSNull null] forKey:@"user"];
     [[PFInstallation currentInstallation] saveEventually];
     [PFUser logOut];

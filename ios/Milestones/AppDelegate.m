@@ -11,7 +11,7 @@
 #import "LoginViewController.h"
 #import <FacebookSDK/FacebookSDK.h>
 #import <Appsee/Appsee.h>
-#import "Flurry.h"
+#import "Heap.h"
 
 @implementation AppDelegate
 
@@ -35,24 +35,16 @@
   [PFACL setDefaultACL:[PFACL ACL] withAccessForCurrentUser:YES];
   
   // Setup Social Providers ANd Trakcing Services
-
-  // TODO: Move to production only
-  //note: iOS only allows one crash reporting tool per app; if using another, set to: NO
-  [Flurry setCrashReportingEnabled:NO]; // Appsee is doing crash reporting
-  [Flurry startSession:@"PYD2CGMG7MSGVNRG95DF"];
+  [UsageAnalytics initializeConnection];
   
 # if DEBUG || TARGET_IPHONE_SIMULATOR
   NSLog(@"Using Parse DEV account");
   [Parse setApplicationId:@"NlJHBG0NZgFS8JP76DBjA31MBRZ7kmb7dVSQQz3U"
                 clientKey:@"iMYPq4Fg751JyIOeHYnDH4LsuivOcm8uoi4DlwJ9"];
-
-  [Appsee start:@"d734db8233234f5fb770c5166c3d56cd"];
 #else
   NSLog(@"Using Parse PRODUCTION account");
   [Parse setApplicationId:@"Vxvqum0HRF1NB00LEf2faaJYFzxd2Xh8hyrdY8MY"
                 clientKey:@"N4kS8ush3bY6Arb05tI86Gx9uA2EDiZEqzpVDrvq"];
-
-  [Appsee start:@"0d66ed485f214fdd977275d9de1de7b9"];
 #endif
 
   [PFFacebookUtils initializeFacebook];
