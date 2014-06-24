@@ -44,7 +44,7 @@
   
   // LOGO / Title
   UILabel* label = [[UILabel alloc]init];
-  label.text = @"Login to Data Dads";
+  label.text = @"Login to DataParenting";
   label.font = [UIFont fontForAppWithType:Bold andSize:27];
   label.textColor = [UIColor appNormalColor];
   [label sizeToFit];

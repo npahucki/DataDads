@@ -40,7 +40,7 @@ extern NSString *const kDDNotificationPushReceieved;
 #pragma mark Application Colors
 
 
-@interface UIColor (DataDads)
+@interface UIColor (DataParenting)
 
 +(UIColor *) appNormalColor;
 +(UIColor *) appSelectedColor;
@@ -60,7 +60,7 @@ typedef enum _AppFontType : NSUInteger {
   BoldItalic
 }  AppFontType;
 
-@interface UIFont (DataDads)
+@interface UIFont (DataParenting)
 +(UIFont *) fontForAppWithType:(AppFontType) type andSize:(int) size;
 @end
 

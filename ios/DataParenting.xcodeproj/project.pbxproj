@@ -960,7 +960,7 @@
 		E8DD4916188EE5BA00153095 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/DataDads Baby Milestones.app/DataDads Baby Milestones";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/DataParenting.app/DataParenting";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -968,7 +968,7 @@
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Milestones/Milestones-Prefix.pch";
+				GCC_PREFIX_HEADER = "Milestones/DataParenting-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -983,7 +983,7 @@
 		E8DD4917188EE5BA00153095 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/DataDads Baby Milestones.app/DataDads Baby Milestones";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/DataParenting.app/DataParenting";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -991,7 +991,7 @@
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Milestones/Milestones-Prefix.pch";
+				GCC_PREFIX_HEADER = "Milestones/DataParenting-Prefix.pch";
 				INFOPLIST_FILE = "MilestonesTests/DataParentingTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";

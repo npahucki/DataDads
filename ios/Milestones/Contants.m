@@ -39,14 +39,14 @@ NSString *const kDDNotificationPushReceieved = @"notificationPushReceived";
 
 
 #pragma mark - Application Colors
-@implementation UIColor (DataDads)
+@implementation UIColor (DataParenting)
 
 +(UIColor *) appNormalColor {return UIColorFromRGB(0x1A8E9F);} // 26 142 159
 +(UIColor *) appSelectedColor {return UIColorFromRGB(0x1F717E);} // 31 113 126
 +(UIColor *) appGreyTextColor {return UIColorFromRGB(0xA9A9B1);} // 169 169 177
 @end
 
-@implementation UIFont (DataDads)
+@implementation UIFont (DataParenting)
 
 
 /*

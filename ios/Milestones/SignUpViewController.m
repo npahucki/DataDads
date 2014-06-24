@@ -49,7 +49,7 @@
   UINavigationBar *myBar = [[UINavigationBar alloc]initWithFrame:CGRectMake(0, 0, self.signUpView.frame.size.width, 44)];
   [myBar setBackgroundImage:[UIImage imageNamed:@"header"] forBarMetrics:UIBarMetricsDefault];
   [myBar pushNavigationItem:[[UINavigationItem alloc] init] animated:false];
-  myBar.topItem.title = @"DataDads";
+  myBar.topItem.title = @"DataParenting";
   // Insert BELOW the close button so it still works
   [self.signUpView insertSubview:myBar belowSubview:self.signUpView.dismissButton];
   
