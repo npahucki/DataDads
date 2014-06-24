@@ -405,7 +405,7 @@
   _imageOrVideo = UIImageJPEGRepresentation(photo, 0.5f);
   _imageOrVideoType = @"image/jpg";
   [self.takePhotoButton.layer removeAllAnimations];
-  self.takePhotoButton.contentMode = UIViewContentModeCenter;
+  self.takePhotoButton.imageView.contentMode = UIViewContentModeScaleAspectFill;
   [self.takePhotoButton setImage:photo forState:UIControlStateNormal];
   self.takePhotoButton.alpha = 1.0;
 

@@ -24,6 +24,8 @@
 {
   [super viewDidLoad];
   NSAssert(self.baby,@"Expected baby would be set before view loads");
+
+  self.takePhotoButton.imageView.contentMode = UIViewContentModeScaleAspectFill;
   self.theLabel.font = [UIFont fontForAppWithType:Light andSize:31.0];
   if(self.baby.avatarImage) {
     [self.baby.avatarImage getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
@@ -72,7 +74,6 @@
 {
   _imageData = UIImageJPEGRepresentation(photo, 0.5f);
   [self.takePhotoButton.layer removeAllAnimations];
-  self.takePhotoButton.contentMode = UIViewContentModeCenter;
   [self.takePhotoButton setImage:photo forState:UIControlStateNormal];
   self.takePhotoButton.alpha = 1.0;
 }
