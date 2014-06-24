@@ -16,6 +16,7 @@
 #define IMG_SIZE CGSizeMake(53,53)
 
 @interface HistoryTableViewCell : SWTableViewCell
+@property (weak, nonatomic) IBOutlet UIImageView *customImageView;
 
 @property (nonatomic, strong) UIView* topLineView;
 @property (nonatomic, strong) UIView* bottomLineView;

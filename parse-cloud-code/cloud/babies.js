@@ -10,7 +10,7 @@ Parse.Cloud.beforeSave("Babies", function(request, response) {
     return;
   }
 
-  thumbnails.makeImageThumbnail(baby.get("avatarImage"), 108, 108)
+  thumbnails.makeImageThumbnail(baby.get("avatarImage"), 108, 108, true)
   .then(function(thumbnail) {
     baby.set("avatarImageThumbnail", thumbnail);
   }).then(function(result) {

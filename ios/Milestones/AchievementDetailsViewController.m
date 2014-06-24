@@ -32,6 +32,7 @@ NSDateFormatter * _dateFormatter;
   [super viewDidLoad];
   NSAssert(self.achievement,@"Expected Achievement to be set before loading view!");
 
+  self.detailsImageButton.imageView.contentMode = UIViewContentModeScaleAspectFill;
   self.detailsTextView.delegate = self;
   NSDictionary *linkAttributes = @{NSForegroundColorAttributeName: [UIColor appSelectedColor],
                                    NSUnderlineColorAttributeName: [UIColor appSelectedColor],

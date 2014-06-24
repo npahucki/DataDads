@@ -23,7 +23,7 @@ Parse.Cloud.beforeSave("MilestoneAchievements", function (request, response) {
         return;
     }
 
-    thumbnails.makeImageThumbnail(achievement.get("attachment"), 108, 108)
+    thumbnails.makeImageThumbnail(achievement.get("attachment"), 108, 108, true)
             .then(function (thumbnail) {
                 achievement.set("attachmentThumbnail", thumbnail);
             }).then(function (result) {

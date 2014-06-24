@@ -7,6 +7,7 @@
 //
 
 #import "HistoryViewControllerDataSource.h"
+#import "UIImage+FX.h"
 
 #pragma mark Cell impls
 
@@ -199,7 +200,7 @@
         UIImage * image = [[UIImage alloc] initWithData:data];
         // NOTE: Image will be null if the image data is bad, which can happen for example if parse returns a 200 code but error text instead.
         if(image) {
-          cell.imageView.image = [self imageWithImage:image scaledToSize:IMG_SIZE];
+          cell.imageView.image =  [image imageCroppedAndScaledToSize:IMG_SIZE contentMode:UIViewContentModeScaleAspectFill padToFit:NO];
           cell.imageView.alpha = hasAttachmentImage ? 1.0 : 0.3;
         }
       }
@@ -246,6 +247,8 @@
 
 // TODO: Save thumbnails so we don't have to scale
 - (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize {
+  
+  float ratio = newSize.height/image.size.height;
   if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)]) {
     if ([[UIScreen mainScreen] scale] == 2.0) {
       UIGraphicsBeginImageContextWithOptions(newSize, YES, 2.0);
@@ -255,7 +258,7 @@
   } else {
     UIGraphicsBeginImageContext(newSize);
   }
-  [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+  [image drawInRect:CGRectMake(0, 0, ratio * image.size.width, newSize.height)];
   UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
   UIGraphicsEndImageContext();
   return newImage;
