@@ -338,7 +338,7 @@
 
 -(void) didLoadAchievementsAtPageIndex:(NSInteger)pageIndex {
   [self.tableView reloadData];
-  if(pageIndex > 0) {
+  if(pageIndex == 0) {
     [self scrollToFirstAchievement];
   }
 }
