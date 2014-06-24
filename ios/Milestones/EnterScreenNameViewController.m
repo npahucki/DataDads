@@ -86,7 +86,6 @@
 
 -(void) saveUserPreferences:(ParentUser*) user {
   user.ACL = [PFACL ACLWithUser:user];
-  [user saveEventually];
   user.screenName = self.screenNameField.text;
   user.isMale = self.maleButton.isSelected;
   
@@ -132,7 +131,7 @@
 
 // TODO: Move save baby logic somewhere else that can be shared.
 -(void) saveBaby {
-
+  self.baby.ACL = [PFACL ACLWithUser:self.baby.parentUser];
   [self saveObject:self.baby withTitle:[NSString stringWithFormat:@"Saving %@'s info", self.baby.name] andFailureMessage:@"Could not save baby's information" andBlock:^(NSError *error) {
     if(!error) {
       Baby.currentBaby = self.baby;
