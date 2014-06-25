@@ -66,6 +66,7 @@
 		E89AC31D1955E83D00AD3869 /* UsageAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E89AC31C1955E83D00AD3869 /* UsageAnalytics.m */; };
 		E89AC31F195A0D1C00AD3869 /* NSDateHumanizedTime.strings in Resources */ = {isa = PBXBuildFile; fileRef = E89AC31E195A0D1C00AD3869 /* NSDateHumanizedTime.strings */; };
 		E89AC324195A204100AD3869 /* UIImage+FX.m in Sources */ = {isa = PBXBuildFile; fileRef = E89AC323195A204100AD3869 /* UIImage+FX.m */; };
+		E89AC327195B029600AD3869 /* RangeIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = E89AC326195B029600AD3869 /* RangeIndicatorView.m */; };
 		E8ABCFBA191D68FE0083ED25 /* UIDateField.m in Sources */ = {isa = PBXBuildFile; fileRef = E8ABCFB9191D68FE0083ED25 /* UIDateField.m */; };
 		E8BC76D518A50AD000983025 /* UIViewControllerWithHUDProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = E8BC76D418A50AD000983025 /* UIViewControllerWithHUDProgress.m */; };
 		E8BDE6B0193CC106001D6995 /* NSDate+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = E8BDE6AF193CC106001D6995 /* NSDate+Utils.m */; };
@@ -210,6 +211,8 @@
 		E89AC31E195A0D1C00AD3869 /* NSDateHumanizedTime.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = NSDateHumanizedTime.strings; sourceTree = "<group>"; };
 		E89AC322195A204100AD3869 /* UIImage+FX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+FX.h"; sourceTree = "<group>"; };
 		E89AC323195A204100AD3869 /* UIImage+FX.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+FX.m"; sourceTree = "<group>"; };
+		E89AC325195B029600AD3869 /* RangeIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RangeIndicatorView.h; sourceTree = "<group>"; };
+		E89AC326195B029600AD3869 /* RangeIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RangeIndicatorView.m; sourceTree = "<group>"; };
 		E8ABCFB8191D68FE0083ED25 /* UIDateField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIDateField.h; sourceTree = "<group>"; };
 		E8ABCFB9191D68FE0083ED25 /* UIDateField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIDateField.m; sourceTree = "<group>"; };
 		E8BC76D318A50AD000983025 /* UIViewControllerWithHUDProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIViewControllerWithHUDProgress.h; sourceTree = "<group>"; };
@@ -430,6 +433,8 @@
 				E89035EE1934C97F004A4013 /* AchievementDetailsViewController.m */,
 				E8D00A1E188F435300DF2786 /* NoteMilestoneViewController.h */,
 				E8D00A1F188F435300DF2786 /* NoteMilestoneViewController.m */,
+				E89AC325195B029600AD3869 /* RangeIndicatorView.h */,
+				E89AC326195B029600AD3869 /* RangeIndicatorView.m */,
 			);
 			name = Milestones;
 			sourceTree = "<group>";
@@ -767,6 +772,7 @@
 				E877FCB01936BA98002405BF /* WebViewerViewController.m in Sources */,
 				E89AC31D1955E83D00AD3869 /* UsageAnalytics.m in Sources */,
 				E86B1EB21927967800EA6167 /* PFQueryWithExtendedResultSet.m in Sources */,
+				E89AC327195B029600AD3869 /* RangeIndicatorView.m in Sources */,
 				E872D4CD1940B8D6003F461C /* PFFacebookUtils+Extras.m in Sources */,
 				E89AC324195A204100AD3869 /* UIImage+FX.m in Sources */,
 				E8EC89D81907CB410073E012 /* UIViewController+MBProgressHUD.m in Sources */,
