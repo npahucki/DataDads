@@ -33,6 +33,7 @@
 		E81B588E189BFFFE00C74C2B /* MilestoneAchievement.m in Sources */ = {isa = PBXBuildFile; fileRef = E81B588D189BFFFE00C74C2B /* MilestoneAchievement.m */; };
 		E8250F401925616F004A1B41 /* IntroScreenContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8250F3F1925616F004A1B41 /* IntroScreenContentViewController.m */; };
 		E8250F43192561A7004A1B41 /* IntroScreenPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8250F42192561A7004A1B41 /* IntroScreenPageViewController.m */; };
+		E825C1CB195B5B010081614F /* HIstoryViewTableCells.m in Sources */ = {isa = PBXBuildFile; fileRef = E825C1CA195B5B010081614F /* HIstoryViewTableCells.m */; };
 		E832437018F895F500307356 /* HistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E832436F18F895F500307356 /* HistoryViewController.m */; };
 		E840251918F0DEC800AF1B27 /* BabyInfoPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E840251818F0DEC800AF1B27 /* BabyInfoPhotoViewController.m */; };
 		E84A2CF01953C3D300BFA857 /* NSDate+HumanizedTime.m in Sources */ = {isa = PBXBuildFile; fileRef = E84A2CEF1953C3D300BFA857 /* NSDate+HumanizedTime.m */; };
@@ -151,6 +152,8 @@
 		E8250F3F1925616F004A1B41 /* IntroScreenContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntroScreenContentViewController.m; sourceTree = "<group>"; };
 		E8250F41192561A7004A1B41 /* IntroScreenPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntroScreenPageViewController.h; sourceTree = "<group>"; };
 		E8250F42192561A7004A1B41 /* IntroScreenPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntroScreenPageViewController.m; sourceTree = "<group>"; };
+		E825C1C9195B5B010081614F /* HIstoryViewTableCells.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HIstoryViewTableCells.h; sourceTree = "<group>"; };
+		E825C1CA195B5B010081614F /* HIstoryViewTableCells.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HIstoryViewTableCells.m; sourceTree = "<group>"; };
 		E832436E18F895F500307356 /* HistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryViewController.h; sourceTree = "<group>"; };
 		E832436F18F895F500307356 /* HistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryViewController.m; sourceTree = "<group>"; };
 		E840251718F0DEC800AF1B27 /* BabyInfoPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyInfoPhotoViewController.h; sourceTree = "<group>"; };
@@ -435,6 +438,8 @@
 				E8D00A1F188F435300DF2786 /* NoteMilestoneViewController.m */,
 				E89AC325195B029600AD3869 /* RangeIndicatorView.h */,
 				E89AC326195B029600AD3869 /* RangeIndicatorView.m */,
+				E825C1C9195B5B010081614F /* HIstoryViewTableCells.h */,
+				E825C1CA195B5B010081614F /* HIstoryViewTableCells.m */,
 			);
 			name = Milestones;
 			sourceTree = "<group>";
@@ -790,6 +795,7 @@
 				E872D4D01940E9FD003F461C /* UIAlertView+BlockSupport.m in Sources */,
 				E872D4C1193F6975003F461C /* HistoryViewControllerDataSource.m in Sources */,
 				E872D62B1949E9C0003F461C /* Measurement.m in Sources */,
+				E825C1CB195B5B010081614F /* HIstoryViewTableCells.m in Sources */,
 				E86B1EAF19277E7700EA6167 /* HistoryViewTableModel.m in Sources */,
 				E8BDE6B0193CC106001D6995 /* NSDate+Utils.m in Sources */,
 				E8E39C6A18EB063E0034982D /* MainMilestoneViewController.m in Sources */,

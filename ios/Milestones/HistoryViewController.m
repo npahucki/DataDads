@@ -306,6 +306,7 @@
       MilestoneAchievement * deletedAchievement = [_model deleteAchievementAtIndex:path.row];
       [self.tableView endUpdates];
       // Put the thing back in the milestone list. 
+      // TODO: Inject back into table, avoid reloading!
       if(deletedAchievement.standardMilestone) {
         // need to put this back into the list.
         if(_model.baby.daysSinceDueDate >= [deletedAchievement.standardMilestone.rangeHigh integerValue]) {
@@ -350,9 +351,7 @@
 
 -(void) didLoadFutureMilestonesAtPageIndex:(NSInteger)pageIndex {
   [self.tableView reloadData]; // use instead of relaod section which makes the table jump!
-  if(pageIndex == 0) {
-    [self scrollToFirstAchievement];
-  } else {
+  if(pageIndex > 0) {
     if(_lastTableSize.height > 0) {
       CGPoint afterContentOffset = self.tableView.contentOffset;
       CGSize afterContentSize = self.tableView.contentSize;
@@ -374,9 +373,6 @@
 
 -(void) didLoadPastMilestonesAtPageIndex:(NSInteger)pageIndex {
   [self.tableView reloadData];
-  if(pageIndex == 0) { // first time, jump to first achievement
-    [self scrollToFirstAchievement];
-  }
 }
 
 -(void) didFailToLoadPastMilestones:(NSError *) error atPageIndex:(NSInteger)pageIndex {

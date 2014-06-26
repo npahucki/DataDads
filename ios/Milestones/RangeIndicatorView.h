@@ -13,8 +13,6 @@
 @interface RangeIndicatorView : UIView
 
 @property NSInteger rangeScale;
-
-
 @property NSInteger startRange;
 @property NSInteger endRange;
 

@@ -10,23 +10,8 @@
 #import "HistoryViewTableModel.h"
 #import "SWTableViewCell.h"
 #import "NSDate+HumanizedTime.h"
-
-
-
-#define IMG_SIZE CGSizeMake(53,53)
-
-@interface HistoryTableViewCell : SWTableViewCell
-@property (weak, nonatomic) IBOutlet UIImageView *customImageView;
-
-@property (nonatomic, strong) UIView* topLineView;
-@property (nonatomic, strong) UIView* bottomLineView;
-@end
-
-@interface LoadingTableViewCell : HistoryTableViewCell
-@property (weak, nonatomic) IBOutlet UIImageView *loadingImageView;
-@property (weak, nonatomic) IBOutlet UILabel *loadingLabel;
-@end
-
+#import "RangeIndicatorView.h"
+#import "HIstoryViewTableCells.h"
 
 
 @interface HistoryViewControllerDataSource : NSObject <UITableViewDataSource>
@@ -40,6 +25,5 @@ typedef NS_ENUM(NSInteger, HistorySectionType) {
   PastMilestoneSection
 };
 
-
-
 @end
+
