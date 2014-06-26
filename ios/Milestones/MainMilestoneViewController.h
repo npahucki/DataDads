@@ -12,10 +12,11 @@
 
 @interface MainMilestoneViewController : UIViewController <HistoryViewControllerDelegate,UISearchBarDelegate,UICollisionBehaviorDelegate>
 
-@property (strong, nonatomic) IBOutlet UIButton *addMilestoneButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *addMilestoneButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *menuButton;
 @property (weak, nonatomic) IBOutlet UIButton *warningMsgButton;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *searchButton;
 
 @end
 

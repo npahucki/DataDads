@@ -41,7 +41,6 @@
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkReachabilityChanged:) name:kReachabilityChangedNotification object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appEnterForeground:) name:UIApplicationDidBecomeActiveNotification object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gotPushNotification:) name:kDDNotificationPushReceieved object:nil];
-  self.navigationItem.title = Baby.currentBaby.name;
 }
 
 -(void) dealloc {
@@ -60,7 +59,6 @@
 
 -(void) babyUpdated:(NSNotification*)notification {
   //self.menuButton.enabled = Baby.currentBaby != nil;
-  self.navigationItem.title = Baby.currentBaby.name;
 }
 
 -(void) networkReachabilityChanged:(NSNotification*)notification {

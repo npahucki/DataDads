@@ -1524,7 +1524,7 @@
             </objects>
             <point key="canvasLocation" x="4843" y="-2582"/>
         </scene>
-        <!--Main Milestone View Controller - My Baby-->
+        <!--Main Milestone View Controller - MIlestones-->
         <scene sceneID="m6x-fX-w2v">
             <objects>
                 <viewController id="4nI-5F-GIp" customClass="MainMilestoneViewController" sceneMemberID="viewController">
@@ -1544,22 +1544,6 @@
                                     <segue destination="b71-m6-YKZ" kind="embed" id="eQr-it-vSG"/>
                                 </connections>
                             </containerView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vpv-RJ-8CQ">
-                                <rect key="frame" x="271" y="517" width="41" height="43"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="41" id="Ruy-vl-S9B"/>
-                                </constraints>
-                                <state key="normal" image="newMilestoneButton">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="selected" image="newMilestoneButton_pressed"/>
-                                <state key="highlighted" image="newMilestoneButton_pressed.png"/>
-                                <connections>
-                                    <action selector="didClickAddNewMilestone:" destination="4nI-5F-GIp" eventType="touchUpInside" id="Jqd-iU-F14"/>
-                                    <segue destination="n8g-sI-yKY" kind="modal" identifier="noteMilestone" customClass="UIStoryboardPopoverSegue" modalTransitionStyle="coverVertical" id="oem-D7-bAF"/>
-                                </connections>
-                            </button>
                             <button hidden="YES" clipsSubviews="YES" alpha="0.94999999999999996" contentMode="scaleAspectFit" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="DUF-5w-Jc1">
                                 <rect key="frame" x="0.0" y="44" width="320" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1577,7 +1561,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="khm-V0-uFI"/>
                                 </constraints>
-                                <color key="barTintColor" red="0.96078437569999997" green="0.96078437569999997" blue="0.96078437569999997" alpha="1" colorSpace="deviceRGB"/>
+                                <color key="barTintColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="0.94999999999999996" colorSpace="calibratedRGB"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <scopeButtonTitles>
                                     <string>All</string>
@@ -1597,9 +1581,7 @@
                             <constraint firstAttribute="trailing" secondItem="ba8-Ol-INx" secondAttribute="trailing" id="Csu-8Z-q4E"/>
                             <constraint firstItem="WJK-M9-FPI" firstAttribute="top" secondItem="zSu-55-pxu" secondAttribute="bottom" id="Pwi-8K-STd"/>
                             <constraint firstItem="ba8-Ol-INx" firstAttribute="top" secondItem="ROJ-ET-jsn" secondAttribute="bottom" id="XFV-1U-BdO"/>
-                            <constraint firstAttribute="trailing" secondItem="Vpv-RJ-8CQ" secondAttribute="trailing" constant="8" id="biZ-R8-NZe"/>
                             <constraint firstAttribute="trailing" secondItem="zSu-55-pxu" secondAttribute="trailing" id="cti-ZS-Z66"/>
-                            <constraint firstItem="WJK-M9-FPI" firstAttribute="top" secondItem="Vpv-RJ-8CQ" secondAttribute="bottom" constant="8" id="cwt-bt-cPv"/>
                             <constraint firstItem="zSu-55-pxu" firstAttribute="top" secondItem="ROJ-ET-jsn" secondAttribute="bottom" id="iXW-WN-ANh"/>
                             <constraint firstItem="ba8-Ol-INx" firstAttribute="leading" secondItem="qL2-Lg-TMR" secondAttribute="leading" id="xRi-jE-Uxa"/>
                             <constraint firstItem="zSu-55-pxu" firstAttribute="leading" secondItem="qL2-Lg-TMR" secondAttribute="leading" id="xSW-bm-a3X"/>
@@ -1608,7 +1590,7 @@
                             <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="searchBar"/>
                         </userDefinedRuntimeAttributes>
                     </view>
-                    <navigationItem key="navigationItem" title="My Baby" id="kki-pT-UDA">
+                    <navigationItem key="navigationItem" title="MIlestones" id="kki-pT-UDA">
                         <barButtonItem key="leftBarButtonItem" id="qU1-vG-KKB">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="mVe-t7-qKM">
                                 <rect key="frame" x="16" y="2" width="40" height="40"/>
@@ -1623,10 +1605,10 @@
                                 </connections>
                             </button>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="PLl-CE-R5i">
+                        <barButtonItem key="rightBarButtonItem" image="createButton" id="3Ta-5N-9G4">
                             <color key="tintColor" red="0.1019607843" green="0.5568627451" blue="0.62352941179999999" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
-                                <action selector="didClickSearch:" destination="4nI-5F-GIp" id="Cq8-hb-KL9"/>
+                                <segue destination="n8g-sI-yKY" kind="modal" identifier="noteMilestone" id="gfX-BP-v4v"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -1634,7 +1616,7 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="addMilestoneButton" destination="Vpv-RJ-8CQ" id="gSb-pn-aeV"/>
+                        <outlet property="addMilestoneButton" destination="3Ta-5N-9G4" id="f7r-82-edB"/>
                         <outlet property="menuButton" destination="qU1-vG-KKB" id="h3u-Mt-G7a"/>
                         <outlet property="searchBar" destination="ba8-Ol-INx" id="1UF-E7-F80"/>
                         <outlet property="warningMsgButton" destination="DUF-5w-Jc1" id="wdL-9K-DR5"/>
@@ -1775,7 +1757,7 @@
                             <constraint firstItem="uzW-c1-zNY" firstAttribute="top" secondItem="hK7-AD-CNp" secondAttribute="bottom" constant="2" id="raG-qh-1Oh"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="My Baby" id="k5z-id-eI8"/>
+                    <navigationItem key="navigationItem" title="Notifications" id="k5z-id-eI8"/>
                     <nil key="simulatedStatusBarMetrics"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <nil key="simulatedBottomBarMetrics"/>
@@ -1864,7 +1846,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vXc-LO-W1r" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3606" y="440"/>
+            <point key="canvasLocation" x="3662" y="482"/>
         </scene>
         <!--Web Viewer View Controller - Web View-->
         <scene sceneID="YJK-2U-gPh">
@@ -2003,6 +1985,7 @@
         <image name="backgroung.jpg" width="640" height="1136"/>
         <image name="cameraButton" width="226" height="226"/>
         <image name="cameraButton_pressed" width="212" height="212"/>
+        <image name="createButton" width="12" height="12"/>
         <image name="error-9" width="74" height="75"/>
         <image name="femaleIcon" width="80" height="80"/>
         <image name="femaleIcon_selected" width="80" height="80"/>
@@ -2014,8 +1997,6 @@
         <image name="measurementsIcon" width="19" height="22"/>
         <image name="modalBoxClose" width="9" height="9"/>
         <image name="newMilestoneButton" width="43" height="43"/>
-        <image name="newMilestoneButton_pressed" width="43" height="43"/>
-        <image name="newMilestoneButton_pressed.png" width="43" height="43"/>
         <image name="openMenuButton" width="31" height="32"/>
         <image name="openMenuButton_pressed" width="31" height="32"/>
         <image name="progress-0" width="74" height="75"/>

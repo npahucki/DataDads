@@ -29,12 +29,26 @@
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(babyUpdated:) name:kDDNotificationCurrentBabyChanged object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(milestoneNotedAndSaved:) name:kDDNotificationMilestoneNotedAndSaved object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkReachabilityChanged:) name:kReachabilityChangedNotification object:nil];
-  self.navigationItem.title = Baby.currentBaby.name;
-  
   
   UISwipeGestureRecognizer *swipeUp = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(hideSearchBar)];
   swipeUp.direction = UISwipeGestureRecognizerDirectionUp;
   [self.searchBar addGestureRecognizer:swipeUp];
+  
+  
+  // Add in another button to the right.
+  self.searchButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"searchButton"] landscapeImagePhone:nil style:UIBarButtonItemStylePlain target:self action:@selector(didClickSearch:)];
+  
+  self.navigationItem.rightBarButtonItems = @[self.searchButton, self.addMilestoneButton];
+
+  
+  // NOTE: This could break in future versions....but the only ill effect will be not setting the custom properties.
+  // Unfortunately, Apple does not provide a way to get access to the text field and the UIAppearance does not work for layer properties (apparently).
+  UITextField *searchField = [self.searchBar valueForKey:@"_searchField"];
+  searchField.layer.borderColor = [UIColor appInputBorderActiveColor].CGColor;
+  searchField.layer.borderWidth = 1;
+  searchField.layer.cornerRadius = 5;
+  searchField.font = [UIFont fontForAppWithType:Book andSize:14];
+  searchField.textColor = [UIColor appInputGreyTextColor];
 }
 
 -(void) dealloc {
@@ -77,7 +91,6 @@
 -(void) babyUpdated:(NSNotification*)notification {
   self.addMilestoneButton.enabled = Baby.currentBaby != nil;
   self.menuButton.enabled = Baby.currentBaby != nil;
-  self.navigationItem.title = Baby.currentBaby.name;
 }
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -90,6 +103,8 @@
   
   // Navigation Segues
   if([segue.identifier isEqualToString:kDDSegueNoteMilestone]) {
+
+    [self createAchievementForMilestone:nil];
     NSAssert(_currentAchievment, @"Expected currentAchievement to be set");
     [self hideSearchBar];
     NoteMilestoneViewController* noteMilestoneViewController =  (NoteMilestoneViewController*)
@@ -99,13 +114,10 @@
     ((AchievementDetailsViewController*)segue.destinationViewController).achievement = _currentAchievment;
   }
 }
-- (IBAction)didClickAddNewMilestone:(id)sender {
-  // Create an achievement with no milestone
-  [self createAchievementForMilestone:nil];
-}
 
 -(void) hideSearchBar {
   if(_isShowingSearchBar ) {
+    self.searchButton.image = [UIImage imageNamed:@"searchButton"];
     [self.searchBar resignFirstResponder];
     _historyController.filterString = nil;
     int finalY = self.navigationController.navigationBar.bounds.size.height + self.searchBar.bounds.size.height;
@@ -138,6 +150,7 @@
   int finalY = self.navigationController.navigationBar.bounds.size.height + self.searchBar.bounds.size.height;
   if(!_isShowingSearchBar) {
     // Start it up above the frame so it can fall down.
+    self.searchButton.image = [UIImage imageNamed:@"searchButton_active"];
     self.searchBar.frame = CGRectMake(self.searchBar.frame.origin.x, -finalY, self.searchBar.frame.size.width, self.searchBar.frame.size.height);
     self.searchBar.hidden = NO;
     _isShowingSearchBar = YES;
@@ -242,59 +255,5 @@
   return _currentAchievment;
 }
 
-
-
-
-//-(void) bounceAddButton {
-//  CAKeyframeAnimation *animation = [self jumpAnimation];
-//	animation.duration = 1.5;
-//  animation.repeatCount = 3;
-//	[self.addMilestoneButton.layer addAnimation:animation forKey:@"jumping"];
-//}
-//
-//- (CAKeyframeAnimation *)jumpAnimation
-//{
-//	// these three values are subject to experimentation
-//	CGFloat initialMomentum = 250.0f; // positive is upwards, per sec
-//	CGFloat gravityConstant = 250.0f; // downwards pull per sec
-//	CGFloat dampeningFactorPerBounce = 0.6;  // percent of rebound
-//  
-//	// internal values for the calculation
-//	CGFloat momentum = initialMomentum; // momentum starts with initial value
-//	CGFloat positionOffset = 0; // we begin at the original position
-//	CGFloat slicesPerSecond = 60.0f; // how many values per second to calculate
-//	CGFloat lowerMomentumCutoff = 3.0f; // below this upward momentum animation ends
-//  
-//	CGFloat duration = 0;
-//	NSMutableArray *values = [NSMutableArray array];
-//  
-//	do
-//	{
-//		duration += 1.0f/slicesPerSecond;
-//		positionOffset+=momentum/slicesPerSecond;
-//    
-//		if (positionOffset<0)
-//		{
-//			positionOffset=0;
-//			momentum=-momentum*dampeningFactorPerBounce;
-//		}
-//    
-//		// gravity pulls the momentum down
-//		momentum -= gravityConstant/slicesPerSecond;
-//    
-//		CATransform3D transform = CATransform3DMakeTranslation(0, -positionOffset, 0);
-//		[values addObject:[NSValue valueWithCATransform3D:transform]];
-//	} while (!(positionOffset==0 && momentum < lowerMomentumCutoff));
-//  
-//	CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"transform"];
-//	animation.repeatCount = 1;
-//	animation.duration = duration;
-//	animation.fillMode = kCAFillModeForwards;
-//	animation.values = values;
-//	animation.removedOnCompletion = YES; // final stage is equal to starting stage
-//	animation.autoreverses = NO;
-//  
-//	return animation;
-//}
 
 @end

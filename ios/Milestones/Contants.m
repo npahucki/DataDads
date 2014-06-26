@@ -44,6 +44,12 @@ NSString *const kDDNotificationPushReceieved = @"notificationPushReceived";
 +(UIColor *) appNormalColor {return UIColorFromRGB(0x1A8E9F);} // 26 142 159
 +(UIColor *) appSelectedColor {return UIColorFromRGB(0x1F717E);} // 31 113 126
 +(UIColor *) appGreyTextColor {return UIColorFromRGB(0xA9A9B1);} // 169 169 177
++(UIColor *) appInputGreyTextColor {return UIColorFromRGB(0x9d9da4);}
++(UIColor *) appInputBorderActiveColor {return UIColorFromRGB(0x22B9CF);}
++(UIColor *) appInputBorderNormalColor {return UIColorFromRGB(0xCFCFD3);}
++(UIColor *) appBackgroundColor {return UIColorFromRGBWithAlpha(0xFBFBFB, .95);}
+
+
 @end
 
 @implementation UIFont (DataParenting)
