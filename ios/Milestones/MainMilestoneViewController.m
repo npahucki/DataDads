@@ -121,7 +121,6 @@
     [self.searchBar resignFirstResponder];
     _historyController.filterString = nil;
     int finalY = self.navigationController.navigationBar.bounds.size.height + self.searchBar.bounds.size.height;
-    self.navigationItem.rightBarButtonItem.tintColor = [UIColor appNormalColor];
     _animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
     UIGravityBehavior* gravityBehavior = [[UIGravityBehavior alloc] initWithItems:@[self.searchBar]];
     gravityBehavior.magnitude = -2.0;
@@ -154,7 +153,6 @@
     self.searchBar.frame = CGRectMake(self.searchBar.frame.origin.x, -finalY, self.searchBar.frame.size.width, self.searchBar.frame.size.height);
     self.searchBar.hidden = NO;
     _isShowingSearchBar = YES;
-    self.navigationItem.rightBarButtonItem.tintColor = [UIColor appSelectedColor];
     _animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
     UIGravityBehavior* gravityBehavior = [[UIGravityBehavior alloc] initWithItems:@[self.searchBar]];
     gravityBehavior.magnitude = 2.0;
