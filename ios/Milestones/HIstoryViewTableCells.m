@@ -79,6 +79,11 @@
 
 
 @implementation LoadingTableViewCell
+-(void) layoutSubviews {
+  [super layoutSubviews];
+  self.loadingLabel.font = [UIFont fontForAppWithType:Bold andSize:14];
+}
+
 @end
 
 

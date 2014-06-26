@@ -132,10 +132,9 @@
 // TODO: Move save baby logic somewhere else that can be shared.
 -(void) saveBaby {
   self.baby.ACL = [PFACL ACLWithUser:self.baby.parentUser];
+  Baby.currentBaby = nil; // Clear the current baby, will get set on the MainViewController
   [self saveObject:self.baby withTitle:[NSString stringWithFormat:@"Saving %@'s info", self.baby.name] andFailureMessage:@"Could not save baby's information" andBlock:^(NSError *error) {
     if(!error) {
-      Baby.currentBaby = self.baby;
- 
       if(self.baby.avatarImage) {
         [self showInProgressHUDWithMessage:[NSString stringWithFormat:@"Uploading %@'s photo", self.baby.name] andAnimation:YES andDimmedBackground:YES];
         [self.baby.avatarImage saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {

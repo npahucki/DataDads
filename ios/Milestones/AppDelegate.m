@@ -83,9 +83,17 @@
   [[UIButton appearance] setTitleColor:[UIColor appSelectedColor] forState:UIControlStateSelected];
   
   
-  [[UINavigationBar appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:18.0]}];
-  [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"header.png"] forBarMetrics:UIBarMetricsDefault];
-  [UINavigationBar appearance].tintColor = [UIColor appNormalColor];
+  [[UINavigationBar appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:16.0], NSForegroundColorAttributeName : [UIColor appTitleHeaderColor]}];
+  //[[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"header.png"] forBarMetrics:UIBarMetricsDefault];
+  
+  [[UINavigationBar appearance] setBackgroundImage:[[UIImage alloc] init]
+                                    forBarPosition:UIBarPositionAny
+                                        barMetrics:UIBarMetricsDefault];
+  [UINavigationBar appearance].shadowImage = [UIImage imageNamed:@"headerShadow"];
+  [UINavigationBar appearance].tintColor = [UIColor appNormalColor]; // Color of the items in the toolbarheader
+  [UINavigationBar appearance].backgroundColor = [UIColor appBackgroundColor];
+  [UINavigationBar appearance].barTintColor = [UIColor appBackgroundColor];
+  
   [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Medium andSize:17.0], NSForegroundColorAttributeName : [UIColor appNormalColor]} forState:UIControlStateNormal];
   [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:17.0], NSForegroundColorAttributeName : [UIColor appSelectedColor]} forState:UIControlStateHighlighted];
   [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:17.0], NSForegroundColorAttributeName : [UIColor appGreyTextColor]} forState:UIControlStateDisabled];

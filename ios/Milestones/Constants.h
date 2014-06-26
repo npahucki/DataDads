@@ -50,6 +50,8 @@ extern NSString *const kDDNotificationPushReceieved;
 +(UIColor *) appInputBorderActiveColor;
 +(UIColor *) appInputBorderNormalColor;
 +(UIColor *) appBackgroundColor;
++(UIColor *) appTitleHeaderColor;
+
 
 
 

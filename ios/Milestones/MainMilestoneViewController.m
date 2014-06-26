@@ -11,6 +11,7 @@
 #import "NoteMilestoneViewController.h"
 #import "AchievementDetailsViewController.h"
 #import "Baby.h"
+#import "UIImage+FX.h"
 
 
 
@@ -89,8 +90,39 @@
 }
 
 -(void) babyUpdated:(NSNotification*)notification {
-  self.addMilestoneButton.enabled = Baby.currentBaby != nil;
-  self.menuButton.enabled = Baby.currentBaby != nil;
+  Baby * baby = Baby.currentBaby;
+  self.addMilestoneButton.enabled = baby != nil;
+  self.menuButton.enabled = baby != nil;
+  
+  PFFile * imageFile = baby.avatarImageThumbnail ? baby.avatarImageThumbnail : baby.avatarImage;
+  if(imageFile) {
+    [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+      if(!error) {
+        UIImage * image = [[UIImage alloc] initWithData:data];
+        if(image) {
+          [self.babyMenuButton setImage:image forState:UIControlStateNormal];
+          [self.babyMenuButton setImage: [image imageWithAlpha:.70] forState:UIControlStateHighlighted];
+          self.babyMenuButton.layer.borderColor = [UIColor appNormalColor].CGColor;
+
+          CALayer *innerShadowLayer = [CALayer layer];
+          innerShadowLayer.contents = (id)[UIImage imageNamed: @"avatarButtonShadow"].CGImage;
+          innerShadowLayer.contentsCenter = CGRectMake(10.0f/21.0f, 10.0f/21.0f, 1.0f/21.0f, 1.0f/21.0f);
+          innerShadowLayer.frame = CGRectInset(self.babyMenuButton.bounds, 2.5,2.5);
+          [self.babyMenuButton.layer addSublayer:innerShadowLayer];
+          self.babyMenuButton.layer.borderWidth = 3;
+          self.babyMenuButton.layer.cornerRadius = self.babyMenuButton.bounds.size.width / 2 ;
+          self.babyMenuButton.imageView.contentMode = UIViewContentModeScaleAspectFill;
+          self.babyMenuButton.clipsToBounds = YES;
+          self.babyMenuButton.showsTouchWhenHighlighted = YES;
+        }
+      }
+    }];
+}
+
+
+
+
+
 }
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
