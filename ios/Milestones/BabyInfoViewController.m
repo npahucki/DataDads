@@ -40,8 +40,8 @@
   
   if(self.baby) {
     self.babyName.text = self.baby.name;
-    ((UIDatePicker*)self.dobTextField.inputView).date = self.baby.birthDate;
-    ((UIDatePicker*)self.dueDateTextField.inputView).date = self.baby.dueDate;
+    self.dobTextField.date = self.baby.birthDate;
+    self.dueDateTextField.date = self.baby.dueDate;
     if(self.baby.isMale)
        [self didClickMaleButton:self];
     else
