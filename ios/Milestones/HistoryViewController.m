@@ -33,7 +33,6 @@
 @end
 
 @implementation HistoryViewController {
-  HistoryViewTableModel * _model;
   HistoryViewControllerDataSource * _dataSource; // Need reference to retain it
 }
 
@@ -368,7 +367,7 @@
 -(void) handleMilestoneLoadError:(NSError *) error withRetrySelector:(SEL)retrySelector forPageIndex:(NSInteger) pageIdx {
   if ([error code] == kPFErrorConnectionFailed || [error code] == kPFErrorInternalServer) {
     if([Reachability isParseCurrentlyReachable]) {
-      NSLog(@"Connection failure to parse loading future milestones, will try again...");
+      NSLog(@"Connection failure to parse loading Future Milestones, will try again...");
       NSMethodSignature * retryMethod = [_model methodSignatureForSelector:retrySelector];
       NSInvocation * retryInvocation = [NSInvocation invocationWithMethodSignature:retryMethod];
       [retryInvocation setTarget:_model];
@@ -380,7 +379,7 @@
     }
   } else {
     // TODO: Send to central logging!
-    NSLog(@"Error loading future achievements: %@", [error userInfo][@"error"]);
+    NSLog(@"Error loading Achievements: %@", [error userInfo][@"error"]);
     [[[UIAlertView alloc] initWithTitle:@"Bummer" message:@"Could not load some of your data. This has been reported to us and we will fix it as soon as possible." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show ];
   }
 }

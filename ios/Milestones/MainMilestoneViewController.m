@@ -131,11 +131,12 @@
     _historyController = ((HistoryViewController*)segue.destinationViewController);
     _historyController.delegate = self;
     return;
+  } else if([segue.identifier isEqualToString:kDDSegueShowSettings]) {
+    ((OverviewViewController *)[((UINavigationController *)segue.destinationViewController) childViewControllers][0]).milestoneCount = _historyController.model.countOfAchievements;
   }
   
   // Navigation Segues
   if([segue.identifier isEqualToString:kDDSegueNoteMilestone]) {
-
     [self createAchievementForMilestone:nil];
     NSAssert(_currentAchievment, @"Expected currentAchievement to be set");
     [self hideSearchBar];

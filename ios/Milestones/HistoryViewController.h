@@ -22,6 +22,7 @@
 
 @property (nonatomic, weak) id <HistoryViewControllerDelegate> delegate;
 @property NSString * filterString;
+@property (readonly) HistoryViewTableModel * model;
 
 @end
 

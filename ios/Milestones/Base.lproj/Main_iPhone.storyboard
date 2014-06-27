@@ -1602,7 +1602,7 @@
                                 <state key="selected" backgroundImage="avatarButtonDefault_pressed"/>
                                 <state key="highlighted" image="avatarButtonDefault_pressed"/>
                                 <connections>
-                                    <segue destination="QfA-Ku-3Fd" kind="modal" identifier="" modalTransitionStyle="coverVertical" id="6HZ-Iq-Yef"/>
+                                    <segue destination="QfA-Ku-3Fd" kind="modal" identifier="showSettings" modalTransitionStyle="coverVertical" id="6HZ-Iq-Yef"/>
                                 </connections>
                             </button>
                         </barButtonItem>

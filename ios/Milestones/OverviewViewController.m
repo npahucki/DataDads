@@ -30,19 +30,12 @@
   self.babyAvatar.file = Baby.currentBaby.avatarImage;
   [self.babyAvatar loadInBackground];
   
-  PFQuery * query = [MilestoneAchievement query];
-  [query whereKey:@"baby" equalTo:Baby.currentBaby];
-  [query setCachePolicy:kPFCachePolicyNetworkElseCache];
-  [query whereKey:@"isSkipped" equalTo:[NSNumber numberWithBool:NO]];
-  [query whereKey:@"isPostponed" equalTo:[NSNumber numberWithBool:NO]];
-  
-  [query countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
-    
+  if(self.milestoneCount) {
     // Make the label show attributed text
     NSDictionary *numberAttributes = @{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:95.0], NSForegroundColorAttributeName: [UIColor appNormalColor]};
     NSDictionary *milestoneTextAttributes = @{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:18.0], NSForegroundColorAttributeName: [UIColor appGreyTextColor]};
-    NSMutableAttributedString *milestoneString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%i\nmilestones logged",number]];
-    NSUInteger numLen = [[@(number) stringValue] length];
+    NSMutableAttributedString *milestoneString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%i\nmilestones logged",self.milestoneCount]];
+    NSUInteger numLen = [[@(self.milestoneCount) stringValue] length];
     [milestoneString setAttributes:numberAttributes range:NSMakeRange(0, numLen)];
     [milestoneString setAttributes:milestoneTextAttributes range:NSMakeRange(numLen + 1,[milestoneString length] - numLen - 1)];
     self.milestoneCountLabel.attributedText = milestoneString;
@@ -58,7 +51,7 @@
     } completion:^(BOOL finished) {
       self.babyAvatar.alpha = 1.0;
     }];
-  }];
+  }
 }
 
 -(void) viewDidLayoutSubviews {

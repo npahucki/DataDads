@@ -69,7 +69,8 @@ typedef void (^StandardMilestoneResultBlock)(NSNumber * totalCount, NSArray *obj
     if([self.delegate respondsToSelector:@selector(willLoadFutureMilestonesAtPageIndex:)])
       [self.delegate willLoadFutureMilestonesAtPageIndex:startIndex];
     _isLoadingFutureMilestones = YES;
-    [self loadMilestonesPage:startIndex forTimePeriod:@"future" withBlock:^(NSNumber * count, NSArray *objects, NSError *error) {
+    NSURLRequestCachePolicy cachePolicy = _pastMilestones.count ? kPFCachePolicyNetworkElseCache : kPFCachePolicyCacheThenNetwork;
+    [self loadMilestonesPage:startIndex forTimePeriod:@"future" withCachePolicy:cachePolicy withBlock:^(NSNumber * count, NSArray *objects, NSError *error) {
       if(error) {
         [self.delegate didFailToLoadFutureMilestones:error atPageIndex:startIndex];
       } else {
@@ -103,7 +104,8 @@ typedef void (^StandardMilestoneResultBlock)(NSNumber * totalCount, NSArray *obj
     if([self.delegate respondsToSelector:@selector(willLoadPastMilestonesAtPageIndex:)])
       [self.delegate willLoadPastMilestonesAtPageIndex:startIndex];
     _isLoadingPastMilestones = YES;
-    [self loadMilestonesPage:startIndex forTimePeriod:@"past" withBlock:^(NSNumber * count, NSArray *objects, NSError *error) {
+    NSURLRequestCachePolicy cachePolicy = _pastMilestones.count ? kPFCachePolicyNetworkElseCache : kPFCachePolicyCacheThenNetwork;
+    [self loadMilestonesPage:startIndex forTimePeriod:@"past" withCachePolicy:cachePolicy withBlock:^(NSNumber * count, NSArray *objects, NSError *error) {
       if(error) {
         [self.delegate didFailToLoadPastMilestones:error atPageIndex:startIndex];
         _isLoadingPastMilestones = NO;
@@ -125,14 +127,11 @@ typedef void (^StandardMilestoneResultBlock)(NSNumber * totalCount, NSArray *obj
 }
 
 
--(void) loadMilestonesPage:(NSInteger) startIndex forTimePeriod:(NSString*) timePeriod withBlock:(StandardMilestoneResultBlock) block {
-  // TODO: caching!
+-(void) loadMilestonesPage:(NSInteger) startIndex forTimePeriod:(NSString*) timePeriod withCachePolicy:(NSURLRequestCachePolicy) cachePolicy withBlock:(StandardMilestoneResultBlock) block {
   if(self.baby) {
     NSNumber * babySex = @(self.baby.isMale);
     NSNumber * parentSex = @(ParentUser.currentUser.isMale);
    
-    
-    
     [PFCloud callFunctionInBackground:@"queryMyMilestones"
            withParameters:@{@"babyId": self.baby.objectId,
                             @"babyIsMale": babySex,
@@ -142,7 +141,7 @@ typedef void (^StandardMilestoneResultBlock)(NSNumber * totalCount, NSArray *obj
                             @"skip" : [@(startIndex) stringValue],
                             @"limit" : [@(self.pagingSize) stringValue],
                             @"filterTokens": _filter ? _filterTokens : [NSNull null]}
-                    cachePolicy:kPFCachePolicyCacheThenNetwork
+                    cachePolicy:cachePolicy
                     block:^(NSDictionary *results, NSError *error) {
                       NSNumber * count = [results objectForKey:@"count"];
                       NSArray * milestones = [results objectForKey:@"milestones"];
@@ -152,6 +151,7 @@ typedef void (^StandardMilestoneResultBlock)(NSNumber * totalCount, NSArray *obj
     block(nil, nil, nil);
   }
 }
+
 
 // a startIndex of 0 or less causes a default skip of 0
 -(void) loadAchievementsPage:(NSInteger) startIndex {
@@ -163,62 +163,42 @@ typedef void (^StandardMilestoneResultBlock)(NSNumber * totalCount, NSArray *obj
   
   // If no Baby available yet, don't try to load anything
   if(self.baby && self.hasMoreAchievements) {
-    if([self.delegate respondsToSelector:@selector(willLoadAchievementsAtPageIndex:)])
+    if([self.delegate respondsToSelector:@selector(willLoadAchievementsAtPageIndex:)]) {
       [self.delegate willLoadAchievementsAtPageIndex:startIndex];
-    PFQuery * query;
-
-    if(_filter.length) {
-      PFQuery * customTitleQuery = [MilestoneAchievement query];
-      [customTitleQuery whereKey:@"searchIndex" containsAllObjectsInArray:_filterTokens];
-      PFQuery * standardMilestoneTitleQuery = [MilestoneAchievement query];
-      PFQuery * matchingStandardMilestones = [StandardMilestone query];
-      matchingStandardMilestones.limit = 1000; // TODO: this may be problematic once we mave more than 1000 std milestones.
-      [matchingStandardMilestones whereKey:@"searchIndex" containsAllObjectsInArray:_filterTokens];
-      [standardMilestoneTitleQuery whereKey:@"standardMilestoneId" matchesKey:@"objectId" inQuery:matchingStandardMilestones];
-      // Special case where this achievement is linked to a standardMilestone but also has a customTitle, in which case we don't want to match.
-      [standardMilestoneTitleQuery whereKeyDoesNotExist:@"customTitle"]; // TODO: might be faster to do post filtering?
-      query = [PFQuery orQueryWithSubqueries:@[customTitleQuery,standardMilestoneTitleQuery]];
-    } else {
-       query = [MilestoneAchievement query];
     }
-    
-    [query whereKey:@"baby" equalTo:Baby.currentBaby];
-    [query whereKey:@"isSkipped" equalTo:[NSNumber numberWithBool:NO]];
-    [query whereKey:@"isPostponed" equalTo:[NSNumber numberWithBool:NO]];
-    
-    [query includeKey:@"standardMilestone"];
-    [query orderByDescending:@"completionDate"];
-    // If no objects are loaded in memory, we look to the cache
-    // first to fill the table and then subsequently do a query
-    // against the network.
-    query.cachePolicy = _achievements.count ? kPFCachePolicyNetworkOnly : kPFCachePolicyCacheThenNetwork;
-    query.limit = self.pagingSize;
-    query.skip = startIndex > 0 ? startIndex : 0;
+
     _isLoadingAchievements = YES;
-    __block BOOL cachedResult = query.cachePolicy == kPFCachePolicyCacheThenNetwork;
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-      if (error) {
-        if(error.code != kPFErrorCacheMiss) {
-          [self.delegate didFailToLoadAchievements:error atPageIndex:startIndex];
-          _isLoadingAchievements = NO;
-        }
-      } else {
-        // if results, set the has more to false
-        if(!_achievements || startIndex == 0) _achievements = [[NSMutableArray alloc] initWithCapacity:self.pagingSize];
-        _hasMoreAchievements = objects.count == self.pagingSize;
-        
-        for(MilestoneAchievement* achievement in objects) {
-          NSAssert([achievement.baby.objectId isEqualToString:Baby.currentBaby.objectId],@"Expected only achievements that match current baby!");
-          // So we can use a populated object, assign the object to the current baby object
-          achievement.baby = Baby.currentBaby;
-          [((NSMutableArray*) _achievements) addObject:achievement];
-        }
-        
-        [self.delegate didLoadAchievementsAtPageIndex:startIndex];
-        _isLoadingAchievements = NO;
-      }
-      if(cachedResult) cachedResult = NO;
-    }];
+    NSURLRequestCachePolicy cachePolicy = kPFCachePolicyNetworkOnly; //_achievements.count ? kPFCachePolicyNetworkOnly : kPFCachePolicyCacheThenNetwork;
+    __block BOOL cachedResult = cachePolicy == kPFCachePolicyCacheThenNetwork;
+    [PFCloud callFunctionInBackground:@"queryMyAchievements"
+                       withParameters:@{@"babyId": self.baby.objectId,
+                                        @"skip" : [@(startIndex) stringValue],
+                                        @"limit" : [@(self.pagingSize) stringValue],
+                                        @"filterTokens": _filter ? _filterTokens : [NSNull null]}
+//                      cachePolicy:cachePolicy
+                      block:^(NSDictionary *results, NSError *error) {
+                        if(error) {
+                          if(error.code != kPFErrorCacheMiss) {
+                            [self.delegate didFailToLoadAchievements:error atPageIndex:startIndex];
+                            _isLoadingAchievements = NO;
+                          }
+                        } else {
+                          _countOfAchievements =  ((NSNumber *)[results objectForKey:@"count"]).integerValue;
+                          NSArray * achievements = [results objectForKey:@"achievements"];
+                          // if results, set the has more to false
+                          if(!_achievements || startIndex == 0) _achievements = [[NSMutableArray alloc] initWithCapacity:self.pagingSize];
+                          _hasMoreAchievements = achievements.count == self.pagingSize;
+                          for(MilestoneAchievement* achievement in achievements) {
+                            NSAssert([achievement.baby.objectId isEqualToString:Baby.currentBaby.objectId],@"Expected only achievements that match current baby!");
+                            // So we can use a populated object, assign the object to the current baby object
+                            achievement.baby = Baby.currentBaby;
+                            [((NSMutableArray*) _achievements) addObject:achievement];
+                          }
+                          [self.delegate didLoadAchievementsAtPageIndex:startIndex];
+                          _isLoadingAchievements = NO;
+                        }
+                        if(cachedResult) cachedResult = NO;
+                      }];
   } else {
     [self.delegate didLoadAchievementsAtPageIndex:startIndex];
     _isLoadingAchievements = NO;
