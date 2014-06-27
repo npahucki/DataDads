@@ -130,5 +130,10 @@ static id safe(id object) {
   
 }
 
++(void) trackSearch:(NSString *) filterString {
+  [Heap track:@"searchExecuted" withProperties:@{ @"filterString" : filterString }];
+}
+
+
 
 @end

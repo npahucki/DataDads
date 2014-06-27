@@ -117,12 +117,7 @@
         }
       }
     }];
-}
-
-
-
-
-
+  }
 }
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -249,6 +244,7 @@
 #pragma mark UISearchBarDelegate
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+  [UsageAnalytics trackSearch:searchBar.text];
   _historyController.filterString = searchBar.text;
   [searchBar resignFirstResponder]; // hide the keyboard
 }
