@@ -68,7 +68,7 @@
 }
 
 -(void) calculatePercentileRankingWithBlock: (void ( ^ )(float percentile) ) block {
-  if(self.standardMilestone) {
+  if(self.standardMilestone.canCompare) {
     [PFCloud callFunctionInBackground:@"percentileRanking"
                        withParameters:@{@"milestoneId": self.standardMilestone.objectId,
                                         @"completionDays": @([self.baby daysSinceDueDate:self.completionDate])}

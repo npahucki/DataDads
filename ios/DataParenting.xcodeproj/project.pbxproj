@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		D6CB8834E1A347069F6D2883 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7AE7A55BFBD3425490A0E0F5 /* libPods.a */; };
-		E813465A18DCD9FA0053EE6E /* StandardMilestoneQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = E813465918DCD9FA0053EE6E /* StandardMilestoneQuery.m */; };
 		E819A6C318FB2A490017B626 /* AppQueryTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E819A6C218FB2A490017B626 /* AppQueryTableViewController.m */; };
 		E81B58561891EE1100C74C2B /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B58551891EE1100C74C2B /* Parse.framework */; };
 		E81B58581891EE7D00C74C2B /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B58571891EE7D00C74C2B /* AudioToolbox.framework */; };
@@ -117,8 +116,6 @@
 /* Begin PBXFileReference section */
 		38FA7AFE5F694C389969CCDD /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		7AE7A55BFBD3425490A0E0F5 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		E813465818DCD9FA0053EE6E /* StandardMilestoneQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StandardMilestoneQuery.h; sourceTree = "<group>"; };
-		E813465918DCD9FA0053EE6E /* StandardMilestoneQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StandardMilestoneQuery.m; sourceTree = "<group>"; };
 		E819A6C118FB2A490017B626 /* AppQueryTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppQueryTableViewController.h; sourceTree = "<group>"; };
 		E819A6C218FB2A490017B626 /* AppQueryTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppQueryTableViewController.m; sourceTree = "<group>"; };
 		E81B58551891EE1100C74C2B /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
@@ -328,8 +325,6 @@
 				E81B588A189BCCD200C74C2B /* StandardMilestone.m */,
 				E872D6291949E9C0003F461C /* Measurement.h */,
 				E872D62A1949E9C0003F461C /* Measurement.m */,
-				E813465818DCD9FA0053EE6E /* StandardMilestoneQuery.h */,
-				E813465918DCD9FA0053EE6E /* StandardMilestoneQuery.m */,
 				E81B588C189BFFFE00C74C2B /* MilestoneAchievement.h */,
 				E81B588D189BFFFE00C74C2B /* MilestoneAchievement.m */,
 				E86B1EAD19277E7700EA6167 /* HistoryViewTableModel.h */,
@@ -768,7 +763,6 @@
 				E819A6C318FB2A490017B626 /* AppQueryTableViewController.m in Sources */,
 				E8250F43192561A7004A1B41 /* IntroScreenPageViewController.m in Sources */,
 				E8BDE6B8193E0CF7001D6995 /* PronounHelper.m in Sources */,
-				E813465A18DCD9FA0053EE6E /* StandardMilestoneQuery.m in Sources */,
 				E89035EF1934C97F004A4013 /* AchievementDetailsViewController.m in Sources */,
 				E876159B18EF83C100B0C6D9 /* BabyTagsViewController.m in Sources */,
 				E8E39C1B18EA13B40034982D /* CustomIOS7AlertView.m in Sources */,

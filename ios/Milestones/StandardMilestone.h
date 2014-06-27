@@ -21,6 +21,7 @@
 @property NSString *url;
 @property NSNumber *rangeLow;
 @property NSNumber *rangeHigh;
+@property BOOL canCompare;
 
 /*!
  * Returns the title with the correct pronoun replacements for the provided baby.

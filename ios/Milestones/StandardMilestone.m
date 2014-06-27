@@ -18,6 +18,7 @@
 @dynamic url;
 @dynamic rangeHigh;
 @dynamic rangeLow;
+@dynamic canCompare;
 
 -(NSString*) titleForBaby:(Baby*) baby {
   return [PronounHelper replacePronounTokens:self.title forBaby:baby];
