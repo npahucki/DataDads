@@ -21,6 +21,7 @@ typedef enum _DDErrorCodeType : NSUInteger {
 #pragma mark Segue Names
 extern NSString *const kDDSegueEnterScreenName;
 extern NSString *const kDDSegueNoteMilestone;
+extern NSString *const kDDSegueNoteCustomMilestone;
 extern NSString *const kDDSegueShowSettings;
 extern NSString *const kDDSegueShowAchievementDetails;
 extern NSString *const kDDSegueShowLoginScreen;

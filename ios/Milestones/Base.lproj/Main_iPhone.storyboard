@@ -1566,8 +1566,6 @@
                                 <textInputTraits key="textInputTraits"/>
                                 <scopeButtonTitles>
                                     <string>All</string>
-                                    <string>Noted</string>
-                                    <string>Unnoted</string>
                                 </scopeButtonTitles>
                                 <connections>
                                     <outlet property="delegate" destination="4nI-5F-GIp" id="1bS-Gv-Rck"/>
@@ -1609,7 +1607,7 @@
                         <barButtonItem key="rightBarButtonItem" image="createButton" id="3Ta-5N-9G4">
                             <color key="tintColor" red="0.1019607843" green="0.5568627451" blue="0.62352941179999999" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
-                                <segue destination="n8g-sI-yKY" kind="modal" identifier="noteMilestone" id="gfX-BP-v4v"/>
+                                <segue destination="n8g-sI-yKY" kind="modal" identifier="noteCustomMilestone" id="gfX-BP-v4v"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -1623,6 +1621,7 @@
                         <outlet property="searchBar" destination="ba8-Ol-INx" id="1UF-E7-F80"/>
                         <outlet property="warningMsgButton" destination="DUF-5w-Jc1" id="wdL-9K-DR5"/>
                         <segue destination="eNM-aT-BTU" kind="push" identifier="showAchievementDetails" id="QpM-9P-itO"/>
+                        <segue destination="n8g-sI-yKY" kind="modal" identifier="noteMilestone" id="HiK-bz-YEB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HSl-NR-dz3" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2018,6 +2017,7 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="zMK-LI-8Wn"/>
+        <segue reference="gfX-BP-v4v"/>
         <segue reference="9u5-1o-6Cv"/>
     </inferredMetricsTieBreakers>
 </document>

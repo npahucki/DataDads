@@ -71,6 +71,7 @@
   
   [UITextField appearance].font =[UIFont fontForAppWithType:Bold andSize:17.0];
   [UITextField appearance].textColor = [UIColor appNormalColor];
+  [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setClearButtonMode:UITextFieldViewModeNever];
 
   [[UISegmentedControl appearance] setTitleTextAttributes:@{NSFontAttributeName : [UIFont fontForAppWithType:Medium andSize:14]} forState:UIControlStateNormal];
   [UISegmentedControl appearance].tintColor = [UIColor appNormalColor];
@@ -107,7 +108,6 @@
   pageControl.currentPageIndicatorTintColor = [UIColor appNormalColor];
   pageControl.backgroundColor = [UIColor whiteColor];
 
-  
   
   return YES;
 

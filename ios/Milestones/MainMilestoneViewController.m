@@ -134,10 +134,13 @@
   } else if([segue.identifier isEqualToString:kDDSegueShowSettings]) {
     ((OverviewViewController *)[((UINavigationController *)segue.destinationViewController) childViewControllers][0]).milestoneCount = _historyController.model.countOfAchievements;
   }
+
   
   // Navigation Segues
-  if([segue.identifier isEqualToString:kDDSegueNoteMilestone]) {
-    [self createAchievementForMilestone:nil];
+  if([segue.identifier isEqualToString:kDDSegueNoteMilestone] || [segue.identifier isEqualToString:kDDSegueNoteCustomMilestone]) {
+    if([segue.identifier isEqualToString:kDDSegueNoteCustomMilestone]) {
+      [self createAchievementForMilestone:nil];
+    }
     NSAssert(_currentAchievment, @"Expected currentAchievement to be set");
     [self hideSearchBar];
     NoteMilestoneViewController* noteMilestoneViewController =  (NoteMilestoneViewController*)
@@ -207,7 +210,7 @@
 }
 
 
-- (IBAction)didClickSearch:(id)sender {
+- (void)didClickSearch:(id)sender {
   if(_isShowingSearchBar ) {
     [self hideSearchBar];
   } else {

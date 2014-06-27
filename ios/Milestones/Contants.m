@@ -12,6 +12,7 @@
 #pragma mark - Segue Names
 NSString *const kDDSegueEnterScreenName = @"enterScreenName";
 NSString *const kDDSegueNoteMilestone = @"noteMilestone";
+NSString *const kDDSegueNoteCustomMilestone = @"noteCustomMilestone";
 NSString *const kDDSegueShowAchievementDetails = @"showAchievementDetails";
 NSString *const kDDSegueShowSettings = @"showSettings";
 NSString *const kDDSegueShowLoginScreen = @"showLoginScreen";
