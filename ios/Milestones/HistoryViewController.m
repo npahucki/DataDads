@@ -28,6 +28,7 @@
   NSIndexPath * _pendingNextPageTriggerIndex;
   BOOL _isJumpingToIndex;
   SInt8 _scrollStatus; // -1 going up, 0 not scrolling, 1 scrolling down.
+  BOOL _didInitialLoad;
 }
 
 @end
@@ -287,11 +288,8 @@
       // TODO: Inject back into table, avoid reloading!
       if(deletedAchievement.standardMilestone) {
         // need to put this back into the list.
-        if(_model.baby.daysSinceDueDate >= [deletedAchievement.standardMilestone.rangeHigh integerValue]) {
-          [_model loadPastMilestonesPage:0];
-        } else {
-          [_model loadFutureMilestonesPage:0];
-        }
+        [_model loadPastMilestonesPage:0];
+        [_model loadFutureMilestonesPage:0];
       }
     }
   } else {
@@ -319,7 +317,7 @@
 -(void) didLoadAchievementsAtPageIndex:(NSInteger)pageIndex {
   _floatingAchievementsHeaderView.count = _model.countOfAchievements;
   [self.tableView reloadData];
-  if(pageIndex == 0) {
+  if(pageIndex == 0 && !_didInitialLoad) {
     [self scrollToFirstAchievement];
   }
 }
@@ -339,7 +337,8 @@
       self.tableView.contentOffset = newContentOffset;
       _lastTableSize.height = 0; // reset it
     }
-  } else {
+  } else if(!_didInitialLoad) {
+    _didInitialLoad = YES;
     [self scrollToFirstAchievement];
   }
 }
@@ -356,7 +355,7 @@
 -(void) didLoadPastMilestonesAtPageIndex:(NSInteger)pageIndex {
   _floatingPastMilestonesHeaderView.count = _model.countOfPastMilestones;
   [self.tableView reloadData];
-  if(pageIndex == 0) {
+  if(!_didInitialLoad) {
       [self scrollToFirstAchievement];
   }
 }
