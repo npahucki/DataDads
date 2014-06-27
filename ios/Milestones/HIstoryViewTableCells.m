@@ -23,6 +23,7 @@
 
 +(void) initialize {
   [[UIButton appearanceWhenContainedIn:[SWTableViewCell class], nil ] setTitleColor:[UIColor appGreyTextColor] forState:UIControlStateNormal];
+  [UILabel appearanceWhenContainedIn:[SWTableViewCell class], nil ].font =[UIFont fontForAppWithType:Medium andSize:13];
 }
 
 -(void) layoutSubviews {
