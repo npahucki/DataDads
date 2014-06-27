@@ -40,7 +40,7 @@
   [super viewDidLoad];
   _model = [[HistoryViewTableModel alloc] init];
   _model.delegate = self;
-  _model.pagingSize = 10;
+  _model.pagingSize = 25;
   _dataSource = [[HistoryViewControllerDataSource alloc] init];
   _dataSource.model = _model;
   _dataSource.cellSwipeDelegate = self;
@@ -200,7 +200,6 @@
   HistoryTableHeaderView * floater = (HistoryTableHeaderView *) [self tableView:tableView viewForHeaderInSection:section];
   floater.opaque = YES;
   floater.hidden = YES;
-  floater.alpha = .95;
   floater.userInteractionEnabled = YES;
   UITapGestureRecognizer *viewTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleHeaderTap:)];
   [floater addGestureRecognizer:viewTap];
@@ -340,6 +339,8 @@
       self.tableView.contentOffset = newContentOffset;
       _lastTableSize.height = 0; // reset it
     }
+  } else {
+    [self scrollToFirstAchievement];
   }
 }
 
@@ -355,6 +356,9 @@
 -(void) didLoadPastMilestonesAtPageIndex:(NSInteger)pageIndex {
   _floatingPastMilestonesHeaderView.count = _model.countOfPastMilestones;
   [self.tableView reloadData];
+  if(pageIndex == 0) {
+      [self scrollToFirstAchievement];
+  }
 }
 
 -(void) didFailToLoadPastMilestones:(NSError *) error atPageIndex:(NSInteger)pageIndex {

@@ -69,21 +69,25 @@ typedef void (^StandardMilestoneResultBlock)(NSNumber * totalCount, NSArray *obj
     if([self.delegate respondsToSelector:@selector(willLoadFutureMilestonesAtPageIndex:)])
       [self.delegate willLoadFutureMilestonesAtPageIndex:startIndex];
     _isLoadingFutureMilestones = YES;
-    NSURLRequestCachePolicy cachePolicy = _pastMilestones.count ? kPFCachePolicyNetworkElseCache : kPFCachePolicyCacheThenNetwork;
+    NSURLRequestCachePolicy cachePolicy = _futureMilestones.count ? kPFCachePolicyNetworkElseCache : kPFCachePolicyCacheThenNetwork;
+    __block BOOL cachedResult = cachePolicy == kPFCachePolicyCacheThenNetwork;
     [self loadMilestonesPage:startIndex forTimePeriod:@"future" withCachePolicy:cachePolicy withBlock:^(NSNumber * count, NSArray *objects, NSError *error) {
       if(error) {
         [self.delegate didFailToLoadFutureMilestones:error atPageIndex:startIndex];
       } else {
-        // if results, set the has more to false
-        _hasMoreFutureMilestones = objects.count == self.pagingSize;
-        _countOfFutureMilestones = count.integerValue;
-        if(!_futureMilestones || startIndex == 0) _futureMilestones = [NSMutableArray arrayWithCapacity:objects.count * 3]; // enough for three pages
-        // NOTE: We must reverse the order so that they get rendered bottom to top.
-        NSIndexSet* indices = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,objects.count)];
-        NSArray * reversedObject = [[objects reverseObjectEnumerator] allObjects];
-        [((NSMutableArray*) _futureMilestones) insertObjects:reversedObject atIndexes:indices];
-        [self.delegate didLoadFutureMilestonesAtPageIndex:startIndex];
-        _isLoadingFutureMilestones = NO;
+        if(cachedResult ||![HistoryViewTableModel isPFObjectArrayEqual:_futureMilestones toPFObjectArray:objects]) {
+          // if results, set the has more to false
+          _hasMoreFutureMilestones = objects.count == self.pagingSize;
+          _countOfFutureMilestones = count.integerValue;
+          if(!_futureMilestones || startIndex == 0) _futureMilestones = [NSMutableArray arrayWithCapacity:objects.count * 3]; // enough for three pages
+          // NOTE: We must reverse the order so that they get rendered bottom to top.
+          NSIndexSet* indices = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,objects.count)];
+          NSArray * reversedObject = [[objects reverseObjectEnumerator] allObjects];
+          [((NSMutableArray*) _futureMilestones) insertObjects:reversedObject atIndexes:indices];
+          [self.delegate didLoadFutureMilestonesAtPageIndex:startIndex];
+          _isLoadingFutureMilestones = NO;
+          cachedResult = NO;
+        }
       }
     }];
   } else {
@@ -105,18 +109,22 @@ typedef void (^StandardMilestoneResultBlock)(NSNumber * totalCount, NSArray *obj
       [self.delegate willLoadPastMilestonesAtPageIndex:startIndex];
     _isLoadingPastMilestones = YES;
     NSURLRequestCachePolicy cachePolicy = _pastMilestones.count ? kPFCachePolicyNetworkElseCache : kPFCachePolicyCacheThenNetwork;
+    __block BOOL cachedResult = cachePolicy == kPFCachePolicyCacheThenNetwork;
     [self loadMilestonesPage:startIndex forTimePeriod:@"past" withCachePolicy:cachePolicy withBlock:^(NSNumber * count, NSArray *objects, NSError *error) {
       if(error) {
         [self.delegate didFailToLoadPastMilestones:error atPageIndex:startIndex];
         _isLoadingPastMilestones = NO;
       } else {
-        // if results, set the has more to false
-        _countOfPastMilestones = count.integerValue;
-        if(!_pastMilestones) _pastMilestones = [[NSMutableArray alloc] initWithCapacity:self.pagingSize];
-        _hasMorePastMilestones = objects.count == self.pagingSize;
-        [((NSMutableArray*) _pastMilestones) addObjectsFromArray:objects];
-        [self.delegate didLoadPastMilestonesAtPageIndex:startIndex];
-        _isLoadingPastMilestones = NO;
+        if(cachedResult ||![HistoryViewTableModel isPFObjectArrayEqual:_pastMilestones toPFObjectArray:objects]) {
+          // if results, set the has more to false
+          _countOfPastMilestones = count.integerValue;
+          if(!_pastMilestones) _pastMilestones = [[NSMutableArray alloc] initWithCapacity:self.pagingSize];
+          _hasMorePastMilestones = objects.count == self.pagingSize;
+          [((NSMutableArray*) _pastMilestones) addObjectsFromArray:objects];
+          [self.delegate didLoadPastMilestonesAtPageIndex:startIndex];
+          _isLoadingPastMilestones = NO;
+          cachedResult = NO;
+        }
       }
     }];
   } else {
@@ -168,14 +176,14 @@ typedef void (^StandardMilestoneResultBlock)(NSNumber * totalCount, NSArray *obj
     }
 
     _isLoadingAchievements = YES;
-    NSURLRequestCachePolicy cachePolicy = kPFCachePolicyNetworkOnly; //_achievements.count ? kPFCachePolicyNetworkOnly : kPFCachePolicyCacheThenNetwork;
+    NSURLRequestCachePolicy cachePolicy = _achievements.count ? kPFCachePolicyNetworkOnly : kPFCachePolicyCacheThenNetwork;
     __block BOOL cachedResult = cachePolicy == kPFCachePolicyCacheThenNetwork;
     [PFCloud callFunctionInBackground:@"queryMyAchievements"
                        withParameters:@{@"babyId": self.baby.objectId,
                                         @"skip" : [@(startIndex) stringValue],
                                         @"limit" : [@(self.pagingSize) stringValue],
                                         @"filterTokens": _filter ? _filterTokens : [NSNull null]}
-//                      cachePolicy:cachePolicy
+                      cachePolicy:cachePolicy
                       block:^(NSDictionary *results, NSError *error) {
                         if(error) {
                           if(error.code != kPFErrorCacheMiss) {
@@ -185,17 +193,21 @@ typedef void (^StandardMilestoneResultBlock)(NSNumber * totalCount, NSArray *obj
                         } else {
                           _countOfAchievements =  ((NSNumber *)[results objectForKey:@"count"]).integerValue;
                           NSArray * achievements = [results objectForKey:@"achievements"];
-                          // if results, set the has more to false
-                          if(!_achievements || startIndex == 0) _achievements = [[NSMutableArray alloc] initWithCapacity:self.pagingSize];
-                          _hasMoreAchievements = achievements.count == self.pagingSize;
-                          for(MilestoneAchievement* achievement in achievements) {
-                            NSAssert([achievement.baby.objectId isEqualToString:Baby.currentBaby.objectId],@"Expected only achievements that match current baby!");
-                            // So we can use a populated object, assign the object to the current baby object
-                            achievement.baby = Baby.currentBaby;
-                            [((NSMutableArray*) _achievements) addObject:achievement];
+                          // Don't update if it is the same which causes flickering
+                          if(cachedResult || ![HistoryViewTableModel isPFObjectArrayEqual:_achievements toPFObjectArray:achievements]) {
+                            // if results, set the has more to false
+                            if(!_achievements || startIndex == 0) _achievements = [[NSMutableArray alloc] initWithCapacity:self.pagingSize];
+                            _hasMoreAchievements = achievements.count == self.pagingSize;
+                            for(MilestoneAchievement* achievement in achievements) {
+                              NSAssert([achievement.baby.objectId isEqualToString:Baby.currentBaby.objectId],@"Expected only achievements that match current baby!");
+                              // So we can use a populated object, assign the object to the current baby object
+                              achievement.baby = Baby.currentBaby;
+                              [((NSMutableArray*) _achievements) addObject:achievement];
+                            }
+                            
+                            [self.delegate didLoadAchievementsAtPageIndex:startIndex];
+                            _isLoadingAchievements = NO;
                           }
-                          [self.delegate didLoadAchievementsAtPageIndex:startIndex];
-                          _isLoadingAchievements = NO;
                         }
                         if(cachedResult) cachedResult = NO;
                       }];
@@ -276,6 +288,23 @@ typedef void (^StandardMilestoneResultBlock)(NSNumber * totalCount, NSArray *obj
   return NSNotFound;
 }
 
++(BOOL) isPFObjectArrayEqual:(NSArray*) array1 toPFObjectArray:(NSArray*) array2 {
+  BOOL isEqual = YES;
+  
+  if(array1.count == array2.count) {
+    for(int i = 0; i<array1.count; i++) {
+      PFObject * obj1 = array1[i];
+      PFObject * obj2 = array2[i];
+      if(![[obj1 parseClassName] isEqualToString:[obj2 parseClassName]] || ![obj1.objectId isEqualToString:obj2.objectId]) {
+        isEqual = NO;
+        break;
+      }
+    }
+  } else {
+    isEqual = NO;
+  }
+  return isEqual;
+}
   
 
 @end
