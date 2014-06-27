@@ -131,6 +131,7 @@
   _count = count;
   _countLabel.text = [NSString stringWithFormat:@"%d", count];
   [_countLabel sizeToFit];
+  [self setNeedsLayout];
 }
 
 -(NSInteger) count {

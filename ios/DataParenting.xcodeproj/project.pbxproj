@@ -131,7 +131,6 @@
 		E81B58631891EEC500C74C2B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		E81B58651891EED100C74C2B /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		E81B58671891EEDB00C74C2B /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		E81B586C189345A800C74C2B /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		E81B586E1896A42400C74C2B /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		E81B586F1896A75700C74C2B /* Contants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Contants.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		E81B58711896B89E00C74C2B /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
@@ -491,7 +490,6 @@
 				E862B81618F6A6BA00EBAEFF /* iAd.framework */,
 				E862B81418F6A69200EBAEFF /* AdSupport.framework */,
 				E81B5887189AB2B900C74C2B /* Accounts.framework */,
-				E81B586C189345A800C74C2B /* FacebookSDK.framework */,
 				E81B58551891EE1100C74C2B /* Parse.framework */,
 				E81B58671891EEDB00C74C2B /* SystemConfiguration.framework */,
 				E81B58651891EED100C74C2B /* StoreKit.framework */,
