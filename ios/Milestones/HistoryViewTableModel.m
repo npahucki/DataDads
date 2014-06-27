@@ -50,6 +50,9 @@
   _hasMoreFutureMilestones = YES;
   _hasMorePastMilestones = YES;
   _filter = nil;
+  _countOfAchievements = 9;
+  _countOfFutureMilestones = 999;
+  _countOfPastMilestones = 9999;
 }
 
 -(void) loadFutureMilestonesPage:(NSInteger) startIndex {

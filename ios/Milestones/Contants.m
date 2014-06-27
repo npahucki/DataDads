@@ -50,6 +50,15 @@ NSString *const kDDNotificationPushReceieved = @"notificationPushReceived";
 +(UIColor *) appBackgroundColor {return UIColorFromRGBWithAlpha(0xFBFBFB, .95);}
 +(UIColor *) appTitleHeaderColor {return UIColorFromRGB(0x56565a);}
 
++(UIColor *) appHeaderBackgroundActiveColor {return UIColorFromRGBWithAlpha(0xDCE7E9, .95);}
++(UIColor *) appHeaderActiveTextColor {return [UIColor appNormalColor];}
++(UIColor *) appHeaderCounterBackgroundActiveColor {return UIColorFromRGB(0x1a8e9f);}
++(UIColor *) appHeaderCounterActiveTextColor {return UIColorFromRGB(0xFBFBFB);}
+
++(UIColor *) appHeaderBackgroundNormalColor {return [UIColor appBackgroundColor];}
++(UIColor *) appHeaderNormalTextColor {return UIColorFromRGB(0x8e8e8e);}
++(UIColor *) appHeaderBorderNormalColor {return UIColorFromRGB(0xCFCFD3);}
++(UIColor *) appHeaderCounterNormalTextColor {return [UIColor appNormalColor];}
 
 @end
 

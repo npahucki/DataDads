@@ -45,6 +45,9 @@
 @property (readonly) BOOL hasMorePastMilestones;
 @property (readonly) BOOL hasMoreAchievements;
 
+@property (readonly) NSInteger countOfFutureMilestones;
+@property (readonly) NSInteger countOfPastMilestones;
+@property (readonly) NSInteger countOfAchievements;
 
 
 

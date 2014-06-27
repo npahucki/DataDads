@@ -11,46 +11,19 @@
 
 #import "HistoryViewController.h"
 #import "HistoryViewControllerDataSource.h"
+#import "HistoryTableHeaderView.h"
 #import <FacebookSDK/FBSession.h>
 #import "NSDate+Utils.h"
 #import "limits.h"
 
 #define PRELOAD_START_AT_IDX 1
 
-
-
-@interface HistoryHeaderView : UIView
-@property (strong, nonatomic) UILabel * label;
-
--(void) setHighlighted:(BOOL)highlighted;
--(void) setPosition:(int) position;
-
-@end
-
-@implementation HistoryHeaderView {
-  BOOL _highlighted;
-}
-
--(void) setHighlighted:(BOOL)highlighted {
-  if(highlighted != _highlighted) {
-    _highlighted = highlighted;
-    _label.font = [UIFont fontForAppWithType:highlighted ? Bold : Book andSize:17];
-  }
-}
-
--(void) setPosition:(int)position {
-  self.frame = CGRectMake(0,position, self.bounds.size.width, self.bounds.size.height);
-}
-
-@end
-
-
 @interface HistoryViewController () {
   CGSize _lastTableSize;
   
-  HistoryHeaderView * _floatingAchievementsHeaderView;
-  HistoryHeaderView * _floatingPastMilestonesHeaderView;
-  HistoryHeaderView * _floatingFutureMilestonesHeaderView;
+  HistoryTableHeaderView * _floatingAchievementsHeaderView;
+  HistoryTableHeaderView * _floatingPastMilestonesHeaderView;
+  HistoryTableHeaderView * _floatingFutureMilestonesHeaderView;
   
   NSIndexPath * _pendingNextPageTriggerIndex;
   BOOL _isJumpingToIndex;
@@ -75,6 +48,9 @@
   self.tableView.dataSource = _dataSource;
   self.tableView.delegate = self;
   self.tableView.rowHeight = 84;
+  self.tableView.backgroundColor = [UIColor clearColor];
+  self.tableView.backgroundView = nil;
+  
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(babyUpdated:) name:kDDNotificationCurrentBabyChanged object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(milestoneNotedAndSaved:) name:kDDNotificationMilestoneNotedAndSaved object:nil];
@@ -221,11 +197,8 @@
   return 44;
 }
 
--(HistoryHeaderView *)tableView:(UITableView *)tableView viewForFloatingHeaderInSection:(NSInteger)section {
-  HistoryHeaderView * floater = [[HistoryHeaderView alloc] initWithFrame:CGRectMake(0,0,tableView.frame.size.width,[self tableView:tableView heightForHeaderInSection:section])];
-  floater.label  = (UILabel*)[self tableView:tableView viewForHeaderInSection:section];
-  [floater addSubview:floater.label];
-  floater.backgroundColor = self.tableView.backgroundColor;
+-(HistoryTableHeaderView *)tableView:(UITableView *)tableView viewForFloatingHeaderInSection:(NSInteger)section {
+  HistoryTableHeaderView * floater = (HistoryTableHeaderView *) [self tableView:tableView viewForHeaderInSection:section];
   floater.opaque = YES;
   floater.hidden = YES;
   floater.alpha = .95;
@@ -237,13 +210,20 @@
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-  int height = [self tableView:self.tableView heightForHeaderInSection:section];
-  UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, height)];
-  label.textAlignment = NSTextAlignmentCenter;
-  [label setFont:[UIFont fontForAppWithType:Bold andSize:17]];
-  label.text = [_dataSource tableView:tableView titleForHeaderInSection:section];
-  label.textColor = [UIColor appNormalColor];
-  return label;
+  HistoryTableHeaderView * headerView = [[HistoryTableHeaderView alloc] initWithFrame:CGRectMake(0,0,tableView.frame.size.width,[self tableView:tableView heightForHeaderInSection:section])];
+  headerView.title = [_dataSource tableView:tableView titleForHeaderInSection:section];
+  switch (section) {
+    case FutureMilestoneSection:
+      headerView.count = [_model countOfFutureMilestones];
+      break;
+    case PastMilestoneSection:
+      headerView.count = [_model countOfPastMilestones];
+      break;
+    case AchievementSection:
+      headerView.count = [_model countOfAchievements];
+      break;
+  }
+  return headerView;
 }
 
 
