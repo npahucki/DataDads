@@ -7,9 +7,11 @@
 //
 
 #import "HistoryViewTableModel.h"
+#import "PFCloud+Cache.h"
 
 #define STOP_WORDS @[@"the", @"in", @"and", @"he", @"she",@"him",@"her",@"his"]
 
+typedef void (^StandardMilestoneResultBlock)(NSNumber * totalCount, NSArray *objects, NSError *error);
 
 @implementation HistoryViewTableModel {
   NSString * _filter;
@@ -50,9 +52,9 @@
   _hasMoreFutureMilestones = YES;
   _hasMorePastMilestones = YES;
   _filter = nil;
-  _countOfAchievements = 9;
-  _countOfFutureMilestones = 999;
-  _countOfPastMilestones = 9999;
+  _countOfAchievements = 0;
+  _countOfFutureMilestones = 0;
+  _countOfPastMilestones = 0;
 }
 
 -(void) loadFutureMilestonesPage:(NSInteger) startIndex {
@@ -67,12 +69,13 @@
     if([self.delegate respondsToSelector:@selector(willLoadFutureMilestonesAtPageIndex:)])
       [self.delegate willLoadFutureMilestonesAtPageIndex:startIndex];
     _isLoadingFutureMilestones = YES;
-    [self loadMilestonesPage:startIndex forTimePeriod:@"future" withBlock:^(NSArray *objects, NSError *error) {
+    [self loadMilestonesPage:startIndex forTimePeriod:@"future" withBlock:^(NSNumber * count, NSArray *objects, NSError *error) {
       if(error) {
         [self.delegate didFailToLoadFutureMilestones:error atPageIndex:startIndex];
       } else {
         // if results, set the has more to false
         _hasMoreFutureMilestones = objects.count == self.pagingSize;
+        _countOfFutureMilestones = count.integerValue;
         if(!_futureMilestones || startIndex == 0) _futureMilestones = [NSMutableArray arrayWithCapacity:objects.count * 3]; // enough for three pages
         // NOTE: We must reverse the order so that they get rendered bottom to top.
         NSIndexSet* indices = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,objects.count)];
@@ -100,12 +103,13 @@
     if([self.delegate respondsToSelector:@selector(willLoadPastMilestonesAtPageIndex:)])
       [self.delegate willLoadPastMilestonesAtPageIndex:startIndex];
     _isLoadingPastMilestones = YES;
-    [self loadMilestonesPage:startIndex forTimePeriod:@"past" withBlock:^(NSArray *objects, NSError *error) {
+    [self loadMilestonesPage:startIndex forTimePeriod:@"past" withBlock:^(NSNumber * count, NSArray *objects, NSError *error) {
       if(error) {
         [self.delegate didFailToLoadPastMilestones:error atPageIndex:startIndex];
         _isLoadingPastMilestones = NO;
       } else {
         // if results, set the has more to false
+        _countOfPastMilestones = count.integerValue;
         if(!_pastMilestones) _pastMilestones = [[NSMutableArray alloc] initWithCapacity:self.pagingSize];
         _hasMorePastMilestones = objects.count == self.pagingSize;
         [((NSMutableArray*) _pastMilestones) addObjectsFromArray:objects];
@@ -121,11 +125,14 @@
 }
 
 
--(void) loadMilestonesPage:(NSInteger) startIndex forTimePeriod:(NSString*) timePeriod withBlock:(PFArrayResultBlock) block {
+-(void) loadMilestonesPage:(NSInteger) startIndex forTimePeriod:(NSString*) timePeriod withBlock:(StandardMilestoneResultBlock) block {
   // TODO: caching!
   if(self.baby) {
     NSNumber * babySex = @(self.baby.isMale);
     NSNumber * parentSex = @(ParentUser.currentUser.isMale);
+   
+    
+    
     [PFCloud callFunctionInBackground:@"queryMyMilestones"
            withParameters:@{@"babyId": self.baby.objectId,
                             @"babyIsMale": babySex,
@@ -135,11 +142,14 @@
                             @"skip" : [@(startIndex) stringValue],
                             @"limit" : [@(self.pagingSize) stringValue],
                             @"filterTokens": _filter ? _filterTokens : [NSNull null]}
-                    block:^(NSArray *results, NSError *error) {
-                      block(results, error);
+                    cachePolicy:kPFCachePolicyCacheThenNetwork
+                    block:^(NSDictionary *results, NSError *error) {
+                      NSNumber * count = [results objectForKey:@"count"];
+                      NSArray * milestones = [results objectForKey:@"milestones"];
+                      block(count, milestones, error);
                     }];
   } else {
-    block(nil, nil);
+    block(nil, nil, nil);
   }
 }
 

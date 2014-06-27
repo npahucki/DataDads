@@ -319,6 +319,7 @@
 #pragma mark - HistoryViewTableModelDelegate
 
 -(void) didLoadAchievementsAtPageIndex:(NSInteger)pageIndex {
+  _floatingAchievementsHeaderView.count = _model.countOfAchievements;
   [self.tableView reloadData];
   if(pageIndex == 0) {
     [self scrollToFirstAchievement];
@@ -330,6 +331,7 @@
 }
 
 -(void) didLoadFutureMilestonesAtPageIndex:(NSInteger)pageIndex {
+  _floatingFutureMilestonesHeaderView.count = _model.countOfFutureMilestones;
   [self.tableView reloadData]; // use instead of relaod section which makes the table jump!
   if(pageIndex > 0) {
     if(_lastTableSize.height > 0) {
@@ -352,6 +354,7 @@
 }
 
 -(void) didLoadPastMilestonesAtPageIndex:(NSInteger)pageIndex {
+  _floatingPastMilestonesHeaderView.count = _model.countOfPastMilestones;
   [self.tableView reloadData];
 }
 

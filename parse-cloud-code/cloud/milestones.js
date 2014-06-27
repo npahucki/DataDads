@@ -27,7 +27,7 @@ Parse.Cloud.define("queryMyMilestones", function (request, response) {
     query = new Parse.Query("StandardMilestones");
     query.containedIn("babySex", [-1, babySex]);
     query.containedIn("parentSex", [-1, parentSex]);
-    if(filterTokens) query.containsAll("searchIndex", filterTokens);
+    if (filterTokens) query.containsAll("searchIndex", filterTokens);
 
     if (timePeriod == "future") {
         query.greaterThanOrEqualTo("rangeHigh", rangeDays);
@@ -42,17 +42,20 @@ Parse.Cloud.define("queryMyMilestones", function (request, response) {
 
     // Bit if a hack here, using string column here : See https://parse.com/questions/trouble-with-nested-query-using-objectid
     query.doesNotMatchKeyInQuery("objectId", "standardMilestoneId", innerQuery);
+
+    var countPromise = query.count();
     query.limit(limit);
     query.skip(skip);
     query.select(["title", "url", "rangeHigh", "rangeLow"]);
-    query.find({
-        success:function (results) {
-            response.success(results);
-        },
-        error:function (error) {
-            response.error(error);
-        }
-    });
+    var findPromise = query.find();
+
+    Parse.Promise.when(countPromise,findPromise).
+            then(function (count, queryResults) {
+                response.success({"count" : count, "milestones" : queryResults});
+            }, function (error) {
+                response.error(error);
+            });
+
 });
 
 
