@@ -108,7 +108,7 @@ typedef void (^StandardMilestoneResultBlock)(NSNumber * totalCount, NSArray *obj
     if([self.delegate respondsToSelector:@selector(willLoadPastMilestonesAtPageIndex:)])
       [self.delegate willLoadPastMilestonesAtPageIndex:startIndex];
     _isLoadingPastMilestones = YES;
-    NSURLRequestCachePolicy cachePolicy = _pastMilestones.count ? kPFCachePolicyNetworkElseCache : kPFCachePolicyCacheThenNetwork;
+    PFCachePolicy cachePolicy = _pastMilestones.count ? kPFCachePolicyNetworkElseCache : kPFCachePolicyCacheThenNetwork;
     __block BOOL cachedResult = cachePolicy == kPFCachePolicyCacheThenNetwork;
     [self loadMilestonesPage:startIndex forTimePeriod:@"past" withCachePolicy:cachePolicy withBlock:^(NSNumber * count, NSArray *objects, NSError *error) {
       if(error) {
@@ -135,7 +135,7 @@ typedef void (^StandardMilestoneResultBlock)(NSNumber * totalCount, NSArray *obj
 }
 
 
--(void) loadMilestonesPage:(NSInteger) startIndex forTimePeriod:(NSString*) timePeriod withCachePolicy:(NSURLRequestCachePolicy) cachePolicy withBlock:(StandardMilestoneResultBlock) block {
+-(void) loadMilestonesPage:(NSInteger) startIndex forTimePeriod:(NSString*) timePeriod withCachePolicy:(PFCachePolicy) cachePolicy withBlock:(StandardMilestoneResultBlock) block {
   if(self.baby) {
     NSNumber * babySex = @(self.baby.isMale);
     NSNumber * parentSex = @(ParentUser.currentUser.isMale);
@@ -149,7 +149,7 @@ typedef void (^StandardMilestoneResultBlock)(NSNumber * totalCount, NSArray *obj
                             @"skip" : [@(startIndex) stringValue],
                             @"limit" : [@(self.pagingSize) stringValue],
                             @"filterTokens": _filter ? _filterTokens : [NSNull null]}
-                    cachePolicy:cachePolicy
+                    cachePolicy: cachePolicy
                     block:^(NSDictionary *results, NSError *error) {
                       NSNumber * count = [results objectForKey:@"count"];
                       NSArray * milestones = [results objectForKey:@"milestones"];
@@ -176,7 +176,7 @@ typedef void (^StandardMilestoneResultBlock)(NSNumber * totalCount, NSArray *obj
     }
 
     _isLoadingAchievements = YES;
-    NSURLRequestCachePolicy cachePolicy = _achievements.count ? kPFCachePolicyNetworkOnly : kPFCachePolicyCacheThenNetwork;
+    PFCachePolicy cachePolicy = _achievements.count ? kPFCachePolicyNetworkOnly : kPFCachePolicyCacheThenNetwork;
     __block BOOL cachedResult = cachePolicy == kPFCachePolicyCacheThenNetwork;
     [PFCloud callFunctionInBackground:@"queryMyAchievements"
                        withParameters:@{@"babyId": self.baby.objectId,
