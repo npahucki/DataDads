@@ -13,10 +13,8 @@
 
 @property (strong, nonatomic) NSString * title;
 @property NSInteger count;
-
--(void) setHighlighted:(BOOL)highlighted;
--(void) setPosition:(int) position;
-
+@property BOOL highlighted;
+@property NSInteger position;
 
 @end
 

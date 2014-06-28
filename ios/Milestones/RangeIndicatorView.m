@@ -137,7 +137,7 @@
 
 -(void) setStartRange:(NSInteger)startRange {
   NSAssert(_rangeScale > 0,@"Expected rangeScale to be set first!");
-  NSAssert(startRange >= 0,@"startRange(%d) must be greater than 0", startRange);
+  NSAssert(startRange >= 0,@"startRange(%ld) must be greater than 0", startRange);
   _startRange = startRange;
   
   // Get ratio of start range to max

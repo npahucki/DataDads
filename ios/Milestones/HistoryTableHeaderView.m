@@ -10,6 +10,7 @@
 
 @implementation HistoryTableHeaderView {
   BOOL _highlighted;
+  NSInteger _position;
   NSInteger _count;
   UILabel * _countLabel;
   UILabel * _titleLabel;
@@ -114,8 +115,19 @@
   }
 }
 
--(void) setPosition:(int)position {
-  self.frame = CGRectMake(0,position, self.bounds.size.width, self.bounds.size.height);
+-(BOOL) highlighted {
+  return _highlighted;
+}
+
+-(void) setPosition:(NSInteger)position {
+  if(_position != position) {
+    _position = position;
+    self.frame = CGRectMake(0,position, self.bounds.size.width, self.bounds.size.height);
+  }
+}
+
+-(NSInteger) position {
+  return _position;
 }
 
 -(void) setTitle:(NSString*) title {

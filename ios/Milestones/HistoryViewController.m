@@ -409,9 +409,9 @@
   
   BOOL futureMilestoneHeaderIsAbove = futureMilestoneHeaderPosition <= 0;
   BOOL achievementMilestoneHeaderIsAbove = achievementHeaderPosition <= futureMilestoneHeaderHeight;
-  BOOL achievementMilestoneHeaderIsBelow = achievementHeaderPosition + achievementHeaderHeight >= self.tableView.frame.size.height - pastMilestoneHeaderHeight;
+  BOOL achievementMilestoneHeaderIsBelow = achievementHeaderPosition + achievementHeaderHeight >= tableHeight - pastMilestoneHeaderHeight;
   BOOL pastMilestoneHeaderIsAbove = pastMilestoneHeaderPosition <= futureMilestoneHeaderHeight + achievementHeaderHeight;
-  BOOL pastMilestoneHeaderIsBelow = pastMilestoneHeaderPosition + pastMilestoneHeaderHeight >= self.tableView.frame.size.height;
+  BOOL pastMilestoneHeaderIsBelow = pastMilestoneHeaderPosition + pastMilestoneHeaderHeight >= tableHeight;
   
   // Future Header
   if(!futureMilestoneHeaderHeight) {
@@ -422,15 +422,11 @@
       _floatingFutureMilestonesHeaderView = [self tableView:self.tableView viewForFloatingHeaderInSection:FutureMilestoneSection];
       [self.tableView.superview insertSubview:_floatingFutureMilestonesHeaderView aboveSubview:self.tableView];
     }
-    if(futureMilestoneHeaderIsAbove && _floatingFutureMilestonesHeaderView.hidden) {
-      _floatingFutureMilestonesHeaderView.position = 0;
-      _floatingFutureMilestonesHeaderView.hidden = NO;
-    } else if(!futureMilestoneHeaderIsAbove && !_floatingAchievementsHeaderView.hidden) {
-      _floatingFutureMilestonesHeaderView.hidden = YES;
-    }
+    _floatingFutureMilestonesHeaderView.position = 0;
+    _floatingFutureMilestonesHeaderView.hidden = !futureMilestoneHeaderIsAbove;
     _floatingFutureMilestonesHeaderView.highlighted = !achievementMilestoneHeaderIsAbove;
   }
-  
+
   // Achievement Header
   if(!achievementHeaderHeight) {
     // No rows in section, hide the floating header.
@@ -440,12 +436,10 @@
       _floatingAchievementsHeaderView = [self tableView:self.tableView viewForFloatingHeaderInSection:AchievementSection];
       [self.tableView.superview insertSubview:_floatingAchievementsHeaderView aboveSubview:self.tableView];
     }
-    if((achievementMilestoneHeaderIsAbove || achievementMilestoneHeaderIsBelow) && _floatingAchievementsHeaderView.hidden) {
-      _floatingAchievementsHeaderView.position = achievementMilestoneHeaderIsBelow ? tableHeight - (achievementHeaderHeight + pastMilestoneHeaderHeight) : futureMilestoneHeaderHeight;
-      _floatingAchievementsHeaderView.hidden = NO;
-    } else if(!achievementMilestoneHeaderIsBelow && !achievementMilestoneHeaderIsAbove && !_floatingAchievementsHeaderView.hidden) {
-      _floatingAchievementsHeaderView.hidden = YES;
-    }
+    
+    
+    _floatingAchievementsHeaderView.hidden = !(achievementMilestoneHeaderIsAbove || achievementMilestoneHeaderIsBelow);
+    _floatingAchievementsHeaderView.position = achievementMilestoneHeaderIsBelow ? tableHeight - (achievementHeaderHeight + pastMilestoneHeaderHeight) : futureMilestoneHeaderHeight;
     _floatingAchievementsHeaderView.highlighted = achievementMilestoneHeaderIsAbove && !pastMilestoneHeaderIsAbove;
   }
   
@@ -458,12 +452,8 @@
       _floatingPastMilestonesHeaderView = [self tableView:self.tableView viewForFloatingHeaderInSection:PastMilestoneSection];
       [self.tableView.superview insertSubview:_floatingPastMilestonesHeaderView aboveSubview:self.tableView];
     }
-    if((pastMilestoneHeaderIsAbove || pastMilestoneHeaderIsBelow) && _floatingPastMilestonesHeaderView.hidden) {
-      _floatingPastMilestonesHeaderView.position = pastMilestoneHeaderIsBelow ? tableHeight - pastMilestoneHeaderHeight : futureMilestoneHeaderHeight + achievementHeaderHeight;
-      _floatingPastMilestonesHeaderView.hidden = NO;
-    } else if(!pastMilestoneHeaderIsBelow && !pastMilestoneHeaderIsAbove && !_floatingPastMilestonesHeaderView.hidden) {
-      _floatingPastMilestonesHeaderView.hidden = YES;
-    }
+    _floatingPastMilestonesHeaderView.hidden = !(pastMilestoneHeaderIsAbove || pastMilestoneHeaderIsBelow);
+    _floatingPastMilestonesHeaderView.position = pastMilestoneHeaderIsBelow ? tableHeight - pastMilestoneHeaderHeight : futureMilestoneHeaderHeight + achievementHeaderHeight;
     _floatingPastMilestonesHeaderView.highlighted = !pastMilestoneHeaderIsBelow;
   }
 }

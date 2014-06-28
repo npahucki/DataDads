@@ -69,7 +69,7 @@ typedef void (^StandardMilestoneResultBlock)(NSNumber * totalCount, NSArray *obj
     if([self.delegate respondsToSelector:@selector(willLoadFutureMilestonesAtPageIndex:)])
       [self.delegate willLoadFutureMilestonesAtPageIndex:startIndex];
     _isLoadingFutureMilestones = YES;
-    NSURLRequestCachePolicy cachePolicy = _futureMilestones.count ? kPFCachePolicyNetworkElseCache : kPFCachePolicyCacheThenNetwork;
+    PFCachePolicy cachePolicy = _futureMilestones.count ? kPFCachePolicyNetworkElseCache : kPFCachePolicyCacheThenNetwork;
     __block BOOL cachedResult = cachePolicy == kPFCachePolicyCacheThenNetwork;
     [self loadMilestonesPage:startIndex forTimePeriod:@"future" withCachePolicy:cachePolicy withBlock:^(NSNumber * count, NSArray *objects, NSError *error) {
       if(error) {

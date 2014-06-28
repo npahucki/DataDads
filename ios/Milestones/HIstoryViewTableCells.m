@@ -122,13 +122,7 @@
   self.achievementDateLabel.text = [achievement.completionDate stringWithHumanizedTimeDifference];
   self.achievementTitleLabel.text = achievement.displayTitle;
   
-  PFFile * imageFile;
-  BOOL hasAttachmentImage = (achievement.attachment && [achievement.attachmentType rangeOfString : @"image"].location != NSNotFound);
-  if(hasAttachmentImage) {
-    imageFile = achievement.attachmentThumbnail ? achievement.attachmentThumbnail : achievement.attachment;
-  } else {
-    imageFile = achievement.baby.avatarImageThumbnail ? achievement.baby.avatarImageThumbnail : achievement.baby.avatarImage;
-  }
+  PFFile * imageFile = achievement.attachmentThumbnail ? achievement.attachmentThumbnail : Baby.currentBaby.avatarImageThumbnail;
   if(imageFile) {
     [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
       if(!error) {
@@ -137,7 +131,7 @@
         if(image) {
           self.pictureView.contentMode = UIViewContentModeScaleAspectFill;
           self.pictureView.image = image;
-          self.pictureView.alpha = hasAttachmentImage ? 1.0 : 0.3;
+          self.pictureView.alpha = achievement.attachmentThumbnail ? 1.0 : 0.3;
         }
       }
     }];
