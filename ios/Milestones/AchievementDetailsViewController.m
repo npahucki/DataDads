@@ -32,13 +32,17 @@ NSDateFormatter * _dateFormatter;
   [super viewDidLoad];
   NSAssert(self.achievement,@"Expected Achievement to be set before loading view!");
 
-  self.detailsImageButton.imageView.contentMode = UIViewContentModeScaleAspectFill;
+  //self.detailsImageButton.imageView.contentMode = UIViewContentModeScaleAspectFill;
   self.detailsTextView.delegate = self;
   NSDictionary *linkAttributes = @{NSForegroundColorAttributeName: [UIColor appSelectedColor],
                                    NSUnderlineColorAttributeName: [UIColor appSelectedColor],
                                    NSUnderlineStyleAttributeName: @(NSUnderlinePatternSolid)};
   self.detailsTextView.linkTextAttributes = linkAttributes; // customizes the appearance of links
 
+
+  self.detailsImageButton.imageView.contentMode = UIViewContentModeScaleAspectFill;
+  self.detailsImageButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentFill;
+  self.detailsImageButton.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
   
   // The references we have when these objects are loaded, do not have all the baby info in them, so we swap them out here.
   if(!self.achievement.baby.isDataAvailable) {
@@ -55,19 +59,30 @@ NSDateFormatter * _dateFormatter;
       }
     }];
   }
+
   
-  // Load the image
-  PFFile * imageFile = (self.achievement.attachment && [self.achievement.attachmentType rangeOfString : @"image"].location != NSNotFound) ?
-  self.achievement.attachment : self.achievement.baby.avatarImage;
-  if(imageFile) {
-    [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-      if(!error) {
-        [self.detailsImageButton setImage:[UIImage imageWithData:data] forState:UIControlStateNormal];
-        self.detailsImageButton.contentMode = UIViewContentModeCenter;
+  // Start with the thumbnail (if loaded), then load the bigger one later on.
+  PFFile * thumbnailImageFile = self.achievement.attachmentThumbnail ? self.achievement.attachmentThumbnail : self.achievement.baby.avatarImageThumbnail;
+  self.detailsImageButton.alpha = self.achievement.attachmentThumbnail ? 1.0 : 0.3;
+  [thumbnailImageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+      [self.detailsImageButton setImage:[UIImage imageWithData:data] forState:UIControlStateNormal];
+  }];
+
+  [self.achievement fetchInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+    if(!error) {
+      self.achievement = (MilestoneAchievement*) object;
+      BOOL hasImageAttachment = self.achievement.attachment && [self.achievement.attachmentType rangeOfString:@"image"].location != NSNotFound;
+      self.detailsImageButton.alpha = hasImageAttachment ? 1.0 : 0.3;
+      PFFile * imageFile = hasImageAttachment ?  self.achievement.attachment : self.achievement.baby.avatarImage;
+      if(imageFile) {
+        [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+          if(!error) {
+            [self.detailsImageButton setImage:[UIImage imageWithData:data] forState:UIControlStateNormal];
+          }
+        }];
       }
-    }];
-  }
-  self.detailsImageButton.alpha = imageFile == self.achievement.attachment ? 1.0 : 0.3;
+    }
+  }];
   
   // Make the bottom of the Text field fade out
   CAGradientLayer *l = [CAGradientLayer layer];

@@ -78,7 +78,7 @@ typedef void (^StandardMilestoneResultBlock)(NSNumber * totalCount, NSArray *obj
         if(cachedResult ||![HistoryViewTableModel isPFObjectArrayEqual:_futureMilestones toPFObjectArray:objects]) {
           // if results, set the has more to false
           _hasMoreFutureMilestones = objects.count == self.pagingSize;
-          _countOfFutureMilestones = count.integerValue;
+          if(count.integerValue> 0) _countOfFutureMilestones = count.integerValue;
           if(!_futureMilestones || startIndex == 0) _futureMilestones = [NSMutableArray arrayWithCapacity:objects.count * 3]; // enough for three pages
           // NOTE: We must reverse the order so that they get rendered bottom to top.
           NSIndexSet* indices = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,objects.count)];
@@ -117,7 +117,7 @@ typedef void (^StandardMilestoneResultBlock)(NSNumber * totalCount, NSArray *obj
       } else {
         if(cachedResult ||![HistoryViewTableModel isPFObjectArrayEqual:_pastMilestones toPFObjectArray:objects]) {
           // if results, set the has more to false
-          _countOfPastMilestones = count.integerValue;
+          if(count.integerValue> 0) _countOfPastMilestones = count.integerValue;
           if(!_pastMilestones) _pastMilestones = [[NSMutableArray alloc] initWithCapacity:self.pagingSize];
           _hasMorePastMilestones = objects.count == self.pagingSize;
           [((NSMutableArray*) _pastMilestones) addObjectsFromArray:objects];
@@ -191,7 +191,8 @@ typedef void (^StandardMilestoneResultBlock)(NSNumber * totalCount, NSArray *obj
                             _isLoadingAchievements = NO;
                           }
                         } else {
-                          _countOfAchievements =  ((NSNumber *)[results objectForKey:@"count"]).integerValue;
+                          NSNumber * count = (NSNumber *)[results objectForKey:@"count"];
+                          if(count.integerValue> 0) _countOfAchievements =  count.integerValue;
                           NSArray * achievements = [results objectForKey:@"achievements"];
                           // Don't update if it is the same which causes flickering
                           if(cachedResult || ![HistoryViewTableModel isPFObjectArrayEqual:_achievements toPFObjectArray:achievements]) {

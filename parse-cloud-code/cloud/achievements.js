@@ -32,8 +32,8 @@ Parse.Cloud.define("queryMyAchievements", function (request, response) {
     query.equalTo("isPostponed", false);
     query.descending("completionDate");
 
-
-    var countPromise = query.count(); // do count before limits
+    // Only do the count query for the first page query.
+    var countPromise = skip == 0 ? query.count() : Parse.Promise.as(-1); // do count before limits
 
     query.limit(limit);
     query.skip(skip);

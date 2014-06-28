@@ -29,9 +29,6 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="koa-H7-Px9">
                                 <rect key="frame" x="10" y="216" width="300" height="300"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="300" id="USV-j2-HIW"/>
-                                </constraints>
                                 <state key="normal" backgroundImage="cameraButton">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -49,6 +46,9 @@
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="164"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="120" id="jN7-lG-ThS"/>
+                                        </constraints>
                                         <attributedString key="attributedText"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
                                         <dataDetectorType key="dataDetectorTypes" link="YES"/>
@@ -86,7 +86,9 @@
                             <constraint firstItem="hvI-wA-MYI" firstAttribute="leading" secondItem="yCy-qS-Ug2" secondAttribute="leading" id="dWk-bV-Cei"/>
                             <constraint firstAttribute="centerX" secondItem="koa-H7-Px9" secondAttribute="centerX" id="hqi-nZ-wSW"/>
                             <constraint firstItem="qgu-bh-LmM" firstAttribute="top" secondItem="hvI-wA-MYI" secondAttribute="bottom" id="jeK-Si-AKT"/>
+                            <constraint firstItem="koa-H7-Px9" firstAttribute="leading" secondItem="yCy-qS-Ug2" secondAttribute="leading" priority="750" constant="10" id="mlg-Lu-gwn"/>
                             <constraint firstItem="f49-4C-Wmc" firstAttribute="top" secondItem="ajD-Bn-Oqc" secondAttribute="bottom" id="vuG-Jd-pzy"/>
+                            <constraint firstAttribute="trailing" secondItem="koa-H7-Px9" secondAttribute="trailing" priority="750" constant="10" id="ypl-zD-XNS"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Details" id="23o-jy-TLD">
@@ -872,11 +874,11 @@
             </objects>
             <point key="canvasLocation" x="2224" y="-1280"/>
         </scene>
-        <!--Navigation Controller - DataParenting-->
+        <!--Navigation Controller - MIlestones-->
         <scene sceneID="YCf-cW-5Vn">
             <objects>
                 <navigationController definesPresentationContext="YES" id="mJ5-m9-7Sj" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="DataParenting" image="historyIcon" id="MPf-iA-FA8"/>
+                    <tabBarItem key="tabBarItem" title="MIlestones" image="historyIcon" id="MPf-iA-FA8"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="dLV-Fg-va5">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1961,11 +1963,11 @@
             </objects>
             <point key="canvasLocation" x="4158" y="-65"/>
         </scene>
-        <!--Navigation Controller - Tips & Notifications-->
+        <!--Navigation Controller - Tips & Warnings-->
         <scene sceneID="kAc-OT-5lo">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="m8v-2N-ncs" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Tips &amp; Notifications" image="tipsIcon" badgeValue="2" id="eLA-ls-ENZ"/>
+                    <tabBarItem key="tabBarItem" title="Tips &amp; Warnings" image="tipsIcon" badgeValue="2" id="eLA-ls-ENZ"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="rZ5-E2-EpP">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
