@@ -8,9 +8,15 @@
 
 #import "MainViewController.h"
 #import "CustomIOS7AlertView.h"
+#import "BannerViewController.h"
 
 @implementation MainViewController {
   UITabBarItem * _notificationsTabItem;
+}
+
+-(id) initWithCoder:(NSCoder *)aDecoder {
+  self = [super initWithCoder:aDecoder];
+  return self;
 }
 
 -(void) viewDidLoad {
@@ -18,6 +24,13 @@
   _notificationsTabItem = ((UIViewController*)[self.viewControllers objectAtIndex:1]).tabBarItem;
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appEnterForeground:) name:UIApplicationDidBecomeActiveNotification object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gotPushNotification:) name:kDDNotificationPushReceieved object:nil];
+  
+  NSMutableArray * newViewControllers = [[NSMutableArray alloc] init];
+  for(UIViewController * vc in self.viewControllers) {
+    BannerViewController * bvc = [[BannerViewController alloc] initWithContentViewController:vc];
+    [newViewControllers addObject:bvc];
+  }
+  self.viewControllers=newViewControllers;
 }
 
 -(void) dealloc {
