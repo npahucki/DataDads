@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 # import "Reachability.h"
+#import <iAd/iAd.h>
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
