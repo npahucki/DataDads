@@ -99,10 +99,12 @@
   [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:17.0], NSForegroundColorAttributeName : [UIColor appSelectedColor]} forState:UIControlStateHighlighted];
   [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:17.0], NSForegroundColorAttributeName : [UIColor appGreyTextColor]} forState:UIControlStateDisabled];
 
-  [[UITabBarItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Medium andSize:13.0]} forState:UIControlStateNormal];
-  [[UITabBarItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Medium andSize:13.0], NSBackgroundColorAttributeName : [UIColor appSelectedColor]} forState:UIControlStateHighlighted];
+  [[UITabBarItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Medium andSize:13.0], NSForegroundColorAttributeName : [UIColor appHeaderNormalTextColor]} forState:UIControlStateNormal];
+  [[UITabBarItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Medium andSize:13.0]} forState:UIControlStateHighlighted];
   [UITabBar appearance].selectedImageTintColor = [UIColor appNormalColor];
+  [UITabBar appearance].backgroundColor = [UIColor appBackgroundColor];
 
+  
   UIPageControl *pageControl = [UIPageControl appearance];
   pageControl.pageIndicatorTintColor =  [UIColor appGreyTextColor];
   pageControl.currentPageIndicatorTintColor = [UIColor appNormalColor];
