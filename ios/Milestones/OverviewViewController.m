@@ -16,7 +16,6 @@
   [super viewDidLoad];
   NSAssert(Baby.currentBaby.name, @"Expected a current baby would be set before setting invoked");
   
-  self.navigationItem.title = ParentUser.currentUser.screenName;
   self.milestoneCountLabel = [[UILabel alloc] initWithFrame:self.babyAvatar.frame];
   self.milestoneCountLabel.numberOfLines = 2;
   self.milestoneCountLabel.textAlignment = NSTextAlignmentCenter;

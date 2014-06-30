@@ -1351,7 +1351,7 @@
                             <constraint firstItem="5LE-e2-h0I" firstAttribute="centerX" secondItem="gA7-xI-3xd" secondAttribute="centerX" id="tr2-uK-KtA"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Menu" id="3nD-wd-fEG">
+                    <navigationItem key="navigationItem" title="Account" id="3nD-wd-fEG">
                         <barButtonItem key="leftBarButtonItem" systemItem="done" id="XiA-te-TDF">
                             <connections>
                                 <action selector="doneButtonClicked:" destination="5nR-pr-Hy0" id="pU3-vN-l5k"/>

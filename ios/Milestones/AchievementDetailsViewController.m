@@ -131,7 +131,7 @@ NSDateFormatter * _dateFormatter;
   if(_percentile > 0) {
     NSString * msg;
     if(_percentile > 70) {
-      msg = [NSString stringWithFormat:@"Congrats! %@ is ahead of %.02f%% of other babys for this milestone!", self.achievement.baby.name,_percentile];
+      msg = [NSString stringWithFormat:@"Congrats! %@ is ahead of %.02f%% of other babies for this milestone!", self.achievement.baby.name,_percentile];
     } else {
       msg = [NSString stringWithFormat:@"%@ is in the %.02fth percentile for this milestone.", self.achievement.baby.name,_percentile];
     }
