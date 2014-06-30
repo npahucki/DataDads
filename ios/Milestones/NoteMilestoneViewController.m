@@ -63,6 +63,10 @@
   UITapGestureRecognizer *viewTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
   [self.view addGestureRecognizer:viewTap];
   
+  self.takePhotoButton.imageView.contentMode = UIViewContentModeScaleAspectFill;
+  self.takePhotoButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentFill;
+  self.takePhotoButton.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
+  
   self.fbSwitch = [[SevenSwitch alloc] initWithFrame:CGRectMake(10, 10, 50, 30)];
   [self.view addSubview:_fbSwitch];
   [_fbSwitch addTarget:self action:@selector(didChangeFacebookSwitch:) forControlEvents:UIControlEventValueChanged];
@@ -195,7 +199,7 @@
   _takeController = [[FDTakeControllerNoStatusBar alloc] init];
   _takeController.delegate = self;
   _takeController.viewControllerForPresentingImagePickerController = self;
-  _takeController.allowsEditingPhoto = YES;
+  _takeController.allowsEditingPhoto = NO; // NOTE: Allowing photo editing causes a problem with landscape pictures!
   _takeController.allowsEditingVideo = NO;
   [_takeController takePhotoOrChooseFromLibrary];
 }
@@ -358,13 +362,18 @@
 - (void)takeController:(FDTakeController *)controller gotPhoto:(UIImage *)photo withInfo:(NSDictionary *)info
 {
   
-  if(!_assetLibrary) {
-    _assetLibrary = [[ALAssetsLibrary alloc] init];
-  }
+//  if([info objectForKey:@"UIImagePickerControllerOriginalImage"]) {
+//    photo = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+//    CGRect crop = [[info valueForKey:@"UIImagePickerControllerCropRect"] CGRectValue];
+//    photo = [photo imageCroppedToRect:crop];
+//  }
   
   // Attempt to use date from the photo taken, instead of the current date
   NSURL *assetURL = [info objectForKey:UIImagePickerControllerReferenceURL];
   if(assetURL) {
+    if(!_assetLibrary) {
+      _assetLibrary = [[ALAssetsLibrary alloc] init];
+    }
     [_assetLibrary assetForURL:assetURL resultBlock:^(ALAsset *asset) {
       NSDate * createDate = [asset valueForProperty:ALAssetPropertyDate];
       if(createDate) {
