@@ -122,7 +122,7 @@
   __weak SWTableViewCell *weakCell = cell;
   [cell setAppearanceWithBlock:^{
     NSMutableArray *rightUtilityButtons = [NSMutableArray new];
-    [rightUtilityButtons sw_addUtilityButtonWithColor: [UIColor appSelectedColor] title:@"Share"];
+    //[rightUtilityButtons sw_addUtilityButtonWithColor: [UIColor appSelectedColor] title:@"Share"];
     [rightUtilityButtons sw_addUtilityButtonWithColor: [UIColor redColor] title:@"Hide"];
     weakCell.rightUtilityButtons = rightUtilityButtons;
     

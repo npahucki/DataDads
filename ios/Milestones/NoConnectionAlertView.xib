@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="NoConnectionAlertView">
+            <rect key="frame" x="0.0" y="0.0" width="328" height="44"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KIN-a9-J2A">
+                    <rect key="frame" x="0.0" y="0.0" width="328" height="44"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <state key="normal" title="WARNING: There is no internet connection" image="noConnectionIcon">
+                        <color key="titleColor" red="0.80392156862745101" green="0.80392156862745101" blue="0.83921568627450982" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="0.2666666667" green="0.2666666667" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstItem="KIN-a9-J2A" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="1C3-rs-grB"/>
+                <constraint firstAttribute="bottom" secondItem="KIN-a9-J2A" secondAttribute="bottom" id="1sV-xe-30i"/>
+                <constraint firstItem="KIN-a9-J2A" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="JtQ-iV-bMQ"/>
+                <constraint firstAttribute="trailing" secondItem="KIN-a9-J2A" secondAttribute="trailing" id="Muz-Dk-e9C"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="displayButton" destination="KIN-a9-J2A" id="2ZH-Pc-IPP"/>
+            </connections>
+        </view>
+    </objects>
+    <resources>
+        <image name="noConnectionIcon" width="37" height="37"/>
+    </resources>
+</document>

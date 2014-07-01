@@ -9,6 +9,7 @@
 #import "MainNotificationsViewController.h"
 #import "CustomIOS7AlertView.h"
 #import "NotificationTableViewController.h"
+#import "NoConnectionAlertView.h"
 
 @interface MainNotificationsViewController ()
 
@@ -26,7 +27,7 @@
       _tableController.tipFilter = TipTypeNormal;
       break;
     case 1:
-      _tableController.tipFilter = TipTypeWanring;
+      _tableController.tipFilter = TipTypeWarning;
       break;
     default:
       _tableController.tipFilter = 0; // All
@@ -38,9 +39,10 @@
 -(void) viewDidLoad {
   [super viewDidLoad];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(babyUpdated:) name:kDDNotificationCurrentBabyChanged object:nil];
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkReachabilityChanged:) name:kReachabilityChangedNotification object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appEnterForeground:) name:UIApplicationDidBecomeActiveNotification object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gotPushNotification:) name:kDDNotificationPushReceieved object:nil];
+  
+  [NoConnectionAlertView createInstanceForController:self];
 }
 
 -(void) dealloc {
@@ -61,16 +63,6 @@
   //self.menuButton.enabled = Baby.currentBaby != nil;
 }
 
--(void) networkReachabilityChanged:(NSNotification*)notification {
-  if([Reachability isParseCurrentlyReachable]) {
-    self.warningMsgButton.hidden = YES;
-  } else {
-    [self.warningMsgButton setTitle:@"Warning: there is no network connection" forState:UIControlStateNormal];
-    [self.warningMsgButton setImage:[UIImage imageNamed:@"error-9"] forState:UIControlStateNormal];
-    [self showWarningWindowAnimated];
-  }
-}
-
 -(void) appEnterForeground:(NSNotification*)notice {
   [_tableController loadObjects];
 }
@@ -85,31 +77,6 @@
     _tableController = (NotificationTableViewController*) segue.destinationViewController;
   }
 }
-
-# pragma mark - Private
-
--(void) hideWarningWindowAnimated {
-  if(!self.warningMsgButton.hidden) {
-    [UIView transitionWithView:self.warningMsgButton
-                      duration:1.0
-                       options:UIViewAnimationOptionTransitionFlipFromBottom
-                    animations:NULL
-                    completion:nil];
-    self.warningMsgButton.hidden = YES;
-  }
-}
-
--(void) showWarningWindowAnimated {
-  if(self.warningMsgButton.hidden) {
-    [UIView transitionWithView:self.warningMsgButton
-                      duration:1.0
-                       options:UIViewAnimationOptionTransitionFlipFromBottom
-                    animations:NULL
-                    completion:nil];
-    self.warningMsgButton.hidden = NO;
-  }
-}
-
 
 
 

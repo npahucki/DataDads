@@ -11,6 +11,5 @@
 @interface MainNotificationsViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UIView *containerView;
 @property (weak, nonatomic) IBOutlet UIView *signUpContainerView;
-@property (weak, nonatomic) IBOutlet UIButton *warningMsgButton;
 
 @end

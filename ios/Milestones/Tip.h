@@ -8,7 +8,7 @@
 
 typedef enum _TipType : NSUInteger {
   TipTypeNormal = 1,
-  TipTypeWanring
+  TipTypeWarning
   
 } TipType;
 

@@ -8,6 +8,7 @@
 
 #import "BabyTagsViewController.h"
 #import "BabyInfoPhotoViewController.h"
+#import "NoConnectionAlertView.h"
 
 @interface BabyTagsViewController ()
 
@@ -19,23 +20,7 @@
 
 -(void) viewDidLoad {
   [super viewDidLoad];
-  [self networkReachabilityChanged:nil]; // set the initial loading based on connectivity
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkReachabilityChanged:) name:kReachabilityChangedNotification object:nil];
-}
-
--(void) dealloc {
-  [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
-}
-
--(void) networkReachabilityChanged:(NSNotification*)notification {
-  if([Reachability isParseCurrentlyReachable]) {
-    [self hideWarningWindowAnimated];
-  } else {
-    [self.warningButton setTitle:@"Warning: there is no network connection" forState:UIControlStateNormal];
-    [self.warningButton setImage:[UIImage imageNamed:@"error-9"] forState:UIControlStateNormal];
-    [self showWarningWindowAnimated];
-    [self reclacControlEnabledState];
-  }
+  [NoConnectionAlertView createInstanceForController:self];
 }
 
 -(void) reclacControlEnabledState {
@@ -68,30 +53,5 @@
     ((UIViewController<ViewControllerWithBaby>*)segue.destinationViewController).baby = self.baby;
   }
 }
-
-# pragma mark - Private
-
--(void) hideWarningWindowAnimated {
-  if(!self.warningButton.hidden) {
-    [UIView transitionWithView:self.warningButton
-                      duration:1.0
-                       options:UIViewAnimationOptionTransitionFlipFromBottom
-                    animations:NULL
-                    completion:nil];
-    self.warningButton.hidden = YES;
-  }
-}
-
--(void) showWarningWindowAnimated {
-  if(self.warningButton.hidden) {
-    [UIView transitionWithView:self.warningButton
-                      duration:1.0
-                       options:UIViewAnimationOptionTransitionFlipFromBottom
-                    animations:NULL
-                    completion:nil];
-    self.warningButton.hidden = NO;
-  }
-}
-
 
 @end

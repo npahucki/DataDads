@@ -12,6 +12,7 @@
 #import "AchievementDetailsViewController.h"
 #import "Baby.h"
 #import "UIImage+FX.h"
+#import "NoConnectionAlertView.h"
 
 
 
@@ -21,7 +22,7 @@
   BOOL _isMorganTouch;
   BOOL _isShowingSearchBar;
   UIDynamicAnimator * _animator;
-  
+  NoConnectionAlertView * _noConnectionAlert;
 }
 
 
@@ -29,8 +30,9 @@
   [super viewDidLoad];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(babyUpdated:) name:kDDNotificationCurrentBabyChanged object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(milestoneNotedAndSaved:) name:kDDNotificationMilestoneNotedAndSaved object:nil];
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkReachabilityChanged:) name:kReachabilityChangedNotification object:nil];
-  
+
+  [NoConnectionAlertView createInstanceForController:self];
+
   UISwipeGestureRecognizer *swipeUp = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(hideSearchBar)];
   swipeUp.direction = UISwipeGestureRecognizerDirectionUp;
   [self.searchBar addGestureRecognizer:swipeUp];
@@ -53,9 +55,7 @@
 }
 
 -(void) dealloc {
-  [[NSNotificationCenter defaultCenter] removeObserver:self name:kDDNotificationMilestoneNotedAndSaved object:nil];
-  [[NSNotificationCenter defaultCenter] removeObserver:self name:kDDNotificationCurrentBabyChanged object:nil];
-  [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 -(void) viewDidAppear:(BOOL)animated {
@@ -65,26 +65,17 @@
   _isMorganTouch = NO; // Hack work around a double segue bug, caused by touching the cell too long
 }
 
--(void) networkReachabilityChanged:(NSNotification*)notification {
-  if([Reachability isParseCurrentlyReachable]) {
-    self.warningMsgButton.hidden = YES;
-  } else {
-    [self.warningMsgButton setTitle:@"Warning: there is no network connection" forState:UIControlStateNormal];
-    [self.warningMsgButton setImage:[UIImage imageNamed:@"error-9"] forState:UIControlStateNormal];
-    [self showWarningWindowAnimated];
-  }
-}
-
 -(void) milestoneNotedAndSaved:(NSNotification*)notification {
   MilestoneAchievement * achievement = notification.object;
   [achievement calculatePercentileRankingWithBlock:^(float percentile) {
     if(percentile >= 0) {
       // Show the message once all the animations have settled down.
-      [NSTimer scheduledTimerWithTimeInterval:1.5 target:self selector:@selector(showWarningWindowAnimated) userInfo:nil repeats:false];
-      [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(hideWarningWindowAnimated) userInfo:nil repeats:false];
-      NSString * msg = [NSString stringWithFormat:@"%@ is ahead of %.02f%% of other babies for that milestone so far.", Baby.currentBaby.name,percentile];
-      [self.warningMsgButton setTitle:msg forState:UIControlStateNormal];
-      [self.warningMsgButton setImage:[UIImage imageNamed:@"success-8"] forState:UIControlStateNormal];
+      // TODO:
+//      [NSTimer scheduledTimerWithTimeInterval:1.5 target:self selector:@selector(showWarningWindowAnimated) userInfo:nil repeats:false];
+//      [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(hideWarningWindowAnimated) userInfo:nil repeats:false];
+//      NSString * msg = [NSString stringWithFormat:@"%@ is ahead of %.02f%% of other babies for that milestone so far.", Baby.currentBaby.name,percentile];
+      //[self.warningMsgButton setTitle:msg forState:UIControlStateNormal];
+      //[self.warningMsgButton setImage:[UIImage imageNamed:@"success-8"] forState:UIControlStateNormal];
     }
   }];
 }
@@ -248,32 +239,6 @@
   _historyController.filterString = searchBar.text;
   [searchBar resignFirstResponder]; // hide the keyboard
 }
-
-# pragma mark - Private
-
--(void) hideWarningWindowAnimated {
-  if(!self.warningMsgButton.hidden) {
-    [UIView transitionWithView:self.warningMsgButton
-                      duration:1.0
-                       options:UIViewAnimationOptionTransitionFlipFromBottom
-                    animations:NULL
-                    completion:nil];
-    self.warningMsgButton.hidden = YES;
-  }
-}
-
--(void) showWarningWindowAnimated {
-  if(self.warningMsgButton.hidden) {
-    [UIView transitionWithView:self.warningMsgButton
-                      duration:1.0
-                       options:UIViewAnimationOptionTransitionFlipFromBottom
-                    animations:NULL
-                    completion:nil];
-    self.warningMsgButton.hidden = NO;
-  }
-}
-
-
 
 -(MilestoneAchievement*) createAchievementForMilestone:(StandardMilestone*) milestone {
   _currentAchievment = [MilestoneAchievement object];

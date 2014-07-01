@@ -34,6 +34,8 @@
 		E832437018F895F500307356 /* HistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E832436F18F895F500307356 /* HistoryViewController.m */; };
 		E840251918F0DEC800AF1B27 /* BabyInfoPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E840251818F0DEC800AF1B27 /* BabyInfoPhotoViewController.m */; };
 		E84A2CF01953C3D300BFA857 /* NSDate+HumanizedTime.m in Sources */ = {isa = PBXBuildFile; fileRef = E84A2CEF1953C3D300BFA857 /* NSDate+HumanizedTime.m */; };
+		E856BD461962DB1C00D00E5C /* NoConnectionAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E856BD451962DB1C00D00E5C /* NoConnectionAlertView.xib */; };
+		E856BD4F1962DDDB00D00E5C /* NoConnectionAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = E856BD4E1962DDDB00D00E5C /* NoConnectionAlertView.m */; };
 		E862B81318F5FCE100EBAEFF /* FDTakeControllerNoStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = E862B81218F5FCE100EBAEFF /* FDTakeControllerNoStatusBar.m */; };
 		E866E7F31936448C004963C9 /* NotificationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E866E7F21936448C004963C9 /* NotificationTableViewController.m */; };
 		E866E7F919364607004963C9 /* Tip.m in Sources */ = {isa = PBXBuildFile; fileRef = E866E7F819364607004963C9 /* Tip.m */; };
@@ -157,6 +159,9 @@
 		E840251818F0DEC800AF1B27 /* BabyInfoPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BabyInfoPhotoViewController.m; sourceTree = "<group>"; };
 		E84A2CEE1953C3D300BFA857 /* NSDate+HumanizedTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+HumanizedTime.h"; sourceTree = "<group>"; };
 		E84A2CEF1953C3D300BFA857 /* NSDate+HumanizedTime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+HumanizedTime.m"; sourceTree = "<group>"; };
+		E856BD451962DB1C00D00E5C /* NoConnectionAlertView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoConnectionAlertView.xib; sourceTree = "<group>"; };
+		E856BD4D1962DDDB00D00E5C /* NoConnectionAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoConnectionAlertView.h; sourceTree = "<group>"; };
+		E856BD4E1962DDDB00D00E5C /* NoConnectionAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoConnectionAlertView.m; sourceTree = "<group>"; };
 		E862B81118F5FCE100EBAEFF /* FDTakeControllerNoStatusBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDTakeControllerNoStatusBar.h; sourceTree = "<group>"; };
 		E862B81218F5FCE100EBAEFF /* FDTakeControllerNoStatusBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDTakeControllerNoStatusBar.m; sourceTree = "<group>"; };
 		E862B81418F6A69200EBAEFF /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
@@ -359,6 +364,9 @@
 				E88F3634194A5A4100BE74E9 /* SettingPanelViewController.m */,
 				E877FCAE1936BA98002405BF /* WebViewerViewController.h */,
 				E877FCAF1936BA98002405BF /* WebViewerViewController.m */,
+				E856BD451962DB1C00D00E5C /* NoConnectionAlertView.xib */,
+				E856BD4D1962DDDB00D00E5C /* NoConnectionAlertView.h */,
+				E856BD4E1962DDDB00D00E5C /* NoConnectionAlertView.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -688,6 +696,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E8E39C1618E615D20034982D /* GothamRounded-Medium.otf in Resources */,
+				E856BD461962DB1C00D00E5C /* NoConnectionAlertView.xib in Resources */,
 				E8E39C1218E615D20034982D /* GothamRounded-Book.otf in Resources */,
 				E8E39C1018E615D20034982D /* GothamRounded-Bold.otf in Resources */,
 				E8E39C1118E615D20034982D /* GothamRounded-BoldItalic.otf in Resources */,
@@ -785,6 +794,7 @@
 				E8DD48EE188EE5B900153095 /* AppDelegate.m in Sources */,
 				E8DD48EA188EE5B900153095 /* main.m in Sources */,
 				E881F8DF1962006E0066046E /* BannerViewController.m in Sources */,
+				E856BD4F1962DDDB00D00E5C /* NoConnectionAlertView.m in Sources */,
 				E8D00A1A188F362100DF2786 /* BabyInfoViewController.m in Sources */,
 				E840251918F0DEC800AF1B27 /* BabyInfoPhotoViewController.m in Sources */,
 				E872D4C71940943F003F461C /* SevenSwitch.m in Sources */,

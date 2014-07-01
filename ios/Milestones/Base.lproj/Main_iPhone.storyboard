@@ -415,23 +415,6 @@
                                     <segue destination="0jV-Sj-0xk" kind="embed" identifier="embed" id="bfl-LJ-TVm"/>
                                 </connections>
                             </containerView>
-                            <button hidden="YES" clipsSubviews="YES" alpha="0.94999998807907104" contentMode="scaleAspectFit" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Jye-2k-gXY">
-                                <rect key="frame" x="0.0" y="74" width="320" height="75"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.96078437569999997" green="0.96078437569999997" blue="0.96078437569999997" alpha="1" colorSpace="deviceRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="75" id="xtP-Ux-hVd"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <inset key="imageEdgeInsets" minX="-6" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" title="Warning: There is no network connection" image="error-9">
-                                    <color key="titleColor" red="0.1019607843" green="0.5568627451" blue="0.62352941179999999" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="wanringButton"/>
-                                </userDefinedRuntimeAttributes>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -440,10 +423,7 @@
                             <constraint firstItem="yjD-GB-Uaq" firstAttribute="leading" secondItem="Lhr-pI-EpL" secondAttribute="leading" constant="20" id="Rn2-fK-EeB"/>
                             <constraint firstAttribute="trailing" secondItem="I0d-v9-pgN" secondAttribute="trailing" constant="20" id="SAz-D4-IHT"/>
                             <constraint firstItem="lec-cQ-60n" firstAttribute="leading" secondItem="Lhr-pI-EpL" secondAttribute="leading" id="bOT-4D-lZF"/>
-                            <constraint firstItem="Jye-2k-gXY" firstAttribute="leading" secondItem="Lhr-pI-EpL" secondAttribute="leading" id="dSs-6u-26D"/>
-                            <constraint firstItem="Jye-2k-gXY" firstAttribute="top" secondItem="1Zk-SL-GNf" secondAttribute="bottom" id="gQc-QH-u8Z"/>
                             <constraint firstAttribute="trailing" secondItem="lec-cQ-60n" secondAttribute="trailing" id="kbe-us-Dze"/>
-                            <constraint firstAttribute="trailing" secondItem="Jye-2k-gXY" secondAttribute="trailing" id="m7u-XU-JaV"/>
                             <constraint firstItem="I0d-v9-pgN" firstAttribute="centerY" secondItem="yjD-GB-Uaq" secondAttribute="centerY" id="pzS-YP-ZgO">
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="newTagTextField"/>
@@ -464,7 +444,6 @@
                     <connections>
                         <outlet property="addTagButton" destination="I0d-v9-pgN" id="uKY-3U-YLz"/>
                         <outlet property="addTagTextField" destination="yjD-GB-Uaq" id="Nxy-ky-3A1"/>
-                        <outlet property="warningButton" destination="Jye-2k-gXY" id="xVD-WN-Ihr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mqN-vJ-NyH" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1547,17 +1526,6 @@
                                     <segue destination="b71-m6-YKZ" kind="embed" id="eQr-it-vSG"/>
                                 </connections>
                             </containerView>
-                            <button hidden="YES" clipsSubviews="YES" alpha="0.94999999999999996" contentMode="scaleAspectFit" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="DUF-5w-Jc1">
-                                <rect key="frame" x="0.0" y="44" width="320" height="75"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.96078437569999997" green="0.96078437569999997" blue="0.96078437569999997" alpha="1" colorSpace="deviceRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <inset key="imageEdgeInsets" minX="-6" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" title="Warning: There is no network connection" image="error-9">
-                                    <color key="titleColor" red="0.1019607843" green="0.5568627451" blue="0.62352941179999999" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
                             <searchBar hidden="YES" contentMode="redraw" searchBarStyle="prominent" placeholder="Filter Text" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ba8-Ol-INx">
                                 <rect key="frame" x="0.0" y="44" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
@@ -1576,9 +1544,6 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="DUF-5w-Jc1" firstAttribute="top" secondItem="ROJ-ET-jsn" secondAttribute="bottom" id="4xO-Pb-4ta"/>
-                            <constraint firstAttribute="trailing" secondItem="DUF-5w-Jc1" secondAttribute="trailing" id="5He-xT-bsq"/>
-                            <constraint firstItem="DUF-5w-Jc1" firstAttribute="leading" secondItem="qL2-Lg-TMR" secondAttribute="leading" id="5lH-h2-q5y"/>
                             <constraint firstAttribute="trailing" secondItem="ba8-Ol-INx" secondAttribute="trailing" id="Csu-8Z-q4E"/>
                             <constraint firstItem="WJK-M9-FPI" firstAttribute="top" secondItem="zSu-55-pxu" secondAttribute="bottom" id="Pwi-8K-STd"/>
                             <constraint firstItem="ba8-Ol-INx" firstAttribute="top" secondItem="ROJ-ET-jsn" secondAttribute="bottom" id="XFV-1U-BdO"/>
@@ -1621,7 +1586,6 @@
                         <outlet property="babyMenuButton" destination="mVe-t7-qKM" id="m4P-Dq-K8j"/>
                         <outlet property="menuButton" destination="qU1-vG-KKB" id="h3u-Mt-G7a"/>
                         <outlet property="searchBar" destination="ba8-Ol-INx" id="1UF-E7-F80"/>
-                        <outlet property="warningMsgButton" destination="DUF-5w-Jc1" id="wdL-9K-DR5"/>
                         <segue destination="eNM-aT-BTU" kind="push" identifier="showAchievementDetails" id="QpM-9P-itO"/>
                         <segue destination="n8g-sI-yKY" kind="modal" identifier="noteMilestone" id="HiK-bz-YEB"/>
                     </connections>
@@ -1673,6 +1637,7 @@
         <scene sceneID="QXJ-q7-63C">
             <objects>
                 <navigationController title="Main Navigation" automaticallyAdjustsScrollViewInsets="NO" id="n8g-sI-yKY" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Ihz-Ho-vzu">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -1727,31 +1692,14 @@
                                     <action selector="didChangeFilter:" destination="JLc-Bz-ofC" eventType="valueChanged" id="aRL-l2-6Rd"/>
                                 </connections>
                             </segmentedControl>
-                            <button hidden="YES" clipsSubviews="YES" alpha="0.94999998807907104" contentMode="scaleAspectFit" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="DFY-o7-oA0">
-                                <rect key="frame" x="0.0" y="44" width="320" height="75"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.96078437569999997" green="0.96078437569999997" blue="0.96078437569999997" alpha="1" colorSpace="deviceRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="75" id="8xg-t1-yqP"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <inset key="imageEdgeInsets" minX="-6" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" title="Warning: There is no network connection" image="error-9">
-                                    <color key="titleColor" red="0.1019607843" green="0.5568627451" blue="0.62352941179999999" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="uzW-c1-zNY" secondAttribute="trailing" id="3O0-wb-gde"/>
                             <constraint firstAttribute="trailing" secondItem="hK7-AD-CNp" secondAttribute="trailing" constant="8" id="FsM-cA-1GZ"/>
-                            <constraint firstItem="DFY-o7-oA0" firstAttribute="leading" secondItem="6fo-qg-tKg" secondAttribute="leading" id="GQo-ZW-aM1"/>
                             <constraint firstItem="hK7-AD-CNp" firstAttribute="leading" secondItem="6fo-qg-tKg" secondAttribute="leading" constant="8" id="VVu-Wg-5Vz"/>
-                            <constraint firstItem="DFY-o7-oA0" firstAttribute="top" secondItem="hkV-TT-P7k" secondAttribute="bottom" id="WJQ-LV-wXv"/>
                             <constraint firstItem="pw7-7J-THh" firstAttribute="top" secondItem="uzW-c1-zNY" secondAttribute="bottom" id="XXX-qj-1Cn"/>
                             <constraint firstItem="pw7-7J-THh" firstAttribute="top" secondItem="aZn-1n-Qiu" secondAttribute="bottom" id="bKV-nM-3p8"/>
-                            <constraint firstAttribute="trailing" secondItem="DFY-o7-oA0" secondAttribute="trailing" id="bmK-xS-Yh8"/>
                             <constraint firstItem="uzW-c1-zNY" firstAttribute="leading" secondItem="6fo-qg-tKg" secondAttribute="leading" id="gUr-e0-Lkk"/>
                             <constraint firstItem="aZn-1n-Qiu" firstAttribute="top" secondItem="hK7-AD-CNp" secondAttribute="bottom" id="h37-cw-ySz"/>
                             <constraint firstAttribute="trailing" secondItem="aZn-1n-Qiu" secondAttribute="trailing" id="hnD-BM-eiC"/>
@@ -1767,7 +1715,6 @@
                     <connections>
                         <outlet property="containerView" destination="uzW-c1-zNY" id="jpu-1D-sut"/>
                         <outlet property="signUpContainerView" destination="aZn-1n-Qiu" id="C3f-dY-Kny"/>
-                        <outlet property="warningMsgButton" destination="DFY-o7-oA0" id="aaP-uT-8dL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sFs-5A-Ds7" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1992,7 +1939,6 @@
         <image name="cameraButton" width="226" height="226"/>
         <image name="cameraButton_pressed" width="212" height="212"/>
         <image name="createButton" width="12" height="12"/>
-        <image name="error-9" width="74" height="75"/>
         <image name="femaleIcon" width="80" height="80"/>
         <image name="femaleIcon_selected" width="80" height="80"/>
         <image name="genderLines" width="254" height="104"/>
