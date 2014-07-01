@@ -161,7 +161,7 @@ NSDateFormatter * _dateFormatter;
   
   // Range
   if(!self.isCustom) {
-    NSAttributedString * rangeLabel = [[NSAttributedString alloc] initWithString:@"Completion Range: " attributes:dataLabelTextAttributes];
+    NSAttributedString * rangeLabel = [[NSAttributedString alloc] initWithString:@"Typical Completion Range: " attributes:dataLabelTextAttributes];
     NSAttributedString * rangeValue = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ to %@ days",m.rangeLow,m.rangeHigh] attributes:dataValueTextAttributes];
     [attrText appendAttributedString:rangeLabel];
     [attrText appendAttributedString:rangeValue];
