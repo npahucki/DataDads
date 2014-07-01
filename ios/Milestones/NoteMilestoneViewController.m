@@ -432,12 +432,14 @@
   [attrText appendAttributedString:titleString];
   [attrText appendAttributedString:lf];
 
-  NSAttributedString * enteredDateLabel = [[NSAttributedString alloc] initWithString:@"Entered By: " attributes:dataLabelTextAttributes];
-  NSAttributedString * enteredDateValue = [[NSAttributedString alloc] initWithString:@"DataParenting Staff" attributes:dataValueTextAttributes];
-  [attrText appendAttributedString:lf];
-  [attrText appendAttributedString:enteredDateLabel];
-  [attrText appendAttributedString:enteredDateValue];
-  [attrText appendAttributedString:lf];
+  if(self.achievement.standardMilestone.enteredBy) {
+    NSAttributedString * enteredByLabel = [[NSAttributedString alloc] initWithString:@"Entered By: " attributes:dataLabelTextAttributes];
+    NSAttributedString * enteredByValue = [[NSAttributedString alloc] initWithString:self.achievement.standardMilestone.enteredBy attributes:dataValueTextAttributes];
+    [attrText appendAttributedString:lf];
+    [attrText appendAttributedString:enteredByLabel];
+    [attrText appendAttributedString:enteredByValue];
+    [attrText appendAttributedString:lf];
+  }
 
   NSAttributedString * rangeLabel = [[NSAttributedString alloc] initWithString:@"Typical Completion Range: " attributes:dataLabelTextAttributes];
   NSAttributedString * rangeValue = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ to %@ days",m.rangeLow,m.rangeHigh] attributes:dataValueTextAttributes];

@@ -46,7 +46,7 @@ Parse.Cloud.define("queryMyMilestones", function (request, response) {
     var countPromise = query.count();
     query.limit(limit);
     query.skip(skip);
-    query.select(["title", "url", "rangeHigh", "rangeLow","canCompare"]);
+    query.select(["title", "url", "rangeHigh", "rangeLow","canCompare","enteredBy"]);
     var findPromise = query.find();
 
     Parse.Promise.when(countPromise,findPromise).

@@ -18,6 +18,7 @@
 @property NSString *title;
 @property(readonly) NSString * titleForCurrentBaby;
 @property NSString *shortDescription;
+@property NSString *enteredBy;
 @property NSString *url;
 @property NSNumber *rangeLow;
 @property NSNumber *rangeHigh;
