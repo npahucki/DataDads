@@ -13,8 +13,8 @@
                 <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KIN-a9-J2A">
                     <rect key="frame" x="0.0" y="0.0" width="328" height="44"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <state key="normal" title="WARNING: There is no internet connection" image="noConnectionIcon">
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <state key="normal" title="Warning: There is no internet connection" image="noConnectionIcon">
                         <color key="titleColor" red="0.80392156862745101" green="0.80392156862745101" blue="0.83921568627450982" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
