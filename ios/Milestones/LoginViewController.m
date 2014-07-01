@@ -8,6 +8,7 @@
 
 #import "LoginViewController.h"
 #import "SignUpViewController.h"
+#import "UIAlertView+BlockSupport.h"
 
 @interface LoginViewController ()
 
@@ -128,8 +129,9 @@
   [self.logInView.passwordForgottenButton setBackgroundImage:[UIImage imageNamed:@"forgotPassword"] forState:UIControlStateNormal];
   [self.logInView.passwordForgottenButton setImage:nil forState:UIControlStateHighlighted];
   self.logInView.passwordForgottenButton.layer.cornerRadius = 8;
-  
-  
+  // Clear old targets
+  [self.logInView.passwordForgottenButton removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
+  [self.logInView.passwordForgottenButton addTarget:self action:@selector(didClickForgotPassword) forControlEvents:UIControlEventTouchUpInside];
 }
 
 -(void) viewDidLayoutSubviews {
@@ -158,6 +160,32 @@
   elasticityBehavior.elasticity = 0.7f;
   [self.animator addBehavior:elasticityBehavior];
 }
+
+-(void) didClickForgotPassword {
+  UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Reset Password" message:@"Please enter the email associated with your account:" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
+  alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+  __block UITextField * alertTextField = [alert textFieldAtIndex:0];
+  alertTextField.keyboardType = UIKeyboardTypeEmailAddress;
+  alertTextField.placeholder = @"Email Address";
+  [alert showWithButtonBlock:^(NSInteger buttonIndex) {
+    if(buttonIndex == 1) {
+      [self showStartLoginProgress];
+      [PFUser requestPasswordResetForEmailInBackground:(NSString *)alertTextField.text block:^(BOOL succeeded, NSError *error) {
+        if(error || !succeeded) {
+          [self showLoginErrorAndRunBlock:^{
+            [[[UIAlertView alloc] initWithTitle:@"Bummer" message:@"We could not reset your password usng the email that you provided. Try entering your email address again" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+          }];
+        } else {
+          [self showLoginSuccessAndRunBlock:^{
+            [[[UIAlertView alloc] initWithTitle:@"Great!" message:@"Check your email for the reset link. Once you're done, try to login again" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+          }];
+        }
+      }];
+    }
+  }];
+}
+
+
 
 # pragma PFLoginViewController methods
 
