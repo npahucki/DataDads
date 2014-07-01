@@ -21,6 +21,7 @@
 
 typedef NS_ENUM(NSInteger, HistorySectionType) {
   FutureMilestoneSection,
+  AdSection,
   AchievementSection,
   PastMilestoneSection
 };

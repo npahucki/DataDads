@@ -15,6 +15,7 @@
 #import <FacebookSDK/FBSession.h>
 #import "NSDate+Utils.h"
 #import "limits.h"
+#import <iAd/iAd.h>
 
 #define PRELOAD_START_AT_IDX 1
 
@@ -29,6 +30,7 @@
   BOOL _isJumpingToIndex;
   SInt8 _scrollStatus; // -1 going up, 0 not scrolling, 1 scrolling down.
   BOOL _didInitialLoad;
+  ADBannerView * _adView;
 }
 
 @end
@@ -59,6 +61,9 @@
   if(Baby.currentBaby) { // Only load if there is already a baby set
     self.baby = Baby.currentBaby;
   }
+  
+  _adView = [[ADBannerView alloc] initWithAdType:ADAdTypeBanner];
+  _adView.frame = CGRectMake(0,0,320,50);
 }
 
 -(void) dealloc {
@@ -194,7 +199,7 @@
 #pragma mark - UITableViewDelegate
 
 -(CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-  return 44;
+  return section == AdSection ? 50 : 44;
 }
 
 -(HistoryTableHeaderView *)tableView:(UITableView *)tableView viewForFloatingHeaderInSection:(NSInteger)section {
@@ -221,6 +226,8 @@
     case AchievementSection:
       headerView.count = [_model countOfAchievements];
       break;
+    case AdSection:
+      return _adView;
   }
   return headerView;
 }
@@ -245,8 +252,10 @@
         _pendingNextPageTriggerIndex = indexPath;
       }
       break;
+    case AdSection:
+      break;
     default:
-      NSAssert(NO,@"Invalid section type with numer %ld", (long)indexPath.section);
+      NSAssert(NO,@"Invalid section type with number %ld", (long)indexPath.section);
   }
 }
 
@@ -537,8 +546,10 @@
       case AchievementSection:
         if(!_model.isLoadingAchievements) [_model loadAchievementsPage:_model.achievements.count];
         break;
+      case AdSection:
+        break;
       default:
-        NSAssert(NO,@"Invalid section type with numer %ld", (long)_pendingNextPageTriggerIndex.section);
+        NSAssert(NO,@"Invalid section type with number %ld", (long)_pendingNextPageTriggerIndex.section);
     }
   }
   _pendingNextPageTriggerIndex = nil;
