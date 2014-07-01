@@ -64,6 +64,13 @@
   
   _adView = [[ADBannerView alloc] initWithAdType:ADAdTypeBanner];
   _adView.frame = CGRectMake(0,0,320,50);
+  _adView.layer.borderColor =  [UIColor appHeaderBorderNormalColor].CGColor;
+  _adView.layer.borderWidth = 1;
+  
+  
+  self.tableView.sectionHeaderHeight = 0.0;
+  self.tableView.sectionFooterHeight = 0.0;
+  
 }
 
 -(void) dealloc {
