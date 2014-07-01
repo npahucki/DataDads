@@ -63,6 +63,16 @@
 -(void) viewDidLoad {
   [super viewDidLoad];
   _deleted = [NSMutableArray arrayWithCapacity:5];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(babyUpdated:) name:kDDNotificationCurrentBabyChanged object:nil];
+
+}
+
+-(void) dealloc {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+-(void) babyUpdated:(NSNotification*)notification {
+  [self loadObjects];
 }
 
 -(TipType) tipFilter {
@@ -76,31 +86,31 @@
 }
 
 - (PFQuery *)queryForTable {
-  
-  PFQuery * query = [PFQuery queryWithClassName:[BabyAssignedTip parseClassName]];
-  [query includeKey:@"tip"];
-  [query whereKey:@"isHidden" equalTo:[NSNumber numberWithBool:NO]];
-  [query whereKey:@"baby" equalTo:Baby.currentBaby];
-  [query orderByDescending:@"createdOn"];
-  query.cachePolicy = kPFCachePolicyCacheThenNetwork;
-  query.maxCacheAge = 60 * 60 * 24; // at max check once a day.
-  
-  TipsFilterQuery * filterQuery = [[TipsFilterQuery alloc] init];
-  filterQuery.target = query;
-  filterQuery.filter = self.tipFilter;
-  filterQuery.exclude = _deleted;
-  filterQuery.maxCacheAge = 5;
-  filterQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
+  TipsFilterQuery * filterQuery = nil;
+  if(Baby.currentBaby) {
+    PFQuery * query = [PFQuery queryWithClassName:[BabyAssignedTip parseClassName]];
+    [query includeKey:@"tip"];
+    [query whereKey:@"isHidden" equalTo:[NSNumber numberWithBool:NO]];
+    [query whereKey:@"baby" equalTo:Baby.currentBaby];
+    [query orderByDescending:@"createdOn"];
+    query.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    query.maxCacheAge = 60 * 60 * 24; // at max check once a day.
+    
+    filterQuery = [[TipsFilterQuery alloc] init];
+    filterQuery.target = query;
+    filterQuery.filter = self.tipFilter;
+    filterQuery.exclude = _deleted;
+    filterQuery.maxCacheAge = 5;
+    filterQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
 
-  if(_loadBecauseChangedFilter) {
-    // In this case we dont want to hit network again
-    filterQuery.cachePolicy = kPFCachePolicyCacheOnly;
-    query.cachePolicy = kPFCachePolicyCacheOnly;
-    _loadBecauseChangedFilter = NO;
+    if(_loadBecauseChangedFilter) {
+      // In this case we dont want to hit network again
+      filterQuery.cachePolicy = kPFCachePolicyCacheOnly;
+      query.cachePolicy = kPFCachePolicyCacheOnly;
+      _loadBecauseChangedFilter = NO;
+    }
   }
-  
   return filterQuery;
-  
 }
 
 #pragma mark UITableViewDelegate
