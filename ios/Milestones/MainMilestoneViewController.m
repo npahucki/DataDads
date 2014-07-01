@@ -13,6 +13,7 @@
 #import "Baby.h"
 #import "UIImage+FX.h"
 #import "NoConnectionAlertView.h"
+#import "AlertThenDisappearView.h"
 
 
 
@@ -69,13 +70,13 @@
   MilestoneAchievement * achievement = notification.object;
   [achievement calculatePercentileRankingWithBlock:^(float percentile) {
     if(percentile >= 0) {
-      // Show the message once all the animations have settled down.
-      // TODO:
-//      [NSTimer scheduledTimerWithTimeInterval:1.5 target:self selector:@selector(showWarningWindowAnimated) userInfo:nil repeats:false];
-//      [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(hideWarningWindowAnimated) userInfo:nil repeats:false];
-//      NSString * msg = [NSString stringWithFormat:@"%@ is ahead of %.02f%% of other babies for that milestone so far.", Baby.currentBaby.name,percentile];
-      //[self.warningMsgButton setTitle:msg forState:UIControlStateNormal];
-      //[self.warningMsgButton setImage:[UIImage imageNamed:@"success-8"] forState:UIControlStateNormal];
+      AlertThenDisappearView * alert = [AlertThenDisappearView instanceForViewController:self];
+      NSMutableAttributedString * string = [[NSMutableAttributedString alloc] initWithString:Baby.currentBaby.name attributes:@{NSFontAttributeName : [UIFont fontForAppWithType:Bold andSize:13]}];
+      [string appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" is ahead of %.02f%% of other babies for that milestone so far.",percentile] attributes:@{NSFontAttributeName : [UIFont fontForAppWithType:Medium andSize:13]}]];
+      alert.titleLabel.font = nil; // Must clear this because it is set as part of UILabel's appearance.
+      alert.titleLabel.attributedText = string;
+      alert.imageView.image = [UIImage imageNamed:@"completedBest"];
+      [alert showWithDelay:3];
     }
   }];
 }

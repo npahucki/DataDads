@@ -13,6 +13,7 @@
 }
 
 -(void) awakeFromNib {
+  [super awakeFromNib];
   NSMutableAttributedString * title = [[NSMutableAttributedString alloc] initWithString:@"Warning:" attributes:@{NSFontAttributeName : [UIFont fontForAppWithType:Book andSize:17]}];
   [title appendAttributedString:[[NSAttributedString alloc] initWithString:@"No internet connection available" attributes:@{NSFontAttributeName : [UIFont fontForAppWithType:Book andSize:12]}]];
   [self.displayButton setAttributedTitle:title forState:UIControlStateNormal];

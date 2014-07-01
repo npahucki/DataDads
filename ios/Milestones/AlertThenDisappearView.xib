@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="AlertThenDisappearView">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="completedBest" translatesAutoresizingMaskIntoConstraints="NO" id="mDa-j8-9Jd">
+                    <rect key="frame" x="5" y="3" width="38" height="38"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="38" id="447-x5-unF"/>
+                        <constraint firstAttribute="height" constant="38" id="dIp-Vi-uF7"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="269" translatesAutoresizingMaskIntoConstraints="NO" id="ia7-Ny-XM2">
+                    <rect key="frame" x="51" y="13" width="269" height="19"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <attributedString key="attributedText">
+                        <fragment content="Label">
+                            <attributes>
+                                <color key="NSColor" red="0.98431372549019602" green="0.98431372549019602" blue="0.98431372549019602" alpha="1" colorSpace="calibratedRGB"/>
+                                <font key="NSFont" size="16" name="HelveticaNeue"/>
+                                <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                            </attributes>
+                        </fragment>
+                    </attributedString>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="0.1019607843" green="0.5568627451" blue="0.62352941179999999" alpha="0.94999999999999996" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstAttribute="centerY" secondItem="ia7-Ny-XM2" secondAttribute="centerY" id="2xi-3h-hqx"/>
+                <constraint firstAttribute="centerY" secondItem="mDa-j8-9Jd" secondAttribute="centerY" id="3VN-FW-bUM"/>
+                <constraint firstAttribute="trailing" secondItem="ia7-Ny-XM2" secondAttribute="trailing" id="Ot8-4v-GPX"/>
+                <constraint firstItem="mDa-j8-9Jd" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="5" id="cTo-E1-vcO"/>
+                <constraint firstItem="ia7-Ny-XM2" firstAttribute="leading" secondItem="mDa-j8-9Jd" secondAttribute="trailing" constant="8" id="oCC-jg-8yH"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="imageView" destination="mDa-j8-9Jd" id="AVm-XL-mBf"/>
+                <outlet property="titleLabel" destination="ia7-Ny-XM2" id="BG4-5Y-fOz"/>
+            </connections>
+        </view>
+    </objects>
+    <resources>
+        <image name="completedBest" width="47" height="49"/>
+    </resources>
+</document>

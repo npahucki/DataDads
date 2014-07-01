@@ -36,6 +36,8 @@
 		E84A2CF01953C3D300BFA857 /* NSDate+HumanizedTime.m in Sources */ = {isa = PBXBuildFile; fileRef = E84A2CEF1953C3D300BFA857 /* NSDate+HumanizedTime.m */; };
 		E856BD461962DB1C00D00E5C /* NoConnectionAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E856BD451962DB1C00D00E5C /* NoConnectionAlertView.xib */; };
 		E856BD4F1962DDDB00D00E5C /* NoConnectionAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = E856BD4E1962DDDB00D00E5C /* NoConnectionAlertView.m */; };
+		E856BD521963216A00D00E5C /* AlertThenDisappearView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E856BD511963216A00D00E5C /* AlertThenDisappearView.xib */; };
+		E856BD55196324E500D00E5C /* AlertThenDisappearView.m in Sources */ = {isa = PBXBuildFile; fileRef = E856BD54196324E500D00E5C /* AlertThenDisappearView.m */; };
 		E862B81318F5FCE100EBAEFF /* FDTakeControllerNoStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = E862B81218F5FCE100EBAEFF /* FDTakeControllerNoStatusBar.m */; };
 		E866E7F31936448C004963C9 /* NotificationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E866E7F21936448C004963C9 /* NotificationTableViewController.m */; };
 		E866E7F919364607004963C9 /* Tip.m in Sources */ = {isa = PBXBuildFile; fileRef = E866E7F819364607004963C9 /* Tip.m */; };
@@ -162,6 +164,9 @@
 		E856BD451962DB1C00D00E5C /* NoConnectionAlertView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoConnectionAlertView.xib; sourceTree = "<group>"; };
 		E856BD4D1962DDDB00D00E5C /* NoConnectionAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoConnectionAlertView.h; sourceTree = "<group>"; };
 		E856BD4E1962DDDB00D00E5C /* NoConnectionAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoConnectionAlertView.m; sourceTree = "<group>"; };
+		E856BD511963216A00D00E5C /* AlertThenDisappearView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AlertThenDisappearView.xib; sourceTree = "<group>"; };
+		E856BD53196324E500D00E5C /* AlertThenDisappearView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlertThenDisappearView.h; sourceTree = "<group>"; };
+		E856BD54196324E500D00E5C /* AlertThenDisappearView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlertThenDisappearView.m; sourceTree = "<group>"; };
 		E862B81118F5FCE100EBAEFF /* FDTakeControllerNoStatusBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDTakeControllerNoStatusBar.h; sourceTree = "<group>"; };
 		E862B81218F5FCE100EBAEFF /* FDTakeControllerNoStatusBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDTakeControllerNoStatusBar.m; sourceTree = "<group>"; };
 		E862B81418F6A69200EBAEFF /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
@@ -341,6 +346,19 @@
 			name = Model;
 			sourceTree = "<group>";
 		};
+		E856BD501963210C00D00E5C /* CustomViews */ = {
+			isa = PBXGroup;
+			children = (
+				E856BD451962DB1C00D00E5C /* NoConnectionAlertView.xib */,
+				E856BD4D1962DDDB00D00E5C /* NoConnectionAlertView.h */,
+				E856BD4E1962DDDB00D00E5C /* NoConnectionAlertView.m */,
+				E856BD511963216A00D00E5C /* AlertThenDisappearView.xib */,
+				E856BD53196324E500D00E5C /* AlertThenDisappearView.h */,
+				E856BD54196324E500D00E5C /* AlertThenDisappearView.m */,
+			);
+			name = CustomViews;
+			sourceTree = "<group>";
+		};
 		E8ABCFB6191D63980083ED25 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -364,9 +382,6 @@
 				E88F3634194A5A4100BE74E9 /* SettingPanelViewController.m */,
 				E877FCAE1936BA98002405BF /* WebViewerViewController.h */,
 				E877FCAF1936BA98002405BF /* WebViewerViewController.m */,
-				E856BD451962DB1C00D00E5C /* NoConnectionAlertView.xib */,
-				E856BD4D1962DDDB00D00E5C /* NoConnectionAlertView.h */,
-				E856BD4E1962DDDB00D00E5C /* NoConnectionAlertView.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -523,6 +538,7 @@
 				E81B586F1896A75700C74C2B /* Contants.m */,
 				E8DD48EC188EE5B900153095 /* AppDelegate.h */,
 				E8DD48ED188EE5B900153095 /* AppDelegate.m */,
+				E856BD501963210C00D00E5C /* CustomViews */,
 				E8ABCFB6191D63980083ED25 /* ViewControllers */,
 				E8ABCFB7191D63AD0083ED25 /* Util */,
 				E8DD48FB188EE5B900153095 /* Images.xcassets */,
@@ -701,6 +717,7 @@
 				E8E39C1018E615D20034982D /* GothamRounded-Bold.otf in Resources */,
 				E8E39C1118E615D20034982D /* GothamRounded-BoldItalic.otf in Resources */,
 				E8E39C1318E615D20034982D /* GothamRounded-BookItalic.otf in Resources */,
+				E856BD521963216A00D00E5C /* AlertThenDisappearView.xib in Resources */,
 				E8E39C1718E615D20034982D /* GothamRounded-MediumItalic.otf in Resources */,
 				E8E39C1518E615D20034982D /* GothamRounded-LightItalic.otf in Resources */,
 				E89AC31F195A0D1C00AD3869 /* NSDateHumanizedTime.strings in Resources */,
@@ -807,6 +824,7 @@
 				E872D62B1949E9C0003F461C /* Measurement.m in Sources */,
 				E825C1CB195B5B010081614F /* HIstoryViewTableCells.m in Sources */,
 				E86B1EAF19277E7700EA6167 /* HistoryViewTableModel.m in Sources */,
+				E856BD55196324E500D00E5C /* AlertThenDisappearView.m in Sources */,
 				E8BDE6B0193CC106001D6995 /* NSDate+Utils.m in Sources */,
 				E8E39C6A18EB063E0034982D /* MainMilestoneViewController.m in Sources */,
 				E876159E18EF892C00B0C6D9 /* BabyTagsTableViewController.m in Sources */,
