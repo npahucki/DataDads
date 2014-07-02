@@ -68,12 +68,15 @@
   _fbSwitch.thumbImage = [UIImage imageNamed:@"facebookSwitch"];
   _fbSwitch.thumbTintColor = UIColorFromRGB(0x3B5999); // Facebook color
   _fbSwitch.isRounded = NO;
-  _fbSwitch.inactiveColor = [UIColor appGreyTextColor];
-  _fbSwitch.onTintColor = [UIColor appNormalColor];
+  _fbSwitch.onTintColor = [UIColor appBackgroundColor];
+  _fbSwitch.inactiveColor = [UIColor appBackgroundColor];
   _fbSwitch.activeColor = _fbSwitch.onTintColor;
-  _fbSwitch.borderColor = [UIColor blackColor];
-  _fbSwitch.onText = @"Share";
-  _fbSwitch.offText = @"Don't Share";
+  _fbSwitch.borderColor = [UIColor appInputBorderNormalColor];
+  _fbSwitch.labelFont = [UIFont fontForAppWithType:Medium andSize:10];
+  _fbSwitch.onText = @"On";
+  _fbSwitch.onFontColor = [UIColor appNormalColor];
+  _fbSwitch.offText = @"Off";
+  _fbSwitch.offFontColor = UIColorFromRGB(0xb2c0c3);
   
   //_fbSwitch.shadowColor = [UIColor blackColor];
   [_fbSwitch setOn:ParentUser.currentUser.autoPublishToFacebook && [PFFacebookUtils userHasAuthorizedPublishPermissions:ParentUser.currentUser] animated:NO];
