@@ -32,7 +32,6 @@ NSDateFormatter * _dateFormatter;
   [super viewDidLoad];
   NSAssert(self.achievement,@"Expected Achievement to be set before loading view!");
 
-  //self.detailsImageButton.imageView.contentMode = UIViewContentModeScaleAspectFill;
   self.detailsTextView.delegate = self;
   NSDictionary *linkAttributes = @{NSForegroundColorAttributeName: [UIColor appSelectedColor],
                                    NSUnderlineColorAttributeName: [UIColor appSelectedColor],
@@ -40,10 +39,6 @@ NSDateFormatter * _dateFormatter;
   self.detailsTextView.linkTextAttributes = linkAttributes; // customizes the appearance of links
 
 
-  self.detailsImageButton.imageView.contentMode = UIViewContentModeScaleAspectFill;
-  self.detailsImageButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentFill;
-  self.detailsImageButton.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
-  
   // The references we have when these objects are loaded, do not have all the baby info in them, so we swap them out here.
   if(!self.achievement.baby.isDataAvailable) {
     NSAssert([self.achievement.baby.objectId isEqualToString:Baby.currentBaby.objectId],@"Expected achievements for current baby only!");
@@ -63,21 +58,21 @@ NSDateFormatter * _dateFormatter;
   
   // Start with the thumbnail (if loaded), then load the bigger one later on.
   PFFile * thumbnailImageFile = self.achievement.attachmentThumbnail ? self.achievement.attachmentThumbnail : self.achievement.baby.avatarImageThumbnail;
-  self.detailsImageButton.alpha = self.achievement.attachmentThumbnail ? 1.0 : 0.3;
   [thumbnailImageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
       [self.detailsImageButton setImage:[UIImage imageWithData:data] forState:UIControlStateNormal];
+      self.detailsImageButton.alpha = self.achievement.attachmentThumbnail ? 1.0 : 0.3;
   }];
 
   [self.achievement fetchInBackgroundWithBlock:^(PFObject *object, NSError *error) {
     if(!error) {
       self.achievement = (MilestoneAchievement*) object;
       BOOL hasImageAttachment = self.achievement.attachment && [self.achievement.attachmentType rangeOfString:@"image"].location != NSNotFound;
-      self.detailsImageButton.alpha = hasImageAttachment ? 1.0 : 0.3;
       PFFile * imageFile = hasImageAttachment ?  self.achievement.attachment : self.achievement.baby.avatarImage;
       if(imageFile) {
         [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
           if(!error) {
             [self.detailsImageButton setImage:[UIImage imageWithData:data] forState:UIControlStateNormal];
+            self.detailsImageButton.alpha = hasImageAttachment ? 1.0 : 0.3;
           }
         }];
       }
@@ -101,9 +96,6 @@ NSDateFormatter * _dateFormatter;
 
 -(void) viewDidLayoutSubviews {
   [super viewDidLayoutSubviews];
-  [self.detailsImageButton.layer setCornerRadius:self.detailsImageButton.frame.size.width/2];
-  self.detailsImageButton.layer.masksToBounds = YES;
-  self.detailsImageButton.layer.borderWidth = 1;
   self.detailsTextView.attributedText = [self createTitleTextFromAchievement];
   [self.detailsTextView  setContentOffset:CGPointZero animated:NO];
 }

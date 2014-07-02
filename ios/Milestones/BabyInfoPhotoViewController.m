@@ -16,7 +16,6 @@
 @implementation BabyInfoPhotoViewController {
   FDTakeController* _takeController;
   NSData * _imageData;
-  BOOL _startedAnimation;
 }
 
 
@@ -25,7 +24,6 @@
   [super viewDidLoad];
   NSAssert(self.baby,@"Expected baby would be set before view loads");
 
-  self.takePhotoButton.imageView.contentMode = UIViewContentModeScaleAspectFill;
   self.theLabel.font = [UIFont fontForAppWithType:Light andSize:31.0];
   if(self.baby.avatarImage) {
     [self.baby.avatarImage getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
@@ -35,22 +33,6 @@
         NSLog(@"Failed to load image %@", error);
       }
     }];
-  }
-}
-
--(void) viewDidLayoutSubviews {
-  [super viewDidLayoutSubviews];
-  [self.takePhotoButton.layer setCornerRadius:self.takePhotoButton.frame.size.width/2];
-  self.takePhotoButton.layer.masksToBounds = YES;
-  self.takePhotoButton.layer.borderWidth = 1;
-  
-  if(!_startedAnimation) {
-    [UIButton animateWithDuration:1.0 delay:0.0 options:
-     UIViewAnimationOptionAllowUserInteraction |UIViewAnimationOptionBeginFromCurrentState |UIViewAnimationOptionAutoreverse | UIViewAnimationOptionRepeat
-                       animations:^{
-                         self.takePhotoButton.alpha = .75;
-                       } completion:nil];
-    _startedAnimation = YES;
   }
 }
 
@@ -73,9 +55,7 @@
 - (void)takeController:(FDTakeController *)controller gotPhoto:(UIImage *)photo withInfo:(NSDictionary *)info
 {
   _imageData = UIImageJPEGRepresentation(photo, 0.5f);
-  [self.takePhotoButton.layer removeAllAnimations];
   [self.takePhotoButton setImage:photo forState:UIControlStateNormal];
-  self.takePhotoButton.alpha = 1.0;
 }
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {

@@ -21,7 +21,6 @@
   NSData * _imageOrVideo;
   NSString * _imageOrVideoType;
   ALAssetsLibrary * _assetLibrary;
-  BOOL _startedAnimation;
   NSString * _shortDescription;
   BOOL _isKeyboardShowing;
   CGRect _originalFrame;
@@ -63,10 +62,6 @@
   UITapGestureRecognizer *viewTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
   [self.view addGestureRecognizer:viewTap];
   
-  self.takePhotoButton.imageView.contentMode = UIViewContentModeScaleAspectFill;
-  self.takePhotoButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentFill;
-  self.takePhotoButton.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
-  
   self.fbSwitch = [[SevenSwitch alloc] initWithFrame:CGRectMake(10, 10, 50, 30)];
   [self.view addSubview:_fbSwitch];
   [_fbSwitch addTarget:self action:@selector(didChangeFacebookSwitch:) forControlEvents:UIControlEventValueChanged];
@@ -77,6 +72,9 @@
   _fbSwitch.onTintColor = [UIColor appNormalColor];
   _fbSwitch.activeColor = _fbSwitch.onTintColor;
   _fbSwitch.borderColor = [UIColor blackColor];
+  _fbSwitch.onText = @"Share";
+  _fbSwitch.offText = @"Don't Share";
+  
   //_fbSwitch.shadowColor = [UIColor blackColor];
   [_fbSwitch setOn:ParentUser.currentUser.autoPublishToFacebook && [PFFacebookUtils userHasAuthorizedPublishPermissions:ParentUser.currentUser] animated:NO];
 }
@@ -159,7 +157,9 @@
   CGFloat x = scrollView.contentOffset.x;
   CGFloat w = scrollView.bounds.size.width;
   self.segmentControl.selectedSegmentIndex = x/w;
+  [self updateCurrentNavigationTitle];
 }
+
 - (IBAction)userDidPage:(id)sender {
   NSInteger p = self.segmentControl.selectedSegmentIndex;
   CGFloat w = self.scrollView.bounds.size.width;
@@ -169,28 +169,20 @@
   } else {
     self.doneButton.enabled = self.customTitleTextField.text.length > 0;
   }
+  [self updateCurrentNavigationTitle];
+}
+
+-(void) updateCurrentNavigationTitle {
+  self.navigationItem.title = self.segmentControl.selectedSegmentIndex == 0 ? @"Note Milestone" : @"Note Measurement";
 }
 
 -(void) viewDidLayoutSubviews {
   [super viewDidLayoutSubviews];
   self.fbSwitch.frame = self.placeHolderSwitch.frame;
-  [self.takePhotoButton.layer setCornerRadius:self.takePhotoButton.frame.size.width/2];
-  self.takePhotoButton.layer.masksToBounds = YES;
-  self.takePhotoButton.layer.borderWidth = 1;
-
   // NOTE: For some odd reson, this will not work is done in viewDidLoad!
   if(self.achievement.standardMilestone) self.titleTextView.attributedText = [self createTitleTextFromMilestone];
 
 
-  if(!_startedAnimation) {
-    
-    [UIButton animateWithDuration:1.0 delay:0.0 options:
-     UIViewAnimationOptionAllowUserInteraction |UIViewAnimationOptionBeginFromCurrentState |UIViewAnimationOptionAutoreverse | UIViewAnimationOptionRepeat
-                       animations:^{
-                         self.takePhotoButton.alpha = .75;
-                       } completion:nil];
-    _startedAnimation = YES;
-  }
 }
 
 
@@ -361,13 +353,6 @@
 
 - (void)takeController:(FDTakeController *)controller gotPhoto:(UIImage *)photo withInfo:(NSDictionary *)info
 {
-  
-//  if([info objectForKey:@"UIImagePickerControllerOriginalImage"]) {
-//    photo = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
-//    CGRect crop = [[info valueForKey:@"UIImagePickerControllerCropRect"] CGRectValue];
-//    photo = [photo imageCroppedToRect:crop];
-//  }
-  
   // Attempt to use date from the photo taken, instead of the current date
   NSURL *assetURL = [info objectForKey:UIImagePickerControllerReferenceURL];
   if(assetURL) {
@@ -413,10 +398,7 @@
   // TODO: Support video too!
   _imageOrVideo = UIImageJPEGRepresentation(photo, 0.5f);
   _imageOrVideoType = @"image/jpg";
-  [self.takePhotoButton.layer removeAllAnimations];
-  self.takePhotoButton.imageView.contentMode = UIViewContentModeScaleAspectFill;
   [self.takePhotoButton setImage:photo forState:UIControlStateNormal];
-  self.takePhotoButton.alpha = 1.0;
 }
 
 -(NSAttributedString *) createTitleTextFromMilestone {

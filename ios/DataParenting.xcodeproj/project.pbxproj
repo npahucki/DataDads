@@ -38,6 +38,7 @@
 		E856BD4F1962DDDB00D00E5C /* NoConnectionAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = E856BD4E1962DDDB00D00E5C /* NoConnectionAlertView.m */; };
 		E856BD521963216A00D00E5C /* AlertThenDisappearView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E856BD511963216A00D00E5C /* AlertThenDisappearView.xib */; };
 		E856BD55196324E500D00E5C /* AlertThenDisappearView.m in Sources */ = {isa = PBXBuildFile; fileRef = E856BD54196324E500D00E5C /* AlertThenDisappearView.m */; };
+		E856BD581964455200D00E5C /* TakePhotoButton.m in Sources */ = {isa = PBXBuildFile; fileRef = E856BD571964455200D00E5C /* TakePhotoButton.m */; };
 		E862B81318F5FCE100EBAEFF /* FDTakeControllerNoStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = E862B81218F5FCE100EBAEFF /* FDTakeControllerNoStatusBar.m */; };
 		E866E7F31936448C004963C9 /* NotificationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E866E7F21936448C004963C9 /* NotificationTableViewController.m */; };
 		E866E7F919364607004963C9 /* Tip.m in Sources */ = {isa = PBXBuildFile; fileRef = E866E7F819364607004963C9 /* Tip.m */; };
@@ -167,6 +168,8 @@
 		E856BD511963216A00D00E5C /* AlertThenDisappearView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AlertThenDisappearView.xib; sourceTree = "<group>"; };
 		E856BD53196324E500D00E5C /* AlertThenDisappearView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlertThenDisappearView.h; sourceTree = "<group>"; };
 		E856BD54196324E500D00E5C /* AlertThenDisappearView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlertThenDisappearView.m; sourceTree = "<group>"; };
+		E856BD561964455200D00E5C /* TakePhotoButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TakePhotoButton.h; sourceTree = "<group>"; };
+		E856BD571964455200D00E5C /* TakePhotoButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TakePhotoButton.m; sourceTree = "<group>"; };
 		E862B81118F5FCE100EBAEFF /* FDTakeControllerNoStatusBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDTakeControllerNoStatusBar.h; sourceTree = "<group>"; };
 		E862B81218F5FCE100EBAEFF /* FDTakeControllerNoStatusBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDTakeControllerNoStatusBar.m; sourceTree = "<group>"; };
 		E862B81418F6A69200EBAEFF /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
@@ -355,6 +358,8 @@
 				E856BD511963216A00D00E5C /* AlertThenDisappearView.xib */,
 				E856BD53196324E500D00E5C /* AlertThenDisappearView.h */,
 				E856BD54196324E500D00E5C /* AlertThenDisappearView.m */,
+				E856BD561964455200D00E5C /* TakePhotoButton.h */,
+				E856BD571964455200D00E5C /* TakePhotoButton.m */,
 			);
 			name = CustomViews;
 			sourceTree = "<group>";
@@ -809,6 +814,7 @@
 				E872D4CA1940B412003F461C /* ParentUser.m in Sources */,
 				E88F3635194A5A4100BE74E9 /* SettingPanelViewController.m in Sources */,
 				E8DD48EE188EE5B900153095 /* AppDelegate.m in Sources */,
+				E856BD581964455200D00E5C /* TakePhotoButton.m in Sources */,
 				E8DD48EA188EE5B900153095 /* main.m in Sources */,
 				E881F8DF1962006E0066046E /* BannerViewController.m in Sources */,
 				E856BD4F1962DDDB00D00E5C /* NoConnectionAlertView.m in Sources */,
