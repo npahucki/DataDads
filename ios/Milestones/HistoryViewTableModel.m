@@ -51,6 +51,10 @@ typedef void (^StandardMilestoneResultBlock)(NSNumber * totalCount, NSArray *obj
   _hasMoreAchievements = YES;
   _hasMoreFutureMilestones = YES;
   _hasMorePastMilestones = YES;
+  _hadErrorLoadingAchievements = NO;
+  _hadErrorLoadingFutureMilestones = NO;
+  _hadErrorLoadingPastMilestones = NO;
+  
   _filter = nil;
   _countOfAchievements = 0;
   _countOfFutureMilestones = 0;
@@ -63,8 +67,8 @@ typedef void (^StandardMilestoneResultBlock)(NSNumber * totalCount, NSArray *obj
     _futureMilestones = nil;
     _hasMoreFutureMilestones = YES;
   }
-
   
+  _hadErrorLoadingFutureMilestones = NO;
   if(self.hasMoreFutureMilestones) {
     if([self.delegate respondsToSelector:@selector(willLoadFutureMilestonesAtPageIndex:)])
       [self.delegate willLoadFutureMilestonesAtPageIndex:startIndex];
@@ -73,6 +77,7 @@ typedef void (^StandardMilestoneResultBlock)(NSNumber * totalCount, NSArray *obj
     __block BOOL cachedResult = cachePolicy == kPFCachePolicyCacheThenNetwork;
     [self loadMilestonesPage:startIndex forTimePeriod:@"future" withCachePolicy:cachePolicy withBlock:^(NSNumber * count, NSArray *objects, NSError *error) {
       if(error) {
+        _hadErrorLoadingFutureMilestones = YES;
         [self.delegate didFailToLoadFutureMilestones:error atPageIndex:startIndex];
       } else {
         if(cachedResult ||![HistoryViewTableModel isPFObjectArrayEqual:_futureMilestones toPFObjectArray:objects]) {
@@ -104,6 +109,7 @@ typedef void (^StandardMilestoneResultBlock)(NSNumber * totalCount, NSArray *obj
     _hasMorePastMilestones = YES;
   }
   
+  _hadErrorLoadingPastMilestones = NO;
   if(self.hasMorePastMilestones) {
     if([self.delegate respondsToSelector:@selector(willLoadPastMilestonesAtPageIndex:)])
       [self.delegate willLoadPastMilestonesAtPageIndex:startIndex];
@@ -114,6 +120,7 @@ typedef void (^StandardMilestoneResultBlock)(NSNumber * totalCount, NSArray *obj
       if(error) {
         [self.delegate didFailToLoadPastMilestones:error atPageIndex:startIndex];
         _isLoadingPastMilestones = NO;
+        _hadErrorLoadingPastMilestones = YES;
       } else {
         if(cachedResult ||![HistoryViewTableModel isPFObjectArrayEqual:_pastMilestones toPFObjectArray:objects]) {
           // if results, set the has more to false
@@ -170,6 +177,7 @@ typedef void (^StandardMilestoneResultBlock)(NSNumber * totalCount, NSArray *obj
   }
   
   // If no Baby available yet, don't try to load anything
+  _hadErrorLoadingAchievements = NO;
   if(self.baby && self.hasMoreAchievements) {
     if([self.delegate respondsToSelector:@selector(willLoadAchievementsAtPageIndex:)]) {
       [self.delegate willLoadAchievementsAtPageIndex:startIndex];
@@ -189,6 +197,7 @@ typedef void (^StandardMilestoneResultBlock)(NSNumber * totalCount, NSArray *obj
                           if(error.code != kPFErrorCacheMiss) {
                             [self.delegate didFailToLoadAchievements:error atPageIndex:startIndex];
                             _isLoadingAchievements = NO;
+                            _hadErrorLoadingAchievements = YES;
                           }
                         } else {
                           NSNumber * count = (NSNumber *)[results objectForKey:@"count"];

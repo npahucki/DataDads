@@ -41,6 +41,11 @@
 @property (readonly) BOOL isLoadingPastMilestones;
 @property (readonly) BOOL isLoadingFutureMilestones;
 
+// These will be true if an error occurred trying to load, they will be set false once a successful load happens. 
+@property (readonly) BOOL hadErrorLoadingAchievements;
+@property (readonly) BOOL hadErrorLoadingPastMilestones;
+@property (readonly) BOOL hadErrorLoadingFutureMilestones;
+
 @property (readonly) BOOL hasMoreFutureMilestones;
 @property (readonly) BOOL hasMorePastMilestones;
 @property (readonly) BOOL hasMoreAchievements;

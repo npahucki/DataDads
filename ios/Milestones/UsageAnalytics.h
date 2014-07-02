@@ -14,6 +14,8 @@
 +(void) idenfity:(ParentUser*) user withBaby:(Baby*) baby;
 
 +(void) trackError:(NSError*)error forOperationNamed:(NSString*) operation;
++(void) trackError:(NSError*)error forOperationNamed:(NSString*) operation andAdditionalProperties:(NSDictionary*) props;
+
 
 +(void) trackUserSignup:(ParentUser*) user usingMethod:(NSString*) method;
 +(void) trackUserSignupError:(NSError*)error usingMethod:(NSString*) method;

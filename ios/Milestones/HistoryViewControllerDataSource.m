@@ -91,6 +91,19 @@
 
 - (LoadingTableViewCell *)tableView:(UITableView *)tableView cellForLoadingIndicator:(NSIndexPath*) indexPath {
 
+  BOOL showError;
+  switch (indexPath.section) {
+    case FutureMilestoneSection:
+      showError = _model.hadErrorLoadingFutureMilestones;
+      break;
+    case PastMilestoneSection:
+      showError = _model.hadErrorLoadingPastMilestones;
+      break;
+    case AchievementSection:
+      showError = _model.hadErrorLoadingAchievements;
+      break;
+  }
+  
   LoadingTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"loadingCell" forIndexPath:indexPath];
   if(indexPath.section == FutureMilestoneSection && _model.hasMoreFutureMilestones) {
     // Special case because we add the loading cell to the 0 Zero Cell.
@@ -100,7 +113,16 @@
   }
   cell.topLineHidden = indexPath.row == 0;
 
-  cell.pictureView.image = [UIImage animatedImageNamed:@"progress-" duration:1];
+  if(showError) {
+    cell.pictureView.image = [UIImage imageNamed:@"error-9"];
+    cell.loadingLabel.text = @"Failed to load. Click to try again.";
+    cell.loadingLabel.textColor = UIColorFromRGB(0xCE3339);  // Same color as icon
+  } else {
+    cell.pictureView.image = [UIImage animatedImageNamed:@"progress-" duration:1];
+    cell.loadingLabel.text = @"Loading...";
+    cell.loadingLabel.textColor = [UIColor appGreyTextColor];
+    
+  }
   return cell;
 }
 

@@ -268,22 +268,41 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-  BOOL isLoadingRow;
+  BOOL isLoadingRow = NO;
   switch (indexPath.section) {
     case AchievementSection:
       isLoadingRow = indexPath.row == _model.achievements.count;
-      if(!isLoadingRow) [self.delegate achievementClicked:_model.achievements[indexPath.row]];
+      if(isLoadingRow) {
+        // Whether it is errored out of not, we want to try to force a reload
+        [_model loadAchievementsPage:_model.achievements.count];
+      } else {
+       [self.delegate achievementClicked:_model.achievements[indexPath.row]];
+      }
       break;
     case FutureMilestoneSection:
       isLoadingRow = indexPath.row == 0 && _model.hasMoreFutureMilestones;
-      if(!isLoadingRow) [self.delegate standardMilestoneClicked:_model.futureMilestones[indexPath.row - (_model.hasMoreFutureMilestones ? 1 : 0)]];
+      if(isLoadingRow) {
+        // Whether it is errored out of not, we want to try to force a reload
+        [_model loadFutureMilestonesPage:_model.futureMilestones.count];
+      } else {
+        [self.delegate standardMilestoneClicked:_model.futureMilestones[indexPath.row - (_model.hasMoreFutureMilestones ? 1 : 0)]];
+      }
       break;
     case PastMilestoneSection:
       isLoadingRow = indexPath.row == _model.pastMilestones.count;
-      if(!isLoadingRow) [self.delegate standardMilestoneClicked:_model.pastMilestones[indexPath.row]];
+      if(isLoadingRow) {
+        // Whether it is errored out of not, we want to try to force a reload
+        [_model loadPastMilestonesPage:_model.pastMilestones.count];
+      } else {
+        [self.delegate standardMilestoneClicked:_model.pastMilestones[indexPath.row]];
+      }
       break;
     default:
-      break;
+      NSAssert(NO,@"Invalid section type with number %ld", (long)_pendingNextPageTriggerIndex.section);
+  }
+
+  if(isLoadingRow) {
+    [self.tableView reloadData]; // Show loading icon again...
   }
 }
 
@@ -339,7 +358,8 @@
 }
 
 -(void) didFailToLoadAchievements:(NSError *) error atPageIndex:(NSInteger)pageIndex {
-  [self handleMilestoneLoadError:error withRetrySelector:@selector(loadAchievementsPage:) forPageIndex:pageIndex];
+  [UsageAnalytics trackError:error forOperationNamed:@"LoadAchievements" andAdditionalProperties:@{@"pageIndex" : @(pageIndex)}];
+  [self.tableView reloadData]; // To show the new loading icon, displaying the error.
 }
 
 -(void) didLoadFutureMilestonesAtPageIndex:(NSInteger)pageIndex {
@@ -365,7 +385,8 @@
 }
 
 -(void) didFailToLoadFutureMilestones:(NSError *) error atPageIndex:(NSInteger)pageIndex {
-  [self handleMilestoneLoadError:error withRetrySelector:@selector(loadFutureMilestonesPage:) forPageIndex:pageIndex];
+  [UsageAnalytics trackError:error forOperationNamed:@"LoadFutureMilestones" andAdditionalProperties:@{@"pageIndex" : @(pageIndex)}];
+  [self.tableView reloadData]; // To show the new loading icon, displaying the error.
 }
 
 -(void) didLoadPastMilestonesAtPageIndex:(NSInteger)pageIndex {
@@ -377,34 +398,9 @@
 }
 
 -(void) didFailToLoadPastMilestones:(NSError *) error atPageIndex:(NSInteger)pageIndex {
-  
-  [self handleMilestoneLoadError:error withRetrySelector:@selector(loadPastMilestonesPage:) forPageIndex:pageIndex];
-  
-  
+  [UsageAnalytics trackError:error forOperationNamed:@"LoadPastMilestones" andAdditionalProperties:@{@"pageIndex" : @(pageIndex)}];
+  [self.tableView reloadData]; // To show the new loading icon, displaying the error.
 }
-
--(void) handleMilestoneLoadError:(NSError *) error withRetrySelector:(SEL)retrySelector forPageIndex:(NSInteger) pageIdx {
-  if ([error code] == kPFErrorConnectionFailed || [error code] == kPFErrorInternalServer) {
-    if([Reachability isParseCurrentlyReachable]) {
-      NSLog(@"Connection failure to parse loading Future Milestones, will try again...");
-      NSMethodSignature * retryMethod = [_model methodSignatureForSelector:retrySelector];
-      NSInvocation * retryInvocation = [NSInvocation invocationWithMethodSignature:retryMethod];
-      [retryInvocation setTarget:_model];
-      [retryInvocation setSelector:retrySelector];
-      [retryInvocation setArgument:&pageIdx atIndex:2];
-      [NSTimer scheduledTimerWithTimeInterval:3.0 invocation:retryInvocation repeats:NO];
-    } else {
-      NSLog(@"Connection failure to parse, but no network available, will not retry until network is back.");
-    }
-  } else {
-    // TODO: Send to central logging!
-    NSLog(@"Error loading Achievements: %@", [error userInfo][@"error"]);
-    [[[UIAlertView alloc] initWithTitle:@"Bummer" message:@"Could not load some of your data. This has been reported to us and we will fix it as soon as possible." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show ];
-  }
-}
-
-
-
 
 
 #pragma mark Floating Headers
@@ -492,7 +488,7 @@
     UITapGestureRecognizer * recognizer = sender;
     if(recognizer.view == _floatingFutureMilestonesHeaderView) {
       long lastRow = [self.tableView numberOfRowsInSection:0] - 1;
-      NSIndexPath * path = [NSIndexPath indexPathForRow:lastRow inSection:0];
+      NSIndexPath * path = [NSIndexPath indexPathForRow:lastRow inSection:FutureMilestoneSection];
       int rowHeight = [self tableView:self.tableView heightForRowAtIndexPath:path];
       int headerPosY = [self.tableView rectForRowAtIndexPath:path].origin.y - (self.tableView.bounds.size.height - (achievementHeaderHeight + pastMilestoneHeaderHeight + rowHeight));
       if(self.tableView.contentOffset.y != headerPosY) {
@@ -502,13 +498,13 @@
       
 //      [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:lastRow inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
     } else if(recognizer.view == _floatingAchievementsHeaderView) {
-      int headerPosY = [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]].origin.y - (futureMilestoneHeaderHeight + achievementHeaderHeight);
+      int headerPosY = [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:AchievementSection]].origin.y - (futureMilestoneHeaderHeight + achievementHeaderHeight);
       if(self.tableView.contentOffset.y != headerPosY) {
         _isJumpingToIndex = YES;
         [self.tableView setContentOffset:CGPointMake(0, headerPosY) animated:YES];
       }
     } else if(recognizer.view == _floatingPastMilestonesHeaderView) {
-      int headerPosY = [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]].origin.y - (futureMilestoneHeaderHeight + achievementHeaderHeight + pastMilestoneHeaderHeight);
+      int headerPosY = [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:PastMilestoneSection]].origin.y - (futureMilestoneHeaderHeight + achievementHeaderHeight + pastMilestoneHeaderHeight);
       if(self.tableView.contentOffset.y != headerPosY) {
         _isJumpingToIndex = YES;
         [self.tableView setContentOffset:CGPointMake(0, headerPosY) animated:YES];
