@@ -30,7 +30,6 @@
   BOOL _isJumpingToIndex;
   SInt8 _scrollStatus; // -1 going up, 0 not scrolling, 1 scrolling down.
   BOOL _didInitialLoad;
-  ADBannerView * _adView;
 }
 
 @end
@@ -61,12 +60,6 @@
   if(Baby.currentBaby) { // Only load if there is already a baby set
     self.baby = Baby.currentBaby;
   }
-  
-  _adView = [[ADBannerView alloc] initWithAdType:ADAdTypeBanner];
-  _adView.frame = CGRectMake(0,0,320,50);
-  _adView.layer.borderColor =  [UIColor appHeaderBorderNormalColor].CGColor;
-  _adView.layer.borderWidth = 1;
-  
   
   self.tableView.sectionHeaderHeight = 0.0;
   self.tableView.sectionFooterHeight = 0.0;
@@ -206,7 +199,7 @@
 #pragma mark - UITableViewDelegate
 
 -(CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-  return section == AdSection ? 50 : 44;
+  return 44;
 }
 
 -(HistoryTableHeaderView *)tableView:(UITableView *)tableView viewForFloatingHeaderInSection:(NSInteger)section {
@@ -233,8 +226,6 @@
     case AchievementSection:
       headerView.count = [_model countOfAchievements];
       break;
-    case AdSection:
-      return _adView;
   }
   return headerView;
 }
@@ -258,8 +249,6 @@
       if(indexPath.row == _model.achievements.count - PRELOAD_START_AT_IDX && _model.hasMoreAchievements && !_model.isLoadingAchievements) {
         _pendingNextPageTriggerIndex = indexPath;
       }
-      break;
-    case AdSection:
       break;
     default:
       NSAssert(NO,@"Invalid section type with number %ld", (long)indexPath.section);
@@ -548,8 +537,6 @@
         break;
       case AchievementSection:
         if(!_model.isLoadingAchievements) [_model loadAchievementsPage:_model.achievements.count];
-        break;
-      case AdSection:
         break;
       default:
         NSAssert(NO,@"Invalid section type with number %ld", (long)_pendingNextPageTriggerIndex.section);

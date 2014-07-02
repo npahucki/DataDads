@@ -21,8 +21,6 @@
       return _model.pastMilestones.count + (_model.hasMorePastMilestones ? 1 : 0);
     case AchievementSection:
       return _model.achievements.count + (_model.hasMoreAchievements ? 1 : 0);
-    case AdSection:
-      return 0;
     default:
       NSAssert(NO,@"Invalid section type with number %ld", (long)section);
       return 0;
@@ -30,7 +28,7 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-  return 4;
+  return 3;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -41,8 +39,6 @@
       return @"Past Milestones";
     case AchievementSection:
       return @"Completed Milestones";
-    case AdSection:
-      return nil;
     default:
       NSAssert(NO,@"Invalid section type with number %ld", (long)section);
       return nil;
