@@ -287,7 +287,7 @@
   self.achievement.attachment = attachment;
   self.achievement.attachmentType = type;
   self.achievement.completionDate =  self.completionDateTextField.date;
-  
+  self.achievement.sharedVia = self.fbSwitch.on ? SharingMediumFacebook : SharingMediumNotShared;
   [self saveObject:self.achievement withTitle:@"Noting Milestone" andFailureMessage:@"Could not note milestone." andBlock:^(NSError * error) {
     if(!error) {
       // SEE NOTE ABOVE

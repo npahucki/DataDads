@@ -10,6 +10,15 @@
 #import "Baby.h"
 #import "StandardMilestone.h"
 
+// Designed to be ORed together.
+typedef NS_ENUM(NSInteger, SharingMedium) {
+  SharingMediumNotShared = 0,
+  SharingMediumFacebook = 1,
+  SharingMediumTwitter = 2,
+  SharingMediumEmail = 4,
+  SharingMediumGooglePlus = 8
+};
+
 @interface MilestoneAchievement : PFObject <PFSubclassing>
 
 @property Baby* baby;
@@ -22,6 +31,8 @@
 @property NSString* comment;
 @property BOOL isSkipped;
 @property BOOL isPostponed;
+@property SharingMedium sharedVia;
+
 
 // Derives a title from the customTitle or Milestone title.
 @property (readonly) NSString* displayTitle;

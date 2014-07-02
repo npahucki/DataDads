@@ -140,7 +140,7 @@
           // cancel
           block(NO, nil);
         } else {
-          NSAssert(user != nil, @"DId not expect a completely non logged in user here!");
+          NSAssert(user != nil, @"DId not expect a anonymous user here!");
           [PFFacebookUtils linkUser:user permissions:FB_PUBLISH_PERMISSION_ARRAY block:^(BOOL succeeded, NSError *error) {
             [UsageAnalytics trackUserLinkedWithFacebook:(ParentUser*)user forPublish:YES withError:error];
             if(error) {
@@ -194,7 +194,6 @@
 
 +(BOOL) showAlertIfFacebookDisplayableError:(NSError*) error {
   
-  
   if([error.domain isEqualToString:@"com.facebook.sdk"] && [[error.userInfo objectForKey:@"com.facebook.sdk:ErrorLoginFailedReason"] isEqualToString:@"com.facebook.sdk:SystemLoginDisallowedWithoutError"]) {
     NSString *msg = @"If you want to log in with facebook go to Settings>Facebook and enable acceess for 'DataParenting', then try to log in again.";
     [[[UIAlertView alloc] initWithTitle:@"Facebook Login Is Disabled"
@@ -212,6 +211,7 @@
   
     return YES;
   } else   {
+    [UsageAnalytics trackError:error forOperationNamed:@"FacebookOperation"];
     return NO;
   }
 }

@@ -115,7 +115,7 @@
 
   if(showError) {
     cell.pictureView.image = [UIImage imageNamed:@"error-9"];
-    cell.loadingLabel.text = @"Failed to load. Click to try again.";
+    cell.loadingLabel.text = @"Failed to load. Touch here to try loading again.";
     cell.loadingLabel.textColor = UIColorFromRGB(0xCE3339);  // Same color as icon
   } else {
     cell.pictureView.image = [UIImage animatedImageNamed:@"progress-" duration:1];

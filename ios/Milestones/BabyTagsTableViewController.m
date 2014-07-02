@@ -7,7 +7,6 @@
 //
 
 #import "BabyTagsTableViewController.h"
-#import "PFQueryWithExtendedResultSet.h"
 
 @interface BabyTagsTableViewController ()
 

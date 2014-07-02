@@ -26,6 +26,7 @@
 @dynamic comment;
 @dynamic isSkipped;
 @dynamic isPostponed;
+@dynamic sharedVia;
 
 
 + (NSString *)parseClassName {

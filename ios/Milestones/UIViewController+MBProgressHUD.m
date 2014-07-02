@@ -51,7 +51,7 @@
 }
 
 -(void) showErrorThenRunBlock:(NSError*) error withMessage:(NSString*) msg andBlock:(dispatch_block_t)block {
-  NSLog(@"%@ caused by %@", msg ? msg : @"?", error);
+  [UsageAnalytics trackError:error forOperationNamed:@"SaveObject" andAdditionalProperties:@{@"errorMessage" : msg}];
   UIImageView * animatedView = [self animatedImageView:@"error" frames:9];
   self.hud.customView = animatedView;
   self.hud.mode = MBProgressHUDModeCustomView;
