@@ -194,7 +194,15 @@
 
 +(BOOL) showAlertIfFacebookDisplayableError:(NSError*) error {
   
-  if([error.domain isEqualToString:@"com.facebook.sdk"] && [[error.userInfo objectForKey:@"com.facebook.sdk:ErrorLoginFailedReason"] isEqualToString:@"com.facebook.sdk:SystemLoginDisallowedWithoutError"]) {
+  if([error.domain isEqualToString:@"Parse"] && error.code == 208) {
+    NSString *msg = @"There is another DataParenting account aready linked to that Facebook account. Please either use that DataParenting account, another Facebook account, or contact support.";
+    [[[UIAlertView alloc] initWithTitle:@"Duplicate Facebook Account"
+                                message:msg
+                               delegate:nil
+                      cancelButtonTitle:@"OK"
+                      otherButtonTitles:nil] show];
+    return YES;
+  } else if([error.domain isEqualToString:@"com.facebook.sdk"] && [[error.userInfo objectForKey:@"com.facebook.sdk:ErrorLoginFailedReason"] isEqualToString:@"com.facebook.sdk:SystemLoginDisallowedWithoutError"]) {
     NSString *msg = @"If you want to log in with facebook go to Settings>Facebook and enable acceess for 'DataParenting', then try to log in again.";
     [[[UIAlertView alloc] initWithTitle:@"Facebook Login Is Disabled"
                                                     message:msg
