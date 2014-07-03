@@ -24,11 +24,6 @@ app.locals.formatTime = function(time) {
   return moment(time).format('MMMM Do YYYY, h:mm a');
 };
 
-console.log("REGISTERING URL: ");
-app.get('/hello', function(req, res) {
-    res.send('Hello World!');
- });
-
 app.get('/achievements/:id', achievementsController.show);
 
 

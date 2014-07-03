@@ -4,7 +4,6 @@ var utils = require("cloud/utils");
 exports.show = function (req, res) {
     Parse.Cloud.useMasterKey();
     var achievementId = req.params.id;
-    console.log("GOT SHOW REQUEST ID:" + achievementId);
     var query = new Parse.Query(Achievement);
     query.include("standardMilestone");
     query.include("baby");
