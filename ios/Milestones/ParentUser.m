@@ -13,7 +13,42 @@
 
 @dynamic screenName;
 @dynamic isMale;
-@dynamic autoPublishToFacebook;
 @dynamic usesMetric;
+
+
+-(BOOL) showHiddenTips {
+  return [[NSUserDefaults standardUserDefaults] boolForKey:@"showHiddenTips"];
+}
+
+-(void) setShowHiddenTips:(BOOL)showHiddenTips {
+  [[NSUserDefaults standardUserDefaults] setBool:showHiddenTips forKey:@"showHiddenTips"];
+}
+
+-(BOOL) showIgnoredMilestones {
+  return [[NSUserDefaults standardUserDefaults] boolForKey:@"showIgnoredMilestones"];
+}
+
+-(void) setShowIgnoredMilestones:(BOOL)showIgnoredMilestones {
+  [[NSUserDefaults standardUserDefaults] setBool:showIgnoredMilestones forKey:@"showIgnoredMilestones"];
+}
+
+-(BOOL) showPostponedMilestones {
+  return [[NSUserDefaults standardUserDefaults] boolForKey:@"showPostponedMilestones"];
+}
+
+-(void) setShowPostponedMilestones:(BOOL)showPostponedMilestones {
+  [[NSUserDefaults standardUserDefaults] setBool:showPostponedMilestones forKey:@"showPostponedMilestones"];
+}
+
+-(void) setAutoPublishToFacebook:(BOOL)autoPublishToFacebook {
+  [[NSUserDefaults standardUserDefaults] setBool:autoPublishToFacebook forKey:@"autoPublishToFacebook"];
+}
+
+-(BOOL) autoPublishToFacebook {
+  return [[NSUserDefaults standardUserDefaults] boolForKey:@"autoPublishToFacebook"];
+}
+
+
+
 
 @end

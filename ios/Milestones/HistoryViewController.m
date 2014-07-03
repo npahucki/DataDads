@@ -56,6 +56,7 @@
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(babyUpdated:) name:kDDNotificationCurrentBabyChanged object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(milestoneNotedAndSaved:) name:kDDNotificationMilestoneNotedAndSaved object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkReachabilityChanged:) name:kReachabilityChangedNotification object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTable) name:kNeedDataRefreshNotification object:nil];
   
   if(Baby.currentBaby) { // Only load if there is already a baby set
     self.baby = Baby.currentBaby;
@@ -78,6 +79,7 @@
 
 -(void) setFilterString:(NSString *)filterString {
   _model.filter = filterString;
+  _didInitialLoad = NO; // Reset after search. 
 }
 
 -(NSString*) filterString {
@@ -85,9 +87,11 @@
 }
 
 -(void) reloadTable {
-    [_model loadAchievementsPage:0];
-    [_model loadFutureMilestonesPage:0];
-    [_model loadPastMilestonesPage:0];
+  _model.showPostponedMilestones = ParentUser.currentUser.showPostponedMilestones;
+  _model.showIgnoredMilestones = ParentUser.currentUser.showIgnoredMilestones;
+  [_model loadAchievementsPage:0];
+  [_model loadFutureMilestonesPage:0];
+  [_model loadPastMilestonesPage:0];
 }
 
 -(void) babyUpdated:(NSNotification*)notification {
@@ -319,6 +323,14 @@
   } else {
     BOOL ignored = buttonIndex == 0;
     BOOL postponed = buttonIndex == 1;
+    
+    if(ignored && ParentUser.currentUser.showIgnoredMilestones) {
+      [[[UIAlertView alloc] initWithTitle:@"Can't do that" message:@"While showing ignored milestones you can not ignore a milestone. Turn off 'Show Ignored Milestones' in settings if you want to ignore this milestone." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+      return;
+    } else if(postponed && ParentUser.currentUser.showPostponedMilestones) {
+      [[[UIAlertView alloc] initWithTitle:@"Can't do that" message:@"While showing postponed milestones you can not postpone a milestone. Turn off 'Show Postponed Milestones' in settings if you want to postponse this milestone." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+      return;
+    }
     
     [self.tableView beginUpdates];
     [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationLeft];

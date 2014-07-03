@@ -155,6 +155,8 @@ typedef void (^StandardMilestoneResultBlock)(NSNumber * totalCount, NSArray *obj
                             @"rangeDays": [@(self.baby.daysSinceDueDate) stringValue],
                             @"skip" : [@(startIndex) stringValue],
                             @"limit" : [@(self.pagingSize) stringValue],
+                            @"showPostponed" : @(self.showPostponedMilestones),
+                            @"showIgnored" : @(self.showIgnoredMilestones),
                             @"filterTokens": _filter ? _filterTokens : [NSNull null]}
                     cachePolicy: cachePolicy
                     block:^(NSDictionary *results, NSError *error) {

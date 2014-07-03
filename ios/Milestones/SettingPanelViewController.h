@@ -8,7 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SettingPanelViewController : UIViewController
+@interface SettingPanelViewController : UITableViewController
 @property (weak, nonatomic) IBOutlet UISwitch *useMetricSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *automaticallyShareOnFacebookSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *showIgnoredMilestonesSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *showHiddenTipsSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *showPostponedMilestonesSwitch;
 
 @end

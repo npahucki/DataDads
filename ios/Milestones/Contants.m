@@ -33,6 +33,8 @@ NSString *const kDDNotificationMilestoneNotedAndSaved = @"milestoneNotedAndSaved
 NSString *const kDDNotificationMeasurementNotedAndSaved = @"measurementNotedAndSaved";
 NSString *const kDDNotificationUserSignedUp = @"userSignedUp";
 NSString *const kDDNotificationPushReceieved = @"notificationPushReceived";
+NSString *const kNeedDataRefreshNotification = @"needDataRefresh";
+
 
 
 

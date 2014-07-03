@@ -15,7 +15,7 @@
 # if DEBUG || TARGET_IPHONE_SIMULATOR
   #define VIEW_HOST @"dataparenting-dev.parseapp.com"
 #else
-  #define VIEW_HOST @"view.dataparenting.com/"
+  #define VIEW_HOST @"view.dataparenting.com"
 #endif
 
 
@@ -45,6 +45,9 @@ extern NSString *const kDDNotificationMilestoneNotedAndSaved;
 extern NSString *const kDDNotificationMeasurementNotedAndSaved;
 extern NSString *const kDDNotificationUserSignedUp;
 extern NSString *const kDDNotificationPushReceieved;
+extern NSString *const kNeedDataRefreshNotification;  // When table data may need to be reloaded 
+
+
 
 
 #pragma mark Application Colors

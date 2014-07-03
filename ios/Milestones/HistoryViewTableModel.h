@@ -33,6 +33,8 @@
 @interface HistoryViewTableModel : NSObject
 
 @property NSString * filter;                    // If non-nil, filters the results in the model. After chnaging this, the results are loaded into the table again.
+@property BOOL showPostponedMilestones;
+@property BOOL showIgnoredMilestones;
 
 @property (readonly) NSArray * futureMilestones;  // Array of StandardMilestone - Milestones that have not been marked completed, but still might be.
 @property (readonly) NSArray * achievements;       // Array of MilestoneAchievement - Milestones (standard and custom) that have been achieved already

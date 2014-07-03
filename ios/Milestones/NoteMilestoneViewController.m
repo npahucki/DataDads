@@ -70,7 +70,7 @@
   _fbSwitch.isRounded = NO;
   _fbSwitch.onTintColor = [UIColor appBackgroundColor];
   _fbSwitch.inactiveColor = [UIColor appBackgroundColor];
-  _fbSwitch.activeColor = _fbSwitch.onTintColor;
+  _fbSwitch.activeColor = [UIColor appInputBorderNormalColor];
   _fbSwitch.borderColor = [UIColor appInputBorderNormalColor];
   _fbSwitch.labelFont = [UIFont fontForAppWithType:Medium andSize:10];
   _fbSwitch.onText = @"On";

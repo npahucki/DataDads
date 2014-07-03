@@ -11,6 +11,8 @@ Parse.Cloud.define("queryMyMilestones", function (request, response) {
     var limit = parseInt(request.params.limit);
     var skip = parseInt(request.params.skip);
     var filterTokens = request.params.filterTokens;
+    var showPostponed = request.params.showPostponed;
+    var showIgnored = request.params.showIgnored;
 
     if (!babyId || rangeDays < 0) {
         response.error("Invalid query, need babyId and rangeDays parameters.");
@@ -22,6 +24,8 @@ Parse.Cloud.define("queryMyMilestones", function (request, response) {
     innerQuery.equalTo("baby", {__type:"Pointer", className:"Babies", objectId:babyId});
     innerQuery.exists("standardMilestoneId");
     innerQuery.select(["standardMilestoneId"]);
+    if(showPostponed) innerQuery.equalTo("isPostponed", false);
+    if(showIgnored) innerQuery.equalTo("isSkipped", false);
     innerQuery.limit(1000); // NOTE: if we start getting over 1000 achievements, this is not going to work!!!
 
     query = new Parse.Query("StandardMilestones");

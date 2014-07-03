@@ -14,5 +14,9 @@
 @property BOOL isMale;
 @property BOOL autoPublishToFacebook;
 @property BOOL usesMetric;
+@property BOOL showHiddenTips;
+@property BOOL showIgnoredMilestones;
+@property BOOL showPostponedMilestones;
 
 @end
+
