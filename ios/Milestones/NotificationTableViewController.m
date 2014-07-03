@@ -64,7 +64,7 @@
   [super viewDidLoad];
   _deleted = [NSMutableArray arrayWithCapacity:5];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(babyUpdated:) name:kDDNotificationCurrentBabyChanged object:nil];
-
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadObjects) name:kNeedDataRefreshNotification object:nil];
 }
 
 -(void) dealloc {
@@ -90,10 +90,10 @@
   if(Baby.currentBaby) {
     PFQuery * query = [PFQuery queryWithClassName:[BabyAssignedTip parseClassName]];
     [query includeKey:@"tip"];
-    [query whereKey:@"isHidden" equalTo:[NSNumber numberWithBool:NO]];
+    if(!ParentUser.currentUser.showHiddenTips) [query whereKey:@"isHidden" equalTo:[NSNumber numberWithBool:NO]];
     [query whereKey:@"baby" equalTo:Baby.currentBaby];
     [query orderByDescending:@"createdOn"];
-    query.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    query.cachePolicy = self.objects.count == 0 ? kPFCachePolicyCacheThenNetwork : kPFCachePolicyNetworkOnly;
     query.maxCacheAge = 60 * 60 * 24; // at max check once a day.
     
     filterQuery = [[TipsFilterQuery alloc] init];
@@ -228,6 +228,12 @@
 }
 
 -(void) hideNotification:(BabyAssignedTip*) notificaiton withIndexPath:(NSIndexPath*) path {
+
+  if(ParentUser.currentUser.showHiddenTips) {
+    [[[UIAlertView alloc] initWithTitle:@"Can't do that" message:@"While showing hidden tips you can not hide one. Turn off 'Show HiddenTips' in settings if you want to hide this tip." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+    return;
+  }
+  
   notificaiton.isHidden = YES;
   [notificaiton saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
     [self loadObjects];
@@ -237,18 +243,19 @@
 }
 
 -(void) shareNotification:(BabyAssignedTip*) notificaiton withIndexPath:(NSIndexPath*) path {
-  [[[UIAlertView alloc] initWithTitle:@"Keep your pants on!" message:@"This feature is scheduled for next sprint!" delegate:nil cancelButtonTitle:@"Yeah, I got it" otherButtonTitles:nil, nil] show];
+  [[[UIAlertView alloc] initWithTitle:@"Keep your pants on!" message:@"Coming soon!" delegate:nil cancelButtonTitle:@"Yeah, I got it" otherButtonTitles:nil, nil] show];
 }
 
 #pragma mark - SWTableViewDelegate
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)buttonIndex {
   // TODO: rework this to not use PF table view - so we can do animated deletes.
+  
   NSIndexPath * path = [self.tableView indexPathForCell:cell];
   BabyAssignedTip * a = (BabyAssignedTip*)[self objectAtIndexPath:path];
   if(buttonIndex == 0) {
-    [self shareNotification:a withIndexPath:path];
-  } else if(buttonIndex == 1) {
     [self hideNotification:a withIndexPath:path];
+  } else if(buttonIndex == 1) {
+    [self shareNotification:a withIndexPath:path];
   }
 }
 
