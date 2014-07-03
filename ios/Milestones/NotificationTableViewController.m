@@ -92,7 +92,7 @@
     [query includeKey:@"tip"];
     if(!ParentUser.currentUser.showHiddenTips) [query whereKey:@"isHidden" equalTo:[NSNumber numberWithBool:NO]];
     [query whereKey:@"baby" equalTo:Baby.currentBaby];
-    [query orderByDescending:@"createdOn"];
+    [query orderByDescending:@"assignmentDate"];
     query.cachePolicy = self.objects.count == 0 ? kPFCachePolicyCacheThenNetwork : kPFCachePolicyNetworkOnly;
     query.maxCacheAge = 60 * 60 * 24; // at max check once a day.
     
