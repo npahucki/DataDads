@@ -51,11 +51,12 @@
     if(error) {
       block(nil, error);
     } else {
+      NSString * url = [NSString stringWithFormat:@"http://%@/achievements/%@",VIEW_HOST,achievement.objectId];
       NSMutableDictionary<FBOpenGraphObject> *object =
       [FBGraphObject openGraphObjectForPostWithType:@"dataparenting:babymilestone"
                                               title:achievement.displayTitle
                                               image:imageUrl
-                                                url:achievement.attachment.url
+                                                url:url
                                         description:@""];
       object[@"al:ios"] = @"http://www.dataparenting.com/app";
       object[@"data"] = @{@"baby_name" : achievement.baby.name,
@@ -64,7 +65,6 @@
                           };
       if(achievement.comment) object[@"data"][@"comment"] = achievement.comment;
       if(achievement.standardMilestone.url) object[@"see_also"] = achievement.standardMilestone.url;
-
 
       [FBRequestConnection startForPostOpenGraphObject:object completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
         if (!error) {

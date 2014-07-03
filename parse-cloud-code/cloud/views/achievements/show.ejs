@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>
+    <%= typeof title === "undefined" ? "Achievement" : title %>
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!--<link rel='stylesheet' href='/stylesheets/<%= typeof stylesheet === "undefined" ? "main" : stylesheet %>.css' />-->
+  <!--<link rel="icon" href="/favicon.ico" type="image/x-icon">-->
+  <!--<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">-->
+
+  <style>
+    .picture {
+      border: 30px solid black;
+      background-color: black;
+    }
+
+    img.center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto
+    }
+
+    .title {
+      font-size: 20pt;
+      text-align: center;
+      color: white;
+      background-color: black;
+      border: 20px solid black
+    }
+  </style>
+
+
+</head>
+<body>
+
+
+<!-- content -->
+<div class='achievement'>
+  <div class='title'>
+    <%= title %>
+  </div>
+  <div class='picture'>
+    <img class="center" src= <%= photoUrl %> />
+  </div>
+</div>
+
+</body>
+</html>

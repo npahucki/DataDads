@@ -173,49 +173,6 @@ Parse.Cloud.job("tipsAssignment", function (request, status) {
 
 });
 
-
-// Parse.Cloud.job("convertBadObjectIdSymbols", function(request, status) {
-//  //'use strict';
-//  console.log ("Starting cleanup of ids");
-//
-//  // Set up to modify user data
-//  Parse.Cloud.useMasterKey();
-//  var promises = [];
-//
-//  var achievementsQuerySlash = new Parse.Query("MilestoneAchievements");
-//  achievementsQuerySlash.contains("standardMilestoneId","/");
-//  var achievementsQueryPlus = new Parse.Query("MilestoneAchievements");
-//  achievementsQueryPlus.contains("standardMilestoneId","+");
-//
-//
-//  var achievementsQuery = Parse.Query.or(achievementsQuerySlash,achievementsQueryPlus);
-//  achievementsQuery.limit(1000); // MAX
-//  achievementsQuery.ascending("createdAt");
-//  achievementsQuery.find().then(function(achievements) {
-//    _.each(achievements, function(achievement) {
-//      var milestone = achievement.get('standardMilestone');
-//      if(milestone.id.indexOf("+") >= 0 || milestone.id.indexOf("/") >= 0) {
-//        milestone.id = milestone.id.replace(new RegExp("\\/", "g"),"0");
-//        milestone.id = milestone.id.replace(new RegExp("\\+", "g"),"1");
-//        achievement.set('standardMilestone',milestone);
-//        achievement.set('standardMilestoneId',milestone.id);
-//        promises.push(achievement.save());
-//      }
-//    });
-//
-//    console.log("Saving " + promises.length + " objects!!");
-//    return Parse.Promise.when(promises);
-//  }).then(function() {
-//    // Set the job's success status
-//    console.log ("Fixed ids!");
-//    status.success("Fixed all ids");
-//  }, function(error) {
-//    // Set the job's error status
-//    status.error("Failed to fix ids : " + JSON.stringify(error));
-//  });
-//});
-
-
 Parse.Cloud.job("indexCustomTitleField", function (request, status) {
     //'use strict';
     console.log("Starting indexing of all custom title fields");
