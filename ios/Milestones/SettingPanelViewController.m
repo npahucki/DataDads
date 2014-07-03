@@ -16,7 +16,7 @@
 
 +(void) initialize {
   [super initialize];
-  [UILabel appearanceWhenContainedIn:[SettingPanelViewController class],[UITableViewCell class], nil].font = [UIFont fontForAppWithType:Medium andSize:14.0];
+  [UILabel appearanceWhenContainedIn:[UITableViewCell class], [SettingPanelViewController class], nil].font = [UIFont fontForAppWithType:Medium andSize:14.0];
   [UILabel appearanceWhenContainedIn:[UITableViewCell class], [SettingPanelViewController class], nil].textColor = [UIColor appInputGreyTextColor];
   [UILabel appearanceWhenContainedIn:[UITableViewHeaderFooterView class],[SettingPanelViewController class], nil].font = [UIFont fontForAppWithType:Bold andSize:16.0];
   [UILabel appearanceWhenContainedIn:[UITableViewHeaderFooterView class],[SettingPanelViewController class], nil].textColor = [UIColor appHeaderActiveTextColor];
