@@ -35,12 +35,22 @@
     }
   }
   
-  if (yearsDiff > 1)
-    return [NSString stringWithFormat:@"%d%@%@%@%@", yearsDiff, spaceBetweenWords, NSLocalizedStringFromTable(@"YearsKey",NSDATE_TABLE_NAME, @""), spaceBetweenWords, positivity];
-  else if (yearsDiff == 1)
-    return [NSString stringWithFormat:@"%@%@%@", NSLocalizedStringFromTable(@"YearKey",NSDATE_TABLE_NAME, @""), spaceBetweenWords, positivity];
-  
-  if (daysDiff > 0) {
+  if (yearsDiff >= 1) {
+    int monthsDiff = (daysDiff / 30) - (yearsDiff * 12);
+    NSString * diffString = [NSString stringWithFormat:@"%d%@%@", yearsDiff, spaceBetweenWords, NSLocalizedStringFromTable(yearsDiff == 1? @"YearKey" : @"YearsKey",NSDATE_TABLE_NAME, @"")];
+    if(monthsDiff > 0) {
+      diffString = [NSString stringWithFormat:@"%@%@%d%@%@", diffString,spaceBetweenWords, monthsDiff,spaceBetweenWords,NSLocalizedStringFromTable(monthsDiff == 1? @"MonthKey" : @"MonthsKey",NSDATE_TABLE_NAME, @"")];
+    }
+    return  [NSString stringWithFormat:@"%@%@%@",diffString, spaceBetweenWords, positivity];
+  } else if (daysDiff >= 30) {
+    int monthsDiff = daysDiff / 30;
+    int remainingDays = daysDiff % 30;
+    NSString * diffString = [NSString stringWithFormat:@"%d%@%@", monthsDiff, spaceBetweenWords, NSLocalizedStringFromTable(monthsDiff == 1 ?  @"MonthKey" : @"MonthsKey",NSDATE_TABLE_NAME, @"")];
+    if(remainingDays >= 1) {
+      diffString = [NSString stringWithFormat:@"%@%@%d%@%@",diffString, spaceBetweenWords, remainingDays,spaceBetweenWords, NSLocalizedStringFromTable(remainingDays == 1 ? @"DayKey" : @"DaysKey",NSDATE_TABLE_NAME, @"")];
+    }
+    return [NSString stringWithFormat:@"%@%@%@",diffString, spaceBetweenWords, positivity];
+  } else if (daysDiff > 0) {
     if (hoursDiff == 0 || daysDiff > 2)
       return [NSString stringWithFormat:@"%d%@%@%@%@", daysDiff, spaceBetweenWords, daysDiff == 1 ? NSLocalizedStringFromTable(@"DayKey",NSDATE_TABLE_NAME, @""):NSLocalizedStringFromTable(@"DaysKey",NSDATE_TABLE_NAME, @""), spaceBetweenWords, positivity];
     else

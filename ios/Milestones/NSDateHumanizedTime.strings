@@ -1,6 +1,10 @@
-"YearKey" = "a year";
+"YearKey" = "year";
 
 "YearsKey" = "years";
+
+"MonthKey" = "month";
+
+"MonthsKey" = "months";
 
 "DayKey" = "day";
 
