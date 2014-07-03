@@ -9,13 +9,8 @@
 #import "EnterScreenNameViewController.h"
 #import "WebViewerViewController.h"
 
-@interface EnterScreenNameViewController ()
-
-@end
 
 @implementation EnterScreenNameViewController
-
-
 
 - (void)viewDidLoad
 {
@@ -23,15 +18,6 @@
   self.maleLabel.highlightedTextColor = [UIColor appNormalColor];
   self.femaleLabel.highlightedTextColor = [UIColor appNormalColor];
   self.acceptTACLabelButton.titleLabel.font = [UIFont fontForAppWithType:Bold andSize:13.0];
-
-  
-  // TODO: See if we can load a default screen name based on the hostname
-  // The below API
-  
-//  NSArray *hostNameArray = [[NSHost currentHost] names];
-//  NSLog(@”Host Names : %@”, hostNameArray);
-//  NSString *userNameString = [hostNameArray objectAtIndex:0];
-//  NSLog(@”UserName : %@”, userNameString);
   
   self.screenNameField.text = ParentUser.currentUser.screenName;
   NSNumber* gender = [ParentUser.currentUser objectForKey:@"isMale"];
@@ -129,37 +115,71 @@
   }
 }
 
-// TODO: Move save baby logic somewhere else that can be shared.
 -(void) saveBaby {
-  self.baby.ACL = [PFACL ACLWithUser:self.baby.parentUser];
-  Baby.currentBaby = nil; // Clear the current baby, will get set on the MainViewController
-  [self saveObject:self.baby withTitle:[NSString stringWithFormat:@"Saving %@'s info", self.baby.name] andFailureMessage:@"Could not save baby's information" andBlock:^(NSError *error) {
-    if(!error) {
-      if(self.baby.avatarImage) {
-        [self showInProgressHUDWithMessage:[NSString stringWithFormat:@"Uploading %@'s photo", self.baby.name] andAnimation:YES andDimmedBackground:YES];
-        [self.baby.avatarImage saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-          if(error) {
-            [self showErrorThenRunBlock:error withMessage:@"Could not upload photo." andBlock:nil];
-          } else {
-            [self saveBirthdayMilestone];
-          }
-        } progressBlock:^(int percentDone) {
-        }];
-      } else {
-        [self saveBirthdayMilestone];
-      }
+  BOOL isNewBaby = self.baby.objectId == nil;
+  [self saveBabyAvatar:^(BOOL succeeded, NSError *error) {
+    if(error) {
+      [self showErrorThenRunBlock:error withMessage:@"Could not save baby's photo" andBlock:nil];
+    } else {
+      [self saveBabyObject:^(BOOL succeeded, NSError *error) {
+        if(error) {
+          [self showErrorThenRunBlock:error withMessage:@"Could not save baby's information" andBlock:nil];
+        } else {
+          if(isNewBaby) [self saveBirthdayMilestone];
+          [self showSuccessThenRunBlock:^{
+            [self dismiss];
+          }];
+        }
+      }];
     }
   }];
 }
 
+-(void) saveBabyObject:(PFBooleanResultBlock) block {
+    if(self.baby.isDirty) {
+      self.baby.ACL = [PFACL ACLWithUser:self.baby.parentUser];
+      Baby.currentBaby = nil; // Clear the current baby, will get set on the MainViewController
+      [self showInProgressHUDWithMessage:[NSString stringWithFormat:@"Saving %@'s info", self.baby.name] andAnimation:YES andDimmedBackground:YES];
+      [self.baby saveInBackgroundWithBlock:block];
+    } else {
+      block(NO, nil);
+    }
+}
+
+-(void) saveBabyAvatar:(PFBooleanResultBlock)block {
+  if(self.baby.avatarImage.isDirty) {
+    [self showInProgressHUDWithMessage:[NSString stringWithFormat:@"Uploading %@'s photo", self.baby.name] andAnimation:YES andDimmedBackground:YES];
+    [self.baby.avatarImage saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+      if(error) {
+        [self showErrorThenRunBlock:error withMessage:@"Could not upload photo." andBlock:^{
+          block(NO,error);
+        }];
+      } else {
+        block(YES, nil);
+      }
+    } progressBlock:^(int percentDone) {
+    }];
+  } else {
+    block(NO, nil);
+  }
+}
+
 -(void) saveBirthdayMilestone {
-  // TODO:
-  [self dismiss];
+  __block MilestoneAchievement * achievement = [MilestoneAchievement object];
+  achievement.baby = self.baby;
+  achievement.customTitle = @"${He} is born!";
+  achievement.isPostponed = NO;
+  achievement.isSkipped = NO;
+  achievement.completionDate =  self.baby.birthDate;
+  
+  [achievement saveEventually:^(BOOL succeeded, NSError *error) {
+    [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationMilestoneNotedAndSaved object:achievement];
+  }];
 }
 
 -(void) dismiss {
   [self.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-  [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+  //[self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

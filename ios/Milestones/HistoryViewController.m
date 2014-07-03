@@ -87,6 +87,7 @@
 }
 
 -(void) reloadTable {
+  _didInitialLoad = NO;
   _model.showPostponedMilestones = ParentUser.currentUser.showPostponedMilestones;
   _model.showIgnoredMilestones = ParentUser.currentUser.showIgnoredMilestones;
   [_model loadAchievementsPage:0];

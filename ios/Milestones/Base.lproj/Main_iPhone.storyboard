@@ -397,9 +397,11 @@
                                     <constraint firstAttribute="height" constant="30" id="9kf-vx-3S0"/>
                                     <constraint firstAttribute="width" constant="30" id="XCe-WD-F63"/>
                                 </constraints>
-                                <state key="normal" image="newMilestoneButton">
+                                <state key="normal" image="newTagButton">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <state key="selected" image="newTagButton_pressed"/>
+                                <state key="highlighted" image="newTagButton_pressed"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="addNewTagButton"/>
                                 </userDefinedRuntimeAttributes>
@@ -2066,7 +2068,8 @@
         <image name="measurementsIcon" width="19" height="22"/>
         <image name="milestonesIcon" width="22" height="22"/>
         <image name="modalBoxClose" width="9" height="9"/>
-        <image name="newMilestoneButton" width="43" height="43"/>
+        <image name="newTagButton" width="43" height="43"/>
+        <image name="newTagButton_pressed" width="43" height="43"/>
         <image name="progress-0" width="74" height="75"/>
         <image name="settingsIcon" width="27" height="27"/>
         <image name="settingsIcon_pressed" width="27" height="27"/>
