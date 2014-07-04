@@ -15,6 +15,7 @@
 - (void)viewDidLoad
 {
   [super viewDidLoad];
+  [self.doneButton setTitleTextAttributes:@{NSFontAttributeName : [UIFont fontForAppWithType:Bold andSize:17]} forState:UIControlStateNormal];
   self.maleLabel.highlightedTextColor = [UIColor appNormalColor];
   self.femaleLabel.highlightedTextColor = [UIColor appNormalColor];
   self.acceptTACLabelButton.titleLabel.font = [UIFont fontForAppWithType:Bold andSize:13.0];
@@ -38,8 +39,8 @@
 }
 
 
-- (IBAction)didEndEditingScreenName:(id)sender {
-  [self.view endEditing:YES];
+- (IBAction)didChangeScreenName:(id)sender {
+//  [self.view endEditing:YES];
   [self updateNextButtonState];
 }
 

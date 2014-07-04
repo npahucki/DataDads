@@ -10,7 +10,7 @@
 #import "BabyInfoViewController.h"
 #import "UIViewControllerWithHUDProgress.h"
 
-@interface EnterScreenNameViewController : UIViewControllerWithHUDProgress<ViewControllerWithBaby>
+@interface EnterScreenNameViewController : UIViewControllerWithHUDProgress<ViewControllerWithBaby, UITextFieldDelegate>
 
 @property Baby* baby;
 

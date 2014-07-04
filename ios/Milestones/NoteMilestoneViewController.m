@@ -44,7 +44,8 @@
   [[NSNotificationCenter defaultCenter] addObserver:self
                                            selector:@selector(keyboardWillBeHidden:)
                                                name:UIKeyboardWillHideNotification object:nil];
-  
+
+  [self.doneButton setTitleTextAttributes:@{NSFontAttributeName : [UIFont fontForAppWithType:Bold andSize:17]} forState:UIControlStateNormal];
   self.completionDateTextField.inputAccessoryView = nil;
 
   NSDictionary *linkAttributes = @{NSForegroundColorAttributeName: [UIColor appSelectedColor],
@@ -68,13 +69,15 @@
   _fbSwitch.thumbImage = [UIImage imageNamed:@"facebookSwitch"];
   _fbSwitch.thumbTintColor = UIColorFromRGB(0x3B5999); // Facebook color
   _fbSwitch.isRounded = NO;
-  _fbSwitch.onTintColor = [UIColor appBackgroundColor];
-  _fbSwitch.inactiveColor = [UIColor appBackgroundColor];
-  _fbSwitch.activeColor = [UIColor appInputBorderNormalColor];
+  _fbSwitch.inactiveColor = [UIColor appHeaderBackgroundNormalColor];
+  _fbSwitch.activeColor = [UIColor appHeaderBackgroundActiveColor];
   _fbSwitch.borderColor = [UIColor appInputBorderNormalColor];
   _fbSwitch.labelFont = [UIFont fontForAppWithType:Medium andSize:10];
+  
   _fbSwitch.onText = @"On";
   _fbSwitch.onFontColor = [UIColor appNormalColor];
+  _fbSwitch.onTintColor = [UIColor appHeaderBackgroundNormalColor];
+  
   _fbSwitch.offText = @"Off";
   _fbSwitch.offFontColor = UIColorFromRGB(0xb2c0c3);
   

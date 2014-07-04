@@ -688,7 +688,8 @@
                                     <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="screenNameTextField"/>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="didEndEditingScreenName:" destination="hRi-lO-rkm" eventType="editingDidEndOnExit" id="x8m-R7-rsE"/>
+                                    <action selector="didChangeScreenName:" destination="hRi-lO-rkm" eventType="editingChanged" id="o1n-aT-vA6"/>
+                                    <outlet property="delegate" destination="hRi-lO-rkm" id="tad-gb-cHm"/>
                                 </connections>
                             </textField>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="genderLines" translatesAutoresizingMaskIntoConstraints="NO" id="7AV-Yg-IC7">
