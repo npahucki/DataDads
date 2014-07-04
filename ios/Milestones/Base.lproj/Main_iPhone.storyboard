@@ -368,7 +368,7 @@
         <!--Baby Tags View Controller - Tags-->
         <scene sceneID="hOa-W5-RjM">
             <objects>
-                <viewController title="Tags" id="hr4-9U-bLr" customClass="BabyTagsViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="tagsViewColtroller" title="Tags" id="hr4-9U-bLr" customClass="BabyTagsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="1Zk-SL-GNf"/>
                         <viewControllerLayoutGuide type="bottom" id="EeI-XQ-Nyp"/>
@@ -437,11 +437,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Your Baby's Tags" prompt="Step 3 of 4 (Optional)" id="X8W-HA-qht">
                         <barButtonItem key="backBarButtonItem" title="Back" id="u6n-3P-oVr"/>
-                        <barButtonItem key="rightBarButtonItem" title="Next" id="I3c-Bn-qNB">
-                            <connections>
-                                <segue destination="hRi-lO-rkm" kind="push" id="gHb-B8-ZKU"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Next" id="I3c-Bn-qNB"/>
                     </navigationItem>
                     <connections>
                         <outlet property="addTagButton" destination="I0d-v9-pgN" id="uKY-3U-YLz"/>
@@ -499,7 +495,7 @@
                         <barButtonItem key="backBarButtonItem" title="Back" id="d0c-zp-rTK"/>
                         <barButtonItem key="rightBarButtonItem" title="Next" id="DjP-Df-ckD">
                             <connections>
-                                <segue destination="hr4-9U-bLr" kind="push" id="z1W-Ku-PFt"/>
+                                <segue destination="hRi-lO-rkm" kind="push" id="29r-sB-8Pv"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
