@@ -57,10 +57,10 @@
     // Account already exists (logged in before, perhaps with facebook).
     [self saveUserPreferences:parent];
   } else {
-    [self showInProgressHUDWithMessage:@"Creating your anonymous account" andAnimation:YES andDimmedBackground:YES];
+    [self showInProgressHUDWithMessage:@"Registering..." andAnimation:YES andDimmedBackground:YES];
     [PFAnonymousUtils logInWithBlock:^(PFUser *user, NSError *error) {
       if (error) {
-        [self showErrorThenRunBlock:error withMessage:@"Unable create your account" andBlock:nil];
+        [self showErrorThenRunBlock:error withMessage:@"Unable to register. Please check your internet connection and try again." andBlock:nil];
       } else {
         [self saveUserPreferences:(ParentUser*)user];
         [[PFInstallation currentInstallation] setObject:user forKey:@"user"];
