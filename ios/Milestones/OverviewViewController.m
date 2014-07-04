@@ -15,7 +15,7 @@
 -(void) viewDidLoad {
   [super viewDidLoad];
   NSAssert(Baby.currentBaby.name, @"Expected a current baby would be set before setting invoked");
-  
+  [self.doneButton setTitleTextAttributes:@{NSFontAttributeName : [UIFont fontForAppWithType:Bold andSize:17]} forState:UIControlStateNormal];
   self.milestoneCountLabel = [[UILabel alloc] initWithFrame:self.babyAvatar.frame];
   self.milestoneCountLabel.numberOfLines = 2;
   self.milestoneCountLabel.textAlignment = NSTextAlignmentCenter;

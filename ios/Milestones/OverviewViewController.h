@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *logOutOrSignUpButton;
 @property (strong, nonatomic) UILabel *milestoneCountLabel;
 @property NSInteger milestoneCount;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *doneButton;
 @end
 
 

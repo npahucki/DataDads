@@ -809,7 +809,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="About You" prompt="Step 4 of 4" id="WyB-iu-8mx">
-                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="Done" id="KHY-ig-GGg">
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" systemItem="done" id="KHY-ig-GGg">
                             <connections>
                                 <action selector="didClickDoneButton:" destination="hRi-lO-rkm" id="bEe-Df-JEy"/>
                             </connections>
@@ -1123,7 +1123,7 @@
                                 <action selector="didClickCancelButton:" destination="As4-O0-72y" id="j4H-8B-7jc"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Note It" id="dRV-0n-DZI">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="dRV-0n-DZI">
                             <connections>
                                 <action selector="didClickDoneButton:" destination="As4-O0-72y" id="XrG-MA-Ft1"/>
                             </connections>
@@ -1402,7 +1402,7 @@
                                     <constraint firstAttribute="height" constant="27" id="aOu-wd-Cwc"/>
                                 </constraints>
                                 <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" title="account settings" image="settingsIcon">
+                                <state key="normal" title="account preferences" image="settingsIcon">
                                     <color key="titleColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <state key="selected" image="settingsIcon_pressed"/>
@@ -1449,14 +1449,14 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Account" id="3nD-wd-fEG">
-                        <barButtonItem key="leftBarButtonItem" systemItem="done" id="XiA-te-TDF">
-                            <connections>
-                                <action selector="doneButtonClicked:" destination="5nR-pr-Hy0" id="pU3-vN-l5k"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="Hmd-6o-Qc5">
+                        <barButtonItem key="leftBarButtonItem" systemItem="edit" id="Hmd-6o-Qc5">
                             <connections>
                                 <segue destination="rhT-8r-6px" kind="modal" identifier="enterBabyInfo" modalTransitionStyle="flipHorizontal" id="zMK-LI-8Wn"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="vrj-Ou-eTO">
+                            <connections>
+                                <action selector="doneButtonClicked:" destination="5nR-pr-Hy0" id="YMM-jr-MyN"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -1466,6 +1466,7 @@
                         <outlet property="ageLabel" destination="gA7-xI-3xd" id="FHH-d9-s68"/>
                         <outlet property="babyAvatar" destination="WGV-my-gNj" id="2Ff-yH-tuj"/>
                         <outlet property="babyNameLabel" destination="ebC-H6-wqr" id="Wbi-QU-FcB"/>
+                        <outlet property="doneButton" destination="vrj-Ou-eTO" id="tAM-AX-x1y"/>
                         <outlet property="logOutOrSignUpButton" destination="CyV-Rt-NSy" id="SUD-F2-EYE"/>
                     </connections>
                 </viewController>
@@ -2083,8 +2084,8 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="zMK-LI-8Wn"/>
         <segue reference="gfX-BP-v4v"/>
+        <segue reference="zMK-LI-8Wn"/>
         <segue reference="9u5-1o-6Cv"/>
     </inferredMetricsTieBreakers>
 </document>

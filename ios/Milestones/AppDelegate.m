@@ -85,7 +85,6 @@
   
   
   [[UINavigationBar appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:16.0], NSForegroundColorAttributeName : [UIColor appTitleHeaderColor]}];
-  //[[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"header.png"] forBarMetrics:UIBarMetricsDefault];
   
   [[UINavigationBar appearance] setBackgroundImage:[[UIImage alloc] init]
                                     forBarPosition:UIBarPositionAny
@@ -96,11 +95,9 @@
   [UINavigationBar appearance].barTintColor = [UIColor appBackgroundColor];
   
   [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Medium andSize:17.0], NSForegroundColorAttributeName : [UIColor appNormalColor]} forState:UIControlStateNormal];
-  [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:17.0], NSForegroundColorAttributeName : [UIColor appSelectedColor]} forState:UIControlStateHighlighted];
-  [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:17.0], NSForegroundColorAttributeName : [UIColor appGreyTextColor]} forState:UIControlStateDisabled];
-
-  [[UITabBarItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Light andSize:13.0], NSForegroundColorAttributeName : [UIColor appHeaderNormalTextColor]} forState:UIControlStateNormal];
-  [[UITabBarItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Light andSize:13.0],NSForegroundColorAttributeName : [UIColor appNormalColor]} forState:UIControlStateSelected];
+  
+  [[UITabBarItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Medium andSize:13.0], NSForegroundColorAttributeName : [UIColor appHeaderNormalTextColor]} forState:UIControlStateNormal];
+  [[UITabBarItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Medium andSize:13.0],NSForegroundColorAttributeName : [UIColor appNormalColor]} forState:UIControlStateSelected];
   [UITabBar appearance].selectedImageTintColor = [UIColor appNormalColor];
   [UITabBar appearance].backgroundColor = [UIColor appBackgroundColor];
 
