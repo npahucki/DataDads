@@ -347,6 +347,12 @@
   } else {
     BOOL ignored = buttonIndex == 0;
     BOOL postponed = buttonIndex == 1;
+    BOOL noteIt = buttonIndex == 2;
+    
+    if(noteIt) {
+      [self.delegate standardMilestoneClicked:((MilestoneTableViewCell*)cell).milestone];
+      return;
+    }
     
     if(ignored && ParentUser.currentUser.showIgnoredMilestones) {
       [[[UIAlertView alloc] initWithTitle:@"Can't do that" message:@"While showing ignored milestones you can not ignore a milestone. Turn off 'Show Ignored Milestones' in settings if you want to ignore this milestone." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];

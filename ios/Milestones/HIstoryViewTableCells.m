@@ -163,6 +163,7 @@
   NSMutableArray *rightUtilityButtons = [NSMutableArray new];
   [rightUtilityButtons sw_addUtilityButtonWithColor: [UIColor appNormalColor] title:@"Ignore"];
   [rightUtilityButtons sw_addUtilityButtonWithColor: [UIColor appSelectedColor] title:@"Postpone"];
+  [rightUtilityButtons sw_addUtilityButtonWithColor: [UIColor appHeaderBackgroundActiveColor] title:@"Note It"];
   self.rightUtilityButtons = rightUtilityButtons;
   
 }
