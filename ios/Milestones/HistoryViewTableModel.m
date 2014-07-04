@@ -232,11 +232,13 @@ typedef void (^StandardMilestoneResultBlock)(NSNumber * totalCount, NSArray *obj
 -(void) markPastMilestone:(NSInteger)index ignored:(BOOL) ignored postponed:(BOOL) postponed {
   [self markMilestone:_pastMilestones[index] ignored:ignored postponed:postponed];
   [(NSMutableArray*) _pastMilestones removeObjectAtIndex:index];
+  _countOfPastMilestones--;
 }
 
 -(void) markFutureMilestone:(NSInteger)index ignored:(BOOL) ignored postponed:(BOOL) postponed {
   [self markMilestone:_futureMilestones[index] ignored:ignored postponed:postponed];
   [(NSMutableArray*) _futureMilestones removeObjectAtIndex:index];
+  _countOfFutureMilestones--;
 }
 
 -(void) markMilestone:(StandardMilestone *)milestone ignored:(BOOL) ignored postponed:(BOOL) postponed {
@@ -255,6 +257,7 @@ typedef void (^StandardMilestoneResultBlock)(NSNumber * totalCount, NSArray *obj
 }
 
 -(NSInteger) addNewAchievement:(MilestoneAchievement *) achievement {
+  _countOfAchievements++;
   // The achievement are already sorted by completion date (descending), so we need to run through the list and
   // find the appropriate place to insert it. We could insert and sort the list again, but we would then not
   // know where the item ended up in the list, which is needed to know which parts of the table to update.
@@ -272,12 +275,12 @@ typedef void (^StandardMilestoneResultBlock)(NSNumber * totalCount, NSArray *obj
     [(NSMutableArray*)_achievements insertObject:achievement atIndex:idx];
     return idx;
   }
-  
 }
 
 -(MilestoneAchievement *) deleteAchievementAtIndex:(NSInteger) index {
   MilestoneAchievement * achievement = _achievements[index];
   [((NSMutableArray*)_achievements) removeObjectAtIndex:index];
+  _countOfAchievements--;
   [achievement deleteEventually];
   return achievement;
 }

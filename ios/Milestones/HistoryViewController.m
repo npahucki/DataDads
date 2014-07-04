@@ -25,6 +25,12 @@
   HistoryTableHeaderView * _floatingAchievementsHeaderView;
   HistoryTableHeaderView * _floatingPastMilestonesHeaderView;
   HistoryTableHeaderView * _floatingFutureMilestonesHeaderView;
+
+  HistoryTableHeaderView * _rovingAchievementsHeaderView;
+  HistoryTableHeaderView * _rovingPastMilestonesHeaderView;
+  HistoryTableHeaderView * _rovingFutureMilestonesHeaderView;
+
+  
   
   NSIndexPath * _pendingNextPageTriggerIndex;
   BOOL _isJumpingToIndex;
@@ -159,7 +165,8 @@
   [self.tableView endUpdates];
   [CATransaction commit];
   [UIView commitAnimations];
-
+  
+  [self recalcHeaderCounts];
 }
 
 -(void) viewDidLayoutSubviews {
@@ -208,7 +215,10 @@
 }
 
 -(HistoryTableHeaderView *)tableView:(UITableView *)tableView viewForFloatingHeaderInSection:(NSInteger)section {
-  HistoryTableHeaderView * floater = (HistoryTableHeaderView *) [self tableView:tableView viewForHeaderInSection:section];
+  HistoryTableHeaderView * floater = [[HistoryTableHeaderView alloc] initWithFrame:CGRectMake(0,0,tableView.frame.size.width,[self tableView:tableView heightForHeaderInSection:section])];
+  floater.title = [_dataSource tableView:tableView titleForHeaderInSection:section];
+  floater.count = [_model countOfFutureMilestones];
+
   floater.opaque = YES;
   floater.hidden = YES;
   floater.userInteractionEnabled = YES;
@@ -219,20 +229,32 @@
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-  HistoryTableHeaderView * headerView = [[HistoryTableHeaderView alloc] initWithFrame:CGRectMake(0,0,tableView.frame.size.width,[self tableView:tableView heightForHeaderInSection:section])];
-  headerView.title = [_dataSource tableView:tableView titleForHeaderInSection:section];
   switch (section) {
     case FutureMilestoneSection:
-      headerView.count = [_model countOfFutureMilestones];
-      break;
+      if(!_rovingFutureMilestonesHeaderView) {
+        _rovingFutureMilestonesHeaderView = [[HistoryTableHeaderView alloc] initWithFrame:CGRectMake(0,0,tableView.frame.size.width,[self tableView:tableView heightForHeaderInSection:section])];
+        _rovingFutureMilestonesHeaderView.title = [_dataSource tableView:tableView titleForHeaderInSection:section];
+        _rovingFutureMilestonesHeaderView.count = [_model countOfFutureMilestones];
+      }
+      return _rovingFutureMilestonesHeaderView;
     case PastMilestoneSection:
-      headerView.count = [_model countOfPastMilestones];
-      break;
+      if(!_rovingPastMilestonesHeaderView) {
+        _rovingPastMilestonesHeaderView = [[HistoryTableHeaderView alloc] initWithFrame:CGRectMake(0,0,tableView.frame.size.width,[self tableView:tableView heightForHeaderInSection:section])];
+        _rovingPastMilestonesHeaderView.title = [_dataSource tableView:tableView titleForHeaderInSection:section];
+        _rovingPastMilestonesHeaderView.count = [_model countOfPastMilestones];
+      }
+      return _rovingPastMilestonesHeaderView;
     case AchievementSection:
-      headerView.count = [_model countOfAchievements];
-      break;
+      if(!_rovingAchievementsHeaderView) {
+        _rovingAchievementsHeaderView = [[HistoryTableHeaderView alloc] initWithFrame:CGRectMake(0,0,tableView.frame.size.width,[self tableView:tableView heightForHeaderInSection:section])];
+        _rovingAchievementsHeaderView.title = [_dataSource tableView:tableView titleForHeaderInSection:section];
+        _rovingAchievementsHeaderView.count = [_model countOfAchievements];
+      }
+      return _rovingAchievementsHeaderView;
+    default:
+      NSAssert(NO,@"Invalid section type with number %ld",(long) section);
+      return nil;
   }
-  return headerView;
 }
 
 
@@ -313,7 +335,8 @@
       [self.tableView reloadRowsAtIndexPaths:[self reloadPathsForRemovedCell:path] withRowAnimation:UITableViewRowAnimationNone];
       MilestoneAchievement * deletedAchievement = [_model deleteAchievementAtIndex:path.row];
       [self.tableView endUpdates];
-      // Put the thing back in the milestone list. 
+      [self recalcHeaderCounts];
+      // Put the thing back in the milestone list.
       // TODO: Inject back into table, avoid reloading!
       if(deletedAchievement.standardMilestone) {
         // need to put this back into the list.
@@ -346,14 +369,15 @@
       [_model markFutureMilestone:index ignored:ignored postponed:postponed];
     }
     [self.tableView endUpdates];
+    [self recalcHeaderCounts];
   }
 }
 
 #pragma mark - HistoryViewTableModelDelegate
 
 -(void) didLoadAchievementsAtPageIndex:(NSInteger)pageIndex {
-  _floatingAchievementsHeaderView.count = _model.countOfAchievements;
-  [self.tableView reloadData];
+  [self.tableView reloadData]; // use instead of relaod section which makes the table jump!
+  [self recalcHeaderCounts];
   if(pageIndex == 0 && !_didInitialLoad) {
     [self scrollToFirstAchievement];
   }
@@ -365,8 +389,8 @@
 }
 
 -(void) didLoadFutureMilestonesAtPageIndex:(NSInteger)pageIndex {
-  _floatingFutureMilestonesHeaderView.count = _model.countOfFutureMilestones;
   [self.tableView reloadData]; // use instead of relaod section which makes the table jump!
+  [self recalcHeaderCounts];
   if(pageIndex > 0) {
     if(_lastTableSize.height > 0) {
       CGPoint afterContentOffset = self.tableView.contentOffset;
@@ -392,8 +416,8 @@
 }
 
 -(void) didLoadPastMilestonesAtPageIndex:(NSInteger)pageIndex {
-  _floatingPastMilestonesHeaderView.count = _model.countOfPastMilestones;
   [self.tableView reloadData];
+  [self recalcHeaderCounts];
   if(!_didInitialLoad) {
       [self scrollToFirstAchievement];
   }
@@ -406,6 +430,15 @@
 
 
 #pragma mark Floating Headers
+
+-(void) recalcHeaderCounts {
+  _floatingAchievementsHeaderView.count = _model.countOfAchievements;
+  _floatingFutureMilestonesHeaderView.count = _model.countOfFutureMilestones;
+  _floatingPastMilestonesHeaderView.count = _model.countOfPastMilestones;
+  _rovingAchievementsHeaderView.count = _model.countOfAchievements;
+  _rovingFutureMilestonesHeaderView.count = _model.countOfFutureMilestones;
+  _rovingPastMilestonesHeaderView.count = _model.countOfPastMilestones;
+}
 
 -(void) layoutFloatingHeaders {
   int tableHeight = self.tableView.frame.size.height;
