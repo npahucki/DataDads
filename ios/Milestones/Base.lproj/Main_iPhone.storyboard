@@ -1771,7 +1771,7 @@
         <!--Notifications Controller - Tips and Notifications-->
         <scene sceneID="wpd-Sx-yxh">
             <objects>
-                <viewController title="Tips and Notifications" id="JLc-Bz-ofC" userLabel="Notifications Controller - Tips and Notifications" customClass="MainNotificationsViewController" sceneMemberID="viewController">
+                <viewController title="Tips" id="JLc-Bz-ofC" userLabel="Notifications Controller - Tips and Notifications" customClass="MainNotificationsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="hkV-TT-P7k"/>
                         <viewControllerLayoutGuide type="bottom" id="pw7-7J-THh"/>
@@ -1796,7 +1796,7 @@
                                     <segue destination="63e-7e-17H" kind="embed" id="7DP-Eo-Re4"/>
                                 </connections>
                             </containerView>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="2" translatesAutoresizingMaskIntoConstraints="NO" id="hK7-AD-CNp">
+                            <segmentedControl hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="2" translatesAutoresizingMaskIntoConstraints="NO" id="hK7-AD-CNp">
                                 <rect key="frame" x="8" y="52" width="304" height="29"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <segments>
@@ -1824,7 +1824,7 @@
                             <constraint firstItem="uzW-c1-zNY" firstAttribute="top" secondItem="hK7-AD-CNp" secondAttribute="bottom" constant="2" id="raG-qh-1Oh"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Notifications" id="k5z-id-eI8"/>
+                    <navigationItem key="navigationItem" title="Tips" id="k5z-id-eI8"/>
                     <nil key="simulatedStatusBarMetrics"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <nil key="simulatedBottomBarMetrics"/>
@@ -2026,11 +2026,11 @@
             </objects>
             <point key="canvasLocation" x="4158" y="-65"/>
         </scene>
-        <!--Navigation Controller - Tips & Warnings-->
+        <!--Navigation Controller - Tips-->
         <scene sceneID="kAc-OT-5lo">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="m8v-2N-ncs" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Tips &amp; Warnings" image="tipsIcon" badgeValue="2" id="eLA-ls-ENZ"/>
+                    <tabBarItem key="tabBarItem" title="Tips" image="tipsIcon" badgeValue="2" id="eLA-ls-ENZ"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="rZ5-E2-EpP">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
