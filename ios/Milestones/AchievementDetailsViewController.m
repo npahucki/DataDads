@@ -8,6 +8,7 @@
 
 #import "AchievementDetailsViewController.h"
 #import "WebViewerViewController.h"
+#import "NSDate+Utils.m"
 
 @interface AchievementDetailsViewController ()
 
@@ -33,6 +34,7 @@ NSDateFormatter * _dateFormatter;
   NSAssert(self.achievement,@"Expected Achievement to be set before loading view!");
 
   self.detailsTextView.delegate = self;
+  self.rangleScaleLabel.font = [UIFont fontForAppWithType:Light andSize:11];
   NSDictionary *linkAttributes = @{NSForegroundColorAttributeName: [UIColor appSelectedColor],
                                    NSUnderlineColorAttributeName: [UIColor appSelectedColor],
                                    NSUnderlineStyleAttributeName: @(NSUnderlinePatternSolid)};
@@ -45,17 +47,6 @@ NSDateFormatter * _dateFormatter;
     self.achievement.baby = Baby.currentBaby;
   }
   
-  if(!self.isCustom) {
-    // Calculate the percentile
-    [self.achievement calculatePercentileRankingWithBlock:^(float percentile) {
-      if(percentile > 0) {
-        _percentile = percentile;
-        self.detailsTextView.attributedText = [self createTitleTextFromAchievement];
-      }
-    }];
-  }
-
-  
   // Start with the thumbnail (if loaded), then load the bigger one later on.
   PFFile * thumbnailImageFile = self.achievement.attachmentThumbnail ? self.achievement.attachmentThumbnail : self.achievement.baby.avatarImageThumbnail;
   [thumbnailImageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
@@ -63,8 +54,13 @@ NSDateFormatter * _dateFormatter;
       self.detailsImageButton.alpha = self.achievement.attachmentThumbnail ? 1.0 : 0.3;
   }];
 
+  self.rangeIndicatorView.rangeScale = 5 * 365;
+  self.rangeIndicatorView.rangeReferencePoint = [Baby.currentBaby.birthDate daysDifference:self.achievement.completionDate];
+  
+  // TODO: Cloud function to do all this in one shot!
   [self.achievement fetchInBackgroundWithBlock:^(PFObject *object, NSError *error) {
     if(!error) {
+      // Get achievement details and image
       self.achievement = (MilestoneAchievement*) object;
       BOOL hasImageAttachment = self.achievement.attachment && [self.achievement.attachmentType rangeOfString:@"image"].location != NSNotFound;
       PFFile * imageFile = hasImageAttachment ?  self.achievement.attachment : self.achievement.baby.avatarImage;
@@ -73,20 +69,38 @@ NSDateFormatter * _dateFormatter;
           if(!error) {
             [self.detailsImageButton setImage:[UIImage imageWithData:data] forState:UIControlStateNormal];
             self.detailsImageButton.alpha = hasImageAttachment ? 1.0 : 0.3;
+          } else {
+            [UsageAnalytics trackError:error forOperationNamed:@"FetchSingleAchievement" andAdditionalProperties:@{@"id" : self.achievement.objectId}];
+          }
+        }];
+      }
+
+      // Get the standard milestone data if available
+      if(self.achievement.standardMilestone) {
+        [self.achievement.standardMilestone fetchInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+          if(!error) {
+            StandardMilestone * milestone =(StandardMilestone*)object;
+            self.rangeIndicatorView.startRange = milestone.rangeLow.integerValue;
+            self.rangeIndicatorView.endRange = milestone.rangeHigh.integerValue;
+            self.detailsTextView.attributedText = [self createTitleTextFromAchievement];
+            
+            // Show the percentile
+            if(milestone.canCompare) {
+              [self.achievement calculatePercentileRankingWithBlock:^(float percentile) {
+                if(percentile > 0) {
+                  if(percentile > 50) {
+                    self.statusImageView.image = [UIImage imageNamed:@"completedAhead"];
+                  }
+                }
+              }];
+            }
+          } else {
+            [UsageAnalytics trackError:error forOperationNamed:@"FetchSingleStandardMilestone" andAdditionalProperties:@{@"id" : self.achievement.standardMilestone.objectId}];
           }
         }];
       }
     }
   }];
-  
-  // Make the bottom of the Text field fade out
-  CAGradientLayer *l = [CAGradientLayer layer];
-  l.frame = self.detailsTextViewContainerView.bounds;
-  l.colors = [NSArray arrayWithObjects:(id)[UIColor whiteColor].CGColor, (id)[UIColor clearColor].CGColor, nil];
-  l.startPoint = CGPointMake(0.5f, 0.5f);
-  l.endPoint = CGPointMake(0.5f, 1.0f);
-  self.detailsTextViewContainerView.layer.mask = l;
-  
   
 }
 
@@ -98,40 +112,28 @@ NSDateFormatter * _dateFormatter;
   [super viewDidLayoutSubviews];
   self.detailsTextView.attributedText = [self createTitleTextFromAchievement];
   [self.detailsTextView  setContentOffset:CGPointZero animated:NO];
+  
+  // Make the bottom of the Text field fade out
+  CAGradientLayer *l = [CAGradientLayer layer];
+  l.frame = self.detailsTextViewContainerView.bounds;
+  l.colors = [NSArray arrayWithObjects:(id)[UIColor whiteColor].CGColor, (id)[UIColor clearColor].CGColor, nil];
+  l.startPoint = CGPointMake(0.5f, 0.5f);
+  l.endPoint = CGPointMake(0.5f, 1.0f);
+  self.detailsTextViewContainerView.layer.mask = l;
+  
 }
 
 -(NSAttributedString *) createTitleTextFromAchievement {
   StandardMilestone * m = self.achievement.standardMilestone;
   NSAttributedString * lf = [[NSAttributedString alloc] initWithString:@"\n"];
   NSMutableAttributedString *attrText = [[NSMutableAttributedString alloc] init];
-  NSDictionary *dataLabelTextAttributes = @{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:15.0], NSForegroundColorAttributeName: [UIColor blackColor]};
-  NSDictionary *dataValueTextAttributes = @{NSFontAttributeName: [UIFont fontForAppWithType:Medium andSize:15.0], NSForegroundColorAttributeName: [UIColor blackColor]};
+  NSDictionary *dataLabelTextAttributes = @{NSFontAttributeName: [UIFont fontForAppWithType:Medium andSize:13.0], NSForegroundColorAttributeName: [UIColor blackColor]};
+  NSDictionary *dataValueTextAttributes = @{NSFontAttributeName: [UIFont fontForAppWithType:Light andSize:13.0], NSForegroundColorAttributeName: [UIColor blackColor]};
   
   // Title - Always use the custom title if not empty, this way, if later on we link a standard milestone, we still read the text that we enetered.
-  NSAttributedString * titleString = [[NSAttributedString alloc] initWithString:self.achievement.displayTitle attributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:15.0], NSForegroundColorAttributeName: [UIColor appNormalColor]}];
+  NSAttributedString * titleString = [[NSAttributedString alloc] initWithString:self.achievement.displayTitle attributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:13.0], NSForegroundColorAttributeName: [UIColor appNormalColor]}];
   [attrText appendAttributedString:titleString];
   [attrText appendAttributedString:lf];
-  
-//  // Desscription
-//  if(_shortDescription) {
-//    NSAttributedString * descriptionString = [[NSAttributedString alloc] initWithString:_shortDescription attributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Medium andSize:14.0], NSForegroundColorAttributeName: [UIColor appGreyTextColor]}];
-//    [attrText appendAttributedString:descriptionString];
-//    [attrText appendAttributedString:lf];
-//  }
-
-  // TODO: Figure out relative score
-  if(_percentile > 0) {
-    NSString * msg;
-    if(_percentile > 70) {
-      msg = [NSString stringWithFormat:@"Congrats! %@ is ahead of %.02f%% of other babies for this milestone!", self.achievement.baby.name,_percentile];
-    } else {
-      msg = [NSString stringWithFormat:@"%@ is in the %.02fth percentile for this milestone.", self.achievement.baby.name,_percentile];
-    }
-    NSAttributedString * placementString = [[NSAttributedString alloc] initWithString:msg attributes:@{NSFontAttributeName: [UIFont fontForAppWithType:BoldItalic andSize:15.0], NSForegroundColorAttributeName: [UIColor appSelectedColor]}];
-    [attrText appendAttributedString:lf];
-    [attrText appendAttributedString:placementString];
-    [attrText appendAttributedString:lf];
-  }
   
   // Comments
   if(self.achievement.comment.length) {
@@ -150,15 +152,6 @@ NSDateFormatter * _dateFormatter;
   [attrText appendAttributedString:completedOnLabel];
   [attrText appendAttributedString:completedOnValue];
   [attrText appendAttributedString:lf];
-  
-  // Range
-  if(!self.isCustom) {
-    NSAttributedString * rangeLabel = [[NSAttributedString alloc] initWithString:@"Typical Completion Range: " attributes:dataLabelTextAttributes];
-    NSAttributedString * rangeValue = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ to %@ days",m.rangeLow,m.rangeHigh] attributes:dataValueTextAttributes];
-    [attrText appendAttributedString:rangeLabel];
-    [attrText appendAttributedString:rangeValue];
-    [attrText appendAttributedString:lf];
-  }
   
   if(m.url) {
     [attrText appendAttributedString:lf];

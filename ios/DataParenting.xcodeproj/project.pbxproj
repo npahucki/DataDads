@@ -347,6 +347,8 @@
 		E856BD501963210C00D00E5C /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
+				E89AC325195B029600AD3869 /* RangeIndicatorView.h */,
+				E89AC326195B029600AD3869 /* RangeIndicatorView.m */,
 				E856BD451962DB1C00D00E5C /* NoConnectionAlertView.xib */,
 				E856BD4D1962DDDB00D00E5C /* NoConnectionAlertView.h */,
 				E856BD4E1962DDDB00D00E5C /* NoConnectionAlertView.m */,
@@ -457,8 +459,6 @@
 				E89035EE1934C97F004A4013 /* AchievementDetailsViewController.m */,
 				E8D00A1E188F435300DF2786 /* NoteMilestoneViewController.h */,
 				E8D00A1F188F435300DF2786 /* NoteMilestoneViewController.m */,
-				E89AC325195B029600AD3869 /* RangeIndicatorView.h */,
-				E89AC326195B029600AD3869 /* RangeIndicatorView.m */,
 				E8255DE2195CF3710008B82F /* HistoryTableHeaderView.h */,
 				E8255DE3195CF3710008B82F /* HistoryTableHeaderView.m */,
 				E825C1C9195B5B010081614F /* HIstoryViewTableCells.h */,

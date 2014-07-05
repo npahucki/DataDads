@@ -14,6 +14,7 @@
 #define SELECTED_FILL_COLOR [UIColor colorWithRed: (float)198 / 255 green:(float)221 / 255 blue:(float)225 / 255 alpha:1.0].CGColor
 #define BORDER_COLOR [UIColor appGreyTextColor].CGColor
 #define BORDER_WIDTH 3
+#define REFERENCE_SIZE 7
 #define ANIMATION_DURATION 1;
 
 
@@ -110,22 +111,38 @@
 @implementation RangeIndicatorView {
   PieSliceLayer * _shapeLayer;
   CAShapeLayer * _circleLayer;
+  CAShapeLayer * _referencePointLayer;
   NSInteger _startRange;
   NSInteger _endRange;
   NSInteger _rangeScale;
+  NSInteger _rangeReferencePoint;
 }
 
-- (id)initWithFrame:(CGRect)frame
-{
+- (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
-  
-    if (self) {
-      _shapeLayer = [[PieSliceLayer alloc] init];
-      _shapeLayer.frame = CGRectZero; // Don't show, this will also keep the layer form being drawn.
-      _shapeLayer.contentsScale = [[UIScreen mainScreen] scale];
-      [self.layer addSublayer:_shapeLayer];
-    }
+    [self initShapeLayer];
     return self;
+}
+
+-(id) initWithCoder:(NSCoder *)aDecoder {
+  // Called when used from storyboard
+  self = [super initWithCoder:aDecoder];
+  [self initShapeLayer];
+  return self;
+}
+
+-(void) initShapeLayer {
+  _shapeLayer = [[PieSliceLayer alloc] init];
+  _shapeLayer.frame = CGRectZero; // Don't show, this will also keep the layer form being drawn.
+  _shapeLayer.contentsScale = [[UIScreen mainScreen] scale];
+  [self.layer addSublayer:_shapeLayer];
+  
+  _circleLayer = [CAShapeLayer layer];
+  _circleLayer.fillColor = [UIColor clearColor].CGColor;
+  _circleLayer.strokeColor = BORDER_COLOR;
+  _circleLayer.lineWidth = BORDER_WIDTH;
+  [self.layer insertSublayer:_circleLayer below:_shapeLayer];
+  
 }
 
 -(NSInteger) startRange {
@@ -139,7 +156,6 @@
   NSAssert(_rangeScale > 0,@"Expected rangeScale to be set first!");
   NSAssert(startRange >= 0,@"startRange(%ld) must be greater than 0", (long)startRange);
   _startRange = startRange;
-  
   // Get ratio of start range to max
   float ratio = (float)_startRange / (float) _rangeScale;
   _shapeLayer.startAngle = (2 * M_PI * ratio) - M_PI / 2; // Quarter turn left
@@ -153,31 +169,56 @@
   _shapeLayer.endAngle = (2 * M_PI * ratio) - M_PI / 2; // Quarter turn left
 }
 
+-(void) setRangeReferencePoint:(NSInteger)rangeReferencePoint {
+  _rangeReferencePoint = rangeReferencePoint;
+  if(!_referencePointLayer) {
+    _referencePointLayer = [CAShapeLayer layer];
+    _referencePointLayer.fillColor = [UIColor whiteColor].CGColor;
+    _referencePointLayer.strokeColor = [UIColor appNormalColor].CGColor;
+    _referencePointLayer.lineWidth = 2;
+    [self.layer insertSublayer:_referencePointLayer above:_shapeLayer];
+  }
+  [self setNeedsLayout];
+}
+
+-(NSInteger) rangeReferencePoint {
+  return _rangeReferencePoint;
+}
+
+
 -(void) setRangeScale:(NSInteger)rangeScale {
   NSAssert(rangeScale > 0,@"Expected rangeScale to be greater than 0!");
   _rangeScale = rangeScale;
-  _shapeLayer.frame = self.bounds; // Show the indicator.
+  [self setNeedsLayout];
 }
 
 -(NSInteger) rangeScale {
   return _rangeScale;
 }
 
-- (void)setFrame:(CGRect)frame {
-  [super setFrame:frame];
-  if(_rangeScale > 0 && frame.size.height > 0 && frame.size.width > 0) {
+-(void) layoutSubviews {
+  [super layoutSubviews];
+  if(_rangeScale > 0 && self.frame.size.height > 0 && self.frame.size.width > 0) {
     _shapeLayer.frame = self.bounds; // Show the indicator.
-    
-    if(!_circleLayer) {
-      _circleLayer = [CAShapeLayer layer];
-      _circleLayer.fillColor = [UIColor clearColor].CGColor;
-      _circleLayer.strokeColor = BORDER_COLOR;
-      _circleLayer.lineWidth = BORDER_WIDTH;
-      [self.layer insertSublayer:_circleLayer below:_shapeLayer];
+    _circleLayer.frame = self.bounds;
+
+    CGRect circleRect = CGRectInset(self.bounds,BORDER_WIDTH,BORDER_WIDTH);
+    _circleLayer.path = [UIBezierPath bezierPathWithOvalInRect:circleRect].CGPath;
+
+    if(_referencePointLayer) {
+      float ratio = (float)_rangeReferencePoint / (float) _rangeScale;
+      float referenceAngle = M_PI* ((ratio * 360.0) - 180.0) / 180.0;
+      float radius = circleRect.size.height / 2.0;
+      float x =  radius - ((radius) * sin(referenceAngle));
+      float y =  radius + ((radius) * cos(referenceAngle));
+      _referencePointLayer.position = CGPointMake(x,y);
+      _referencePointLayer.path = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(0,0,REFERENCE_SIZE,REFERENCE_SIZE)].CGPath;
+
     }
-    _circleLayer.path = [UIBezierPath bezierPathWithOvalInRect:CGRectInset(self.bounds,BORDER_WIDTH,BORDER_WIDTH)].CGPath;
+    
   }
 }
+
 
 
 @end

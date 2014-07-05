@@ -16,4 +16,6 @@
 @property NSInteger startRange;
 @property NSInteger endRange;
 
+@property NSInteger rangeReferencePoint; // If less than 0, not shown.
+
 @end
