@@ -36,9 +36,9 @@
     case FutureMilestoneSection:
       return @"Upcoming Milestones";
     case PastMilestoneSection:
-      return @"Past Milestones";
+      return @"Noted Milestones";
     case AchievementSection:
-      return @"Completed Milestones";
+      return @"Outgrown Milestones";
     default:
       NSAssert(NO,@"Invalid section type with number %ld", (long)section);
       return nil;
