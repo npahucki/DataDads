@@ -19,4 +19,5 @@
 
 @property (weak, nonatomic) IBOutlet UIView *detailsTextViewContainerView;
 @property (weak, nonatomic) IBOutlet UIButton *detailsImageButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *actionBarButton;
 @end

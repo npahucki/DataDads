@@ -117,9 +117,14 @@
                     </view>
                     <navigationItem key="navigationItem" title="Details" id="23o-jy-TLD">
                         <barButtonItem key="backBarButtonItem" title="Back" id="teX-eU-pym"/>
-                        <barButtonItem key="rightBarButtonItem" enabled="NO" systemItem="action" id="9sO-vf-wct"/>
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" systemItem="action" id="9sO-vf-wct">
+                            <connections>
+                                <action selector="didClickActionButton:" destination="eNM-aT-BTU" id="GpA-YC-VZi"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="actionBarButton" destination="9sO-vf-wct" id="IKU-0l-oE2"/>
                         <outlet property="detailsImageButton" destination="koa-H7-Px9" id="XsF-kQ-ftY"/>
                         <outlet property="detailsTextView" destination="JKB-u4-xbU" id="fuV-IC-H7K"/>
                         <outlet property="detailsTextViewContainerView" destination="hvI-wA-MYI" id="OcJ-j3-2kv"/>
