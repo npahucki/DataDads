@@ -40,7 +40,6 @@ NSDateFormatter * _dateFormatter;
                                    NSUnderlineStyleAttributeName: @(NSUnderlinePatternSolid)};
   self.detailsTextView.linkTextAttributes = linkAttributes; // customizes the appearance of links
 
-
   // The references we have when these objects are loaded, do not have all the baby info in them, so we swap them out here.
   if(!self.achievement.baby.isDataAvailable) {
     NSAssert([self.achievement.baby.objectId isEqualToString:Baby.currentBaby.objectId],@"Expected achievements for current baby only!");
@@ -83,8 +82,7 @@ NSDateFormatter * _dateFormatter;
             StandardMilestone * milestone =(StandardMilestone*)object;
             self.rangeIndicatorView.startRange = milestone.rangeLow.integerValue;
             self.rangeIndicatorView.endRange = milestone.rangeHigh.integerValue;
-            self.detailsTextView.attributedText = [self createTitleTextFromAchievement];
-            
+            [self updateTitleTextFromAchievement];
             // Show the percentile
             if(milestone.canCompare) {
               [self.achievement calculatePercentileRankingWithBlock:^(float percentile) {
@@ -103,6 +101,8 @@ NSDateFormatter * _dateFormatter;
     }
   }];
   
+  [self updateTitleTextFromAchievement];
+  
 }
 
 -(BOOL) isCustom {
@@ -111,28 +111,10 @@ NSDateFormatter * _dateFormatter;
 
 -(void) viewDidLayoutSubviews {
   [super viewDidLayoutSubviews];
-  self.detailsTextView.attributedText = [self createTitleTextFromAchievement];
-  [self.detailsTextView  setContentOffset:CGPointZero animated:NO];
-
   // Center the text veritcally in the TextView
-  CGFloat requiredHeight = [self.detailsTextView sizeThatFits:CGSizeMake([self.detailsTextView contentSize].width, FLT_MAX)].height;
-  if(requiredHeight < self.detailsTextView.contentSize.height) {
-    CGFloat offset = self.detailsTextView.contentSize.height - requiredHeight;
-    self.detailsTextView.contentInset = UIEdgeInsetsMake(offset / 2 ,0, offset / 2,0);
-  }
-
-  
-  // Make the bottom of the Text field fade out
-  CAGradientLayer *l = [CAGradientLayer layer];
-  l.frame = self.detailsTextViewContainerView.bounds;
-  l.colors = [NSArray arrayWithObjects:(id)[UIColor whiteColor].CGColor, (id)[UIColor clearColor].CGColor, nil];
-  l.startPoint = CGPointMake(0.5f, 0.5f);
-  l.endPoint = CGPointMake(0.5f, 1.0f);
-  self.detailsTextViewContainerView.layer.mask = l;
-  
 }
 
--(NSAttributedString *) createTitleTextFromAchievement {
+-(void) updateTitleTextFromAchievement {
   StandardMilestone * m = self.achievement.standardMilestone;
   NSAttributedString * lf = [[NSAttributedString alloc] initWithString:@"\n"];
   NSMutableAttributedString *attrText = [[NSMutableAttributedString alloc] init];
@@ -142,27 +124,27 @@ NSDateFormatter * _dateFormatter;
   // Title - Always use the custom title if not empty, this way, if later on we link a standard milestone, we still read the text that we enetered.
   NSAttributedString * titleString = [[NSAttributedString alloc] initWithString:self.achievement.displayTitle attributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:13.0], NSForegroundColorAttributeName: [UIColor appNormalColor]}];
   [attrText appendAttributedString:titleString];
-  [attrText appendAttributedString:lf];
   
   // Comments
   if(self.achievement.comment.length) {
+    [attrText appendAttributedString:lf];
     NSAttributedString * commentsLabel = [[NSAttributedString alloc] initWithString:@"Comments: " attributes:dataLabelTextAttributes];
     NSAttributedString * commentsValue = [[NSAttributedString alloc] initWithString:self.achievement.comment attributes:dataValueTextAttributes];
     [attrText appendAttributedString:lf];
     [attrText appendAttributedString:commentsLabel];
     [attrText appendAttributedString:commentsValue];
-    [attrText appendAttributedString:lf];
   }
   
   // Completion date
   NSAttributedString * completedOnLabel = [[NSAttributedString alloc] initWithString:@"Completed On: " attributes:dataLabelTextAttributes];
   NSAttributedString * completedOnValue = [[NSAttributedString alloc] initWithString:[_dateFormatter stringFromDate:self.achievement.completionDate]  attributes:dataValueTextAttributes];
   [attrText appendAttributedString:lf];
+  [attrText appendAttributedString:lf];
   [attrText appendAttributedString:completedOnLabel];
   [attrText appendAttributedString:completedOnValue];
-  [attrText appendAttributedString:lf];
   
   if(m.url) {
+    [attrText appendAttributedString:lf];
     [attrText appendAttributedString:lf];
     NSMutableAttributedString *readMoreLabel = [[NSMutableAttributedString alloc] initWithString:@"Read More..." attributes:@{
                                                                                                                               NSFontAttributeName: [UIFont fontForAppWithType:BoldItalic andSize:17.0],
@@ -172,8 +154,21 @@ NSDateFormatter * _dateFormatter;
     [attrText appendAttributedString:readMoreLabel];
   }
 
-  
-  return attrText;
+  self.detailsTextView.attributedText = attrText;
+  CGFloat requiredHeight = [self.detailsTextView sizeThatFits:CGSizeMake(self.detailsTextView.frame.size.width, FLT_MAX)].height;
+  if(requiredHeight < self.detailsTextView.frame.size.height) {
+    CGFloat offset = self.detailsTextView.frame.size.height - requiredHeight;
+    self.detailsTextView.contentInset = UIEdgeInsetsMake(offset / 2 ,0, offset / 2,0);
+  } else {
+    [self.detailsTextView  setContentOffset:CGPointZero animated:NO];
+    // Make the bottom of the Text field fade out
+    CAGradientLayer *l = [CAGradientLayer layer];
+    l.frame = self.detailsTextViewContainerView.bounds;
+    l.colors = [NSArray arrayWithObjects:(id)[UIColor whiteColor].CGColor, (id)[UIColor clearColor].CGColor, nil];
+    l.startPoint = CGPointMake(0.5f, 0.5f);
+    l.endPoint = CGPointMake(0.5f, 1.0f);
+    self.detailsTextViewContainerView.layer.mask = l;
+  }
 }
 
 - (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)url inRange:(NSRange)characterRange {
