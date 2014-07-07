@@ -421,7 +421,7 @@
   [attrText appendAttributedString:lf];
 
   if(self.achievement.standardMilestone.enteredBy) {
-    NSAttributedString * enteredByLabel = [[NSAttributedString alloc] initWithString:@"Entered By: " attributes:dataLabelTextAttributes];
+    NSAttributedString * enteredByLabel = [[NSAttributedString alloc] initWithString:@"First Noted By: " attributes:dataLabelTextAttributes];
     NSAttributedString * enteredByValue = [[NSAttributedString alloc] initWithString:self.achievement.standardMilestone.enteredBy attributes:dataValueTextAttributes];
     [attrText appendAttributedString:lf];
     [attrText appendAttributedString:enteredByLabel];

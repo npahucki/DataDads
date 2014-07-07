@@ -10,7 +10,6 @@
 #import "Constants.h"
 #import "LoginViewController.h"
 #import <FacebookSDK/FacebookSDK.h>
-#import <Appsee/Appsee.h>
 #import "Heap.h"
 
 
