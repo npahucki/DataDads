@@ -20,7 +20,9 @@
   self.femaleLabel.highlightedTextColor = [UIColor appNormalColor];
   self.acceptTACLabelButton.titleLabel.font = [UIFont fontForAppWithType:Bold andSize:13.0];
   
-  self.screenNameField.text = ParentUser.currentUser.screenName;
+  self.screenNameField.text = ParentUser.currentUser.screenName ? ParentUser.currentUser.screenName : [self nameFromDeviceName];
+  
+  [[UIDevice currentDevice] name];
   NSNumber* gender = [ParentUser.currentUser objectForKey:@"isMale"];
   if(gender && gender.boolValue) {
     [self didClickMaleButton:self];
@@ -181,6 +183,29 @@
 -(void) dismiss {
   [self.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
   //[self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(NSString *) nameFromDeviceName {
+  NSString * deviceName = [[UIDevice currentDevice] name];
+  NSError * error;
+  static NSString * expression = (@"^(?:iPhone|phone|iPad|iPod)\\s+(?:de\\s+)?|"
+                                  "(\\S+?)(?:['’]?s)?(?:\\s+(?:iPhone|phone|iPad|iPod))?$|"
+                                  "(\\S+?)(?:['’]?的)?(?:\\s*(?:iPhone|phone|iPad|iPod))?$|"
+                                  "(\\S+)\\s+");
+  static NSRange RangeNotFound = (NSRange){.location=NSNotFound, .length=0};
+  NSRegularExpression * regex = [NSRegularExpression regularExpressionWithPattern:expression
+                                                                          options:(NSRegularExpressionCaseInsensitive)
+                                                                            error:&error];
+  for (NSTextCheckingResult * result in [regex matchesInString:deviceName
+                                                       options:0
+                                                         range:NSMakeRange(0, deviceName.length)]) {
+    for (int i = 1; i < result.numberOfRanges; i++) {
+      if (! NSEqualRanges([result rangeAtIndex:i], RangeNotFound)) {
+        return [deviceName substringWithRange:[result rangeAtIndex:i]].capitalizedString;
+      }
+    }
+  }
+  return nil;
 }
 
 @end
