@@ -13,7 +13,7 @@
 #import "UIDateField.h"
 #import "UIViewControllerWithHUDProgress.h"
 #import "SevenSwitch.h"
-
+#import "RangeIndicatorView.h"
 
 
 @interface NoteMilestoneViewController : UIViewControllerWithHUDProgress <FDTakeDelegate,UITextFieldDelegate, UITextViewDelegate, UIScrollViewDelegate>
@@ -34,7 +34,11 @@
 @property (weak, nonatomic) IBOutlet UITextField *heightTextField;
 @property (weak, nonatomic) IBOutlet UILabel *weightUnitLabel;
 @property (weak, nonatomic) IBOutlet UILabel *heightUnitLabel;
+@property (weak, nonatomic) IBOutlet UIView *detailsContainerView;
 
+@property (weak, nonatomic) IBOutlet UILabel *rangeLabel;
+@property (weak, nonatomic) IBOutlet RangeIndicatorView *rangeIndicatorView;
+@property (weak, nonatomic) IBOutlet UIView *titleTextFadingView;
 @property (weak, nonatomic) IBOutlet UITextField *weightTextField;
 @end
 

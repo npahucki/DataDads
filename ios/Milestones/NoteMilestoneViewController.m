@@ -45,20 +45,32 @@
                                            selector:@selector(keyboardWillBeHidden:)
                                                name:UIKeyboardWillHideNotification object:nil];
 
+
+  if(self.isCustom) {
+    self.detailsContainerView.hidden = YES;
+    self.scrollView.hidden = NO;
+    self.heightUnitLabel.text = [UnitHelper unitForHeight];
+    self.weightUnitLabel.text = [UnitHelper unitForWeight];
+    self.segmentControl.hidden = NO;
+    self.doneButton.enabled = NO;
+  } else {
+    self.rangeLabel.font = [UIFont fontForAppWithType:Light andSize:11];
+    self.rangeIndicatorView.rangeScale = 5 * 365; // 5 years
+    self.rangeIndicatorView.rangeReferencePoint = Baby.currentBaby.daysSinceDueDate;
+    self.titleTextView.linkTextAttributes =  @{NSForegroundColorAttributeName: [UIColor appSelectedColor],
+                                               NSUnderlineColorAttributeName: [UIColor appSelectedColor],
+                                               NSUnderlineStyleAttributeName: @(NSUnderlinePatternSolid)};
+    self.detailsContainerView.hidden = NO;
+    self.scrollView.hidden = YES;
+    self.segmentControl.hidden = YES;
+    self.doneButton.enabled = YES;
+  }
+  
   [self.doneButton setTitleTextAttributes:@{NSFontAttributeName : [UIFont fontForAppWithType:Bold andSize:17]} forState:UIControlStateNormal];
   self.completionDateTextField.inputAccessoryView = nil;
 
-  NSDictionary *linkAttributes = @{NSForegroundColorAttributeName: [UIColor appSelectedColor],
-                                   NSUnderlineColorAttributeName: [UIColor appSelectedColor],
-                                   NSUnderlineStyleAttributeName: @(NSUnderlinePatternSolid)};
 
-  self.heightUnitLabel.text = [UnitHelper unitForHeight];
-  self.weightUnitLabel.text = [UnitHelper unitForWeight];
-  self.titleTextView.linkTextAttributes = linkAttributes; // customizes the appearance of links
-  self.titleTextView.hidden = self.isCustom;
-  self.scrollView.hidden = !self.isCustom;
-  self.segmentControl.hidden = !self.isCustom;
-  self.doneButton.enabled = !self.isCustom;
+  
   // Needed to dimiss the keyboard once a user clicks outside the text boxes
   UITapGestureRecognizer *viewTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
   [self.view addGestureRecognizer:viewTap];
@@ -83,6 +95,16 @@
   
   //_fbSwitch.shadowColor = [UIColor blackColor];
   [_fbSwitch setOn:ParentUser.currentUser.autoPublishToFacebook && [PFFacebookUtils userHasAuthorizedPublishPermissions:ParentUser.currentUser] animated:NO];
+  
+  
+  
+}
+
+-(void) viewDidAppear:(BOOL)animated {
+  if(!self.isCustom) {
+    self.rangeIndicatorView.startRange = self.achievement.standardMilestone.rangeLow.integerValue;
+    self.rangeIndicatorView.endRange = self.achievement.standardMilestone.rangeHigh.integerValue;
+  }
 }
 
 -(void) dealloc {
@@ -187,10 +209,23 @@
   self.fbSwitch.frame = self.placeHolderSwitch.frame;
   // NOTE: For some odd reson, this will not work is done in viewDidLoad!
   if(self.achievement.standardMilestone) self.titleTextView.attributedText = [self createTitleTextFromMilestone];
+  
+  
+  // Center the text veritcally in the TextView
+  CGFloat requiredHeight = [self.titleTextView sizeThatFits:CGSizeMake([self.titleTextView contentSize].width, FLT_MAX)].height;
+  if(requiredHeight < self.titleTextView.contentSize.height) {
+    CGFloat offset = self.titleTextView.contentSize.height - requiredHeight;
+    self.titleTextView.contentInset = UIEdgeInsetsMake(offset / 2 ,0, offset / 2,0);
+  }
 
-
+  // Make the bottom of the Text field fade out
+  CAGradientLayer *l = [CAGradientLayer layer];
+  l.frame = self.titleTextFadingView.bounds;
+  l.colors = [NSArray arrayWithObjects:(id)[UIColor whiteColor].CGColor, (id)[UIColor clearColor].CGColor, nil];
+  l.startPoint = CGPointMake(0.5f, 0.5f);
+  l.endPoint = CGPointMake(0.5f, 1.0f);
+  self.titleTextFadingView.layer.mask = l;
 }
-
 
 - (IBAction)didClickTakePicture:(id)sender {
   [self.view endEditing:YES];
@@ -411,13 +446,13 @@
   StandardMilestone * m = self.achievement.standardMilestone;
   NSMutableAttributedString *attrText = [[NSMutableAttributedString alloc] init];
   NSAttributedString * lf = [[NSAttributedString alloc] initWithString:@"\n"];
-  NSDictionary *dataLabelTextAttributes = @{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:15.0], NSForegroundColorAttributeName: [UIColor blackColor]};
-  NSDictionary *dataValueTextAttributes = @{NSFontAttributeName: [UIFont fontForAppWithType:Medium andSize:15.0], NSForegroundColorAttributeName: [UIColor blackColor]};
+  NSDictionary *dataLabelTextAttributes = @{NSFontAttributeName: [UIFont fontForAppWithType:Medium andSize:13.0], NSForegroundColorAttributeName: [UIColor blackColor]};
+  NSDictionary *dataValueTextAttributes = @{NSFontAttributeName: [UIFont fontForAppWithType:Light andSize:13.0], NSForegroundColorAttributeName: [UIColor blackColor]};
   
 
-  
-  NSAttributedString * titleString = [[NSAttributedString alloc] initWithString:[m titleForBaby:self.achievement.baby] attributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:15.0], NSForegroundColorAttributeName: [UIColor appNormalColor]}];
+  NSAttributedString * titleString = [[NSAttributedString alloc] initWithString:[m titleForBaby:self.achievement.baby] attributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:13.0], NSForegroundColorAttributeName: [UIColor appNormalColor]}];
   [attrText appendAttributedString:titleString];
+  [attrText appendAttributedString:lf];
   [attrText appendAttributedString:lf];
 
   if(self.achievement.standardMilestone.enteredBy) {
@@ -429,13 +464,13 @@
     [attrText appendAttributedString:lf];
   }
 
-  NSAttributedString * rangeLabel = [[NSAttributedString alloc] initWithString:@"Typical Completion Range: " attributes:dataLabelTextAttributes];
+  NSAttributedString * rangeLabel = [[NSAttributedString alloc] initWithString:@"Typical Range: " attributes:dataLabelTextAttributes];
   NSAttributedString * rangeValue = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ to %@ days",m.rangeLow,m.rangeHigh] attributes:dataValueTextAttributes];
   [attrText appendAttributedString:rangeLabel];
   [attrText appendAttributedString:rangeValue];
-  [attrText appendAttributedString:lf];
 
   if(m.url) {
+    [attrText appendAttributedString:lf];
     [attrText appendAttributedString:lf];
     NSMutableAttributedString *readMoreLabel = [[NSMutableAttributedString alloc] initWithString:@"Read More..." attributes:@{
                                                                                                                                                    NSFontAttributeName: [UIFont fontForAppWithType:BoldItalic andSize:17.0],

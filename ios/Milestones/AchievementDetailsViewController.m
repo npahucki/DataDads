@@ -113,6 +113,14 @@ NSDateFormatter * _dateFormatter;
   [super viewDidLayoutSubviews];
   self.detailsTextView.attributedText = [self createTitleTextFromAchievement];
   [self.detailsTextView  setContentOffset:CGPointZero animated:NO];
+
+  // Center the text veritcally in the TextView
+  CGFloat requiredHeight = [self.detailsTextView sizeThatFits:CGSizeMake([self.detailsTextView contentSize].width, FLT_MAX)].height;
+  if(requiredHeight < self.detailsTextView.contentSize.height) {
+    CGFloat offset = self.detailsTextView.contentSize.height - requiredHeight;
+    self.detailsTextView.contentInset = UIEdgeInsetsMake(offset / 2 ,0, offset / 2,0);
+  }
+
   
   // Make the bottom of the Text field fade out
   CAGradientLayer *l = [CAGradientLayer layer];

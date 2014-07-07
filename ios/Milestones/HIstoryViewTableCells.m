@@ -13,7 +13,7 @@
 
 #define CIRCLE_OFFSET 8
 #define CIRCLE_COLOR [UIColor appGreyTextColor]
-#define RANGE_INDICATOR_SCALE 365 * 4
+#define RANGE_INDICATOR_SCALE 365 * 5
 
 @implementation HistoryTableViewCell {
   UIView * _topLineView;
