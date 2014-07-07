@@ -35,9 +35,9 @@
   switch (section) {
     case FutureMilestoneSection:
       return @"Upcoming Milestones";
-    case PastMilestoneSection:
-      return @"Noted Milestones";
     case AchievementSection:
+      return @"Noted Milestones";
+    case PastMilestoneSection:
       return @"Outgrown Milestones";
     default:
       NSAssert(NO,@"Invalid section type with number %ld", (long)section);
