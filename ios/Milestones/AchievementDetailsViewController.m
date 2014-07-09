@@ -128,11 +128,8 @@ NSDateFormatter * _dateFormatter;
   // Comments
   if(self.achievement.comment.length) {
     [attrText appendAttributedString:lf];
-    NSAttributedString * commentsLabel = [[NSAttributedString alloc] initWithString:@"Comments: " attributes:dataLabelTextAttributes];
-    NSAttributedString * commentsValue = [[NSAttributedString alloc] initWithString:self.achievement.comment attributes:dataValueTextAttributes];
-    [attrText appendAttributedString:lf];
-    [attrText appendAttributedString:commentsLabel];
-    [attrText appendAttributedString:commentsValue];
+    NSAttributedString * commentsString = [[NSAttributedString alloc] initWithString:self.achievement.comment attributes:@{NSFontAttributeName: [UIFont fontForAppWithType:Medium andSize:13.0], NSForegroundColorAttributeName: [UIColor appGreyTextColor]}];
+    [attrText appendAttributedString:commentsString];
   }
   
   // Completion date
