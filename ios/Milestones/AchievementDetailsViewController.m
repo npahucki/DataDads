@@ -252,16 +252,15 @@ NSDateFormatter * _dateFormatter;
     recognizer.view.center = CGPointMake(_percentileMessageCenter.x + translation.x, _percentileMessageCenter.y + translation.y);
   } else if (recognizer.state == UIGestureRecognizerStateEnded) {
     if(!_beganDrag) return;
-    if((abs(translation.y) > recognizer.view.bounds.size.height / 3 && abs(velocity.y) > 300.0) ||
-       (abs(translation.x) > recognizer.view.bounds.size.width / 3 && abs(velocity.x) > 300.0)) {
+    if((abs(translation.y) > recognizer.view.bounds.size.height / 3 && abs(velocity.y) > 200.0) ||
+       (abs(translation.x) > recognizer.view.bounds.size.width / 3 && abs(velocity.x) > 200.0)) {
       CGFloat velocityScale = .01;
       UIPushBehavior *push = [[UIPushBehavior alloc] initWithItems:@[recognizer.view] mode:UIPushBehaviorModeInstantaneous];
       push.pushDirection = CGVectorMake(velocityScale * velocity.x,velocityScale * velocity.y);
       [_animator addBehavior:push];
     } else {
-      _animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
       UISnapBehavior *snap = [[UISnapBehavior alloc] initWithItem: recognizer.view snapToPoint:_percentileMessageCenter];
-      [snap setDamping:1.0];
+      [snap setDamping:.5];
       [_animator addBehavior:snap];
     }
   }
