@@ -16,6 +16,8 @@
 
 @implementation AchievementDetailsViewController {
   float _percentile;
+  UIDynamicAnimator * _animator;
+  UIView * _percentileMessageView;
 }
 
 // Global for all instances
@@ -88,8 +90,9 @@ NSDateFormatter * _dateFormatter;
               [self.achievement calculatePercentileRankingWithBlock:^(float percentile) {
                 if(percentile > 0) {
                   if(percentile > 50) {
-                    self.statusImageView.image = [UIImage imageNamed:@"completedAhead"];
+                    self.statusImageView.image = [UIImage imageNamed:@"completedBest"];
                   }
+                  [self showPercentileMessage:percentile];
                 }
               }];
             }
@@ -181,8 +184,68 @@ NSDateFormatter * _dateFormatter;
   [self presentViewController:controller animated:YES completion:nil];
 }
 
+-(void) showPercentileMessage:(NSInteger) percent {
+  UIImage * balloon = [UIImage imageNamed:@"aheadBalloon"];
+  _percentileMessageView = [[UIView alloc] initWithFrame:CGRectMake(0,0, 100,120)];
+  CALayer *mask = [CALayer layer];
+  mask.contents = (id) balloon.CGImage;
+  mask.frame = _percentileMessageView.frame;
+  _percentileMessageView.layer.mask = mask;
+  _percentileMessageView.layer.masksToBounds = YES;
+  _percentileMessageView.alpha = .8;
+  _percentileMessageView.backgroundColor = [UIColor whiteColor];
+  
+  UILabel * messageLabel = [[UILabel alloc] initWithFrame:CGRectInset(_percentileMessageView.bounds,5,5)];
+  
+  NSDictionary * messageTextAttributes = @{NSFontAttributeName: [UIFont fontForAppWithType:Medium andSize:13.0], NSForegroundColorAttributeName: [UIColor appGreyTextColor]};
+  NSDictionary * percentTextAttributes = @{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:17.0], NSForegroundColorAttributeName: [UIColor appHeaderActiveTextColor]};
 
+  
+  NSMutableAttributedString * string = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ is ahead of", Baby.currentBaby.name] attributes:messageTextAttributes];
+  [string appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %d%% ", percent] attributes:percentTextAttributes]];
+  [string appendAttributedString:[[NSAttributedString alloc] initWithString:@"other babies for this milestone!" attributes:messageTextAttributes]];
+  
+  messageLabel.attributedText = string;
+  messageLabel.numberOfLines = 0;
+  messageLabel.lineBreakMode = NSLineBreakByWordWrapping;
+  messageLabel.textAlignment = NSTextAlignmentCenter;
+  
+  [_percentileMessageView addSubview:messageLabel];
+  
+  [self.view addSubview:_percentileMessageView];
+  _percentileMessageView.center = self.rangeIndicatorView.center;
+  
+//  CGFloat messageViewY = self.detailsImageButton.center.y;
+  _percentileMessageView.center = CGPointMake(self.detailsImageButton.center.x,-(_percentileMessageView.bounds.size.height));
+  
+  _animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
 
+  UISnapBehavior *snap = [[UISnapBehavior alloc] initWithItem:_percentileMessageView snapToPoint:self.detailsImageButton.center];
+  [snap setDamping:1.5];
+  [_animator addBehavior:snap];
+
+  //  UIGravityBehavior* gravityBehavior = [[UIGravityBehavior alloc] initWithItems:@[_percentileMessageView]];
+//  [_animator addBehavior:gravityBehavior];
+//  
+//  UICollisionBehavior* collisionBehavior = [[UICollisionBehavior alloc] initWithItems:@[_percentileMessageView]];
+//  collisionBehavior.translatesReferenceBoundsIntoBoundary = NO;
+//  [collisionBehavior addBoundaryWithIdentifier:@"percentageMessageBoundry" fromPoint:CGPointMake(0, messageViewY) toPoint:CGPointMake(self.view.bounds.size.width, messageViewY)];
+//  [_animator addBehavior:collisionBehavior];
+//  
+//  UIDynamicItemBehavior *elasticityBehavior = [[UIDynamicItemBehavior alloc] initWithItems:@[_percentileMessageView]];
+//  elasticityBehavior.elasticity = 0.1f;
+//  [_animator addBehavior:elasticityBehavior];
+//  
+  [NSTimer scheduledTimerWithTimeInterval:4.0 target:self selector:@selector(hidePercentileMessage) userInfo:nil repeats:NO];
+  
+}
+
+-(void) hidePercentileMessage {
+  _animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
+  UIGravityBehavior* gravityBehavior = [[UIGravityBehavior alloc] initWithItems:@[_percentileMessageView]];
+  [_animator addBehavior:gravityBehavior];
+  gravityBehavior.magnitude = 2.0;
+}
 
 
 

@@ -145,8 +145,9 @@
         [reloadPaths addObjectsFromArray:[self reloadPathsForRemovedCell:removedIndexPath]];
       }
     }
-    NSAssert(removedIndexPath,@"Milestone was not found in past or future!");
-    [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:removedIndexPath]  withRowAnimation:UITableViewRowAnimationLeft];
+    if(removedIndexPath) { // Index path might not exist if a milestone was noted during a search, and would not normally be shown. 
+      [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:removedIndexPath]  withRowAnimation:UITableViewRowAnimationLeft];
+    }
   }
   
   NSInteger addedIndex = [_model addNewAchievement:achievement];
