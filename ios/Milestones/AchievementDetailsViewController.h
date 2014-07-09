@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "RangeIndicatorView.h"
 
-@interface AchievementDetailsViewController : UIViewController <UITextViewDelegate>
+@interface AchievementDetailsViewController : UIViewController <UITextViewDelegate,UIDynamicAnimatorDelegate>
 
 @property MilestoneAchievement * achievement;
 @property (weak, nonatomic) IBOutlet UITextView *detailsTextView;

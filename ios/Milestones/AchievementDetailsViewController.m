@@ -17,7 +17,8 @@
 @implementation AchievementDetailsViewController {
   float _percentile;
   UIDynamicAnimator * _animator;
-  UIView * _percentileMessageView;
+  CGPoint _percentileMessageCenter;
+  BOOL _beganDrag;
 }
 
 // Global for all instances
@@ -186,16 +187,22 @@ NSDateFormatter * _dateFormatter;
 
 -(void) showPercentileMessage:(NSInteger) percent {
   UIImage * balloon = [UIImage imageNamed:@"aheadBalloon"];
-  _percentileMessageView = [[UIView alloc] initWithFrame:CGRectMake(0,0, 100,120)];
+  UIView *shadowView = [[UIView alloc] initWithFrame:CGRectMake(0,0, 100,120)];
+  shadowView.layer.shadowColor = [UIColor blackColor].CGColor;
+  //shadowView.layer.shadowOffset = CGSizeMake(10,10);
+  shadowView.layer.shadowOpacity = .5;
+  shadowView.alpha = .8;
+
+  UIView *percentileMessageView = [[UIView alloc] initWithFrame:shadowView.frame];
   CALayer *mask = [CALayer layer];
   mask.contents = (id) balloon.CGImage;
-  mask.frame = _percentileMessageView.frame;
-  _percentileMessageView.layer.mask = mask;
-  _percentileMessageView.layer.masksToBounds = YES;
-  _percentileMessageView.alpha = .8;
-  _percentileMessageView.backgroundColor = [UIColor whiteColor];
+  mask.frame = percentileMessageView.frame;
+  percentileMessageView.layer.mask = mask;
+  percentileMessageView.layer.masksToBounds = YES;
+  percentileMessageView.backgroundColor = [UIColor whiteColor];
   
-  UILabel * messageLabel = [[UILabel alloc] initWithFrame:CGRectInset(_percentileMessageView.bounds,5,5)];
+  
+  UILabel * messageLabel = [[UILabel alloc] initWithFrame:CGRectInset(percentileMessageView.bounds,5,5)];
   
   NSDictionary * messageTextAttributes = @{NSFontAttributeName: [UIFont fontForAppWithType:Medium andSize:13.0], NSForegroundColorAttributeName: [UIColor appGreyTextColor]};
   NSDictionary * percentTextAttributes = @{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:17.0], NSForegroundColorAttributeName: [UIColor appHeaderActiveTextColor]};
@@ -210,43 +217,59 @@ NSDateFormatter * _dateFormatter;
   messageLabel.lineBreakMode = NSLineBreakByWordWrapping;
   messageLabel.textAlignment = NSTextAlignmentCenter;
   
-  [_percentileMessageView addSubview:messageLabel];
+  [percentileMessageView addSubview:messageLabel];
+  [shadowView addSubview:percentileMessageView];
+  [self.view addSubview:shadowView];
+
+  UIPanGestureRecognizer* panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanFrom:)];
+  [shadowView addGestureRecognizer:panGestureRecognizer];
   
-  [self.view addSubview:_percentileMessageView];
-  _percentileMessageView.center = self.rangeIndicatorView.center;
-  
-//  CGFloat messageViewY = self.detailsImageButton.center.y;
-  _percentileMessageView.center = CGPointMake(self.detailsImageButton.center.x,-(_percentileMessageView.bounds.size.height));
+  shadowView.center = self.rangeIndicatorView.center;
+  shadowView.center = CGPointMake(self.detailsImageButton.center.x,-(shadowView.bounds.size.height));
   
   _animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
-
-  UISnapBehavior *snap = [[UISnapBehavior alloc] initWithItem:_percentileMessageView snapToPoint:self.detailsImageButton.center];
+  _animator.delegate = self;
+  CGFloat x = self.detailsImageButton.frame.origin.x + self.detailsImageButton.frame.size.width - shadowView.bounds.size.width / 2 - 10;
+  CGFloat y = self.detailsImageButton.frame.origin.y + shadowView.bounds.size.height / 2;
+  
+  UISnapBehavior *snap = [[UISnapBehavior alloc] initWithItem:shadowView snapToPoint:CGPointMake(x,y)];
   [snap setDamping:1.5];
   [_animator addBehavior:snap];
+}
 
-  //  UIGravityBehavior* gravityBehavior = [[UIGravityBehavior alloc] initWithItems:@[_percentileMessageView]];
-//  [_animator addBehavior:gravityBehavior];
-//  
-//  UICollisionBehavior* collisionBehavior = [[UICollisionBehavior alloc] initWithItems:@[_percentileMessageView]];
-//  collisionBehavior.translatesReferenceBoundsIntoBoundary = NO;
-//  [collisionBehavior addBoundaryWithIdentifier:@"percentageMessageBoundry" fromPoint:CGPointMake(0, messageViewY) toPoint:CGPointMake(self.view.bounds.size.width, messageViewY)];
-//  [_animator addBehavior:collisionBehavior];
-//  
-//  UIDynamicItemBehavior *elasticityBehavior = [[UIDynamicItemBehavior alloc] initWithItems:@[_percentileMessageView]];
-//  elasticityBehavior.elasticity = 0.1f;
-//  [_animator addBehavior:elasticityBehavior];
-//  
-  [NSTimer scheduledTimerWithTimeInterval:4.0 target:self selector:@selector(hidePercentileMessage) userInfo:nil repeats:NO];
+- (void)handlePanFrom:(UIPanGestureRecognizer*)recognizer {
   
+  if(_animator.running) return;
+  
+  CGPoint translation = [recognizer translationInView:recognizer.view];
+  CGPoint velocity = [recognizer velocityInView:recognizer.view];
+  
+  if (recognizer.state == UIGestureRecognizerStateBegan) {
+    _beganDrag = YES;
+    _percentileMessageCenter = recognizer.view.center;
+  } else if (recognizer.state == UIGestureRecognizerStateChanged) {
+    if(!_beganDrag) return;
+    recognizer.view.center = CGPointMake(_percentileMessageCenter.x + translation.x, _percentileMessageCenter.y + translation.y);
+  } else if (recognizer.state == UIGestureRecognizerStateEnded) {
+    if(!_beganDrag) return;
+    if((abs(translation.y) > recognizer.view.bounds.size.height / 3 && abs(velocity.y) > 300.0) ||
+       (abs(translation.x) > recognizer.view.bounds.size.width / 3 && abs(velocity.x) > 300.0)) {
+      CGFloat velocityScale = .01;
+      UIPushBehavior *push = [[UIPushBehavior alloc] initWithItems:@[recognizer.view] mode:UIPushBehaviorModeInstantaneous];
+      push.pushDirection = CGVectorMake(velocityScale * velocity.x,velocityScale * velocity.y);
+      [_animator addBehavior:push];
+    } else {
+      _animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
+      UISnapBehavior *snap = [[UISnapBehavior alloc] initWithItem: recognizer.view snapToPoint:_percentileMessageCenter];
+      [snap setDamping:1.0];
+      [_animator addBehavior:snap];
+    }
+  }
 }
 
--(void) hidePercentileMessage {
-  _animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
-  UIGravityBehavior* gravityBehavior = [[UIGravityBehavior alloc] initWithItems:@[_percentileMessageView]];
-  [_animator addBehavior:gravityBehavior];
-  gravityBehavior.magnitude = 2.0;
+- (void)dynamicAnimatorDidPause:(UIDynamicAnimator*)animator {
+  [animator removeAllBehaviors];
 }
-
 
 
 
