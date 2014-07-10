@@ -169,6 +169,13 @@ static BOOL isProduciton;
   }
 }
 
++(void) trackAdClicked:(NSString*) adIdentifier {
+  if(isProduciton) {
+    [Heap track:@"adClicked" withProperties:@{ @"adIdentifier" : adIdentifier }];
+  } else {
+    NSLog(@"[USAGE ANALYTICS]: trackAdClick - AdId:%@", adIdentifier);
+  }
+}
 
 
 @end

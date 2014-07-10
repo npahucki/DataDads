@@ -15,6 +15,9 @@
 #import "NoConnectionAlertView.h"
 #import "AlertThenDisappearView.h"
 
+#define AD_TRIGGER_LAUNCH_COUNT 2
+#define AD_TRIGGER_MAX_TIME 60 * 1
+#define AD_DISPLAY_TIME 5
 
 
 @implementation MainMilestoneViewController {
@@ -24,6 +27,8 @@
   BOOL _isShowingSearchBar;
   UIDynamicAnimator * _animator;
   NoConnectionAlertView * _noConnectionAlert;
+  DataParentingAdView *_adView;
+  NSDate * _dateLastAdShown;
 }
 
 
@@ -33,6 +38,14 @@
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(milestoneNotedAndSaved:) name:kDDNotificationMilestoneNotedAndSaved object:nil];
 
   [NoConnectionAlertView createInstanceForController:self];
+
+  _adView = [[DataParentingAdView alloc] initWithFrame:CGRectZero]; // adjust frame later
+  _adView.delegate = self;
+  _adView.containingViewController = self;
+  _adView.size = DataParentingAdViewSizeMedium;
+  _adView.layer.shadowColor = [UIColor blackColor].CGColor;
+  _adView.layer.shadowOpacity = 0.5;
+  [self.view addSubview:_adView];
 
   UISwipeGestureRecognizer *swipeUp = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(hideSearchBar)];
   swipeUp.direction = UISwipeGestureRecognizerDirectionUp;
@@ -64,6 +77,9 @@
   self.addMilestoneButton.enabled = Baby.currentBaby != nil;
   self.menuButton.enabled = Baby.currentBaby != nil;
   _isMorganTouch = NO; // Hack work around a double segue bug, caused by touching the cell too long
+  
+  [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(showAdIfNeeded) userInfo:nil repeats:YES];
+
 }
 
 -(void) milestoneNotedAndSaved:(NSNotification*)notification {
@@ -249,6 +265,39 @@
   _currentAchievment.completionDate =  [NSDate date];
   if(milestone) _currentAchievment.standardMilestone = milestone;
   return _currentAchievment;
+}
+
+-(void) showAdIfNeeded {
+  if(ParentUser.currentUser.launchCount > AD_TRIGGER_LAUNCH_COUNT) {
+    if(!_dateLastAdShown || abs(_dateLastAdShown.timeIntervalSinceNow) > AD_TRIGGER_MAX_TIME) {
+      [_adView attemptAdLoad];
+    }
+  }
+}
+
+#pragma mark DataParentingAdViewDelegate
+
+-(void) displayAdView {
+  CGFloat x = arc4random_uniform(2) ? -_adView.currentAdImageWidth : _adView.currentAdImageWidth;
+  CGFloat y = arc4random_uniform(2) ? -_adView.currentAdImageHeight : _adView.currentAdImageHeight;
+  _adView.alpha = 1.0;
+  _adView.frame = CGRectMake(x,y,_adView.currentAdImageWidth, _adView.currentAdImageHeight);
+  _animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
+  UISnapBehavior *snap = [[UISnapBehavior alloc] initWithItem:_adView snapToPoint:self.view.center];
+  [snap setDamping:0.5];
+  [_animator addBehavior:snap];
+  [NSTimer scheduledTimerWithTimeInterval:AD_DISPLAY_TIME target:self selector:@selector(hideAdView) userInfo:nil repeats:NO];
+  _dateLastAdShown = [NSDate date];
+}
+
+-(void) hideAdView {
+  [UIView animateWithDuration:.5 animations:^{
+    _adView.alpha = 0.0;
+  }];
+}
+
+-(void) adClicked {
+  [self hideAdView];
 }
 
 

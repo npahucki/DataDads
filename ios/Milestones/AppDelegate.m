@@ -62,8 +62,8 @@
    UIRemoteNotificationTypeBadge |
    UIRemoteNotificationTypeAlert |
    UIRemoteNotificationTypeSound];
-  
-  
+
+  [ParentUser incrementLaunchCount];
   
   [UILabel appearance].font = [UIFont fontForAppWithType:Light andSize:17.0];
   [UILabel appearanceWhenContainedIn:[UIDatePicker class], nil].font = [UIFont systemFontOfSize:24.0];
@@ -134,6 +134,7 @@
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
   [[NSNotificationCenter defaultCenter] postNotificationName:kNeedDataRefreshNotification object:nil];
+  [ParentUser incrementLaunchCount];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

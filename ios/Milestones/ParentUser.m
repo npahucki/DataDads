@@ -14,6 +14,7 @@
 @dynamic screenName;
 @dynamic isMale;
 @dynamic usesMetric;
+@dynamic launchCount;
 
 
 -(BOOL) showHiddenTips {
@@ -46,6 +47,11 @@
 
 -(BOOL) autoPublishToFacebook {
   return [[NSUserDefaults standardUserDefaults] boolForKey:@"autoPublishToFacebook"];
+}
+
++(void) incrementLaunchCount {
+  [self.currentUser incrementKey:@"launchCount"];
+  [self.currentUser saveEventually];
 }
 
 

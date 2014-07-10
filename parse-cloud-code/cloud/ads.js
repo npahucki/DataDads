@@ -5,7 +5,7 @@ var host = isDev ? "dataparenting-dev" : "dataparenting";
 
 var adPath = "http://" + host +  ".parseapp.com/ads/";
 var smallAdPath = adPath + "320x50/";
-var mediumAdPath = adPath + "219x320/";
+var mediumAdPath = adPath + "213x320/";
 
 var linkDomainBase = "http://dataparenting.com/";
 var donateLinkPath = linkDomainBase + "donate/";

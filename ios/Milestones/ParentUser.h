@@ -17,6 +17,11 @@
 @property BOOL showHiddenTips;
 @property BOOL showIgnoredMilestones;
 @property BOOL showPostponedMilestones;
+@property NSInteger launchCount;
+
+
++(void) incrementLaunchCount;
+
 
 @end
 

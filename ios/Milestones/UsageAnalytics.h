@@ -26,6 +26,7 @@
 +(void) trackAchievementLogged:(MilestoneAchievement *) achievement sharedOnFacebook:(BOOL) shared; 
 +(void) trackMeasurement:(Measurement *) measurement;
 +(void) trackSearch:(NSString *) filterString;
++(void) trackAdClicked:(NSString *) adIdentifier;
 
 
 

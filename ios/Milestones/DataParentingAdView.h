@@ -18,6 +18,8 @@ typedef NS_ENUM(NSInteger, DataParentingAdViewSize) {
 @required
 -(void) displayAdView;
 -(void) hideAdView;
+@optional
+-(void) adClicked;
 
 @end
 
@@ -28,8 +30,15 @@ typedef NS_ENUM(NSInteger, DataParentingAdViewSize) {
 @property (weak,nonatomic) UIViewController * containingViewController;
 
 @property (readonly) NSURL * currentAdLinkURL;
-@property (readonly) int currentAdImageHeight;
-@property (readonly) int currentAdImageWidth;
+@property (readonly) NSURL * currentAdImageURL;
+@property (readonly) NSInteger currentAdImageHeight;
+@property (readonly) NSInteger currentAdImageWidth;
+@property NSTimeInterval showTime;
+@property NSTimeInterval repeatTime;
+
+-(void) attemptAdLoad;
+
+
 
 
 @end

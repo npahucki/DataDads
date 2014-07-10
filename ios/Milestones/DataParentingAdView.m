@@ -70,19 +70,23 @@
                                   _currentAdImageHeight = ((NSNumber*)results[@"size"][@"height"]).intValue;
                                   NSString * imageUrlString = (NSString*) results[@"ad"][@"imageUrl"];
                                   _currentAdLinkURL = [NSURL URLWithString:(NSString*)results[@"ad"][@"linkUrl"]];
-                                  NSURL * imageURL = [NSURL URLWithString: [imageUrlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-                                  [self performSelectorInBackground:@selector(loadImageData:) withObject:imageURL];
+                                  _currentAdImageURL = [NSURL URLWithString: [imageUrlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+                                  [self performSelectorInBackground:@selector(loadImageData:) withObject:_currentAdImageURL];
                                 }
                               }];
 }
 
 
 -(void) handleSingleTap {
+  if([self.delegate respondsToSelector:@selector(adClicked)]) {
+    [self.delegate adClicked];
+  }
   UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
   WebViewerViewController *vc = [sb instantiateViewControllerWithIdentifier:@"webViewController"];
   vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
   vc.url = _currentAdLinkURL;
   [self.containingViewController presentViewController:vc animated:YES completion:NULL];
+  [UsageAnalytics trackAdClicked:_currentAdImageURL.absoluteString];
 }
 
 -(void) loadImageData:(NSURL *) url {
@@ -110,6 +114,8 @@
   _isShowing = false;
   [self.delegate hideAdView];
 }
+
+
 
 
 @end
