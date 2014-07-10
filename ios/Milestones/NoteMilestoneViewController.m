@@ -31,7 +31,7 @@
 - (void)viewDidLoad
 {
   [super viewDidLoad];
-
+  self.adView.containingViewController = self;
   _imageOrVideo = nil;
   _imageOrVideoType = nil;
   
@@ -129,7 +129,7 @@
     [UIView
      animateWithDuration:0.5
      animations:^{
-       self.view.frame = CGRectMake(0,_originalFrame.origin.y - kbSize.height + self.adBanner.frame.size.height , _originalFrame.size.width, _originalFrame.size.height);
+       self.view.frame = CGRectMake(0,_originalFrame.origin.y - kbSize.height + self.adView.frame.size.height , _originalFrame.size.width, _originalFrame.size.height);
      }];
   }
 }

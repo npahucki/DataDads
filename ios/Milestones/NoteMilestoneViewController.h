@@ -14,6 +14,8 @@
 #import "UIViewControllerWithHUDProgress.h"
 #import "SevenSwitch.h"
 #import "RangeIndicatorView.h"
+#import "DataParentingAdView.h"
+
 
 
 @interface NoteMilestoneViewController : UIViewControllerWithHUDProgress <FDTakeDelegate,UITextFieldDelegate, UITextViewDelegate, UIScrollViewDelegate>
@@ -26,7 +28,6 @@
 @property (weak, nonatomic) IBOutlet UITextView *titleTextView;
 @property (weak, nonatomic) IBOutlet UITextField *customTitleTextField;
 @property (weak, nonatomic) IBOutlet UIView *placeHolderSwitch;
-@property (weak, nonatomic) IBOutlet UIView *adBanner;
 @property (strong, nonatomic) SevenSwitch *fbSwitch;
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -40,5 +41,6 @@
 @property (weak, nonatomic) IBOutlet RangeIndicatorView *rangeIndicatorView;
 @property (weak, nonatomic) IBOutlet UIView *titleTextFadingView;
 @property (weak, nonatomic) IBOutlet UITextField *weightTextField;
+@property (weak, nonatomic) IBOutlet DataParentingAdView *adView;
 @end
 

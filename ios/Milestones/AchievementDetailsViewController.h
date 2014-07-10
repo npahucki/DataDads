@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "RangeIndicatorView.h"
+#import "DataParentingAdView.h"
 
 @interface AchievementDetailsViewController : UIViewController <UITextViewDelegate,UIDynamicAnimatorDelegate>
+@property (weak, nonatomic) IBOutlet DataParentingAdView *adView;
 
 @property MilestoneAchievement * achievement;
 @property (weak, nonatomic) IBOutlet UITextView *detailsTextView;

@@ -105,6 +105,7 @@
 		E8E39C6D18EB9A090034982D /* OverviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8E39C6C18EB9A090034982D /* OverviewViewController.m */; };
 		E8EC89D81907CB410073E012 /* UIViewController+MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = E8EC89D71907CB410073E012 /* UIViewController+MBProgressHUD.m */; };
 		E8F485481901C6F90030912F /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8F485471901C6F90030912F /* SignUpViewController.m */; };
+		E8FFCCE8196DF78400969083 /* DataParentingAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = E8FFCCE7196DF78400969083 /* DataParentingAdView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -276,6 +277,8 @@
 		E8EC89D71907CB410073E012 /* UIViewController+MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+MBProgressHUD.m"; sourceTree = "<group>"; };
 		E8F485461901C6F90030912F /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
 		E8F485471901C6F90030912F /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
+		E8FFCCE6196DF78400969083 /* DataParentingAdView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataParentingAdView.h; sourceTree = "<group>"; };
+		E8FFCCE7196DF78400969083 /* DataParentingAdView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataParentingAdView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -357,6 +360,8 @@
 				E856BD54196324E500D00E5C /* AlertThenDisappearView.m */,
 				E856BD561964455200D00E5C /* TakePhotoButton.h */,
 				E856BD571964455200D00E5C /* TakePhotoButton.m */,
+				E8FFCCE6196DF78400969083 /* DataParentingAdView.h */,
+				E8FFCCE7196DF78400969083 /* DataParentingAdView.m */,
 			);
 			name = CustomViews;
 			sourceTree = "<group>";
@@ -827,6 +832,7 @@
 				E856BD55196324E500D00E5C /* AlertThenDisappearView.m in Sources */,
 				E8BDE6B0193CC106001D6995 /* NSDate+Utils.m in Sources */,
 				E8E39C6A18EB063E0034982D /* MainMilestoneViewController.m in Sources */,
+				E8FFCCE8196DF78400969083 /* DataParentingAdView.m in Sources */,
 				E876159E18EF892C00B0C6D9 /* BabyTagsTableViewController.m in Sources */,
 				E8E39C6D18EB9A090034982D /* OverviewViewController.m in Sources */,
 				E8ABCFBA191D68FE0083ED25 /* UIDateField.m in Sources */,

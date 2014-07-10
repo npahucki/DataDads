@@ -35,7 +35,7 @@ NSDateFormatter * _dateFormatter;
 {
   [super viewDidLoad];
   NSAssert(self.achievement,@"Expected Achievement to be set before loading view!");
-
+  self.adView.containingViewController = self;
   self.detailsTextView.delegate = self;
   self.rangleScaleLabel.font = [UIFont fontForAppWithType:Light andSize:11];
   NSDictionary *linkAttributes = @{NSForegroundColorAttributeName: [UIColor appSelectedColor],
@@ -269,7 +269,6 @@ NSDateFormatter * _dateFormatter;
 - (void)dynamicAnimatorDidPause:(UIDynamicAnimator*)animator {
   [animator removeAllBehaviors];
 }
-
 
 
 @end
