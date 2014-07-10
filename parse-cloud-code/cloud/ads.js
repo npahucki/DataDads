@@ -1,12 +1,16 @@
 // Ad rotation
 
-var adPath = "http://dataparenting-dev.parseapp.com/ads/";
+var isDev = Parse.applicationId === "NlJHBG0NZgFS8JP76DBjA31MBRZ7kmb7dVSQQz3U";
+var host = isDev ? "dataparenting-dev" : "dataparenting";
+
+var adPath = "http://" + host +  ".parseapp.com/ads/";
 var smallAdPath = adPath + "320x50/";
 var mediumAdPath = adPath + "219x320/";
 
 var linkDomainBase = "http://dataparenting.com/";
 var donateLinkPath = linkDomainBase + "donate/";
 var contactLinkPath = linkDomainBase + "contact/";
+var interviewLink = "http://parentsintech.com/get-interviewed/";
 
 var smallAds = [
     {imageUrl:smallAdPath + "DataDads Ad1 Ramen Noodles.jpg", linkUrl:donateLinkPath},
@@ -14,14 +18,17 @@ var smallAds = [
     {imageUrl:smallAdPath + "DataDads Uggs1.jpg", linkUrl:donateLinkPath},
     {imageUrl:smallAdPath + "DataDads Uggs2.jpg", linkUrl:donateLinkPath},
     {imageUrl:smallAdPath + "DataDads Noodles2.jpg", linkUrl:donateLinkPath},
-    {imageUrl:smallAdPath + "DataDads Improve1.jpg", linkUrl:contactLinkPath}
+    {imageUrl:smallAdPath + "DataDads Improve1.jpg", linkUrl:contactLinkPath},
+    {imageUrl:smallAdPath + "DataDads Ad Profile1.jpg", linkUrl:interviewLink},
+    {imageUrl:smallAdPath + "DataDads New Parent1.jpg", linkUrl:interviewLink}
 ];
 
 var mediumAds = [
     {imageUrl:mediumAdPath + "DataDads Milk LG1.jpg", linkUrl:donateLinkPath},
     {imageUrl:mediumAdPath + "DataDads UggsLG2.jpg", linkUrl:donateLinkPath},
     {imageUrl:mediumAdPath + "DataDads NoodlesLG1.jpg", linkUrl:donateLinkPath},
-    {imageUrl:mediumAdPath + "DataDads Improve LG1.jpg", linkUrl:contactLinkPath}
+    {imageUrl:mediumAdPath + "DataDads Improve LG1.jpg", linkUrl:contactLinkPath},
+    {imageUrl:mediumAdPath + "DataDads Profile LG1.jpg", linkUrl:interviewLink}
 ];
 
 var adsBySize = {

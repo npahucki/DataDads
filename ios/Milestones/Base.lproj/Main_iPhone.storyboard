@@ -947,11 +947,11 @@
                                     <outlet property="delegate" destination="As4-O0-72y" id="82Q-1Y-vTm"/>
                                 </connections>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8nC-ax-kTN" userLabel="Image Button" customClass="TakePhotoButton">
-                                <rect key="frame" x="36" y="183" width="249" height="251"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8nC-ax-kTN" userLabel="Image Button" customClass="TakePhotoButton">
+                                <rect key="frame" x="35" y="183" width="250" height="251"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="8nC-ax-kTN" secondAttribute="height" multiplier="1:1" constant="-2" id="OkB-UT-uc5"/>
+                                    <constraint firstAttribute="width" secondItem="8nC-ax-kTN" secondAttribute="height" multiplier="1:1" id="OkB-UT-uc5"/>
                                 </constraints>
                                 <state key="normal" backgroundImage="camIconWithBorder">
                                     <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
