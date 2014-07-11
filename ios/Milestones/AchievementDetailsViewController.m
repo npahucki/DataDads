@@ -209,7 +209,7 @@ NSDateFormatter * _dateFormatter;
 
   
   NSMutableAttributedString * string = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ is ahead of", Baby.currentBaby.name] attributes:messageTextAttributes];
-  [string appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %d%% ", percent] attributes:percentTextAttributes]];
+  [string appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %ld%% ", (long)percent] attributes:percentTextAttributes]];
   [string appendAttributedString:[[NSAttributedString alloc] initWithString:@"other babies for this milestone!" attributes:messageTextAttributes]];
   
   messageLabel.attributedText = string;

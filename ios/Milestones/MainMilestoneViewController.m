@@ -16,8 +16,8 @@
 #import "AlertThenDisappearView.h"
 
 #define AD_TRIGGER_LAUNCH_COUNT 2
-#define AD_TRIGGER_MAX_TIME 60 * 1
-#define AD_DISPLAY_TIME 5
+#define AD_TRIGGER_MAX_TIME 120 * 1
+#define AD_DISPLAY_TIME 7
 
 
 @implementation MainMilestoneViewController {
@@ -66,6 +66,8 @@
   searchField.layer.cornerRadius = 5;
   searchField.font = [UIFont fontForAppWithType:Book andSize:14];
   searchField.textColor = [UIColor appInputGreyTextColor];
+  
+  [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(showAdIfNeeded) userInfo:nil repeats:YES];
 }
 
 -(void) dealloc {
@@ -77,9 +79,6 @@
   self.addMilestoneButton.enabled = Baby.currentBaby != nil;
   self.menuButton.enabled = Baby.currentBaby != nil;
   _isMorganTouch = NO; // Hack work around a double segue bug, caused by touching the cell too long
-  
-  [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(showAdIfNeeded) userInfo:nil repeats:YES];
-
 }
 
 -(void) milestoneNotedAndSaved:(NSNotification*)notification {
@@ -270,6 +269,7 @@
 -(void) showAdIfNeeded {
   if(ParentUser.currentUser.launchCount > AD_TRIGGER_LAUNCH_COUNT) {
     if(!_dateLastAdShown || abs(_dateLastAdShown.timeIntervalSinceNow) > AD_TRIGGER_MAX_TIME) {
+      _dateLastAdShown = [NSDate date];
       [_adView attemptAdLoad];
     }
   }
@@ -287,7 +287,6 @@
   [snap setDamping:0.5];
   [_animator addBehavior:snap];
   [NSTimer scheduledTimerWithTimeInterval:AD_DISPLAY_TIME target:self selector:@selector(hideAdView) userInfo:nil repeats:NO];
-  _dateLastAdShown = [NSDate date];
 }
 
 -(void) hideAdView {
