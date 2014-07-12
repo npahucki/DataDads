@@ -895,11 +895,11 @@
             </objects>
             <point key="canvasLocation" x="2224" y="-1280"/>
         </scene>
-        <!--Navigation Controller - MIlestones-->
+        <!--Navigation Controller - Milestones-->
         <scene sceneID="YCf-cW-5Vn">
             <objects>
                 <navigationController definesPresentationContext="YES" id="mJ5-m9-7Sj" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="MIlestones" image="historyIcon" id="MPf-iA-FA8"/>
+                    <tabBarItem key="tabBarItem" title="Milestones" image="historyIcon" id="MPf-iA-FA8"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="dLV-Fg-va5">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
