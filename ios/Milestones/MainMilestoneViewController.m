@@ -36,7 +36,9 @@
   [super viewDidLoad];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(babyUpdated:) name:kDDNotificationCurrentBabyChanged object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(milestoneNotedAndSaved:) name:kDDNotificationMilestoneNotedAndSaved object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showAdIfNeeded) name:UIApplicationDidBecomeActiveNotification object:nil];
 
+  
   [NoConnectionAlertView createInstanceForController:self];
 
   _adView = [[DataParentingAdView alloc] initWithFrame:CGRectZero]; // adjust frame later
