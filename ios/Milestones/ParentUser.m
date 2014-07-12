@@ -51,7 +51,9 @@
 
 +(void) incrementLaunchCount {
   [self.currentUser incrementKey:@"launchCount"];
-  [self.currentUser saveEventually];
+  [self.currentUser saveEventually:^(BOOL succeeded, NSError *error) {
+    if(succeeded) [ParentUser.currentUser refreshInBackgroundWithBlock:nil];
+  }];
 }
 
 

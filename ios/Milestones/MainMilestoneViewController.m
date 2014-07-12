@@ -16,7 +16,7 @@
 #import "AlertThenDisappearView.h"
 
 #define AD_TRIGGER_LAUNCH_COUNT 2
-#define AD_TRIGGER_MAX_TIME 120 * 1
+#define AD_TRIGGER_MAX_TIME 60
 #define AD_DISPLAY_TIME 7
 
 
@@ -42,9 +42,10 @@
   _adView = [[DataParentingAdView alloc] initWithFrame:CGRectZero]; // adjust frame later
   _adView.delegate = self;
   _adView.containingViewController = self;
-  _adView.size = DataParentingAdViewSizeMedium;
+  _adView.size = DataParentingAdViewSizeSmall;
   _adView.layer.shadowColor = [UIColor blackColor].CGColor;
   _adView.layer.shadowOpacity = 0.5;
+  _adView.hidden = YES;
   [self.view addSubview:_adView];
 
   UISwipeGestureRecognizer *swipeUp = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(hideSearchBar)];
@@ -67,7 +68,6 @@
   searchField.font = [UIFont fontForAppWithType:Book andSize:14];
   searchField.textColor = [UIColor appInputGreyTextColor];
   
-  [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(showAdIfNeeded) userInfo:nil repeats:YES];
 }
 
 -(void) dealloc {
@@ -79,6 +79,7 @@
   self.addMilestoneButton.enabled = Baby.currentBaby != nil;
   self.menuButton.enabled = Baby.currentBaby != nil;
   _isMorganTouch = NO; // Hack work around a double segue bug, caused by touching the cell too long
+  [self showAdIfNeeded];
 }
 
 -(void) milestoneNotedAndSaved:(NSNotification*)notification {
@@ -278,20 +279,22 @@
 #pragma mark DataParentingAdViewDelegate
 
 -(void) displayAdView {
-  CGFloat x = arc4random_uniform(2) ? -_adView.currentAdImageWidth : _adView.currentAdImageWidth;
-  CGFloat y = arc4random_uniform(2) ? -_adView.currentAdImageHeight : _adView.currentAdImageHeight;
-  _adView.alpha = 1.0;
-  _adView.frame = CGRectMake(x,y,_adView.currentAdImageWidth, _adView.currentAdImageHeight);
-  _animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
-  UISnapBehavior *snap = [[UISnapBehavior alloc] initWithItem:_adView snapToPoint:self.view.center];
-  [snap setDamping:0.5];
-  [_animator addBehavior:snap];
-  [NSTimer scheduledTimerWithTimeInterval:AD_DISPLAY_TIME target:self selector:@selector(hideAdView) userInfo:nil repeats:NO];
+  CGFloat y = self.tabBarController.tabBar.frame.origin.y - _adView.currentAdImageHeight;
+  _adView.frame = CGRectMake(0,self.tabBarController.tabBar.frame.origin.y,_adView.currentAdImageWidth, _adView.currentAdImageHeight);
+  _adView.hidden = NO;
+  [UIView animateWithDuration:.5 animations:^{
+    _adView.frame = CGRectMake(0,y,_adView.currentAdImageWidth, _adView.currentAdImageHeight);
+  } completion:^(BOOL finished) {
+    [NSTimer scheduledTimerWithTimeInterval:AD_DISPLAY_TIME target:self selector:@selector(hideAdView) userInfo:nil repeats:NO];
+  }];
 }
 
 -(void) hideAdView {
+  CGFloat y = self.tabBarController.tabBar.frame.origin.y;
   [UIView animateWithDuration:.5 animations:^{
-    _adView.alpha = 0.0;
+    _adView.frame = CGRectMake(0,y,_adView.currentAdImageWidth, _adView.currentAdImageHeight);
+  } completion:^(BOOL finished) {
+    _adView.hidden = YES;
   }];
 }
 

@@ -8,6 +8,7 @@
 
 #import "SignUpViewController.h"
 #import <Parse/PF_MBProgressHUD.h>
+#import "PFFacebookUtils+Extras.h"
 
 @interface SignUpViewController ()
 
@@ -146,24 +147,8 @@
     } else {
       if(user) {
         // Set the user's email and username to facebook email
-        [self populateCurrentUserDetailsFromFacebook:user];
+        [PFFacebookUtils populateCurrentUserDetailsFromFacebook:(ParentUser*)user block:nil];
       } // else use canceled
-    }
-  }];
-}
-
--(void) populateCurrentUserDetailsFromFacebook: (PFUser *) user {
-  [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-    if (!error) {
-      NSString *facebookEMail = result[@"email"];
-      if (facebookEMail.length) {
-        user.email = facebookEMail;
-        user.username = facebookEMail;
-      }
-      [user saveEventually];
-      [self signUpViewController:self didSignUpUser:user];
-    } else {
-      [self signUpViewController:self didFailToSignUpWithError:error];
     }
   }];
 }

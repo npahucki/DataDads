@@ -269,10 +269,10 @@
   // Remember for future uses.
   if(ParentUser.currentUser.autoPublishToFacebook != self.fbSwitch.on) {
     ParentUser.currentUser.autoPublishToFacebook = self.fbSwitch.on;
-    [ParentUser.currentUser saveEventually];
+    [ParentUser.currentUser saveEventually:^(BOOL succeeded, NSError *error) {
+      if(succeeded) [ParentUser.currentUser refreshInBackgroundWithBlock:nil]; // Make sure cache is updated
+    }];
   }
-  
-
 }
 
 -(void) saveImageOrPhoto {

@@ -43,7 +43,9 @@
   ParentUser.currentUser.showIgnoredMilestones = self.showIgnoredMilestonesSwitch.on;
   ParentUser.currentUser.showPostponedMilestones = self.showPostponedMilestonesSwitch.on;
   if(ParentUser.currentUser.isDirty) {
-    [ParentUser.currentUser saveEventually];
+    [ParentUser.currentUser saveEventually:^(BOOL succeeded, NSError *error) {
+      if(succeeded) [ParentUser.currentUser refreshInBackgroundWithBlock:nil];
+    }];
   }
   [[NSNotificationCenter defaultCenter] postNotificationName:kNeedDataRefreshNotification object:nil];
 }
