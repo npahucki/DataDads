@@ -13,58 +13,27 @@
 
 #define TITLE_FONT [UIFont fontForAppWithType:Book andSize:14]
 #define DETAIL_FONT [UIFont fontForAppWithType:Book andSize:12]
-
-@interface TipsFilterQuery : PFQuery
-@property TipType filter;
-@property PFQuery *target;
-@property NSMutableArray *exclude;
-@end
-
-@implementation TipsFilterQuery
-
--(NSString*) parseClassName {
-  return _target.parseClassName;
-}
-
-/*!
- Icky Hack to be able to filter based on the filter criteria since parse does not let you specify a whereKey on a pointed to object.
- */
-- (void)findObjectsInBackgroundWithBlock:(PFArrayResultBlock)queryBlock {
-  if(queryBlock) {
-    _target.skip = self.skip;
-    _target.limit = self.limit;
-    [_target findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-      if(!error) {
-        if(_filter || _exclude.count) {
-          NSMutableArray * newArray = [NSMutableArray arrayWithCapacity:objects.count];
-          for(BabyAssignedTip* a in objects) {
-            if((!_filter || a.tip.tipType.integerValue == _filter) && ![_exclude containsObject:a.objectId]) {
-              [newArray addObject:a];
-            }
-          }
-          objects = newArray;
-        }
-      }
-      queryBlock(objects, error);
-    }];
-  }
-}
-
-@end
+#define MAX_LOAD_COUNT 15
 
 
 @implementation NotificationTableViewController {
   NSIndexPath * _selectedPath;
   TipType _tipFilter;
-  BOOL _loadBecauseChangedFilter;
-  NSMutableArray * _deleted;
+  NSMutableArray * _objects;
+  BOOL _hasMoreTips;
+  BOOL _hadError;
 }
 
 -(void) viewDidLoad {
   [super viewDidLoad];
-  _deleted = [NSMutableArray arrayWithCapacity:5];
+  self.tableView.delegate = self;
+  self.tableView.dataSource = self;
+  self.tableView.rowHeight = 60;
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(babyUpdated:) name:kDDNotificationCurrentBabyChanged object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadObjects) name:kNeedDataRefreshNotification object:nil];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkReachabilityChanged:) name:kReachabilityChangedNotification object:nil];
+
+  _hasMoreTips = YES;
 }
 
 -(void) dealloc {
@@ -75,80 +44,121 @@
   [self loadObjects];
 }
 
+-(void) networkReachabilityChanged:(NSNotification*)notification {
+  if([Reachability isParseCurrentlyReachable]) {
+    [self loadObjects];
+  }
+}
+
 -(TipType) tipFilter {
   return _tipFilter;
 }
 
 -(void) setTipFilter:(TipType) tipFilter {
   _tipFilter = tipFilter;
-  _loadBecauseChangedFilter = YES;
   [self loadObjects];
 }
 
-- (PFQuery *)queryForTable {
-  TipsFilterQuery * filterQuery = nil;
+-(void) loadObjects {
+  [self loadObjectsSkip:0 withLimit:MAX_LOAD_COUNT];
+}
+
+-(void) loadObjectsSkip:(NSInteger) skip withLimit:(NSInteger) limit {
   if(Baby.currentBaby) {
-    PFQuery * query = [PFQuery queryWithClassName:[BabyAssignedTip parseClassName]];
+    PFQuery * query = [BabyAssignedTip query];
     [query includeKey:@"tip"];
     if(!ParentUser.currentUser.showHiddenTips) [query whereKey:@"isHidden" equalTo:[NSNumber numberWithBool:NO]];
     [query whereKey:@"baby" equalTo:Baby.currentBaby];
     [query orderByDescending:@"assignmentDate"];
-    query.cachePolicy = self.objects.count == 0 ? kPFCachePolicyCacheThenNetwork : kPFCachePolicyNetworkOnly;
+    query.cachePolicy = _objects.count == 0 ? kPFCachePolicyCacheThenNetwork : kPFCachePolicyNetworkOnly;
     query.maxCacheAge = 60 * 60 * 24; // at max check once a day.
+    query.skip = skip;
+    query.limit = limit;
     
-    filterQuery = [[TipsFilterQuery alloc] init];
-    filterQuery.target = query;
-    filterQuery.filter = self.tipFilter;
-    filterQuery.exclude = _deleted;
-    filterQuery.maxCacheAge = 5;
-    filterQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
-
-    if(_loadBecauseChangedFilter) {
-      // In this case we dont want to hit network again
-      filterQuery.cachePolicy = kPFCachePolicyCacheOnly;
-      query.cachePolicy = kPFCachePolicyCacheOnly;
-      _loadBecauseChangedFilter = NO;
-    }
+    
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+      _hadError = error != nil;
+      if(!_hadError) {
+        if(skip == 0 || !_objects) {
+          _objects = [[NSMutableArray alloc] initWithArray:objects];
+        } else {
+          // Add to end of list
+          [_objects addObjectsFromArray:objects];
+        }
+        _hasMoreTips = objects.count == MAX_LOAD_COUNT;
+      }
+      [self.tableView reloadData];
+    }];
   }
-  return filterQuery;
 }
+
 
 #pragma mark UITableViewDelegate
 
-
--(PFTableViewCell*) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
-
-  SWTableViewCell *cell = (SWTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"tipCell" forIndexPath:indexPath];
-  __weak SWTableViewCell *weakCell = cell;
-  [cell setAppearanceWithBlock:^{
-    NSMutableArray *rightUtilityButtons = [NSMutableArray new];
-    //[rightUtilityButtons sw_addUtilityButtonWithColor: [UIColor appSelectedColor] title:@"Share"];
-    [rightUtilityButtons sw_addUtilityButtonWithColor: [UIColor redColor] title:@"Hide"];
-    weakCell.rightUtilityButtons = rightUtilityButtons;
-    
-    weakCell.textLabel.font = TITLE_FONT;
-    weakCell.textLabel.textColor = [UIColor appNormalColor];
-    weakCell.detailTextLabel.font = DETAIL_FONT;
-    weakCell.detailTextLabel.textColor = [UIColor appGreyTextColor];
-    weakCell.containingTableView = tableView;
-    weakCell.delegate = self;
-  } force:NO];
-  
-  BabyAssignedTip* tipAssignment = (BabyAssignedTip*)[self objectAtIndexPath:indexPath];
-  
-  [cell setCellHeight:cell.frame.size.height];
-  cell.textLabel.text = tipAssignment.tip.titleForCurrentBaby;
-  cell.detailTextLabel.text = [NSString stringWithFormat:@"Delivered %@", [tipAssignment.assignmentDate stringWithHumanizedTimeDifference]];
-  cell.accessoryType = tipAssignment.tip.url.length ? UITableViewCellAccessoryDetailButton : UITableViewCellAccessoryNone;
-  
-  // TODO: Need graphic for wanring/tip
-  
-  return (PFTableViewCell*)cell; // Hacky!!! Could break!
-  
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+  if(_hasMoreTips && indexPath.row >= _objects.count) {
+    if([self isLoadingRow:indexPath]) {
+      [self loadObjectsSkip:_objects.count withLimit:MAX_LOAD_COUNT];
+    }
+  }
 }
 
+-(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+  if([self isLoadingRow:indexPath] && _hadError) {
+    _hadError = NO; // Make sure loading icon shows again
+    [self.tableView reloadData];
+    [self loadObjects];
+  }
+}
+
+#pragma mark UITableViewDataSource
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+  return _objects.count + (_hasMoreTips ? 1 : 0) ;
+}
+
+-(UITableViewCell*) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+  if(![self isLoadingRow:indexPath]) {
+    SWTableViewCell *cell = (SWTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"tipCell" forIndexPath:indexPath];
+    __weak SWTableViewCell *weakCell = cell;
+    [cell setAppearanceWithBlock:^{
+      NSMutableArray *rightUtilityButtons = [NSMutableArray new];
+      //[rightUtilityButtons sw_addUtilityButtonWithColor: [UIColor appSelectedColor] title:@"Share"];
+      [rightUtilityButtons sw_addUtilityButtonWithColor: [UIColor redColor] title:@"Hide"];
+      weakCell.rightUtilityButtons = rightUtilityButtons;
+      
+      weakCell.textLabel.font = TITLE_FONT;
+      weakCell.textLabel.textColor = [UIColor appNormalColor];
+      weakCell.detailTextLabel.font = DETAIL_FONT;
+      weakCell.detailTextLabel.textColor = [UIColor appGreyTextColor];
+      weakCell.containingTableView = tableView;
+      weakCell.delegate = self;
+    } force:NO];
+    
+    BabyAssignedTip* tipAssignment = (BabyAssignedTip*)_objects[indexPath.row];
+    [cell setCellHeight:cell.frame.size.height];
+    cell.textLabel.text = tipAssignment.tip.titleForCurrentBaby;
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"Delivered %@", [tipAssignment.assignmentDate stringWithHumanizedTimeDifference]];
+    cell.accessoryType = tipAssignment.tip.url.length ? UITableViewCellAccessoryDetailButton : UITableViewCellAccessoryNone;
+    return cell;
+  } else {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"loadingCell" forIndexPath:indexPath];
+    cell.textLabel.textColor = [UIColor appGreyTextColor];
+    cell.textLabel.font =  [UIFont fontForAppWithType:Bold andSize:14];
+    if(_hadError) {
+      cell.textLabel.text = @"Could load tips. Click to try again";
+      cell.imageView.image = [UIImage imageNamed:@"error-9"];
+    } else {
+      cell.textLabel.text = @"Loading...";
+      cell.imageView.image = [UIImage animatedImageNamed:@"progress-" duration:1.0];
+    }
+    return cell;
+  }
+}
+
+
 -(void) tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
-  [self performSegueWithIdentifier:kDDSegueShowWebView sender:[self objectAtIndexPath:indexPath]];
+  [self performSegueWithIdentifier:kDDSegueShowWebView sender:_objects[indexPath.row]];
 }
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -197,21 +207,21 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-  
-  CGFloat defaultSize = [super tableView:tableView heightForRowAtIndexPath:indexPath];
-  if(indexPath.row > self.objects.count -1) {
-    return defaultSize;
-  }
-  
-  //  if([indexPath isEqual:_selectedPath]) {
-    BabyAssignedTip* assignment = (BabyAssignedTip*)[self objectAtIndexPath:indexPath];
+  if(![self isLoadingRow:indexPath]) {
+    CGFloat defaultSize = [super tableView:tableView heightForRowAtIndexPath:indexPath];
+    if(indexPath.row > _objects.count -1) {
+      return defaultSize;
+    }
+    
+    BabyAssignedTip* assignment = [self tipForIndexPath:indexPath];
     int width = assignment.tip.url.length ? self.tableView.frame.size.width - 44 : self.tableView.frame.size.width;
     CGFloat newTitleLabelSize = [self getLabelSize:assignment.tip.titleForCurrentBaby andFont:TITLE_FONT withMaxWidth:width];
     CGFloat newDateLabelSize = [self getLabelSize:[assignment.createdAt stringWithHumanizedTimeDifference] andFont:DETAIL_FONT withMaxWidth:width];
     return MAX(newTitleLabelSize + newDateLabelSize + 40, defaultSize);
-//  } else {
-//    return defaultSize;
-//  }
+  } else {
+      // Loading row..
+    return self.tableView.rowHeight;
+  }
 }
 
 -(CGFloat)getLabelSize:(NSString *) text andFont:(UIFont *)font withMaxWidth:(int) width {
@@ -235,11 +245,12 @@
   }
   
   notificaiton.isHidden = YES;
-  [notificaiton saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-    [self loadObjects];
-  }];
-  [_deleted addObject:notificaiton.objectId];
-  [self loadObjects];
+  [notificaiton saveEventually];
+
+  [self.tableView beginUpdates];
+  [_objects removeObjectAtIndex:path.row];
+  [self.tableView deleteRowsAtIndexPaths:@[path] withRowAnimation:YES];
+  [self.tableView endUpdates];
 }
 
 -(void) shareNotification:(BabyAssignedTip*) notificaiton withIndexPath:(NSIndexPath*) path {
@@ -251,7 +262,7 @@
   // TODO: rework this to not use PF table view - so we can do animated deletes.
   
   NSIndexPath * path = [self.tableView indexPathForCell:cell];
-  BabyAssignedTip * a = (BabyAssignedTip*)[self objectAtIndexPath:path];
+  BabyAssignedTip * a = [self tipForIndexPath:path];
   if(buttonIndex == 0) {
     [self hideNotification:a withIndexPath:path];
   } else if(buttonIndex == 1) {
@@ -274,12 +285,21 @@
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
       NSIndexPath * path = [self.tableView indexPathForCell:cell];
-      BabyAssignedTip * tipAssignment = (BabyAssignedTip*)[self objectAtIndexPath:path];
+      BabyAssignedTip * tipAssignment = [self tipForIndexPath:path];
       cell.accessoryType = tipAssignment.tip.url.length ? UITableViewCellAccessoryDetailButton : UITableViewCellAccessoryNone;
     });
   }
 }
 
+
+-(BabyAssignedTip *) tipForIndexPath:(NSIndexPath*) indexPath {
+  NSAssert(indexPath.section == 0,@"Unexpected section %d", indexPath.section);
+  return _objects[indexPath.row];
+}
+
+-(BOOL) isLoadingRow:(NSIndexPath*) indexPath {
+  return indexPath.row >= _objects.count;
+}
 
 
 @end
