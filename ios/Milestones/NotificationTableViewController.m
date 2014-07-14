@@ -293,7 +293,7 @@
 
 
 -(BabyAssignedTip *) tipForIndexPath:(NSIndexPath*) indexPath {
-  NSAssert(indexPath.section == 0,@"Unexpected section %d", indexPath.section);
+  NSAssert(indexPath.section == 0,@"Unexpected section %ld", indexPath.section);
   return _objects[indexPath.row];
 }
 

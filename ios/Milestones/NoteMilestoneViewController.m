@@ -11,6 +11,8 @@
 #import "WebViewerViewController.h"
 #import "FDTakeControllerNoStatusBar.h"
 #import "UnitHelper.h"
+#import "UIImage+FX.h"
+
 
 @interface NoteMilestoneViewController ()
 
@@ -439,7 +441,8 @@
   // TODO: Support video too!
   _imageOrVideo = UIImageJPEGRepresentation(photo, 0.5f);
   _imageOrVideoType = @"image/jpg";
-  [self.takePhotoButton setImage:photo forState:UIControlStateNormal];
+  CGSize scaleSize = CGSizeMake(  self.takePhotoButton.bounds.size.width * 2 , self.takePhotoButton.bounds.size.height * 2);
+  [self.takePhotoButton setImage:[photo imageScaledToFitSize:scaleSize] forState:UIControlStateNormal];
 }
 
 -(NSAttributedString *) createTitleTextFromMilestone {
