@@ -211,9 +211,11 @@ typedef void (^StandardMilestoneResultBlock)(NSNumber * totalCount, NSArray *obj
                             if(!_achievements || startIndex == 0) _achievements = [[NSMutableArray alloc] initWithCapacity:self.pagingSize];
                             _hasMoreAchievements = achievements.count == self.pagingSize;
                             for(MilestoneAchievement* achievement in achievements) {
-                              NSAssert([achievement.baby.objectId isEqualToString:Baby.currentBaby.objectId],@"Expected only achievements that match current baby!");
-                              // So we can use a populated object, assign the object to the current baby object
-                              achievement.baby = Baby.currentBaby;
+                              if(Baby.currentBaby) { // in some cases, like on log out, the bbay may have been set null already. 
+                                NSAssert([achievement.baby.objectId isEqualToString:Baby.currentBaby.objectId],@"Expected only achievements that match current baby!");
+                                // So we can use a populated object, assign the object to the current baby object
+                                achievement.baby = Baby.currentBaby;
+                              }
                               [((NSMutableArray*) _achievements) addObject:achievement];
                             }
                             

@@ -9,6 +9,7 @@
 #import "AchievementDetailsViewController.h"
 #import "WebViewerViewController.h"
 #import "NSDate+Utils.m"
+#import "PronounHelper.h"
 
 @interface AchievementDetailsViewController ()
 
@@ -187,7 +188,7 @@ NSDateFormatter * _dateFormatter;
 
 -(void) showPercentileMessage:(NSInteger) percent {
   UIImage * balloon = [UIImage imageNamed:@"aheadBalloon"];
-  UIView *shadowView = [[UIView alloc] initWithFrame:CGRectMake(0,0, 100,120)];
+  UIView *shadowView = [[UIView alloc] initWithFrame:CGRectMake(0,0, 130,85)];
   shadowView.layer.shadowColor = [UIColor blackColor].CGColor;
   //shadowView.layer.shadowOffset = CGSizeMake(10,10);
   shadowView.layer.shadowOpacity = .5;
@@ -200,17 +201,21 @@ NSDateFormatter * _dateFormatter;
   percentileMessageView.layer.mask = mask;
   percentileMessageView.layer.masksToBounds = YES;
   percentileMessageView.backgroundColor = [UIColor whiteColor];
-  
-  
+
   UILabel * messageLabel = [[UILabel alloc] initWithFrame:CGRectInset(percentileMessageView.bounds,5,5)];
   
   NSDictionary * messageTextAttributes = @{NSFontAttributeName: [UIFont fontForAppWithType:Medium andSize:13.0], NSForegroundColorAttributeName: [UIColor appGreyTextColor]};
-  NSDictionary * percentTextAttributes = @{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:17.0], NSForegroundColorAttributeName: [UIColor appHeaderActiveTextColor]};
+  NSDictionary * percentTextAttributes = @{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:18.0], NSForegroundColorAttributeName: [UIColor appHeaderActiveTextColor]};
 
-  
-  NSMutableAttributedString * string = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ is ahead of", Baby.currentBaby.name] attributes:messageTextAttributes];
-  [string appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %ld%% ", (long)percent] attributes:percentTextAttributes]];
-  [string appendAttributedString:[[NSAttributedString alloc] initWithString:@"other babies for this milestone!" attributes:messageTextAttributes]];
+  NSMutableAttributedString * string = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ is growing up!\n Completed ", [PronounHelper replacePronounTokens:@"${He}" forBaby:Baby.currentBaby]] attributes:messageTextAttributes];
+  if(percent >=50) {
+    [string appendAttributedString:[[NSAttributedString alloc] initWithString:@"before " attributes:messageTextAttributes]];
+  } else {
+    percent = 100 - percent; // flip
+    [string appendAttributedString:[[NSAttributedString alloc] initWithString:@"after " attributes:messageTextAttributes]];
+  }
+  [string appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%ld%%", (long)percent] attributes:percentTextAttributes]];
+  [string appendAttributedString:[[NSAttributedString alloc] initWithString:@" of data-babies" attributes:messageTextAttributes]];
   
   messageLabel.attributedText = string;
   messageLabel.numberOfLines = 0;

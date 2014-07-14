@@ -181,8 +181,11 @@
 }
 
 -(void) dismiss {
-  [self.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-  //[self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+  if(self.presentingViewController.presentingViewController) {
+    [self.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+  } else {
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+  }
 }
 
 -(NSString *) nameFromDeviceName {

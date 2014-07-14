@@ -24,15 +24,6 @@
   _notificationsTabItem = ((UIViewController*)[self.viewControllers objectAtIndex:1]).tabBarItem;
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appEnterForeground:) name:UIApplicationDidBecomeActiveNotification object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gotPushNotification:) name:kDDNotificationPushReceieved object:nil];
-
-  // Uncomment to add banners to all views. 
-  
-//  NSMutableArray * newViewControllers = [[NSMutableArray alloc] init];
-//  for(UIViewController * vc in self.viewControllers) {
-//    BannerViewController * bvc = [[BannerViewController alloc] initWithContentViewController:vc];
-//    [newViewControllers addObject:bvc];
-//  }
-//  self.viewControllers=newViewControllers;
 }
 
 -(void) dealloc {
