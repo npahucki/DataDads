@@ -4,37 +4,32 @@ var isDev = Parse.applicationId === "NlJHBG0NZgFS8JP76DBjA31MBRZ7kmb7dVSQQz3U";
 var host = isDev ? "dataparenting-dev" : "dataparenting";
 
 var adPath = "http://" + host +  ".parseapp.com/ads/";
-var smallAdPath = adPath + "320x50/";
-var mediumAdPath = adPath + "213x320/";
-
-var linkDomainBase = "http://dataparenting.com/";
-var donateLinkPath = linkDomainBase + "donate/";
-var contactLinkPath = linkDomainBase + "contact/";
-var interviewLink = "http://parentsintech.com/get-interviewed/";
-
-var smallAds = [
-    {imageUrl:smallAdPath + "DataDads Ad1 Ramen Noodles.jpg", linkUrl:donateLinkPath},
-    {imageUrl:smallAdPath + "DataDads Milk1.jpg", linkUrl:donateLinkPath},
-    {imageUrl:smallAdPath + "DataDads Uggs1.jpg", linkUrl:donateLinkPath},
-    {imageUrl:smallAdPath + "DataDads Uggs2.jpg", linkUrl:donateLinkPath},
-    {imageUrl:smallAdPath + "DataDads Noodles2.jpg", linkUrl:donateLinkPath},
-    {imageUrl:smallAdPath + "DataDads Improve1.jpg", linkUrl:contactLinkPath},
-    {imageUrl:smallAdPath + "DataDads Ad Profile1.jpg", linkUrl:interviewLink},
-    {imageUrl:smallAdPath + "DataDads New Parent1.jpg", linkUrl:interviewLink}
+var smallAdPostFix = "640x100";
+var dpBaseUrl = "http://dataparenting.com/";
+var categories = [
+    {name : "contact", count: 1, url : dpBaseUrl + "contact/?utm_source=app&utm_medium=app-small&utm_campaign=dp-contact"},
+    {name : "donate", count : 2, url: dpBaseUrl + "donate/?utm_source=app&utm_medium=app-small&utm_campaign=dp-donate"},
+    {name : "parents", count : 2, url : "http://parentsintech.com/get-interviewed/?utm_source=app&utm_medium=app-small&utm_campaign=PIT_Profile"}
 ];
 
-var mediumAds = [
-    {imageUrl:mediumAdPath + "DataDads Milk LG1.jpg", linkUrl:donateLinkPath},
-    {imageUrl:mediumAdPath + "DataDads UggsLG2.jpg", linkUrl:donateLinkPath},
-    {imageUrl:mediumAdPath + "DataDads NoodlesLG1.jpg", linkUrl:donateLinkPath},
-    {imageUrl:mediumAdPath + "DataDads Improve LG1.jpg", linkUrl:contactLinkPath},
-    {imageUrl:mediumAdPath + "DataDads Profile LG1.jpg", linkUrl:interviewLink}
-];
+var smallAds = [];
+for(i=0; i<categories.length; i++) {
+    var category = categories[i];
+    for(ii=0; ii < category.count; ii++) {
+        var imageName = category.name + "-" + smallAdPostFix + "-" + (ii+1) + ".jpg";
+        smallAds.push({
+            imageUrl : adPath + imageName ,
+            linkUrl : category.url + "&utm_content=" + imageName }
+        );
+    }
+}
 
 var adsBySize = {
-        small: {size : { width :320, height: 50}, ads : smallAds },
-        medium : {size : { width :213, height: 320}, ads : mediumAds}
+        small: { size : { width :320, height: 50}, ads : smallAds }
 };
+
+console.log(smallAds);
+
 
 Parse.Cloud.define("getAdToShow", function (request, response) {
     // TODO: Track user and rotate ads!
