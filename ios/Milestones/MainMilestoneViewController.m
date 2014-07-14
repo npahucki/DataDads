@@ -14,6 +14,7 @@
 #import "UIImage+FX.h"
 #import "NoConnectionAlertView.h"
 #import "AlertThenDisappearView.h"
+#import "PronounHelper.h"
 
 #define AD_TRIGGER_LAUNCH_COUNT 2
 #define AD_TRIGGER_MAX_TIME 60
@@ -88,9 +89,19 @@
   MilestoneAchievement * achievement = notification.object;
   [achievement calculatePercentileRankingWithBlock:^(float percentile) {
     if(percentile >= 0) {
+      NSDictionary * messageTextAttributes = @{NSFontAttributeName: [UIFont fontForAppWithType:Medium andSize:16.0], NSForegroundColorAttributeName: [UIColor appGreyTextColor]};
+      NSDictionary * percentTextAttributes = @{NSFontAttributeName: [UIFont fontForAppWithType:Bold andSize:16.0], NSForegroundColorAttributeName: [UIColor appHeaderCounterActiveTextColor]};
+      NSMutableAttributedString * string = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ is growing up! Completed ", [PronounHelper replacePronounTokens:@"${He}" forBaby:Baby.currentBaby]] attributes:messageTextAttributes];
+      if(percentile >=50) {
+        [string appendAttributedString:[[NSAttributedString alloc] initWithString:@"before " attributes:messageTextAttributes]];
+      } else {
+        percentile = 100 - percentile; // flip
+        [string appendAttributedString:[[NSAttributedString alloc] initWithString:@"after " attributes:messageTextAttributes]];
+      }
+      [string appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%ld%%", (long)percentile] attributes:percentTextAttributes]];
+      [string appendAttributedString:[[NSAttributedString alloc] initWithString:@" of data-babies" attributes:messageTextAttributes]];
+
       AlertThenDisappearView * alert = [AlertThenDisappearView instanceForViewController:self];
-      NSMutableAttributedString * string = [[NSMutableAttributedString alloc] initWithString:Baby.currentBaby.name attributes:@{NSFontAttributeName : [UIFont fontForAppWithType:Bold andSize:13]}];
-      [string appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" is ahead of %.02f%% of other babies for that milestone so far.",percentile] attributes:@{NSFontAttributeName : [UIFont fontForAppWithType:Medium andSize:13]}]];
       alert.titleLabel.font = nil; // Must clear this because it is set as part of UILabel's appearance.
       alert.titleLabel.attributedText = string;
       alert.imageView.image = [UIImage imageNamed:@"completedBest"];
