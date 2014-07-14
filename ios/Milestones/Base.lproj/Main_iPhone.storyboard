@@ -2109,7 +2109,7 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="tipsIcon" id="upt-Tq-dHm">
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="tipsButton_active" id="upt-Tq-dHm">
                                             <rect key="frame" x="15" y="10" width="22" height="22"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
@@ -2201,6 +2201,7 @@
         <image name="settingsIcon_pressed.png" width="27" height="27"/>
         <image name="tagCheckbox" width="20" height="20"/>
         <image name="tagCheckbox_checked" width="20" height="20"/>
+        <image name="tipsButton_active" width="22" height="22"/>
         <image name="tipsIcon" width="22" height="22"/>
         <image name="weightIcon" width="22" height="28"/>
         <image name="welcomeScreenBaby" width="71" height="73"/>
