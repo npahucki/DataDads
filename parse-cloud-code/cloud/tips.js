@@ -9,9 +9,15 @@ Parse.Cloud.define("queryMyTips", function (request, response) {
     var limit = parseInt(request.params.limit);
     var skip = parseInt(request.params.skip);
 
+    var userIsPremium = false; // TODO: load from user profile, or table of user purchases
+
     var query = new Parse.Query("BabyAssignedTips");
     query.include("tip");
     if (!showHiddenTips) query.equalTo("isHidden", false);
+    if (!userIsPremium) {
+        var sevenDaysAgo = new Date(new Date().setDate(new Date().getDate()-7));
+        query.greaterThanOrEqualTo("assignmentDate", sevenDaysAgo);
+    }
     query.equalTo("baby",  {__type:"Pointer", className:"Babies", objectId:babyId});
     query.descending("assignmentDate");
     query.skip = skip;
