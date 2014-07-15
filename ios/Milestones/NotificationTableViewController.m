@@ -22,6 +22,7 @@
   NSMutableArray * _objects;
   BOOL _hasMoreTips;
   BOOL _hadError;
+  BOOL _isEmpty;
 }
 
 -(void) viewDidLoad {
@@ -87,6 +88,7 @@
         }
         _hasMoreTips = objects.count == MAX_LOAD_COUNT;
       }
+      _isEmpty = _objects.count == 0;
       [self.tableView reloadData];
     }];
   }
@@ -104,7 +106,8 @@
 }
 
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  if([self isLoadingRow:indexPath] && _hadError) {
+  if([self isLoadingRow:indexPath] && (_hadError || _isEmpty)) {
+    _isEmpty = NO;
     _hadError = NO; // Make sure loading icon shows again
     [self.tableView reloadData];
     [self loadObjects];
@@ -114,7 +117,7 @@
 #pragma mark UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return _objects.count + (_hasMoreTips ? 1 : 0) ;
+  return _isEmpty ? 1 : _objects.count + (_hasMoreTips ? 1 : 0) ;
 }
 
 -(UITableViewCell*) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -149,8 +152,13 @@
       cell.textLabel.text = @"Could load tips. Click to try again";
       cell.imageView.image = [UIImage imageNamed:@"error-9"];
     } else {
-      cell.textLabel.text = @"Loading...";
-      cell.imageView.image = [UIImage animatedImageNamed:@"progress-" duration:1.0];
+      if(_isEmpty && !_hasMoreTips) {
+        cell.textLabel.text = @"No Tips to show now. New tips should be arriving soon.";
+        cell.imageView.image = [UIImage imageNamed:@"tipsButton_active"];
+      } else {
+        cell.textLabel.text = @"Loading...";
+        cell.imageView.image = [UIImage animatedImageNamed:@"progress-" duration:1.0];
+      }
     }
     return cell;
   }
@@ -251,6 +259,8 @@
   [_objects removeObjectAtIndex:path.row];
   [self.tableView deleteRowsAtIndexPaths:@[path] withRowAnimation:YES];
   [self.tableView endUpdates];
+  _isEmpty = _objects.count == 0;
+  if(_isEmpty) [self.tableView reloadData];
 }
 
 -(void) shareNotification:(BabyAssignedTip*) notificaiton withIndexPath:(NSIndexPath*) path {
