@@ -10,6 +10,7 @@
 #import "SWTableViewCell.h"
 #import "NSDate+HumanizedTime.h"
 #import "WebViewerViewController.h"
+#import "PFCloud+Cache.h"
 
 #define TITLE_FONT [UIFont fontForAppWithType:Book andSize:14]
 #define DETAIL_FONT [UIFont fontForAppWithType:Book andSize:12]
@@ -66,31 +67,27 @@
 
 -(void) loadObjectsSkip:(NSInteger) skip withLimit:(NSInteger) limit {
   if(Baby.currentBaby) {
-    PFQuery * query = [BabyAssignedTip query];
-    [query includeKey:@"tip"];
-    if(!ParentUser.currentUser.showHiddenTips) [query whereKey:@"isHidden" equalTo:[NSNumber numberWithBool:NO]];
-    [query whereKey:@"baby" equalTo:Baby.currentBaby];
-    [query orderByDescending:@"assignmentDate"];
-    query.cachePolicy = _objects.count == 0 ? kPFCachePolicyCacheThenNetwork : kPFCachePolicyNetworkOnly;
-    query.maxCacheAge = 60 * 60 * 24; // at max check once a day.
-    query.skip = skip;
-    query.limit = limit;
-    
-    
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-      _hadError = error != nil;
-      if(!_hadError) {
-        if(skip == 0 || !_objects) {
-          _objects = [[NSMutableArray alloc] initWithArray:objects];
-        } else {
-          // Add to end of list
-          [_objects addObjectsFromArray:objects];
-        }
-        _hasMoreTips = objects.count == MAX_LOAD_COUNT;
-      }
-      _isEmpty = _objects.count == 0;
-      [self.tableView reloadData];
-    }];
+    //    query.maxCacheAge = 60 * 60 * 24; // at max check once a day.
+    [PFCloud callFunctionInBackground:@"queryMyTips"
+                       withParameters:@{@"babyId": Baby.currentBaby.objectId,
+                                        @"skip" : [@(skip) stringValue],
+                                        @"limit" : [@(limit) stringValue],
+                                        @"showHiddenTips": @(ParentUser.currentUser.showHiddenTips)}
+                        cachePolicy: _objects.count == 0 ? kPFCachePolicyCacheThenNetwork : kPFCachePolicyNetworkOnly
+                        block:^(NSArray * objects, NSError *error) {
+                          _hadError = error != nil;
+                          if(!_hadError) {
+                            if(skip == 0 || !_objects) {
+                              _objects = [[NSMutableArray alloc] initWithArray:objects];
+                            } else {
+                              // Add to end of list
+                              [_objects addObjectsFromArray:objects];
+                            }
+                            _hasMoreTips = objects.count == MAX_LOAD_COUNT;
+                          }
+                          _isEmpty = _objects.count == 0;
+                          [self.tableView reloadData];
+                        }];
   }
 }
 

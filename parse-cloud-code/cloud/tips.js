@@ -1,20 +1,44 @@
-///////////////////////////////////////////////////////////////////
-// Job to move over tips based on user subscription and baby age //
-///////////////////////////////////////////////////////////////////
-
-// Basic Logic:
-// Get a list of all babies, load the user too
-// For each baby, determine delivery rate (if the user is premimum, more frequently, if not once a week). 
-// See when the last tip was delivered, if within the delivery rate,
-//    See if any tips are available based on the baby's age (and later completed milestones (condition))
-//    If at least one tip is available
-//      create the record in the join table 
-//      push an alert to the user's phone. 
-
-///////////////////////////////////////////////////////////////////
 var utils = require("cloud/utils");
 var search = require("cloud/search");
 var _ = require('underscore');
+
+
+Parse.Cloud.define("queryMyTips", function (request, response) {
+    var babyId = request.params.babyId;
+    var showHiddenTips = request.params.showHiddenTips;
+    var limit = parseInt(request.params.limit);
+    var skip = parseInt(request.params.skip);
+
+    var query = new Parse.Query("BabyAssignedTips");
+    query.include("tip");
+    if (!showHiddenTips) query.equalTo("isHidden", false);
+    query.equalTo("baby",  {__type:"Pointer", className:"Babies", objectId:babyId});
+    query.descending("assignmentDate");
+    query.skip = skip;
+    query.limit = limit;
+    query.find().
+            then(function (results) {
+                response.success(results);
+            }, function (error) {
+                response.error(error);
+            });
+
+});
+
+
+///////////////////////////////////////////////////////////////////
+// Job to move over tips based on user subscription and baby age //
+///////////////////////////////////////////////////////////////////
+// Basic Logic:
+// Get a list of all babies, load the user too
+// For each baby, determine delivery rate (if the user is premimum, more frequently, if not once a week).
+// See when the last tip was delivered, if within the delivery rate,
+//    See if any tips are available based on the baby's age (and later completed milestones (condition))
+//    If at least one tip is available
+//      create the record in the join table
+//      push an alert to the user's phone.
+
+///////////////////////////////////////////////////////////////////
 
 Parse.Cloud.job("tipsAssignment", function (request, status) {
     var DEFAULT_DELIVERY_INTERVAL_DAYS = 3;
@@ -76,7 +100,7 @@ Parse.Cloud.job("tipsAssignment", function (request, status) {
         console.log("Pushing tip assignment " + tipAssignment.id + " to user " + parentUser.id);
         title = tipAssignment.get("tip").get("title");
         // TODO: get languange from parent profile!
-        title = utils.replacePronounTokens(title,tipAssignment.get("baby").get("isMale"), "en");
+        title = utils.replacePronounTokens(title, tipAssignment.get("baby").get("isMale"), "en");
         // IOS allows 256 bytes max
         if (title.length > 100) {
             title = title.substring(0, 100) + "...";
