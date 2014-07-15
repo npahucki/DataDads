@@ -24,14 +24,17 @@ Parse.Cloud.define("queryMyMilestones", function (request, response) {
     innerQuery.equalTo("baby", {__type:"Pointer", className:"Babies", objectId:babyId});
     innerQuery.exists("standardMilestoneId");
     innerQuery.select(["standardMilestoneId"]);
-    if(showPostponed) innerQuery.equalTo("isPostponed", false);
-    if(showIgnored) innerQuery.equalTo("isSkipped", false);
+    if (showPostponed) innerQuery.equalTo("isPostponed", false);
+    if (showIgnored) innerQuery.equalTo("isSkipped", false);
     innerQuery.limit(1000); // NOTE: if we start getting over 1000 achievements, this is not going to work!!!
 
     query = new Parse.Query("StandardMilestones");
     query.containedIn("babySex", [-1, babySex]);
     query.containedIn("parentSex", [-1, parentSex]);
-    if (filterTokens) query.containsAll("searchIndex", filterTokens);
+    if (filterTokens) {
+        filterTokens = search.canonicalize(filterTokens);
+        query.containsAll("searchIndex", filterTokens);
+    }
 
     if (timePeriod == "future") {
         query.greaterThanOrEqualTo("rangeHigh", rangeDays);
@@ -50,16 +53,26 @@ Parse.Cloud.define("queryMyMilestones", function (request, response) {
     var countPromise = query.count();
     query.limit(limit);
     query.skip(skip);
-    query.select(["title", "url", "rangeHigh", "rangeLow","canCompare","enteredBy"]);
+    query.select(["title", "url", "rangeHigh", "rangeLow", "canCompare", "enteredBy"]);
     var findPromise = query.find();
 
-    Parse.Promise.when(countPromise,findPromise).
+    Parse.Promise.when(countPromise, findPromise).
             then(function (count, queryResults) {
-                response.success({"count" : count, "milestones" : queryResults});
+                response.success({"count":count, "milestones":queryResults});
             }, function (error) {
                 response.error(error);
             });
 
+});
+
+
+Parse.Cloud.beforeSave("StandardMilestones", function (request, response) {
+    var milestone = request.object;
+    if (!milestone.get("searchIndex") || (milestone.dirty("title") && milestone.previous("title") != milestone.get("title"))) {
+        var tokens = search.tokenize(milestone.get("title"));
+        milestone.set("searchIndex", tokens);
+    }
+    response.success();
 });
 
 

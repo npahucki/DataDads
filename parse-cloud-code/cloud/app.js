@@ -1,5 +1,3 @@
-console.log("STARTING");
-
 var express = require('express');
 var moment = require('moment');
 var _ = require('underscore');

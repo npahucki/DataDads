@@ -15,6 +15,7 @@ Parse.Cloud.define("queryMyAchievements", function (request, response) {
 
     var query = new Parse.Query("MilestoneAchievements");
     if (filterTokens) {
+        filterTokens = search.canonicalize(filterTokens);
         var customTitleQuery = new Parse.Query("MilestoneAchievements");
         customTitleQuery.containsAll("searchIndex", filterTokens);
         var standardMilestoneTitleQuery = new Parse.Query("MilestoneAchievements");
@@ -71,7 +72,7 @@ Parse.Cloud.beforeSave("MilestoneAchievements", function (request, response) {
         achievement.set("standardMilestoneId",achievement.get("standardMilestone").id);
     }
 
-    if(achievement.get("customTitle")) {
+    if( achievement.dirty("customTitle")) {
         var tokens = search.tokenize(achievement.get("customTitle"));
         achievement.set("searchIndex", tokens);
     }
@@ -91,5 +92,32 @@ Parse.Cloud.beforeSave("MilestoneAchievements", function (request, response) {
                 response.success();
             }, function (error) {
                 response.error(error);
+            });
+});
+
+Parse.Cloud.job("indexCustomTitleField", function (request, status) {
+    //'use strict';
+    console.log("Starting indexing of all custom title fields");
+
+    // Set up to modify user data
+    Parse.Cloud.useMasterKey();
+    var promises = [];
+
+    var achievementsQuery = new Parse.Query("MilestoneAchievements");
+    achievementsQuery.exists("customTitle");
+    achievementsQuery.each(function(achievement) {
+        console.log("Will index:" + achievement.get("customTitle"));
+        achievement.set("searchIndex",search.tokenize(achievement.get("customTitle")));
+        promises.push(achievement.save());
+    }).then(function () {
+        console.log("Saving " + promises.length + " objects!!");
+        return Parse.Promise.when(promises);
+    }).then(function () {
+                // Set the job's success status
+                console.log("Index Done!");
+                status.success("Index Done");
+            }, function (error) {
+                // Set the job's error status
+                status.error("Failed to index : " + JSON.stringify(error));
             });
 });

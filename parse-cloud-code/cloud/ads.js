@@ -28,9 +28,6 @@ var adsBySize = {
         small: { size : { width :320, height: 50}, ads : smallAds }
 };
 
-console.log(smallAds);
-
-
 Parse.Cloud.define("getAdToShow", function (request, response) {
     // TODO: Track user and rotate ads!
     var adChoices = adsBySize[request.params.size];

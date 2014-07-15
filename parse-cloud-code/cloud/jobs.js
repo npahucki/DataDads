@@ -172,33 +172,3 @@ Parse.Cloud.job("tipsAssignment", function (request, status) {
             });
 
 });
-
-Parse.Cloud.job("indexCustomTitleField", function (request, status) {
-    //'use strict';
-    console.log("Starting indexing of all custom title fields");
-
-    // Set up to modify user data
-    Parse.Cloud.useMasterKey();
-    var promises = [];
-
-    var achievementsQuery = new Parse.Query("MilestoneAchievements");
-    achievementsQuery.exists("customTitle");
-    achievementsQuery.doesNotExist("searchIndex");
-    achievementsQuery.limit(1000); // MAX
-    achievementsQuery.find().then(function (achievements) {
-        _.each(achievements, function (achievement) {
-            console.log("Would index:" + achievement.get("customTitle"));
-            achievement.set("searchIndex",search.tokenize(achievement.get("customTitle")));
-            promises.push(achievement.save());
-        });
-        console.log("Saving " + promises.length + " objects!!");
-        return Parse.Promise.when(promises);
-    }).then(function () {
-                // Set the job's success status
-                console.log("Index Done!");
-                status.success("Index Done");
-            }, function (error) {
-                // Set the job's error status
-                status.error("Failed to index : " + JSON.stringify(error));
-            });
-});
