@@ -40,7 +40,7 @@ Parse.Cloud.define("queryMyMilestones", function (request, response) {
         query.greaterThanOrEqualTo("rangeHigh", rangeDays);
         query.ascending("rangeHigh,rangeLow");
     } else if (timePeriod == "past") {
-        query.lessThanOrEqualTo("rangeHigh", rangeDays);
+        query.lessThan("rangeHigh", rangeDays);
         query.descending("rangeHigh,rangeLow");
     } else {
         response.error("Invalid query, unknown timePeriod '" + timePeriod + "'");
