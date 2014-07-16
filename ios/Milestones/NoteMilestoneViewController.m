@@ -8,7 +8,7 @@
 
 #import "NoteMilestoneViewController.h"
 #import "WebViewerViewController.h"
-#import "FDTakeControllerNoStatusBar.h"
+#import "FDTakeController.h"
 #import "UnitHelper.h"
 #import "UIImage+FX.h"
 
@@ -222,7 +222,7 @@
 
 - (IBAction)didClickTakePicture:(id)sender {
     [self.view endEditing:YES];
-    _takeController = [[FDTakeControllerNoStatusBar alloc] init];
+    _takeController = [[FDTakeController alloc] init];
     _takeController.delegate = self;
     _takeController.viewControllerForPresentingImagePickerController = self;
     _takeController.allowsEditingPhoto = NO; // NOTE: Allowing photo editing causes a problem with landscape pictures!

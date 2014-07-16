@@ -7,7 +7,7 @@
 //
 
 #import "BabyInfoPhotoViewController.h"
-#import "FDTakeControllerNoStatusBar.h"
+#import "FDTakeController.h"
 
 @interface BabyInfoPhotoViewController ()
 
@@ -36,7 +36,7 @@
 }
 
 - (IBAction)didClickPhotoButton:(id)sender {
-    _takeController = [[FDTakeControllerNoStatusBar alloc] init];
+    _takeController = [[FDTakeController alloc] init];
     _takeController.delegate = self;
     _takeController.viewControllerForPresentingImagePickerController = self;
     _takeController.allowsEditingPhoto = YES;

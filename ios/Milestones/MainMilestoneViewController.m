@@ -89,7 +89,7 @@
         if (percentile >= 0) {
             NSDictionary *messageTextAttributes = @{NSFontAttributeName : [UIFont fontForAppWithType:Medium andSize:16.0], NSForegroundColorAttributeName : [UIColor appGreyTextColor]};
             NSDictionary *percentTextAttributes = @{NSFontAttributeName : [UIFont fontForAppWithType:Bold andSize:16.0], NSForegroundColorAttributeName : [UIColor appHeaderCounterActiveTextColor]};
-            NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ is growing up! Completed ", [PronounHelper replacePronounTokens:@"${He}" forBaby:Baby.currentBaby]] attributes:messageTextAttributes];
+            NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@'s growing up! Completed ", [PronounHelper replacePronounTokens:@"${He}" forBaby:Baby.currentBaby]] attributes:messageTextAttributes];
             if (percentile >= 50) {
                 [string appendAttributedString:[[NSAttributedString alloc] initWithString:@"before " attributes:messageTextAttributes]];
             } else {
@@ -103,7 +103,7 @@
             alert.titleLabel.font = nil; // Must clear this because it is set as part of UILabel's appearance.
             alert.titleLabel.attributedText = string;
             alert.imageView.image = [UIImage imageNamed:@"completedBest"];
-            [alert showWithDelay:3];
+            [alert showWithDelay:5];
         }
     }];
 }
@@ -170,7 +170,7 @@
         self.searchButton.image = [UIImage imageNamed:@"searchButton"];
         [self.searchBar resignFirstResponder];
         _historyController.filterString = nil;
-        int finalY = self.navigationController.navigationBar.bounds.size.height + self.searchBar.bounds.size.height;
+        int finalY = self.navigationController.navigationBar.frame.origin.y;
         _animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
         UIGravityBehavior *gravityBehavior = [[UIGravityBehavior alloc] initWithItems:@[self.searchBar]];
         gravityBehavior.magnitude = -2.0;
@@ -179,7 +179,7 @@
         UICollisionBehavior *collisionBehavior =
                 [[UICollisionBehavior alloc] initWithItems:@[self.searchBar]];
         collisionBehavior.translatesReferenceBoundsIntoBoundary = NO;
-        [collisionBehavior addBoundaryWithIdentifier:@"hideSearchBarBoundry" fromPoint:CGPointMake(0, -finalY) toPoint:CGPointMake(self.searchBar.bounds.size.width, -finalY)];
+        [collisionBehavior addBoundaryWithIdentifier:@"hideSearchBarBoundry" fromPoint:CGPointMake(0, finalY) toPoint:CGPointMake(self.searchBar.bounds.size.width, finalY)];
         collisionBehavior.collisionDelegate = self;
         [_animator addBehavior:collisionBehavior];
     }
@@ -196,11 +196,11 @@
 }
 
 - (void)showSearchBar {
-    int finalY = self.navigationController.navigationBar.bounds.size.height + self.searchBar.bounds.size.height;
+    int finalY = self.navigationController.navigationBar.frame.origin.y + self.navigationController.navigationBar.frame.size.height + self.searchBar.bounds.size.height;
     if (!_isShowingSearchBar) {
         // Start it up above the frame so it can fall down.
         self.searchButton.image = [UIImage imageNamed:@"searchButton_active"];
-        self.searchBar.frame = CGRectMake(self.searchBar.frame.origin.x, -finalY, self.searchBar.frame.size.width, self.searchBar.frame.size.height);
+        self.searchBar.frame = self.navigationController.navigationBar.frame;
         self.searchBar.hidden = NO;
         _isShowingSearchBar = YES;
         _animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
