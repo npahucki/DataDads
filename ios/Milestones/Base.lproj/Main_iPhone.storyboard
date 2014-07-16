@@ -960,8 +960,8 @@
                                     <outlet property="delegate" destination="As4-O0-72y" id="82Q-1Y-vTm"/>
                                 </connections>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8nC-ax-kTN" userLabel="Image Button" customClass="TakePhotoButton">
-                                <rect key="frame" x="79" y="183" width="250" height="163"/>
+                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8nC-ax-kTN" userLabel="Image Button" customClass="TakePhotoButton">
+                                <rect key="frame" x="79" y="183" width="162" height="163"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="8nC-ax-kTN" secondAttribute="height" multiplier="1:1" id="OkB-UT-uc5"/>
@@ -1711,7 +1711,7 @@
                                     <segue destination="b71-m6-YKZ" kind="embed" id="eQr-it-vSG"/>
                                 </connections>
                             </containerView>
-                            <searchBar hidden="YES" contentMode="redraw" searchBarStyle="prominent" placeholder="Filter Milestones" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ba8-Ol-INx">
+                            <searchBar hidden="YES" contentMode="redraw" searchBarStyle="prominent" placeholder="Search Milestones" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ba8-Ol-INx">
                                 <rect key="frame" x="0.0" y="44" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <constraints>
@@ -2180,9 +2180,9 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="zMK-LI-8Wn"/>
-        <segue reference="LCs-nH-0km"/>
+        <segue reference="6HZ-Iq-Yef"/>
         <segue reference="gfX-BP-v4v"/>
+        <segue reference="zMK-LI-8Wn"/>
         <segue reference="9u5-1o-6Cv"/>
     </inferredMetricsTieBreakers>
 </document>

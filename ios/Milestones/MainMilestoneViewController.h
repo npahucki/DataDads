@@ -17,7 +17,7 @@
 @property(weak, nonatomic) IBOutlet UIBarButtonItem *addMilestoneButton;
 @property(weak, nonatomic) IBOutlet UIBarButtonItem *menuButton;
 @property(weak, nonatomic) IBOutlet UISearchBar *searchBar;
-@property(strong, nonatomic) IBOutlet UIBarButtonItem *searchButton;
+@property(strong, nonatomic) UIBarButtonItem *searchButton;
 
 @end
 
