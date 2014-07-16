@@ -155,7 +155,6 @@
                                options:UIViewAnimationOptionTransitionCrossDissolve
                             animations:nil
                             completion:nil];
-            self.loginNowButton.hidden = _nextIndex != 0;
         }
     }
 }
