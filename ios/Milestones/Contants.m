@@ -79,7 +79,7 @@ NSString *const kNeedDataRefreshNotification = @"needDataRefresh";
  GothamRounded-LightItalic
  GothamRounded-Book
  */
-+(UIFont *) fontForAppWithType:(AppFontType) type andSize:(int) size {
++(UIFont *) fontForAppWithType:(AppFontType) type andSize:(CGFloat) size {
   switch (type) {
     default:
     case Light:

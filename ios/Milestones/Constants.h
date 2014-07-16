@@ -94,7 +94,7 @@ typedef enum _AppFontType : NSUInteger {
 }  AppFontType;
 
 @interface UIFont (DataParenting)
-+(UIFont *) fontForAppWithType:(AppFontType) type andSize:(int) size;
++(UIFont *) fontForAppWithType:(AppFontType) type andSize:(CGFloat) size;
 @end
 
 
