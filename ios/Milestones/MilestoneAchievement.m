@@ -3,12 +3,10 @@
 //  Milestones
 //
 //  Created by Nathan  Pahucki on 1/31/14.
-//  Copyright (c) 2014 Nathan  Pahucki. All rights reserved.
+//  Copyright (c) 2014 DataParenting. All rights reserved.
 //
 
-#import "MilestoneAchievement.h"
 #import "PronounHelper.h"
-#import <Parse/PFObject+Subclass.h>
 
 
 @implementation MilestoneAchievement
@@ -30,60 +28,56 @@
 
 
 + (NSString *)parseClassName {
-  return @"MilestoneAchievements";
+    return @"MilestoneAchievements";
 }
 
--(void) setStandardMilestone:(StandardMilestone *)standardMilestone {
-  [self setObject:standardMilestone forKey:@"standardMilestone"];
-  [self setObject:standardMilestone.objectId forKey:@"standardMilestoneId"];
+- (void)setStandardMilestone:(StandardMilestone *)standardMilestone {
+    [self setObject:standardMilestone forKey:@"standardMilestone"];
+    [self setObject:standardMilestone.objectId forKey:@"standardMilestoneId"];
 }
 
--(StandardMilestone*) standardMilestone {
-  return [self objectForKey:@"standardMilestone"];
+- (StandardMilestone *)standardMilestone {
+    return [self objectForKey:@"standardMilestone"];
 }
 
--(void) setCompletionDate:(NSDate *)completionDate {
-  [self setObject:completionDate forKey:@"completionDate"];
-  // Skip any thing in the past. This can happen if the user has entered bad dates
-  // or uploads a photo with a bad date on it. 
-  NSInteger days = [self.baby daysSinceDueDate:completionDate];
-  if(days >= 0) [self setObject:@(days) forKey:@"completionDays"];
+- (void)setCompletionDate:(NSDate *)completionDate {
+    [self setObject:completionDate forKey:@"completionDate"];
+    // Skip any thing in the past. This can happen if the user has entered bad dates
+    // or uploads a photo with a bad date on it.
+    NSInteger days = [self.baby daysSinceDueDate:completionDate];
+    if (days >= 0) [self setObject:@(days) forKey:@"completionDays"];
 }
 
--(NSDate *) completionDate {
-  return [self objectForKey:@"completionDate"];
+- (NSDate *)completionDate {
+    return [self objectForKey:@"completionDate"];
 }
 
--(NSString*) displayTitle {
-  if(self.customTitle.length) {
-    return [PronounHelper replacePronounTokens:self.customTitle forBaby:self.baby];
-  } else if(self.standardMilestone) {
-    return [self.standardMilestone titleForBaby:self.baby];
-  } else {
-    return @"???";
-  }
+- (NSString *)displayTitle {
+    if (self.customTitle.length) {
+        return [PronounHelper replacePronounTokens:self.customTitle forBaby:self.baby];
+    } else if (self.standardMilestone) {
+        return [self.standardMilestone titleForBaby:self.baby];
+    } else {
+        return @"???";
+    }
 }
 
--(BOOL) isCustom {
-  return self.standardMilestone == nil;
-}
-
--(void) calculatePercentileRankingWithBlock: (void ( ^ )(float percentile) ) block {
-  if(self.standardMilestone.canCompare) {
-    [PFCloud callFunctionInBackground:@"percentileRanking"
-                       withParameters:@{@"milestoneId": self.standardMilestone.objectId,
-                                        @"completionDays": @([self.baby daysSinceDueDate:self.completionDate])}
-                                block:^(NSNumber *result, NSError *error) {
-                                  if(error) {
-                                    NSLog(@"Error trying to calulate percentile: %@", error);
-                                    block(-1);
-                                  } else {
-                                    block([result floatValue] );
-                                  }
-                                }];
-  } else {
-    block(-1);
-  }
+- (void)calculatePercentileRankingWithBlock:(void (^)(float percentile))block {
+    if (self.standardMilestone.canCompare) {
+        [PFCloud callFunctionInBackground:@"percentileRanking"
+                           withParameters:@{@"milestoneId" : self.standardMilestone.objectId,
+                                   @"completionDays" : @([self.baby daysSinceDueDate:self.completionDate])}
+                                    block:^(NSNumber *result, NSError *error) {
+            if (error) {
+                NSLog(@"Error trying to calulate percentile: %@", error);
+                block(-1);
+            } else {
+                block([result floatValue]);
+            }
+        }];
+    } else {
+        block(-1);
+    }
 }
 
 @end

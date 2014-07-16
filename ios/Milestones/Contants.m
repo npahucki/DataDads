@@ -3,7 +3,7 @@
 //  Milestones
 //
 //  Created by Nathan  Pahucki on 1/27/14.
-//  Copyright (c) 2014 Nathan  Pahucki. All rights reserved.
+//  Copyright (c) 2014 DataParenting. All rights reserved.
 //
 
 
@@ -21,12 +21,6 @@ NSString *const kDDSegueShowFullScreenImage = @"showFullScreenImage";
 NSString *const kDDSegueShowWebView = @"showWebView";
 
 
-
-
-
-
-
-
 #pragma mark - Events
 NSString *const kDDNotificationCurrentBabyChanged = @"currentBabyChanged";
 NSString *const kDDNotificationMilestoneNotedAndSaved = @"milestoneNotedAndSaved";
@@ -36,32 +30,70 @@ NSString *const kDDNotificationPushReceieved = @"notificationPushReceived";
 NSString *const kNeedDataRefreshNotification = @"needDataRefresh";
 
 
-
-
-
-
-
 #pragma mark - Application Colors
+
 @implementation UIColor (DataParenting)
 
-+(UIColor *) appNormalColor {return UIColorFromRGB(0x1A8E9F);} // 26 142 159
-+(UIColor *) appSelectedColor {return UIColorFromRGB(0x1F717E);} // 31 113 126
-+(UIColor *) appGreyTextColor {return UIColorFromRGB(0xA9A9B1);} // 169 169 177
-+(UIColor *) appInputGreyTextColor {return UIColorFromRGB(0x9d9da4);}
-+(UIColor *) appInputBorderActiveColor {return UIColorFromRGB(0x22B9CF);}
-+(UIColor *) appInputBorderNormalColor {return UIColorFromRGB(0xCFCFD3);}
-+(UIColor *) appBackgroundColor {return UIColorFromRGBWithAlpha(0xFBFBFB, .95);}
-+(UIColor *) appTitleHeaderColor {return UIColorFromRGB(0x56565a);}
++ (UIColor *)appNormalColor {
+    return UIColorFromRGB(0x1A8E9F);
+} // 26 142 159
++ (UIColor *)appSelectedColor {
+    return UIColorFromRGB(0x1F717E);
+} // 31 113 126
++ (UIColor *)appGreyTextColor {
+    return UIColorFromRGB(0xA9A9B1);
+} // 169 169 177
++ (UIColor *)appInputGreyTextColor {
+    return UIColorFromRGB(0x9d9da4);
+}
 
-+(UIColor *) appHeaderBackgroundActiveColor {return UIColorFromRGBWithAlpha(0xDCE7E9, .95);}
-+(UIColor *) appHeaderActiveTextColor {return [UIColor appNormalColor];}
-+(UIColor *) appHeaderCounterBackgroundActiveColor {return UIColorFromRGB(0x1a8e9f);}
-+(UIColor *) appHeaderCounterActiveTextColor {return UIColorFromRGB(0xFBFBFB);}
++ (UIColor *)appInputBorderActiveColor {
+    return UIColorFromRGB(0x22B9CF);
+}
 
-+(UIColor *) appHeaderBackgroundNormalColor {return [UIColor appBackgroundColor];}
-+(UIColor *) appHeaderNormalTextColor {return UIColorFromRGB(0x8e8e8e);}
-+(UIColor *) appHeaderBorderNormalColor {return UIColorFromRGB(0xCFCFD3);}
-+(UIColor *) appHeaderCounterNormalTextColor {return [UIColor appNormalColor];}
++ (UIColor *)appInputBorderNormalColor {
+    return UIColorFromRGB(0xCFCFD3);
+}
+
++ (UIColor *)appBackgroundColor {
+    return UIColorFromRGBWithAlpha(0xFBFBFB, .95);
+}
+
++ (UIColor *)appTitleHeaderColor {
+    return UIColorFromRGB(0x56565a);
+}
+
++ (UIColor *)appHeaderBackgroundActiveColor {
+    return UIColorFromRGBWithAlpha(0xDCE7E9, .95);
+}
+
++ (UIColor *)appHeaderActiveTextColor {
+    return [UIColor appNormalColor];
+}
+
++ (UIColor *)appHeaderCounterBackgroundActiveColor {
+    return UIColorFromRGB(0x1a8e9f);
+}
+
++ (UIColor *)appHeaderCounterActiveTextColor {
+    return UIColorFromRGB(0xFBFBFB);
+}
+
++ (UIColor *)appHeaderBackgroundNormalColor {
+    return [UIColor appBackgroundColor];
+}
+
++ (UIColor *)appHeaderNormalTextColor {
+    return UIColorFromRGB(0x8e8e8e);
+}
+
++ (UIColor *)appHeaderBorderNormalColor {
+    return UIColorFromRGB(0xCFCFD3);
+}
+
++ (UIColor *)appHeaderCounterNormalTextColor {
+    return [UIColor appNormalColor];
+}
 
 @end
 
@@ -79,26 +111,26 @@ NSString *const kNeedDataRefreshNotification = @"needDataRefresh";
  GothamRounded-LightItalic
  GothamRounded-Book
  */
-+(UIFont *) fontForAppWithType:(AppFontType) type andSize:(CGFloat) size {
-  switch (type) {
-    default:
-    case Light:
-      return [UIFont fontWithName:@"GothamRounded-Light" size:size];
-    case LightItalic:
-      return [UIFont fontWithName:@"GothamRounded-LightItalic" size:size];
-    case Medium:
-      return [UIFont fontWithName:@"GothamRounded-Medium" size:size];
-    case MediumItalic:
-      return [UIFont fontWithName:@"GothamRounded-MediumItalic" size:size];
-    case Book:
-      return [UIFont fontWithName:@"GothamRounded-Book" size:size];
-    case BookItalic:
-      return [UIFont fontWithName:@"GothamRounded-BookItalic" size:size];
-    case Bold:
-      return [UIFont fontWithName:@"GothamRounded-Bold" size:size];
-    case BoldItalic:
-      return [UIFont fontWithName:@"GothamRounded-BoldItalic" size:size];
-  }
++ (UIFont *)fontForAppWithType:(AppFontType)type andSize:(CGFloat)size {
+    switch (type) {
+        default:
+        case Light:
+            return [UIFont fontWithName:@"GothamRounded-Light" size:size];
+        case LightItalic:
+            return [UIFont fontWithName:@"GothamRounded-LightItalic" size:size];
+        case Medium:
+            return [UIFont fontWithName:@"GothamRounded-Medium" size:size];
+        case MediumItalic:
+            return [UIFont fontWithName:@"GothamRounded-MediumItalic" size:size];
+        case Book:
+            return [UIFont fontWithName:@"GothamRounded-Book" size:size];
+        case BookItalic:
+            return [UIFont fontWithName:@"GothamRounded-BookItalic" size:size];
+        case Bold:
+            return [UIFont fontWithName:@"GothamRounded-Bold" size:size];
+        case BoldItalic:
+            return [UIFont fontWithName:@"GothamRounded-BoldItalic" size:size];
+    }
 }
 @end
 

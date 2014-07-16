@@ -10,7 +10,7 @@
 
 @interface PronounHelper : NSObject
 
-+(NSString*) replacePronounTokens:(NSString*) input forBaby:(Baby*) baby;
++ (NSString *)replacePronounTokens:(NSString *)input forBaby:(Baby *)baby;
 
 
 @end

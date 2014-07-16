@@ -3,7 +3,7 @@
 //  Milestones
 //
 //  Created by Nathan  Pahucki on 4/4/14.
-//  Copyright (c) 2014 Nathan  Pahucki. All rights reserved.
+//  Copyright (c) 2014 DataParenting. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -11,11 +11,11 @@
 #import "BabyInfoViewController.h"
 
 
-@interface BabyTagsViewController : UIViewController<ViewControllerWithBaby>
+@interface BabyTagsViewController : UIViewController <ViewControllerWithBaby>
 
-@property (strong, nonatomic) Baby *baby;
-@property (strong, nonatomic) IBOutlet UITextField *addTagTextField;
-@property (strong, nonatomic) IBOutlet UIButton *addTagButton;
+@property(strong, nonatomic) Baby *baby;
+@property(strong, nonatomic) IBOutlet UITextField *addTagTextField;
+@property(strong, nonatomic) IBOutlet UIButton *addTagButton;
 
 @end
 

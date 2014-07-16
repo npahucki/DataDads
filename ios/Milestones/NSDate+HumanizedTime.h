@@ -10,7 +10,7 @@
 
 @interface NSDate (HumanizedTime)
 
-- (NSString *) stringWithHumanizedTimeDifference;
+- (NSString *)stringWithHumanizedTimeDifference;
 
 
 @end

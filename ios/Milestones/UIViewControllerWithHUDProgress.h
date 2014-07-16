@@ -5,7 +5,7 @@
 //  A View
 
 //  Created by Nathan  Pahucki on 2/7/14.
-//  Copyright (c) 2014 Nathan  Pahucki. All rights reserved.
+//  Copyright (c) 2014 DataParenting. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -15,22 +15,16 @@
 @interface UIViewControllerWithHUDProgress : UIViewController
 
 
-
 /*
  Dimisses the current view either by poping to the root controller (if in Nav Controller) or dimissing modally
  */
--(void) dismiss;
-  
-/*
- Shows a general alert with a dismiss button. This can be used for errors or validation messages.
- */
--(void) showGeneralAlert:(NSString*) title withMessage:(NSString*) msg;
+- (void)dismiss;
 
 /*
   Saves a PFObject in the background while showing a progress dialog. If the save was successful, then an indication is shown 
   and the dialog is dismissed. If there is an error, then the provided error message is displayed and the error logged, the dialog is not dimissed. 
 */
--(void) saveObject:(PFObject*) object withTitle:(NSString*) title andFailureMessage:(NSString*)msg andBlock: (void ( ^ )(NSError *) ) block;
+- (void)saveObject:(PFObject *)object withTitle:(NSString *)title andFailureMessage:(NSString *)msg andBlock:(void (^)(NSError *))block;
 
 
 @end

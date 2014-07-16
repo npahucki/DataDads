@@ -29,43 +29,43 @@
 /*
  * Set (without animation) whether the switch is on or off
  */
-@property (nonatomic, assign) BOOL on;
+@property(nonatomic, assign) BOOL on;
 
 
 /*
  *	Sets the background color when the switch is off.
  *  Defaults to clear color.
  */
-@property (nonatomic, strong) UIColor *inactiveColor;
+@property(nonatomic, strong) UIColor *inactiveColor;
 
 /*
  *	Sets the background color that shows when the switch off and actively being touched.
  *  Defaults to light gray.
  */
-@property (nonatomic, strong) UIColor *activeColor;
+@property(nonatomic, strong) UIColor *activeColor;
 
 /*
  *	Sets the background color that shows when the switch is on.
  *  Defaults to green.
  */
-@property (nonatomic, strong) UIColor *onTintColor;
-@property (nonatomic, strong) UIColor *onColor __deprecated;
+@property(nonatomic, strong) UIColor *onTintColor;
+@property(nonatomic, strong) UIColor *onColor __deprecated;
 
 /*
  *	Sets the border color that shows when the switch is off. Defaults to light gray.
  */
-@property (nonatomic, strong) UIColor *borderColor;
+@property(nonatomic, strong) UIColor *borderColor;
 
 /*
  *	Sets the knob color. Defaults to white.
  */
-@property (nonatomic, strong) UIColor *thumbTintColor;
-@property (nonatomic, strong) UIColor *knobColor __deprecated;
+@property(nonatomic, strong) UIColor *thumbTintColor;
+@property(nonatomic, strong) UIColor *knobColor __deprecated;
 
 /*
  *	Sets the shadow color of the knob. Defaults to gray.
  */
-@property (nonatomic, strong) UIColor *shadowColor;
+@property(nonatomic, strong) UIColor *shadowColor;
 
 
 /*
@@ -73,13 +73,13 @@
  *  Set to NO to get a stylish square switch.
  *  Defaults to YES.
  */
-@property (nonatomic, assign) BOOL isRounded;
+@property(nonatomic, assign) BOOL isRounded;
 
 
 /*
  *  Sets the image that shows on the switch thumb.
  */
-@property (nonatomic, strong) UIImage *thumbImage;
+@property(nonatomic, strong) UIImage *thumbImage;
 
 
 /*
@@ -87,44 +87,44 @@
  *  The image is centered in the area not covered by the knob.
  *  Make sure to size your images appropriately.
  */
-@property (nonatomic, strong) UIImage *onImage;
+@property(nonatomic, strong) UIImage *onImage;
 
 /*
  *	Sets the image that shows when the switch is off.
  *  The image is centered in the area not covered by the knob.
  *  Make sure to size your images appropriately.
  */
-@property (nonatomic, strong) UIImage *offImage;
+@property(nonatomic, strong) UIImage *offImage;
 
 /*
  *	Sets the text that shows when the switch is off.
  *  The text is centered in the area not covered by the knob.
  */
-@property (nonatomic, strong) NSString *offText;
+@property(nonatomic, strong) NSString *offText;
 
 /*
  *	Sets the text that shows when the switch is on.
  *  The text is centered in the area not covered by the knob.
  */
-@property (nonatomic, strong) NSString *onText;
+@property(nonatomic, strong) NSString *onText;
 
 /*
  *	Sets the on/off label's font.
  *  Access it through [[SevenSwitch appearance] setLabelFont:]
  */
-@property (nonatomic, strong) UIFont *labelFont UI_APPEARANCE_SELECTOR;
+@property(nonatomic, strong) UIFont *labelFont UI_APPEARANCE_SELECTOR;
 
 /*
  *	Sets the on/off label's font color.
  *  Access it through [[SevenSwitch appearance] setOnFontColor:]
  */
-@property (nonatomic, strong) UIColor *onFontColor UI_APPEARANCE_SELECTOR;
+@property(nonatomic, strong) UIColor *onFontColor UI_APPEARANCE_SELECTOR;
 
 /*
  *	Sets the on/off label's font color.
  *  Access it through [[SevenSwitch appearance] setOffFontColor:]
  */
-@property (nonatomic, strong) UIColor *offFontColor UI_APPEARANCE_SELECTOR;
+@property(nonatomic, strong) UIColor *offFontColor UI_APPEARANCE_SELECTOR;
 
 
 /*

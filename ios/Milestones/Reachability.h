@@ -51,9 +51,9 @@
 
 
 typedef enum : NSInteger {
-	NotReachable = 0,
-	ReachableViaWiFi,
-	ReachableViaWWAN
+    NotReachable = 0,
+    ReachableViaWiFi,
+    ReachableViaWWAN
 } NetworkStatus;
 
 
@@ -62,18 +62,18 @@ extern NSString *kReachabilityChangedNotification;
 
 @interface Reachability : NSObject
 
-+(instancetype) reachabilityForParseHost;
++ (instancetype)reachabilityForParseHost;
 
 /*!
  * Quick yes no if Parse is currently reachable.
  */
-+(BOOL) isParseCurrentlyReachable;
++ (BOOL)isParseCurrentlyReachable;
 
 /*!
 * Shows an alert about the network not being if thwe Parse host can not be reached. Returns YES if the message was shown, or NO
  if everything is fine (network available) and no alert was shown.
 */
-+(BOOL) showAlertIfParseNotReachable;
++ (BOOL)showAlertIfParseNotReachable;
 
 /*!
  * Use to check the reachability of a given host name.
@@ -86,11 +86,6 @@ extern NSString *kReachabilityChangedNotification;
 + (instancetype)reachabilityWithAddress:(const struct sockaddr_in *)hostAddress;
 
 /*!
- * Checks whether the default route is available. Should be used by applications that do not connect to a particular host.
- */
-+ (instancetype)reachabilityForInternetConnection;
-
-/*!
  * Checks whether a local WiFi connection is available.
  */
 + (instancetype)reachabilityForLocalWiFi;
@@ -99,6 +94,7 @@ extern NSString *kReachabilityChangedNotification;
  * Start listening for reachability notifications on the current run loop.
  */
 - (BOOL)startNotifier;
+
 - (void)stopNotifier;
 
 - (NetworkStatus)currentReachabilityStatus;

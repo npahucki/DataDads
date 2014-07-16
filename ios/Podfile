@@ -1,6 +1,7 @@
 platform :ios, 7.0
 xcodeproj 'DataParenting.xcodeproj'
 inhibit_all_warnings!
+link_with ['DataParenting', 'DataParentingTests']
 
 pod 'MBProgressHUD', '~> 0.8'
 pod 'FDTake', '~> 0.1.1'

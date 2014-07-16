@@ -11,7 +11,7 @@
 @interface HistoryTableHeaderView : UIView
 
 
-@property (strong, nonatomic) NSString * title;
+@property(strong, nonatomic) NSString *title;
 @property NSInteger count;
 @property BOOL highlighted;
 @property NSInteger position;

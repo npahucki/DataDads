@@ -3,11 +3,10 @@
 //  Milestones
 //
 //  Created by Nathan  Pahucki on 4/4/14.
-//  Copyright (c) 2014 Nathan  Pahucki. All rights reserved.
+//  Copyright (c) 2014 DataParenting. All rights reserved.
 //
 
 #import "BabyTagsViewController.h"
-#import "BabyInfoPhotoViewController.h"
 #import "NoConnectionAlertView.h"
 
 @interface BabyTagsViewController ()
@@ -15,43 +14,42 @@
 @end
 
 @implementation BabyTagsViewController {
-  BabyTagsTableViewController* _tagTableViewController;
+    BabyTagsTableViewController *_tagTableViewController;
 }
 
--(void) viewDidLoad {
-  [super viewDidLoad];
-  [NoConnectionAlertView createInstanceForController:self];
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [NoConnectionAlertView createInstanceForController:self];
 }
 
--(void) reclacControlEnabledState {
-  BOOL enabled = [Reachability isParseCurrentlyReachable];
-  self.addTagButton.enabled = enabled && self.addTagTextField.text.length > 0;
-  self.addTagTextField.enabled = enabled;
+- (void)reclacControlEnabledState {
+    BOOL enabled = [Reachability isParseCurrentlyReachable];
+    self.addTagButton.enabled = enabled && self.addTagTextField.text.length > 0;
+    self.addTagTextField.enabled = enabled;
 }
 
 - (IBAction)didChageAddTagTextField:(id)sender {
-  [self reclacControlEnabledState];
+    [self reclacControlEnabledState];
 }
 
 - (IBAction)didClickAddNewTag:(id)sender {
-  [_tagTableViewController addNewTag:self.addTagTextField.text];
-  self.addTagTextField.text = nil;
-  [self.view endEditing:NO];
-  self.addTagButton.enabled = NO;
+    [_tagTableViewController addNewTag:self.addTagTextField.text];
+    self.addTagTextField.text = nil;
+    [self.view endEditing:NO];
+    self.addTagButton.enabled = NO;
 }
 
 
 #pragma mark - Navigation
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-  if([segue.identifier isEqual:@"embed"]) {
-    _tagTableViewController = (BabyTagsTableViewController*) segue.destinationViewController;
-    _tagTableViewController.selectedTags = [NSSet setWithArray:self.baby.tags];
-  } else {
-    self.baby.tags = [_tagTableViewController.selectedTags allObjects];
-    ((UIViewController<ViewControllerWithBaby>*)segue.destinationViewController).baby = self.baby;
-  }
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqual:@"embed"]) {
+        _tagTableViewController = (BabyTagsTableViewController *) segue.destinationViewController;
+        _tagTableViewController.selectedTags = [NSSet setWithArray:self.baby.tags];
+    } else {
+        self.baby.tags = [_tagTableViewController.selectedTags allObjects];
+        ((UIViewController <ViewControllerWithBaby> *) segue.destinationViewController).baby = self.baby;
+    }
 }
 
 @end

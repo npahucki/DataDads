@@ -23,9 +23,8 @@
 //  THE SOFTWARE.
 
 #import "SevenSwitch.h"
-#import <QuartzCore/QuartzCore.h>
 
-@interface SevenSwitch ()  {
+@interface SevenSwitch () {
     UIView *background;
     UIView *knob;
     UIImageView *onImageView;
@@ -37,11 +36,13 @@
     BOOL isAnimating;
 }
 
-@property (nonatomic, strong) UILabel*onLabel;
-@property (nonatomic, strong) UILabel*offLabel;
+@property(nonatomic, strong) UILabel *onLabel;
+@property(nonatomic, strong) UILabel *offLabel;
 
 - (void)showOn:(BOOL)animated;
+
 - (void)showOff:(BOOL)animated;
+
 - (void)setup;
 
 @end
@@ -73,8 +74,7 @@
     return self;
 }
 
-- (id)initWithFrame:(CGRect)frame
-{
+- (id)initWithFrame:(CGRect)frame {
     // use the default values if CGRectZero frame is set
     CGRect initialFrame;
     if (CGRectIsEmpty(frame)) {
@@ -92,14 +92,14 @@
 
 
 /**
- *	Setup the individual elements of the switch and set default values
- */
+*	Setup the individual elements of the switch and set default values
+*/
 - (void)setup {
 
-	self.onFontColor = [UIColor whiteColor];
-	self.offFontColor = [UIColor lightGrayColor];
-	self.labelFont = [UIFont systemFontOfSize:12];
-	
+    self.onFontColor = [UIColor whiteColor];
+    self.offFontColor = [UIColor lightGrayColor];
+    self.labelFont = [UIFont systemFontOfSize:12];
+
     // default values
     self.on = NO;
     self.isRounded = YES;
@@ -118,7 +118,7 @@
     background.layer.borderColor = self.borderColor.CGColor;
     background.layer.borderWidth = 1.0;
     background.userInteractionEnabled = NO;
-	background.clipsToBounds = YES;
+    background.clipsToBounds = YES;
     [self addSubview:background];
 
     // images
@@ -131,17 +131,17 @@
     offImageView.alpha = 1.0;
     offImageView.contentMode = UIViewContentModeCenter;
     [background addSubview:offImageView];
-	
-	self.onLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width - self.frame.size.height, self.frame.size.height)];
-	self.onLabel.textAlignment = NSTextAlignmentCenter;
+
+    self.onLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width - self.frame.size.height, self.frame.size.height)];
+    self.onLabel.textAlignment = NSTextAlignmentCenter;
     [background addSubview:self.onLabel];
 
-	self.offLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.frame.size.height, 0, self.frame.size.width - self.frame.size.height, self.frame.size.height)];
+    self.offLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.frame.size.height, 0, self.frame.size.width - self.frame.size.height, self.frame.size.height)];
     self.offLabel.font = self.labelFont;
-	self.offLabel.textColor = self.offFontColor;
-	self.offLabel.textAlignment = NSTextAlignmentCenter;
+    self.offLabel.textColor = self.offFontColor;
+    self.offLabel.textAlignment = NSTextAlignmentCenter;
     [background addSubview:self.offLabel];
-	
+
     // knob
     knob = [[UIView alloc] initWithFrame:CGRectMake(1, 1, self.frame.size.height - 2, self.frame.size.height - 2)];
     knob.backgroundColor = self.thumbTintColor;
@@ -154,7 +154,7 @@
     knob.layer.masksToBounds = NO;
     knob.userInteractionEnabled = NO;
     [self addSubview:knob];
-    
+
     thumbImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, knob.frame.size.width, knob.frame.size.height)];
     thumbImageView.contentMode = UIViewContentModeCenter;
     thumbImageView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -174,7 +174,7 @@
     // make the knob larger and animate to the correct color
     CGFloat activeKnobWidth = self.bounds.size.height - 2 + 5;
     isAnimating = YES;
-    [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseOut|UIViewAnimationOptionBeginFromCurrentState animations:^{
+    [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionBeginFromCurrentState animations:^{
         if (self.on) {
             knob.frame = CGRectMake(self.bounds.size.width - (activeKnobWidth + 1), knob.frame.origin.y, activeKnobWidth, knob.frame.size.height);
             background.backgroundColor = self.onTintColor;
@@ -183,7 +183,7 @@
             knob.frame = CGRectMake(knob.frame.origin.x, knob.frame.origin.y, activeKnobWidth, knob.frame.size.height);
             background.backgroundColor = self.activeColor;
         }
-    } completion:^(BOOL finished) {
+    }                completion:^(BOOL finished) {
         isAnimating = NO;
     }];
 
@@ -192,7 +192,7 @@
 
 - (BOOL)continueTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
     [super continueTrackingWithTouch:touch withEvent:event];
-  
+
     // Get touch location
     CGPoint lastPoint = [touch locationInView:self];
 
@@ -229,24 +229,24 @@
         [self showOff:YES];
 }
 
--(void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
-  // Handle a single tap
-  [super cancelTrackingWithEvent:event];
-  [self toggleValue];
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+    // Handle a single tap
+    [super cancelTrackingWithEvent:event];
+    [self toggleValue];
 }
 
--(void) toggleValue {
-  BOOL previousValue = self.on;
-  
-  if (didChangeWhileTracking) {
-    [self setOn:currentVisualValue animated:YES];
-  }
-  else {
-    [self setOn:!self.on animated:YES];
-  }
-  
-  if (previousValue != self.on)
-    [self sendActionsForControlEvents:UIControlEventValueChanged];
+- (void)toggleValue {
+    BOOL previousValue = self.on;
+
+    if (didChangeWhileTracking) {
+        [self setOn:currentVisualValue animated:YES];
+    }
+    else {
+        [self setOn:!self.on animated:YES];
+    }
+
+    if (previousValue != self.on)
+        [self sendActionsForControlEvents:UIControlEventValueChanged];
 
 }
 
@@ -254,9 +254,9 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     self.onLabel.font = self.labelFont;
-	self.onLabel.textColor = self.onFontColor;
-	self.offLabel.font = self.labelFont;
-	self.offLabel.textColor = self.offFontColor;
+    self.onLabel.textColor = self.onFontColor;
+    self.offLabel.font = self.labelFont;
+    self.offLabel.textColor = self.offFontColor;
     if (!isAnimating) {
         CGRect frame = self.frame;
 
@@ -267,9 +267,9 @@
         // images
         onImageView.frame = CGRectMake(0, 0, frame.size.width - frame.size.height, frame.size.height);
         offImageView.frame = CGRectMake(frame.size.height, 0, frame.size.width - frame.size.height, frame.size.height);
-		self.onLabel.frame = CGRectMake(0, 0, frame.size.width - frame.size.height, frame.size.height);
-		self.offLabel.frame = CGRectMake(frame.size.height, 0, frame.size.width - frame.size.height, frame.size.height);
-		
+        self.onLabel.frame = CGRectMake(0, 0, frame.size.width - frame.size.height, frame.size.height);
+        self.offLabel.frame = CGRectMake(frame.size.height, 0, frame.size.width - frame.size.height, frame.size.height);
+
         // knob
         CGFloat normalKnobWidth = frame.size.height - 2;
         if (self.on)
@@ -334,8 +334,7 @@
 /*
  *	Sets the thumb image.
  */
-- (void)setThumbImage:(UIImage *)image
-{
+- (void)setThumbImage:(UIImage *)image {
     thumbImage = image;
     thumbImageView.image = image;
 }
@@ -344,20 +343,18 @@
  *	Sets the text that shows when the switch is on.
  *  The text is centered in the area not covered by the knob.
  */
-- (void)setOnText:(NSString *)onText
-{
-	_onText = onText;
-	self.onLabel.text = onText;
+- (void)setOnText:(NSString *)onText {
+    _onText = onText;
+    self.onLabel.text = onText;
 }
 
 /*
  *	Sets the text that shows when the switch is off.
  *  The text is centered in the area not covered by the knob.
  */
-- (void)setOffText:(NSString *)offText
-{
-	_offText = offText;
-	self.offLabel.text = offText;
+- (void)setOffText:(NSString *)offText {
+    _offText = offText;
+    self.offLabel.text = offText;
 }
 
 /*
@@ -397,7 +394,7 @@
         background.layer.cornerRadius = 2;
         knob.layer.cornerRadius = 2;
     }
-    
+
     knob.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:knob.bounds cornerRadius:knob.layer.cornerRadius].CGPath;
 }
 
@@ -449,7 +446,7 @@
     CGFloat activeKnobWidth = normalKnobWidth + 5;
     if (animated) {
         isAnimating = YES;
-        [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseOut|UIViewAnimationOptionBeginFromCurrentState animations:^{
+        [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionBeginFromCurrentState animations:^{
             if (self.tracking)
                 knob.frame = CGRectMake(self.bounds.size.width - (activeKnobWidth + 1), knob.frame.origin.y, activeKnobWidth, knob.frame.size.height);
             else
@@ -458,9 +455,9 @@
             background.layer.borderColor = self.onTintColor.CGColor;
             onImageView.alpha = 1.0;
             offImageView.alpha = 0;
-			self.onLabel.alpha = 1.0;
-			self.offLabel.alpha = 0;
-        } completion:^(BOOL finished) {
+            self.onLabel.alpha = 1.0;
+            self.offLabel.alpha = 0;
+        }                completion:^(BOOL finished) {
             isAnimating = NO;
         }];
     }
@@ -473,10 +470,10 @@
         background.layer.borderColor = self.onTintColor.CGColor;
         onImageView.alpha = 1.0;
         offImageView.alpha = 0;
-		self.onLabel.alpha = 1.0;
-		self.offLabel.alpha = 0;
+        self.onLabel.alpha = 1.0;
+        self.offLabel.alpha = 0;
     }
-    
+
     currentVisualValue = YES;
 }
 
@@ -490,7 +487,7 @@
     CGFloat activeKnobWidth = normalKnobWidth + 5;
     if (animated) {
         isAnimating = YES;
-        [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseOut|UIViewAnimationOptionBeginFromCurrentState animations:^{
+        [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionBeginFromCurrentState animations:^{
             if (self.tracking) {
                 knob.frame = CGRectMake(1, knob.frame.origin.y, activeKnobWidth, knob.frame.size.height);
                 background.backgroundColor = self.activeColor;
@@ -502,9 +499,9 @@
             background.layer.borderColor = self.borderColor.CGColor;
             onImageView.alpha = 0;
             offImageView.alpha = 1.0;
-			self.onLabel.alpha = 0;
-			self.offLabel.alpha = 1.0;
-        } completion:^(BOOL finished) {
+            self.onLabel.alpha = 0;
+            self.offLabel.alpha = 1.0;
+        }                completion:^(BOOL finished) {
             isAnimating = NO;
         }];
     }
@@ -520,10 +517,10 @@
         background.layer.borderColor = self.borderColor.CGColor;
         onImageView.alpha = 0;
         offImageView.alpha = 1.0;
-		self.onLabel.alpha = 0;
-		self.offLabel.alpha = 1.0;
+        self.onLabel.alpha = 0;
+        self.offLabel.alpha = 1.0;
     }
-    
+
     currentVisualValue = NO;
 }
 

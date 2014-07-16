@@ -3,11 +3,8 @@
 //  Milestones
 //
 //  Created by Nathan  Pahucki on 6/12/14.
-//  Copyright (c) 2014 Nathan  Pahucki. All rights reserved.
+//  Copyright (c) 2014 DataParenting. All rights reserved.
 //
-
-#import "Measurement.h"
-#import <Parse/PFObject+Subclass.h>
 
 @implementation Measurement
 
@@ -18,7 +15,7 @@
 @dynamic baby;
 
 + (NSString *)parseClassName {
-  return @"Measurements";
+    return @"Measurements";
 }
 
 

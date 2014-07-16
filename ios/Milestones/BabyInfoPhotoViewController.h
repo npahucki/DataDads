@@ -3,7 +3,7 @@
 //  Milestones
 //
 //  Created by Nathan  Pahucki on 4/5/14.
-//  Copyright (c) 2014 Nathan  Pahucki. All rights reserved.
+//  Copyright (c) 2014 DataParenting. All rights reserved.
 //
 
 #import "UIViewControllerWithHUDProgress.h"
@@ -11,11 +11,10 @@
 #import "BabyInfoViewController.h"
 
 
-
 @interface BabyInfoPhotoViewController : UIViewController <FDTakeDelegate, ViewControllerWithBaby>
 
-@property (strong, nonatomic) IBOutlet UIButton *takePhotoButton;
-@property (strong, nonatomic) IBOutlet UILabel *theLabel;
-@property (strong, nonatomic) Baby *baby;
+@property(strong, nonatomic) IBOutlet UIButton *takePhotoButton;
+@property(strong, nonatomic) IBOutlet UILabel *theLabel;
+@property(strong, nonatomic) Baby *baby;
 
 @end

@@ -3,7 +3,7 @@
 //  Milestones
 //
 //  Created by Nathan  Pahucki on 4/1/14.
-//  Copyright (c) 2014 Nathan  Pahucki. All rights reserved.
+//  Copyright (c) 2014 DataParenting. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -11,13 +11,13 @@
 #import "MilestoneAchievement.h"
 #import "DataParentingAdView.h"
 
-@interface MainMilestoneViewController : UIViewController <HistoryViewControllerDelegate,UISearchBarDelegate,UICollisionBehaviorDelegate,DataParentingAdViewDelegate>
-@property (weak, nonatomic) IBOutlet UIButton *babyMenuButton;
+@interface MainMilestoneViewController : UIViewController <HistoryViewControllerDelegate, UISearchBarDelegate, UICollisionBehaviorDelegate, DataParentingAdViewDelegate>
+@property(weak, nonatomic) IBOutlet UIButton *babyMenuButton;
 
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *addMilestoneButton;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *menuButton;
-@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *searchButton;
+@property(weak, nonatomic) IBOutlet UIBarButtonItem *addMilestoneButton;
+@property(weak, nonatomic) IBOutlet UIBarButtonItem *menuButton;
+@property(weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property(strong, nonatomic) IBOutlet UIBarButtonItem *searchButton;
 
 @end
 

@@ -9,8 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface NoConnectionAlertView : UIView
-@property (weak, nonatomic) IBOutlet UIButton *displayButton;
+@property(weak, nonatomic) IBOutlet UIButton *displayButton;
 
-+(void) createInstanceForController:(UIViewController*) controller;
++ (void)createInstanceForController:(UIViewController *)controller;
 
 @end

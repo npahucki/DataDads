@@ -10,13 +10,15 @@
 
 @interface AlertThenDisappearView : UIView
 
-@property (weak, nonatomic) IBOutlet UIImageView *imageView;
-@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property(weak, nonatomic) IBOutlet UIImageView *imageView;
+@property(weak, nonatomic) IBOutlet UILabel *titleLabel;
 
 
-+(AlertThenDisappearView *) instanceForViewController:(UIViewController*) controller;
--(void) show;
--(void) showWithDelay:(NSTimeInterval) delay;
++ (AlertThenDisappearView *)instanceForViewController:(UIViewController *)controller;
+
+- (void)show;
+
+- (void)showWithDelay:(NSTimeInterval)delay;
 
 
 @end

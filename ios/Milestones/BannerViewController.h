@@ -47,8 +47,8 @@
 
 #import <UIKit/UIKit.h>
 
-extern NSString * const BannerViewActionWillBegin;
-extern NSString * const BannerViewActionDidFinish;
+extern NSString *const BannerViewActionWillBegin;
+extern NSString *const BannerViewActionDidFinish;
 
 @interface BannerViewController : UIViewController
 
