@@ -10,6 +10,7 @@
 #import "WebViewerViewController.h"
 #import "NSDate+Utils.m"
 #import "PronounHelper.h"
+#import "NSDate+HumanizedTime.h"
 
 @interface AchievementDetailsViewController ()
 
@@ -70,7 +71,6 @@ NSDateFormatter *_dateFormatter;
                     if (!error) {
                         [self.detailsImageButton setImage:[UIImage imageWithData:data] forState:UIControlStateNormal];
                         self.detailsImageButton.alpha = hasImageAttachment ? 1.0 : 0.3;
-                        self.actionBarButton.enabled = hasImageAttachment;
                     } else {
                         [UsageAnalytics trackError:error forOperationNamed:@"FetchSingleAchievement" andAdditionalProperties:@{@"id" : self.achievement.objectId}];
                     }
@@ -175,7 +175,12 @@ NSDateFormatter *_dateFormatter;
 
 - (IBAction)didClickActionButton:(id)sender {
     UIImage *image = [self.detailsImageButton imageForState:UIControlStateNormal];
-    UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[image, self.achievement.displayTitle] applicationActivities:nil];
+  
+    NSURL * url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/achievements/%@", VIEW_HOST, self.achievement.objectId]];
+    NSString * mainText = [NSString stringWithFormat:@"%@ completed the milestone: '%@' %@!",self.achievement.baby.name, self.achievement.displayTitle,[self.achievement.completionDate stringWithHumanizedTimeDifference]];
+    UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[image,
+                                                                                                     mainText,
+                                                                                                     (self.achievement.comment ? self.achievement.comment : @""),url] applicationActivities:nil];
     controller.excludedActivityTypes = @[UIActivityTypeAssignToContact];
     [self presentViewController:controller animated:YES completion:nil];
 }

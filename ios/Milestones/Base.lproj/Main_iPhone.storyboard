@@ -118,7 +118,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Details" id="23o-jy-TLD">
                         <barButtonItem key="backBarButtonItem" title="Back" id="teX-eU-pym"/>
-                        <barButtonItem key="rightBarButtonItem" enabled="NO" systemItem="action" id="9sO-vf-wct">
+                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="9sO-vf-wct">
                             <connections>
                                 <action selector="didClickActionButton:" destination="eNM-aT-BTU" id="GpA-YC-VZi"/>
                             </connections>
@@ -960,7 +960,7 @@
                                     <outlet property="delegate" destination="As4-O0-72y" id="82Q-1Y-vTm"/>
                                 </connections>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8nC-ax-kTN" userLabel="Image Button" customClass="TakePhotoButton">
+                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8nC-ax-kTN" userLabel="Image Button" customClass="TakePhotoButton">
                                 <rect key="frame" x="79" y="183" width="162" height="163"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
