@@ -32,8 +32,13 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(babyUpdated:) name:kDDNotificationCurrentBabyChanged object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadObjects) name:kNeedDataRefreshNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkReachabilityChanged:) name:kReachabilityChangedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userSignedUp) name:kDDNotificationUserSignedUp object:nil];
 
     _hasMoreTips = YES;
+}
+
+- (void)userSignedUp {
+    [[[UIAlertView alloc] initWithTitle:@"Great!" message:@"Thanks for signing in! Tips are delivered once per day, you should be getting yours soon!" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
 }
 
 - (void)dealloc {

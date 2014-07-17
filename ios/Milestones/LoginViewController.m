@@ -48,6 +48,12 @@
     [label sizeToFit];
     self.logInView.logo = label;
 
+    // Dismiss button
+    [self.logInView.dismissButton setImage:[UIImage imageNamed:@"closeMenuButton"] forState:UIControlStateNormal];
+    [self.logInView.dismissButton setImage:[UIImage imageNamed:@"closeMenuButton_pressed"] forState:UIControlStateSelected];
+    [self.logInView.dismissButton setImage:[UIImage imageNamed:@"closeMenuButton_pressed"] forState:UIControlStateHighlighted];
+
+
     // Username
     [self.logInView.usernameField setKeyboardType:UIKeyboardTypeEmailAddress];
     self.logInView.usernameField.textColor = [UIColor appGreyTextColor];

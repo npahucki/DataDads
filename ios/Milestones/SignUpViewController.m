@@ -41,13 +41,8 @@
     self.signUpView.usernameField.placeholder = @"Email Address";
     [self.signUpView.emailField setHidden:YES];
 
-    // Navigation Bar
-    UINavigationBar *myBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, self.signUpView.frame.size.width, 44)];
-    [myBar setBackgroundImage:[UIImage imageNamed:@"headerShadow"] forBarMetrics:UIBarMetricsDefault];
-    [myBar pushNavigationItem:[[UINavigationItem alloc] init] animated:false];
-    myBar.topItem.title = @"DataParenting";
     // Insert BELOW the close button so it still works
-    [self.signUpView insertSubview:myBar belowSubview:self.signUpView.dismissButton];
+    [self.signUpView addSubview:self.signUpView.dismissButton];
 
 
     // LOGO / Title
@@ -143,7 +138,8 @@
             if (user) {
                 // Set the user's email and username to facebook email
                 [PFFacebookUtils populateCurrentUserDetailsFromFacebook:(ParentUser *) user block:nil];
-            } // else use canceled
+                [self signUpViewController:self didSignUpUser:user];
+            } // else user canceled
         }
     }];
 }
@@ -223,12 +219,12 @@
 # pragma PFSignUpViewControllerDelegate methods
 
 // Sent to the delegate when a PFUser is signed up.
-- (void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(ParentUser *)user {
+- (void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user {
     [[PFInstallation currentInstallation] setObject:user forKey:@"user"];
     [[PFInstallation currentInstallation] saveEventually];
     user.ACL = [PFACL ACLWithUser:user];
     [user saveEventually];
-    [UsageAnalytics trackUserSignup:user usingMethod:_methodName];
+    [UsageAnalytics trackUserSignup:(ParentUser *) user usingMethod:_methodName];
     [self showSignupSuccessAndRunBlock:^{
         [[NSNotificationCenter defaultCenter]
                 postNotificationName:kDDNotificationUserSignedUp object:user];
