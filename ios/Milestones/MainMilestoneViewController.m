@@ -170,10 +170,11 @@
         self.searchButton.image = [UIImage imageNamed:@"searchButton"];
         [self.searchBar resignFirstResponder];
         _historyController.filterString = nil;
-        int finalY = self.navigationController.navigationBar.frame.origin.y;
+        CGFloat finalY = self.navigationController.navigationBar.frame.origin.y;
         _animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
+        _animator.delegate = self;
         UIGravityBehavior *gravityBehavior = [[UIGravityBehavior alloc] initWithItems:@[self.searchBar]];
-        gravityBehavior.magnitude = -2.0;
+        gravityBehavior.magnitude = -2.0f;
         [_animator addBehavior:gravityBehavior];
 
         UICollisionBehavior *collisionBehavior =
@@ -190,13 +191,11 @@
         self.searchBar.hidden = YES;
         self.searchBar.text = nil;
         _isShowingSearchBar = NO;
-    } else if ([@"showSearchBarBoundry" isEqual:identifier]) {
-        //[self.searchBar becomeFirstResponder];
     }
 }
 
 - (void)showSearchBar {
-    int finalY = self.navigationController.navigationBar.frame.origin.y + self.navigationController.navigationBar.frame.size.height + self.searchBar.bounds.size.height;
+    CGFloat finalY = self.navigationController.navigationBar.frame.origin.y + self.navigationController.navigationBar.frame.size.height + self.searchBar.bounds.size.height;
     if (!_isShowingSearchBar) {
         // Start it up above the frame so it can fall down.
         self.searchButton.image = [UIImage imageNamed:@"searchButton_active"];
@@ -204,6 +203,7 @@
         self.searchBar.hidden = NO;
         _isShowingSearchBar = YES;
         _animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
+        _animator.delegate = self;
         UIGravityBehavior *gravityBehavior = [[UIGravityBehavior alloc] initWithItems:@[self.searchBar]];
         gravityBehavior.magnitude = 2.0;
         [_animator addBehavior:gravityBehavior];
@@ -230,6 +230,13 @@
     } else {
         [self showSearchBar];
     }
+}
+
+- (void)dynamicAnimatorDidPause:(UIDynamicAnimator *)animator {
+    if (!self.searchBar.hidden) {
+        [self.searchBar becomeFirstResponder];
+    }
+    _animator = nil;
 }
 
 #pragma mark HistoryViewControllerDelegate
