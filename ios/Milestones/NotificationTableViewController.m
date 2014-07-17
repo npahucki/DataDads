@@ -149,7 +149,7 @@
         cell.textLabel.textColor = [UIColor appGreyTextColor];
         cell.textLabel.font = [UIFont fontForAppWithType:Bold andSize:14];
         if (_hadError) {
-            cell.textLabel.text = @"Could load tips. Click to try again";
+            cell.textLabel.text = @"Couldn't load tips. Click to try again";
             cell.imageView.image = [UIImage imageNamed:@"error-9"];
         } else {
             if (_isEmpty && !_hasMoreTips) {

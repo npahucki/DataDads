@@ -22,6 +22,7 @@
     _notificationsTabItem = ((UIViewController *) [self.viewControllers objectAtIndex:1]).tabBarItem;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appEnterForeground:) name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gotPushNotification:) name:kDDNotificationPushReceieved object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidLogOut) name:kDDNotificationUserLoggedOut object:nil];
 }
 
 - (void)dealloc {
@@ -36,6 +37,12 @@
     NSNumber *badgeNumber = [[notice.userInfo objectForKey:@"aps"] objectForKey:@"badge"];
     [self updateNotificationTabBadge:badgeNumber.integerValue];
 }
+
+- (void)userDidLogOut {
+    // Put us back on the main screen.
+    [self.tabBarController setSelectedIndex:0];
+}
+
 
 - (void)updateNotificationTabBadge:(NSInteger)badge {
     if (self.selectedViewController.tabBarItem == _notificationsTabItem) {

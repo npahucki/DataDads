@@ -109,9 +109,12 @@
 }
 
 - (void)babyUpdated:(NSNotification *)notification {
-    Baby *baby = Baby.currentBaby;
+    Baby *baby = notification.object;
     self.addMilestoneButton.enabled = baby != nil;
     self.menuButton.enabled = baby != nil;
+    if (!baby) {
+        [self hideSearchBar];
+    }
 
     PFFile *imageFile = baby.avatarImageThumbnail ? baby.avatarImageThumbnail : baby.avatarImage;
     if (imageFile) {
