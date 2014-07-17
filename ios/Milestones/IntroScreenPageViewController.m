@@ -48,7 +48,12 @@
 
     [self.continueButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.continueButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+    [self.skipButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.skipButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
 
+}
+- (IBAction)didClickSkipButton:(id)sender {
+    [self performSegueWithIdentifier:kDDSegueEnterBabyInfo sender:self];
 }
 
 - (IBAction)didClickContinueButton:(id)sender {
@@ -124,39 +129,25 @@
 - (void)pageViewController:(UIPageViewController *)pageViewController willTransitionToViewControllers:(NSArray *)pendingViewControllers {
     IntroScreenContentViewController *controller = [pendingViewControllers firstObject];
     _nextIndex = controller.pageIndex;
-
-    // Button animated effect
-    [UIView transitionWithView:self.continueButton
-                      duration:0.5
-                       options:UIViewAnimationOptionTransitionCrossDissolve
-                    animations:NULL
-                    completion:^(BOOL finished) {
-        if (_nextIndex == _pageTitles.count - 1) {
-            [self.continueButton setTitle:@"Get Started" forState:UIControlStateNormal];
-        } else {
-            [self.continueButton setTitle:@"Continue" forState:UIControlStateNormal];
-        }
-        // Make the continue button reappear
-        [UIView transitionWithView:self.continueButton
-                          duration:0.5
-                           options:UIViewAnimationOptionTransitionCrossDissolve
-                        animations:nil
-                        completion:nil];
-        self.continueButton.hidden = NO;
+    [UIView animateWithDuration:0.3 animations:^{
+        self.continueButton.alpha = 0;
+        self.skipButton.alpha = 0;
+    } completion:^(BOOL finished) {
     }];
-    self.continueButton.hidden = YES;
 }
 
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed {
-    if (completed && finished) {
-        {
-            [UIView transitionWithView:self.loginNowButton
-                              duration:0.4
-                               options:UIViewAnimationOptionTransitionCrossDissolve
-                            animations:nil
-                            completion:nil];
-        }
+    BOOL isLastPage = _nextIndex == _pageTitles.count - 1;
+    if (isLastPage) {
+        [self.continueButton setTitle:@"Get Started" forState:UIControlStateNormal];
+    } else {
+        [self.continueButton setTitle:@"Continue >" forState:UIControlStateNormal];
     }
+    [UIView animateWithDuration:0.3 animations:^{
+        self.continueButton.alpha = 1;
+        self.skipButton.alpha = 1;
+    } completion:nil];
+    self.skipButton.hidden = isLastPage;
 }
 
 @end

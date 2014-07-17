@@ -15,6 +15,7 @@
 @property(weak, nonatomic) IBOutlet UIImageView *backgroundImage;
 @property(weak, nonatomic) IBOutlet UIButton *loginNowButton;
 @property(weak, nonatomic) IBOutlet UIButton *continueButton;
+@property (weak, nonatomic) IBOutlet UIButton *skipButton;
 
 
 @end
