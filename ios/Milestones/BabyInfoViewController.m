@@ -73,8 +73,11 @@
     return YES;
 }
 
-- (IBAction)textFieldEditingDidEnd:(id)sender {
+- (IBAction)didChangeBabyName:(id)sender {
+    [self updateNextButtonState];
+}
 
+- (void)textFieldDidEndEditing:(UITextField *)sender {
     if (sender == self.babyName && self.babyName.text.length) {
         self.birthDateLabel.text = [NSString stringWithFormat:@"%@ was born on:", self.babyName.text];
         self.dueDateLabel.text = [NSString stringWithFormat:@"%@ was due on:", self.babyName.text];
@@ -94,8 +97,8 @@
 
 - (void)updateNextButtonState {
     self.nextButton.enabled = self.dueDateTextField.text.length && self.dobTextField.text.length && self.babyName.text.length > 1 && (self.maleButton.isSelected || self.femaleButton.isSelected);
-
 }
+
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     self.baby.name = self.babyName.text;
