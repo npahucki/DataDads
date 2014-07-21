@@ -80,13 +80,7 @@
 
 
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSFontAttributeName : [UIFont fontForAppWithType:Bold andSize:16.0], NSForegroundColorAttributeName : [UIColor appTitleHeaderColor]}];
-
-    [[UINavigationBar appearance] setBackgroundImage:[[UIImage alloc] init]
-                                      forBarPosition:UIBarPositionAny
-                                          barMetrics:UIBarMetricsDefault];
-    [UINavigationBar appearance].shadowImage = [UIImage imageNamed:@"headerShadow"];
     [UINavigationBar appearance].tintColor = [UIColor appNormalColor]; // Color of the items in the toolbarheader
-    [UINavigationBar appearance].backgroundColor = [UIColor appBackgroundColor];
     [UINavigationBar appearance].barTintColor = [UIColor appBackgroundColor];
 
     [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName : [UIFont fontForAppWithType:Medium andSize:17.0], NSForegroundColorAttributeName : [UIColor appNormalColor]} forState:UIControlStateNormal];
@@ -96,7 +90,6 @@
     [[UITabBarItem appearance] setTitleTextAttributes:@{NSFontAttributeName : [UIFont fontForAppWithType:Medium andSize:13.0], NSForegroundColorAttributeName : [UIColor appNormalColor]} forState:UIControlStateSelected];
     [UITabBar appearance].selectedImageTintColor = [UIColor appNormalColor];
     [UITabBar appearance].backgroundColor = [UIColor appBackgroundColor];
-
 
     UIPageControl *pageControl = [UIPageControl appearance];
     pageControl.pageIndicatorTintColor = [UIColor appGreyTextColor];
