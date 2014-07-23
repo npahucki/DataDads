@@ -77,7 +77,8 @@
     [self updateNextButtonState];
 }
 
-- (void)textFieldDidEndEditing:(UITextField *)sender {
+
+- (void)textFieldEditingDidEnd:(UITextField *)sender {
     if (sender == self.babyName && self.babyName.text.length) {
         self.birthDateLabel.text = [NSString stringWithFormat:@"%@ was born on:", self.babyName.text];
         self.dueDateLabel.text = [NSString stringWithFormat:@"%@ was due on:", self.babyName.text];
