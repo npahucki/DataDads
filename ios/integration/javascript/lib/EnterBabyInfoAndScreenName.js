@@ -1,4 +1,4 @@
-#import "../../../../Pods/tuneup_js/tuneup.js"
+#import "../tuneup_js/tuneup.js"
 
 
 // Baby Info Screen
@@ -7,7 +7,7 @@ test("expectEnteringBabyInfoEnablesNextStep", function (target, app) {
     // Make sure Baby Info Page is Shown
     retry(function () {
         assertWindow({
-            navigationBar:{ name:"About Baby" }
+            navigationBar: { name: "About Your Baby" }
         });
     }, 5);
 
@@ -36,7 +36,7 @@ test("expectEnteringBabyInfoEnablesNextStep", function (target, app) {
 // Baby Photo (skipped) - Can't get files onto simulator (Maybe in script?)
 test("expectPhotoCanBeSkipped", function (target, app) {
     assertWindow({
-        navigationBar:{ name:"Baby's Mug Shot" }
+        navigationBar: { name: "Your Baby's Mug Shot" }
     });
     target.frontMostApp().mainWindow().buttons()["cameraButton"].tap();
     target.frontMostApp().actionSheet().cancelButton().tap();
@@ -48,40 +48,40 @@ test("expectPhotoCanBeSkipped", function (target, app) {
     });
 });
 
-test("expectCanCheckExistingTag", function (target, app) {
-    assertWindow({
-        navigationBar:{ name:"Baby's Tags" }
-    });
-
-    var tagTable = target.frontMostApp().mainWindow().tableViews()["tagTable"];
-    assertEquals(tagTable.cells()[1].value(), "unchecked");
-    tagTable.cells()[1].tap();
-    assertEquals(tagTable.cells()[1].value(), "checked");
-});
-
-test("expectCantAddBlankTag", function (target, app) {
-    assertWindow({
-        navigationBar:{ name:"Baby's Tags" }
-    });
-
-    var tagTable = target.frontMostApp().mainWindow().tableViews()["tagTable"];
-    target.frontMostApp().mainWindow().textFields()["enterNewTagTextField"].tap();
-    assertFalse(target.frontMostApp().mainWindow().buttons()["addNewTagButton"].isEnabled());
-
-    target.frontMostApp().mainWindow().textFields()["enterNewTagTextField"].tap();
-    target.frontMostApp().keyboard().typeString("New Test Tag");
-    target.frontMostApp().mainWindow().buttons()["addNewTagButton"].tap();
-    // Should be automatically selected and added as first tag
-    assertEquals(tagTable.cells()[0].label(), "New Test Tag");
-    assertEquals(tagTable.cells()[0].value(), "checked");
-
-    assertWindow({
-        navigationBar:{ rightButton:{ isEnabled:true}},
-        onPass:function (window) {
-            target.frontMostApp().navigationBar().rightButton().tap();
-        }
-    });
-});
+//test("expectCanCheckExistingTag", function (target, app) {
+//    assertWindow({
+//        navigationBar:{ name:"Baby's Tags" }
+//    });
+//
+//    var tagTable = target.frontMostApp().mainWindow().tableViews()["tagTable"];
+//    assertEquals(tagTable.cells()[1].value(), "unchecked");
+//    tagTable.cells()[1].tap();
+//    assertEquals(tagTable.cells()[1].value(), "checked");
+//});
+//
+//test("expectCantAddBlankTag", function (target, app) {
+//    assertWindow({
+//        navigationBar:{ name:"Baby's Tags" }
+//    });
+//
+//    var tagTable = target.frontMostApp().mainWindow().tableViews()["tagTable"];
+//    target.frontMostApp().mainWindow().textFields()["enterNewTagTextField"].tap();
+//    assertFalse(target.frontMostApp().mainWindow().buttons()["addNewTagButton"].isEnabled());
+//
+//    target.frontMostApp().mainWindow().textFields()["enterNewTagTextField"].tap();
+//    target.frontMostApp().keyboard().typeString("New Test Tag");
+//    target.frontMostApp().mainWindow().buttons()["addNewTagButton"].tap();
+//    // Should be automatically selected and added as first tag
+//    assertEquals(tagTable.cells()[0].label(), "New Test Tag");
+//    assertEquals(tagTable.cells()[0].value(), "checked");
+//
+//    assertWindow({
+//        navigationBar:{ rightButton:{ isEnabled:true}},
+//        onPass:function (window) {
+//            target.frontMostApp().navigationBar().rightButton().tap();
+//        }
+//    });
+//});
 
 test("expectEnteringScreenNameEnablesNextStepAndProfileIsSaved", function (target, app) {
 
@@ -116,7 +116,7 @@ test("expectEnteringScreenNameEnablesNextStepAndProfileIsSaved", function (targe
 
     retry(function () {
         assertWindow({
-            navigationBar:{ name:"My Test Baby" }
+            navigationBar: { name: "Milestones" }
         });
     }, 5, 2);
 });

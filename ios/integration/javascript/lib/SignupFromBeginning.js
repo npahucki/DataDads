@@ -1,4 +1,4 @@
-#import "../../../../Pods/tuneup_js/tuneup.js"
+#import "../tuneup_js/tuneup.js"
 
 var userName = Math.random().toString(36) + "@blah.com";
 var password = "blah";
@@ -16,7 +16,7 @@ test("expectCanSignupWithNewAccount", function (target, app) {
     // Make sure Baby Info Page is Shown
     retry(function () {
         assertWindow({
-            navigationBar:{ name:"About Baby" }
+            navigationBar: { name: "About Your Baby" }
         });
     }, 5);
 });
