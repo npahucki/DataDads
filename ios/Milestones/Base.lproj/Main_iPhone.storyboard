@@ -501,6 +501,7 @@
                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GwN-wb-KxG" customClass="TakePhotoButton">
                                 <rect key="frame" x="47" y="127" width="226" height="226"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <accessibility key="accessibilityConfiguration" label="cameraButton"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="GwN-wb-KxG" secondAttribute="height" multiplier="1:1" id="IC9-Hs-WE8"/>
                                 </constraints>
@@ -531,7 +532,7 @@
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="uPn-n1-k05" secondAttribute="centerX" id="2fn-JS-XIn"/>
                             <constraint firstItem="jbn-iB-GKR" firstAttribute="top" secondItem="ztv-8m-ton" secondAttribute="bottom" constant="8" id="7kU-UI-xK8"/>
-                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="GwN-wb-KxG" secondAttribute="trailing" priority="750" constant="10" id="CIC-RV-6Ip"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="GwN-wb-KxG" secondAttribute="trailing" constant="10" id="CIC-RV-6Ip"/>
                             <constraint firstItem="GwN-wb-KxG" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="NrP-s9-2iJ" secondAttribute="leading" constant="10" id="MXi-bR-xyX"/>
                             <constraint firstAttribute="centerX" secondItem="GwN-wb-KxG" secondAttribute="centerX" priority="750" id="XYf-0a-imy"/>
                             <constraint firstItem="ztv-8m-ton" firstAttribute="top" secondItem="uPn-n1-k05" secondAttribute="bottom" constant="8" id="jZn-Kx-Wbi"/>
@@ -991,7 +992,7 @@
                                     <outlet property="delegate" destination="As4-O0-72y" id="82Q-1Y-vTm"/>
                                 </connections>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8nC-ax-kTN" userLabel="Image Button" customClass="TakePhotoButton">
+                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8nC-ax-kTN" userLabel="Image Button" customClass="TakePhotoButton">
                                 <rect key="frame" x="89" y="203" width="143" height="143"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
@@ -2210,9 +2211,9 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="leH-KX-3OX"/>
-        <segue reference="9u5-1o-6Cv"/>
+        <segue reference="zMK-LI-8Wn"/>
         <segue reference="6HZ-Iq-Yef"/>
         <segue reference="gfX-BP-v4v"/>
+        <segue reference="9u5-1o-6Cv"/>
     </inferredMetricsTieBreakers>
 </document>
