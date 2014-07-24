@@ -13,18 +13,18 @@ static id safe(id object) {
     return object ?: [NSNull null];
 }
 
-static BOOL isProduciton;
+static BOOL isRelease;
 
 @implementation UsageAnalytics
 
 + (void)initializeConnection {
 
 # if DEBUG || TARGET_IPHONE_SIMULATOR
-    isProduciton = false;
+    isRelease = NO;
 #else
-    isProduciton = true;
-    [Appsee start:@"0d66ed485f214fdd977275d9de1de7b9"];
-    [Heap setAppId:@"714546901"];
+    isRelease = YES;
+    [Appsee start:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.AppseeAppId"]];
+    [Heap setAppId:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.HeapAppId"]];
     [Heap changeInterval:30];
 #endif
 
@@ -49,7 +49,7 @@ static BOOL isProduciton;
             props = combinedAttributes;
         }
 
-        if (isProduciton) {
+        if (isRelease) {
             [Appsee setUserID:user.objectId];
             [Heap identify:props];
         } else {
@@ -63,7 +63,7 @@ static BOOL isProduciton;
 }
 
 + (void)trackError:(NSError *)error forOperationNamed:(NSString *)operation andAdditionalProperties:(NSDictionary *)props {
-    if (isProduciton) {
+    if (isRelease) {
         NSMutableDictionary *combinedAttributes = [NSMutableDictionary dictionaryWithDictionary:error.userInfo];
         if (props) [combinedAttributes addEntriesFromDictionary:props];
         [combinedAttributes setObject:@(error.code) forKey:@"error.id"];
@@ -76,7 +76,7 @@ static BOOL isProduciton;
 
 
 + (void)trackUserSignup:(ParentUser *)user usingMethod:(NSString *)method {
-    if (isProduciton) {
+    if (isRelease) {
         [Heap track:@"userSignedUp" withProperties:@{
                 @"user.id" : safe(user.objectId),
                 @"method" : safe(method)
@@ -98,7 +98,7 @@ static BOOL isProduciton;
     if (error) {
         [self trackError:error forOperationNamed:@"userLinkedWithFacebook" andAdditionalProperties:props];
     } else {
-        if (isProduciton) {
+        if (isRelease) {
             [Heap track:@"userLinkedWithFacebook" withProperties:props];
         } else {
             NSLog(@"[USAGE ANALYTICS]: trackUserLinkedWithFacebook - User:%@ Publish:%d", user, publish);
@@ -107,7 +107,7 @@ static BOOL isProduciton;
 }
 
 + (void)trackUserSignout:(ParentUser *)user {
-    if (isProduciton) {
+    if (isRelease) {
         [Heap track:@"userSignedOut" withProperties:@{@"user.id" : safe(user.objectId)}];
     } else {
         NSLog(@"[USAGE ANALYTICS]: trackUserSignout - User:%@", user);
@@ -115,7 +115,7 @@ static BOOL isProduciton;
 }
 
 + (void)trackAchievementLogged:(MilestoneAchievement *)achievement sharedOnFacebook:(BOOL)shared {
-    if (isProduciton) {
+    if (isRelease) {
         if (achievement.isPostponed) {
             [Heap track:@"milestonePostponed" withProperties:@{
                     @"user.id" : safe(achievement.baby.parentUser.objectId),
@@ -148,7 +148,7 @@ static BOOL isProduciton;
 
 
 + (void)trackMeasurement:(Measurement *)measurement {
-    if (isProduciton) {
+    if (isRelease) {
         [Heap track:@"measurementLogged" withProperties:@{
                 @"user.id" : safe(measurement.baby.parentUser.objectId),
                 @"baby.id" : safe(measurement.baby.objectId),
@@ -160,7 +160,7 @@ static BOOL isProduciton;
 }
 
 + (void)trackSearch:(NSString *)filterString {
-    if (isProduciton) {
+    if (isRelease) {
         [Heap track:@"searchExecuted" withProperties:@{@"filterString" : filterString}];
     } else {
         NSLog(@"[USAGE ANALYTICS]: trackSearch - Filter:%@", filterString);
@@ -168,7 +168,7 @@ static BOOL isProduciton;
 }
 
 + (void)trackAdClicked:(NSString *)adIdentifier {
-    if (isProduciton) {
+    if (isRelease) {
         [Heap track:@"adClicked" withProperties:@{@"adIdentifier" : adIdentifier}];
     } else {
         NSLog(@"[USAGE ANALYTICS]: trackAdClick - AdId:%@", adIdentifier);

@@ -33,20 +33,13 @@
     // Setup Social Providers ANd Trakcing Services
     [UsageAnalytics initializeConnection];
 
-# if DEBUG || TARGET_IPHONE_SIMULATOR
-    NSLog(@"Using Parse DEV account");
-    [Parse setApplicationId:@"NlJHBG0NZgFS8JP76DBjA31MBRZ7kmb7dVSQQz3U"
-                  clientKey:@"iMYPq4Fg751JyIOeHYnDH4LsuivOcm8uoi4DlwJ9"];
-#else
-    NSLog(@"Using Parse PRODUCTION account");
-    [Parse setApplicationId:@"Vxvqum0HRF1NB00LEf2faaJYFzxd2Xh8hyrdY8MY"
-                  clientKey:@"N4kS8ush3bY6Arb05tI86Gx9uA2EDiZEqzpVDrvq"];
-#endif
+    NSString * parseAppId = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.ParseApplicationId"];
+    NSLog(@"Using Parse Application Id '%@'", parseAppId);
+    [Parse setApplicationId:parseAppId clientKey:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.ParseClientId"]];
 
     [PFFacebookUtils initializeFacebook];
 //  [PFTwitterUtils initializeWithConsumerKey:@"4UXzyDxzZSDXwfCw1qK4ew"
 //                             consumerSecret:@"lzARes6UFvuHTynV0EleL1lmSclmv99k1AXuz5XeAk"];
-    //[PFUser enableAutomaticUser]; // Allows anonymous users
 
     // Setup user tracking and A/B tests
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];

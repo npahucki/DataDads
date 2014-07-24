@@ -4,10 +4,30 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>All in BabyTests.m.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>14</integer>
+		</dict>
+		<key>All in PronounHelperTests.m.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>15</integer>
+		</dict>
+		<key>DataParenting Monkey.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>16</integer>
+		</dict>
 		<key>DataParenting Release.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>7</integer>
+			<integer>4</integer>
+		</dict>
+		<key>DataParenting copy.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>17</integer>
 		</dict>
 		<key>DataParenting.xcscheme</key>
 		<dict>
@@ -17,6 +37,11 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>E8BF63F719816B6400F1EE48</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>E8DD48D9188EE5B900153095</key>
 		<dict>
 			<key>primary</key>
