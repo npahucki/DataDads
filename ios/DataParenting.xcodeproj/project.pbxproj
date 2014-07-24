@@ -67,6 +67,96 @@
 		E89AC31F195A0D1C00AD3869 /* NSDateHumanizedTime.strings in Resources */ = {isa = PBXBuildFile; fileRef = E89AC31E195A0D1C00AD3869 /* NSDateHumanizedTime.strings */; };
 		E89AC324195A204100AD3869 /* UIImage+FX.m in Sources */ = {isa = PBXBuildFile; fileRef = E89AC323195A204100AD3869 /* UIImage+FX.m */; };
 		E89AC327195B029600AD3869 /* RangeIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = E89AC326195B029600AD3869 /* RangeIndicatorView.m */; };
+		E8A02CFF19817CCF001E0DAB /* EnterScreenNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E81B58751896C1A900C74C2B /* EnterScreenNameViewController.m */; };
+		E8A02D0019817CCF001E0DAB /* MainNotificationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89035E41930328E004A4013 /* MainNotificationsViewController.m */; };
+		E8A02D0119817CCF001E0DAB /* IntroScreenContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8250F3F1925616F004A1B41 /* IntroScreenContentViewController.m */; };
+		E8A02D0219817CCF001E0DAB /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E81B58721896B89E00C74C2B /* MainViewController.m */; };
+		E8A02D0319817CCF001E0DAB /* SignUpPromptViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89035E719303D13004A4013 /* SignUpPromptViewController.m */; };
+		E8A02D0419817CCF001E0DAB /* HistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E832436F18F895F500307356 /* HistoryViewController.m */; };
+		E8A02D0519817CCF001E0DAB /* NotificationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E866E7F21936448C004963C9 /* NotificationTableViewController.m */; };
+		E8A02D0619817CCF001E0DAB /* HistoryTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E8255DE3195CF3710008B82F /* HistoryTableHeaderView.m */; };
+		E8A02D0719817CCF001E0DAB /* UnitHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = E872D62D194A5425003F461C /* UnitHelper.m */; };
+		E8A02D0819817CCF001E0DAB /* Baby.m in Sources */ = {isa = PBXBuildFile; fileRef = E81B58791896CE7800C74C2B /* Baby.m */; };
+		E8A02D0919817CCF001E0DAB /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8F485471901C6F90030912F /* SignUpViewController.m */; };
+		E8A02D0A19817CCF001E0DAB /* IntroScreenPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8250F42192561A7004A1B41 /* IntroScreenPageViewController.m */; };
+		E8A02D0B19817CCF001E0DAB /* PronounHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = E8BDE6B7193E0CF7001D6995 /* PronounHelper.m */; };
+		E8A02D0C19817CCF001E0DAB /* AchievementDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89035EE1934C97F004A4013 /* AchievementDetailsViewController.m */; };
+		E8A02D0D19817CCF001E0DAB /* BabyTagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E876159A18EF83C100B0C6D9 /* BabyTagsViewController.m */; };
+		E8A02D0E19817CCF001E0DAB /* Contants.m in Sources */ = {isa = PBXBuildFile; fileRef = E81B586F1896A75700C74C2B /* Contants.m */; };
+		E8A02D0F19817CCF001E0DAB /* NoteMilestoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D00A1F188F435300DF2786 /* NoteMilestoneViewController.m */; };
+		E8A02D1019817CCF001E0DAB /* Tag.m in Sources */ = {isa = PBXBuildFile; fileRef = E81B588218992B7000C74C2B /* Tag.m */; };
+		E8A02D1119817CCF001E0DAB /* UIViewControllerWithHUDProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = E8BC76D418A50AD000983025 /* UIViewControllerWithHUDProgress.m */; };
+		E8A02D1219817CCF001E0DAB /* WebViewerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E877FCAF1936BA98002405BF /* WebViewerViewController.m */; };
+		E8A02D1319817CCF001E0DAB /* UsageAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E89AC31C1955E83D00AD3869 /* UsageAnalytics.m */; };
+		E8A02D1419817CCF001E0DAB /* RangeIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = E89AC326195B029600AD3869 /* RangeIndicatorView.m */; };
+		E8A02D1519817CCF001E0DAB /* PFFacebookUtils+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = E872D4CC1940B8D6003F461C /* PFFacebookUtils+Extras.m */; };
+		E8A02D1619817CCF001E0DAB /* UIImage+FX.m in Sources */ = {isa = PBXBuildFile; fileRef = E89AC323195A204100AD3869 /* UIImage+FX.m */; };
+		E8A02D1719817CCF001E0DAB /* UIViewController+MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = E8EC89D71907CB410073E012 /* UIViewController+MBProgressHUD.m */; };
+		E8A02D1819817CCF001E0DAB /* ParentUser.m in Sources */ = {isa = PBXBuildFile; fileRef = E872D4C91940B412003F461C /* ParentUser.m */; };
+		E8A02D1919817CCF001E0DAB /* SettingPanelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E88F3634194A5A4100BE74E9 /* SettingPanelViewController.m */; };
+		E8A02D1A19817CCF001E0DAB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E8DD48ED188EE5B900153095 /* AppDelegate.m */; };
+		E8A02D1B19817CCF001E0DAB /* TakePhotoButton.m in Sources */ = {isa = PBXBuildFile; fileRef = E856BD571964455200D00E5C /* TakePhotoButton.m */; };
+		E8A02D1C19817CCF001E0DAB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E8DD48E9188EE5B900153095 /* main.m */; };
+		E8A02D1D19817CCF001E0DAB /* BannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E881F8DE1962006E0066046E /* BannerViewController.m */; };
+		E8A02D1E19817CCF001E0DAB /* NoConnectionAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = E856BD4E1962DDDB00D00E5C /* NoConnectionAlertView.m */; };
+		E8A02D1F19817CCF001E0DAB /* BabyInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D00A19188F362100DF2786 /* BabyInfoViewController.m */; };
+		E8A02D2019817CCF001E0DAB /* BabyInfoPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E840251818F0DEC800AF1B27 /* BabyInfoPhotoViewController.m */; };
+		E8A02D2119817CCF001E0DAB /* SevenSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = E872D4C51940943F003F461C /* SevenSwitch.m */; };
+		E8A02D2219817CCF001E0DAB /* BabyAssignedTip.m in Sources */ = {isa = PBXBuildFile; fileRef = E877FCAC19368AE4002405BF /* BabyAssignedTip.m */; };
+		E8A02D2319817CCF001E0DAB /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D00A16188F348700DF2786 /* LoginViewController.m */; };
+		E8A02D2419817CCF001E0DAB /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = E89035EA19337807004A4013 /* Reachability.m */; };
+		E8A02D2519817CCF001E0DAB /* UIAlertView+BlockSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = E872D4CF1940E9FD003F461C /* UIAlertView+BlockSupport.m */; };
+		E8A02D2619817CCF001E0DAB /* HistoryViewControllerDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = E872D4C0193F6975003F461C /* HistoryViewControllerDataSource.m */; };
+		E8A02D2719817CCF001E0DAB /* Measurement.m in Sources */ = {isa = PBXBuildFile; fileRef = E872D62A1949E9C0003F461C /* Measurement.m */; };
+		E8A02D2819817CCF001E0DAB /* HIstoryViewTableCells.m in Sources */ = {isa = PBXBuildFile; fileRef = E825C1CA195B5B010081614F /* HIstoryViewTableCells.m */; };
+		E8A02D2919817CCF001E0DAB /* HistoryViewTableModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E86B1EAE19277E7700EA6167 /* HistoryViewTableModel.m */; };
+		E8A02D2A19817CCF001E0DAB /* AlertThenDisappearView.m in Sources */ = {isa = PBXBuildFile; fileRef = E856BD54196324E500D00E5C /* AlertThenDisappearView.m */; };
+		E8A02D2B19817CCF001E0DAB /* NSDate+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = E8BDE6AF193CC106001D6995 /* NSDate+Utils.m */; };
+		E8A02D2C19817CCF001E0DAB /* MainMilestoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8E39C6918EB063E0034982D /* MainMilestoneViewController.m */; };
+		E8A02D2D19817CCF001E0DAB /* DataParentingAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = E8FFCCE7196DF78400969083 /* DataParentingAdView.m */; };
+		E8A02D2E19817CCF001E0DAB /* BabyTagsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E876159D18EF892C00B0C6D9 /* BabyTagsTableViewController.m */; };
+		E8A02D2F19817CCF001E0DAB /* OverviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8E39C6C18EB9A090034982D /* OverviewViewController.m */; };
+		E8A02D3019817CCF001E0DAB /* UIDateField.m in Sources */ = {isa = PBXBuildFile; fileRef = E8ABCFB9191D68FE0083ED25 /* UIDateField.m */; };
+		E8A02D3119817CCF001E0DAB /* Tip.m in Sources */ = {isa = PBXBuildFile; fileRef = E866E7F819364607004963C9 /* Tip.m */; };
+		E8A02D3219817CCF001E0DAB /* NSDate+HumanizedTime.m in Sources */ = {isa = PBXBuildFile; fileRef = E84A2CEF1953C3D300BFA857 /* NSDate+HumanizedTime.m */; };
+		E8A02D3319817CCF001E0DAB /* MilestoneAchievement.m in Sources */ = {isa = PBXBuildFile; fileRef = E81B588D189BFFFE00C74C2B /* MilestoneAchievement.m */; };
+		E8A02D3419817CCF001E0DAB /* StandardMilestone.m in Sources */ = {isa = PBXBuildFile; fileRef = E81B588A189BCCD200C74C2B /* StandardMilestone.m */; };
+		E8A02D3619817CCF001E0DAB /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8A99CF3196205E1008BCEFE /* AssetsLibrary.framework */; };
+		E8A02D3719817CCF001E0DAB /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E862B81618F6A6BA00EBAEFF /* iAd.framework */; };
+		E8A02D3819817CCF001E0DAB /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B58671891EEDB00C74C2B /* SystemConfiguration.framework */; };
+		E8A02D3919817CCF001E0DAB /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B58611891EEBE00C74C2B /* QuartzCore.framework */; };
+		E8A02D3A19817CCF001E0DAB /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E872D4DB19420287003F461C /* CoreVideo.framework */; };
+		E8A02D3B19817CCF001E0DAB /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E872D4D91942027D003F461C /* CoreMedia.framework */; };
+		E8A02D3C19817CCF001E0DAB /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8DD48DF188EE5B900153095 /* CoreGraphics.framework */; };
+		E8A02D3D19817CCF001E0DAB /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E872D4D71942026F003F461C /* AVFoundation.framework */; };
+		E8A02D3E19817CCF001E0DAB /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B5887189AB2B900C74C2B /* Accounts.framework */; };
+		E8A02D3F19817CCF001E0DAB /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B58651891EED100C74C2B /* StoreKit.framework */; };
+		E8A02D4019817CCF001E0DAB /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B58631891EEC500C74C2B /* Security.framework */; };
+		E8A02D4119817CCF001E0DAB /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B585F1891EEB500C74C2B /* MobileCoreServices.framework */; };
+		E8A02D4219817CCF001E0DAB /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B585D1891EEAC00C74C2B /* libz.dylib */; };
+		E8A02D4319817CCF001E0DAB /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B585B1891EE9E00C74C2B /* CoreLocation.framework */; };
+		E8A02D4419817CCF001E0DAB /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B58591891EE8D00C74C2B /* CFNetwork.framework */; };
+		E8A02D4519817CCF001E0DAB /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B58571891EE7D00C74C2B /* AudioToolbox.framework */; };
+		E8A02D4619817CCF001E0DAB /* Appsee.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E872D4D519420252003F461C /* Appsee.framework */; };
+		E8A02D4719817CCF001E0DAB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8DD48E1188EE5B900153095 /* UIKit.framework */; };
+		E8A02D4819817CCF001E0DAB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8DD48DD188EE5B900153095 /* Foundation.framework */; };
+		E8A02D4919817CCF001E0DAB /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7AE7A55BFBD3425490A0E0F5 /* libPods.a */; };
+		E8A02D4B19817CCF001E0DAB /* GothamRounded-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C0E18E615D20034982D /* GothamRounded-Medium.otf */; };
+		E8A02D4C19817CCF001E0DAB /* NoConnectionAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E856BD451962DB1C00D00E5C /* NoConnectionAlertView.xib */; };
+		E8A02D4D19817CCF001E0DAB /* GothamRounded-Book.otf in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C0A18E615D20034982D /* GothamRounded-Book.otf */; };
+		E8A02D4E19817CCF001E0DAB /* GothamRounded-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C0818E615D20034982D /* GothamRounded-Bold.otf */; };
+		E8A02D4F19817CCF001E0DAB /* GothamRounded-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C0918E615D20034982D /* GothamRounded-BoldItalic.otf */; };
+		E8A02D5019817CCF001E0DAB /* GothamRounded-BookItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C0B18E615D20034982D /* GothamRounded-BookItalic.otf */; };
+		E8A02D5119817CCF001E0DAB /* AlertThenDisappearView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E856BD511963216A00D00E5C /* AlertThenDisappearView.xib */; };
+		E8A02D5219817CCF001E0DAB /* GothamRounded-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C0F18E615D20034982D /* GothamRounded-MediumItalic.otf */; };
+		E8A02D5319817CCF001E0DAB /* GothamRounded-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C0D18E615D20034982D /* GothamRounded-LightItalic.otf */; };
+		E8A02D5419817CCF001E0DAB /* NSDateHumanizedTime.strings in Resources */ = {isa = PBXBuildFile; fileRef = E89AC31E195A0D1C00AD3869 /* NSDateHumanizedTime.strings */; };
+		E8A02D5519817CCF001E0DAB /* backgroung.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E86B1EB3192917A400EA6167 /* backgroung.jpg */; };
+		E8A02D5619817CCF001E0DAB /* GothamRounded-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = E8E39C0C18E615D20034982D /* GothamRounded-Light.otf */; };
+		E8A02D5719817CCF001E0DAB /* Pronouns.strings in Resources */ = {isa = PBXBuildFile; fileRef = E8BDE6B1193E0951001D6995 /* Pronouns.strings */; };
+		E8A02D5819817CCF001E0DAB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E8DD48FB188EE5B900153095 /* Images.xcassets */; };
+		E8A02D5919817CCF001E0DAB /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E8DD48EF188EE5B900153095 /* Main_iPhone.storyboard */; };
+		E8A02D5A19817CCF001E0DAB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E8DD48E6188EE5B900153095 /* InfoPlist.strings */; };
 		E8A99CF219620570008BCEFE /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E862B81618F6A6BA00EBAEFF /* iAd.framework */; };
 		E8A99CF4196205E1008BCEFE /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8A99CF3196205E1008BCEFE /* AssetsLibrary.framework */; };
 		E8ABCFBA191D68FE0083ED25 /* UIDateField.m in Sources */ = {isa = PBXBuildFile; fileRef = E8ABCFB9191D68FE0083ED25 /* UIDateField.m */; };
@@ -220,6 +310,8 @@
 		E89AC323195A204100AD3869 /* UIImage+FX.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+FX.m"; sourceTree = "<group>"; };
 		E89AC325195B029600AD3869 /* RangeIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RangeIndicatorView.h; sourceTree = "<group>"; };
 		E89AC326195B029600AD3869 /* RangeIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RangeIndicatorView.m; sourceTree = "<group>"; };
+		E8A02D5F19817CCF001E0DAB /* DataParentingDev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DataParentingDev.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E8A02D6019817CCF001E0DAB /* DataParentingDev-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "DataParentingDev-Info.plist"; path = "/Users/npahucki/Projects/DataParenting/ios/DataParentingDev-Info.plist"; sourceTree = "<absolute>"; };
 		E8A99CF3196205E1008BCEFE /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		E8ABCFB8191D68FE0083ED25 /* UIDateField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIDateField.h; sourceTree = "<group>"; };
 		E8ABCFB9191D68FE0083ED25 /* UIDateField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIDateField.m; sourceTree = "<group>"; };
@@ -274,6 +366,33 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		E8A02D3519817CCF001E0DAB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E8A02D3619817CCF001E0DAB /* AssetsLibrary.framework in Frameworks */,
+				E8A02D3719817CCF001E0DAB /* iAd.framework in Frameworks */,
+				E8A02D3819817CCF001E0DAB /* SystemConfiguration.framework in Frameworks */,
+				E8A02D3919817CCF001E0DAB /* QuartzCore.framework in Frameworks */,
+				E8A02D3A19817CCF001E0DAB /* CoreVideo.framework in Frameworks */,
+				E8A02D3B19817CCF001E0DAB /* CoreMedia.framework in Frameworks */,
+				E8A02D3C19817CCF001E0DAB /* CoreGraphics.framework in Frameworks */,
+				E8A02D3D19817CCF001E0DAB /* AVFoundation.framework in Frameworks */,
+				E8A02D3E19817CCF001E0DAB /* Accounts.framework in Frameworks */,
+				E8A02D3F19817CCF001E0DAB /* StoreKit.framework in Frameworks */,
+				E8A02D4019817CCF001E0DAB /* Security.framework in Frameworks */,
+				E8A02D4119817CCF001E0DAB /* MobileCoreServices.framework in Frameworks */,
+				E8A02D4219817CCF001E0DAB /* libz.dylib in Frameworks */,
+				E8A02D4319817CCF001E0DAB /* CoreLocation.framework in Frameworks */,
+				E8A02D4419817CCF001E0DAB /* CFNetwork.framework in Frameworks */,
+				E8A02D4519817CCF001E0DAB /* AudioToolbox.framework in Frameworks */,
+				E8A02D4619817CCF001E0DAB /* Appsee.framework in Frameworks */,
+				E8A02D4719817CCF001E0DAB /* UIKit.framework in Frameworks */,
+				E8A02D4819817CCF001E0DAB /* Foundation.framework in Frameworks */,
+				E8A02D4919817CCF001E0DAB /* libPods.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E8DD48D7188EE5B900153095 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -491,6 +610,7 @@
 			children = (
 				E8DD48DA188EE5B900153095 /* DataParenting.app */,
 				E8DD4901188EE5BA00153095 /* DataParentingTests.xctest */,
+				E8A02D5F19817CCF001E0DAB /* DataParentingDev.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -548,6 +668,7 @@
 			isa = PBXGroup;
 			children = (
 				E8DD48E5188EE5B900153095 /* DataParenting-Info.plist */,
+				E8A02D6019817CCF001E0DAB /* DataParentingDev-Info.plist */,
 				E8DD48E6188EE5B900153095 /* InfoPlist.strings */,
 				E8DD48E9188EE5B900153095 /* main.m */,
 				E8DD48EB188EE5B900153095 /* DataParenting-Prefix.pch */,
@@ -625,6 +746,25 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		E8A02CFC19817CCF001E0DAB /* DataParentingDev */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E8A02D5C19817CCF001E0DAB /* Build configuration list for PBXNativeTarget "DataParentingDev" */;
+			buildPhases = (
+				E8A02CFD19817CCF001E0DAB /* Check Pods Manifest.lock */,
+				E8A02CFE19817CCF001E0DAB /* Sources */,
+				E8A02D3519817CCF001E0DAB /* Frameworks */,
+				E8A02D4A19817CCF001E0DAB /* Resources */,
+				E8A02D5B19817CCF001E0DAB /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DataParentingDev;
+			productName = Milestones;
+			productReference = E8A02D5F19817CCF001E0DAB /* DataParentingDev.app */;
+			productType = "com.apple.product-type.application";
+		};
 		E8DD48D9188EE5B900153095 /* DataParenting */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E8DD4912188EE5BA00153095 /* Build configuration list for PBXNativeTarget "DataParenting" */;
@@ -673,11 +813,14 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = DataParenting;
 				TargetAttributes = {
+					E8A02CFC19817CCF001E0DAB = {
+						DevelopmentTeam = 7F4YJQGJ9E;
+					};
 					E8DD48D9188EE5B900153095 = {
 						DevelopmentTeam = 7F4YJQGJ9E;
 					};
 					E8DD4900188EE5BA00153095 = {
-						TestTargetID = E8DD48D9188EE5B900153095;
+						TestTargetID = E8A02CFC19817CCF001E0DAB;
 					};
 				};
 			};
@@ -695,12 +838,36 @@
 			projectRoot = "";
 			targets = (
 				E8DD48D9188EE5B900153095 /* DataParenting */,
+				E8A02CFC19817CCF001E0DAB /* DataParentingDev */,
 				E8DD4900188EE5BA00153095 /* DataParentingTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		E8A02D4A19817CCF001E0DAB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E8A02D4B19817CCF001E0DAB /* GothamRounded-Medium.otf in Resources */,
+				E8A02D4C19817CCF001E0DAB /* NoConnectionAlertView.xib in Resources */,
+				E8A02D4D19817CCF001E0DAB /* GothamRounded-Book.otf in Resources */,
+				E8A02D4E19817CCF001E0DAB /* GothamRounded-Bold.otf in Resources */,
+				E8A02D4F19817CCF001E0DAB /* GothamRounded-BoldItalic.otf in Resources */,
+				E8A02D5019817CCF001E0DAB /* GothamRounded-BookItalic.otf in Resources */,
+				E8A02D5119817CCF001E0DAB /* AlertThenDisappearView.xib in Resources */,
+				E8A02D5219817CCF001E0DAB /* GothamRounded-MediumItalic.otf in Resources */,
+				E8A02D5319817CCF001E0DAB /* GothamRounded-LightItalic.otf in Resources */,
+				E8A02D5419817CCF001E0DAB /* NSDateHumanizedTime.strings in Resources */,
+				E8A02D5519817CCF001E0DAB /* backgroung.jpg in Resources */,
+				E8A02D5619817CCF001E0DAB /* GothamRounded-Light.otf in Resources */,
+				E8A02D5719817CCF001E0DAB /* Pronouns.strings in Resources */,
+				E8A02D5819817CCF001E0DAB /* Images.xcassets in Resources */,
+				E8A02D5919817CCF001E0DAB /* Main_iPhone.storyboard in Resources */,
+				E8A02D5A19817CCF001E0DAB /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E8DD48D8188EE5B900153095 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -795,9 +962,100 @@
 			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		E8A02CFD19817CCF001E0DAB /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		E8A02D5B19817CCF001E0DAB /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		E8A02CFE19817CCF001E0DAB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E8A02CFF19817CCF001E0DAB /* EnterScreenNameViewController.m in Sources */,
+				E8A02D0019817CCF001E0DAB /* MainNotificationsViewController.m in Sources */,
+				E8A02D0119817CCF001E0DAB /* IntroScreenContentViewController.m in Sources */,
+				E8A02D0219817CCF001E0DAB /* MainViewController.m in Sources */,
+				E8A02D0319817CCF001E0DAB /* SignUpPromptViewController.m in Sources */,
+				E8A02D0419817CCF001E0DAB /* HistoryViewController.m in Sources */,
+				E8A02D0519817CCF001E0DAB /* NotificationTableViewController.m in Sources */,
+				E8A02D0619817CCF001E0DAB /* HistoryTableHeaderView.m in Sources */,
+				E8A02D0719817CCF001E0DAB /* UnitHelper.m in Sources */,
+				E8A02D0819817CCF001E0DAB /* Baby.m in Sources */,
+				E8A02D0919817CCF001E0DAB /* SignUpViewController.m in Sources */,
+				E8A02D0A19817CCF001E0DAB /* IntroScreenPageViewController.m in Sources */,
+				E8A02D0B19817CCF001E0DAB /* PronounHelper.m in Sources */,
+				E8A02D0C19817CCF001E0DAB /* AchievementDetailsViewController.m in Sources */,
+				E8A02D0D19817CCF001E0DAB /* BabyTagsViewController.m in Sources */,
+				E8A02D0E19817CCF001E0DAB /* Contants.m in Sources */,
+				E8A02D0F19817CCF001E0DAB /* NoteMilestoneViewController.m in Sources */,
+				E8A02D1019817CCF001E0DAB /* Tag.m in Sources */,
+				E8A02D1119817CCF001E0DAB /* UIViewControllerWithHUDProgress.m in Sources */,
+				E8A02D1219817CCF001E0DAB /* WebViewerViewController.m in Sources */,
+				E8A02D1319817CCF001E0DAB /* UsageAnalytics.m in Sources */,
+				E8A02D1419817CCF001E0DAB /* RangeIndicatorView.m in Sources */,
+				E8A02D1519817CCF001E0DAB /* PFFacebookUtils+Extras.m in Sources */,
+				E8A02D1619817CCF001E0DAB /* UIImage+FX.m in Sources */,
+				E8A02D1719817CCF001E0DAB /* UIViewController+MBProgressHUD.m in Sources */,
+				E8A02D1819817CCF001E0DAB /* ParentUser.m in Sources */,
+				E8A02D1919817CCF001E0DAB /* SettingPanelViewController.m in Sources */,
+				E8A02D1A19817CCF001E0DAB /* AppDelegate.m in Sources */,
+				E8A02D1B19817CCF001E0DAB /* TakePhotoButton.m in Sources */,
+				E8A02D1C19817CCF001E0DAB /* main.m in Sources */,
+				E8A02D1D19817CCF001E0DAB /* BannerViewController.m in Sources */,
+				E8A02D1E19817CCF001E0DAB /* NoConnectionAlertView.m in Sources */,
+				E8A02D1F19817CCF001E0DAB /* BabyInfoViewController.m in Sources */,
+				E8A02D2019817CCF001E0DAB /* BabyInfoPhotoViewController.m in Sources */,
+				E8A02D2119817CCF001E0DAB /* SevenSwitch.m in Sources */,
+				E8A02D2219817CCF001E0DAB /* BabyAssignedTip.m in Sources */,
+				E8A02D2319817CCF001E0DAB /* LoginViewController.m in Sources */,
+				E8A02D2419817CCF001E0DAB /* Reachability.m in Sources */,
+				E8A02D2519817CCF001E0DAB /* UIAlertView+BlockSupport.m in Sources */,
+				E8A02D2619817CCF001E0DAB /* HistoryViewControllerDataSource.m in Sources */,
+				E8A02D2719817CCF001E0DAB /* Measurement.m in Sources */,
+				E8A02D2819817CCF001E0DAB /* HIstoryViewTableCells.m in Sources */,
+				E8A02D2919817CCF001E0DAB /* HistoryViewTableModel.m in Sources */,
+				E8A02D2A19817CCF001E0DAB /* AlertThenDisappearView.m in Sources */,
+				E8A02D2B19817CCF001E0DAB /* NSDate+Utils.m in Sources */,
+				E8A02D2C19817CCF001E0DAB /* MainMilestoneViewController.m in Sources */,
+				E8A02D2D19817CCF001E0DAB /* DataParentingAdView.m in Sources */,
+				E8A02D2E19817CCF001E0DAB /* BabyTagsTableViewController.m in Sources */,
+				E8A02D2F19817CCF001E0DAB /* OverviewViewController.m in Sources */,
+				E8A02D3019817CCF001E0DAB /* UIDateField.m in Sources */,
+				E8A02D3119817CCF001E0DAB /* Tip.m in Sources */,
+				E8A02D3219817CCF001E0DAB /* NSDate+HumanizedTime.m in Sources */,
+				E8A02D3319817CCF001E0DAB /* MilestoneAchievement.m in Sources */,
+				E8A02D3419817CCF001E0DAB /* StandardMilestone.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E8DD48D6188EE5B900153095 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -906,6 +1164,58 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		E8A02D5D19817CCF001E0DAB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 38FA7AFE5F694C389969CCDD /* Pods.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"./**",
+					"$(PROJECT_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Milestones/DataParenting-Prefix.pch";
+				INFOPLIST_FILE = "DataParentingDev-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				PRODUCT_NAME = DataParentingDev;
+				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
+				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/Pods\"/** \"${PROJECT_DIR}/Pods\"/**";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		E8A02D5E19817CCF001E0DAB /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 38FA7AFE5F694C389969CCDD /* Pods.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"./**",
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Milestones/DataParenting-Prefix.pch";
+				INFOPLIST_FILE = "DataParentingDev-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				PRODUCT_NAME = DataParentingDev;
+				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
+				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/Pods\"/** \"${PROJECT_DIR}/Pods\"/**";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
 		E8DD4910188EE5BA00153095 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1038,7 +1348,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 38FA7AFE5F694C389969CCDD /* Pods.xcconfig */;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/DataParenting.app/DataParenting";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/DataParentingDev.app/DataParentingDev";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -1062,7 +1372,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 38FA7AFE5F694C389969CCDD /* Pods.xcconfig */;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/DataParenting.app/DataParenting";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/DataParentingDev.app/DataParentingDev";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -1081,6 +1391,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		E8A02D5C19817CCF001E0DAB /* Build configuration list for PBXNativeTarget "DataParentingDev" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E8A02D5D19817CCF001E0DAB /* Debug */,
+				E8A02D5E19817CCF001E0DAB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		E8DD48D5188EE5B900153095 /* Build configuration list for PBXProject "DataParenting" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

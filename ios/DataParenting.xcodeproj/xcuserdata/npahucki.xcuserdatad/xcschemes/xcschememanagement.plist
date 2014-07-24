@@ -14,29 +14,24 @@
 			<key>orderHint</key>
 			<integer>15</integer>
 		</dict>
-		<key>DataParenting Monkey.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>16</integer>
-		</dict>
-		<key>DataParenting Release.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>4</integer>
-		</dict>
-		<key>DataParenting copy.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>17</integer>
-		</dict>
 		<key>DataParenting.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>DataParentingDev.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>E8A02CFC19817CCF001E0DAB</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>E8BF63F719816B6400F1EE48</key>
 		<dict>
 			<key>primary</key>
