@@ -7,147 +7,20 @@
 //
 
 #import "IntroScreenPageViewController.h"
-#import "IntroScreenContentViewController.h"
 
 @interface IntroScreenPageViewController ()
 
 @end
 
-@implementation IntroScreenPageViewController {
-    NSUInteger _nextIndex;
-}
+@implementation IntroScreenPageViewController
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _pageTitles = @[@"Help create Parenting Science...",
-            @"By compiling your baby's milestones, fun and serious",
-            @"We'll share the data anonymously -- and show you each one's comparative data",
-            @"We'll start showing you tips & risks, based on how your baby is developing",
-            @"The more milestones you note, the better it'll be at predicting what comes next.\n\nLets go!"
-    ];
-
-    // Create page view controller
-    self.pageViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"IntroScreenPageViewController"];
-    self.pageViewController.dataSource = self;
-    self.pageViewController.delegate = self;
-
-    IntroScreenContentViewController *startingViewController = [self viewControllerAtIndex:0];
-    NSArray *viewControllers = @[startingViewController];
-    [self.pageViewController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
-
-    // Change the size of page view controller
-    self.pageViewController.view.frame = CGRectMake(0, 44, self.view.frame.size.width, self.view.frame.size.height - 88);
-
-    [self addChildViewController:_pageViewController];
-    [self.view insertSubview:_pageViewController.view belowSubview:self.continueButton];
-    [self.pageViewController didMoveToParentViewController:self];
-
-
-    self.loginNowButton.titleLabel.font = [UIFont fontForAppWithType:Bold andSize:23];
-
+    self.loginNowButton.titleLabel.font = [UIFont fontForAppWithType:Book andSize:21];
+    self.continueButton.titleLabel.font = [UIFont fontForAppWithType:Book andSize:21];
     [self.continueButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.continueButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
-    [self.skipButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.skipButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
-
-}
-- (IBAction)didClickSkipButton:(id)sender {
-    [self performSegueWithIdentifier:kDDSegueEnterBabyInfo sender:self];
-}
-
-- (IBAction)didClickContinueButton:(id)sender {
-    if (_nextIndex == _pageTitles.count - 1) {
-        [self performSegueWithIdentifier:kDDSegueEnterBabyInfo sender:self];
-    } else {
-        UIViewController *currentViewController = [self.pageViewController.viewControllers objectAtIndex:0];
-        UIViewController *nextViewController = [self pageViewController:self.pageViewController viewControllerAfterViewController:currentViewController];
-        if (nextViewController) {
-            // We need to simulate the same methods as would swiping the page because they do not get fired for us automatically.
-            [self pageViewController:self.pageViewController willTransitionToViewControllers:@[nextViewController]];
-            __weak IntroScreenPageViewController *weakSelf = self;
-            [self.pageViewController setViewControllers:@[nextViewController]
-                                              direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:^(BOOL finished) {
-                [weakSelf pageViewController:weakSelf.pageViewController didFinishAnimating:YES previousViewControllers:@[currentViewController] transitionCompleted:YES];
-            }];
-        }
-    }
-
-}
-
-- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
-    return ![identifier isEqual:kDDSegueShowLoginScreen] || ![Reachability showAlertIfParseNotReachable];
-
-}
-
-#pragma mark - Page View Controller Data Source
-
-- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController {
-    NSUInteger index = ((IntroScreenContentViewController *) viewController).pageIndex;
-
-    if ((index == 0) || (index == NSNotFound)) {
-        return nil;
-    }
-
-    index--;
-    return [self viewControllerAtIndex:index];
-}
-
-- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController {
-    NSUInteger index = ((IntroScreenContentViewController *) viewController).pageIndex;
-    if (index == NSNotFound) {
-        return nil;
-    }
-
-    index++;
-    if (index == [self.pageTitles count]) {
-        return nil;
-    }
-    return [self viewControllerAtIndex:index];
-}
-
-- (IntroScreenContentViewController *)viewControllerAtIndex:(NSUInteger)index {
-    if (([_pageTitles count] == 0) || (index >= [_pageTitles count])) {
-        return nil;
-    }
-
-    // Create a new view controller and pass suitable data.
-    IntroScreenContentViewController *introScreenViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"IntroScreenContentViewController"];
-    introScreenViewController.text = self.pageTitles[index];
-    introScreenViewController.pageIndex = index;
-    return introScreenViewController;
-}
-
-- (NSInteger)presentationCountForPageViewController:(UIPageViewController *)pageViewController {
-    return _pageTitles.count;
-}
-
-- (NSInteger)presentationIndexForPageViewController:(UIPageViewController *)pageViewController {
-    return _nextIndex;
-}
-
-- (void)pageViewController:(UIPageViewController *)pageViewController willTransitionToViewControllers:(NSArray *)pendingViewControllers {
-    IntroScreenContentViewController *controller = [pendingViewControllers firstObject];
-    _nextIndex = controller.pageIndex;
-    [UIView animateWithDuration:0.3 animations:^{
-        self.continueButton.alpha = 0;
-        self.skipButton.alpha = 0;
-    } completion:^(BOOL finished) {
-    }];
-}
-
-- (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed {
-    BOOL isLastPage = _nextIndex == _pageTitles.count - 1;
-    if (isLastPage) {
-        [self.continueButton setTitle:@"Get Started" forState:UIControlStateNormal];
-    } else {
-        [self.continueButton setTitle:@"Continue >" forState:UIControlStateNormal];
-    }
-    [UIView animateWithDuration:0.3 animations:^{
-        self.continueButton.alpha = 1;
-        self.skipButton.alpha = 1;
-    } completion:nil];
-    self.skipButton.hidden = isLastPage;
+    [self.loginNowButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 }
 
 @end
