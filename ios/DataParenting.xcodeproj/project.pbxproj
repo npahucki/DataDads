@@ -590,6 +590,7 @@
 		E8DD48D1188EE5B900153095 = {
 			isa = PBXGroup;
 			children = (
+				E8DD48EF188EE5B900153095 /* Main_iPhone.storyboard */,
 				E8DD48E3188EE5B900153095 /* Main */,
 				E8DD4908188EE5BA00153095 /* Tests */,
 				E8DD48DC188EE5B900153095 /* Frameworks */,
@@ -641,7 +642,6 @@
 		E8DD48E3188EE5B900153095 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				E8DD48EF188EE5B900153095 /* Main_iPhone.storyboard */,
 				E81B586E1896A42400C74C2B /* Constants.h */,
 				E81B586F1896A75700C74C2B /* Contants.m */,
 				E8DD48EC188EE5B900153095 /* AppDelegate.h */,
@@ -1143,6 +1143,7 @@
 				E8DD48F0188EE5B900153095 /* Base */,
 			);
 			name = Main_iPhone.storyboard;
+			path = Milestones;
 			sourceTree = "<group>";
 		};
 		E8DD490B188EE5BA00153095 /* InfoPlist.strings */ = {
