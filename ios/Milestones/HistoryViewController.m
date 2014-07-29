@@ -11,7 +11,6 @@
 
 #import "HistoryViewController.h"
 #import "HistoryTableHeaderView.h"
-#import "UIAlertView+BlockSupport.h"
 #import "SignUpViewController.h"
 
 #define PRELOAD_START_AT_IDX 1
@@ -164,18 +163,17 @@
     [UIView commitAnimations];
 
     [self recalcHeaderCounts];
-    
-    
+
     // We want to gently encourange the user to sign up
-    if(!ParentUser.currentUser.email && _model.countOfAchievements % 3 == 0) {
+    if (!ParentUser.currentUser.email && _model.countOfAchievements % 3 == 0 && !_model.filter) {
         long x = _model.countOfAchievements / 3;
-        if( ( (x != 0) && ((x & (~x + 1)) == x)) > 0) { // is power of 2
+        if (((x != 0) && ((x & (~x + 1)) == x)) > 0) { // is power of 2
             [[[UIAlertView alloc] initWithTitle:@"Make sure your data is safe!"
-                                       message:@"Do you want to sign up now so we can backup your milestones and photos?"
-                                        delegate:nil
-                                        cancelButtonTitle:@"Not Now"
-                                        otherButtonTitles:@"Yes",nil] showWithButtonBlock:^(NSInteger buttonIndex) {
-                if(buttonIndex == 1) {
+                                        message:@"Do you want to sign up now so we can backup your milestones and photos?"
+                                       delegate:nil
+                              cancelButtonTitle:@"Not Now"
+                              otherButtonTitles:@"Yes", nil] showWithButtonBlock:^(NSInteger buttonIndex) {
+                if (buttonIndex == 1) {
                     SignUpViewController *signupController = [[SignUpViewController alloc] init];
                     signupController.showExternal = YES;
                     [self presentViewController:signupController animated:YES completion:nil];
@@ -183,7 +181,7 @@
             }];
         }
     }
-    
+
 }
 
 - (void)viewDidLayoutSubviews {

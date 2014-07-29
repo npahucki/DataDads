@@ -176,4 +176,13 @@ static BOOL isRelease;
 }
 
 
++ (void)trackTutorialResponse:(BOOL)viewed {
+    if (isRelease) {
+        [Heap track:@"respondedToTutoriaPrompt" withProperties:@{@"viewed" : @(viewed)}];
+    } else {
+        NSLog(@"[USAGE ANALYTICS]: respondedToTutoriaPrompt - viewed:%d", viewed);
+    }
+}
+
+
 @end

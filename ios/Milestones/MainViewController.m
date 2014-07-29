@@ -81,6 +81,7 @@
                         Baby *newBaby = [objects firstObject];
                         if (![Baby currentBaby] || [newBaby.updatedAt compare:[Baby currentBaby].updatedAt] == NSOrderedDescending) {
                             [Baby setCurrentBaby:newBaby];
+                            if (newBaby) [self showTutorialPromptIfNeeded:user];
                         }
                     } else if (!cachedResult) { // Don't show the baby screen when there are simply no objects in the cache.
                         // Must show the enter baby screen since there are none registered yet
@@ -117,6 +118,23 @@
         }
         item.badgeValue = nil;
     }
+}
+
+- (void)showTutorialPromptIfNeeded:(ParentUser *)user {
+    user.shownTutorialPrompt = YES;
+    [[[UIAlertView alloc] initWithTitle:@"Take a Quick Tour?"
+                                message:@"Do you want to see a quick tour about how things work? You can view it under 'account settings' anytime."
+                               delegate:nil
+                      cancelButtonTitle:@"Not Now"
+                      otherButtonTitles:@"Yes", nil] showWithButtonBlock:^(NSInteger buttonIndex) {
+        if (buttonIndex == 1) {
+            [self performSegueWithIdentifier:@"showTutorial" sender:self];
+            [UsageAnalytics trackTutorialResponse:YES];
+        } else {
+            [UsageAnalytics trackTutorialResponse:NO];
+        }
+    }];
+
 }
 
 

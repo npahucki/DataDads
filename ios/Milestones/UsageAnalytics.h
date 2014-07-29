@@ -36,4 +36,5 @@
 + (void)trackAdClicked:(NSString *)adIdentifier;
 
 
++ (void)trackTutorialResponse:(BOOL)viewed;
 @end

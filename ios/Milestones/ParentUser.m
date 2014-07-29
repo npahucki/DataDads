@@ -46,6 +46,14 @@
     return [[NSUserDefaults standardUserDefaults] boolForKey:@"autoPublishToFacebook"];
 }
 
+- (BOOL)shownTutorialPrompt {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:@"shownTutorialPrompt"];
+}
+
+- (void)setShownTutorialPrompt:(BOOL)shownTutorialPrompt {
+    [[NSUserDefaults standardUserDefaults] setBool:shownTutorialPrompt forKey:@"shownTutorialPrompt"];
+}
+
 + (void)incrementLaunchCount {
     [self.currentUser incrementKey:@"launchCount"];
     [self.currentUser saveEventually:^(BOOL succeeded, NSError *error) {

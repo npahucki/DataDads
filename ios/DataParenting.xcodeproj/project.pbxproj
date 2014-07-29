@@ -29,6 +29,16 @@
 		E8250F43192561A7004A1B41 /* IntroScreenPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8250F42192561A7004A1B41 /* IntroScreenPageViewController.m */; };
 		E8255DE4195CF3710008B82F /* HistoryTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E8255DE3195CF3710008B82F /* HistoryTableHeaderView.m */; };
 		E825C1CB195B5B010081614F /* HIstoryViewTableCells.m in Sources */ = {isa = PBXBuildFile; fileRef = E825C1CA195B5B010081614F /* HIstoryViewTableCells.m */; };
+		E8278E45198822A300A6893E /* Tutorial-Screen-1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E8278E40198822A300A6893E /* Tutorial-Screen-1.jpg */; };
+		E8278E46198822A300A6893E /* Tutorial-Screen-1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E8278E40198822A300A6893E /* Tutorial-Screen-1.jpg */; };
+		E8278E47198822A300A6893E /* Tutorial-Screen-4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E8278E41198822A300A6893E /* Tutorial-Screen-4.jpg */; };
+		E8278E48198822A300A6893E /* Tutorial-Screen-4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E8278E41198822A300A6893E /* Tutorial-Screen-4.jpg */; };
+		E8278E49198822A300A6893E /* Tutorial-Screen-3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E8278E42198822A300A6893E /* Tutorial-Screen-3.jpg */; };
+		E8278E4A198822A300A6893E /* Tutorial-Screen-3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E8278E42198822A300A6893E /* Tutorial-Screen-3.jpg */; };
+		E8278E4B198822A300A6893E /* Tutorial-Screen-5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E8278E43198822A300A6893E /* Tutorial-Screen-5.jpg */; };
+		E8278E4C198822A300A6893E /* Tutorial-Screen-5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E8278E43198822A300A6893E /* Tutorial-Screen-5.jpg */; };
+		E8278E4D198822A300A6893E /* Tutorial-Screen-2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E8278E44198822A300A6893E /* Tutorial-Screen-2.jpg */; };
+		E8278E4E198822A300A6893E /* Tutorial-Screen-2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E8278E44198822A300A6893E /* Tutorial-Screen-2.jpg */; };
 		E832437018F895F500307356 /* HistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E832436F18F895F500307356 /* HistoryViewController.m */; };
 		E840251918F0DEC800AF1B27 /* BabyInfoPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E840251818F0DEC800AF1B27 /* BabyInfoPhotoViewController.m */; };
 		E84A2CF01953C3D300BFA857 /* NSDate+HumanizedTime.m in Sources */ = {isa = PBXBuildFile; fileRef = E84A2CEF1953C3D300BFA857 /* NSDate+HumanizedTime.m */; };
@@ -158,6 +168,8 @@
 		E8ABCFBA191D68FE0083ED25 /* UIDateField.m in Sources */ = {isa = PBXBuildFile; fileRef = E8ABCFB9191D68FE0083ED25 /* UIDateField.m */; };
 		E8ABE5701982D5140022D110 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = E8ABE56F1982D5140022D110 /* background.png */; };
 		E8ABE5711982D5140022D110 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = E8ABE56F1982D5140022D110 /* background.png */; };
+		E8ABE5741987FE6B0022D110 /* TutorialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8ABE5731987FE6B0022D110 /* TutorialViewController.m */; };
+		E8ABE5751987FE6B0022D110 /* TutorialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8ABE5731987FE6B0022D110 /* TutorialViewController.m */; };
 		E8BC76D518A50AD000983025 /* UIViewControllerWithHUDProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = E8BC76D418A50AD000983025 /* UIViewControllerWithHUDProgress.m */; };
 		E8BDE6B0193CC106001D6995 /* NSDate+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = E8BDE6AF193CC106001D6995 /* NSDate+Utils.m */; };
 		E8BDE6B2193E0951001D6995 /* Pronouns.strings in Resources */ = {isa = PBXBuildFile; fileRef = E8BDE6B1193E0951001D6995 /* Pronouns.strings */; };
@@ -238,6 +250,11 @@
 		E8255DE3195CF3710008B82F /* HistoryTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryTableHeaderView.m; sourceTree = "<group>"; };
 		E825C1C9195B5B010081614F /* HIstoryViewTableCells.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HIstoryViewTableCells.h; sourceTree = "<group>"; };
 		E825C1CA195B5B010081614F /* HIstoryViewTableCells.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HIstoryViewTableCells.m; sourceTree = "<group>"; };
+		E8278E40198822A300A6893E /* Tutorial-Screen-1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Tutorial-Screen-1.jpg"; sourceTree = "<group>"; };
+		E8278E41198822A300A6893E /* Tutorial-Screen-4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Tutorial-Screen-4.jpg"; sourceTree = "<group>"; };
+		E8278E42198822A300A6893E /* Tutorial-Screen-3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Tutorial-Screen-3.jpg"; sourceTree = "<group>"; };
+		E8278E43198822A300A6893E /* Tutorial-Screen-5.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Tutorial-Screen-5.jpg"; sourceTree = "<group>"; };
+		E8278E44198822A300A6893E /* Tutorial-Screen-2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Tutorial-Screen-2.jpg"; sourceTree = "<group>"; };
 		E832436E18F895F500307356 /* HistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryViewController.h; sourceTree = "<group>"; };
 		E832436F18F895F500307356 /* HistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryViewController.m; sourceTree = "<group>"; };
 		E840251718F0DEC800AF1B27 /* BabyInfoPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyInfoPhotoViewController.h; sourceTree = "<group>"; };
@@ -311,6 +328,8 @@
 		E8ABCFB8191D68FE0083ED25 /* UIDateField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIDateField.h; sourceTree = "<group>"; };
 		E8ABCFB9191D68FE0083ED25 /* UIDateField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIDateField.m; sourceTree = "<group>"; };
 		E8ABE56F1982D5140022D110 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
+		E8ABE5721987FE6B0022D110 /* TutorialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialViewController.h; sourceTree = "<group>"; };
+		E8ABE5731987FE6B0022D110 /* TutorialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialViewController.m; sourceTree = "<group>"; };
 		E8BC76D318A50AD000983025 /* UIViewControllerWithHUDProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIViewControllerWithHUDProgress.h; sourceTree = "<group>"; };
 		E8BC76D418A50AD000983025 /* UIViewControllerWithHUDProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIViewControllerWithHUDProgress.m; sourceTree = "<group>"; };
 		E8BDE6AE193CC106001D6995 /* NSDate+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Utils.h"; sourceTree = "<group>"; };
@@ -528,6 +547,8 @@
 			children = (
 				E8250F41192561A7004A1B41 /* IntroScreenPageViewController.h */,
 				E8250F42192561A7004A1B41 /* IntroScreenPageViewController.m */,
+				E8ABE5721987FE6B0022D110 /* TutorialViewController.h */,
+				E8ABE5731987FE6B0022D110 /* TutorialViewController.m */,
 			);
 			name = Intro;
 			sourceTree = "<group>";
@@ -693,6 +714,11 @@
 		E8E39BFC18E6152D0034982D /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E8278E40198822A300A6893E /* Tutorial-Screen-1.jpg */,
+				E8278E41198822A300A6893E /* Tutorial-Screen-4.jpg */,
+				E8278E42198822A300A6893E /* Tutorial-Screen-3.jpg */,
+				E8278E43198822A300A6893E /* Tutorial-Screen-5.jpg */,
+				E8278E44198822A300A6893E /* Tutorial-Screen-2.jpg */,
 				E8ABE56F1982D5140022D110 /* background.png */,
 				E8E39C0618E615D20034982D /* fonts */,
 			);
@@ -848,16 +874,21 @@
 				E8A02D4C19817CCF001E0DAB /* NoConnectionAlertView.xib in Resources */,
 				E8A02D4D19817CCF001E0DAB /* GothamRounded-Book.otf in Resources */,
 				E8A02D4E19817CCF001E0DAB /* GothamRounded-Bold.otf in Resources */,
+				E8278E46198822A300A6893E /* Tutorial-Screen-1.jpg in Resources */,
 				E8A02D4F19817CCF001E0DAB /* GothamRounded-BoldItalic.otf in Resources */,
 				E8A02D5019817CCF001E0DAB /* GothamRounded-BookItalic.otf in Resources */,
 				E8A02D5119817CCF001E0DAB /* AlertThenDisappearView.xib in Resources */,
 				E8A02D5219817CCF001E0DAB /* GothamRounded-MediumItalic.otf in Resources */,
+				E8278E4C198822A300A6893E /* Tutorial-Screen-5.jpg in Resources */,
 				E8A02D5319817CCF001E0DAB /* GothamRounded-LightItalic.otf in Resources */,
 				E8A02D5419817CCF001E0DAB /* NSDateHumanizedTime.strings in Resources */,
 				E8A02D5619817CCF001E0DAB /* GothamRounded-Light.otf in Resources */,
 				E8A02D5719817CCF001E0DAB /* Pronouns.strings in Resources */,
+				E8278E4E198822A300A6893E /* Tutorial-Screen-2.jpg in Resources */,
 				E8A02D5819817CCF001E0DAB /* Images.xcassets in Resources */,
 				E8A02D5919817CCF001E0DAB /* Main_iPhone.storyboard in Resources */,
+				E8278E4A198822A300A6893E /* Tutorial-Screen-3.jpg in Resources */,
+				E8278E48198822A300A6893E /* Tutorial-Screen-4.jpg in Resources */,
 				E8A02D5A19817CCF001E0DAB /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -871,16 +902,21 @@
 				E856BD461962DB1C00D00E5C /* NoConnectionAlertView.xib in Resources */,
 				E8E39C1218E615D20034982D /* GothamRounded-Book.otf in Resources */,
 				E8E39C1018E615D20034982D /* GothamRounded-Bold.otf in Resources */,
+				E8278E45198822A300A6893E /* Tutorial-Screen-1.jpg in Resources */,
 				E8E39C1118E615D20034982D /* GothamRounded-BoldItalic.otf in Resources */,
 				E8E39C1318E615D20034982D /* GothamRounded-BookItalic.otf in Resources */,
 				E856BD521963216A00D00E5C /* AlertThenDisappearView.xib in Resources */,
 				E8E39C1718E615D20034982D /* GothamRounded-MediumItalic.otf in Resources */,
+				E8278E4B198822A300A6893E /* Tutorial-Screen-5.jpg in Resources */,
 				E8E39C1518E615D20034982D /* GothamRounded-LightItalic.otf in Resources */,
 				E89AC31F195A0D1C00AD3869 /* NSDateHumanizedTime.strings in Resources */,
 				E8E39C1418E615D20034982D /* GothamRounded-Light.otf in Resources */,
 				E8BDE6B2193E0951001D6995 /* Pronouns.strings in Resources */,
+				E8278E4D198822A300A6893E /* Tutorial-Screen-2.jpg in Resources */,
 				E8DD48FC188EE5B900153095 /* Images.xcassets in Resources */,
 				E8DD48F1188EE5B900153095 /* Main_iPhone.storyboard in Resources */,
+				E8278E49198822A300A6893E /* Tutorial-Screen-3.jpg in Resources */,
+				E8278E47198822A300A6893E /* Tutorial-Screen-4.jpg in Resources */,
 				E8DD48E8188EE5B900153095 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1031,6 +1067,7 @@
 				E8A02D2319817CCF001E0DAB /* LoginViewController.m in Sources */,
 				E8A02D2419817CCF001E0DAB /* Reachability.m in Sources */,
 				E8A02D2519817CCF001E0DAB /* UIAlertView+BlockSupport.m in Sources */,
+				E8ABE5751987FE6B0022D110 /* TutorialViewController.m in Sources */,
 				E8A02D2619817CCF001E0DAB /* HistoryViewControllerDataSource.m in Sources */,
 				E8A02D2719817CCF001E0DAB /* Measurement.m in Sources */,
 				E8A02D2819817CCF001E0DAB /* HIstoryViewTableCells.m in Sources */,
@@ -1091,6 +1128,7 @@
 				E8D00A17188F348700DF2786 /* LoginViewController.m in Sources */,
 				E89035EB19337807004A4013 /* Reachability.m in Sources */,
 				E872D4D01940E9FD003F461C /* UIAlertView+BlockSupport.m in Sources */,
+				E8ABE5741987FE6B0022D110 /* TutorialViewController.m in Sources */,
 				E872D4C1193F6975003F461C /* HistoryViewControllerDataSource.m in Sources */,
 				E872D62B1949E9C0003F461C /* Measurement.m in Sources */,
 				E825C1CB195B5B010081614F /* HIstoryViewTableCells.m in Sources */,

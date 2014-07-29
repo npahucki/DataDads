@@ -18,7 +18,7 @@
 @property BOOL showIgnoredMilestones;
 @property BOOL showPostponedMilestones;
 @property NSInteger launchCount;
-
+@property BOOL shownTutorialPrompt;
 
 + (void)incrementLaunchCount;
 

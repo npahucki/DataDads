@@ -574,7 +574,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fJJ-wY-bXM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1359" y="-386"/>
+            <point key="canvasLocation" x="1117" y="-386"/>
         </scene>
         <!--Intro Screen Page View Controller - Welcome-->
         <scene sceneID="IS6-dm-d2U">
@@ -823,6 +823,7 @@
                         <segue destination="orA-D6-c28" kind="modal" identifier="showIntroScreen" animates="NO" id="cB1-A4-HUt"/>
                         <segue destination="rhT-8r-6px" kind="modal" identifier="enterBabyInfo" id="JWT-5h-xS8"/>
                         <segue destination="m8v-2N-ncs" kind="relationship" relationship="viewControllers" id="kf5-tS-ACX"/>
+                        <segue destination="rhv-HW-pFy" kind="modal" identifier="showTutorial" modalTransitionStyle="flipHorizontal" id="0ED-bk-NzY"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FNP-y4-bzi" sceneMemberID="firstResponder"/>
@@ -843,7 +844,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dxv-Es-Jzu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3114" y="-1963"/>
+            <point key="canvasLocation" x="3111" y="-1963"/>
         </scene>
         <!--Note Milestone View Controller - Note It-->
         <scene sceneID="frl-ti-jdm">
@@ -881,7 +882,7 @@
                                     <outlet property="delegate" destination="As4-O0-72y" id="82Q-1Y-vTm"/>
                                 </connections>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8nC-ax-kTN" userLabel="Image Button" customClass="TakePhotoButton">
+                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8nC-ax-kTN" userLabel="Image Button" customClass="TakePhotoButton">
                                 <rect key="frame" x="45" y="203" width="230" height="231"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <accessibility key="accessibilityConfiguration" label="cameraButton"/>
@@ -1392,6 +1393,7 @@
                                                     </state>
                                                     <connections>
                                                         <action selector="didClickViewTutorial:" destination="W69-aI-Opj" eventType="touchUpInside" id="5iN-b1-vFv"/>
+                                                        <segue destination="rhv-HW-pFy" kind="modal" modalTransitionStyle="flipHorizontal" id="0vw-rA-jx1"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -1690,6 +1692,40 @@
             </objects>
             <point key="canvasLocation" x="4843" y="-2582"/>
         </scene>
+        <!--Tutorial View Controller-->
+        <scene sceneID="XN1-a5-7rH">
+            <objects>
+                <viewController id="rhv-HW-pFy" customClass="TutorialViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="5yU-CR-Te3"/>
+                        <viewControllerLayoutGuide type="bottom" id="xY1-hK-qLo"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Vb5-hO-2u9">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mmA-jw-cyi">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="mmA-jw-cyi" firstAttribute="leading" secondItem="Vb5-hO-2u9" secondAttribute="leading" id="RmI-4h-Zwf"/>
+                            <constraint firstItem="mmA-jw-cyi" firstAttribute="top" secondItem="Vb5-hO-2u9" secondAttribute="top" id="izR-dX-yix"/>
+                            <constraint firstItem="xY1-hK-qLo" firstAttribute="top" secondItem="mmA-jw-cyi" secondAttribute="bottom" id="jGK-gy-WDH"/>
+                            <constraint firstAttribute="trailing" secondItem="mmA-jw-cyi" secondAttribute="trailing" id="pNX-jP-Dbk"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="32y-JD-hQJ"/>
+                    <connections>
+                        <outlet property="imageView" destination="mmA-jw-cyi" id="hjT-D3-8Mp"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DQ3-TA-WPZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4829" y="-1231"/>
+        </scene>
         <!--Main Milestone View Controller - Milestones-->
         <scene sceneID="m6x-fX-w2v">
             <objects>
@@ -1775,7 +1811,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HSl-NR-dz3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3626" y="-1963"/>
+            <point key="canvasLocation" x="3639" y="-1963"/>
         </scene>
         <!--Navigation Controller - Baby Info Navigation Controller-->
         <scene sceneID="OjL-gf-ruf">
@@ -2180,9 +2216,10 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="q2I-r6-ZGD"/>
+        <segue reference="JWT-5h-xS8"/>
+        <segue reference="0ED-bk-NzY"/>
         <segue reference="6HZ-Iq-Yef"/>
-        <segue reference="gfX-BP-v4v"/>
+        <segue reference="HiK-bz-YEB"/>
         <segue reference="9u5-1o-6Cv"/>
     </inferredMetricsTieBreakers>
 </document>
