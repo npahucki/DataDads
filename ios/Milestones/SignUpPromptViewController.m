@@ -18,9 +18,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.promptTextLabel.font = [UIFont fontForAppWithType:Light andSize:19.0];
-    self.promptTextLabel.textColor = [UIColor appGreyTextColor];
-    self.helloLabel.font = [UIFont fontForAppWithType:Bold andSize:35.0];
+    self.promptTextLabel.font = [UIFont fontForAppWithType:Medium andSize:21.0];
+    self.promptTextLabel.textColor = [UIColor blackColor];
+    self.helloLabel.font = [UIFont fontForAppWithType:Bold andSize:18.0];
 }
 
 - (IBAction)didClickSignUpNow:(id)sender {

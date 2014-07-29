@@ -121,20 +121,21 @@
 }
 
 - (void)showTutorialPromptIfNeeded:(ParentUser *)user {
-    user.shownTutorialPrompt = YES;
-    [[[UIAlertView alloc] initWithTitle:@"Take a Quick Tour?"
-                                message:@"Do you want to see a quick tour about how things work? You can view it under 'account settings' anytime."
-                               delegate:nil
-                      cancelButtonTitle:@"Not Now"
-                      otherButtonTitles:@"Yes", nil] showWithButtonBlock:^(NSInteger buttonIndex) {
-        if (buttonIndex == 1) {
-            [self performSegueWithIdentifier:@"showTutorial" sender:self];
-            [UsageAnalytics trackTutorialResponse:YES];
-        } else {
-            [UsageAnalytics trackTutorialResponse:NO];
-        }
-    }];
-
+    if(!user.shownTutorialPrompt) {
+        user.shownTutorialPrompt = YES;
+        [[[UIAlertView alloc] initWithTitle:@"Take a Quick Tour?"
+                                    message:@"Do you want to see a quick tour about how things work? You can view it under 'account settings' anytime."
+                                   delegate:nil
+                          cancelButtonTitle:@"Not Now"
+                          otherButtonTitles:@"Yes", nil] showWithButtonBlock:^(NSInteger buttonIndex) {
+            if (buttonIndex == 1) {
+                [self performSegueWithIdentifier:@"showTutorial" sender:self];
+                [UsageAnalytics trackTutorialResponse:YES];
+            } else {
+                [UsageAnalytics trackTutorialResponse:NO];
+            }
+        }];
+    }
 }
 
 
