@@ -132,7 +132,7 @@ NSDateFormatter *_dateFormatter;
     }
 
     // Completion date
-    NSAttributedString *completedOnLabel = [[NSAttributedString alloc] initWithString:@"Completed On: " attributes:dataLabelTextAttributes];
+    NSAttributedString *completedOnLabel = [[NSAttributedString alloc] initWithString:@"Completed on: " attributes:dataLabelTextAttributes];
     NSAttributedString *completedOnValue = [[NSAttributedString alloc] initWithString:[_dateFormatter stringFromDate:self.achievement.completionDate] attributes:dataValueTextAttributes];
     [attrText appendAttributedString:lf];
     [attrText appendAttributedString:lf];

@@ -75,10 +75,8 @@
     if ([self.delegate respondsToSelector:@selector(adClicked)]) {
         [self.delegate adClicked];
     }
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
-    WebViewerViewController *vc = [sb instantiateViewControllerWithIdentifier:@"webViewController"];
+    WebViewerViewController *vc = [WebViewerViewController webViewForUrl:_currentAdImageURL];
     vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    vc.url = _currentAdLinkURL;
     [self.containingViewController presentViewController:vc animated:YES completion:NULL];
     [UsageAnalytics trackAdClicked:_currentAdImageURL.absoluteString];
 }

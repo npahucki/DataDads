@@ -7,6 +7,7 @@
 //
 
 #import "SettingPanelViewController.h"
+#import "WebViewerViewController.h"
 
 @interface SettingPanelViewController ()
 
@@ -63,5 +64,18 @@
     }
 }
 
+- (IBAction)didClickReadTermsAndConditions:(id)sender {
+    WebViewerViewController *vc = [WebViewerViewController webViewForUrlString:kTermsAndConditionUrl];
+    [self presentViewController:vc animated:YES completion:NULL];
+}
+
+- (IBAction)didClickContactSuport:(id)sender {
+    NSString * email = [NSString stringWithFormat:@"mailto:support@dataparenting.com?subject=Support request&body=-------\nUserId:%@\nDevice:%@\n  System:%@ %@\n-------\n",[ParentUser currentUser].objectId, [[UIDevice currentDevice] model], [[UIDevice currentDevice] systemName], [[UIDevice currentDevice] systemVersion]];
+    email = [email stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:email]];
+}
+
+- (IBAction)didClickViewTutorial:(id)sender {
+}
 
 @end

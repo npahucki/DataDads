@@ -46,6 +46,8 @@ extern NSString *const kDDNotificationUserLoggedOut;
 extern NSString *const kDDNotificationPushReceieved;
 extern NSString *const kNeedDataRefreshNotification;  // When table data may need to be reloaded 
 
+extern NSString *const kTermsAndConditionUrl;
+
 
 
 

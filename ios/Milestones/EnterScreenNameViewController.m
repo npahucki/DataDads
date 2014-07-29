@@ -113,7 +113,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:kDDSegueShowWebView]) {
         WebViewerViewController *webView = (WebViewerViewController *) segue.destinationViewController;
-        webView.url = [NSURL URLWithString:@"http://dataparenting.parseapp.com/DDTC.html"];
+        webView.url = [NSURL URLWithString:kTermsAndConditionUrl];
     }
 }
 
@@ -169,7 +169,7 @@
 - (void)saveBirthdayMilestone {
     __block MilestoneAchievement *achievement = [MilestoneAchievement object];
     achievement.baby = self.baby;
-    achievement.customTitle = @"${He} is born!";
+    achievement.customTitle = @"${He}'s born and is beautiful!";
     achievement.isPostponed = NO;
     achievement.isSkipped = NO;
     achievement.completionDate = self.baby.birthDate;

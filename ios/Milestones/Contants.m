@@ -31,6 +31,9 @@ NSString *const kDDNotificationPushReceieved = @"notificationPushReceived";
 NSString *const kNeedDataRefreshNotification = @"needDataRefresh";
 
 
+NSString *const kTermsAndConditionUrl = @"http://dataparenting.com/terms-conditions-and-privacy/";
+
+
 #pragma mark - Application Colors
 
 @implementation UIColor (DataParenting)
