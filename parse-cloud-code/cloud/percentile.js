@@ -36,7 +36,7 @@ Parse.Cloud.define("percentileRanking", function(request, response) {
  }).then(function() {
    console.log("Score Count=" + scoreCount + " Total Count=" + totalCount);
    // Need at least mine and one other to compare
-   if( (totalCount>=0 && totalCount <= 1) || scoreCount == 0) {
+   if(totalCount==0) {
     // Nothing to compare to, just say that you are ahead of 100% of babies.
     p = 99.99;
    } else {
