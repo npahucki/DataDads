@@ -18,9 +18,6 @@
     self.maleLabel.highlightedTextColor = [UIColor appNormalColor];
     self.femaleLabel.highlightedTextColor = [UIColor appNormalColor];
     self.acceptTACLabelButton.titleLabel.font = [UIFont fontForAppWithType:Bold andSize:13.0];
-
-    self.screenNameField.text = ParentUser.currentUser.screenName ? ParentUser.currentUser.screenName : [self nameFromDeviceName];
-
     [[UIDevice currentDevice] name];
     NSNumber *gender = [ParentUser.currentUser objectForKey:@"isMale"];
     if (gender && gender.boolValue) {
@@ -74,7 +71,7 @@
 
 - (void)saveUserPreferences:(ParentUser *)user {
     user.ACL = [PFACL ACLWithUser:user];
-    user.screenName = self.screenNameField.text;
+    if(!user.screenName) user.screenName = [self nameFromDeviceName];
     user.isMale = self.maleButton.isSelected;
 
     [self showInProgressHUDWithMessage:@"Saving your preferences" andAnimation:YES andDimmedBackground:YES];
@@ -107,7 +104,7 @@
 }
 
 - (void)updateNextButtonState {
-    self.doneButton.enabled = self.screenNameField.text.length > 1 && (self.maleButton.isSelected || self.femaleButton.isSelected) && self.acceptTACButton.selected;
+    self.doneButton.enabled = (self.maleButton.isSelected || self.femaleButton.isSelected) && self.acceptTACButton.selected;
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {

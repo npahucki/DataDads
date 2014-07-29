@@ -14,7 +14,6 @@
 
 @property Baby *baby;
 
-@property(strong, nonatomic) IBOutlet UITextField *screenNameField;
 @property(strong, nonatomic) IBOutlet UIButton *maleButton;
 @property(strong, nonatomic) IBOutlet UIButton *femaleButton;
 @property(strong, nonatomic) IBOutlet UILabel *maleLabel;
