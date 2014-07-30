@@ -70,7 +70,14 @@
 }
 
 - (IBAction)didClickContactSuport:(id)sender {
-    NSString * email = [NSString stringWithFormat:@"mailto:support@dataparenting.com?subject=Support request&body=-------\nUserId:%@\nDevice:%@\n  System:%@ %@\n-------\n",[ParentUser currentUser].objectId, [[UIDevice currentDevice] model], [[UIDevice currentDevice] systemName], [[UIDevice currentDevice] systemVersion]];
+    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+    NSString *email = [NSString stringWithFormat:@"mailto:support@dataparenting.com?subject=[SUPPORT REQUEST]:%@&body=\n\n\n-------\nVersion:%@\nUserId:%@\nDevice:%@\n  System:%@ %@\n-------\n",
+                                                 infoDictionary[(NSString *) kCFBundleNameKey],
+                                                 infoDictionary[(NSString *) kCFBundleVersionKey],
+                                                 [ParentUser currentUser].objectId,
+                                                 [[UIDevice currentDevice] model],
+                                                 [[UIDevice currentDevice] systemName],
+                                                 [[UIDevice currentDevice] systemVersion]];
     email = [email stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:email]];
 }
