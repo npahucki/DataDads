@@ -6,6 +6,7 @@ require("cloud/babies.js");
 require("cloud/achievements.js");
 require("cloud/ads.js");
 require("cloud/tips.js");
+require("cloud/users.js");
 
 
 

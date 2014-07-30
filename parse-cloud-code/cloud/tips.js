@@ -1,8 +1,3 @@
-var utils = require("cloud/utils");
-var search = require("cloud/search");
-var _ = require('underscore');
-
-
 Parse.Cloud.define("queryMyTips", function (request, response) {
     var babyId = request.params.babyId;
     var showHiddenTips = request.params.showHiddenTips;
@@ -46,10 +41,10 @@ Parse.Cloud.define("queryMyTips", function (request, response) {
 
 ///////////////////////////////////////////////////////////////////
 
-Parse.Cloud.job("tipsAssignment", function (request, status) {
+function processSingleBaby(baby, sendPushNotification) {
+    var utils = require("cloud/utils");
     var DEFAULT_DELIVERY_INTERVAL_DAYS = 3;
     var PUSH_EXP_SECONDS = 60 * 60 * 24 * (DEFAULT_DELIVERY_INTERVAL_DAYS - 1); // Give up one day before next push (don't flood user)
-
 
     // Set up to modify user data
     Parse.Cloud.useMasterKey();
@@ -65,7 +60,7 @@ Parse.Cloud.job("tipsAssignment", function (request, status) {
         lastAssignmentQuery.equalTo("baby", baby);
         lastAssignmentQuery.first().then(function (assignment) {
             var lastAssignmentDate = assignment ? assignment.get("assignmentDate") : null;
-            console.log("Baby " + baby.id + " has an assignment date of " + lastAssignmentDate);
+            //console.log("Baby " + baby.id + " has an assignment date of " + lastAssignmentDate);
             promise.resolve(lastAssignmentDate);
         }, function (error) {
             console.error("Could not process assignment Date for baby " + baby.id);
@@ -79,7 +74,7 @@ Parse.Cloud.job("tipsAssignment", function (request, status) {
         innerQuery.equalTo("baby", baby);
         var babyDueDate = baby.get("dueDate");
         var babyAgeInDays = Math.abs(utils.dayDiffFromNow(babyDueDate));
-        console.log("Baby " + baby.id + " was due " + babyDueDate + " as is " + babyAgeInDays + " days old");
+        //console.log("Baby " + baby.id + " was due " + babyDueDate + " as is " + babyAgeInDays + " days old");
         tipsQuery = new Parse.Query("Tips");
         tipsQuery.greaterThanOrEqualTo("rangeHigh", babyAgeInDays);
         tipsQuery.lessThanOrEqualTo("rangeLow", babyAgeInDays);
@@ -91,7 +86,7 @@ Parse.Cloud.job("tipsAssignment", function (request, status) {
 
 
     var doAssignTip = function (tip, baby) {
-        console.log("Assigning tip " + tip.id + " for baby " + baby.id);
+        //console.log("Assigning tip " + tip.id + " for baby " + baby.id);
         var assignment = new Parse.Object("BabyAssignedTips");
         assignment.set("baby", baby);
         assignment.set("isHidden", false);
@@ -103,7 +98,7 @@ Parse.Cloud.job("tipsAssignment", function (request, status) {
     };
 
     var pushMessageToUserForBaby = function (tipAssignment, parentUser) {
-        console.log("Pushing tip assignment " + tipAssignment.id + " to user " + parentUser.id);
+        //console.log("Pushing tip assignment " + tipAssignment.id + " to user " + parentUser.id);
         title = tipAssignment.get("tip").get("title");
         // TODO: get languange from parent profile!
         title = utils.replacePronounTokens(title, tipAssignment.get("baby").get("isMale"), "en");
@@ -134,71 +129,75 @@ Parse.Cloud.job("tipsAssignment", function (request, status) {
         if (daysDiff == -1 || daysDiff > frequencyDays) return Parse.Promise.as(true);
     };
 
+
+    ///////////////////////////////////////////////////////////////
+    // Main Method Logic                                         //
+    ///////////////////////////////////////////////////////////////
+
     // Takes a single baby, returns a Promise that
     //  writes an assignment record (if needed)
     //  pushes a notification to the user's phone.
-    var processSingleBaby = function (baby) {
-        console.log("Processing baby " + baby.id);
-        return findLastAssignmentDate(baby).
-                then(function (lastAssignmentDate) {
-                    console.log("Found last assignmentDate for " + baby.id + " it is " + lastAssignmentDate);
-                    return testIfDueForDelivery(baby, lastAssignmentDate);
-                }).
-                then(function (needsTipAssignment) {
-                    if (needsTipAssignment) {
-                        console.log("Will attempt to find tip for baby " + baby.id);
-                        return findNextTip(baby);
-                    }
-                }).
-                then(function (tip) {
-                    if (tip) {
-                        console.log("Will assign tip " + tip.id + " to baby " + baby.id);
-                        return doAssignTip(tip, baby);
+    //console.log("Processing baby " + baby.id);
+    return findLastAssignmentDate(baby).
+            then(function (lastAssignmentDate) {
+                //console.log("Found last assignmentDate for " + baby.id + " it is " + lastAssignmentDate);
+                return testIfDueForDelivery(baby, lastAssignmentDate);
+            }).
+            then(function (needsTipAssignment) {
+                if (needsTipAssignment) {
+                    //console.log("Will attempt to find tip for baby " + baby.id);
+                    return findNextTip(baby);
+                }
+            }).
+            then(function (tip) {
+                if (tip) {
+                    //console.log("Will assign tip " + tip.id + " to baby " + baby.id);
+                    return doAssignTip(tip, baby);
+                } else {
+                    //console.log("No more eligible tips found for " + baby.id);
+                }
+            }).
+            then(function (tipAssignment) {
+                if (tipAssignment && sendPushNotification) {
+                    //console.log("Will push message for tip assignment " + tipAssignment.id + " to baby " + baby.id);
+                    var parentUser = baby.get("parentUser");
+                    if (parentUser) {
+                        return pushMessageToUserForBaby(tipAssignment, parentUser);
                     } else {
-                        console.log("No more eligible tips found for " + baby.id);
+                        console.warn("Skipped baby " + baby.id + " b/c he has no parentUser");
                     }
-                }).
-                then(function (tipAssignment) {
-                    if (tipAssignment) {
-                        console.log("Will push message for tip assignment " + tipAssignment.id + " to baby " + baby.id);
-                        var parentUser = baby.get("parentUser");
-                        if (parentUser) {
-                            return pushMessageToUserForBaby(tipAssignment, parentUser);
-                        } else {
-                            console.log("Skipped baby " + baby.id + " b/c he has no parentUser");
-                        }
-                    }
-                }).
-                then(function () {
-                    console.log("Done processing baby " + baby.id);
-                }, function (error) {
-                    console.error("Could not process baby " + baby.id + " Error:" + JSON.stringify(error));
-                });
-    };
+                }
+            }).
+            then(function () {
+                //console.log("Done processing baby " + baby.id);
+            }, function (error) {
+                console.error("Could not process baby " + baby.id + " Error:" + JSON.stringify(error));
+            });
+}
 
-
-    console.log("Starting tipsAssignment job...")
-    var babyQuery = new Parse.Query("Babies");
-    // TODO: Filter by active babies/users + exclude babies over 5 years old?
-    babyQuery.limit(1000); // NOTE: Max is 1000, when we get over this, we will need to find a better way to query
+// Expects a basic baby query that has limits and conditions set.
+var processBabies = function(babyQuery, sendPushNotification) {
     babyQuery.include("parentUser");
     babyQuery.select("name", "dueDate", "parentUser", "isMale");
-    console.log("Doing query lookup..");
-    babyQuery.find().then(function (babies) {
-        //console.log("Babies query result " + JSON.stringify(babies));
-        console.log("Found " + babies.length + " babies to process");
+    var babyPromises = [];
+    return babyQuery.each(function(baby) {
         // Process each baby in parrallel
-        var babyPromises = [];
-        _.each(babies, function (baby) {
-            babyPromises.push(processSingleBaby(baby));
-        });
+        babyPromises.push(processSingleBaby(baby,sendPushNotification));
+    }).then(function() {
         return Parse.Promise.when(babyPromises);
-    }).then(function () {
+    });
+};
+
+Parse.Cloud.job("tipsAssignment", function (request, status) {
+    console.log("Starting tipsAssignment job...");
+    return processBabies(new Parse.Query("Babies"), true).
+            then(function () {
                 // Set the job's success status
                 status.success("Tip Assignment completed successfully.");
             }, function (error) {
                 // Set the job's error status
                 status.error("Tip Assignment fatally failed : " + JSON.stringify(error));
             });
-
 });
+
+module.exports.processBabies = processBabies;

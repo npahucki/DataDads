@@ -38,7 +38,13 @@
 }
 
 - (void)userSignedUp {
-    [[[UIAlertView alloc] initWithTitle:@"Great!" message:@"Thanks for signing in! Tips are delivered once per day, you should be getting yours soon!" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+    NSString *msg = @"Thanks for signing in! Tips are delivered once per day";
+    if (_isEmpty) {
+        msg = [msg stringByAppendingString:@"you should be getting one soon!"];
+    } else {
+        msg = [msg stringByAppendingString:@"."];
+    }
+    [[[UIAlertView alloc] initWithTitle:@"Great!" message:msg delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
 }
 
 - (void)dealloc {
@@ -153,7 +159,7 @@
             cell.imageView.image = [UIImage imageNamed:@"error-9"];
         } else {
             if (_isEmpty && !_hasMoreTips) {
-                cell.textLabel.text = @"No Tips to show now. New tips should be arriving soon.";
+                cell.textLabel.text = @"No Tips to show now. New tips should be arriving soon. Touch here to refresh";
                 cell.imageView.image = [UIImage imageNamed:@"tipsButton_active"];
             } else {
                 cell.textLabel.text = @"Loading...";

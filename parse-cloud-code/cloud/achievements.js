@@ -1,7 +1,6 @@
-var thumbnails = require("cloud/thumbnails.js");
-var search = require("cloud/search.js");
-
 Parse.Cloud.define("queryMyAchievements", function (request, response) {
+    var thumbnails = require("cloud/thumbnails.js");
+    var search = require("cloud/search.js");
 
     var babyId = request.params.babyId;
     var limit = parseInt(request.params.limit);
@@ -65,6 +64,8 @@ Parse.Cloud.define("queryMyAchievements", function (request, response) {
 
 
 Parse.Cloud.beforeSave("MilestoneAchievements", function (request, response) {
+    var thumbnails = require("cloud/thumbnails.js");
+    var search = require("cloud/search.js");
     var achievement = request.object;
 
     // Make sure the id is set so that queries against the id can work
