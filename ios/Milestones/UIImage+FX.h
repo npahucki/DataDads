@@ -61,4 +61,7 @@
 
 - (UIImage *)maskImageFromImageAlpha;
 
+- (UIImage*) imageWithString:(NSString*)string;
+
+
 @end

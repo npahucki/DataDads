@@ -886,8 +886,8 @@
                                     <outlet property="delegate" destination="As4-O0-72y" id="82Q-1Y-vTm"/>
                                 </connections>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8nC-ax-kTN" userLabel="Image Button" customClass="TakePhotoButton">
-                                <rect key="frame" x="45" y="203" width="142" height="231"/>
+                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8nC-ax-kTN" userLabel="Image Button" customClass="TakePhotoButton">
+                                <rect key="frame" x="45" y="203" width="230" height="231"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <accessibility key="accessibilityConfiguration" label="cameraButton"/>
                                 <constraints>
@@ -1035,11 +1035,8 @@
                                 </connections>
                             </scrollView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="zDF-KL-E1W">
-                                <rect key="frame" x="102" y="72" width="112" height="29"/>
+                                <rect key="frame" x="124" y="72" width="73" height="29"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="112" id="n1Z-OS-hjD"/>
-                                </constraints>
                                 <segments>
                                     <segment title="" image="milestonesIcon"/>
                                     <segment title="" image="measurementsIcon"/>
@@ -1133,7 +1130,6 @@
                             <constraint firstItem="EId-wu-ags" firstAttribute="leading" secondItem="5Gp-mq-9qR" secondAttribute="leading" id="FzF-Za-SK6"/>
                             <constraint firstItem="EId-wu-ags" firstAttribute="top" secondItem="Bpv-TP-6Mx" secondAttribute="bottom" id="GZh-Qw-sxL"/>
                             <constraint firstItem="kI3-5I-PyC" firstAttribute="leading" secondItem="iRg-si-ECJ" secondAttribute="trailing" constant="8" id="JbH-eU-3C2"/>
-                            <constraint firstItem="zDF-KL-E1W" firstAttribute="trailing" secondItem="iRg-si-ECJ" secondAttribute="trailing" id="KbV-Yc-1IT"/>
                             <constraint firstAttribute="bottom" secondItem="Mhd-4i-69z" secondAttribute="bottom" id="Kgg-nM-oZB"/>
                             <constraint firstItem="Mhd-4i-69z" firstAttribute="leading" secondItem="5Gp-mq-9qR" secondAttribute="leading" id="NGL-Fb-m8g"/>
                             <constraint firstItem="8nC-ax-kTN" firstAttribute="top" secondItem="EId-wu-ags" secondAttribute="bottom" constant="8" id="Oia-A3-rvB"/>
@@ -1144,6 +1140,7 @@
                             <constraint firstItem="lW8-iQ-PYL" firstAttribute="top" secondItem="EN0-Xo-UeH" secondAttribute="bottom" constant="36" id="X2O-iU-yRp"/>
                             <constraint firstItem="EId-wu-ags" firstAttribute="top" secondItem="lW8-iQ-PYL" secondAttribute="bottom" id="YCq-Nf-Ybi"/>
                             <constraint firstAttribute="trailing" secondItem="Mhd-4i-69z" secondAttribute="trailing" id="dFz-lv-0mR"/>
+                            <constraint firstAttribute="centerX" secondItem="zDF-KL-E1W" secondAttribute="centerX" id="dTr-ZC-650"/>
                             <constraint firstItem="zDF-KL-E1W" firstAttribute="top" secondItem="EN0-Xo-UeH" secondAttribute="bottom" constant="8" id="dlG-qj-okh"/>
                             <constraint firstItem="lW8-iQ-PYL" firstAttribute="leading" secondItem="5Gp-mq-9qR" secondAttribute="leading" id="hTu-ZY-i0T"/>
                             <constraint firstItem="Bpv-TP-6Mx" firstAttribute="top" secondItem="EN0-Xo-UeH" secondAttribute="bottom" id="isR-cH-ys3"/>

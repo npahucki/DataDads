@@ -11,7 +11,6 @@
 #import "UnitHelper.h"
 #import "UIImage+FX.h"
 
-
 @interface NoteMilestoneViewController ()
 
 @end
@@ -51,6 +50,14 @@
         self.weightUnitLabel.text = [UnitHelper unitForWeight];
         self.segmentControl.hidden = NO;
         self.doneButton.enabled = NO;
+        
+        
+        // Icky hack to work around the fact that you can't both set an image and test on segmented control. 
+        [self.segmentControl setImage:[[UIImage imageNamed:@"milestonesIcon"] imageWithString:@"Milestone"] forSegmentAtIndex:0];
+        [self.segmentControl setImage:[[UIImage imageNamed:@"measurementsIcon"] imageWithString:@"Measurement"] forSegmentAtIndex:1];
+        
+        
+        
     } else {
         self.rangeLabel.font = [UIFont fontForAppWithType:Light andSize:11];
         self.rangeIndicatorView.rangeScale = 5 * 365; // 5 years
