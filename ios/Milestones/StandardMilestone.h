@@ -22,6 +22,8 @@
 @property NSNumber *rangeHigh;
 @property BOOL canCompare;
 
+@property(readonly) NSString *humanReadableRange;
+
 /*!
  * Returns the title with the correct pronoun replacements for the provided baby.
  */

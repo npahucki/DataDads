@@ -8,7 +8,6 @@
 
 #import "NoteMilestoneViewController.h"
 #import "WebViewerViewController.h"
-#import "FDTakeController.h"
 #import "UnitHelper.h"
 #import "UIImage+FX.h"
 
@@ -459,7 +458,7 @@
     }
 
     NSAttributedString *rangeLabel = [[NSAttributedString alloc] initWithString:@"Typical Range: " attributes:dataLabelTextAttributes];
-    NSAttributedString *rangeValue = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ to %@ days", m.rangeLow, m.rangeHigh] attributes:dataValueTextAttributes];
+    NSAttributedString *rangeValue = [[NSAttributedString alloc] initWithString:m.humanReadableRange];
     [attrText appendAttributedString:rangeLabel];
     [attrText appendAttributedString:rangeValue];
 
@@ -482,5 +481,6 @@
     [self presentViewController:[WebViewerViewController webViewForUrl:url] animated:YES completion:NULL];
     return NO;
 }
+
 
 @end
