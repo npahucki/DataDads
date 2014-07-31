@@ -182,9 +182,25 @@ NSDateFormatter *_dateFormatter;
     if (self.achievement.comment) [items addObject:self.achievement.comment];
     if (image) [items addObject:image];
 
-
     UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:items applicationActivities:nil];
-    controller.excludedActivityTypes = @[UIActivityTypeAssignToContact];
+    //[controller setValue:@"My Subject Text" forKey:@"subject"];
+    controller.excludedActivityTypes = @[UIActivityTypeAssignToContact, UIActivityTypePostToVimeo];
+    [controller setCompletionHandler:^(NSString *activityType, BOOL completed) {
+        if (completed) {
+            if ([activityType isEqualToString:UIActivityTypeMail]) {
+                self.achievement.sharedVia = self.achievement.sharedVia | SharingMediumEmail;
+            } else if ([activityType isEqualToString:UIActivityTypePostToFacebook]) {
+                self.achievement.sharedVia = self.achievement.sharedVia | SharingMediumFacebook;
+            } else if ([activityType isEqualToString:UIActivityTypePostToTwitter]) {
+                self.achievement.sharedVia = self.achievement.sharedVia | SharingMediumTwitter;
+            } else if ([activityType isEqualToString:UIActivityTypeMessage]) {
+                self.achievement.sharedVia = self.achievement.sharedVia | SharingMediumTextMessage;
+            } else {
+                self.achievement.sharedVia = self.achievement.sharedVia | SharingMediumOther;
+            }
+            [self.achievement saveEventually];
+        }
+    }];
     [self presentViewController:controller animated:YES completion:nil];
 }
 

@@ -14,9 +14,11 @@
 typedef NS_ENUM(NSInteger, SharingMedium) {
     SharingMediumNotShared = 0,
     SharingMediumFacebook = 1,
-    //SharingMediumTwitter = 2,
-    //SharingMediumEmail = 4,
-    //SharingMediumGooglePlus = 8
+    SharingMediumTwitter = 2,
+    SharingMediumEmail = 4,
+    SharingMediumTextMessage = 8,
+    SharingMediumOther = 128
+
 };
 
 @interface MilestoneAchievement : PFObject <PFSubclassing>
