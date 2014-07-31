@@ -24,6 +24,8 @@
     NSAssert(self.baby, @"Expected baby would be set before view loads");
 
     self.theLabel.font = [UIFont fontForAppWithType:Light andSize:31.0];
+    self.theLabel.textColor = [UIColor appNormalColor];
+
     if (self.baby.avatarImage) {
         [self.baby.avatarImage getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
             if (!error) {

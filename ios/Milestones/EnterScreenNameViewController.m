@@ -15,8 +15,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.doneButton setTitleTextAttributes:@{NSFontAttributeName : [UIFont fontForAppWithType:Bold andSize:17]} forState:UIControlStateNormal];
-    self.maleLabel.highlightedTextColor = [UIColor appNormalColor];
-    self.femaleLabel.highlightedTextColor = [UIColor appNormalColor];
+    self.maleLabel.textColor = self.femaleLabel.textColor = [UIColor appInputGreyTextColor];
+    self.maleLabel.highlightedTextColor = self.femaleLabel.highlightedTextColor = [UIColor appNormalColor];
+    self.maleLabel.font = self.femaleLabel.font = [UIFont fontForAppWithType:Bold andSize:17.0];
+
+    
     self.acceptTACLabelButton.titleLabel.font = [UIFont fontForAppWithType:Bold andSize:13.0];
     [[UIDevice currentDevice] name];
     NSNumber *gender = [ParentUser.currentUser objectForKey:@"isMale"];

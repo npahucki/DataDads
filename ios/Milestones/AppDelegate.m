@@ -59,13 +59,14 @@
 
     [UITextField appearance].font = [UIFont fontForAppWithType:Bold andSize:17.0];
     [UITextField appearance].textColor = [UIColor appNormalColor];
+    //[UILabel appearanceWhenContainedIn:[UITextField class], nil].textColor = [UIColor appInputGreyTextColor]; // Placeholder
     [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setClearButtonMode:UITextFieldViewModeNever];
 
     [[UISegmentedControl appearance] setTitleTextAttributes:@{NSFontAttributeName : [UIFont fontForAppWithType:Medium andSize:14]} forState:UIControlStateNormal];
     [UISegmentedControl appearance].tintColor = [UIColor appNormalColor];
 
     [UIButton appearance].titleLabel.font = [UIFont fontForAppWithType:Medium andSize:17.0];
-    [UILabel appearanceWhenContainedIn:[UIButton class], nil].font = [UIFont systemFontOfSize:17.0];
+    [UILabel appearanceWhenContainedIn:[UIButton class], nil].font = [UIFont fontForAppWithType:Medium andSize:17];
     [UILabel appearanceWhenContainedIn:[UIButton class], nil].textColor = [UIColor appNormalColor];
     [[UIButton appearance] setTitleColor:[UIColor appNormalColor] forState:UIControlStateNormal];
     [[UIButton appearance] setTitleColor:[UIColor appSelectedColor] forState:UIControlStateHighlighted];

@@ -24,8 +24,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.maleLabel.highlightedTextColor = [UIColor appNormalColor];
-    self.femaleLabel.highlightedTextColor = [UIColor appNormalColor];
+    self.maleLabel.highlightedTextColor = self.femaleLabel.highlightedTextColor = [UIColor appNormalColor];
+    self.maleLabel.font = self.femaleLabel.font = [UIFont fontForAppWithType:Bold andSize:17];
+    self.maleLabel.textColor = self.femaleLabel.textColor = [UIColor appInputGreyTextColor];
+
     // Needed to dimiss the keyboard once a user clicks outside the text boxes
     UITapGestureRecognizer *viewTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
     [self.view addGestureRecognizer:viewTap];
@@ -75,16 +77,14 @@
 
 - (IBAction)didChangeBabyName:(id)sender {
     [self updateNextButtonState];
+    NSString * name = self.babyName.text.length ? self.babyName.text : @"Your baby";
+    self.birthDateLabel.text = [NSString stringWithFormat:@"%@ was born on:", name];
+    self.dueDateLabel.text = [NSString stringWithFormat:@"%@ was due on:", name];
+    self.genderLabel.text = [NSString stringWithFormat:@"%@ is a:", name];
 }
 
 
 - (void)textFieldEditingDidEnd:(UITextField *)sender {
-    if (sender == self.babyName && self.babyName.text.length) {
-        self.birthDateLabel.text = [NSString stringWithFormat:@"%@ was born on:", self.babyName.text];
-        self.dueDateLabel.text = [NSString stringWithFormat:@"%@ was due on:", self.babyName.text];
-        self.genderLabel.text = [NSString stringWithFormat:@"%@ is a:", self.babyName.text];
-    }
-
     if (sender == self.dueDateTextField) _dueDateDirty = YES;
 
     if (sender == self.dobTextField) {

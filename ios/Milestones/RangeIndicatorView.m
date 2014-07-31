@@ -10,7 +10,7 @@
 
 #define SELECTED_BORDER_COLOR [UIColor appSelectedColor].CGColor
 #define SELECTED_FILL_COLOR [UIColor colorWithRed: (float)198 / 255 green:(float)221 / 255 blue:(float)225 / 255 alpha:1.0].CGColor
-#define BORDER_COLOR [UIColor appGreyTextColor].CGColor
+#define BORDER_COLOR UIColorFromRGB(0xA9A9B1).CGColor
 #define BORDER_WIDTH 3
 #define REFERENCE_SIZE 7
 #define ANIMATION_DURATION 1;

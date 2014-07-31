@@ -45,11 +45,13 @@ NSString *const kTermsAndConditionUrl = @"http://dataparenting.com/terms-conditi
     return UIColorFromRGB(0x1F717E);
 } // 31 113 126
 + (UIColor *)appGreyTextColor {
-    return UIColorFromRGB(0xA9A9B1);
+    return UIColorFromRGB(0x56565a);
 } // 169 169 177
 + (UIColor *)appInputGreyTextColor {
     return UIColorFromRGB(0x9d9da4);
 }
+
+
 
 + (UIColor *)appInputBorderActiveColor {
     return UIColorFromRGB(0x22B9CF);
