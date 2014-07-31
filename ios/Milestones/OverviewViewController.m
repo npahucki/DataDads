@@ -15,7 +15,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     NSAssert(Baby.currentBaby.name, @"Expected a current baby would be set before setting invoked");
-    [self.doneButton setTitleTextAttributes:@{NSFontAttributeName : [UIFont fontForAppWithType:Bold andSize:17]} forState:UIControlStateNormal];
     self.milestoneCountLabel = [[UILabel alloc] initWithFrame:self.babyAvatar.frame];
     self.milestoneCountLabel.numberOfLines = 2;
     self.milestoneCountLabel.textAlignment = NSTextAlignmentCenter;
@@ -29,6 +28,12 @@
     self.babyAvatar.file = Baby.currentBaby.avatarImage;
     [self.babyAvatar loadInBackground];
 
+    // Handle any touches on the image or baby name to put into edit mode.
+    [self.babyAvatar addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleEditTap:)]];
+    [self.babyNameLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleEditTap:)]];
+    [self.ageLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleEditTap:)]];
+
+    
     if (self.milestoneCount) {
         // Make the label show attributed text
         NSDictionary *numberAttributes = @{NSFontAttributeName : [UIFont fontForAppWithType:Bold andSize:95.0], NSForegroundColorAttributeName : [UIColor appNormalColor]};
@@ -91,6 +96,10 @@
         Baby.currentBaby = nil;
         [self dismissViewControllerAnimated:NO completion:nil];
     }
+}
+
+-(void) handleEditTap:(id) sender {
+    [self performSegueWithIdentifier:kDDSegueEnterBabyInfo sender:self];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
