@@ -178,9 +178,12 @@ NSDateFormatter *_dateFormatter;
   
     NSURL * url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/achievements/%@", VIEW_HOST, self.achievement.objectId]];
     NSString * mainText = [NSString stringWithFormat:@"%@ completed the milestone: '%@' %@!",self.achievement.baby.name, self.achievement.displayTitle,[self.achievement.completionDate stringWithHumanizedTimeDifference]];
-    UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[image,
-                                                                                                     mainText,
-                                                                                                     (self.achievement.comment ? self.achievement.comment : @""),url] applicationActivities:nil];
+    NSMutableArray *items = [NSMutableArray arrayWithObjects:mainText, url, nil];
+    if (self.achievement.comment) [items addObject:self.achievement.comment];
+    if (image) [items addObject:image];
+
+
+    UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:items applicationActivities:nil];
     controller.excludedActivityTypes = @[UIActivityTypeAssignToContact];
     [self presentViewController:controller animated:YES completion:nil];
 }
