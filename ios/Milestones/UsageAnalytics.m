@@ -76,14 +76,21 @@ static BOOL isRelease;
 
 
 + (void)trackUserSignup:(ParentUser *)user usingMethod:(NSString *)method {
-    if (isRelease) {
-        [Heap track:@"userSignedUp" withProperties:@{
-                @"user.id" : safe(user.objectId),
-                @"method" : safe(method)
-        }];
-    } else {
-        NSLog(@"[USAGE ANALYTICS]: trackUserSignup - User:%@ Method:%@", user, method);
-    }
+    // We want to track the number of milestones.
+    PFQuery *query = [MilestoneAchievement query];
+    [query whereKey:@"baby" equalTo:Baby.currentBaby];
+    [query countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
+
+        if (isRelease) {
+            [Heap track:@"userSignedUp" withProperties:@{
+                    @"user.id" : safe(user.objectId),
+                    @"method" : safe(method),
+                    @"numberOfAchievements" : @(number)
+            }];
+        } else {
+            NSLog(@"[USAGE ANALYTICS]: trackUserSignup - User:%@ Method:%@ Number of Achievements:%d", user, method, number);
+        }
+    }];
 }
 
 + (void)trackUserSignupError:(NSError *)error usingMethod:(NSString *)method {
