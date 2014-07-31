@@ -103,7 +103,7 @@
             alert.titleLabel.font = nil; // Must clear this because it is set as part of UILabel's appearance.
             alert.titleLabel.attributedText = string;
             alert.imageView.image = [UIImage imageNamed:@"completedBest"];
-            [alert showWithDelay:5];
+            [alert showWithDelay:7];
         }
     }];
 }
