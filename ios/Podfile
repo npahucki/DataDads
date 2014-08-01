@@ -11,5 +11,7 @@ pod 'Parse+NSCoding', :git => 'https://github.com/npahucki/Parse-NSCoding.git', 
 pod 'Parse-iOS-SDK'
 pod 'PFCloud+Cache', '~> 0.0.2'
 pod 'Facebook-iOS-SDK'
+pod 'UIActionSheet+Blocks'
+pod 'BCGenieEffect', '1.1'
 
 

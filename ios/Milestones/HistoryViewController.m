@@ -58,6 +58,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(milestoneNotedAndSaved:) name:kDDNotificationMilestoneNotedAndSaved object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkReachabilityChanged:) name:kReachabilityChangedNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self.tableView selector:@selector(reloadData) name:kNeedDataRefreshNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAchievementNeedsDeletion:) name:kAchievementNeedsDeleteAction object:nil];
 
     if (Baby.currentBaby) { // Only load if there is already a baby set
         self.baby = Baby.currentBaby;
@@ -182,6 +183,27 @@
         }
     }
 
+}
+
+-(void)handleAchievementNeedsDeletion:(NSNotification *) notification {
+    MilestoneAchievement * achievement = notification.object;
+    NSInteger idx = [_model indexOfAchievement:achievement];
+    if(idx != NSNotFound) {
+        NSIndexPath * path = [NSIndexPath indexPathForItem:idx inSection:AchievementSection];
+        [self.tableView beginUpdates];
+        [_model deleteAchievementAtIndex:path.row];
+        [self.tableView deleteRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationNone];
+        [self.tableView reloadRowsAtIndexPaths:[self reloadPathsForRemovedCell:path] withRowAnimation:UITableViewRowAnimationNone];
+        [self.tableView endUpdates];
+        [self recalcHeaderCounts];
+        // Put the thing back in the milestone list.
+        // TODO: Inject back into table, avoid reloading!
+        if (achievement.standardMilestone) {
+            // need to put this back into the list.
+            [_model loadPastMilestonesPage:0];
+            [_model loadFutureMilestonesPage:0];
+        }
+    }
 }
 
 - (void)viewDidLayoutSubviews {

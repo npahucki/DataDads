@@ -19,7 +19,9 @@
 @property(weak, nonatomic) IBOutlet RangeIndicatorView *rangeIndicatorView;
 @property(weak, nonatomic) IBOutlet UILabel *rangleScaleLabel;
 
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *shareButtonBarItem;
 @property(weak, nonatomic) IBOutlet UIView *detailsTextViewContainerView;
 @property(weak, nonatomic) IBOutlet UIButton *detailsImageButton;
 @property(weak, nonatomic) IBOutlet UIBarButtonItem *actionBarButton;
+@property (weak, nonatomic) IBOutlet UIView *containerView;
 @end

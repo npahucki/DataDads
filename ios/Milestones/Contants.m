@@ -29,6 +29,13 @@ NSString *const kDDNotificationUserSignedUp = @"userSignedUp";
 NSString *const kDDNotificationUserLoggedOut = @"userLoggedOut";
 NSString *const kDDNotificationPushReceieved = @"notificationPushReceived";
 NSString *const kNeedDataRefreshNotification = @"needDataRefresh";
+NSString *const kDataObjectNeedsAction = @"dataObjectNeedsAction"; // request to take some action
+
+NSString *const kAchievementNeedsDeleteAction = @"achievementNeedsDeleteAction";
+NSString *const kMilestoneNeedsPostponeAction = @"milestoneNeedsPostponeAction";
+NSString *const kMilestoneNeedsIgnoreAction = @"milestoneNeedsIgnoreAction";
+
+
 
 
 NSString *const kTermsAndConditionUrl = @"http://dataparenting.com/terms-conditions-and-privacy/";

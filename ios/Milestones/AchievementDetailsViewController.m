@@ -11,6 +11,8 @@
 #import "NSDate+Utils.m"
 #import "PronounHelper.h"
 #import "NSDate+HumanizedTime.h"
+#import "UIActionSheet+Blocks.h"
+#import "UIView+Genie.h"
 
 @interface AchievementDetailsViewController ()
 
@@ -20,6 +22,7 @@
     UIDynamicAnimator *_animator;
     CGPoint _percentileMessageCenter;
     BOOL _beganDrag;
+    UIView * _backgroundView;
 }
 
 // Global for all instances
@@ -33,8 +36,18 @@ NSDateFormatter *_dateFormatter;
 }
 
 - (void)viewDidLoad {
+    // Capture the screen before the transition
+    _backgroundView = [[UIScreen mainScreen] snapshotViewAfterScreenUpdates:NO];
+    
     [super viewDidLoad];
     NSAssert(self.achievement, @"Expected Achievement to be set before loading view!");
+    
+    // Add Extra button on right
+    // Add in another button to the right.
+    UIBarButtonItem * deleteButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(didClickDeleteButton:)];
+    self.navigationItem.rightBarButtonItems = @[self.shareButtonBarItem,deleteButtonItem];
+    
+    
     self.adView.containingViewController = self;
     self.detailsTextView.delegate = self;
     self.rangleScaleLabel.font = [UIFont fontForAppWithType:Light andSize:11];
@@ -173,6 +186,29 @@ NSDateFormatter *_dateFormatter;
 }
 
 
+-(void)didClickDeleteButton:(id) sender {
+    UIActionSheet *as = [[UIActionSheet alloc] initWithTitle:@"Note that this cannot be undone!"
+                                                    delegate:nil
+                                           cancelButtonTitle:@"Cancel"
+                                      destructiveButtonTitle:@"Delete"
+                                           otherButtonTitles:nil];
+    
+    as.tapBlock = ^(UIActionSheet *actionSheet, NSInteger buttonIndex){
+        if(buttonIndex == 0) {
+            UIView *trashButton = (UIView *)[self.navigationController.navigationBar.subviews objectAtIndex:2];
+            [self.view insertSubview:_backgroundView belowSubview:self.containerView];
+            [self.containerView genieInTransitionWithDuration:0.7
+                                destinationRect:trashButton.frame
+                                destinationEdge:BCRectEdgeBottom
+                                     completion:^{
+                                         [[NSNotificationCenter defaultCenter] postNotificationName:kAchievementNeedsDeleteAction object:self.achievement];
+                                         [self.navigationController popViewControllerAnimated:NO];
+                                     }];
+        }
+    };
+    [as showInView:self.view];
+}
+
 - (IBAction)didClickActionButton:(id)sender {
     UIImage *image = [self.detailsImageButton imageForState:UIControlStateNormal];
   
@@ -242,7 +278,7 @@ NSDateFormatter *_dateFormatter;
 
     [percentileMessageView addSubview:messageLabel];
     [shadowView addSubview:percentileMessageView];
-    [self.view addSubview:shadowView];
+    [self.containerView addSubview:shadowView];
 
     UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanFrom:)];
     [shadowView addGestureRecognizer:panGestureRecognizer];
@@ -250,7 +286,7 @@ NSDateFormatter *_dateFormatter;
     shadowView.center = self.rangeIndicatorView.center;
     shadowView.center = CGPointMake(self.detailsImageButton.center.x, -(shadowView.bounds.size.height));
 
-    _animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
+    _animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.containerView];
     _animator.delegate = self;
     CGFloat x = self.detailsImageButton.frame.origin.x + self.detailsImageButton.frame.size.width - shadowView.bounds.size.width / 2 - 10;
     CGFloat y = self.detailsImageButton.frame.origin.y + shadowView.bounds.size.height / 2;
@@ -292,6 +328,21 @@ NSDateFormatter *_dateFormatter;
 - (void)dynamicAnimatorDidPause:(UIDynamicAnimator *)animator {
     [animator removeAllBehaviors];
 }
+
+//- (UIImage *) lastViewControllerImage {
+//    NSInteger numberOfViewControllers = self.navigationController.viewControllers.count;
+//    if (numberOfViewControllers < 2)
+//        return nil;
+//    else {
+//        UIView * previousView = ((UIViewController*)  [self.navigationController.viewControllers objectAtIndex:numberOfViewControllers - 2]).view;
+//        UIGraphicsBeginImageContextWithOptions(previousView.frame.size, NO, [UIScreen mainScreen].scale);
+//        [previousView drawViewHierarchyInRect:previousView.bounds afterScreenUpdates:YES];
+//        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+//        UIGraphicsEndImageContext();
+//        return image;
+//    }
+//}
+
 
 
 @end

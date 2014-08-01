@@ -287,6 +287,16 @@ typedef void (^StandardMilestoneResultBlock)(NSNumber *totalCount, NSArray *obje
     return achievement;
 }
 
+- (NSInteger)indexOfAchievement:(MilestoneAchievement *)achievment {
+    for (NSInteger idx = 0; idx < _achievements.count; idx++) {
+        if ([achievment.objectId isEqualToString:((MilestoneAchievement *) _achievements[idx]).objectId]) {
+            return idx;
+        }
+    }
+    return NSNotFound;
+}
+
+
 - (NSInteger)indexOfFutureMilestone:(StandardMilestone *)milestone {
     for (NSInteger idx = 0; idx < _futureMilestones.count; idx++) {
         if ([milestone.objectId isEqualToString:((StandardMilestone *) _futureMilestones[idx]).objectId]) {
