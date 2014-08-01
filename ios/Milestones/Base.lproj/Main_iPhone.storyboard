@@ -1169,7 +1169,7 @@
                                 <action selector="didClickCancelButton:" destination="As4-O0-72y" id="j4H-8B-7jc"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="dRV-0n-DZI">
+                        <barButtonItem key="rightBarButtonItem" title="Note It" id="dRV-0n-DZI">
                             <connections>
                                 <action selector="didClickDoneButton:" destination="As4-O0-72y" id="XrG-MA-Ft1"/>
                             </connections>
