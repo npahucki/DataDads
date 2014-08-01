@@ -899,7 +899,7 @@
                                     <outlet property="delegate" destination="As4-O0-72y" id="82Q-1Y-vTm"/>
                                 </connections>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8nC-ax-kTN" userLabel="Image Button" customClass="TakePhotoButton">
+                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8nC-ax-kTN" userLabel="Image Button" customClass="TakePhotoButton">
                                 <rect key="frame" x="45" y="203" width="230" height="231"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <accessibility key="accessibilityConfiguration" label="cameraButton"/>
@@ -1989,13 +1989,14 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qEY-uL-fWj">
                                 <rect key="frame" x="0.0" y="422" width="320" height="58"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.87795572919999998" green="0.87795572919999998" blue="0.87795572919999998" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.0" green="0.5568627451" blue="0.62352941179999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="58" id="XvO-uN-dvn"/>
-                                    <constraint firstAttribute="height" constant="58" id="lPn-UL-iDv"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="55" id="2ds-vi-zUa"/>
+                                    <constraint firstAttribute="height" constant="58" id="f5f-AK-SuD"/>
                                 </constraints>
-                                <state key="normal" title="sign up now">
-                                    <color key="titleColor" red="0.1019607843" green="0.5568627451" blue="0.62352941179999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="SIGN UP NOW">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <state key="selected">
@@ -2006,8 +2007,8 @@
                                     <action selector="logoutButtonPressed:" destination="5nR-pr-Hy0" eventType="touchUpInside" id="PZ3-OP-hfW"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="To see useful tips -- sign-up now. We'll also back-up your milestones &amp; photos!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="263" translatesAutoresizingMaskIntoConstraints="NO" id="4E1-pc-D8F">
-                                <rect key="frame" x="29" y="202" width="263" height="76"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="To see useful tips -- SIGN-UP now. We'll also back-up your milestones &amp; photos!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="260" translatesAutoresizingMaskIntoConstraints="NO" id="4E1-pc-D8F">
+                                <rect key="frame" x="30" y="202" width="260" height="76"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -2016,22 +2017,25 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="qEY-uL-fWj" firstAttribute="leading" secondItem="FI5-wh-4ke" secondAttribute="leading" id="9KF-GA-Qgn"/>
+                            <constraint firstAttribute="trailing" secondItem="qEY-uL-fWj" secondAttribute="trailing" id="1uN-cM-JiU"/>
+                            <constraint firstItem="qEY-uL-fWj" firstAttribute="leading" secondItem="FI5-wh-4ke" secondAttribute="leading" id="6fQ-J3-Y2z"/>
                             <constraint firstAttribute="centerY" secondItem="4E1-pc-D8F" secondAttribute="centerY" id="HNL-6x-Sjg"/>
                             <constraint firstItem="FKA-lp-ojl" firstAttribute="leading" secondItem="qgb-6Z-O8p" secondAttribute="leading" id="Jdz-U3-DWe"/>
                             <constraint firstItem="FKA-lp-ojl" firstAttribute="centerX" secondItem="qgb-6Z-O8p" secondAttribute="centerX" id="K5b-u4-b8n"/>
                             <constraint firstItem="FKA-lp-ojl" firstAttribute="trailing" secondItem="qgb-6Z-O8p" secondAttribute="trailing" id="NEp-bb-eqY"/>
-                            <constraint firstAttribute="trailing" secondItem="qEY-uL-fWj" secondAttribute="trailing" id="X33-hf-71V"/>
-                            <constraint firstItem="CQw-4V-6lM" firstAttribute="top" secondItem="qEY-uL-fWj" secondAttribute="bottom" id="ZCs-je-ETq"/>
                             <constraint firstItem="qgb-6Z-O8p" firstAttribute="top" secondItem="cEK-dt-Uyr" secondAttribute="bottom" constant="32" id="d1w-5p-2yq"/>
+                            <constraint firstItem="CQw-4V-6lM" firstAttribute="top" secondItem="qEY-uL-fWj" secondAttribute="bottom" id="dev-sj-oBO"/>
                             <constraint firstItem="qgb-6Z-O8p" firstAttribute="centerY" secondItem="FKA-lp-ojl" secondAttribute="centerY" id="jhP-NV-fxn"/>
+                            <constraint firstItem="qEY-uL-fWj" firstAttribute="leading" secondItem="FI5-wh-4ke" secondAttribute="leading" id="l9y-SP-8DZ"/>
                             <constraint firstAttribute="centerX" secondItem="4E1-pc-D8F" secondAttribute="centerX" id="ohf-wF-IRs"/>
                             <constraint firstAttribute="centerX" secondItem="qgb-6Z-O8p" secondAttribute="centerX" id="ovh-ha-FS9"/>
+                            <constraint firstAttribute="trailing" secondItem="qEY-uL-fWj" secondAttribute="trailing" id="uOE-XM-oem"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="helloLabel" destination="FKA-lp-ojl" id="S2c-Qj-ohC"/>
                         <outlet property="promptTextLabel" destination="4E1-pc-D8F" id="LEY-oY-G2s"/>
+                        <outlet property="signupNowButton" destination="qEY-uL-fWj" id="nWn-mf-EPu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vXc-LO-W1r" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2234,8 +2238,8 @@
     <inferredMetricsTieBreakers>
         <segue reference="6HZ-Iq-Yef"/>
         <segue reference="0ED-bk-NzY"/>
-        <segue reference="HiK-bz-YEB"/>
-        <segue reference="zMK-LI-8Wn"/>
+        <segue reference="q2I-r6-ZGD"/>
         <segue reference="9u5-1o-6Cv"/>
+        <segue reference="HiK-bz-YEB"/>
     </inferredMetricsTieBreakers>
 </document>

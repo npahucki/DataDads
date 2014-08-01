@@ -224,6 +224,7 @@
         [UsageAnalytics trackUserSignup:user usingMethod:@"facebook"];
     }
 
+    [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationUserLoggedIn object:user];
     [self showLoginSuccessAndRunBlock:^{
         [self.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
     }];

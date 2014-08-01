@@ -10,6 +10,7 @@
 #import "NotificationTableViewController.h"
 #import "NoConnectionAlertView.h"
 #import "UIImage+FX.h"
+#import "PFAnonymousUtils.h"
 
 @interface MainNotificationsViewController ()
 
@@ -54,10 +55,8 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    //self.menuButton.enabled = Baby.currentBaby != nil;
-    // Hack work around a double segue bug, caused by touching the cell too long
-
-    BOOL isAnonymous = !PFUser.currentUser.email;
+    self.babyMenuButton.enabled = Baby.currentBaby != nil;
+    BOOL isAnonymous =  [PFAnonymousUtils isLinkedWithUser:PFUser.currentUser];
     self.containerView.hidden = isAnonymous;
     self.signUpContainerView.hidden = !isAnonymous;
 }

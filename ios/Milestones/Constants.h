@@ -42,6 +42,7 @@ extern NSString *const kDDNotificationMilestoneNotedAndSaved;
 extern NSString *const kDDNotificationMeasurementNotedAndSaved;
 extern NSString *const kDDNotificationUserSignedUp;
 extern NSString *const kDDNotificationUserLoggedOut;
+extern NSString *const kDDNotificationUserLoggedIn;
 
 extern NSString *const kDDNotificationPushReceieved;
 extern NSString *const kNeedDataRefreshNotification;  // When table data may need to be reloaded

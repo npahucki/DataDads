@@ -11,5 +11,6 @@
 @interface SignUpPromptViewController : UIViewController
 @property(weak, nonatomic) IBOutlet UILabel *helloLabel;
 @property(weak, nonatomic) IBOutlet UILabel *promptTextLabel;
+@property (weak, nonatomic) IBOutlet UIButton *signupNowButton;
 
 @end

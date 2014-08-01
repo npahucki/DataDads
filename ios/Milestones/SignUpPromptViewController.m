@@ -8,6 +8,7 @@
 
 #import "SignUpPromptViewController.h"
 #import "SignUpViewController.h"
+#import "LoginViewController.h"
 
 @interface SignUpPromptViewController ()
 
@@ -21,6 +22,9 @@
     self.promptTextLabel.font = [UIFont fontForAppWithType:Medium andSize:21.0];
     self.promptTextLabel.textColor = [UIColor blackColor];
     self.helloLabel.font = [UIFont fontForAppWithType:Bold andSize:18.0];
+    
+    self.signupNowButton.titleLabel.font = [UIFont fontForAppWithType:Book andSize:21];
+    [self.signupNowButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 }
 
 - (IBAction)didClickSignUpNow:(id)sender {
@@ -28,5 +32,10 @@
     signupController.showExternal = YES;
     [self presentViewController:signupController animated:YES completion:nil];
 }
+
+//- (IBAction)didClickLogin:(id)sender {
+//    LoginViewController *loginController = [[LoginViewController alloc] init];
+//    [self presentViewController:loginController animated:YES completion:nil];
+//}
 
 @end

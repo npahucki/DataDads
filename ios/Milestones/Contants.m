@@ -26,6 +26,8 @@ NSString *const kDDNotificationCurrentBabyChanged = @"currentBabyChanged";
 NSString *const kDDNotificationMilestoneNotedAndSaved = @"milestoneNotedAndSaved";
 NSString *const kDDNotificationMeasurementNotedAndSaved = @"measurementNotedAndSaved";
 NSString *const kDDNotificationUserSignedUp = @"userSignedUp";
+NSString *const kDDNotificationUserLoggedIn = @"userLoggedIn";
+
 NSString *const kDDNotificationUserLoggedOut = @"userLoggedOut";
 NSString *const kDDNotificationPushReceieved = @"notificationPushReceived";
 NSString *const kNeedDataRefreshNotification = @"needDataRefresh";
