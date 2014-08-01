@@ -101,6 +101,8 @@
     //_fbSwitch.shadowColor = [UIColor blackColor];
     [_fbSwitch setOn:ParentUser.currentUser.autoPublishToFacebook && [PFFacebookUtils userHasAuthorizedPublishPermissions:ParentUser.currentUser] animated:NO];
 
+    self.commentsTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:self.commentsTextField.attributedPlaceholder.string attributes:@{NSForegroundColorAttributeName : [UIColor appGreyTextColor]}];
+    self.customTitleTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:self.customTitleTextField.attributedPlaceholder.string attributes:@{NSForegroundColorAttributeName : [UIColor appGreyTextColor]}];
 
 }
 
