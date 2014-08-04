@@ -24,6 +24,7 @@ NSString *const kDDSegueShowWebView = @"showWebView";
 #pragma mark - Events
 NSString *const kDDNotificationCurrentBabyChanged = @"currentBabyChanged";
 NSString *const kDDNotificationMilestoneNotedAndSaved = @"milestoneNotedAndSaved";
+NSString *const kDDNotificationAchievementNotedAndSaved = @"achievementNotedAndSaved";
 NSString *const kDDNotificationMeasurementNotedAndSaved = @"measurementNotedAndSaved";
 NSString *const kDDNotificationUserSignedUp = @"userSignedUp";
 NSString *const kDDNotificationUserLoggedIn = @"userLoggedIn";
@@ -36,8 +37,6 @@ NSString *const kDataObjectNeedsAction = @"dataObjectNeedsAction"; // request to
 NSString *const kAchievementNeedsDeleteAction = @"achievementNeedsDeleteAction";
 NSString *const kMilestoneNeedsPostponeAction = @"milestoneNeedsPostponeAction";
 NSString *const kMilestoneNeedsIgnoreAction = @"milestoneNeedsIgnoreAction";
-
-
 
 
 NSString *const kTermsAndConditionUrl = @"http://dataparenting.com/terms-conditions-and-privacy/";
@@ -59,7 +58,6 @@ NSString *const kTermsAndConditionUrl = @"http://dataparenting.com/terms-conditi
 + (UIColor *)appInputGreyTextColor {
     return UIColorFromRGB(0x9d9da4);
 }
-
 
 
 + (UIColor *)appInputBorderActiveColor {

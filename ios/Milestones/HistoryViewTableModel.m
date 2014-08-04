@@ -279,6 +279,14 @@ typedef void (^StandardMilestoneResultBlock)(NSNumber *totalCount, NSArray *obje
     }
 }
 
+- (void)replaceAchievementIfLoaded:(MilestoneAchievement *)achievement {
+    NSInteger idx = [self indexOfAchievement:achievement];
+    if (idx != NSNotFound) {
+        [((NSMutableArray *) _achievements) replaceObjectAtIndex:idx withObject:achievement];
+    }
+}
+
+
 - (MilestoneAchievement *)deleteAchievementAtIndex:(NSInteger)index {
     MilestoneAchievement *achievement = _achievements[index];
     [((NSMutableArray *) _achievements) removeObjectAtIndex:index];

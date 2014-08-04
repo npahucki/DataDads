@@ -9,8 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "RangeIndicatorView.h"
 #import "DataParentingAdView.h"
+#import "FDTakeController.h"
+#import "UIViewControllerWithHUDProgress.h"
 
-@interface AchievementDetailsViewController : UIViewController <UITextViewDelegate, UIDynamicAnimatorDelegate>
+@interface AchievementDetailsViewController : UIViewControllerWithHUDProgress <UITextViewDelegate, UIDynamicAnimatorDelegate, FDTakeDelegate>
 @property(weak, nonatomic) IBOutlet DataParentingAdView *adView;
 
 @property MilestoneAchievement *achievement;
@@ -19,9 +21,9 @@
 @property(weak, nonatomic) IBOutlet RangeIndicatorView *rangeIndicatorView;
 @property(weak, nonatomic) IBOutlet UILabel *rangleScaleLabel;
 
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *shareButtonBarItem;
+@property(weak, nonatomic) IBOutlet UIBarButtonItem *shareButtonBarItem;
 @property(weak, nonatomic) IBOutlet UIView *detailsTextViewContainerView;
 @property(weak, nonatomic) IBOutlet UIButton *detailsImageButton;
 @property(weak, nonatomic) IBOutlet UIBarButtonItem *actionBarButton;
-@property (weak, nonatomic) IBOutlet UIView *containerView;
+@property(weak, nonatomic) IBOutlet UIView *containerView;
 @end

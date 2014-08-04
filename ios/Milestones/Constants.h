@@ -13,7 +13,7 @@
 #define UIColorFromRGBWithAlpha(rgbValue, alphaValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:alphaValue]
 
 # if DEBUG || TARGET_IPHONE_SIMULATOR
-  #define VIEW_HOST @"dataparenting-dev.parseapp.com"
+#define VIEW_HOST @"dataparenting-dev.parseapp.com"
 #else
 #define VIEW_HOST @"view.dataparenting.com"
 #endif
@@ -39,6 +39,7 @@ extern NSString *const kDDSegueShowWebView;
 #pragma mark Notification Names
 extern NSString *const kDDNotificationCurrentBabyChanged;
 extern NSString *const kDDNotificationMilestoneNotedAndSaved;
+extern NSString *const kDDNotificationAchievementNotedAndSaved;
 extern NSString *const kDDNotificationMeasurementNotedAndSaved;
 extern NSString *const kDDNotificationUserSignedUp;
 extern NSString *const kDDNotificationUserLoggedOut;
@@ -51,10 +52,7 @@ extern NSString *const kMilestoneNeedsPostponeAction;
 extern NSString *const kMilestoneNeedsIgnoreAction;
 
 
-
 extern NSString *const kTermsAndConditionUrl;
-
-
 
 
 #pragma mark Application Colors

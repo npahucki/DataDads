@@ -107,4 +107,5 @@
 - (NSInteger)indexOfPastMilestone:(StandardMilestone *)milestone;
 
 
+- (void)replaceAchievementIfLoaded:(MilestoneAchievement *)achievement;
 @end

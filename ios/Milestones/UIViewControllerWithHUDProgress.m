@@ -14,16 +14,16 @@
 
 @implementation UIViewControllerWithHUDProgress
 
-- (void)saveObject:(PFObject *)object withTitle:(NSString *)title andFailureMessage:(NSString *)msg andBlock:(void (^)(NSError *))block {
+- (void)saveObject:(PFObject *)object withTitle:(NSString *)title andFailureMessage:(NSString *)msg andBlock:(PFBooleanResultBlock)block {
     [self showInProgressHUDWithMessage:title andAnimation:YES andDimmedBackground:YES];
     [object saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (error) {
             [self showErrorThenRunBlock:error withMessage:msg andBlock:^{
-                block(error);
+                if (block) block(NO, error);
             }];
         } else {
             [self showSuccessThenRunBlock:^{
-                block(error);
+                if (block) block(YES, error);
             }];
         }
     }];

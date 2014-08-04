@@ -24,7 +24,7 @@
   Saves a PFObject in the background while showing a progress dialog. If the save was successful, then an indication is shown 
   and the dialog is dismissed. If there is an error, then the provided error message is displayed and the error logged, the dialog is not dimissed. 
 */
-- (void)saveObject:(PFObject *)object withTitle:(NSString *)title andFailureMessage:(NSString *)msg andBlock:(void (^)(NSError *))block;
+- (void)saveObject:(PFObject *)object withTitle:(NSString *)title andFailureMessage:(NSString *)msg andBlock:(PFBooleanResultBlock)block;
 
 
 @end

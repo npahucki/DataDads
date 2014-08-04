@@ -58,6 +58,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(milestoneNotedAndSaved:) name:kDDNotificationMilestoneNotedAndSaved object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkReachabilityChanged:) name:kReachabilityChangedNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self.tableView selector:@selector(reloadData) name:kNeedDataRefreshNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAchievementNeedsUpdate:) name:kDDNotificationAchievementNotedAndSaved object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAchievementNeedsDeletion:) name:kAchievementNeedsDeleteAction object:nil];
 
     if (Baby.currentBaby) { // Only load if there is already a baby set
@@ -183,6 +184,13 @@
         }
     }
 
+}
+
+- (void)handleAchievementNeedsUpdate:(NSNotification *)notification {
+    MilestoneAchievement *achievement = notification.object;
+    NSInteger idx = [_model indexOfAchievement:achievement];
+    [_model replaceAchievementIfLoaded:achievement];
+    [self.tableView reloadData];
 }
 
 -(void)handleAchievementNeedsDeletion:(NSNotification *) notification {

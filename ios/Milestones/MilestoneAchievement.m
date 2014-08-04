@@ -53,20 +53,22 @@
 }
 
 - (NSString *)displayTitle {
+    NSAssert([self.baby.objectId isEqualToString:Baby.currentBaby.objectId], @"Expected achievement baby to be same as current baby");
     if (self.customTitle.length) {
-        return [PronounHelper replacePronounTokens:self.customTitle forBaby:self.baby];
+        return [PronounHelper replacePronounTokens:self.customTitle forBaby:Baby.currentBaby];
     } else if (self.standardMilestone) {
-        return [self.standardMilestone titleForBaby:self.baby];
+        return [self.standardMilestone titleForBaby:Baby.currentBaby];
     } else {
         return @"???";
     }
 }
 
 - (void)calculatePercentileRankingWithBlock:(void (^)(float percentile))block {
+    NSAssert([self.baby.objectId isEqualToString:Baby.currentBaby.objectId], @"Expected achievement baby to be same as current baby");
     if (self.standardMilestone.canCompare) {
         [PFCloud callFunctionInBackground:@"percentileRanking"
                            withParameters:@{@"milestoneId" : self.standardMilestone.objectId,
-                                   @"completionDays" : @([self.baby daysSinceDueDate:self.completionDate])}
+                                   @"completionDays" : @([Baby.currentBaby daysSinceDueDate:self.completionDate])}
                                     block:^(NSNumber *result, NSError *error) {
             if (error) {
                 NSLog(@"Error trying to calulate percentile: %@", error);

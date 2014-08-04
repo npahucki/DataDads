@@ -14,6 +14,7 @@
 #import "UIActionSheet+Blocks.h"
 #import "UIView+Genie.h"
 #import "TutorialBubbleView.h"
+#import "UIImage+FX.h"
 
 @interface AchievementDetailsViewController ()
 
@@ -23,7 +24,8 @@
     UIDynamicAnimator *_animator;
     CGPoint _percentileMessageCenter;
     BOOL _beganDrag;
-    UIView * _backgroundView;
+    UIView *_backgroundView;
+    FDTakeController *_takeController;
 }
 
 // Global for all instances
@@ -39,16 +41,16 @@ NSDateFormatter *_dateFormatter;
 - (void)viewDidLoad {
     // Capture the screen before the transition
     _backgroundView = [[UIScreen mainScreen] snapshotViewAfterScreenUpdates:NO];
-    
+
     [super viewDidLoad];
     NSAssert(self.achievement, @"Expected Achievement to be set before loading view!");
-    
+
     // Add Extra button on right
     // Add in another button to the right.
-    UIBarButtonItem * deleteButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(didClickDeleteButton:)];
-    self.navigationItem.rightBarButtonItems = @[self.shareButtonBarItem,deleteButtonItem];
-    
-    
+    UIBarButtonItem *deleteButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(didClickDeleteButton:)];
+    self.navigationItem.rightBarButtonItems = @[self.shareButtonBarItem, deleteButtonItem];
+
+
     self.adView.containingViewController = self;
     self.detailsTextView.delegate = self;
     self.rangleScaleLabel.font = [UIFont fontForAppWithType:Light andSize:11];
@@ -57,14 +59,10 @@ NSDateFormatter *_dateFormatter;
             NSUnderlineStyleAttributeName : @(NSUnderlinePatternSolid)};
     self.detailsTextView.linkTextAttributes = linkAttributes; // customizes the appearance of links
 
-    // The references we have when these objects are loaded, do not have all the baby info in them, so we swap them out here.
-    if (!self.achievement.baby.isDataAvailable) {
-        NSAssert([self.achievement.baby.objectId isEqualToString:Baby.currentBaby.objectId], @"Expected achievements for current baby only!");
-        self.achievement.baby = Baby.currentBaby;
-    }
+    NSAssert([self.achievement.baby.objectId isEqualToString:Baby.currentBaby.objectId], @"Expected achievements for current baby only!");
 
     // Start with the thumbnail (if loaded), then load the bigger one later on.
-    PFFile *thumbnailImageFile = self.achievement.attachmentThumbnail ? self.achievement.attachmentThumbnail : self.achievement.baby.avatarImageThumbnail;
+    PFFile *thumbnailImageFile = self.achievement.attachmentThumbnail ? self.achievement.attachmentThumbnail : Baby.currentBaby.avatarImageThumbnail;
     [thumbnailImageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
         [self.detailsImageButton setImage:[UIImage imageWithData:data] forState:UIControlStateNormal];
         self.detailsImageButton.alpha = (CGFloat) (self.achievement.attachmentThumbnail ? 1.0 : 0.3);
@@ -72,16 +70,18 @@ NSDateFormatter *_dateFormatter;
 
     self.rangeIndicatorView.rangeScale = 5 * 365;
     self.rangeIndicatorView.rangeReferencePoint = [Baby.currentBaby.birthDate daysDifference:self.achievement.completionDate];
-    [self.rangeIndicatorView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickRangeIndicator:)]];
 
 
     // TODO: Cloud function to do all this in one shot!
-    [self.achievement fetchInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+    PFQuery *query = [MilestoneAchievement query];
+    [query selectKeys:@[@"attachment", @"attachmentType", @"customTitle", @"comment", @"completionDate", @"standardMilestone", @"baby"]];
+    [query includeKey:@"standardMilestone"];
+    [query getObjectInBackgroundWithId:self.achievement.objectId block:^(PFObject *object, NSError *error) {
         if (!error) {
             // Get achievement details and image
             self.achievement = (MilestoneAchievement *) object;
             BOOL hasImageAttachment = self.achievement.attachment && [self.achievement.attachmentType rangeOfString:@"image"].location != NSNotFound;
-            PFFile *imageFile = hasImageAttachment ? self.achievement.attachment : self.achievement.baby.avatarImage;
+            PFFile *imageFile = hasImageAttachment ? self.achievement.attachment : Baby.currentBaby.avatarImage;
             if (imageFile) {
                 [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
                     if (!error) {
@@ -93,29 +93,22 @@ NSDateFormatter *_dateFormatter;
                 }];
             }
 
-            // Get the standard milestone data if available
             if (self.achievement.standardMilestone) {
-                [self.achievement.standardMilestone fetchInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-                    if (!error) {
-                        StandardMilestone *milestone = (StandardMilestone *) object;
-                        self.rangeIndicatorView.startRange = milestone.rangeLow.integerValue;
-                        self.rangeIndicatorView.endRange = milestone.rangeHigh.integerValue;
-                        [self updateTitleTextFromAchievement];
-                        // Show the percentile
-                        if (milestone.canCompare) {
-                            [self.achievement calculatePercentileRankingWithBlock:^(float percentile) {
-                                if (percentile > 0) {
-                                    if (percentile > 50) {
-                                        self.statusImageView.image = [UIImage imageNamed:@"completedBest"];
-                                    }
-                                    [self showPercentileMessage:percentile];
-                                }
-                            }];
+                self.rangeIndicatorView.startRange = self.achievement.standardMilestone.rangeLow.integerValue;
+                self.rangeIndicatorView.endRange = self.achievement.standardMilestone.rangeHigh.integerValue;
+                [self.rangeIndicatorView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickRangeIndicator:)]];
+                [self updateTitleTextFromAchievement];
+                // Show the percentile
+                if (self.achievement.standardMilestone.canCompare) {
+                    [self.achievement calculatePercentileRankingWithBlock:^(float percentile) {
+                        if (percentile > 0) {
+                            if (percentile > 50) {
+                                self.statusImageView.image = [UIImage imageNamed:@"completedBest"];
+                            }
+                            [self showPercentileMessage:percentile];
                         }
-                    } else {
-                        [UsageAnalytics trackError:error forOperationNamed:@"FetchSingleStandardMilestone" andAdditionalProperties:@{@"id" : self.achievement.standardMilestone.objectId}];
-                    }
-                }];
+                    }];
+                }
             }
         }
     }];
@@ -188,25 +181,34 @@ NSDateFormatter *_dateFormatter;
     return NO;
 }
 
+- (IBAction)didClickTakePhotoButton:(id)sender {
+    [self.view endEditing:YES];
+    _takeController = [[FDTakeController alloc] init];
+    _takeController.delegate = self;
+    _takeController.viewControllerForPresentingImagePickerController = self;
+    _takeController.allowsEditingPhoto = NO; // NOTE: Allowing photo editing causes a problem with landscape pictures!
+    _takeController.allowsEditingVideo = NO;
+    [_takeController takePhotoOrChooseFromLibrary];
+}
 
--(void)didClickDeleteButton:(id) sender {
+- (void)didClickDeleteButton:(id)sender {
     UIActionSheet *as = [[UIActionSheet alloc] initWithTitle:@"Note that this cannot be undone!"
                                                     delegate:nil
                                            cancelButtonTitle:@"Cancel"
                                       destructiveButtonTitle:@"Delete"
                                            otherButtonTitles:nil];
-    
-    as.tapBlock = ^(UIActionSheet *actionSheet, NSInteger buttonIndex){
-        if(buttonIndex == 0) {
-            UIView *trashButton = (UIView *)[self.navigationController.navigationBar.subviews objectAtIndex:2];
+
+    as.tapBlock = ^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
+        if (buttonIndex == 0) {
+            UIView *trashButton = (UIView *) [self.navigationController.navigationBar.subviews objectAtIndex:2];
             [self.view insertSubview:_backgroundView belowSubview:self.containerView];
             [self.containerView genieInTransitionWithDuration:0.7
-                                destinationRect:trashButton.frame
-                                destinationEdge:BCRectEdgeBottom
-                                     completion:^{
-                                         [[NSNotificationCenter defaultCenter] postNotificationName:kAchievementNeedsDeleteAction object:self.achievement];
-                                         [self.navigationController popViewControllerAnimated:NO];
-                                     }];
+                                              destinationRect:trashButton.frame
+                                              destinationEdge:BCRectEdgeBottom
+                                                   completion:^{
+                [[NSNotificationCenter defaultCenter] postNotificationName:kAchievementNeedsDeleteAction object:self.achievement];
+                [self.navigationController popViewControllerAnimated:NO];
+            }];
         }
     };
     [as showInView:self.view];
@@ -214,9 +216,9 @@ NSDateFormatter *_dateFormatter;
 
 - (IBAction)didClickActionButton:(id)sender {
     UIImage *image = [self.detailsImageButton imageForState:UIControlStateNormal];
-  
-    NSURL * url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/achievements/%@", VIEW_HOST, self.achievement.objectId]];
-    NSString * mainText = [NSString stringWithFormat:@"%@ completed the milestone: '%@' %@!",self.achievement.baby.name, self.achievement.displayTitle,[self.achievement.completionDate stringWithHumanizedTimeDifference]];
+
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/achievements/%@", VIEW_HOST, self.achievement.objectId]];
+    NSString *mainText = [NSString stringWithFormat:@"%@ completed the milestone: '%@' %@!", Baby.currentBaby.name, self.achievement.displayTitle, [self.achievement.completionDate stringWithHumanizedTimeDifference]];
     NSMutableArray *items = [NSMutableArray arrayWithObjects:mainText, url, nil];
     if (self.achievement.comment) [items addObject:self.achievement.comment];
     if (image) [items addObject:image];
@@ -332,14 +334,42 @@ NSDateFormatter *_dateFormatter;
     [animator removeAllBehaviors];
 }
 
--(void) didClickRangeIndicator:(id) sender {
-    TutorialBubbleView * bubble =  [[[NSBundle mainBundle] loadNibNamed:@"TutorialBubbleView" owner:self options:nil] objectAtIndex:0];
+- (void)didClickRangeIndicator:(id)sender {
+    TutorialBubbleView *bubble = [[[NSBundle mainBundle] loadNibNamed:@"TutorialBubbleView" owner:self options:nil] objectAtIndex:0];
     CGPoint relativePoint = CGPointMake(self.rangeIndicatorView.center.x, self.rangeIndicatorView.frame.origin.y + self.rangeIndicatorView.frame.size.height + 5);
     bubble.arrowTip = [self.rangeIndicatorView.superview convertPoint:relativePoint toView:self.view];
     bubble.textLabel.font = [UIFont fontForAppWithType:Medium andSize:16];
     [bubble showInView:self.view withText:[NSString stringWithFormat:@"Shaded area indicates the normal range (%@) and the dot how %@ compares", self.achievement.standardMilestone.humanReadableRange, Baby.currentBaby.name]];
 }
 
+#pragma mark FDTakeController Delegate
+
+- (void)takeController:(FDTakeController *)controller gotPhoto:(UIImage *)photo withInfo:(NSDictionary *)info {
+    // TODO: Support video too!
+    [self showInProgressHUDWithMessage:@"Uploading Photo" andAnimation:YES andDimmedBackground:YES];
+    PFFile *file = [PFFile fileWithData:UIImageJPEGRepresentation(photo, 0.5f)];
+    [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (error) {
+            [self showErrorThenRunBlock:error withMessage:@"Could not upload the photo." andBlock:nil];
+            [self.detailsImageButton setImage:nil forState:UIControlStateNormal];
+        } else {
+            self.achievement.attachment = file;
+            self.achievement.attachmentType = @"image/jpg";
+            [self saveObject:self.achievement withTitle:@"Updating Milestone" andFailureMessage:@"Could not save Milestone" andBlock:^(BOOL succeeded2, NSError *error2) {
+                if (error2) {
+                    [self.detailsImageButton setImage:nil forState:UIControlStateNormal];
+                } else {
+                    [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationAchievementNotedAndSaved object:self.achievement];
+                }
+            }];
+
+
+        }
+    }];
+
+    CGSize scaleSize = CGSizeMake(self.detailsImageButton.bounds.size.width * 2, self.detailsImageButton.bounds.size.height * 2);
+    [self.detailsImageButton setImage:[photo imageScaledToFitSize:scaleSize] forState:UIControlStateNormal];
+}
 
 
 @end

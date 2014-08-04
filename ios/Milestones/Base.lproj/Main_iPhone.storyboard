@@ -30,7 +30,7 @@
                                             <constraint firstAttribute="height" constant="1" id="WbD-2X-hly"/>
                                         </constraints>
                                     </view>
-                                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="koa-H7-Px9" userLabel="Photo Button" customClass="TakePhotoButton">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="koa-H7-Px9" userLabel="Photo Button" customClass="TakePhotoButton">
                                         <rect key="frame" x="23" y="172" width="274" height="274"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" backgroundImage="camIconWithBorder">
@@ -39,7 +39,7 @@
                                         <state key="selected" backgroundImage="cameraButton_pressed"/>
                                         <state key="highlighted" backgroundImage="cameraButton_pressed"/>
                                         <connections>
-                                            <action selector="didClickTakePicture:" destination="As4-O0-72y" eventType="touchUpInside" id="uA3-V1-Gz8"/>
+                                            <action selector="didClickTakePhotoButton:" destination="eNM-aT-BTU" eventType="touchUpInside" id="gz3-Q2-dGU"/>
                                         </connections>
                                     </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YaB-Py-RbV" customClass="RangeIndicatorView">
@@ -2202,7 +2202,7 @@
         <image name="avatarShadow" width="128" height="126"/>
         <image name="backIcon" width="12" height="20"/>
         <image name="background.png" width="640" height="1136"/>
-        <image name="camIconWithBorder" width="226" height="226"/>
+        <image name="camIconWithBorder" width="47" height="49"/>
         <image name="cameraButton_pressed" width="212" height="212"/>
         <image name="completedBest" width="47" height="49"/>
         <image name="completedNormal" width="47" height="49"/>

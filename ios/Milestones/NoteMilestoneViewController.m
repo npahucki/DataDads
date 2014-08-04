@@ -51,14 +51,13 @@
         self.weightUnitLabel.text = [UnitHelper unitForWeight];
         self.segmentControl.hidden = NO;
         self.doneButton.enabled = NO;
-        
-        
+
+
         // Icky hack to work around the fact that you can't both set an image and test on segmented control. 
         [self.segmentControl setImage:[[UIImage imageNamed:@"milestonesIcon"] imageWithString:@"Milestone"] forSegmentAtIndex:0];
         [self.segmentControl setImage:[[UIImage imageNamed:@"measurementsIcon"] imageWithString:@"Measurement"] forSegmentAtIndex:1];
-        
-        
-        
+
+
     } else {
         self.rangeLabel.font = [UIFont fontForAppWithType:Light andSize:11];
         self.rangeIndicatorView.rangeScale = 5 * 365; // 5 years
@@ -231,8 +230,8 @@
     self.titleTextFadingView.layer.mask = l;
 }
 
--(void) didClickRangeIndicator:(id) sender {
-    TutorialBubbleView * bubble =  [[[NSBundle mainBundle] loadNibNamed:@"TutorialBubbleView" owner:self options:nil] objectAtIndex:0];
+- (void)didClickRangeIndicator:(id)sender {
+    TutorialBubbleView *bubble = [[[NSBundle mainBundle] loadNibNamed:@"TutorialBubbleView" owner:self options:nil] objectAtIndex:0];
     CGPoint relativePoint = CGPointMake(self.rangeIndicatorView.center.x, self.rangeIndicatorView.frame.origin.y + self.rangeIndicatorView.frame.size.height + 5);
     bubble.arrowTip = [self.rangeIndicatorView.superview convertPoint:relativePoint toView:self.view];
     bubble.textLabel.font = [UIFont fontForAppWithType:Medium andSize:16];
@@ -338,7 +337,7 @@
     self.achievement.attachmentType = type;
     self.achievement.completionDate = self.completionDateTextField.date;
     self.achievement.sharedVia = self.fbSwitch.on ? SharingMediumFacebook : SharingMediumNotShared;
-    [self saveObject:self.achievement withTitle:@"Noting Milestone" andFailureMessage:@"Could not note milestone." andBlock:^(NSError *error) {
+    [self saveObject:self.achievement withTitle:@"Noting Milestone" andFailureMessage:@"Could not note milestone." andBlock:^(BOOL succeeded, NSError *error) {
         if (!error) {
             // SEE NOTE ABOVE
             if (!self.achievement.baby.isDataAvailable) {
@@ -400,10 +399,6 @@
 }
 
 #pragma mark - FDTakeDelegate
-
-- (void)takeController:(FDTakeController *)controller didCancelAfterAttempting:(BOOL)madeAttempt {
-    // TODO: Log this for user interaction tracking
-}
 
 - (void)takeController:(FDTakeController *)controller gotPhoto:(UIImage *)photo withInfo:(NSDictionary *)info {
     // Attempt to use date from the photo taken, instead of the current date
