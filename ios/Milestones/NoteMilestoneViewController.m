@@ -235,8 +235,8 @@
     TutorialBubbleView * bubble =  [[[NSBundle mainBundle] loadNibNamed:@"TutorialBubbleView" owner:self options:nil] objectAtIndex:0];
     CGPoint relativePoint = CGPointMake(self.rangeIndicatorView.center.x, self.rangeIndicatorView.frame.origin.y + self.rangeIndicatorView.frame.size.height + 5);
     bubble.arrowTip = [self.rangeIndicatorView.superview convertPoint:relativePoint toView:self.view];
-    bubble.textLabel.font = [UIFont fontForAppWithType:Medium andSize:18];
-    [bubble showInView:self.view withText:@"Shaded area indicates normal range and the dot how your baby compares"];
+    bubble.textLabel.font = [UIFont fontForAppWithType:Medium andSize:16];
+    [bubble showInView:self.view withText:[NSString stringWithFormat:@"Shaded area indicates the normal range (%@) and the dot how %@ compares right now", self.achievement.standardMilestone.humanReadableRange, Baby.currentBaby.name]];
 }
 
 - (IBAction)didClickTakePicture:(id)sender {

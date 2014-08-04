@@ -13,6 +13,7 @@
 #import "NSDate+HumanizedTime.h"
 #import "UIActionSheet+Blocks.h"
 #import "UIView+Genie.h"
+#import "TutorialBubbleView.h"
 
 @interface AchievementDetailsViewController ()
 
@@ -71,6 +72,8 @@ NSDateFormatter *_dateFormatter;
 
     self.rangeIndicatorView.rangeScale = 5 * 365;
     self.rangeIndicatorView.rangeReferencePoint = [Baby.currentBaby.birthDate daysDifference:self.achievement.completionDate];
+    [self.rangeIndicatorView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickRangeIndicator:)]];
+
 
     // TODO: Cloud function to do all this in one shot!
     [self.achievement fetchInBackgroundWithBlock:^(PFObject *object, NSError *error) {
@@ -329,19 +332,13 @@ NSDateFormatter *_dateFormatter;
     [animator removeAllBehaviors];
 }
 
-//- (UIImage *) lastViewControllerImage {
-//    NSInteger numberOfViewControllers = self.navigationController.viewControllers.count;
-//    if (numberOfViewControllers < 2)
-//        return nil;
-//    else {
-//        UIView * previousView = ((UIViewController*)  [self.navigationController.viewControllers objectAtIndex:numberOfViewControllers - 2]).view;
-//        UIGraphicsBeginImageContextWithOptions(previousView.frame.size, NO, [UIScreen mainScreen].scale);
-//        [previousView drawViewHierarchyInRect:previousView.bounds afterScreenUpdates:YES];
-//        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-//        UIGraphicsEndImageContext();
-//        return image;
-//    }
-//}
+-(void) didClickRangeIndicator:(id) sender {
+    TutorialBubbleView * bubble =  [[[NSBundle mainBundle] loadNibNamed:@"TutorialBubbleView" owner:self options:nil] objectAtIndex:0];
+    CGPoint relativePoint = CGPointMake(self.rangeIndicatorView.center.x, self.rangeIndicatorView.frame.origin.y + self.rangeIndicatorView.frame.size.height + 5);
+    bubble.arrowTip = [self.rangeIndicatorView.superview convertPoint:relativePoint toView:self.view];
+    bubble.textLabel.font = [UIFont fontForAppWithType:Medium andSize:16];
+    [bubble showInView:self.view withText:[NSString stringWithFormat:@"Shaded area indicates the normal range (%@) and the dot how %@ compares", self.achievement.standardMilestone.humanReadableRange, Baby.currentBaby.name]];
+}
 
 
 
