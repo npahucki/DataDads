@@ -38,7 +38,7 @@
         // Make the label show attributed text
         NSDictionary *numberAttributes = @{NSFontAttributeName : [UIFont fontForAppWithType:Bold andSize:95.0], NSForegroundColorAttributeName : [UIColor appNormalColor]};
         NSDictionary *milestoneTextAttributes = @{NSFontAttributeName : [UIFont fontForAppWithType:Bold andSize:18.0], NSForegroundColorAttributeName : [UIColor appGreyTextColor]};
-        NSMutableAttributedString *milestoneString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%li\nmilestones logged", (long) self.milestoneCount]];
+        NSMutableAttributedString *milestoneString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%li\nmilestones noted", (long) self.milestoneCount]];
         NSUInteger numLen = [[@(self.milestoneCount) stringValue] length];
         [milestoneString setAttributes:numberAttributes range:NSMakeRange(0, numLen)];
         [milestoneString setAttributes:milestoneTextAttributes range:NSMakeRange(numLen + 1, [milestoneString length] - numLen - 1)];
