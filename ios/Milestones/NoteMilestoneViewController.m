@@ -10,6 +10,7 @@
 #import "WebViewerViewController.h"
 #import "UnitHelper.h"
 #import "UIImage+FX.h"
+#import "TutorialBubbleView.h"
 
 @interface NoteMilestoneViewController ()
 
@@ -62,6 +63,8 @@
         self.rangeLabel.font = [UIFont fontForAppWithType:Light andSize:11];
         self.rangeIndicatorView.rangeScale = 5 * 365; // 5 years
         self.rangeIndicatorView.rangeReferencePoint = Baby.currentBaby.daysSinceDueDate;
+        self.rangeIndicatorView.userInteractionEnabled = YES;
+        [self.rangeIndicatorView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickRangeIndicator:)]];
         self.titleTextView.linkTextAttributes = @{NSForegroundColorAttributeName : [UIColor appSelectedColor],
                 NSUnderlineColorAttributeName : [UIColor appSelectedColor],
                 NSUnderlineStyleAttributeName : @(NSUnderlinePatternSolid)};
@@ -208,7 +211,7 @@
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     self.fbSwitch.frame = self.placeHolderSwitch.frame;
-    // NOTE: For some odd reson, this will not work is done in viewDidLoad!
+    // NOTE: For some odd reason, this will not work is done in viewDidLoad!
     if (self.achievement.standardMilestone) self.titleTextView.attributedText = [self createTitleTextFromMilestone];
 
 
@@ -226,6 +229,14 @@
     l.startPoint = CGPointMake(0.5f, 0.5f);
     l.endPoint = CGPointMake(0.5f, 1.0f);
     self.titleTextFadingView.layer.mask = l;
+}
+
+-(void) didClickRangeIndicator:(id) sender {
+    TutorialBubbleView * bubble =  [[[NSBundle mainBundle] loadNibNamed:@"TutorialBubbleView" owner:self options:nil] objectAtIndex:0];
+    CGPoint relativePoint = CGPointMake(self.rangeIndicatorView.center.x, self.rangeIndicatorView.frame.origin.y + self.rangeIndicatorView.frame.size.height + 5);
+    bubble.arrowTip = [self.rangeIndicatorView.superview convertPoint:relativePoint toView:self.view];
+    bubble.textLabel.font = [UIFont fontForAppWithType:Medium andSize:18];
+    [bubble showInView:self.view withText:@"Shaded area indicates normal range and the dot how your baby compares"];
 }
 
 - (IBAction)didClickTakePicture:(id)sender {
