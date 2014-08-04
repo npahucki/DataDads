@@ -15,11 +15,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     NSAssert(Baby.currentBaby.name, @"Expected a current baby would be set before setting invoked");
-    self.milestoneCountLabel = [[UILabel alloc] initWithFrame:self.babyAvatar.frame];
-    self.milestoneCountLabel.numberOfLines = 2;
-    self.milestoneCountLabel.textAlignment = NSTextAlignmentCenter;
-    self.milestoneCountLabel.textColor = self.ageLabel.textColor; // use same as age
-
     self.babyNameLabel.font = [UIFont fontForAppWithType:Bold andSize:21.0];
     self.babyNameLabel.text = Baby.currentBaby.name;
     self.ageLabel.font = [UIFont fontForAppWithType:Medium andSize:18.0];
@@ -35,6 +30,12 @@
 
     
     if (self.milestoneCount) {
+        self.milestoneCountLabel = [[UILabel alloc] initWithFrame:self.babyAvatar.frame];
+        self.milestoneCountLabel.numberOfLines = 0;
+        self.milestoneCountLabel.textAlignment = NSTextAlignmentCenter;
+        
+
+        
         // Make the label show attributed text
         NSDictionary *numberAttributes = @{NSFontAttributeName : [UIFont fontForAppWithType:Bold andSize:95.0], NSForegroundColorAttributeName : [UIColor appNormalColor]};
         NSDictionary *milestoneTextAttributes = @{NSFontAttributeName : [UIFont fontForAppWithType:Bold andSize:18.0], NSForegroundColorAttributeName : [UIColor appGreyTextColor]};
@@ -64,7 +65,7 @@
     self.babyAvatar.layer.masksToBounds = YES;
     self.babyAvatar.layer.borderWidth = 1;
     // This must be done after the final sizes for the image have been calculated, that's why it's not in viewDidLoad
-    self.milestoneCountLabel.frame = self.babyAvatar.frame; // Put label ontop of image
+    self.milestoneCountLabel.frame = CGRectInset(self.babyAvatar.frame, 10,0); // Put label ontop of image
 
 }
 
