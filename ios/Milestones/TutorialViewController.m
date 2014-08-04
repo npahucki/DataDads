@@ -20,7 +20,7 @@
 
 
 - (void)viewDidLoad {
-    _imageNames = @[@"Tutorial-Screen-1.jpg", @"Tutorial-Screen-2.jpg", @"Tutorial-Screen-3.jpg", @"Tutorial-Screen-4.jpg", @"Tutorial-Screen-5.jpg", @"Tutorial-Screen-1.jpg"];
+    _imageNames = @[@"Tutorial-Screen-1.jpg", @"Tutorial-Screen-2.jpg", @"Tutorial-Screen-3.jpg", @"Tutorial-Screen-3d.jpg", @"Tutorial-Screen-4.jpg",@"Tutorial-Screen-4d.jpg", @"Tutorial-Screen-5.jpg", @"Tutorial-Screen-1.jpg"];
     [super viewDidLoad];
     [self advanceToNextPage];
     UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(advanceToNextPage)];
