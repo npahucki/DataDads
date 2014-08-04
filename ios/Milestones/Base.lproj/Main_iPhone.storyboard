@@ -531,14 +531,14 @@
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Say Cheese!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uPn-n1-k05">
-                                <rect key="frame" x="112" y="430" width="97" height="21"/>
+                                <rect key="frame" x="99" y="407" width="122" height="27"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <color key="textColor" red="0.1019607843" green="0.5568627451" blue="0.62352941179999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="(You can add or change the picture at any time in the future)" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="273" translatesAutoresizingMaskIntoConstraints="NO" id="ztv-8m-ton">
-                                <rect key="frame" x="24" y="459" width="273" height="101"/>
+                                <rect key="frame" x="24" y="442" width="273" height="118"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.80392158030000005" green="0.80392158030000005" blue="0.8392156959" alpha="1" colorSpace="calibratedRGB"/>
@@ -552,8 +552,9 @@
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="GwN-wb-KxG" secondAttribute="trailing" constant="10" id="CIC-RV-6Ip"/>
                             <constraint firstItem="GwN-wb-KxG" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="NrP-s9-2iJ" secondAttribute="leading" constant="10" id="MXi-bR-xyX"/>
                             <constraint firstAttribute="centerX" secondItem="GwN-wb-KxG" secondAttribute="centerX" priority="750" id="XYf-0a-imy"/>
-                            <constraint firstItem="ztv-8m-ton" firstAttribute="top" secondItem="uPn-n1-k05" secondAttribute="bottom" constant="8" id="jZn-Kx-Wbi"/>
-                            <constraint firstItem="uPn-n1-k05" firstAttribute="top" secondItem="GwN-wb-KxG" secondAttribute="bottom" constant="33" id="ovu-0Y-q5y"/>
+                            <constraint firstItem="GwN-wb-KxG" firstAttribute="top" relation="greaterThanOrEqual" secondItem="XSj-ub-qla" secondAttribute="bottom" constant="10" id="c2H-rx-fHL"/>
+                            <constraint firstItem="ztv-8m-ton" firstAttribute="top" secondItem="uPn-n1-k05" secondAttribute="bottom" priority="750" constant="8" id="jZn-Kx-Wbi"/>
+                            <constraint firstItem="uPn-n1-k05" firstAttribute="top" secondItem="GwN-wb-KxG" secondAttribute="bottom" priority="750" constant="10" id="ovu-0Y-q5y"/>
                             <constraint firstAttribute="centerX" secondItem="ztv-8m-ton" secondAttribute="centerX" id="q4P-aZ-IFc"/>
                             <constraint firstAttribute="centerY" secondItem="GwN-wb-KxG" secondAttribute="centerY" id="urM-b2-4ZG"/>
                         </constraints>
