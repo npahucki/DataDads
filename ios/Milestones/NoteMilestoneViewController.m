@@ -235,7 +235,7 @@
     CGPoint relativePoint = CGPointMake(self.rangeIndicatorView.center.x, self.rangeIndicatorView.frame.origin.y + self.rangeIndicatorView.frame.size.height + 5);
     bubble.arrowTip = [self.rangeIndicatorView.superview convertPoint:relativePoint toView:self.view];
     bubble.textLabel.font = [UIFont fontForAppWithType:Medium andSize:16];
-    [bubble showInView:self.view withText:[NSString stringWithFormat:@"Shaded area indicates the normal range (%@) and the dot how %@ compares right now", self.achievement.standardMilestone.humanReadableRange, Baby.currentBaby.name]];
+    [bubble showInView:self.view withText:[NSString stringWithFormat:@"The shaded area represents the typical range. The dot shows where %@ is.", Baby.currentBaby.name]];
 }
 
 - (IBAction)didClickTakePicture:(id)sender {

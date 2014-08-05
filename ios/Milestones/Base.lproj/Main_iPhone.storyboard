@@ -2202,7 +2202,7 @@
         <image name="avatarShadow" width="128" height="126"/>
         <image name="backIcon" width="12" height="20"/>
         <image name="background.png" width="640" height="1136"/>
-        <image name="camIconWithBorder" width="47" height="49"/>
+        <image name="camIconWithBorder" width="226" height="226"/>
         <image name="cameraButton_pressed" width="212" height="212"/>
         <image name="completedBest" width="47" height="49"/>
         <image name="completedNormal" width="47" height="49"/>

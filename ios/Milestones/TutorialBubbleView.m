@@ -15,8 +15,6 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     self.textLabel.font = [UIFont fontForAppWithType:Medium andSize:17];
-    self.translatesAutoresizingMaskIntoConstraints = NO;
-
 }
 
 - (void)showInView:(UIView *)view withText:(NSString *)text {
