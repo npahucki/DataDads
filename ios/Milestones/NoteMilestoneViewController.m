@@ -75,6 +75,7 @@
 
     [self.doneButton setTitleTextAttributes:@{NSFontAttributeName : [UIFont fontForAppWithType:Bold andSize:17]} forState:UIControlStateNormal];
     self.completionDateTextField.inputAccessoryView = nil;
+    self.completionDateTextField.minimumDate = Baby.currentBaby.birthDate;
 
 
 
