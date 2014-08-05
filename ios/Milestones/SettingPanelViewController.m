@@ -71,8 +71,9 @@
 
 - (IBAction)didClickContactSuport:(id)sender {
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
-    NSString *email = [NSString stringWithFormat:@"mailto:support@dataparenting.com?subject=[SUPPORT REQUEST]:%@&body=\n\n\n-------\nVersion:%@\nUserId:%@\nDevice:%@\n  System:%@ %@\n-------\n",
+    NSString *email = [NSString stringWithFormat:@"mailto:support@dataparenting.com?subject=[SUPPORT REQUEST]:%@&body=\n\n\n-------\nVersion:%@\nBuild:%@\nUserId:%@\nDevice:%@\n  System:%@ %@\n-------\n",
                                                  infoDictionary[(NSString *) kCFBundleNameKey],
+                                                 infoDictionary[(NSString *) @"CFBundleShortVersionString"],
                                                  infoDictionary[(NSString *) kCFBundleVersionKey],
                                                  [ParentUser currentUser].objectId,
                                                  [[UIDevice currentDevice] model],
