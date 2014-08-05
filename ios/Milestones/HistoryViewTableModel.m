@@ -286,7 +286,6 @@ typedef void (^StandardMilestoneResultBlock)(NSNumber *totalCount, NSArray *obje
     }
 }
 
-
 - (MilestoneAchievement *)deleteAchievementAtIndex:(NSInteger)index {
     MilestoneAchievement *achievement = _achievements[index];
     [((NSMutableArray *) _achievements) removeObjectAtIndex:index];

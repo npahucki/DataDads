@@ -19,7 +19,7 @@
     self.layer.shadowColor = [UIColor blackColor].CGColor;
     self.layer.shadowOffset = CGSizeMake(10, 10);
     self.layer.shadowOpacity = 1;
-    self.translatesAutoresizingMaskIntoConstraints = NO;
+    self.titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
 }
 
 + (AlertThenDisappearView *)instanceForViewController:(UIViewController *)controller {

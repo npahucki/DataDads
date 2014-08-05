@@ -187,9 +187,7 @@
 }
 
 - (void)handleAchievementNeedsUpdate:(NSNotification *)notification {
-    MilestoneAchievement *achievement = notification.object;
-    NSInteger idx = [_model indexOfAchievement:achievement];
-    [_model replaceAchievementIfLoaded:achievement];
+    [_model replaceAchievementIfLoaded:notification.object];
     [self.tableView reloadData];
 }
 

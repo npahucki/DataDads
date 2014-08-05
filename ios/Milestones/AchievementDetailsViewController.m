@@ -110,16 +110,13 @@ NSDateFormatter *_dateFormatter;
                     }];
                 }
             }
+
+            [self updateTitleTextFromAchievement];
         }
     }];
 
     [self updateTitleTextFromAchievement];
 
-}
-
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-    // Center the text vertically in the TextView
 }
 
 - (void)updateTitleTextFromAchievement {
@@ -367,8 +364,9 @@ NSDateFormatter *_dateFormatter;
         }
     }];
 
-    CGSize scaleSize = CGSizeMake(self.detailsImageButton.bounds.size.width * 2, self.detailsImageButton.bounds.size.height * 2);
+    CGSize scaleSize = CGSizeMake(self.detailsImageButton.bounds.size.width, self.detailsImageButton.bounds.size.height);
     [self.detailsImageButton setImage:[photo imageScaledToFitSize:scaleSize] forState:UIControlStateNormal];
+    
 }
 
 
