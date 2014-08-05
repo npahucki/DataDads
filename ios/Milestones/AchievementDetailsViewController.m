@@ -86,7 +86,7 @@ NSDateFormatter *_dateFormatter;
             if (imageFile) {
                 [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
                     if (!error) {
-                        [self.detailsImageButton setImage:[UIImage imageWithData:data] forState:UIControlStateNormal];
+                        [self setButtonPhoto:[UIImage imageWithData:data]];
                         self.detailsImageButton.alpha = hasImageAttachment ? 1.0 : 0.3;
                     } else {
                         [UsageAnalytics trackError:error forOperationNamed:@"FetchSingleAchievement" andAdditionalProperties:@{@"id" : self.achievement.objectId}];
@@ -367,10 +367,12 @@ NSDateFormatter *_dateFormatter;
         }
     }];
 
-    CGSize scaleSize = CGSizeMake(self.detailsImageButton.bounds.size.width, self.detailsImageButton.bounds.size.height);
-    [self.detailsImageButton setImage:[photo imageScaledToFitSize:scaleSize] forState:UIControlStateNormal];
-    
+    [self setButtonPhoto:photo];
 }
 
+-(void) setButtonPhoto:(UIImage *) photo {
+    CGSize scaleSize = CGSizeMake(self.detailsImageButton.bounds.size.width, self.detailsImageButton.bounds.size.height);
+    [self.detailsImageButton setImage:[photo imageScaledToFitSize:scaleSize] forState:UIControlStateNormal];
+}
 
 @end
