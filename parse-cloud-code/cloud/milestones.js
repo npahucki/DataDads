@@ -69,8 +69,10 @@ Parse.Cloud.define("queryMyMilestones", function (request, response) {
 Parse.Cloud.beforeSave("StandardMilestones", function (request, response) {
     var milestone = request.object;
     if (!milestone.get("searchIndex") || (milestone.dirty("title") && milestone.previous("title") != milestone.get("title"))) {
-        var tokens = search.tokenize(milestone.get("title"));
-        milestone.set("searchIndex", tokens);
+        if(milestone.get("title")) { // During population, the title may have been blank
+            var tokens = search.tokenize(milestone.get("title"));
+            milestone.set("searchIndex", tokens);
+        }
     }
     response.success();
 });

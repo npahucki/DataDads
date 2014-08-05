@@ -164,10 +164,10 @@
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     NSUInteger newLength = [textField.text length] + [string length] - range.length;
     if (textField == self.weightTextField) {
-        self.doneButton.enabled = string.floatValue > 0 && self.heightTextField.text.floatValue > 0;
+        self.doneButton.enabled = string.floatValue > 0 || self.heightTextField.text.floatValue > 0;
         return (newLength < 5);
     } else if (textField == self.heightTextField) {
-        self.doneButton.enabled = string.floatValue > 0 && self.weightTextField.text.floatValue > 0;
+        self.doneButton.enabled = string.floatValue > 0 || self.weightTextField.text.floatValue > 0;
         return (newLength < 5);
     } else if (textField == self.customTitleTextField) {
         self.doneButton.enabled = newLength > 0;
@@ -313,21 +313,31 @@
     Measurement *heightMeasurement;
     Measurement *weightMeasurement;
     if (self.isMeasurement) {
-        heightMeasurement = [Measurement object];
-        heightMeasurement.type = @"height";
-        heightMeasurement.unit = self.heightUnitLabel.text;
-        heightMeasurement.quantity = @(self.heightTextField.text.floatValue);
-        heightMeasurement.achievement = self.achievement;
-        heightMeasurement.baby = self.achievement.baby;
 
-        weightMeasurement = [Measurement object];
-        weightMeasurement.type = @"weight";
-        weightMeasurement.unit = self.weightUnitLabel.text;
-        weightMeasurement.quantity = @(self.weightTextField.text.floatValue);
-        weightMeasurement.achievement = self.achievement;
-        weightMeasurement.baby = self.achievement.baby;
+        if(self.heightTextField.text.floatValue) {
+            heightMeasurement = [Measurement object];
+            heightMeasurement.type = @"height";
+            heightMeasurement.unit = self.heightUnitLabel.text;
+            heightMeasurement.quantity = @(self.heightTextField.text.floatValue);
+            heightMeasurement.achievement = self.achievement;
+            heightMeasurement.baby = self.achievement.baby;
+        }
 
-        self.achievement.customTitle = [NSString stringWithFormat:@"${He} reaches %@%@ and %@%@!", heightMeasurement.quantity, heightMeasurement.unit, weightMeasurement.quantity, weightMeasurement.unit];
+        if(self.weightTextField.text.floatValue) {
+            weightMeasurement = [Measurement object];
+            weightMeasurement.type = @"weight";
+            weightMeasurement.unit = self.weightUnitLabel.text;
+            weightMeasurement.quantity = @(self.weightTextField.text.floatValue);
+            weightMeasurement.achievement = self.achievement;
+            weightMeasurement.baby = self.achievement.baby;
+        }
+
+        if(heightMeasurement && weightMeasurement) {
+            self.achievement.customTitle = [NSString stringWithFormat:@"${He} reaches %@%@ and %@%@!", heightMeasurement.quantity, heightMeasurement.unit, weightMeasurement.quantity, weightMeasurement.unit];
+        } else {
+            Measurement * measurement = heightMeasurement ? heightMeasurement : weightMeasurement;
+            self.achievement.customTitle = [NSString stringWithFormat:@"${He} reaches %@%@!", measurement.quantity, measurement.unit];
+        }
     } else if (self.isCustom) {
         NSAssert(self.customTitleTextField.text.length, @"Expected non empty custom title!");
         self.achievement.customTitle = self.customTitleTextField.text;
@@ -365,25 +375,25 @@
 
 
             // Save the measurments (if any)
-            if (heightMeasurement)
+            if (heightMeasurement) {
+                [UsageAnalytics trackMeasurement:heightMeasurement];
                 [heightMeasurement saveEventually:^(BOOL succeeded, NSError *error) {
                     if (error) {
                         NSLog(@"Could not save the height measurement %@", error);
                     }
                     [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationMeasurementNotedAndSaved object:heightMeasurement];
                 }];
-            if (weightMeasurement)
+            }
+            if (weightMeasurement) {
+                [UsageAnalytics trackMeasurement:weightMeasurement];
                 [weightMeasurement saveEventually:^(BOOL succeeded, NSError *error) {
                     if (error) {
                         NSLog(@"Could not save the weight measurement %@", error);
                     }
                     [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationMeasurementNotedAndSaved object:weightMeasurement];
                 }];
-
-            if (self.isMeasurement) {
-                if (heightMeasurement) [UsageAnalytics trackMeasurement:heightMeasurement];
-                if (weightMeasurement) [UsageAnalytics trackMeasurement:weightMeasurement];
-            } else {
+            }
+            if (!self.isMeasurement) {
                 [UsageAnalytics trackAchievementLogged:self.achievement sharedOnFacebook:self.fbSwitch.on];
             }
             [self dismissViewControllerAnimated:YES completion:nil];
