@@ -21,7 +21,7 @@
 }
 
 + (void)initialize {
-    [[UIButton appearanceWhenContainedIn:[SWTableViewCell class], nil] setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [[UIButton appearanceWhenContainedIn:[SWTableViewCell class], nil] setTitleColor:[UIColor appInputGreyTextColor] forState:UIControlStateNormal];
     [UILabel appearanceWhenContainedIn:[SWTableViewCell class], nil].font = [UIFont fontForAppWithType:Medium andSize:13];
 }
 
