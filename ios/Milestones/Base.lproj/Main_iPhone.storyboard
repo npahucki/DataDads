@@ -900,7 +900,7 @@
                                     <outlet property="delegate" destination="As4-O0-72y" id="82Q-1Y-vTm"/>
                                 </connections>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8nC-ax-kTN" userLabel="Image Button" customClass="TakePhotoButton">
+                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8nC-ax-kTN" userLabel="Image Button" customClass="TakePhotoButton">
                                 <rect key="frame" x="45" y="203" width="230" height="231"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <accessibility key="accessibilityConfiguration" label="cameraButton"/>
@@ -1427,7 +1427,7 @@
                             <outlet property="delegate" destination="W69-aI-Opj" id="R94-x9-SG6"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="x5X-KQ-7xN"/>
+                    <navigationItem key="navigationItem" title="Preferenes" id="x5X-KQ-7xN"/>
                     <connections>
                         <outlet property="automaticallyShareOnFacebookSwitch" destination="jcV-JO-zmY" id="iIS-mA-mqx"/>
                         <outlet property="showHiddenTipsSwitch" destination="EQM-zr-oL2" id="CAN-Rp-IZz"/>
@@ -1438,7 +1438,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LAe-Qu-8PC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5118" y="-3319"/>
+            <point key="canvasLocation" x="5100" y="-3319"/>
         </scene>
         <!--Overview View Controller - Menu-->
         <scene sceneID="IiZ-vS-rqF">
@@ -1535,7 +1535,7 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Account" id="3nD-wd-fEG">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="vrj-Ou-eTO">
+                        <barButtonItem key="leftBarButtonItem" title="Close" id="vrj-Ou-eTO">
                             <connections>
                                 <action selector="doneButtonClicked:" destination="5nR-pr-Hy0" id="YMM-jr-MyN"/>
                             </connections>
@@ -2237,10 +2237,10 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="6HZ-Iq-Yef"/>
-        <segue reference="0ED-bk-NzY"/>
-        <segue reference="q2I-r6-ZGD"/>
-        <segue reference="9u5-1o-6Cv"/>
         <segue reference="HiK-bz-YEB"/>
+        <segue reference="6HZ-Iq-Yef"/>
+        <segue reference="zMK-LI-8Wn"/>
+        <segue reference="0vw-rA-jx1"/>
+        <segue reference="9u5-1o-6Cv"/>
     </inferredMetricsTieBreakers>
 </document>
