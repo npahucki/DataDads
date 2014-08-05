@@ -75,7 +75,7 @@
     if ([self.delegate respondsToSelector:@selector(adClicked)]) {
         [self.delegate adClicked];
     }
-    WebViewerViewController *vc = [WebViewerViewController webViewForUrl:_currentAdImageURL];
+    WebViewerViewController *vc = [WebViewerViewController webViewForUrl:_currentAdLinkURL];
     vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     [self.containingViewController presentViewController:vc animated:YES completion:NULL];
     [UsageAnalytics trackAdClicked:_currentAdImageURL.absoluteString];
