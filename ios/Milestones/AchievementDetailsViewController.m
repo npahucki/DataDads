@@ -70,6 +70,7 @@ NSDateFormatter *_dateFormatter;
 
     self.rangeIndicatorView.rangeScale = 5 * 365;
     self.rangeIndicatorView.rangeReferencePoint = [Baby.currentBaby.birthDate daysDifference:self.achievement.completionDate];
+    [self.rangeIndicatorView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickRangeIndicator:)]];
 
 
     // TODO: Cloud function to do all this in one shot!
@@ -96,7 +97,6 @@ NSDateFormatter *_dateFormatter;
             if (self.achievement.standardMilestone) {
                 self.rangeIndicatorView.startRange = self.achievement.standardMilestone.rangeLow.integerValue;
                 self.rangeIndicatorView.endRange = self.achievement.standardMilestone.rangeHigh.integerValue;
-                [self.rangeIndicatorView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickRangeIndicator:)]];
                 [self updateTitleTextFromAchievement];
                 // Show the percentile
                 if (self.achievement.standardMilestone.canCompare) {
@@ -336,7 +336,10 @@ NSDateFormatter *_dateFormatter;
     CGPoint relativePoint = CGPointMake(self.rangeIndicatorView.center.x, self.rangeIndicatorView.frame.origin.y + self.rangeIndicatorView.frame.size.height + 5);
     bubble.arrowTip = [self.rangeIndicatorView.superview convertPoint:relativePoint toView:self.view];
     bubble.textLabel.font = [UIFont fontForAppWithType:Medium andSize:16];
-    [bubble showInView:self.view withText:[NSString stringWithFormat:@"The shaded area represents the typical range. The dot shows where %@ completed it.", Baby.currentBaby.name]];
+    NSString * msg = self.achievement.standardMilestone ?
+        [NSString stringWithFormat:@"The shaded area represents the typical range. The dot shows where %@ completed it.", Baby.currentBaby.name] :
+        @"You entered this milestone, so we don't have any data to compare it against. Yet.";
+    [bubble showInView:self.view withText:msg];
 }
 
 #pragma mark FDTakeController Delegate
