@@ -38,13 +38,15 @@
 }
 
 - (void)userSignedUp {
-    NSString *msg = @"Thanks for signing in! Tips are delivered once per day";
-    if (_isEmpty) {
-        msg = [msg stringByAppendingString:@"you should be getting one soon!"];
-    } else {
-        msg = [msg stringByAppendingString:@"."];
+    if(Baby.currentBaby) {
+        NSString *msg = @"Thanks for signing in! Tips are delivered once per day";
+        if (_isEmpty) {
+            msg = [msg stringByAppendingString:@"you should be getting one soon!"];
+        } else {
+            msg = [msg stringByAppendingString:@"."];
+        }
+        [[[UIAlertView alloc] initWithTitle:@"Great!" message:msg delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
     }
-    [[[UIAlertView alloc] initWithTitle:@"Great!" message:msg delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
 }
 
 - (void)dealloc {
