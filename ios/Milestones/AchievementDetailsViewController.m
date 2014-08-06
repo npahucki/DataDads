@@ -371,8 +371,7 @@ NSDateFormatter *_dateFormatter;
 }
 
 -(void) setButtonPhoto:(UIImage *) photo {
-    CGSize scaleSize = CGSizeMake(self.detailsImageButton.bounds.size.width, self.detailsImageButton.bounds.size.height);
-    [self.detailsImageButton setImage:[photo imageScaledToFitSize:scaleSize] forState:UIControlStateNormal];
+    [self.detailsImageButton setImage:[photo imageScaledToFitSize:self.detailsImageButton.bounds.size] forState:UIControlStateNormal];
 }
 
 @end

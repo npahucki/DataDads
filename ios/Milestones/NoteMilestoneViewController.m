@@ -457,8 +457,7 @@
     // TODO: Support video too!
     _imageOrVideo = UIImageJPEGRepresentation(photo, 0.5f);
     _imageOrVideoType = @"image/jpg";
-    CGSize scaleSize = CGSizeMake(self.takePhotoButton.bounds.size.width * 2, self.takePhotoButton.bounds.size.height * 2);
-    [self.takePhotoButton setImage:[photo imageScaledToFitSize:scaleSize] forState:UIControlStateNormal];
+    [self.takePhotoButton setImage:[photo imageScaledToFitSize:self.takePhotoButton.bounds.size] forState:UIControlStateNormal];
 }
 
 - (NSAttributedString *)createTitleTextFromMilestone {
