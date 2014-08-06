@@ -31,14 +31,14 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>fb784168268316550</string>
+				<string>fb682520505147994</string>
 			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>fb784168268316550</string>
+			<string>fb682520505147994</string>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
@@ -52,9 +52,9 @@
 	<key>DP.ParseClientId</key>
 	<string>iMYPq4Fg751JyIOeHYnDH4LsuivOcm8uoi4DlwJ9</string>
 	<key>FacebookAppID</key>
-	<string>784168268316550</string>
+	<string>682520505147994</string>
 	<key>FacebookDisplayName</key>
-	<string>DataParentingDev</string>
+	<string>DataParenting</string>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
 	<key>LSRequiresIPhoneOS</key>

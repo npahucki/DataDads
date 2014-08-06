@@ -140,7 +140,7 @@
                 // cancel
                 block(NO, nil);
             } else {
-                NSAssert(user != nil, @"DId not expect a anonymous user here!");
+                NSAssert(user != nil, @"Did not expect a anonymous user here!");
                 [PFFacebookUtils linkUser:user permissions:FB_PUBLISH_PERMISSION_ARRAY block:^(BOOL succeeded, NSError *error) {
                     [UsageAnalytics trackUserLinkedWithFacebook:(ParentUser *) user forPublish:YES withError:error];
                     if (error) {
