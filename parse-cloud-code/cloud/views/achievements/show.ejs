@@ -6,23 +6,19 @@
     <%= typeof title === "undefined" ? "Achievement" : title %>
   </title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!--<link rel='stylesheet' href='/stylesheets/<%= typeof stylesheet === "undefined" ? "main" : stylesheet %>.css' />-->
-  <!--<link rel="icon" href="/favicon.ico" type="image/x-icon">-->
-  <!--<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">-->
+  <!--<script src="../js/load-image.min.js"></script>-->
+  <script src="../js/load-image.js"></script>
+  <script src="../js/load-image-ios.js"></script>
+  <script src="../js/load-image-orientation.js"></script>
+  <script src="../js/exif.js"></script>
+  <link rel="icon" href="http://www.dataparenting.com/favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="/http://www.dataparenting.com/favicon.ico" type="image/x-icon">
 
   <style>
     .picture {
       border: 30px solid black;
       background-color: black;
 
-    }
-
-    img.center {
-      max-width: 100%;
-      height: auto;
-      display: block;
-      margin-left: auto;
-      margin-right: auto
     }
 
     .title {
@@ -32,6 +28,17 @@
       background-color: black;
       border: 20px solid black
     }
+
+    canvas {
+        max-width: 100%;
+        height: auto;
+        padding-left: 0;
+        padding-right: 0;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+      }
+
   </style>
 
 
@@ -39,15 +46,46 @@
 <body>
 
 
-<!-- content -->
-<div class='achievement'>
-  <div class='title'>
-    <%= title %>
+  <!-- content -->
+  <div class='achievement'>
+    <div class='title'>
+        <%= title %>
+      </div>
+    <div class='picture' id='picture-frame'/>
   </div>
-  <div class='picture'>
-    <img class="center" src= <%= photoUrl %> />
-  </div>
-</div>
 
+  <script>
+    var frame = document.getElementById('picture-frame');
+    var imageUrl = "<%= photoUrl %>";
+    var options = {};
+    var http = new XMLHttpRequest();
+    http.open("GET", imageUrl, true);
+    http.responseType = "blob";
+    http.onload = function(e) {
+            if (this.status === 200) {
+              var image = new Image();
+              image.onload = function() {
+                  EXIF.getData(image, function() {
+                      options.orientation = this.exifdata.Orientation;
+                      loadImage(
+                              http.response,
+                              function (img) {
+                                if (img.type === "error") {
+                                  console.log("Error loading image " + imageUrl);
+                                } else {
+                                  frame.appendChild(img);
+                                }
+                              },
+                              options);
+
+                    });
+                  };
+              }
+              image.src = URL.createObjectURL(http.response);
+            };
+
+    http.send(null);
+
+  </script>
 </body>
 </html>
