@@ -4,7 +4,10 @@ Parse.Cloud.beforeSave(Parse.User, function(request, response) {
     if(userObject.get("email") && userObject.dirty("email")) {
             // Wait until assignment is done.
             userObject.set("needsTipAssignmentNow", true);
-            response.success();
+            // Send morgan an email!
+            notifyMorgan("[DP ALERT]: A user has signed up!",userObject).then(function() {
+                response.success();
+            })
     } else {
         response.success();
     }
@@ -24,3 +27,26 @@ Parse.Cloud.afterSave(Parse.User, function(request) {
         });
     }
 });
+
+Parse.Cloud.beforeSave(Parse.Installation, function(request, response) {
+    if(!request.object.id) {
+        notifyMorgan("[DP ALERT]: Someone just installed the app!",request.object).then(function() {
+            response.success();
+        });
+    } else {
+        response.success();
+    }
+});
+
+
+function notifyMorgan(title, object) {
+    var Mailgun = require('mailgun');
+    Mailgun.initialize('alerts.dataparenting.com', 'key-9w2siwoh29vvj2dufcugcpymhkwr6vc3');
+    return Mailgun.sendEmail({
+      to: "morgan@dataparenting.com",
+      from: "app@alerts.dataparening.com",
+      subject: title,
+      text: JSON.stringify(object,null,4)
+    });
+}
+
