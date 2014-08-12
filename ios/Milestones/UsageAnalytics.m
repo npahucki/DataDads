@@ -68,9 +68,10 @@ static BOOL isRelease;
         if (props) [combinedAttributes addEntriesFromDictionary:props];
         [combinedAttributes setObject:@(error.code) forKey:@"error.id"];
         [combinedAttributes setObject:safe(error.domain) forKey:@"error.domain"];
-        [Heap track:[NSString stringWithFormat:@"Error:%@", operation] withProperties:combinedAttributes];
+        [combinedAttributes setObject:operation forKey:@"operation"];
+        [Heap track:[NSString stringWithFormat:@"Error"] withProperties:combinedAttributes];
     } else {
-        NSLog(@"[USAGE ANALYTICS]: trackError - Operation:%@ Error:%@ Properties:%@", operation, error, props);
+        NSLog(@"[USAGE ANALYTICS]: trackError - Error:%@ Error Properties:%@", error, props);
     }
 }
 
