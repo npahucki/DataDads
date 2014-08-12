@@ -39,3 +39,7 @@ exports.replacePronounTokens = function(stringWithTokens, isMale, lang) {
     }
     return result;
 };
+
+exports.isDev = function() {
+    return Parse.applicationId === "NlJHBG0NZgFS8JP76DBjA31MBRZ7kmb7dVSQQz3U";
+};

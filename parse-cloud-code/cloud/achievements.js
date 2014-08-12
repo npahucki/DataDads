@@ -21,10 +21,10 @@ Parse.Cloud.define("queryMyAchievements", function (request, response) {
         var matchingStandardMilestones = new Parse.Query("StandardMilestones");
         matchingStandardMilestones.limit(1000); // TODO: this may be problematic once we have more than 1000 std milestones.
         matchingStandardMilestones.containsAll("searchIndex", filterTokens);
-        standardMilestoneTitleQuery.matchesKeyInQuery("standardMilestoneId","objectId", matchingStandardMilestones);
+        standardMilestoneTitleQuery.matchesKeyInQuery("standardMilestoneId", "objectId", matchingStandardMilestones);
         // Special case where this achievement is linked to a standardMilestone but also has a customTitle, in which case we don't want to match.
         standardMilestoneTitleQuery.doesNotExist("customTitle"); // TODO: might be faster to do post filtering?
-        query =  Parse.Query.or(customTitleQuery,standardMilestoneTitleQuery);
+        query = Parse.Query.or(customTitleQuery, standardMilestoneTitleQuery);
     }
 
     query.equalTo("baby", {__type:"Pointer", className:"Babies", objectId:babyId});
@@ -38,29 +38,27 @@ Parse.Cloud.define("queryMyAchievements", function (request, response) {
     query.limit(limit);
     query.skip(skip);
     query.include("standardMilestone");
-    query.select(["attachmentThumbnail", "standardMilestone","baby", "customTitle", "comment","completionDate"]);
+    query.select(["attachmentThumbnail", "standardMilestone", "baby", "customTitle", "comment", "completionDate"]);
     var findPromise = query.find();
 
-    Parse.Promise.when(countPromise,findPromise).
+    Parse.Promise.when(countPromise, findPromise).
             then(function (count, queryResults) {
                 // Now we assign the partial standardMilestones to the corresponding achievements.
-                queryResults.map(function(achievement) {
+                queryResults.map(function (achievement) {
                     var milestone = achievement.get("standardMilestone");
-                    if(milestone) {
+                    if (milestone) {
                         // Nasty icky hack because Parse does not let us select fields on included objects
-                        ["searchIndex","babySex","parentSex","shortDescription","rangeHigh","rangeLow"].forEach(function(attr) {
+                        ["searchIndex", "babySex", "parentSex", "shortDescription", "rangeHigh", "rangeLow"].forEach(function (attr) {
                             delete milestone.attributes[attr];
-                         });
+                        });
                     }
                 });
-                response.success({"count" : count, "achievements" : queryResults});
+                response.success({"count":count, "achievements":queryResults});
             }, function (error) {
                 response.error(error);
             });
 
 });
-
-
 
 
 Parse.Cloud.beforeSave("MilestoneAchievements", function (request, response) {
@@ -70,10 +68,10 @@ Parse.Cloud.beforeSave("MilestoneAchievements", function (request, response) {
 
     // Make sure the id is set so that queries against the id can work
     if (achievement.get("standardMilestone") && !achievement.get("standardMilestoneId")) {
-        achievement.set("standardMilestoneId",achievement.get("standardMilestone").id);
+        achievement.set("standardMilestoneId", achievement.get("standardMilestone").id);
     }
 
-    if( achievement.dirty("customTitle")) {
+    if (achievement.dirty("customTitle")) {
         var tokens = search.tokenize(achievement.get("customTitle"));
         achievement.set("searchIndex", tokens);
     }
@@ -96,6 +94,24 @@ Parse.Cloud.beforeSave("MilestoneAchievements", function (request, response) {
             });
 });
 
+
+Parse.Cloud.afterSave("MilestoneAchievements", function (request) {
+    var achievement = request.object;
+    var standardMilestone = achievement.get("standardMilestone");
+    var promises = [achievement.get("baby").fetch()];
+    if (standardMilestone) {
+        promises.push(standardMilestone.fetch());
+    }
+    return Parse.Promise.when(promises).then(function (baby,standardMilestone) {
+        var data = achievement.toJSON();
+        data.standardMilestone = standardMilestone.toJSON();
+        data.baby = baby.toJSON();
+        data.user = request.user.toJSON();
+        return require("cloud/teamnotify").notify("Someone just noted a milestone!", data);
+    });
+});
+
+
 Parse.Cloud.job("indexCustomTitleField", function (request, status) {
     //'use strict';
     console.log("Starting indexing of all custom title fields");
@@ -106,14 +122,14 @@ Parse.Cloud.job("indexCustomTitleField", function (request, status) {
 
     var achievementsQuery = new Parse.Query("MilestoneAchievements");
     achievementsQuery.exists("customTitle");
-    achievementsQuery.each(function(achievement) {
+    achievementsQuery.each(function (achievement) {
         console.log("Will index:" + achievement.get("customTitle"));
-        achievement.set("searchIndex",search.tokenize(achievement.get("customTitle")));
+        achievement.set("searchIndex", search.tokenize(achievement.get("customTitle")));
         promises.push(achievement.save());
     }).then(function () {
-        console.log("Saving " + promises.length + " objects!!");
-        return Parse.Promise.when(promises);
-    }).then(function () {
+                console.log("Saving " + promises.length + " objects!!");
+                return Parse.Promise.when(promises);
+            }).then(function () {
                 // Set the job's success status
                 console.log("Index Done!");
                 status.success("Index Done");
