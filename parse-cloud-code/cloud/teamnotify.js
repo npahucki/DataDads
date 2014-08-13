@@ -9,5 +9,7 @@ module.exports.notify = function(title, object) {
           subject: "[DP_ALERT]:" + title,
           text: JSON.stringify(object,null,4)
         });
+    } else {
+        return Parse.Promise.as(1);
     }
 };

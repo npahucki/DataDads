@@ -524,6 +524,7 @@
 				E8E39C6C18EB9A090034982D /* OverviewViewController.m */,
 				E81B58711896B89E00C74C2B /* MainViewController.h */,
 				E81B58721896B89E00C74C2B /* MainViewController.m */,
+				E866E7F11936448C004963C9 /* NotificationTableViewController.h */,
 				E881F8DD1962006E0066046E /* BannerViewController.h */,
 				E881F8DE1962006E0066046E /* BannerViewController.m */,
 				E88F3633194A5A4100BE74E9 /* SettingPanelViewController.h */,
@@ -618,7 +619,6 @@
 				E89035E719303D13004A4013 /* SignUpPromptViewController.m */,
 				E89035E31930328E004A4013 /* MainNotificationsViewController.h */,
 				E89035E41930328E004A4013 /* MainNotificationsViewController.m */,
-				E866E7F11936448C004963C9 /* NotificationTableViewController.h */,
 				E866E7F21936448C004963C9 /* NotificationTableViewController.m */,
 			);
 			name = Notifications;
