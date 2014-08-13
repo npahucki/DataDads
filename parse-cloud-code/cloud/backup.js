@@ -16,28 +16,28 @@ Parse.Cloud.job("backup", function (request, status) {
                     return file.save();
                 }).then(function () {
                     backupLog.set(fieldName, file);
-                    return backupLog.save().then(function () {
-                        console.log("Saved " + className);
-                    });
+                    return Parse.Promise.as(file);
                 });
     }
 
     Parse.Cloud.useMasterKey();
     var _ = require('underscore');
-    var classNames = ["_User", "_Installation", "Babies", "BabyAssignedTips", "MilestoneAchievements", "Measurements", ""];
+    var classNames = ["_User", "_Installation", "Babies", "BabyAssignedTips", "MilestoneAchievements", "Measurements"];
     var backupLog = new Parse.Object("BackupLog");
     var promises = [];
     _.each(classNames, function (className) {
         promises.push(backUpClass(className, backupLog));
     });
+
     Parse.Promise.when(promises).then(function () {
         // Set the job's success status
-        status.success("Backup complete!");
-    }, function (error) {
-        // Set the job's error status
-        require("cloud/teamnotify").notify("Automated backup failed!", error).then(function () {
-            status.error("Back up fatally failed : " + JSON.stringify(error));
+        backupLog.save().then(function () {
+            status.success("Backup complete!");
+        }, function (error) {
+            // Set the job's error status
+            require("cloud/teamnotify").notify("Automated backup failed!", error).then(function () {
+                status.error("Back up fatally failed : " + JSON.stringify(error));
+            });
         });
     });
 });
-
