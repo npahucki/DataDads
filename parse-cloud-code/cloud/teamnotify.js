@@ -10,6 +10,7 @@ module.exports.notify = function(title, object) {
           text: JSON.stringify(object,null,4)
         });
     } else {
+        console.log("SKIPPED EMAIL: " + title + " Object:" + JSON.stringify(object));
         return Parse.Promise.as(1);
     }
 };

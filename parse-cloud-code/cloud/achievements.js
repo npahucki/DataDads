@@ -97,18 +97,20 @@ Parse.Cloud.beforeSave("MilestoneAchievements", function (request, response) {
 
 Parse.Cloud.afterSave("MilestoneAchievements", function (request) {
     var achievement = request.object;
-    var standardMilestone = achievement.get("standardMilestone");
-    var promises = [achievement.get("baby").fetch()];
-    if (standardMilestone) {
-        promises.push(standardMilestone.fetch());
+    if(!achievement.get("isPostponed") && !achievement.get("isSkipped")) {
+        var standardMilestone = achievement.get("standardMilestone");
+        var promises = [achievement.get("baby").fetch()];
+        if (standardMilestone) {
+            promises.push(standardMilestone.fetch());
+        }
+        return Parse.Promise.when(promises).then(function (baby,standardMilestone) {
+            var data = achievement.toJSON();
+            data.standardMilestone = standardMilestone.toJSON();
+            data.baby = baby.toJSON();
+            data.user = request.user.toJSON();
+            return require("cloud/teamnotify").notify("Someone just noted a milestone!", data);
+        });
     }
-    return Parse.Promise.when(promises).then(function (baby,standardMilestone) {
-        var data = achievement.toJSON();
-        data.standardMilestone = standardMilestone.toJSON();
-        data.baby = baby.toJSON();
-        data.user = request.user.toJSON();
-        return require("cloud/teamnotify").notify("Someone just noted a milestone!", data);
-    });
 });
 
 
