@@ -1,41 +1,35 @@
 // Ad rotation
 Parse.Cloud.define("getAdToShow", function (request, response) {
-    // TODO: Track user and rotate ads!
-
-    var isDev = require("cloud/utils").isDev();
-    var host = isDev ? "dataparenting-dev" : "dataparenting";
-
-    var adPath = "http://" + host +  ".parseapp.com/ads/";
-    var smallAdPostFix = "640x100";
-    var dpBaseUrl = "http://dataparenting.com/";
-    var categories = [
-        {name : "contact", count: 1, url : dpBaseUrl + "contact/?utm_source=app&utm_medium=app-small&utm_campaign=dp-contact"},
-        {name : "donate", count : 2, url: dpBaseUrl + "donate/?utm_source=app&utm_medium=app-small&utm_campaign=dp-donate"},
-        {name : "parents", count : 2, url : "http://parentsintech.com/get-interviewed/?utm_source=app&utm_medium=app-small&utm_campaign=PIT_Profile"}
-    ];
-
-    var smallAds = [];
-    for(i=0; i<categories.length; i++) {
-        var category = categories[i];
-        for(ii=0; ii < category.count; ii++) {
-            var imageName = category.name + "-" + smallAdPostFix + "-" + (ii+1) + ".jpg";
-            smallAds.push({
-                imageUrl : adPath + imageName ,
-                linkUrl : category.url + "&utm_content=" + imageName }
-            );
-        }
+    // TODO: Simply load all ads on Phone, and have phone rotate randomly
+    // TODO: Also have phone refresh once daily for new ads.
+    var SIZES = { small : {width : 320, height : 50 }};
+    var size = SIZES[request.params.size];
+    if(!size) {
+        response.error(400, "Invalid size specified: " + request.params.size);
+        return;
     }
 
-    var adsBySize = {
-            small: { size : { width :320, height: 50}, ads : smallAds }
-    };
-
-    var adChoices = adsBySize[request.params.size];
-    if(adChoices) {
-        // For now this is just random, but in the future we want to rotate these!
-        var randomIdx = Math.floor(Math.random() * adChoices.ads.length);
-        response.success({ size : adChoices.size, ad : adChoices.ads[randomIdx]});
-    } else {
-        response.error(400,"Invalid ad request");
-    }
+    var query = new Parse.Query("Ads");
+    query.equalTo("size", request.params.size);
+    query.count().then(function (count) {
+        return Parse.Promise.as(Math.floor(Math.random() * count));
+    }).then(function (randomIdx) {
+                console.log("SKIP:" + randomIdx);
+                query.skip(randomIdx);
+                query.limit(1);
+                return query.first();
+            }).then(function (result) {
+                return Parse.Promise.as({
+                    size:SIZES[result.get("size")],
+                    ad:{
+                        imageUrl:result.get("bannerImageUrl"),
+                        linkUrl:result.get("clickDestinationUrl")
+                    }
+                });
+            }).then(function(ad) {
+                response.success(ad);
+            },
+            function (error) {
+                response.error(400, "Invalid ad request");
+            });
 });
