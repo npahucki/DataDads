@@ -14,7 +14,6 @@ Parse.Cloud.define("getAdToShow", function (request, response) {
     query.count().then(function (count) {
         return Parse.Promise.as(Math.floor(Math.random() * count));
     }).then(function (randomIdx) {
-                console.log("SKIP:" + randomIdx);
                 query.skip(randomIdx);
                 query.limit(1);
                 return query.first();
@@ -30,6 +29,7 @@ Parse.Cloud.define("getAdToShow", function (request, response) {
                 response.success(ad);
             },
             function (error) {
+                console.error(JSON.stringify(error));
                 response.error(400, "Invalid ad request");
             });
 });
