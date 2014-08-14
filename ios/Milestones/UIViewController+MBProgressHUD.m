@@ -59,7 +59,7 @@
             // TODO: check for error 100 from Parse domain - this is internet connectivity error
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:msg message:error.localizedDescription delegate:nil cancelButtonTitle:@"Accept" otherButtonTitles:nil];
             [alert showWithButtonBlock:^(NSInteger buttonIndex) {
-                block();
+                if(block) block();
             }];
         };
     } else {

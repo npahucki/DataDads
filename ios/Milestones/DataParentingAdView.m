@@ -60,12 +60,17 @@
             /**
             {"size":{"width":320,"height":50},"ad":{"imageUrl":"http://dataparentingdev.parseapp.com/ads/320x50/DataDads Noodles2.jpg","linkUrl":"http://http://dataparenting.com/donate/"}}
             */
-            _currentAdImageWidth = ((NSNumber *) results[@"size"][@"width"]).intValue;
-            _currentAdImageHeight = ((NSNumber *) results[@"size"][@"height"]).intValue;
-            NSString *imageUrlString = (NSString *) results[@"ad"][@"imageUrl"];
-            _currentAdLinkURL = [NSURL URLWithString:(NSString *) results[@"ad"][@"linkUrl"]];
-            _currentAdImageURL = [NSURL URLWithString:[imageUrlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-            [self performSelectorInBackground:@selector(loadImageData:) withObject:_currentAdImageURL];
+            @try { // Make sure even if the server sends back invalid data (for eaxmple an unexpected format), we don't take the whole app down!
+                _currentAdImageWidth = ((NSNumber *) results[@"size"][@"width"]).intValue;
+                _currentAdImageHeight = ((NSNumber *) results[@"size"][@"height"]).intValue;
+                NSString *imageUrlString = (NSString *) results[@"ad"][@"imageUrl"];
+                _currentAdLinkURL = [NSURL URLWithString:(NSString *) results[@"ad"][@"linkUrl"]];
+                _currentAdImageURL = [NSURL URLWithString:[imageUrlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+                [self performSelectorInBackground:@selector(loadImageData:) withObject:_currentAdImageURL];
+            }
+            @catch (NSException *exception) {
+                [UsageAnalytics trackError:[NSError errorWithDomain:exception.name code:-1 userInfo:exception.userInfo]  forOperationNamed:@"loadAd"];
+            }
         }
     }];
 }
