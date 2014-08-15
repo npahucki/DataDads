@@ -10,7 +10,9 @@ exports.show = function (req, res) {
 
 
     query.get(achievementId).then(function (achievement) {
-                if(achievement.get("sharedVia") & 1 == 1) {
+                // TODO: Temporary work around to bug in client where sharedVia is not updated when shared via email
+                var isShared = true; //achievement.get("sharedVia") > 0;
+                if(isShared) {
                     var title = achievement.get("customTitle");
                     var milestone = achievement.get("standardMilestone");
                     var baby = achievement.get("baby");
