@@ -105,7 +105,7 @@ Parse.Cloud.afterSave("MilestoneAchievements", function (request) {
         }
         return Parse.Promise.when(promises).then(function (baby,standardMilestone) {
             var data = achievement.toJSON();
-            data.standardMilestone = standardMilestone.toJSON();
+            if(standardMilestone) data.standardMilestone = standardMilestone.toJSON();
             data.baby = baby.toJSON();
             data.user = request.user.toJSON();
             return require("cloud/teamnotify").notify("Someone just noted a milestone!", data);
