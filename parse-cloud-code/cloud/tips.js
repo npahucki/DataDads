@@ -130,10 +130,15 @@ function processSingleBaby(baby, sendPushNotification) {
     };
 
     function isParentEligibleForTip(baby) {
-        return baby.get("parentUser").fetch().then(function (parentUser) {
-              console.log("BABY DADDY:" + JSON.stringify(parentUser));
-            return Parse.Promise.as(parentUser && parentUser.get("email"));
-        });
+        var parentUserRef = baby.get("parentUser");
+        if(parentUserRef) {
+            return parentUserRef.fetch().then(function (parentUser) {
+                return Parse.Promise.as(parentUser && parentUser.get("email"));
+            });
+
+        } else {
+            return Parse.Promise.as(false);
+        }
     }
 
     ///////////////////////////////////////////////////////////////
@@ -179,13 +184,14 @@ function processSingleBaby(baby, sendPushNotification) {
                                 }
                             }).
                             then(function () {
-                                //console.log("Done processing baby " + baby.id);
+                                console.log("Done processing baby " + baby.id);
                             }, function (error) {
                                 console.error("Could not process baby " + baby.id + " Error:" + JSON.stringify(error));
                             });
 
                 } else {
                     console.log("Skipped baby " + baby.id + " because parent is not eligible");
+                    return Parse.Promise.as(false);
                 }
             });
 
@@ -200,13 +206,14 @@ var processBabies = function (babyQuery, sendPushNotification) {
         // Process each baby in parrallel
         babyPromises.push(processSingleBaby(baby, sendPushNotification));
     }).then(function () {
-                return Parse.Promise.when(babyPromises);
-            });
+        return Parse.Promise.when(babyPromises);
+    });
 };
 
 
 Parse.Cloud.job("tipsAssignment", function (request, status) {
     console.log("Starting tipsAssignment job...");
+    Parse.Cloud.useMasterKey();
     return processBabies(new Parse.Query("Babies"), true).
             then(function () {
                 // Set the job's success status
