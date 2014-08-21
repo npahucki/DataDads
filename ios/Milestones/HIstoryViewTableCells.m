@@ -120,7 +120,7 @@
 
     self.achievementDateLabel.text = [achievement.completionDate stringWithHumanizedTimeDifference];
     self.achievementTitleLabel.text = achievement.displayTitle;
-
+    self.accessibilityIdentifier = self.achievementTitleLabel.text;
     PFFile *imageFile = achievement.attachmentThumbnail ? achievement.attachmentThumbnail : Baby.currentBaby.avatarImageThumbnail;
     if (imageFile) {
         [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
@@ -174,6 +174,7 @@
 - (void)setMilestone:(StandardMilestone *)milestone {
     _milestone = milestone;
     self.milestoneTitleLabel.text = milestone.titleForCurrentBaby;
+    self.accessibilityIdentifier = self.milestoneTitleLabel.text;
     _rangeView.startRange = milestone.rangeLow.integerValue;
     _rangeView.endRange = milestone.rangeHigh.integerValue;
 }

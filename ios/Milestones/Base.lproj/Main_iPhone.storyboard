@@ -130,6 +130,9 @@
                     <navigationItem key="navigationItem" title="Details" id="23o-jy-TLD">
                         <barButtonItem key="backBarButtonItem" title="Back" id="teX-eU-pym"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="action" id="9sO-vf-wct">
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="string" keyPath="accessibilityLabel" value="Share"/>
+                            </userDefinedRuntimeAttributes>
                             <connections>
                                 <action selector="didClickActionButton:" destination="eNM-aT-BTU" id="GpA-YC-VZi"/>
                             </connections>
@@ -167,6 +170,7 @@
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Baby's Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sCk-G8-yo7">
                                 <rect key="frame" x="17" y="111" width="280" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <accessibility key="accessibilityConfiguration" label="Baby name"/>
                                 <color key="textColor" red="0.0" green="0.5568627451" blue="0.62352941179999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="yes" keyboardType="namePhonePad" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
@@ -178,6 +182,7 @@
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Birth Date" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="D63-oo-pUF" customClass="UIDateField">
                                 <rect key="frame" x="17" y="178" width="280" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <accessibility key="accessibilityConfiguration" label="Birth date"/>
                                 <color key="textColor" red="0.0" green="0.5568627451" blue="0.62352941179999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
@@ -189,6 +194,7 @@
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Due Date" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="efa-CG-cYS" customClass="UIDateField">
                                 <rect key="frame" x="17" y="243" width="280" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <accessibility key="accessibilityConfiguration" label="Due date"/>
                                 <color key="textColor" red="0.0" green="0.5568627451" blue="0.62352941179999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
@@ -208,6 +214,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OKK-Fo-Qon">
                                 <rect key="frame" x="200" y="407" width="80" height="80"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <accessibility key="accessibilityConfiguration" label="Girl"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="80" id="HSq-Zl-a24"/>
                                     <constraint firstAttribute="width" constant="80" id="o3z-Yn-U3e"/>
@@ -224,6 +231,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zHR-9I-ONZ">
                                 <rect key="frame" x="39" y="407" width="80" height="80"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <accessibility key="accessibilityConfiguration" label="Boy"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="80" id="VBC-Cq-tHJ"/>
                                     <constraint firstAttribute="height" constant="80" id="dwT-qu-zpg"/>
@@ -281,6 +289,7 @@
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <accessibility key="accessibilityConfiguration" label="About your baby"/>
                         <constraints>
                             <constraint firstItem="ENC-Jr-qf0" firstAttribute="top" secondItem="zNi-AL-0bh" secondAttribute="bottom" constant="7" id="0lY-EE-MOb"/>
                             <constraint firstItem="RP2-6d-k9r" firstAttribute="width" secondItem="efa-CG-cYS" secondAttribute="width" id="4vF-Df-eAd"/>
@@ -518,7 +527,7 @@
                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GwN-wb-KxG" customClass="TakePhotoButton">
                                 <rect key="frame" x="47" y="171" width="226" height="226"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <accessibility key="accessibilityConfiguration" label="cameraButton"/>
+                                <accessibility key="accessibilityConfiguration" label="Add picture"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="GwN-wb-KxG" secondAttribute="height" multiplier="1:1" id="IC9-Hs-WE8"/>
                                 </constraints>
@@ -546,6 +555,7 @@
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <accessibility key="accessibilityConfiguration" label="Baby photo"/>
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="uPn-n1-k05" secondAttribute="centerX" id="2fn-JS-XIn"/>
                             <constraint firstItem="jbn-iB-GKR" firstAttribute="top" secondItem="ztv-8m-ton" secondAttribute="bottom" constant="8" id="7kU-UI-xK8"/>
@@ -656,6 +666,7 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <accessibility key="accessibilityConfiguration" label="Intro"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="ay3-m7-9gB" secondAttribute="trailing" id="1vb-yQ-FhG"/>
                             <constraint firstItem="tjl-8t-bK4" firstAttribute="top" secondItem="CMI-8e-H5n" secondAttribute="bottom" id="DJl-YZ-h2K"/>
@@ -702,6 +713,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6ky-RZ-XmB">
                                 <rect key="frame" x="200" y="244" width="80" height="80"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <accessibility key="accessibilityConfiguration" label="DataMom"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="80" id="nJE-vN-raZ"/>
                                     <constraint firstAttribute="height" constant="80" id="oNr-qV-jrx"/>
@@ -719,6 +731,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WwB-P1-dEE">
                                 <rect key="frame" x="39" y="244" width="80" height="80"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <accessibility key="accessibilityConfiguration" label="DataDad"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="80" id="N2j-Me-Ypi"/>
                                     <constraint firstAttribute="width" constant="80" id="iMp-l7-IM4"/>
@@ -900,7 +913,7 @@
                                     <outlet property="delegate" destination="As4-O0-72y" id="82Q-1Y-vTm"/>
                                 </connections>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8nC-ax-kTN" userLabel="Image Button" customClass="TakePhotoButton">
+                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8nC-ax-kTN" userLabel="Image Button" customClass="TakePhotoButton">
                                 <rect key="frame" x="45" y="203" width="230" height="231"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <accessibility key="accessibilityConfiguration" label="cameraButton"/>
@@ -1780,6 +1793,7 @@
                             </searchBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <accessibility key="accessibilityConfiguration" label="Main Milestones"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="ba8-Ol-INx" secondAttribute="trailing" id="Csu-8Z-q4E"/>
                             <constraint firstItem="WJK-M9-FPI" firstAttribute="top" secondItem="zSu-55-pxu" secondAttribute="bottom" id="Pwi-8K-STd"/>
@@ -1810,6 +1824,9 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="createButton" id="3Ta-5N-9G4">
                             <color key="tintColor" red="0.1019607843" green="0.5568627451" blue="0.62352941179999999" alpha="1" colorSpace="calibratedRGB"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="string" keyPath="accessibilityLabel" value="+"/>
+                            </userDefinedRuntimeAttributes>
                             <connections>
                                 <segue destination="n8g-sI-yKY" kind="modal" identifier="noteCustomMilestone" id="gfX-BP-v4v"/>
                             </connections>
@@ -2237,10 +2254,10 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="HiK-bz-YEB"/>
+        <segue reference="0ED-bk-NzY"/>
         <segue reference="6HZ-Iq-Yef"/>
-        <segue reference="zMK-LI-8Wn"/>
-        <segue reference="0vw-rA-jx1"/>
+        <segue reference="HiK-bz-YEB"/>
+        <segue reference="q2I-r6-ZGD"/>
         <segue reference="9u5-1o-6Cv"/>
     </inferredMetricsTieBreakers>
 </document>
