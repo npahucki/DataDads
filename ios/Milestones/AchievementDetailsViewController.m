@@ -26,6 +26,7 @@
     BOOL _beganDrag;
     UIView *_backgroundView;
     FDTakeController *_takeController;
+    TutorialBubbleView *_tutorialBubbleView;
 }
 
 // Global for all instances
@@ -84,12 +85,12 @@ NSDateFormatter *_dateFormatter;
             BOOL hasImageAttachment = self.achievement.attachment && [self.achievement.attachmentType rangeOfString:@"image"].location != NSNotFound;
             PFFile *imageFile = hasImageAttachment ? self.achievement.attachment : Baby.currentBaby.avatarImage;
             if (imageFile) {
-                [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-                    if (!error) {
+                [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error2) {
+                    if (!error2) {
                         [self setButtonPhoto:[UIImage imageWithData:data]];
-                        self.detailsImageButton.alpha = hasImageAttachment ? 1.0 : 0.3;
+                        self.detailsImageButton.alpha = (CGFloat) (hasImageAttachment ? 1.0 : 0.3);
                     } else {
-                        [UsageAnalytics trackError:error forOperationNamed:@"FetchSingleAchievement" andAdditionalProperties:@{@"id" : self.achievement.objectId}];
+                        [UsageAnalytics trackError:error2 forOperationNamed:@"FetchSingleAchievement" andAdditionalProperties:@{@"id" : self.achievement.objectId}];
                     }
                 }];
             }
@@ -105,7 +106,7 @@ NSDateFormatter *_dateFormatter;
                             if (percentile > 50) {
                                 self.statusImageView.image = [UIImage imageNamed:@"completedBest"];
                             }
-                            [self showPercentileMessage:percentile];
+                            [self showPercentileMessage:(NSInteger) percentile];
                         }
                     }];
                 }
@@ -166,7 +167,7 @@ NSDateFormatter *_dateFormatter;
         // Make the bottom of the Text field fade out
         CAGradientLayer *l = [CAGradientLayer layer];
         l.frame = self.detailsTextViewContainerView.bounds;
-        l.colors = [NSArray arrayWithObjects:(id) [UIColor whiteColor].CGColor, (id) [UIColor clearColor].CGColor, nil];
+        l.colors = @[(id) [UIColor whiteColor].CGColor, (id) [UIColor clearColor].CGColor];
         l.startPoint = CGPointMake(0.5f, 0.5f);
         l.endPoint = CGPointMake(0.5f, 1.0f);
         self.detailsTextViewContainerView.layer.mask = l;
@@ -197,7 +198,7 @@ NSDateFormatter *_dateFormatter;
 
     as.tapBlock = ^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
         if (buttonIndex == 0) {
-            UIView *trashButton = (UIView *) [self.navigationController.navigationBar.subviews objectAtIndex:2];
+            UIView *trashButton = (UIView *) (self.navigationController.navigationBar.subviews)[2];
             [self.view insertSubview:_backgroundView belowSubview:self.containerView];
             [self.containerView genieInTransitionWithDuration:0.7
                                               destinationRect:trashButton.frame
@@ -216,7 +217,7 @@ NSDateFormatter *_dateFormatter;
 
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/achievements/%@", VIEW_HOST, self.achievement.objectId]];
     NSString *mainText = [NSString stringWithFormat:@"%@ completed the milestone: '%@' %@!", Baby.currentBaby.name, self.achievement.displayTitle, [self.achievement.completionDate stringWithHumanizedTimeDifference]];
-    NSMutableArray *items = [NSMutableArray arrayWithObjects:mainText, url, nil];
+    NSMutableArray *items = [@[mainText, url] mutableCopy];
     if (self.achievement.comment) [items addObject:self.achievement.comment];
     if (image) [items addObject:image];
 
@@ -313,8 +314,8 @@ NSDateFormatter *_dateFormatter;
         recognizer.view.center = CGPointMake(_percentileMessageCenter.x + translation.x, _percentileMessageCenter.y + translation.y);
     } else if (recognizer.state == UIGestureRecognizerStateEnded) {
         if (!_beganDrag) return;
-        if ((abs(translation.y) > recognizer.view.bounds.size.height / 3 && abs(velocity.y) > 200.0) ||
-                (abs(translation.x) > recognizer.view.bounds.size.width / 3 && abs(velocity.x) > 200.0)) {
+        if (abs((int) translation.y) > recognizer.view.bounds.size.height / 3.0 && abs((int) velocity.y) > 200.0 ||
+                (abs((int) translation.x) > recognizer.view.bounds.size.width / 3.0 && abs((int) velocity.x) > 200.0)) {
             CGFloat velocityScale = .01;
             UIPushBehavior *push = [[UIPushBehavior alloc] initWithItems:@[recognizer.view] mode:UIPushBehaviorModeInstantaneous];
             push.pushDirection = CGVectorMake(velocityScale * velocity.x, velocityScale * velocity.y);
@@ -332,14 +333,22 @@ NSDateFormatter *_dateFormatter;
 }
 
 - (void)didClickRangeIndicator:(id)sender {
-    TutorialBubbleView *bubble = [[[NSBundle mainBundle] loadNibNamed:@"TutorialBubbleView" owner:self options:nil] objectAtIndex:0];
-    CGPoint relativePoint = CGPointMake(self.rangeIndicatorView.center.x, self.rangeIndicatorView.frame.origin.y + self.rangeIndicatorView.frame.size.height + 5);
-    bubble.arrowTip = [self.rangeIndicatorView.superview convertPoint:relativePoint toView:self.view];
-    bubble.textLabel.font = [UIFont fontForAppWithType:Medium andSize:16];
-    NSString * msg = self.achievement.standardMilestone ?
-        [NSString stringWithFormat:@"The shaded area represents the typical range. The dot shows where %@ completed it.", Baby.currentBaby.name] :
-        @"You entered this milestone, so we don't have any data to compare it against. Yet.";
-    [bubble showInView:self.view withText:msg];
+    if (_tutorialBubbleView) {
+        [_tutorialBubbleView dismiss];
+    } else {
+        _tutorialBubbleView = [[NSBundle mainBundle] loadNibNamed:@"TutorialBubbleView" owner:self options:nil][0];
+        _tutorialBubbleView.dismissBlock = ^{
+            _tutorialBubbleView = nil;
+        };
+        CGPoint relativePoint = CGPointMake(self.rangeIndicatorView.center.x, self.rangeIndicatorView.frame.origin.y + self.rangeIndicatorView.frame.size.height + 5);
+        _tutorialBubbleView.arrowTip = [self.rangeIndicatorView.superview convertPoint:relativePoint toView:self.view];
+        _tutorialBubbleView.textLabel.font = [UIFont fontForAppWithType:Medium andSize:16];
+        NSString *msg = self.achievement.standardMilestone ?
+                [NSString stringWithFormat:@"The shaded area represents the typical range. The dot shows where %@ completed it.", Baby.currentBaby.name] :
+                @"You entered this milestone, so we don't have any data to compare it against. Yet.";
+        [_tutorialBubbleView showInView:self.view withText:msg];
+    }
+
 }
 
 #pragma mark FDTakeController Delegate

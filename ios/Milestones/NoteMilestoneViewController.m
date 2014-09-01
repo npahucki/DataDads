@@ -24,6 +24,7 @@
     BOOL _isKeyboardShowing;
     CGRect _originalFrame;
     UITextField *_activeField;
+    TutorialBubbleView *_tutorialBubbleView;
 
 }
 
@@ -123,7 +124,7 @@
 // Called when the UIKeyboardDidShowNotification is sent.
 - (void)keyboardWasShown:(NSNotification *)aNotification {
     NSDictionary *info = [aNotification userInfo];
-    CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    CGSize kbSize = [info[UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
 
     if (!_isKeyboardShowing) {
         _isKeyboardShowing = YES;
@@ -188,7 +189,7 @@
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     CGFloat x = scrollView.contentOffset.x;
     CGFloat w = scrollView.bounds.size.width;
-    self.segmentControl.selectedSegmentIndex = x / w;
+    self.segmentControl.selectedSegmentIndex = (NSInteger) (x / w);
     [self userDidPage:self];
 }
 
@@ -225,18 +226,25 @@
     // Make the bottom of the Text field fade out
     CAGradientLayer *l = [CAGradientLayer layer];
     l.frame = self.titleTextFadingView.bounds;
-    l.colors = [NSArray arrayWithObjects:(id) [UIColor whiteColor].CGColor, (id) [UIColor clearColor].CGColor, nil];
+    l.colors = @[(id) [UIColor whiteColor].CGColor, (id) [UIColor clearColor].CGColor];
     l.startPoint = CGPointMake(0.5f, 0.5f);
     l.endPoint = CGPointMake(0.5f, 1.0f);
     self.titleTextFadingView.layer.mask = l;
 }
 
 - (void)didClickRangeIndicator:(id)sender {
-    TutorialBubbleView *bubble = [[[NSBundle mainBundle] loadNibNamed:@"TutorialBubbleView" owner:self options:nil] objectAtIndex:0];
-    CGPoint relativePoint = CGPointMake(self.rangeIndicatorView.center.x, self.rangeIndicatorView.frame.origin.y + self.rangeIndicatorView.frame.size.height + 5);
-    bubble.arrowTip = [self.rangeIndicatorView.superview convertPoint:relativePoint toView:self.view];
-    bubble.textLabel.font = [UIFont fontForAppWithType:Medium andSize:16];
-    [bubble showInView:self.view withText:[NSString stringWithFormat:@"The shaded area represents the typical range. The dot shows where %@ is.", Baby.currentBaby.name]];
+    if (_tutorialBubbleView) {
+        [_tutorialBubbleView dismiss];
+    } else {
+        _tutorialBubbleView = [[NSBundle mainBundle] loadNibNamed:@"TutorialBubbleView" owner:self options:nil][0];
+        _tutorialBubbleView.dismissBlock = ^{
+            _tutorialBubbleView = nil;
+        };
+        CGPoint relativePoint = CGPointMake(self.rangeIndicatorView.center.x, self.rangeIndicatorView.frame.origin.y + self.rangeIndicatorView.frame.size.height + 5);
+        _tutorialBubbleView.arrowTip = [self.rangeIndicatorView.superview convertPoint:relativePoint toView:self.view];
+        _tutorialBubbleView.textLabel.font = [UIFont fontForAppWithType:Medium andSize:16];
+        [_tutorialBubbleView showInView:self.view withText:[NSString stringWithFormat:@"The shaded area represents the typical range. The dot shows where %@ is.", Baby.currentBaby.name]];
+    }
 }
 
 - (IBAction)didClickTakePicture:(id)sender {
@@ -365,8 +373,8 @@
 
             // Publish the achievement to facebook
             if (self.fbSwitch.on) {
-                [PFFacebookUtils shareAchievement:self.achievement block:^(BOOL succeeded, NSError *error) {
-                    if (error) {
+                [PFFacebookUtils shareAchievement:self.achievement block:^(BOOL succeeded2, NSError *error2) {
+                    if (error2) {
                         [[[UIAlertView alloc] initWithTitle:@"Could not share the milestone on Facebook" message:@"Make sure that you have authorized the DataParenting App at https://www.facebook.com/settings?tab=applications" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
                     }
                 }];
@@ -377,7 +385,7 @@
             // Save the measurments (if any)
             if (heightMeasurement) {
                 [UsageAnalytics trackMeasurement:heightMeasurement];
-                [heightMeasurement saveEventually:^(BOOL succeeded, NSError *error) {
+                [heightMeasurement saveEventually:^(BOOL succeeded2, NSError *error2) {
                     if (error) {
                         NSLog(@"Could not save the height measurement %@", error);
                     }
@@ -386,9 +394,9 @@
             }
             if (weightMeasurement) {
                 [UsageAnalytics trackMeasurement:weightMeasurement];
-                [weightMeasurement saveEventually:^(BOOL succeeded, NSError *error) {
-                    if (error) {
-                        NSLog(@"Could not save the weight measurement %@", error);
+                [weightMeasurement saveEventually:^(BOOL succeeded2, NSError *error2) {
+                    if (error2) {
+                        NSLog(@"Could not save the weight measurement %@", error2);
                     }
                     [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationMeasurementNotedAndSaved object:weightMeasurement];
                 }];
@@ -413,7 +421,7 @@
 
 - (void)takeController:(FDTakeController *)controller gotPhoto:(UIImage *)photo withInfo:(NSDictionary *)info {
     // Attempt to use date from the photo taken, instead of the current date
-    NSURL *assetURL = [info objectForKey:UIImagePickerControllerReferenceURL];
+    NSURL *assetURL = info[UIImagePickerControllerReferenceURL];
     if (assetURL) {
         if (!_assetLibrary) {
             _assetLibrary = [[ALAssetsLibrary alloc] init];

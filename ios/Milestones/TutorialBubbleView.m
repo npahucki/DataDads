@@ -40,13 +40,18 @@
 }
 
 - (IBAction)didClickCloseButton:(id)sender {
+    [self dismiss];
+}
+
+- (void)dismiss {
     [UIView animateWithDuration:0.2
                      animations:^{
-        self.alpha = 0.0;
-    }
-                     completion:^(BOOL finished){
-        [self removeFromSuperview];
-    }];
+                         self.alpha = 0.0;
+                     }
+            completion:^(BOOL finished) {
+                [self removeFromSuperview];
+                if (self.dismissBlock) self.dismissBlock();
+            }];
 }
 
 - (void)setArrowTip:(CGPoint)arrowTip {

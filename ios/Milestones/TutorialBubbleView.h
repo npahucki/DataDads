@@ -9,14 +9,15 @@
 #import <UIKit/UIKit.h>
 
 @interface TutorialBubbleView : UIView
-@property (weak, nonatomic) IBOutlet UILabel *textLabel;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *arrowHConstraint;
+@property(weak, nonatomic) IBOutlet UILabel *textLabel;
+@property(weak, nonatomic) IBOutlet NSLayoutConstraint *arrowHConstraint;
 @property CGPoint arrowTip;
-@property (weak, nonatomic) IBOutlet UIButton *closeButton;
-@property (weak, nonatomic) IBOutlet UIImageView *arrowImage;
+@property(weak, nonatomic) IBOutlet UIButton *closeButton;
+@property(weak, nonatomic) IBOutlet UIImageView *arrowImage;
+@property(copy) void (^dismissBlock)(void);
 
--(void) showInView:(UIView *) view withText:(NSString*) text;
+- (void)showInView:(UIView *)view withText:(NSString *)text;
 
 
-
+- (void)dismiss;
 @end
