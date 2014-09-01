@@ -41,6 +41,7 @@ Returns a query that queries all the babies for the user passed in
 - (NSInteger)daysSinceBirthDate:(NSDate *)otherDate;
 
 
+- (NSString *)ageAtDateFormattedAsNiceString:(NSDate *)date;
 @end
 
 

@@ -18,7 +18,7 @@
     self.babyNameLabel.font = [UIFont fontForAppWithType:Bold andSize:21.0];
     self.babyNameLabel.text = Baby.currentBaby.name;
     self.ageLabel.font = [UIFont fontForAppWithType:Medium andSize:18.0];
-    self.ageLabel.text = [self timeDifferenceFormatedAsNiceString:Baby.currentBaby.birthDate];
+    self.ageLabel.text = [Baby.currentBaby ageAtDateFormattedAsNiceString:[NSDate date]];
 
     self.babyAvatar.file = Baby.currentBaby.avatarImage;
     [self.babyAvatar loadInBackground];
@@ -28,14 +28,14 @@
     [self.babyNameLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleEditTap:)]];
     [self.ageLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleEditTap:)]];
 
-    
+
     if (self.milestoneCount) {
         self.milestoneCountLabel = [[UILabel alloc] initWithFrame:self.babyAvatar.frame];
         self.milestoneCountLabel.numberOfLines = 0;
         self.milestoneCountLabel.textAlignment = NSTextAlignmentCenter;
-        
 
-        
+
+
         // Make the label show attributed text
         NSDictionary *numberAttributes = @{NSFontAttributeName : [UIFont fontForAppWithType:Bold andSize:95.0], NSForegroundColorAttributeName : [UIColor appNormalColor]};
         NSDictionary *milestoneTextAttributes = @{NSFontAttributeName : [UIFont fontForAppWithType:Bold andSize:18.0], NSForegroundColorAttributeName : [UIColor appGreyTextColor]};
@@ -65,7 +65,7 @@
     self.babyAvatar.layer.masksToBounds = YES;
     self.babyAvatar.layer.borderWidth = 1;
     // This must be done after the final sizes for the image have been calculated, that's why it's not in viewDidLoad
-    self.milestoneCountLabel.frame = CGRectInset(self.babyAvatar.frame, 10,0); // Put label ontop of image
+    self.milestoneCountLabel.frame = CGRectInset(self.babyAvatar.frame, 10, 0); // Put label ontop of image
 
 }
 
@@ -99,7 +99,7 @@
     }
 }
 
--(void) handleEditTap:(id) sender {
+- (void)handleEditTap:(id)sender {
     [self performSegueWithIdentifier:kDDSegueEnterBabyInfo sender:self];
 }
 
@@ -109,21 +109,6 @@
         id <ViewControllerWithBaby> controllerWithBaby = [[navigationController viewControllers] lastObject];
         [controllerWithBaby setBaby:Baby.currentBaby];
     }
-}
-
-- (NSString *)timeDifferenceFormatedAsNiceString:(NSDate *)date {
-    NSCalendarUnit unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit;
-    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-    NSDateComponents *comps = [calendar components:unitFlags fromDate:date toDate:[NSDate date] options:0];
-    NSString *format = @"";
-    if (comps.year >= 1) format = [NSString stringWithFormat:@"%i year%s ", (int) comps.year, [self s:comps.year]];
-    if (comps.month >= 1) format = [NSString stringWithFormat:@"%@%i month%s ", format, (int) comps.month, [self s:comps.month]];
-    if (comps.day >= 1) format = [NSString stringWithFormat:@"%@%i day%s ", format, (int) comps.day, [self s:comps.day]];
-    return format.length ? [NSString stringWithFormat:@"%@old", format] : @"born today!";
-}
-
-- (char *)s:(NSInteger)number {
-    return number != 1 ? "s" : "";
 }
 
 - (void)updateLoginButtonTitle {

@@ -53,6 +53,21 @@ static Baby *_currentBaby;
     return [self daysMissedDueDate] < 0;
 }
 
+- (NSString *)ageAtDateFormattedAsNiceString:(NSDate *)date {
+    NSCalendarUnit unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit;
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *comps = [calendar components:unitFlags fromDate:self.birthDate toDate:date options:0];
+    NSString *format = @"";
+    if (comps.year >= 1) format = [NSString stringWithFormat:@"%i year%s ", (int) comps.year, [self s:comps.year]];
+    if (comps.month >= 1) format = [NSString stringWithFormat:@"%@%i month%s ", format, (int) comps.month, [self s:comps.month]];
+    if (comps.day >= 1) format = [NSString stringWithFormat:@"%@%i day%s ", format, (int) comps.day, [self s:comps.day]];
+    return format.length ? [NSString stringWithFormat:@"%@old", format] : @"newborn";
+}
+
+- (char *)s:(NSInteger)number {
+    return number != 1 ? "s" : "";
+}
+
 
 + (NSString *)parseClassName {
     return @"Babies";

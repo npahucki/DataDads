@@ -138,13 +138,23 @@ NSDateFormatter *_dateFormatter;
         [attrText appendAttributedString:commentsString];
     }
 
-    // Completion date
-    NSAttributedString *completedOnLabel = [[NSAttributedString alloc] initWithString:@"Completed on: " attributes:dataLabelTextAttributes];
-    NSAttributedString *completedOnValue = [[NSAttributedString alloc] initWithString:[_dateFormatter stringFromDate:self.achievement.completionDate] attributes:dataValueTextAttributes];
+//    // Completion date
+//    NSAttributedString *completedOnLabel = [[NSAttributedString alloc] initWithString:@"Completed on: " attributes:dataLabelTextAttributes];
+//    NSAttributedString *completedOnValue = [[NSAttributedString alloc] initWithString:[_dateFormatter stringFromDate:self.achievement.completionDate] attributes:dataValueTextAttributes];
+//    [attrText appendAttributedString:lf];
+//    [attrText appendAttributedString:lf];
+//    [attrText appendAttributedString:completedOnLabel];
+//    [attrText appendAttributedString:completedOnValue];
+
+    NSAttributedString *completedAtAgeLabel = [[NSAttributedString alloc] initWithString:@"Completed at: " attributes:dataLabelTextAttributes];
+    NSAttributedString *completedAtAgeValue = [[NSAttributedString alloc] initWithString:[[Baby currentBaby]
+            ageAtDateFormattedAsNiceString:self.achievement.completionDate]   attributes:dataValueTextAttributes];
     [attrText appendAttributedString:lf];
     [attrText appendAttributedString:lf];
-    [attrText appendAttributedString:completedOnLabel];
-    [attrText appendAttributedString:completedOnValue];
+    [attrText appendAttributedString:completedAtAgeLabel];
+    [attrText appendAttributedString:completedAtAgeValue];
+
+
 
     if (m.url) {
         [attrText appendAttributedString:lf];
@@ -344,7 +354,10 @@ NSDateFormatter *_dateFormatter;
         _tutorialBubbleView.arrowTip = [self.rangeIndicatorView.superview convertPoint:relativePoint toView:self.view];
         _tutorialBubbleView.textLabel.font = [UIFont fontForAppWithType:Medium andSize:16];
         NSString *msg = self.achievement.standardMilestone ?
-                [NSString stringWithFormat:@"The shaded area represents the typical range. The dot shows where %@ completed it.", Baby.currentBaby.name] :
+                [NSString stringWithFormat:@"The shaded area shows the typical range of %@ and the dot that %@ completed it at %@",
+                                           self.achievement.standardMilestone.humanReadableRange,
+                                           Baby.currentBaby.name,
+                                           [Baby.currentBaby ageAtDateFormattedAsNiceString:self.achievement.completionDate]] :
                 @"You entered this milestone, so we don't have any data to compare it against. Yet.";
         [_tutorialBubbleView showInView:self.view withText:msg];
     }
