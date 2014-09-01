@@ -27,7 +27,7 @@
     [Measurement registerSubclass];
     [ParentUser registerSubclass];
 
-    // Make sure only users can read thier own data!
+    // Make sure only users can read their own data!
     [PFACL setDefaultACL:[PFACL ACL] withAccessForCurrentUser:YES];
 
     // Setup Social Providers ANd Trakcing Services
@@ -43,15 +43,6 @@
 
     // Setup user tracking and A/B tests
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
-
-
-    // Register for push notifications
-    // TODO: Do this only if the user is logged in.
-    [application registerForRemoteNotificationTypes:
-            UIRemoteNotificationTypeBadge |
-                    UIRemoteNotificationTypeAlert |
-                    UIRemoteNotificationTypeSound];
-
     [ParentUser incrementLaunchCount];
 
     [UILabel appearance].font = [UIFont fontForAppWithType:Light andSize:17.0];
@@ -101,6 +92,12 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     [FBAppCall handleDidBecomeActiveWithSession:[PFFacebookUtils session]];
+    // Register for push notifications
+    // TODO: Do this only if the user is logged in.
+    [application registerForRemoteNotificationTypes:
+            UIRemoteNotificationTypeBadge |
+                    UIRemoteNotificationTypeAlert |
+                    UIRemoteNotificationTypeSound];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -129,6 +126,7 @@
     // Store the deviceToken in the current installation and save it to Parse.
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     [currentInstallation setDeviceTokenFromData:newDeviceToken];
+    currentInstallation[@"pushNotificationType"] = @([[UIApplication sharedApplication] enabledRemoteNotificationTypes]);
     [currentInstallation saveInBackground];
 }
 
