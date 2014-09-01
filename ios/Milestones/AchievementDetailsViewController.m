@@ -214,7 +214,7 @@ NSDateFormatter *_dateFormatter;
                                               destinationRect:trashButton.frame
                                               destinationEdge:BCRectEdgeBottom
                                                    completion:^{
-                [[NSNotificationCenter defaultCenter] postNotificationName:kAchievementNeedsDeleteAction object:self.achievement];
+                                                       [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationAchievementNeedsDeleteAction object:self.achievement];
                 [self.navigationController popViewControllerAnimated:NO];
             }];
         }

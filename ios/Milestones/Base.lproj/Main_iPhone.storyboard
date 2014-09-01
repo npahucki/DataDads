@@ -1382,8 +1382,33 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="e7q-qg-Do3">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="2TI-lz-4oj">
                                         <rect key="frame" x="0.0" y="396" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2TI-lz-4oj" id="PA9-Lo-c3F">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="left" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YkK-fi-RTo">
+                                                    <rect key="frame" x="20" y="7" width="163" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" title="Read our Privacy Policy">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="didClickReadPrivacyPolicy:" destination="W69-aI-Opj" eventType="touchUpInside" id="Jk7-Hw-wBC"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="YkK-fi-RTo" firstAttribute="leading" secondItem="PA9-Lo-c3F" secondAttribute="leading" constant="20" id="Ale-Et-zZO"/>
+                                                <constraint firstAttribute="centerY" secondItem="YkK-fi-RTo" secondAttribute="centerY" id="CSU-du-zxw"/>
+                                                <constraint firstItem="YkK-fi-RTo" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="PA9-Lo-c3F" secondAttribute="leading" id="wS3-sg-r9Q"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="e7q-qg-Do3">
+                                        <rect key="frame" x="0.0" y="440" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="e7q-qg-Do3" id="0cW-ow-qoS">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -1407,7 +1432,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="EyB-E4-1iL">
-                                        <rect key="frame" x="0.0" y="440" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="484" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="EyB-E4-1iL" id="cQx-Xo-7BB">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -2254,10 +2279,10 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="0ED-bk-NzY"/>
-        <segue reference="6HZ-Iq-Yef"/>
-        <segue reference="HiK-bz-YEB"/>
         <segue reference="q2I-r6-ZGD"/>
         <segue reference="9u5-1o-6Cv"/>
+        <segue reference="HiK-bz-YEB"/>
+        <segue reference="6HZ-Iq-Yef"/>
+        <segue reference="0vw-rA-jx1"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -46,13 +46,16 @@ extern NSString *const kDDNotificationUserLoggedOut;
 extern NSString *const kDDNotificationUserLoggedIn;
 
 extern NSString *const kDDNotificationPushReceieved;
-extern NSString *const kNeedDataRefreshNotification;  // When table data may need to be reloaded
-extern NSString *const kAchievementNeedsDeleteAction;
-extern NSString *const kMilestoneNeedsPostponeAction;
-extern NSString *const kMilestoneNeedsIgnoreAction;
+extern NSString *const kDDNotificationNeedDataRefreshNotification;  // When table data may need to be reloaded
+extern NSString *const kDDNotificationAchievementNeedsDeleteAction;
+extern NSString *const kDDNotificationMilestoneNeedsPostponeAction;
+extern NSString *const kDDNotificationMilestoneNeedsIgnoreAction;
 
 
-extern NSString *const kTermsAndConditionUrl;
+extern NSString *const kDDURLTermsAndConditions;
+extern NSString *const kDDURLPrivacyPolicy;
+
+
 
 
 #pragma mark Application Colors

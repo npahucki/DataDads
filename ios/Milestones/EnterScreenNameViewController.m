@@ -19,7 +19,7 @@
     self.maleLabel.highlightedTextColor = self.femaleLabel.highlightedTextColor = [UIColor appNormalColor];
     self.maleLabel.font = self.femaleLabel.font = [UIFont fontForAppWithType:Bold andSize:17.0];
 
-    
+
     self.acceptTACLabelButton.titleLabel.font = [UIFont fontForAppWithType:Bold andSize:13.0];
     [[UIDevice currentDevice] name];
     NSNumber *gender = [ParentUser.currentUser objectForKey:@"isMale"];
@@ -74,7 +74,7 @@
 
 - (void)saveUserPreferences:(ParentUser *)user {
     user.ACL = [PFACL ACLWithUser:user];
-    if(!user.screenName) user.screenName = [self nameFromDeviceName];
+    if (!user.screenName) user.screenName = [self nameFromDeviceName];
     user.isMale = self.maleButton.isSelected;
 
     [self showInProgressHUDWithMessage:@"Saving your preferences" andAnimation:YES andDimmedBackground:YES];
@@ -113,7 +113,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:kDDSegueShowWebView]) {
         WebViewerViewController *webView = (WebViewerViewController *) segue.destinationViewController;
-        webView.url = [NSURL URLWithString:kTermsAndConditionUrl];
+        webView.url = [NSURL URLWithString:kDDURLTermsAndConditions];
     }
 }
 

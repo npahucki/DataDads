@@ -33,7 +33,7 @@
     // Setup Social Providers ANd Trakcing Services
     [UsageAnalytics initializeConnection];
 
-    NSString * parseAppId = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.ParseApplicationId"];
+    NSString *parseAppId = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.ParseApplicationId"];
     NSLog(@"Using Parse Application Id '%@'", parseAppId);
     [Parse setApplicationId:parseAppId clientKey:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.ParseClientId"]];
 
@@ -111,7 +111,7 @@
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
-    [[NSNotificationCenter defaultCenter] postNotificationName:kNeedDataRefreshNotification object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationNeedDataRefreshNotification object:nil];
     [ParentUser incrementLaunchCount];
 }
 

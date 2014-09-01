@@ -47,7 +47,7 @@
             if (succeeded) [ParentUser.currentUser refreshInBackgroundWithBlock:nil];
         }];
     }
-    [[NSNotificationCenter defaultCenter] postNotificationName:kNeedDataRefreshNotification object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationNeedDataRefreshNotification object:nil];
 }
 
 - (IBAction)didChangeFacebookSwitch:(id)sender {
@@ -64,8 +64,13 @@
     }
 }
 
+- (IBAction)didClickReadPrivacyPolicy:(id)sender {
+    WebViewerViewController *vc = [WebViewerViewController webViewForUrlString:kDDURLPrivacyPolicy];
+    [self presentViewController:vc animated:YES completion:NULL];
+}
+
 - (IBAction)didClickReadTermsAndConditions:(id)sender {
-    WebViewerViewController *vc = [WebViewerViewController webViewForUrlString:kTermsAndConditionUrl];
+    WebViewerViewController *vc = [WebViewerViewController webViewForUrlString:kDDURLTermsAndConditions];
     [self presentViewController:vc animated:YES completion:NULL];
 }
 
