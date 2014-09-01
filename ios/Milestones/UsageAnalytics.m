@@ -8,6 +8,7 @@
 
 #import "Heap.h"
 #import "Appsee/Appsee.h"
+#import "NSDate+Utils.h"
 
 static id safe(id object) {
     return object ?: [NSNull null];
@@ -63,15 +64,17 @@ static BOOL isRelease;
 }
 
 + (void)trackError:(NSError *)error forOperationNamed:(NSString *)operation andAdditionalProperties:(NSDictionary *)props {
+    NSMutableDictionary *combinedAttributes = [NSMutableDictionary dictionaryWithDictionary:error.userInfo];
+    if (props) [combinedAttributes addEntriesFromDictionary:props];
+    combinedAttributes[@"error.id"] = @(error.code);
+    combinedAttributes[@"error.domain"] = safe(error.domain);
+    combinedAttributes[@"operation"] = operation;
+    combinedAttributes[@"timestamp"] = [[NSDate date] asISO8601String];
+
     if (isRelease) {
-        NSMutableDictionary *combinedAttributes = [NSMutableDictionary dictionaryWithDictionary:error.userInfo];
-        if (props) [combinedAttributes addEntriesFromDictionary:props];
-        [combinedAttributes setObject:@(error.code) forKey:@"error.id"];
-        [combinedAttributes setObject:safe(error.domain) forKey:@"error.domain"];
-        [combinedAttributes setObject:operation forKey:@"operation"];
         [Heap track:[NSString stringWithFormat:@"Error"] withProperties:combinedAttributes];
     } else {
-        NSLog(@"[USAGE ANALYTICS]: trackError - Error:%@ Error Properties:%@", error, props);
+        NSLog(@"[USAGE ANALYTICS]: trackError - Error Properties:%@", combinedAttributes);
     }
 }
 
