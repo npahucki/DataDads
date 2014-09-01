@@ -45,8 +45,8 @@ static BOOL isRelease;
         };
         if (baby) {
             NSMutableDictionary *combinedAttributes = [NSMutableDictionary dictionaryWithDictionary:props];
-            [combinedAttributes setObject:safe(baby.objectId) forKey:@"baby.id"];
-            [combinedAttributes setObject:baby.isMale ? @"M" : @"F" forKey:@"baby.sex"];
+            combinedAttributes[@"baby.id"] = safe(baby.objectId);
+            combinedAttributes[@"baby.sex"] = baby.isMale ? @"M" : @"F";
             props = combinedAttributes;
         }
 
