@@ -70,5 +70,8 @@
     [self.loadingImage startAnimating];
 }
 
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
 
 @end

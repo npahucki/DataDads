@@ -54,6 +54,11 @@ extern NSString *const kDDNotificationMilestoneNeedsIgnoreAction;
 
 extern NSString *const kDDURLTermsAndConditions;
 extern NSString *const kDDURLPrivacyPolicy;
+extern NSString *const kDDURLSupport;
+
+
+
+
 
 
 

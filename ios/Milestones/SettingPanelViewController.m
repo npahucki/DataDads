@@ -8,6 +8,7 @@
 
 #import "SettingPanelViewController.h"
 #import "WebViewerViewController.h"
+#include <sys/sysctl.h>
 
 @interface SettingPanelViewController ()
 
@@ -64,6 +65,11 @@
     }
 }
 
+- (IBAction)didClickGetSupport:(id)sender {
+    WebViewerViewController *vc = [WebViewerViewController webViewForUrlString:kDDURLSupport];
+    [self presentViewController:vc animated:YES completion:NULL];
+}
+
 - (IBAction)didClickReadPrivacyPolicy:(id)sender {
     WebViewerViewController *vc = [WebViewerViewController webViewForUrlString:kDDURLPrivacyPolicy];
     [self presentViewController:vc animated:YES completion:NULL];
@@ -75,13 +81,20 @@
 }
 
 - (IBAction)didClickContactSuport:(id)sender {
+    size_t size;
+    sysctlbyname("hw.machine", NULL, &size, NULL, 0);
+    char *model = malloc(size);
+    sysctlbyname("hw.machine", model, &size, NULL, 0);
+    NSString *sDeviceModel = [NSString stringWithCString:model encoding:NSUTF8StringEncoding];
+    free(model);
+    
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
     NSString *email = [NSString stringWithFormat:@"mailto:support@dataparenting.com?subject=[SUPPORT REQUEST]:%@&body=\n\n\n-------\nVersion:%@\nBuild:%@\nUserId:%@\nDevice:%@\n  System:%@ %@\n-------\n",
                                                  infoDictionary[(NSString *) kCFBundleNameKey],
                                                  infoDictionary[(NSString *) @"CFBundleShortVersionString"],
                                                  infoDictionary[(NSString *) kCFBundleVersionKey],
                                                  [ParentUser currentUser].objectId,
-                                                 [[UIDevice currentDevice] model],
+                                                 sDeviceModel,
                                                  [[UIDevice currentDevice] systemName],
                                                  [[UIDevice currentDevice] systemVersion]];
     email = [email stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];

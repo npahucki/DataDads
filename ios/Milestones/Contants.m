@@ -41,6 +41,7 @@ NSString *const kDDNotificationMilestoneNeedsIgnoreAction = @"milestoneNeedsIgno
 
 NSString *const kDDURLTermsAndConditions = @"http://dataparenting.com/terms-conditions-and-privacy/";
 NSString *const kDDURLPrivacyPolicy = @"http://dataparenting.com/terms-conditions-and-privacy/#privacy";
+NSString *const kDDURLSupport = @"http://dataparenting.com/milestones-app-support/";
 
 
 #pragma mark - Application Colors

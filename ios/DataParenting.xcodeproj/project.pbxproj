@@ -873,8 +873,6 @@
 			mainGroup = E8DD48D1188EE5B900153095;
 			productRefGroup = E8DD48DB188EE5B900153095 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-			);
 			projectRoot = "";
 			targets = (
 				E8DD48D9188EE5B900153095 /* DataParenting */,
