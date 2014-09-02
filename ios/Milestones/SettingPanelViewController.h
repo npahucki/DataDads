@@ -14,5 +14,6 @@
 @property(weak, nonatomic) IBOutlet UISwitch *showIgnoredMilestonesSwitch;
 @property(weak, nonatomic) IBOutlet UISwitch *showHiddenTipsSwitch;
 @property(weak, nonatomic) IBOutlet UISwitch *showPostponedMilestonesSwitch;
+@property(weak, nonatomic) IBOutlet UISwitch *showMilestoneStatisticsSwitch;
 
 @end

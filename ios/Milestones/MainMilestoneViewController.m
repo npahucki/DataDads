@@ -84,7 +84,7 @@
 }
 
 - (void)milestoneNotedAndSaved:(NSNotification *)notification {
-    if(Baby.currentBaby) {
+    if (Baby.currentBaby && [ParentUser currentUser].showMilestoneStats) {
         MilestoneAchievement *achievement = notification.object;
         [achievement calculatePercentileRankingWithBlock:^(float percentile) {
             if (percentile >= 0) {

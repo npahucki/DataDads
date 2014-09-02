@@ -38,6 +38,15 @@
     [[NSUserDefaults standardUserDefaults] setBool:showPostponedMilestones forKey:@"showPostponedMilestones"];
 }
 
+- (BOOL)showMilestoneStats {
+    NSNumber *show = [self objectForKey:@"showMilestoneStats"];
+    return show == nil ? YES : show.boolValue; // default to yes
+}
+
+- (void)setShowMilestoneStats:(BOOL)showMilestoneStats {
+    [self setObject:@(showMilestoneStats) forKey:@"showMilestoneStats"];
+}
+
 - (void)setAutoPublishToFacebook:(BOOL)autoPublishToFacebook {
     [[NSUserDefaults standardUserDefaults] setBool:autoPublishToFacebook forKey:@"autoPublishToFacebook"];
 }

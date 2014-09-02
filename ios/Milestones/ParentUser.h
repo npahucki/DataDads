@@ -17,6 +17,7 @@
 @property BOOL showHiddenTips;
 @property BOOL showIgnoredMilestones;
 @property BOOL showPostponedMilestones;
+@property BOOL showMilestoneStats;
 @property NSInteger launchCount;
 @property BOOL shownTutorialPrompt;
 

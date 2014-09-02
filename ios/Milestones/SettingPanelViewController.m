@@ -33,6 +33,7 @@
     self.showHiddenTipsSwitch.on = ParentUser.currentUser.showHiddenTips;
     self.showIgnoredMilestonesSwitch.on = ParentUser.currentUser.showIgnoredMilestones;
     self.showPostponedMilestonesSwitch.on = ParentUser.currentUser.showPostponedMilestones;
+    self.showMilestoneStatisticsSwitch.on = ParentUser.currentUser.showMilestoneStats;
 
 }
 
@@ -43,6 +44,7 @@
     ParentUser.currentUser.showHiddenTips = self.showHiddenTipsSwitch.on;
     ParentUser.currentUser.showIgnoredMilestones = self.showIgnoredMilestonesSwitch.on;
     ParentUser.currentUser.showPostponedMilestones = self.showPostponedMilestonesSwitch.on;
+    ParentUser.currentUser.showMilestoneStats = self.showMilestoneStatisticsSwitch.on;
     if (ParentUser.currentUser.isDirty) {
         [ParentUser.currentUser saveEventually:^(BOOL succeeded, NSError *error) {
             if (succeeded) [ParentUser.currentUser refreshInBackgroundWithBlock:nil];
