@@ -63,6 +63,14 @@
     [[NSUserDefaults standardUserDefaults] setBool:shownTutorialPrompt forKey:@"shownTutorialPrompt"];
 }
 
+- (BOOL)suppressLoginPrompt {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:@"suppressLoginPrompt"];
+}
+
+- (void)setSuppressLoginPrompt:(BOOL)suppressLoginPrompt {
+    [[NSUserDefaults standardUserDefaults] setBool:suppressLoginPrompt forKey:@"suppressLoginPrompt"];
+}
+
 + (void)incrementLaunchCount {
     [self.currentUser incrementKey:@"launchCount"];
     [self.currentUser saveEventually:^(BOOL succeeded, NSError *error) {

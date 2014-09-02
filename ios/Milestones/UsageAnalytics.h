@@ -37,4 +37,6 @@
 
 
 + (void)trackTutorialResponse:(BOOL)viewed;
+
++ (void)trackSettingChange:(NSString *)settingName withValue:(id)value;
 @end

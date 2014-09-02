@@ -206,5 +206,12 @@ static BOOL isRelease;
     }
 }
 
++ (void)trackSettingChange:(NSString *)settingName withValue:(id)value {
+    if (isRelease) {
+        [Heap track:@"settingChange" withProperties:@{@"settingName" : settingName, @"value" : value}];
+    } else {
+        NSLog(@"[USAGE ANALYTICS]: setting - setting:%@ value:%@", settingName, value);
+    }
 
+}
 @end

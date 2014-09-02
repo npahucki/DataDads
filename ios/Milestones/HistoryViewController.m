@@ -166,19 +166,29 @@
 
     [self recalcHeaderCounts];
 
-    // We want to gently encourange the user to sign up
-    if (!ParentUser.currentUser.email && _model.countOfAchievements % 3 == 0 && !_model.filter) {
+    // We want to gently encourage the user to sign up
+    if (!ParentUser.currentUser.suppressLoginPrompt && !ParentUser.currentUser.email && _model.countOfAchievements % 3 == 0 && !_model.filter) {
         long x = _model.countOfAchievements / 3;
         if (((x != 0) && ((x & (~x + 1)) == x)) > 0) { // is power of 2
             [[[UIAlertView alloc] initWithTitle:@"Make sure your data is safe!"
-                                        message:@"Do you want to sign up now so we can backup your milestones and photos?"
+                                        message:@"Do you want to sign up now so we can backup your milestones and photos in the cloud?"
                                        delegate:nil
                               cancelButtonTitle:@"Not Now"
-                              otherButtonTitles:@"Yes", nil] showWithButtonBlock:^(NSInteger buttonIndex) {
+                              otherButtonTitles:@"Yes", @"Never Ask Again", nil] showWithButtonBlock:^(NSInteger buttonIndex) {
                 if (buttonIndex == 1) {
                     SignUpViewController *signupController = [[SignUpViewController alloc] init];
                     signupController.showExternal = YES;
                     [self presentViewController:signupController animated:YES completion:nil];
+                } else if (buttonIndex == 2) {
+                    // Don't ask again
+                    [ParentUser currentUser].suppressLoginPrompt = YES;
+                    [UsageAnalytics trackSettingChange:@"suppressLoginPrompt" withValue:YES];
+                    [[[UIAlertView alloc] initWithTitle:@"Just so you know..."
+                                                message:@"We won't ask again, but you can always signup on the profile screen."
+                                               delegate:nil
+                                      cancelButtonTitle:@"Ok"
+                                      otherButtonTitles:nil] show];
+
                 }
             }];
         }

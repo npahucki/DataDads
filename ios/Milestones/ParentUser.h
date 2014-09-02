@@ -20,6 +20,8 @@
 @property BOOL showMilestoneStats;
 @property NSInteger launchCount;
 @property BOOL shownTutorialPrompt;
+@property BOOL suppressLoginPrompt;
+
 
 + (void)incrementLaunchCount;
 
