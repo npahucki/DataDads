@@ -7,7 +7,7 @@
 //
 
 #import <Parse/Parse.h>
-#import <Parse/PFFacebookUtils.h>
+#import <ParseFacebookUtils/PFFacebookUtils.h>
 
 #define FB_PUBLISH_PERMISSION_ARRAY @[@"publish_actions",@"email",@"public_profile"]
 

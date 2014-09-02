@@ -7,8 +7,9 @@
 //
 
 #import "Heap.h"
-#import "Appsee/Appsee.h"
 #import "NSDate+Utils.h"
+#import "AppsFlyerTracker.h"
+
 
 static id safe(id object) {
     return object ?: [NSNull null];
@@ -18,17 +19,21 @@ static BOOL isRelease;
 
 @implementation UsageAnalytics
 
-+ (void)initializeConnection {
-
++ (void)initialize {
 # if DEBUG || TARGET_IPHONE_SIMULATOR
     isRelease = NO;
 #else
     isRelease = YES;
-    [Appsee start:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.AppseeAppId"]];
-    [Heap setAppId:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.HeapAppId"]];
-    [Heap changeInterval:30];
 #endif
 
+    if (isRelease) {
+        [Heap setAppId:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.HeapAppId"]];
+        [Heap changeInterval:30];
+        [AppsFlyerTracker sharedTracker].appsFlyerDevKey = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.AppsFlyerDevKey"];
+        [AppsFlyerTracker sharedTracker].appleAppID = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.AppleStoreId"];
+        [AppsFlyerTracker sharedTracker].isHTTPS = YES;
+        [[AppsFlyerTracker sharedTracker] trackAppLaunch];
+    }
 }
 
 + (void)idenfity:(ParentUser *)user withBaby:(Baby *)baby {
@@ -51,7 +56,7 @@ static BOOL isRelease;
         }
 
         if (isRelease) {
-            [Appsee setUserID:user.objectId];
+            [AppsFlyerTracker sharedTracker].customerUserID = user.objectId;
             [Heap identify:props];
         } else {
             NSLog(@"[USAGE ANALYTICS]: Identify - %@", props);
@@ -81,7 +86,7 @@ static BOOL isRelease;
 
 + (void)trackUserSignup:(ParentUser *)user usingMethod:(NSString *)method {
     // We want to track the number of milestones.
-    if(Baby.currentBaby) {
+    if (Baby.currentBaby) {
         PFQuery *query = [MilestoneAchievement query];
         [query whereKey:@"baby" equalTo:Baby.currentBaby];
         [query countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
@@ -92,6 +97,7 @@ static BOOL isRelease;
                         @"method" : safe(method),
                         @"numberOfAchievements" : @(number)
                 }];
+                [[AppsFlyerTracker sharedTracker] trackEvent:@"userSignedUp" withValue:[@(number) stringValue]];
             } else {
                 NSLog(@"[USAGE ANALYTICS]: trackUserSignup - User:%@ Method:%@ Number of Achievements:%d", user, method, number);
             }
@@ -99,9 +105,10 @@ static BOOL isRelease;
     } else {
         if (isRelease) {
             [Heap track:@"userSignedUp" withProperties:@{
-                                                         @"user.id" : safe(user.objectId),
-                                                         @"method" : safe(method)
-                                                         }];
+                    @"user.id" : safe(user.objectId),
+                    @"method" : safe(method)
+            }];
+            [[AppsFlyerTracker sharedTracker] trackEvent:@"userSignedUp" withValue:@"0"];
         } else {
             NSLog(@"[USAGE ANALYTICS]: trackUserSignup - User:%@ Method:%@", user, method);
         }
@@ -122,6 +129,7 @@ static BOOL isRelease;
     } else {
         if (isRelease) {
             [Heap track:@"userLinkedWithFacebook" withProperties:props];
+            [[AppsFlyerTracker sharedTracker] trackEvent:@"userLinkedWithFacebook" withValue:@""];
         } else {
             NSLog(@"[USAGE ANALYTICS]: trackUserLinkedWithFacebook - User:%@ Publish:%d", user, publish);
         }
@@ -131,6 +139,7 @@ static BOOL isRelease;
 + (void)trackUserSignout:(ParentUser *)user {
     if (isRelease) {
         [Heap track:@"userSignedOut" withProperties:@{@"user.id" : safe(user.objectId)}];
+        [[AppsFlyerTracker sharedTracker] trackEvent:@"userSignedOut" withValue:@""];
     } else {
         NSLog(@"[USAGE ANALYTICS]: trackUserSignout - User:%@", user);
     }
@@ -192,11 +201,11 @@ static BOOL isRelease;
 + (void)trackAdClicked:(NSString *)adIdentifier {
     if (isRelease) {
         [Heap track:@"adClicked" withProperties:@{@"adIdentifier" : adIdentifier}];
+        [[AppsFlyerTracker sharedTracker] trackEvent:@"adIdentifier" withValue:adIdentifier];
     } else {
         NSLog(@"[USAGE ANALYTICS]: trackAdClick - AdId:%@", adIdentifier);
     }
 }
-
 
 + (void)trackTutorialResponse:(BOOL)viewed {
     if (isRelease) {

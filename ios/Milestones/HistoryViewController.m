@@ -182,7 +182,7 @@
                 } else if (buttonIndex == 2) {
                     // Don't ask again
                     [ParentUser currentUser].suppressLoginPrompt = YES;
-                    [UsageAnalytics trackSettingChange:@"suppressLoginPrompt" withValue:YES];
+                    [UsageAnalytics trackSettingChange:@"suppressLoginPrompt" withValue:@(YES)];
                     [[[UIAlertView alloc] initWithTitle:@"Just so you know..."
                                                 message:@"We won't ask again, but you can always signup on the profile screen."
                                                delegate:nil

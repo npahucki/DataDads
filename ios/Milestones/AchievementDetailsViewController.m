@@ -155,7 +155,6 @@ NSDateFormatter *_dateFormatter;
     [attrText appendAttributedString:completedAtAgeValue];
 
 
-
     if (m.url) {
         [attrText appendAttributedString:lf];
         [attrText appendAttributedString:lf];
@@ -215,8 +214,8 @@ NSDateFormatter *_dateFormatter;
                                               destinationEdge:BCRectEdgeBottom
                                                    completion:^{
                                                        [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationAchievementNeedsDeleteAction object:self.achievement];
-                [self.navigationController popViewControllerAnimated:NO];
-            }];
+                                                       [self.navigationController popViewControllerAnimated:NO];
+                                                   }];
         }
     };
     [as showInView:self.view];
@@ -324,7 +323,7 @@ NSDateFormatter *_dateFormatter;
         recognizer.view.center = CGPointMake(_percentileMessageCenter.x + translation.x, _percentileMessageCenter.y + translation.y);
     } else if (recognizer.state == UIGestureRecognizerStateEnded) {
         if (!_beganDrag) return;
-        if (abs((int) translation.y) > recognizer.view.bounds.size.height / 3.0 && abs((int) velocity.y) > 200.0 ||
+        if ((abs((int) translation.y) > recognizer.view.bounds.size.height / 3.0 && abs((int) velocity.y) > 200.0) ||
                 (abs((int) translation.x) > recognizer.view.bounds.size.width / 3.0 && abs((int) velocity.x) > 200.0)) {
             CGFloat velocityScale = .01;
             UIPushBehavior *push = [[UIPushBehavior alloc] initWithItems:@[recognizer.view] mode:UIPushBehaviorModeInstantaneous];
@@ -392,7 +391,7 @@ NSDateFormatter *_dateFormatter;
     [self setButtonPhoto:photo];
 }
 
--(void) setButtonPhoto:(UIImage *) photo {
+- (void)setButtonPhoto:(UIImage *)photo {
     [self.detailsImageButton setImage:[photo imageScaledToFitSize:self.detailsImageButton.bounds.size] forState:UIControlStateNormal];
 }
 

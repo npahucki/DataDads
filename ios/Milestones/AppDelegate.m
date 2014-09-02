@@ -7,7 +7,6 @@
 //
 
 #import "AppDelegate.h"
-#import <FacebookSDK/FacebookSDK.h>
 
 
 @implementation AppDelegate
@@ -30,16 +29,11 @@
     // Make sure only users can read their own data!
     [PFACL setDefaultACL:[PFACL ACL] withAccessForCurrentUser:YES];
 
-    // Setup Social Providers ANd Trakcing Services
-    [UsageAnalytics initializeConnection];
-
     NSString *parseAppId = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.ParseApplicationId"];
     NSLog(@"Using Parse Application Id '%@'", parseAppId);
     [Parse setApplicationId:parseAppId clientKey:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.ParseClientId"]];
 
     [PFFacebookUtils initializeFacebook];
-//  [PFTwitterUtils initializeWithConsumerKey:@"4UXzyDxzZSDXwfCw1qK4ew"
-//                             consumerSecret:@"lzARes6UFvuHTynV0EleL1lmSclmv99k1AXuz5XeAk"];
 
     // Setup user tracking and A/B tests
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];

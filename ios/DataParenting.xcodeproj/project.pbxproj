@@ -17,7 +17,6 @@
 		E81B58601891EEB500C74C2B /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B585F1891EEB500C74C2B /* MobileCoreServices.framework */; };
 		E81B58621891EEBE00C74C2B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B58611891EEBE00C74C2B /* QuartzCore.framework */; };
 		E81B58641891EEC500C74C2B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B58631891EEC500C74C2B /* Security.framework */; };
-		E81B58661891EED100C74C2B /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B58651891EED100C74C2B /* StoreKit.framework */; };
 		E81B58681891EEDB00C74C2B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B58671891EEDB00C74C2B /* SystemConfiguration.framework */; };
 		E81B58701896A75700C74C2B /* Contants.m in Sources */ = {isa = PBXBuildFile; fileRef = E81B586F1896A75700C74C2B /* Contants.m */; };
 		E81B58731896B89E00C74C2B /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E81B58721896B89E00C74C2B /* MainViewController.m */; };
@@ -63,7 +62,6 @@
 		E872D4CA1940B412003F461C /* ParentUser.m in Sources */ = {isa = PBXBuildFile; fileRef = E872D4C91940B412003F461C /* ParentUser.m */; };
 		E872D4CD1940B8D6003F461C /* PFFacebookUtils+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = E872D4CC1940B8D6003F461C /* PFFacebookUtils+Extras.m */; };
 		E872D4D01940E9FD003F461C /* UIAlertView+BlockSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = E872D4CF1940E9FD003F461C /* UIAlertView+BlockSupport.m */; };
-		E872D4D619420252003F461C /* Appsee.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E872D4D519420252003F461C /* Appsee.framework */; };
 		E872D4D81942026F003F461C /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E872D4D71942026F003F461C /* AVFoundation.framework */; };
 		E872D4DA1942027D003F461C /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E872D4D91942027D003F461C /* CoreMedia.framework */; };
 		E872D4DC19420287003F461C /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E872D4DB19420287003F461C /* CoreVideo.framework */; };
@@ -137,7 +135,6 @@
 		E8A02D3319817CCF001E0DAB /* MilestoneAchievement.m in Sources */ = {isa = PBXBuildFile; fileRef = E81B588D189BFFFE00C74C2B /* MilestoneAchievement.m */; };
 		E8A02D3419817CCF001E0DAB /* StandardMilestone.m in Sources */ = {isa = PBXBuildFile; fileRef = E81B588A189BCCD200C74C2B /* StandardMilestone.m */; };
 		E8A02D3619817CCF001E0DAB /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8A99CF3196205E1008BCEFE /* AssetsLibrary.framework */; };
-		E8A02D3719817CCF001E0DAB /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E862B81618F6A6BA00EBAEFF /* iAd.framework */; };
 		E8A02D3819817CCF001E0DAB /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B58671891EEDB00C74C2B /* SystemConfiguration.framework */; };
 		E8A02D3919817CCF001E0DAB /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B58611891EEBE00C74C2B /* QuartzCore.framework */; };
 		E8A02D3A19817CCF001E0DAB /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E872D4DB19420287003F461C /* CoreVideo.framework */; };
@@ -145,14 +142,12 @@
 		E8A02D3C19817CCF001E0DAB /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8DD48DF188EE5B900153095 /* CoreGraphics.framework */; };
 		E8A02D3D19817CCF001E0DAB /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E872D4D71942026F003F461C /* AVFoundation.framework */; };
 		E8A02D3E19817CCF001E0DAB /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B5887189AB2B900C74C2B /* Accounts.framework */; };
-		E8A02D3F19817CCF001E0DAB /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B58651891EED100C74C2B /* StoreKit.framework */; };
 		E8A02D4019817CCF001E0DAB /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B58631891EEC500C74C2B /* Security.framework */; };
 		E8A02D4119817CCF001E0DAB /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B585F1891EEB500C74C2B /* MobileCoreServices.framework */; };
 		E8A02D4219817CCF001E0DAB /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B585D1891EEAC00C74C2B /* libz.dylib */; };
 		E8A02D4319817CCF001E0DAB /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B585B1891EE9E00C74C2B /* CoreLocation.framework */; };
 		E8A02D4419817CCF001E0DAB /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B58591891EE8D00C74C2B /* CFNetwork.framework */; };
 		E8A02D4519817CCF001E0DAB /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B58571891EE7D00C74C2B /* AudioToolbox.framework */; };
-		E8A02D4619817CCF001E0DAB /* Appsee.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E872D4D519420252003F461C /* Appsee.framework */; };
 		E8A02D4719817CCF001E0DAB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8DD48E1188EE5B900153095 /* UIKit.framework */; };
 		E8A02D4819817CCF001E0DAB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8DD48DD188EE5B900153095 /* Foundation.framework */; };
 		E8A02D4919817CCF001E0DAB /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7AE7A55BFBD3425490A0E0F5 /* libPods.a */; };
@@ -171,7 +166,6 @@
 		E8A02D5819817CCF001E0DAB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E8DD48FB188EE5B900153095 /* Images.xcassets */; };
 		E8A02D5919817CCF001E0DAB /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E8DD48EF188EE5B900153095 /* Main_iPhone.storyboard */; };
 		E8A02D5A19817CCF001E0DAB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E8DD48E6188EE5B900153095 /* InfoPlist.strings */; };
-		E8A99CF219620570008BCEFE /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E862B81618F6A6BA00EBAEFF /* iAd.framework */; };
 		E8A99CF4196205E1008BCEFE /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8A99CF3196205E1008BCEFE /* AssetsLibrary.framework */; };
 		E8ABCFBA191D68FE0083ED25 /* UIDateField.m in Sources */ = {isa = PBXBuildFile; fileRef = E8ABCFB9191D68FE0083ED25 /* UIDateField.m */; };
 		E8ABE5701982D5140022D110 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = E8ABE56F1982D5140022D110 /* background.png */; };
@@ -300,7 +294,6 @@
 		E872D4CC1940B8D6003F461C /* PFFacebookUtils+Extras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PFFacebookUtils+Extras.m"; sourceTree = "<group>"; };
 		E872D4CE1940E9FD003F461C /* UIAlertView+BlockSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+BlockSupport.h"; sourceTree = "<group>"; };
 		E872D4CF1940E9FD003F461C /* UIAlertView+BlockSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+BlockSupport.m"; sourceTree = "<group>"; };
-		E872D4D519420252003F461C /* Appsee.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Appsee.framework; sourceTree = "<group>"; };
 		E872D4D71942026F003F461C /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		E872D4D91942027D003F461C /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		E872D4DB19420287003F461C /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
@@ -399,7 +392,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E8A02D3619817CCF001E0DAB /* AssetsLibrary.framework in Frameworks */,
-				E8A02D3719817CCF001E0DAB /* iAd.framework in Frameworks */,
 				E8A02D3819817CCF001E0DAB /* SystemConfiguration.framework in Frameworks */,
 				E8A02D3919817CCF001E0DAB /* QuartzCore.framework in Frameworks */,
 				E8A02D3A19817CCF001E0DAB /* CoreVideo.framework in Frameworks */,
@@ -407,14 +399,12 @@
 				E8A02D3C19817CCF001E0DAB /* CoreGraphics.framework in Frameworks */,
 				E8A02D3D19817CCF001E0DAB /* AVFoundation.framework in Frameworks */,
 				E8A02D3E19817CCF001E0DAB /* Accounts.framework in Frameworks */,
-				E8A02D3F19817CCF001E0DAB /* StoreKit.framework in Frameworks */,
 				E8A02D4019817CCF001E0DAB /* Security.framework in Frameworks */,
 				E8A02D4119817CCF001E0DAB /* MobileCoreServices.framework in Frameworks */,
 				E8A02D4219817CCF001E0DAB /* libz.dylib in Frameworks */,
 				E8A02D4319817CCF001E0DAB /* CoreLocation.framework in Frameworks */,
 				E8A02D4419817CCF001E0DAB /* CFNetwork.framework in Frameworks */,
 				E8A02D4519817CCF001E0DAB /* AudioToolbox.framework in Frameworks */,
-				E8A02D4619817CCF001E0DAB /* Appsee.framework in Frameworks */,
 				E8A02D4719817CCF001E0DAB /* UIKit.framework in Frameworks */,
 				E8A02D4819817CCF001E0DAB /* Foundation.framework in Frameworks */,
 				E8A02D4919817CCF001E0DAB /* libPods.a in Frameworks */,
@@ -426,7 +416,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E8A99CF4196205E1008BCEFE /* AssetsLibrary.framework in Frameworks */,
-				E8A99CF219620570008BCEFE /* iAd.framework in Frameworks */,
 				E81B58681891EEDB00C74C2B /* SystemConfiguration.framework in Frameworks */,
 				E81B58621891EEBE00C74C2B /* QuartzCore.framework in Frameworks */,
 				E872D4DC19420287003F461C /* CoreVideo.framework in Frameworks */,
@@ -434,14 +423,12 @@
 				E8DD48E0188EE5B900153095 /* CoreGraphics.framework in Frameworks */,
 				E872D4D81942026F003F461C /* AVFoundation.framework in Frameworks */,
 				E81B5888189AB2B900C74C2B /* Accounts.framework in Frameworks */,
-				E81B58661891EED100C74C2B /* StoreKit.framework in Frameworks */,
 				E81B58641891EEC500C74C2B /* Security.framework in Frameworks */,
 				E81B58601891EEB500C74C2B /* MobileCoreServices.framework in Frameworks */,
 				E81B585E1891EEAC00C74C2B /* libz.dylib in Frameworks */,
 				E81B585C1891EE9E00C74C2B /* CoreLocation.framework in Frameworks */,
 				E81B585A1891EE8D00C74C2B /* CFNetwork.framework in Frameworks */,
 				E81B58581891EE7D00C74C2B /* AudioToolbox.framework in Frameworks */,
-				E872D4D619420252003F461C /* Appsee.framework in Frameworks */,
 				E8DD48E2188EE5B900153095 /* UIKit.framework in Frameworks */,
 				E8DD48DE188EE5B900153095 /* Foundation.framework in Frameworks */,
 				D6CB8834E1A347069F6D2883 /* libPods.a in Frameworks */,
@@ -654,7 +641,6 @@
 				E872D4DB19420287003F461C /* CoreVideo.framework */,
 				E872D4D91942027D003F461C /* CoreMedia.framework */,
 				E872D4D71942026F003F461C /* AVFoundation.framework */,
-				E872D4D519420252003F461C /* Appsee.framework */,
 				E862B81618F6A6BA00EBAEFF /* iAd.framework */,
 				E862B81418F6A69200EBAEFF /* AdSupport.framework */,
 				E81B5887189AB2B900C74C2B /* Accounts.framework */,

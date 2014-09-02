@@ -43,8 +43,10 @@
         </array>
         <key>CFBundleVersion</key>
         <string>1.0</string>
-        <key>DP.AppseeAppId</key>
-        <string>d734db8233234f5fb770c5166c3d56cd</string>
+        <key>DP.AppsFlyerDevKey</key>
+        <string>rb2piyfLLw8aNdxK8nVrh8</string>
+        <key>DP.AppleStoreId</key>
+        <string>905124835</string>
         <key>DP.HeapAppId</key>
         <string>1074414542</string>
         <key>DP.ParseApplicationId</key>
