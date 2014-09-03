@@ -76,6 +76,7 @@ function processSingleBaby(baby, sendPushNotification) {
         var babyAgeInDays = Math.abs(utils.dayDiffFromNow(babyDueDate));
         //console.log("Baby " + baby.id + " was due " + babyDueDate + " as is " + babyAgeInDays + " days old");
         tipsQuery = new Parse.Query("Tips");
+        tipsQuery.equalTo("tipType", 1);
         tipsQuery.greaterThanOrEqualTo("rangeHigh", babyAgeInDays);
         tipsQuery.lessThanOrEqualTo("rangeLow", babyAgeInDays);
         tipsQuery.ascending("rangeHigh,rangeLow");
