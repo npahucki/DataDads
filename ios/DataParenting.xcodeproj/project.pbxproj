@@ -177,6 +177,8 @@
 		E8BDE6B2193E0951001D6995 /* Pronouns.strings in Resources */ = {isa = PBXBuildFile; fileRef = E8BDE6B1193E0951001D6995 /* Pronouns.strings */; };
 		E8BDE6B8193E0CF7001D6995 /* PronounHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = E8BDE6B7193E0CF7001D6995 /* PronounHelper.m */; };
 		E8BDE6BA193E1522001D6995 /* PronounHelperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E8BDE6B9193E1522001D6995 /* PronounHelperTests.m */; };
+		E8CE70F619B7C55C0051FF97 /* NotificationDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8CE70F519B7C55C0051FF97 /* NotificationDetailViewController.m */; };
+		E8CE70F719B7C55C0051FF97 /* NotificationDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8CE70F519B7C55C0051FF97 /* NotificationDetailViewController.m */; };
 		E8D00A17188F348700DF2786 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D00A16188F348700DF2786 /* LoginViewController.m */; };
 		E8D00A1A188F362100DF2786 /* BabyInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D00A19188F362100DF2786 /* BabyInfoViewController.m */; };
 		E8D00A20188F435300DF2786 /* NoteMilestoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D00A1F188F435300DF2786 /* NoteMilestoneViewController.m */; };
@@ -344,6 +346,8 @@
 		E8BDE6B6193E0CF7001D6995 /* PronounHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PronounHelper.h; sourceTree = "<group>"; };
 		E8BDE6B7193E0CF7001D6995 /* PronounHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PronounHelper.m; sourceTree = "<group>"; };
 		E8BDE6B9193E1522001D6995 /* PronounHelperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PronounHelperTests.m; sourceTree = "<group>"; };
+		E8CE70F419B7C55C0051FF97 /* NotificationDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationDetailViewController.h; sourceTree = "<group>"; };
+		E8CE70F519B7C55C0051FF97 /* NotificationDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationDetailViewController.m; sourceTree = "<group>"; };
 		E8D00A15188F348700DF2786 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		E8D00A16188F348700DF2786 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		E8D00A18188F362100DF2786 /* BabyInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyInfoViewController.h; sourceTree = "<group>"; };
@@ -607,6 +611,8 @@
 				E89035E31930328E004A4013 /* MainNotificationsViewController.h */,
 				E89035E41930328E004A4013 /* MainNotificationsViewController.m */,
 				E866E7F21936448C004963C9 /* NotificationTableViewController.m */,
+				E8CE70F419B7C55C0051FF97 /* NotificationDetailViewController.h */,
+				E8CE70F519B7C55C0051FF97 /* NotificationDetailViewController.m */,
 			);
 			name = Notifications;
 			sourceTree = "<group>";
@@ -1053,6 +1059,7 @@
 				E8A02D0B19817CCF001E0DAB /* PronounHelper.m in Sources */,
 				E8A02D0C19817CCF001E0DAB /* AchievementDetailsViewController.m in Sources */,
 				E8A02D0D19817CCF001E0DAB /* BabyTagsViewController.m in Sources */,
+				E8CE70F719B7C55C0051FF97 /* NotificationDetailViewController.m in Sources */,
 				E8A02D0E19817CCF001E0DAB /* Contants.m in Sources */,
 				E8A02D0F19817CCF001E0DAB /* NoteMilestoneViewController.m in Sources */,
 				E8A02D1019817CCF001E0DAB /* Tag.m in Sources */,
@@ -1115,6 +1122,7 @@
 				E8BDE6B8193E0CF7001D6995 /* PronounHelper.m in Sources */,
 				E89035EF1934C97F004A4013 /* AchievementDetailsViewController.m in Sources */,
 				E876159B18EF83C100B0C6D9 /* BabyTagsViewController.m in Sources */,
+				E8CE70F619B7C55C0051FF97 /* NotificationDetailViewController.m in Sources */,
 				E81B58701896A75700C74C2B /* Contants.m in Sources */,
 				E8D00A20188F435300DF2786 /* NoteMilestoneViewController.m in Sources */,
 				E81B588318992B7000C74C2B /* Tag.m in Sources */,

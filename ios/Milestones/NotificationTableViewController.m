@@ -10,6 +10,7 @@
 #import "NSDate+HumanizedTime.h"
 #import "WebViewerViewController.h"
 #import "PFCloud+Cache.h"
+#import "NotificationDetailViewController.h"
 
 #define TITLE_FONT [UIFont fontForAppWithType:Book andSize:14]
 #define DETAIL_FONT [UIFont fontForAppWithType:Book andSize:12]
@@ -119,6 +120,8 @@
         _hadError = NO; // Make sure loading icon shows again
         [self.tableView reloadData];
         [self loadObjects];
+    } else {
+        [self performSegueWithIdentifier:kDDSegueShowNotificationDetails sender:[self.tableView cellForRowAtIndexPath:indexPath]];
     }
 }
 
@@ -183,8 +186,13 @@
         BabyAssignedTip *assignment = (BabyAssignedTip *) sender;
         NSAssert(assignment.tip.url.length, @"This should only be called on a tip with a URL");
         webView.url = [NSURL URLWithString:assignment.tip.url];
+    } else if ([segue.identifier isEqualToString:kDDSegueShowNotificationDetails]) {
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+        NotificationDetailViewController *detailController = (NotificationDetailViewController *) segue.destinationViewController;
+        detailController.tipAssignment = (BabyAssignedTip *) _objects[indexPath.row];
     }
 }
+
 
 // LOOKS COOL, BUT HAS ALL SORTS OF RENDERING ISSUES, MAYBE LATER!
 
@@ -230,7 +238,7 @@
         }
 
         BabyAssignedTip *assignment = [self tipForIndexPath:indexPath];
-        int width = assignment.tip.url.length ? self.tableView.frame.size.width - 44 : self.tableView.frame.size.width;
+        CGFloat width = assignment.tip.url.length ? self.tableView.frame.size.width - 44 : self.tableView.frame.size.width;
         CGFloat newTitleLabelSize = [self getLabelSize:assignment.tip.titleForCurrentBaby andFont:TITLE_FONT withMaxWidth:width];
         CGFloat newDateLabelSize = [self getLabelSize:[assignment.createdAt stringWithHumanizedTimeDifference] andFont:DETAIL_FONT withMaxWidth:width];
         return MAX(newTitleLabelSize + newDateLabelSize + 40, defaultSize);

@@ -12,7 +12,12 @@
 
 @dynamic title;
 @dynamic tipType;
+@dynamic shortDescription;
 @dynamic url;
+
+- (NSString *)shortDescriptionForCurrentBaby {
+    return [PronounHelper replacePronounTokens:self.shortDescription forBaby:Baby.currentBaby];
+}
 
 - (NSString *)titleForBaby:(Baby *)baby {
     return [PronounHelper replacePronounTokens:self.title forBaby:baby];

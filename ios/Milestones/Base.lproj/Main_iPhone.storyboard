@@ -913,7 +913,7 @@
                                     <outlet property="delegate" destination="As4-O0-72y" id="82Q-1Y-vTm"/>
                                 </connections>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8nC-ax-kTN" userLabel="Image Button" customClass="TakePhotoButton">
+                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8nC-ax-kTN" userLabel="Image Button" customClass="TakePhotoButton">
                                 <rect key="frame" x="45" y="203" width="230" height="231"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <accessibility key="accessibilityConfiguration" label="cameraButton"/>
@@ -2022,7 +2022,7 @@
                         </constraints>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Tips" id="k5z-id-eI8">
+                    <navigationItem key="navigationItem" title="Tips &amp; Games" id="k5z-id-eI8">
                         <barButtonItem key="leftBarButtonItem" image="backIcon" id="9LW-MR-dhH">
                             <button key="customView" opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="uEx-2R-s1Y">
                                 <rect key="frame" x="16" y="3" width="38" height="38"/>
@@ -2143,11 +2143,11 @@
                         <viewControllerLayoutGuide type="bottom" id="PIG-aM-UmZ"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="jRt-YE-eqI">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6GD-Se-9HH">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </webView>
@@ -2166,7 +2166,7 @@
                                 </connections>
                             </button>
                             <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="progress-0" translatesAutoresizingMaskIntoConstraints="NO" id="HEj-wT-KZZ">
-                                <rect key="frame" x="95" y="239" width="130" height="90"/>
+                                <rect key="frame" x="95" y="217" width="130" height="90"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="130" id="cGN-1a-a5m"/>
@@ -2204,11 +2204,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationWidth="0.0" reuseIdentifier="tipCell" textLabel="YQ8-um-tgp" detailTextLabel="EI6-hI-P8K" imageView="upt-Tq-dHm" rowHeight="44" style="IBUITableViewCellStyleSubtitle" id="k1B-UL-Jsf" customClass="SWTableViewCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationWidth="0.0" reuseIdentifier="tipCell" textLabel="YQ8-um-tgp" detailTextLabel="EI6-hI-P8K" imageView="upt-Tq-dHm" rowHeight="44" style="IBUITableViewCellStyleSubtitle" id="k1B-UL-Jsf" customClass="SWTableViewCell">
                                 <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="k1B-UL-Jsf" id="PjE-cl-4BT">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="34" id="YQ8-um-tgp">
@@ -2231,6 +2231,9 @@
                                         </imageView>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="cPl-2i-k4Q" kind="push" identifier="showNotificationDetails" id="cr4-Qx-p82"/>
+                                </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationWidth="0.0" reuseIdentifier="loadingCell" textLabel="MYP-os-jzi" imageView="dnp-Mb-eH5" rowHeight="44" style="IBUITableViewCellStyleDefault" id="gjy-Vr-a6o">
                                 <rect key="frame" x="0.0" y="66" width="320" height="44"/>
@@ -2265,7 +2268,67 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="asj-yf-bLe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4158" y="-65"/>
+            <point key="canvasLocation" x="4331" y="-160"/>
+        </scene>
+        <!--Notification Detail View Controller - Details-->
+        <scene sceneID="cqA-o6-Ese">
+            <objects>
+                <viewController id="cPl-2i-k4Q" customClass="NotificationDetailViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Hwy-Xs-KIR"/>
+                        <viewControllerLayoutGuide type="bottom" id="tge-Ya-dB4"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="j40-P0-keu">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Ix-Jh-EpC" userLabel="Container View">
+                                <rect key="frame" x="0.0" y="44" width="320" height="480"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zSN-LX-pjZ">
+                                        <rect key="frame" x="20" y="20" width="280" height="440"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                        <attributedString key="attributedText">
+                                            <fragment content="Title">
+                                                <attributes>
+                                                    <font key="NSFont" size="14" name="HelveticaNeue"/>
+                                                    <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                                </attributes>
+                                            </fragment>
+                                        </attributedString>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                        <dataDetectorType key="dataDetectorTypes" link="YES"/>
+                                    </textView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="9Ix-Jh-EpC" secondAttribute="trailing" id="1eq-ln-GTo"/>
+                            <constraint firstAttribute="bottom" secondItem="9Ix-Jh-EpC" secondAttribute="bottom" id="AOU-nc-WzD"/>
+                            <constraint firstItem="9Ix-Jh-EpC" firstAttribute="top" secondItem="Hwy-Xs-KIR" secondAttribute="bottom" id="Tmt-1W-Fe0"/>
+                            <constraint firstItem="9Ix-Jh-EpC" firstAttribute="leading" secondItem="j40-P0-keu" secondAttribute="leading" id="pKW-A9-dA6"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Details" id="YC5-hq-ZXU">
+                        <barButtonItem key="backBarButtonItem" title="Tips &amp; Games" id="aFf-nx-z4Y"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="5zO-L4-xd6">
+                            <connections>
+                                <action selector="didClickActionButton:" destination="cPl-2i-k4Q" id="Ri7-d1-zQc"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <outlet property="detailTextView" destination="zSN-LX-pjZ" id="kjg-aY-dJq"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mJR-ay-BsJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4909" y="-160"/>
         </scene>
         <!--Navigation Controller - Tips-->
         <scene sceneID="kAc-OT-5lo">
@@ -2328,10 +2391,10 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="6HZ-Iq-Yef"/>
         <segue reference="HiK-bz-YEB"/>
+        <segue reference="LCs-nH-0km"/>
+        <segue reference="sNA-hk-F8e"/>
         <segue reference="zMK-LI-8Wn"/>
         <segue reference="0vw-rA-jx1"/>
-        <segue reference="9u5-1o-6Cv"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -30,6 +30,7 @@ extern NSString *const kDDSegueNoteMilestone;
 extern NSString *const kDDSegueNoteCustomMilestone;
 extern NSString *const kDDSegueShowSettings;
 extern NSString *const kDDSegueShowAchievementDetails;
+extern NSString *const kDDSegueShowNotificationDetails;
 extern NSString *const kDDSegueShowLoginScreen;
 extern NSString *const kDDSegueEnterBabyInfo;
 extern NSString *const kDDSegueShowFullScreenImage;

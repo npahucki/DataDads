@@ -14,6 +14,7 @@ NSString *const kDDSegueEnterScreenName = @"enterScreenName";
 NSString *const kDDSegueNoteMilestone = @"noteMilestone";
 NSString *const kDDSegueNoteCustomMilestone = @"noteCustomMilestone";
 NSString *const kDDSegueShowAchievementDetails = @"showAchievementDetails";
+NSString *const kDDSegueShowNotificationDetails = @"showNotificationDetails";
 NSString *const kDDSegueShowSettings = @"showSettings";
 NSString *const kDDSegueShowLoginScreen = @"showLoginScreen";
 NSString *const kDDSegueEnterBabyInfo = @"enterBabyInfo";

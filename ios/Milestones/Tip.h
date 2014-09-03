@@ -9,7 +9,7 @@
 typedef enum _TipType : NSUInteger {
     TipTypeAll = 0,
     TipTypeNormal = 1,
-    TipTypeWarning
+    TipTypeGame
 
 } TipType;
 
@@ -19,9 +19,12 @@ typedef enum _TipType : NSUInteger {
 + (NSString *)parseClassName;
 
 @property NSString *title;
+@property NSString *shortDescription;
 @property(readonly) NSString *titleForCurrentBaby;
-@property TipType *tipType;
+@property(readonly) NSString *shortDescriptionForCurrentBaby;
+@property TipType tipType;
 @property NSString *url;
+
 
 - (NSString *)titleForBaby:(Baby *)baby;
 
