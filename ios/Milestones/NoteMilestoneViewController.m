@@ -13,7 +13,7 @@
 #import "TutorialBubbleView.h"
 
 @interface NoteMilestoneViewController ()
-
+@property TutorialBubbleView *tutorialBubbleView;
 @end
 
 @implementation NoteMilestoneViewController {
@@ -138,8 +138,8 @@
         [UIView
                 animateWithDuration:0.5
                          animations:^{
-            self.view.frame = CGRectMake(0, _originalFrame.origin.y - kbSize.height + self.adView.frame.size.height, _originalFrame.size.width, _originalFrame.size.height);
-        }];
+                             self.view.frame = CGRectMake(0, _originalFrame.origin.y - kbSize.height + self.adView.frame.size.height, _originalFrame.size.width, _originalFrame.size.height);
+                         }];
     }
 }
 
@@ -150,8 +150,8 @@
     [UIView
             animateWithDuration:0.5
                      animations:^{
-        self.view.frame = _originalFrame;
-    }];
+                         self.view.frame = _originalFrame;
+                     }];
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
@@ -165,7 +165,7 @@
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     NSUInteger newLength = [textField.text length] + [string length] - range.length;
     if (textField == self.weightTextField) {
-        self.doneButton.enabled =  [self.weightTextField.text stringByReplacingCharactersInRange:range withString:string].floatValue > 0 || self.heightTextField.text.floatValue > 0;
+        self.doneButton.enabled = [self.weightTextField.text stringByReplacingCharactersInRange:range withString:string].floatValue > 0 || self.heightTextField.text.floatValue > 0;
         return (newLength < 5);
     } else if (textField == self.heightTextField) {
         self.doneButton.enabled = [self.heightTextField.text stringByReplacingCharactersInRange:range withString:string].floatValue > 0 || self.weightTextField.text.floatValue > 0;
@@ -236,9 +236,10 @@
     if (_tutorialBubbleView) {
         [_tutorialBubbleView dismiss];
     } else {
+        __weak NoteMilestoneViewController *_self = self;
         _tutorialBubbleView = [[NSBundle mainBundle] loadNibNamed:@"TutorialBubbleView" owner:self options:nil][0];
         _tutorialBubbleView.dismissBlock = ^{
-            _tutorialBubbleView = nil;
+            _self.tutorialBubbleView = nil;
         };
         CGPoint relativePoint = CGPointMake(self.rangeIndicatorView.center.x, self.rangeIndicatorView.frame.origin.y + self.rangeIndicatorView.frame.size.height + 5);
         _tutorialBubbleView.arrowTip = [self.rangeIndicatorView.superview convertPoint:relativePoint toView:self.view];
@@ -322,7 +323,7 @@
     Measurement *weightMeasurement;
     if (self.isMeasurement) {
 
-        if(self.heightTextField.text.floatValue) {
+        if (self.heightTextField.text.floatValue) {
             heightMeasurement = [Measurement object];
             heightMeasurement.type = @"height";
             heightMeasurement.unit = self.heightUnitLabel.text;
@@ -331,7 +332,7 @@
             heightMeasurement.baby = self.achievement.baby;
         }
 
-        if(self.weightTextField.text.floatValue) {
+        if (self.weightTextField.text.floatValue) {
             weightMeasurement = [Measurement object];
             weightMeasurement.type = @"weight";
             weightMeasurement.unit = self.weightUnitLabel.text;
@@ -340,10 +341,10 @@
             weightMeasurement.baby = self.achievement.baby;
         }
 
-        if(heightMeasurement && weightMeasurement) {
+        if (heightMeasurement && weightMeasurement) {
             self.achievement.customTitle = [NSString stringWithFormat:@"${He} reaches %@%@ and %@%@!", heightMeasurement.quantity, heightMeasurement.unit, weightMeasurement.quantity, weightMeasurement.unit];
         } else {
-            Measurement * measurement = heightMeasurement ? heightMeasurement : weightMeasurement;
+            Measurement *measurement = heightMeasurement ? heightMeasurement : weightMeasurement;
             self.achievement.customTitle = [NSString stringWithFormat:@"${He} reaches %@%@!", measurement.quantity, measurement.unit];
         }
     } else if (self.isCustom) {

@@ -17,6 +17,7 @@
 #import "UIImage+FX.h"
 
 @interface AchievementDetailsViewController ()
+@property TutorialBubbleView *tutorialBubbleView;
 
 @end
 
@@ -26,7 +27,6 @@
     BOOL _beganDrag;
     UIView *_backgroundView;
     FDTakeController *_takeController;
-    TutorialBubbleView *_tutorialBubbleView;
 }
 
 // Global for all instances
@@ -345,9 +345,10 @@ NSDateFormatter *_dateFormatter;
     if (_tutorialBubbleView) {
         [_tutorialBubbleView dismiss];
     } else {
+        __weak AchievementDetailsViewController *_self = self;
         _tutorialBubbleView = [[NSBundle mainBundle] loadNibNamed:@"TutorialBubbleView" owner:self options:nil][0];
         _tutorialBubbleView.dismissBlock = ^{
-            _tutorialBubbleView = nil;
+            _self.tutorialBubbleView = nil;
         };
         CGPoint relativePoint = CGPointMake(self.rangeIndicatorView.center.x, self.rangeIndicatorView.frame.origin.y + self.rangeIndicatorView.frame.size.height + 5);
         _tutorialBubbleView.arrowTip = [self.rangeIndicatorView.superview convertPoint:relativePoint toView:self.view];
