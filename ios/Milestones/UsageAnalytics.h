@@ -10,6 +10,8 @@
 
 @interface UsageAnalytics : NSObject
 
++ (void)initializeAnalytics;
+
 + (void)idenfity:(ParentUser *)user withBaby:(Baby *)baby;
 
 + (void)trackError:(NSError *)error forOperationNamed:(NSString *)operation;

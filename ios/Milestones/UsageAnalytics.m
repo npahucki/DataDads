@@ -19,7 +19,7 @@ static BOOL isRelease;
 
 @implementation UsageAnalytics
 
-+ (void)initialize {
++ (void)initializeAnalytics {
 # if DEBUG || TARGET_IPHONE_SIMULATOR
     isRelease = NO;
 #else
