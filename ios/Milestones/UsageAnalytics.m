@@ -38,21 +38,19 @@ static BOOL isRelease;
 
 + (void)idenfity:(ParentUser *)user withBaby:(Baby *)baby {
     if (user) {
-        NSDictionary *props = @{
-                @"handle" : safe(user.objectId),
-                @"email" : safe(user.email),
+        NSMutableDictionary *props = [@{
                 @"user.id" : safe(user.objectId),
                 @"user.anonymous" : user.email ? @"N" : @"Y",
                 @"user.screenName" : safe(user.screenName),
                 @"user.linkedToFacebook" : [PFFacebookUtils isLinkedWithUser:user] ? @"Y" : @"N",
                 @"user.emailVerified" : [user objectForKey:@"emailVerified"] ? @"Y" : @"N",
-                @"user.sex" : user.isMale ? @"M" : @"F",
-        };
+                @"user.sex" : user.isMale ? @"M" : @"F"
+        } mutableCopy];
+        // Don't add if null, this causes problems in Heap!
+        if (user.email) props[@"email"] = user.email;
         if (baby) {
-            NSMutableDictionary *combinedAttributes = [NSMutableDictionary dictionaryWithDictionary:props];
-            combinedAttributes[@"baby.id"] = safe(baby.objectId);
-            combinedAttributes[@"baby.sex"] = baby.isMale ? @"M" : @"F";
-            props = combinedAttributes;
+            props[@"baby.id"] = safe(baby.objectId);
+            props[@"baby.sex"] = baby.isMale ? @"M" : @"F";
         }
 
         if (isRelease) {
