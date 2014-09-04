@@ -153,6 +153,7 @@
         [cell setCellHeight:cell.frame.size.height];
         cell.textLabel.text = tipAssignment.tip.titleForCurrentBaby;
         cell.detailTextLabel.text = [NSString stringWithFormat:@"Delivered %@", [tipAssignment.assignmentDate stringWithHumanizedTimeDifference]];
+        // TODO: set image according to tip type.
         cell.accessoryType = tipAssignment.tip.url.length ? UITableViewCellAccessoryDetailButton : UITableViewCellAccessoryNone;
         return cell;
     } else {

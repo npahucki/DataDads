@@ -51,17 +51,24 @@ function processSingleBaby(baby, sendPushNotification) {
 
     // Takes a single baby and returns a promise that
     // resolves to a date or nil (if no assignments for baby)
-    var findLastAssignmentDate = function (baby) {
+    var findLastAssignmenInfo = function (baby) {
         console.log("Getting assignment date for baby '" + baby.id);
         var promise = new Parse.Promise();
         // Find the last assignment for the baby
         var lastAssignmentQuery = new Parse.Query("BabyAssignedTips");
+        lastAssignmentQuery.include("tip");
         lastAssignmentQuery.descending("assignmentDate");
         lastAssignmentQuery.equalTo("baby", baby);
         lastAssignmentQuery.first().then(function (assignment) {
-            var lastAssignmentDate = assignment ? assignment.get("assignmentDate") : null;
-            //console.log("Baby " + baby.id + " has an assignment date of " + lastAssignmentDate);
-            promise.resolve(lastAssignmentDate);
+            var assignmentInfo = null;
+            if(assignment) {
+                assignmentInfo = {};
+                assignmentInfo.baby = baby;
+                assignmentInfo.assignmentDate = assignment.get("assignmentDate");
+                assignmentInfo.tipType = assignment.get("tip").get("tipType");
+                console.log("Baby " + baby.id + " has an last assignment of " + JSON.stringify(assignmentInfo));
+            }
+            promise.resolve(assignmentInfo);
         }, function (error) {
             console.error("Could not process assignment Date for baby " + baby.id);
             promise.reject(error);
@@ -69,20 +76,34 @@ function processSingleBaby(baby, sendPushNotification) {
         return promise;
     };
 
-    var findNextTip = function (baby) {
+    var findNextTip = function (lastAssignmentInfo) {
+        //NOTE: This assumes only 2 tips types for now
+        // 1 == Normal, 2 == Game
+        var nextTipType = lastAssignmentInfo.tipType == 2 ? 1 : 2;
+        var baby = lastAssignmentInfo.baby;
+
         innerQuery = new Parse.Query("BabyAssignedTips");
         innerQuery.equalTo("baby", baby);
         var babyDueDate = baby.get("dueDate");
         var babyAgeInDays = Math.abs(utils.dayDiffFromNow(babyDueDate));
         //console.log("Baby " + baby.id + " was due " + babyDueDate + " as is " + babyAgeInDays + " days old");
         tipsQuery = new Parse.Query("Tips");
-        tipsQuery.equalTo("tipType", 1);
         tipsQuery.greaterThanOrEqualTo("rangeHigh", babyAgeInDays);
         tipsQuery.lessThanOrEqualTo("rangeLow", babyAgeInDays);
         tipsQuery.ascending("rangeHigh,rangeLow");
         // See https://parse.com/questions/trouble-with-nested-query-using-objectid
         tipsQuery.doesNotMatchKeyInQuery("objectId", "tipId", innerQuery);
-        return tipsQuery.first();
+        tipsQuery.equalTo("tipType", nextTipType);
+
+        return tipsQuery.first().then(function(tip) {
+            if(tip) {
+                return Parse.Promise.as(tip);
+            } else {
+                // If we failed to find one that we want, substitute another
+                 lastAssignmentInfo.tipType = nextTipType;
+                return findNextTip(lastAssignmentInfo);
+            }
+        })
     };
 
 
@@ -123,11 +144,12 @@ function processSingleBaby(baby, sendPushNotification) {
         });
     };
 
-    var testIfDueForDelivery = function (baby, lastAssignmentDate) {
+    var testIfDueForDelivery = function (lastAssignmentInfo) {
         var frequencyDays = DEFAULT_DELIVERY_INTERVAL_DAYS; // TODO: calc based on user is premium or not
-        var daysDiff = lastAssignmentDate == null ? -1 : Math.abs(utils.dayDiffFromNow(lastAssignmentDate));
-        console.log("For baby " + baby.id + " there are " + daysDiff + " days since last assignment");
-        if (daysDiff == -1 || daysDiff > frequencyDays) return Parse.Promise.as(true);
+        var daysDiff = lastAssignmentInfo == null ? -1 : Math.abs(utils.dayDiffFromNow(lastAssignmentInfo.assignmentDate));
+        console.log("For baby " + lastAssignmentInfo.baby.id + " there are " + daysDiff + " days since last assignment");
+        lastAssignmentInfo.needsTipAssignment = (daysDiff == -1 || daysDiff > frequencyDays);
+        return Parse.Promise.as(lastAssignmentInfo);
     };
 
     function isParentEligibleForTip(baby) {
@@ -154,15 +176,15 @@ function processSingleBaby(baby, sendPushNotification) {
     return isParentEligibleForTip(baby).
             then(function (isEligible) {
                 if (isEligible) {
-                    return findLastAssignmentDate(baby).
-                            then(function (lastAssignmentDate) {
+                    return findLastAssignmenInfo(baby).
+                            then(function (lastAssignmentInfo) {
                                 //console.log("Found last assignmentDate for " + baby.id + " it is " + lastAssignmentDate);
-                                return testIfDueForDelivery(baby, lastAssignmentDate);
+                                return testIfDueForDelivery(lastAssignmentInfo);
                             }).
-                            then(function (needsTipAssignment) {
-                                if (needsTipAssignment) {
+                            then(function (lastAssignmentInfo) {
+                                if (lastAssignmentInfo.needsTipAssignment) {
                                     //console.log("Will attempt to find tip for baby " + baby.id);
-                                    return findNextTip(baby);
+                                    return findNextTip(lastAssignmentInfo);
                                 }
                             }).
                             then(function (tip) {
