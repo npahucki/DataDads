@@ -7,6 +7,7 @@
 //
 
 #import "PronounHelper.h"
+#import "NSDate+Utils.h"
 
 @implementation Tip
 
@@ -14,6 +15,8 @@
 @dynamic tipType;
 @dynamic shortDescription;
 @dynamic url;
+@dynamic rangeHigh;
+@dynamic rangeLow;
 
 - (NSString *)shortDescriptionForCurrentBaby {
     return [PronounHelper replacePronounTokens:self.shortDescription forBaby:Baby.currentBaby];
@@ -26,6 +29,11 @@
 - (NSString *)titleForCurrentBaby {
     return [self titleForBaby:Baby.currentBaby];
 }
+
+- (NSString *)humanReadableRange {
+    return [NSDate humanReadableDayRange:self.rangeLow.integerValue and:self.rangeHigh.integerValue];
+}
+
 
 + (NSString *)parseClassName {
     return @"Tips";

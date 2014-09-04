@@ -24,6 +24,9 @@ typedef enum _TipType : NSUInteger {
 @property(readonly) NSString *shortDescriptionForCurrentBaby;
 @property TipType tipType;
 @property NSString *url;
+@property NSNumber *rangeHigh;
+@property NSNumber *rangeLow;
+@property(readonly) NSString *humanReadableRange;
 
 
 - (NSString *)titleForBaby:(Baby *)baby;

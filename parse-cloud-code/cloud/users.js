@@ -23,7 +23,11 @@ Parse.Cloud.afterSave(Parse.User, function (request) {
             if (arguments.length > 0) {
                 userObject.set("needsTipAssignmentNow", false);
                 userObject.save();
-            } // Else, no babies yet, we'll do this when a baby is saved.
+            } else {
+             // Else, no babies yet, we'll do this when a baby is saved.
+             console.warn("No tip assignments made because no babies found for user " + userObject.id);
+            }
+
         });
     }
 });

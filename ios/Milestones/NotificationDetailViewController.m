@@ -8,6 +8,7 @@
 
 #import "NotificationDetailViewController.h"
 #import "NSDate+HumanizedTime.h"
+#import "AlertThenDisappearView.h"
 
 @interface NotificationDetailViewController ()
 
@@ -36,9 +37,15 @@
     [text appendAttributedString:[[NSAttributedString alloc] initWithString:self.tipAssignment.tip.titleForCurrentBaby attributes:titleAttributes]];
     if (self.tipAssignment.tip.shortDescription) {
         [text appendAttributedString:lf];
+        [text appendAttributedString:lf];
         [text appendAttributedString:[[NSAttributedString alloc] initWithString:self.tipAssignment.tip.shortDescriptionForCurrentBaby attributes:bodyAttributes]];
     }
 
+    [text appendAttributedString:lf];
+    [text appendAttributedString:lf];
+    [text appendAttributedString:[[NSAttributedString alloc] initWithString:
+            [NSString stringWithFormat:@"For babies %@", self.tipAssignment.tip.humanReadableRange] attributes:metaAttributes]];
+    [text appendAttributedString:lf];
     [text appendAttributedString:lf];
     [text appendAttributedString:[[NSAttributedString alloc] initWithString:
                     [NSString stringWithFormat:@"Delivered %@", [self.tipAssignment.assignmentDate stringWithHumanizedTimeDifference]]
@@ -48,17 +55,23 @@
 }
 
 - (IBAction)didClickActionButton:(id)sender {
+    NSString *tipType = self.tipAssignment.tip.tipType == TipTypeGame ? @"game" : @"tip";
     NSString *mainText = [NSString stringWithFormat:@"I want to share this cool baby %@ I found on DataParenting:\n\"%@\"\n\n%@\n",
-                                                    self.tipAssignment.tip.tipType == TipTypeNormal ? @"tip" : @"game",
+                                                    tipType,
                                                     self.tipAssignment.tip.titleForCurrentBaby, self.tipAssignment.tip.shortDescriptionForCurrentBaby];
     NSURL *url = [NSURL URLWithString:@"http://www.dataparenting.com"];
     NSArray *items = @[mainText, url];
     UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:items applicationActivities:nil];
-    [controller setValue:@"Cool baby tip I found on DataParenting." forKey:@"subject"];
+    [controller setValue:[NSString stringWithFormat:@"Cool baby %@ I found on DataParenting.", tipType] forKey:@"subject"];
     controller.excludedActivityTypes = @[UIActivityTypeAssignToContact, UIActivityTypePostToVimeo];
-//    [controller setCompletionHandler:^(NSString *activityType, BOOL completed) {
-//
-//    }];
+    [controller setCompletionHandler:^(NSString *activityType, BOOL completed) {
+        if (completed) {
+            AlertThenDisappearView *alert = [AlertThenDisappearView instanceForViewController:self];
+            alert.titleLabel.text = [NSString stringWithFormat:@"%@ Sucessfully Shared!", [tipType capitalizedString]];
+            alert.imageView.image = [UIImage imageNamed:@"success-8"];
+            [alert showWithDelay:0.3];
+        }
+    }];
     [self presentViewController:controller animated:YES completion:nil];
 }
 

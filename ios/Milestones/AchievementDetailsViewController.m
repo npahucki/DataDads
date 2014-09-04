@@ -15,6 +15,7 @@
 #import "UIView+Genie.h"
 #import "TutorialBubbleView.h"
 #import "UIImage+FX.h"
+#import "AlertThenDisappearView.h"
 
 @interface AchievementDetailsViewController ()
 @property TutorialBubbleView *tutorialBubbleView;
@@ -225,28 +226,40 @@ NSDateFormatter *_dateFormatter;
     UIImage *image = [self.detailsImageButton imageForState:UIControlStateNormal];
 
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/achievements/%@", VIEW_HOST, self.achievement.objectId]];
-    NSString *mainText = [NSString stringWithFormat:@"%@ completed the milestone: '%@' %@!", Baby.currentBaby.name, self.achievement.displayTitle, [self.achievement.completionDate stringWithHumanizedTimeDifference]];
+    NSString *subject = [NSString stringWithFormat:@"%@ completed a milestone!", Baby.currentBaby.name];
+    NSString *mainText = [NSString stringWithFormat:@"%@ completed the milestone: '%@' %@!\n\n", Baby.currentBaby.name, self.achievement.displayTitle, [self.achievement.completionDate stringWithHumanizedTimeDifference]];
     NSMutableArray *items = [@[mainText, url] mutableCopy];
     if (self.achievement.comment) [items addObject:self.achievement.comment];
     if (image) [items addObject:image];
 
     UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:items applicationActivities:nil];
-    //[controller setValue:@"My Subject Text" forKey:@"subject"];
+    [controller setValue:subject forKey:@"subject"];
     controller.excludedActivityTypes = @[UIActivityTypeAssignToContact, UIActivityTypePostToVimeo];
     [controller setCompletionHandler:^(NSString *activityType, BOOL completed) {
         if (completed) {
-            if ([activityType isEqualToString:UIActivityTypeMail]) {
-                self.achievement.sharedVia = self.achievement.sharedVia | SharingMediumEmail;
-            } else if ([activityType isEqualToString:UIActivityTypePostToFacebook]) {
-                self.achievement.sharedVia = self.achievement.sharedVia | SharingMediumFacebook;
-            } else if ([activityType isEqualToString:UIActivityTypePostToTwitter]) {
-                self.achievement.sharedVia = self.achievement.sharedVia | SharingMediumTwitter;
-            } else if ([activityType isEqualToString:UIActivityTypeMessage]) {
-                self.achievement.sharedVia = self.achievement.sharedVia | SharingMediumTextMessage;
-            } else {
-                self.achievement.sharedVia = self.achievement.sharedVia | SharingMediumOther;
-            }
-            [self.achievement saveEventually];
+            AlertThenDisappearView *alert = [AlertThenDisappearView instanceForViewController:self];
+            alert.titleLabel.text = @"Milestone Sucessfully Shared!";
+            alert.imageView.image = [UIImage imageNamed:@"success-8"];
+            [alert showWithDelay:0.3];
+            [self.achievement fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+                if (error) {
+                    [UsageAnalytics trackError:error forOperationNamed:@"fetchAchievementForSharedViaUpdate"];
+                } else {
+                    MilestoneAchievement *a = (MilestoneAchievement *) object;
+                    if ([activityType isEqualToString:UIActivityTypeMail]) {
+                        a.sharedVia = a.sharedVia | SharingMediumEmail;
+                    } else if ([activityType isEqualToString:UIActivityTypePostToFacebook]) {
+                        a.sharedVia = a.sharedVia | SharingMediumFacebook;
+                    } else if ([activityType isEqualToString:UIActivityTypePostToTwitter]) {
+                        a.sharedVia = a.sharedVia | SharingMediumTwitter;
+                    } else if ([activityType isEqualToString:UIActivityTypeMessage]) {
+                        a.sharedVia = a.sharedVia | SharingMediumTextMessage;
+                    } else {
+                        a.sharedVia = a.sharedVia | SharingMediumOther;
+                    }
+                    [a saveEventually];
+                }
+            }];
         }
     }];
     [self presentViewController:controller animated:YES completion:nil];

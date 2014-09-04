@@ -36,5 +36,16 @@
  */
 - (NSDate *)dateByAddingDays:(NSInteger)days;
 
+/*!
+* A human readable day range where rangeLow is the low end of the range in days, and
+* rangeHigh is the upper end of the range in days.
+*/
++ (NSString *)humanReadableDayRange:(NSInteger)rangeLow and:(NSInteger)rangeHigh;
+
+/*!
+*   A human readable representation of a number of days.
+*/
++ (NSString *)humanReadableDays:(NSInteger)days;
+
 
 @end
