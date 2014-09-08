@@ -18,8 +18,10 @@
 
 @implementation NoteMilestoneViewController {
     FDTakeController *_takeController;
-    NSData *_imageOrVideo;
-    NSString *_imageOrVideoType;
+    BOOL attachmentPending;
+    PFFile *_attachment;
+    NSString *_attachmentMimeType;
+    PFFile *_thumbnailImage;
     ALAssetsLibrary *_assetLibrary;
     BOOL _isKeyboardShowing;
     CGRect _originalFrame;
@@ -31,9 +33,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.adView.containingViewController = self;
-    _imageOrVideo = nil;
-    _imageOrVideoType = nil;
-
     NSAssert(self.achievement.baby, @"baby must be set on acheivement before view loads");
 
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -254,8 +253,8 @@
     _takeController.delegate = self;
     _takeController.viewControllerForPresentingImagePickerController = self;
     _takeController.allowsEditingPhoto = NO; // NOTE: Allowing photo editing causes a problem with landscape pictures!
-    _takeController.allowsEditingVideo = NO;
-    [_takeController takePhotoOrChooseFromLibrary];
+    _takeController.allowsEditingVideo = YES;
+    [_takeController takePhotoOrVideoOrChooseFromLibrary];
 }
 
 - (IBAction)didClickDoneButton:(id)sender {
@@ -263,8 +262,8 @@
 
     if ([Reachability showAlertIfParseNotReachable]) return;
 
-    if (_imageOrVideo) {
-        [self saveImageOrPhoto];
+    if (_attachment) {
+        [self saveAttachment];
     } else {
         [self saveAchievementWithAttachment:nil andType:nil];
     }
@@ -296,15 +295,18 @@
     }
 }
 
-- (void)saveImageOrPhoto {
-    [self showInProgressHUDWithMessage:@"Uploading Photo" andAnimation:YES andDimmedBackground:YES];
-    PFFile *file = [PFFile fileWithData:_imageOrVideo];
-    [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+- (void)saveAttachment {
+    NSString *type = [_attachmentMimeType rangeOfString:@"video"].location != NSNotFound ? @"video" : @"photo";
+    NSString *title = [@"Uploading " stringByAppendingString:type];
+    [self showInProgressHUDWithMessage:title andAnimation:YES andDimmedBackground:YES];
+    [_attachment saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (error) {
-            [self showErrorThenRunBlock:error withMessage:@"Could not upload the photo." andBlock:nil];
+            [self showErrorThenRunBlock:error withMessage:[@"Could not upload the " stringByAppendingString:type] andBlock:nil];
         } else {
-            [self saveAchievementWithAttachment:file andType:_imageOrVideoType];
+            [self saveAchievementWithAttachment:_attachment andType:_attachmentMimeType];
         }
+    }                        progressBlock:^(int percentDone) {
+        [self showText:[NSString stringWithFormat:@"%@ %d%%", title, percentDone]];
     }];
 }
 
@@ -354,6 +356,7 @@
 
     if (self.commentsTextField.text.length) self.achievement.comment = self.commentsTextField.text;
     self.achievement.attachment = attachment;
+    self.achievement.attachmentThumbnail = _thumbnailImage;
     self.achievement.attachmentType = type;
     self.achievement.completionDate = self.completionDateTextField.date;
     self.achievement.sharedVia = self.fbSwitch.on ? SharingMediumFacebook : SharingMediumNotShared;
@@ -418,56 +421,135 @@
     return self.achievement.standardMilestone == nil;
 }
 
+- (ALAssetsLibrary *)assetLibrary {
+    if (!_assetLibrary) {
+        _assetLibrary = [[ALAssetsLibrary alloc] init];
+    }
+    return _assetLibrary;
+}
+
+- (void)updateDateFromFDTakeAsset:(NSURL *)assertUrl {
+    NSAssert(assertUrl != nil, @"Expected non nil assertURL");
+    [self.assetLibrary assetForURL:assertUrl resultBlock:^(ALAsset *asset) {
+        ALAssetRepresentation *imageRep = [asset defaultRepresentation];
+        NSDate *createDate = [asset valueForProperty:ALAssetPropertyDate];
+        if (createDate) {
+            if ([self.achievement.baby daysSinceBirthDate:createDate] < 0) {
+                [[[UIAlertView alloc] initWithTitle:@"Hmmmm" message:
+                                @"This photo or video seems to have been taken before baby was born - we'll use baby's birthdate instead, but feel free to correct it."
+                                           delegate:nil cancelButtonTitle:@"Accept" otherButtonTitles:nil, nil] show];
+                createDate = self.achievement.baby.birthDate;
+            }
+
+            if ([self.completionDateTextField.date compare:createDate]) {
+                // Label to show the date has been changed., based on the photo date
+                UILabel *newDateLabel = [[UILabel alloc] init];
+                newDateLabel.textColor = self.completionDateTextField.textColor;
+                newDateLabel.font = self.completionDateTextField.font;
+                newDateLabel.text = [self.completionDateTextField.dateFormatter stringFromDate:createDate];
+                [newDateLabel sizeToFit];
+                newDateLabel.center = self.takePhotoButton.center;
+                [self.view addSubview:newDateLabel];
+
+                newDateLabel.transform = CGAffineTransformScale(newDateLabel.transform, 2.5, 2.5);
+                [UILabel animateWithDuration:0.5 animations:^{
+                    newDateLabel.transform = CGAffineTransformScale(newDateLabel.transform, .5, .5);
+                    newDateLabel.frame = CGRectMake(self.completionDateTextField.frame.origin.x + 5, self.completionDateTextField.frame.origin.y + 5, newDateLabel.frame.size.width, newDateLabel.frame.size.height);
+                }                 completion:^(BOOL finished) {
+                    [newDateLabel removeFromSuperview];
+                    self.completionDateTextField.date = createDate;
+                }];
+            }
+        }
+    }                 failureBlock:^(NSError *error) {
+        [UsageAnalytics trackError:error forOperationNamed:@"getDateForFDTakeAsset"];
+    }];
+}
+
+
 #pragma mark - FDTakeDelegate
 
-- (void)takeController:(FDTakeController *)controller gotPhoto:(UIImage *)photo withInfo:(NSDictionary *)info {
-    // Attempt to use date from the photo taken, instead of the current date
-    NSURL *assetURL = info[UIImagePickerControllerReferenceURL];
-    if (assetURL) {
-        if (!_assetLibrary) {
-            _assetLibrary = [[ALAssetsLibrary alloc] init];
-        }
-        [_assetLibrary assetForURL:assetURL resultBlock:^(ALAsset *asset) {
-            NSDate *createDate = [asset valueForProperty:ALAssetPropertyDate];
-            if (createDate) {
-
-                if ([self.achievement.baby daysSinceBirthDate:createDate] < 0) {
-                    [[[UIAlertView alloc] initWithTitle:@"Hmmmm" message:@"This photo seems to have been taken before baby was born - we'll use baby's birthdate instead, but feel free to correct it." delegate:nil cancelButtonTitle:@"Accept" otherButtonTitles:nil, nil] show];
-                    createDate = self.achievement.baby.birthDate;
-                }
-
-
-                if ([self.completionDateTextField.date compare:createDate]) {
-                    // Label to show the date has been changed., based on the phtoto date
-                    UILabel *newDateLabel = [[UILabel alloc] init];
-                    newDateLabel.textColor = self.completionDateTextField.textColor;
-                    newDateLabel.font = self.completionDateTextField.font;
-                    newDateLabel.text = [self.completionDateTextField.dateFormatter stringFromDate:createDate];
-                    [newDateLabel sizeToFit];
-                    newDateLabel.center = self.takePhotoButton.center;
-                    [self.view addSubview:newDateLabel];
-
-                    newDateLabel.transform = CGAffineTransformScale(newDateLabel.transform, 2.5, 2.5);
-                    [UILabel animateWithDuration:0.5 animations:^{
-                        newDateLabel.transform = CGAffineTransformScale(newDateLabel.transform, .5, .5);
-                        newDateLabel.frame = CGRectMake(self.completionDateTextField.frame.origin.x + 5, self.completionDateTextField.frame.origin.y + 5, newDateLabel.frame.size.width, newDateLabel.frame.size.height);
-                    }                 completion:^(BOOL finished) {
-                        [newDateLabel removeFromSuperview];
-                        self.completionDateTextField.date = createDate;
-                    }];
-                }
+- (void)takeController:(FDTakeController *)controller gotVideo:(NSURL *)videoUrl withInfo:(NSDictionary *)info {
+    NSURL *assetUrl = info[UIImagePickerControllerReferenceURL];
+    if (assetUrl) {
+        [self updateDateFromFDTakeAsset:assetUrl];
+    } else {
+        [self.assetLibrary writeVideoAtPathToSavedPhotosAlbum:videoUrl completionBlock:^(NSURL *savedAssertUrl, NSError *error) {
+            if (error) {
+                [UsageAnalytics trackError:error forOperationNamed:@"writeVideoAtPathToSavedPhotosAlbum"];
             }
-        }             failureBlock:^(NSError *error) {
-            // NSLog(@"Failed to get asset from library");
+        }];
+    }
+    _attachmentMimeType = @"video/mov";
+    _attachment = [PFFile fileWithName:@"video.mov" contentsAtPath:videoUrl.path];
+
+    UIImage *thumbnail = [[UIImage generateThumbImage:videoUrl] imageScaledToFitSize:CGSizeMake(320.0, 320.0)];
+    [self.takePhotoButton setImage:thumbnail forState:UIControlStateNormal];
+    _thumbnailImage = [PFFile fileWithData:UIImageJPEGRepresentation(thumbnail, 0.5f) contentType:@"image/jpg"];
+}
+
+- (void)takeController:(FDTakeController *)controller gotPhoto:(UIImage *)photo withInfo:(NSDictionary *)info {
+    [self.takePhotoButton setImage:[photo imageScaledToFitSize:self.takePhotoButton.bounds.size] forState:UIControlStateNormal];
+    NSURL *assetUrl = info[UIImagePickerControllerReferenceURL];
+    if (assetUrl) {
+        [self updateDateFromFDTakeAsset:assetUrl];
+    } else {
+        [self.assetLibrary writeImageToSavedPhotosAlbum:[photo CGImage] orientation:(ALAssetOrientation) [photo imageOrientation] completionBlock:^(NSURL *savedAssertUrl, NSError *error) {
+            if (error) {
+                [UsageAnalytics trackError:error forOperationNamed:@"writeImageToSavedPhotosAlbum"];
+            }
         }];
     }
 
-
-    // TODO: Support video too!
-    _imageOrVideo = UIImageJPEGRepresentation(photo, 0.5f);
-    _imageOrVideoType = @"image/jpg";
-    [self.takePhotoButton setImage:[photo imageScaledToFitSize:self.takePhotoButton.bounds.size] forState:UIControlStateNormal];
+    _attachmentMimeType = @"image/jpg";
+    _attachment = [PFFile fileWithData:UIImageJPEGRepresentation(photo, 0.5f) contentType:_attachmentMimeType];
 }
+
+//-(void) encodeVideo:(NSURL *)videoURL exportTo:(NSURL*) exportURL withQuality:(NSString*)quality andBlock:(PFBooleanResultBlock) block {
+//
+//    AVURLAsset *asset = [[AVURLAsset alloc] initWithURL:videoURL options:nil];
+//
+//    // Create the composition and tracks
+//    AVMutableComposition *composition = [AVMutableComposition composition];
+//    AVMutableCompositionTrack *videoTrack = [composition addMutableTrackWithMediaType:AVMediaTypeVideo preferredTrackID:kCMPersistentTrackID_Invalid];
+//    AVMutableCompositionTrack *audioTrack = [composition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
+//    NSArray *assetVideoTracks = [asset tracksWithMediaType:AVMediaTypeVideo];
+//    if (assetVideoTracks.count <= 0) {
+//        block(NO, [NSError errorWithDomain:@"DataParenting" code:-1 userInfo:@{@"reason" : @"Error reading the transformed video track"}]);
+//        return;
+//    }
+//
+//    // Insert the tracks in the composition's tracks
+//    AVAssetTrack *assetVideoTrack = [assetVideoTracks firstObject];
+//    [videoTrack insertTimeRange:assetVideoTrack.timeRange ofTrack:assetVideoTrack atTime:CMTimeMake(0, 1) error:nil];
+//    [videoTrack setPreferredTransform:assetVideoTrack.preferredTransform];
+//
+//    AVAssetTrack *assetAudioTrack = [asset tracksWithMediaType:AVMediaTypeAudio][0];
+//    [audioTrack insertTimeRange:assetAudioTrack.timeRange ofTrack:assetAudioTrack atTime:CMTimeMake(0, 1) error:nil];
+//
+//    AVAssetExportSession *exportSession = [[AVAssetExportSession alloc] initWithAsset:composition presetName:quality];
+//    exportSession.outputURL = exportURL;
+//    CMTime start = CMTimeMakeWithSeconds(0.0, 0);
+//    CMTimeRange range = CMTimeRangeMake(start, [asset duration]);
+//    exportSession.timeRange = range;
+//    exportSession.outputFileType = AVFileTypeMPEG4;
+//    [exportSession exportAsynchronouslyWithCompletionHandler:^{
+//        switch ([exportSession status]) {
+//            case AVAssetExportSessionStatusCompleted:
+//                block(YES, nil);
+//                break;
+//            case AVAssetExportSessionStatusFailed:
+//                block(NO, exportSession.error);
+//                break;
+//            case AVAssetExportSessionStatusCancelled:
+//                block(NO, nil);
+//                break;
+//            default:
+//                break;
+//        }
+//    }];
+//}
+
 
 - (NSAttributedString *)createTitleTextFromMilestone {
     StandardMilestone *m = self.achievement.standardMilestone;

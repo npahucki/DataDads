@@ -35,6 +35,8 @@
 
 @interface UIImage (FX)
 
++ (UIImage *)generateThumbImage:(NSURL *)videoUrl;
+
 - (UIImage *)imageCroppedToRect:(CGRect)rect;
 
 - (UIImage *)imageScaledToSize:(CGSize)size;
@@ -61,7 +63,7 @@
 
 - (UIImage *)maskImageFromImageAlpha;
 
-- (UIImage*) imageWithString:(NSString*)string;
+- (UIImage *)imageWithString:(NSString *)string;
 
 
 @end

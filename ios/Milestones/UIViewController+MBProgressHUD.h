@@ -22,6 +22,8 @@ and should use the standard app defined progress indicator.
 
 - (void)showInProgressHUDWithMessage:(NSString *)msg andAnimation:(BOOL)animated andDimmedBackground:(BOOL)dimmed;
 
+- (void)showText:(NSString *)text;
+
 - (void)showSuccessThenRunBlock:(dispatch_block_t)block;
 
 - (void)showErrorThenRunBlock:(NSError *)error withMessage:(NSString *)msg andBlock:(dispatch_block_t)block;

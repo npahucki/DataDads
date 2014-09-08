@@ -39,6 +39,10 @@
     self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage animatedImageNamed:@"progress-" duration:1.0f]];
 }
 
+- (void)showText:(NSString *)text {
+    self.hud.labelText = text;
+}
+
 - (void)showSuccessThenRunBlock:(dispatch_block_t)block {
     [self showHUD:NO withDimmedBackground:self.hud.dimBackground];
     UIImageView *animatedView = [self animatedImageView:@"success" frames:9];

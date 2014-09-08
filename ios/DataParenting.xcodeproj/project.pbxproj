@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		72F1824FF832CD399E989C2F /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72F184C3C79880CF8D53574A /* MediaPlayer.framework */; };
+		72F18A8BAA52268B8AB8A3D1 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72F184C3C79880CF8D53574A /* MediaPlayer.framework */; };
 		D6CB8834E1A347069F6D2883 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7AE7A55BFBD3425490A0E0F5 /* libPods.a */; };
 		E80BFB631989ACC100E98D9D /* Tutorial-Screen-3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E80BFB621989ACC100E98D9D /* Tutorial-Screen-3.jpg */; };
 		E80BFB641989ACC100E98D9D /* Tutorial-Screen-3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E80BFB621989ACC100E98D9D /* Tutorial-Screen-3.jpg */; };
@@ -222,6 +224,7 @@
 
 /* Begin PBXFileReference section */
 		38FA7AFE5F694C389969CCDD /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		72F184C3C79880CF8D53574A /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		7AE7A55BFBD3425490A0E0F5 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E80BFB621989ACC100E98D9D /* Tutorial-Screen-3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Tutorial-Screen-3.jpg"; sourceTree = "<group>"; };
 		E81B58571891EE7D00C74C2B /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -412,6 +415,7 @@
 				E8A02D4719817CCF001E0DAB /* UIKit.framework in Frameworks */,
 				E8A02D4819817CCF001E0DAB /* Foundation.framework in Frameworks */,
 				E8A02D4919817CCF001E0DAB /* libPods.a in Frameworks */,
+				72F18A8BAA52268B8AB8A3D1 /* MediaPlayer.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -436,6 +440,7 @@
 				E8DD48E2188EE5B900153095 /* UIKit.framework in Frameworks */,
 				E8DD48DE188EE5B900153095 /* Foundation.framework in Frameworks */,
 				D6CB8834E1A347069F6D2883 /* libPods.a in Frameworks */,
+				72F1824FF832CD399E989C2F /* MediaPlayer.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -664,6 +669,7 @@
 				E8DD48E1188EE5B900153095 /* UIKit.framework */,
 				E8DD4902188EE5BA00153095 /* XCTest.framework */,
 				7AE7A55BFBD3425490A0E0F5 /* libPods.a */,
+				72F184C3C79880CF8D53574A /* MediaPlayer.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

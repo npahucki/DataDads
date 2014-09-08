@@ -30,6 +30,7 @@
 //  3. This notice may not be removed or altered from any source distribution.
 //
 
+#import <AVFoundation/AVFoundation.h>
 #import "UIImage+FX.h"
 
 
@@ -372,31 +373,44 @@
     return mask;
 }
 
-- (UIImage*) imageWithString:(NSString*)string {
-    NSDictionary * attributes = @{NSFontAttributeName : [UIFont fontForAppWithType:Medium andSize:13]};
+- (UIImage *)imageWithString:(NSString *)string {
+    NSDictionary *attributes = @{NSFontAttributeName : [UIFont fontForAppWithType:Medium andSize:13]};
     CGSize expectedTextSize = [string sizeWithAttributes:attributes];
     int width = expectedTextSize.width + self.size.width + 5;
     int height = MAX(expectedTextSize.height, self.size.height);
-    
-    CGSize size = CGSizeMake((float)width, (float)height);
-    
+
+    CGSize size = CGSizeMake((float) width, (float) height);
+
     UIGraphicsBeginImageContextWithOptions(size, NO, 0);
     CGContextRef context = UIGraphicsGetCurrentContext();
-    
+
     CGContextSetFillColorWithColor(context, [UIColor appSelectedColor].CGColor);
-    
+
     int fontTopPosition = (height - expectedTextSize.height) / 2;
     CGPoint textPoint = CGPointMake(self.size.width + 5, fontTopPosition);
-    
+
     [string drawAtPoint:textPoint withAttributes:attributes];
-    
+
     // Images upside down so flip them
     CGAffineTransform flipVertical = CGAffineTransformMake(1, 0, 0, -1, 0, size.height);
     CGContextConcatCTM(context, flipVertical);
-    CGContextDrawImage(context, (CGRect){ {0, (height - self.size.height) / 2}, {self.size.width, self.size.height} }, [self CGImage]);
+    CGContextDrawImage(context, (CGRect) {{0, (height - self.size.height) / 2}, {self.size.width, self.size.height}}, [self CGImage]);
     UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return newImage;
 }
+
++ (UIImage *)generateThumbImage:(NSURL *)videoUrl {
+    AVAsset *asset = [AVAsset assetWithURL:videoUrl];
+    AVAssetImageGenerator *imageGenerator = [[AVAssetImageGenerator alloc] initWithAsset:asset];
+    imageGenerator.appliesPreferredTrackTransform = YES;
+    CMTime time = [asset duration];
+    time.value = 0;
+    CGImageRef imageRef = [imageGenerator copyCGImageAtTime:time actualTime:NULL error:NULL];
+    UIImage *thumbnail = [UIImage imageWithCGImage:imageRef];
+    CGImageRelease(imageRef);  // CGImageRef won't be released by ARC
+    return thumbnail;
+}
+
 
 @end
