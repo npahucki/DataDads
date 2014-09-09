@@ -65,7 +65,7 @@
 @property(weak) id <HistoryViewTableModelDelegate> delegate;
 @property(nonatomic, strong) Baby *baby;
 
-@property NSInteger pagingSize;
+@property NSUInteger pagingSize;
 
 // clears all the properties and make ready for use.
 - (void)reset;
@@ -77,9 +77,9 @@
 
 - (void)loadAchievementsPage:(NSInteger)startIndex;
 
-- (void)markPastMilestone:(NSInteger)index ignored:(BOOL)ignored postponed:(BOOL)postponed;
+- (void)markPastMilestone:(NSUInteger)index ignored:(BOOL)ignored postponed:(BOOL)postponed;
 
-- (void)markFutureMilestone:(NSInteger)index ignored:(BOOL)ignored postponed:(BOOL)postponed;
+- (void)markFutureMilestone:(NSUInteger)index ignored:(BOOL)ignored postponed:(BOOL)postponed;
 
 /*!
  * Adds a new achievement, and returns the index of where it was inserted in the list 
@@ -89,22 +89,22 @@
  */
 - (NSInteger)addNewAchievement:(MilestoneAchievement *)achievement;
 
-- (MilestoneAchievement *)deleteAchievementAtIndex:(NSInteger)index;
+- (MilestoneAchievement *)deleteAchievementAtIndex:(NSUInteger)index;
 
 /*!
  * Use this instead of doing indexOfObject on the array property since that does not do equality checking based on the object Id.
  */
-- (NSInteger)indexOfAchievement:(MilestoneAchievement *)achievment;
+- (NSUInteger)indexOfAchievement:(MilestoneAchievement *)achievment;
 
 /*!
  * Use this instead of doing indexOfObject on the array property since that does not do equality checking based on the object Id.
  */
-- (NSInteger)indexOfFutureMilestone:(StandardMilestone *)milestone;
+- (NSUInteger)indexOfFutureMilestone:(StandardMilestone *)milestone;
 
 /*!
  * Use this instead of doing indexOfObject on the array property since that does not do equality checking based on the object Id.
  */
-- (NSInteger)indexOfPastMilestone:(StandardMilestone *)milestone;
+- (NSUInteger)indexOfPastMilestone:(StandardMilestone *)milestone;
 
 
 - (void)replaceAchievementIfLoaded:(MilestoneAchievement *)achievement;

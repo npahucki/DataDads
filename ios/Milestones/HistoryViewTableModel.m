@@ -8,6 +8,7 @@
 
 #import "HistoryViewTableModel.h"
 #import "PFCloud+Cache.h"
+#import "PFObject+NSCoding.h"
 
 #define STOP_WORDS @[@"the", @"in", @"and", @"he", @"she",@"him",@"her",@"his"]
 
@@ -160,8 +161,8 @@ typedef void (^StandardMilestoneResultBlock)(NSNumber *totalCount, NSArray *obje
                                    @"filterTokens" : _filter ? _filterTokens : [NSNull null]}
                               cachePolicy:cachePolicy
                                     block:^(NSDictionary *results, NSError *error) {
-            NSNumber *count = [results objectForKey:@"count"];
-            NSArray *milestones = [results objectForKey:@"milestones"];
+                                        NSNumber *count = results[@"count"];
+                                        NSArray *milestones = results[@"milestones"];
             block(count, milestones, error);
         }];
     } else {
@@ -202,9 +203,9 @@ typedef void (^StandardMilestoneResultBlock)(NSNumber *totalCount, NSArray *obje
                     _hadErrorLoadingAchievements = YES;
                 }
             } else {
-                NSNumber *count = (NSNumber *) [results objectForKey:@"count"];
+                NSNumber *count = (NSNumber *) results[@"count"];
                 if (count.integerValue >= 0) _countOfAchievements = count.integerValue;
-                NSArray *achievements = [results objectForKey:@"achievements"];
+                NSArray *achievements = results[@"achievements"];
                 // Don't update if it is the same which causes flickering
                 if (cachedResult || ![HistoryViewTableModel isPFObjectArrayEqual:_achievements toPFObjectArray:achievements]) {
                     // if results, set the has more to false
@@ -231,13 +232,13 @@ typedef void (^StandardMilestoneResultBlock)(NSNumber *totalCount, NSArray *obje
     }
 }
 
-- (void)markPastMilestone:(NSInteger)index ignored:(BOOL)ignored postponed:(BOOL)postponed {
+- (void)markPastMilestone:(NSUInteger)index ignored:(BOOL)ignored postponed:(BOOL)postponed {
     [self markMilestone:_pastMilestones[index] ignored:ignored postponed:postponed];
     [(NSMutableArray *) _pastMilestones removeObjectAtIndex:index];
     _countOfPastMilestones--;
 }
 
-- (void)markFutureMilestone:(NSInteger)index ignored:(BOOL)ignored postponed:(BOOL)postponed {
+- (void)markFutureMilestone:(NSUInteger)index ignored:(BOOL)ignored postponed:(BOOL)postponed {
     [self markMilestone:_futureMilestones[index] ignored:ignored postponed:postponed];
     [(NSMutableArray *) _futureMilestones removeObjectAtIndex:index];
     _countOfFutureMilestones--;
@@ -263,7 +264,7 @@ typedef void (^StandardMilestoneResultBlock)(NSNumber *totalCount, NSArray *obje
     // The achievement are already sorted by completion date (descending), so we need to run through the list and
     // find the appropriate place to insert it. We could insert and sort the list again, but we would then not
     // know where the item ended up in the list, which is needed to know which parts of the table to update.
-    int idx;
+    NSUInteger idx;
     for (idx = 0; idx < _achievements.count; idx++) {
         MilestoneAchievement *extant = (MilestoneAchievement *) _achievements[idx];
         if ([achievement.completionDate timeIntervalSinceDate:extant.completionDate] > 0) {
@@ -280,13 +281,13 @@ typedef void (^StandardMilestoneResultBlock)(NSNumber *totalCount, NSArray *obje
 }
 
 - (void)replaceAchievementIfLoaded:(MilestoneAchievement *)achievement {
-    NSInteger idx = [self indexOfAchievement:achievement];
+    NSUInteger idx = [self indexOfAchievement:achievement];
     if (idx != NSNotFound) {
-        [((NSMutableArray *) _achievements) replaceObjectAtIndex:idx withObject:achievement];
+        ((NSMutableArray *) _achievements)[idx] = achievement;
     }
 }
 
-- (MilestoneAchievement *)deleteAchievementAtIndex:(NSInteger)index {
+- (MilestoneAchievement *)deleteAchievementAtIndex:(NSUInteger)index {
     MilestoneAchievement *achievement = _achievements[index];
     [((NSMutableArray *) _achievements) removeObjectAtIndex:index];
     _countOfAchievements--;
@@ -294,8 +295,8 @@ typedef void (^StandardMilestoneResultBlock)(NSNumber *totalCount, NSArray *obje
     return achievement;
 }
 
-- (NSInteger)indexOfAchievement:(MilestoneAchievement *)achievment {
-    for (NSInteger idx = 0; idx < _achievements.count; idx++) {
+- (NSUInteger)indexOfAchievement:(MilestoneAchievement *)achievment {
+    for (NSUInteger idx = 0; idx < _achievements.count; idx++) {
         if ([achievment.objectId isEqualToString:((MilestoneAchievement *) _achievements[idx]).objectId]) {
             return idx;
         }
@@ -304,8 +305,8 @@ typedef void (^StandardMilestoneResultBlock)(NSNumber *totalCount, NSArray *obje
 }
 
 
-- (NSInteger)indexOfFutureMilestone:(StandardMilestone *)milestone {
-    for (NSInteger idx = 0; idx < _futureMilestones.count; idx++) {
+- (NSUInteger)indexOfFutureMilestone:(StandardMilestone *)milestone {
+    for (NSUInteger idx = 0; idx < _futureMilestones.count; idx++) {
         if ([milestone.objectId isEqualToString:((StandardMilestone *) _futureMilestones[idx]).objectId]) {
             return idx;
         }
@@ -313,8 +314,8 @@ typedef void (^StandardMilestoneResultBlock)(NSNumber *totalCount, NSArray *obje
     return NSNotFound;
 }
 
-- (NSInteger)indexOfPastMilestone:(StandardMilestone *)milestone {
-    for (NSInteger idx = 0; idx < _pastMilestones.count; idx++) {
+- (NSUInteger)indexOfPastMilestone:(StandardMilestone *)milestone {
+    for (NSUInteger idx = 0; idx < _pastMilestones.count; idx++) {
         if ([milestone.objectId isEqualToString:((StandardMilestone *) _pastMilestones[idx]).objectId]) {
             return idx;
         }
@@ -326,10 +327,11 @@ typedef void (^StandardMilestoneResultBlock)(NSNumber *totalCount, NSArray *obje
     BOOL isEqual = YES;
 
     if (array1.count == array2.count) {
-        for (int i = 0; i < array1.count; i++) {
+        for (NSUInteger i = 0; i < array1.count; i++) {
             PFObject *obj1 = array1[i];
             PFObject *obj2 = array2[i];
-            if (![[obj1 parseClassName] isEqualToString:[obj2 parseClassName]] || ![obj1.objectId isEqualToString:obj2.objectId]) {
+            if (![[obj1 parseClassName] isEqualToString:[obj2 parseClassName]] || ![obj1.objectId isEqualToString:obj2.objectId] ||
+                    ![obj1.updatedAt isEqualToDate:obj2.updatedAt]) {
                 isEqual = NO;
                 break;
             }
