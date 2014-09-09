@@ -8,7 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		72F1824FF832CD399E989C2F /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72F184C3C79880CF8D53574A /* MediaPlayer.framework */; };
+		72F1883E74F2B648B80C5C0D /* PFFile+Video.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F184506900ECF329391D82 /* PFFile+Video.m */; };
 		72F18A8BAA52268B8AB8A3D1 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72F184C3C79880CF8D53574A /* MediaPlayer.framework */; };
+		72F18ED08930567464526909 /* PFFile+Video.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F184506900ECF329391D82 /* PFFile+Video.m */; };
 		D6CB8834E1A347069F6D2883 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7AE7A55BFBD3425490A0E0F5 /* libPods.a */; };
 		E80BFB631989ACC100E98D9D /* Tutorial-Screen-3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E80BFB621989ACC100E98D9D /* Tutorial-Screen-3.jpg */; };
 		E80BFB641989ACC100E98D9D /* Tutorial-Screen-3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E80BFB621989ACC100E98D9D /* Tutorial-Screen-3.jpg */; };
@@ -224,7 +226,9 @@
 
 /* Begin PBXFileReference section */
 		38FA7AFE5F694C389969CCDD /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		72F184506900ECF329391D82 /* PFFile+Video.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PFFile+Video.m"; sourceTree = "<group>"; };
 		72F184C3C79880CF8D53574A /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		72F18C88FC612D6CDB6F1B09 /* PFFile+Video.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PFFile+Video.h"; sourceTree = "<group>"; };
 		7AE7A55BFBD3425490A0E0F5 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E80BFB621989ACC100E98D9D /* Tutorial-Screen-3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Tutorial-Screen-3.jpg"; sourceTree = "<group>"; };
 		E81B58571891EE7D00C74C2B /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -551,6 +555,8 @@
 				E872D62D194A5425003F461C /* UnitHelper.m */,
 				E89AC31B1955E83D00AD3869 /* UsageAnalytics.h */,
 				E89AC31C1955E83D00AD3869 /* UsageAnalytics.m */,
+				72F184506900ECF329391D82 /* PFFile+Video.m */,
+				72F18C88FC612D6CDB6F1B09 /* PFFile+Video.h */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -1107,6 +1113,7 @@
 				E8A02D3219817CCF001E0DAB /* NSDate+HumanizedTime.m in Sources */,
 				E8A02D3319817CCF001E0DAB /* MilestoneAchievement.m in Sources */,
 				E8A02D3419817CCF001E0DAB /* StandardMilestone.m in Sources */,
+				72F1883E74F2B648B80C5C0D /* PFFile+Video.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1170,6 +1177,7 @@
 				E84A2CF01953C3D300BFA857 /* NSDate+HumanizedTime.m in Sources */,
 				E81B588E189BFFFE00C74C2B /* MilestoneAchievement.m in Sources */,
 				E81B588B189BCCD200C74C2B /* StandardMilestone.m in Sources */,
+				72F18ED08930567464526909 /* PFFile+Video.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

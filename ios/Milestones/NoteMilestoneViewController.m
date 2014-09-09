@@ -11,6 +11,7 @@
 #import "UnitHelper.h"
 #import "UIImage+FX.h"
 #import "TutorialBubbleView.h"
+#import "PFFile+Video.h"
 
 @interface NoteMilestoneViewController ()
 @property TutorialBubbleView *tutorialBubbleView;
@@ -471,21 +472,27 @@
 
 - (void)takeController:(FDTakeController *)controller gotVideo:(NSURL *)videoUrl withInfo:(NSDictionary *)info {
     NSURL *assetUrl = info[UIImagePickerControllerReferenceURL];
-    if (assetUrl) {
-        [self updateDateFromFDTakeAsset:assetUrl];
-    } else {
+    BOOL fromLibrary = assetUrl != nil;
+
+    if (!fromLibrary) {
         [self.assetLibrary writeVideoAtPathToSavedPhotosAlbum:videoUrl completionBlock:^(NSURL *savedAssertUrl, NSError *error) {
             if (error) {
                 [UsageAnalytics trackError:error forOperationNamed:@"writeVideoAtPathToSavedPhotosAlbum"];
             }
         }];
     }
-    _attachmentMimeType = @"video/mov";
-    _attachment = [PFFile fileWithName:@"video.mov" contentsAtPath:videoUrl.path];
 
-    UIImage *thumbnail = [[UIImage generateThumbImage:videoUrl] imageScaledToFitSize:CGSizeMake(320.0, 320.0)];
-    [self.takePhotoButton setImage:thumbnail forState:UIControlStateNormal];
-    _thumbnailImage = [PFFile fileWithData:UIImageJPEGRepresentation(thumbnail, 0.5f) contentType:@"image/jpg"];
+    _attachment = [PFFile videoFileFromUrl:videoUrl];
+    if (_attachment) {
+        _attachmentMimeType = _attachment.mimeType;
+        UIImage *thumbnail = [[_attachment generateThumbImage] imageScaledToFitSize:CGSizeMake(320.0, 320.0)];
+        [self.takePhotoButton setImage:thumbnail forState:UIControlStateNormal];
+        _thumbnailImage = [PFFile fileWithData:UIImageJPEGRepresentation(thumbnail, 0.5f) contentType:@"image/jpg"];
+
+        if (fromLibrary) {
+            [self updateDateFromFDTakeAsset:assetUrl];
+        }
+    }
 }
 
 - (void)takeController:(FDTakeController *)controller gotPhoto:(UIImage *)photo withInfo:(NSDictionary *)info {

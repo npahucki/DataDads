@@ -17,6 +17,7 @@
 #import "TutorialBubbleView.h"
 #import "UIImage+FX.h"
 #import "AlertThenDisappearView.h"
+#import "PFFile+Video.h"
 
 @interface AchievementDetailsViewController ()
 @property TutorialBubbleView *tutorialBubbleView;
@@ -389,11 +390,14 @@ NSDateFormatter *_dateFormatter;
 }
 
 - (void)takeController:(FDTakeController *)controller gotVideo:(NSURL *)videoUrl withInfo:(NSDictionary *)info {
-    UIImage *thumbnail = [[UIImage generateThumbImage:videoUrl] imageScaledToFitSize:CGSizeMake(320.0, 320.0)];
-    PFFile *thumbnailFile = [PFFile fileWithName:@"thumbnail.jpg" data:UIImageJPEGRepresentation(thumbnail, 0.5f) contentType:@"image/jpg"];
-    PFFile *file = [PFFile fileWithName:@"video.mov" contentsAtPath:videoUrl.path];
-    [self setButtonPhoto:thumbnail];
-    [self saveAttachment:file withMimeType:@"video/mov" andThumbnail:thumbnailFile];
+
+    PFFile *file = [PFFile videoFileFromUrl:videoUrl];
+    if (file) {
+        UIImage *thumbnail = [[file generateThumbImage] imageScaledToFitSize:CGSizeMake(320.0, 320.0)];
+        PFFile *thumbnailFile = [PFFile fileWithName:@"thumbnail.jpg" data:UIImageJPEGRepresentation(thumbnail, 0.5f) contentType:@"image/jpg"];
+        [self setButtonPhoto:thumbnail];
+        [self saveAttachment:file withMimeType:file.mimeType andThumbnail:thumbnailFile];
+    }
 }
 
 - (void)saveAttachment:(PFFile *)attachment withMimeType:(NSString *)mimeType andThumbnail:(PFFile *)thumbnail {

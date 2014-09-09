@@ -30,7 +30,6 @@
 //  3. This notice may not be removed or altered from any source distribution.
 //
 
-#import <AVFoundation/AVFoundation.h>
 #import "UIImage+FX.h"
 
 
@@ -399,18 +398,5 @@
     UIGraphicsEndImageContext();
     return newImage;
 }
-
-+ (UIImage *)generateThumbImage:(NSURL *)videoUrl {
-    AVAsset *asset = [AVAsset assetWithURL:videoUrl];
-    AVAssetImageGenerator *imageGenerator = [[AVAssetImageGenerator alloc] initWithAsset:asset];
-    imageGenerator.appliesPreferredTrackTransform = YES;
-    CMTime time = [asset duration];
-    time.value = 0;
-    CGImageRef imageRef = [imageGenerator copyCGImageAtTime:time actualTime:NULL error:NULL];
-    UIImage *thumbnail = [UIImage imageWithCGImage:imageRef];
-    CGImageRelease(imageRef);  // CGImageRef won't be released by ARC
-    return thumbnail;
-}
-
 
 @end
