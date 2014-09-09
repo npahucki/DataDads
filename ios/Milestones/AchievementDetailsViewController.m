@@ -84,7 +84,7 @@ NSDateFormatter *_dateFormatter;
         if (!error) {
             // Get achievement details and image
             self.achievement = (MilestoneAchievement *) object;
-            self.playVideoButton.hidden = [self.achievement.attachmentType rangeOfString:@"video"].location == NSNotFound;
+            self.playVideoButton.hidden = !self.achievement.attachmentType || [self.achievement.attachmentType rangeOfString:@"video"].location == NSNotFound;
             BOOL hasImageAttachment = self.achievement.attachment && [self.achievement.attachmentType rangeOfString:@"image"].location != NSNotFound;
             PFFile *imageFile = hasImageAttachment ? self.achievement.attachment : Baby.currentBaby.avatarImage;
             if (imageFile) {
@@ -414,7 +414,7 @@ NSDateFormatter *_dateFormatter;
                 if (error2) {
                     [self.detailsImageButton setImage:nil forState:UIControlStateNormal];
                 } else {
-                    self.playVideoButton.hidden = [mimeType rangeOfString:@"video"].location == NSNotFound;
+                    self.playVideoButton.hidden = !mimeType || [mimeType rangeOfString:@"video"].location == NSNotFound;
                     [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationAchievementNotedAndSaved object:self.achievement];
                 }
             }];
