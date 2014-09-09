@@ -6,10 +6,7 @@
 //  Copyright (c) 2014 DataParenting. All rights reserved.
 //
 
-#import <Facebook-iOS-SDK/FacebookSDK/FBGraphObject.h>
-#import <Facebook-iOS-SDK/FacebookSDK/FBRequestConnection.h>
 #import "NSDate+Utils.h"
-#import "FacebookSDK/NSError+FBError.h"
 
 
 @implementation PFFacebookUtils (PFFacebookUtils_Extras)
@@ -33,12 +30,12 @@
         } else {
             NSMutableDictionary <FBGraphObject> *action = [FBGraphObject graphObject];
             action[@"babymilestone"] = fbMilestoneId;
-            action[@"explicitly_shared"] = @(YES);
-            action[@"fb:explicitly_shared"] = @(YES);
+            action[@"explicitly_shared"] = @"true";
+            action[@"fb:explicitly_shared"] = @"true";
             [FBRequestConnection startForPostWithGraphPath:@"me/dataparenting:note" graphObject:action
-                                         completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-                if (error) {
-                    block(NO, error);
+                                         completionHandler:^(FBRequestConnection *connection, id result, NSError *error2) {
+                if (error2) {
+                    block(NO, error2);
                 } else {
                     block(YES, nil);
                 }
@@ -48,15 +45,11 @@
 }
 
 + (void)createFBMilestoneObject:(MilestoneAchievement *)achievement block:(PFStringResultBlock)block {
-    [self stageFile:achievement.attachment block:^(NSString *imageUrl, NSError *error) {
-        if (error) {
-            block(nil, error);
-        } else {
             NSString *url = [NSString stringWithFormat:@"http://%@/achievements/%@", VIEW_HOST, achievement.objectId];
             NSMutableDictionary <FBOpenGraphObject> *object =
                     [FBGraphObject openGraphObjectForPostWithType:@"dataparenting:babymilestone"
                                                             title:achievement.displayTitle
-                                                            image:imageUrl
+                                                            image:achievement.attachmentThumbnail.url
                                                               url:url
                                                       description:@""];
             object[@"al:ios"] = @"http://www.dataparenting.com/app";
@@ -67,45 +60,18 @@
             if (achievement.comment) object[@"data"][@"comment"] = achievement.comment;
             if (achievement.standardMilestone.url) object[@"see_also"] = achievement.standardMilestone.url;
 
-            [FBRequestConnection startForPostOpenGraphObject:object completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-                if (!error) {
+            [FBRequestConnection startForPostOpenGraphObject:object completionHandler:^(FBRequestConnection *connection, id result, NSError *error2) {
+                if (!error2) {
                     block([result objectForKey:@"id"], nil);
                 } else {
-                    block(nil, error);
+                    block(nil, error2);
                 }
             }];
-        }
-    }];
-
-}
-
-+ (void)stageFile:(PFFile *)attachment block:(PFStringResultBlock)block {
-    if (attachment) {
-        [attachment getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-            if (!error) {
-                UIImage *image = [UIImage imageWithData:data];
-                [FBRequestConnection startForUploadStagingResourceWithImage:image completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-                    if (!error) {
-                        block([result objectForKey:@"uri"], nil);
-                    } else {
-                        block(nil, error);
-                    }
-                }];
-            } else {
-                block(nil, error);
-            }
-        }];
-    } else {
-        block(nil, nil);
-    }
-
-
 }
 
 + (BOOL)userHasAuthorizedPublishPermissions:(PFUser *)user {
     return [PFFacebookUtils isLinkedWithUser:user] && [[[PFFacebookUtils session] permissions] containsObject:@"publish_actions"];
 }
-
 
 + (void)ensureHasPublishPermissions:(PFUser *)user block:(PFBooleanResultBlock)block {
     if ([PFFacebookUtils isLinkedWithUser:user]) {
@@ -202,7 +168,7 @@
                           cancelButtonTitle:@"OK"
                           otherButtonTitles:nil] show];
         return YES;
-    } else if ([error.domain isEqualToString:@"com.facebook.sdk"] && [[error.userInfo objectForKey:@"com.facebook.sdk:ErrorLoginFailedReason"] isEqualToString:@"com.facebook.sdk:SystemLoginDisallowedWithoutError"]) {
+    } else if ([error.domain isEqualToString:@"com.facebook.sdk"] && [error.userInfo[@"com.facebook.sdk:ErrorLoginFailedReason"] isEqualToString:@"com.facebook.sdk:SystemLoginDisallowedWithoutError"]) {
         NSString *msg = @"If you want to log in with facebook go to Settings>Facebook and enable acceess for 'DataParenting', then try to log in again.";
         [[[UIAlertView alloc] initWithTitle:@"Facebook Login Is Disabled"
                                     message:msg
