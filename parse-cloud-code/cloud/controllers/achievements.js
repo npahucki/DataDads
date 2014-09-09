@@ -19,12 +19,28 @@ exports.show = function (req, res) {
                     if(!title) title = milestone.get("title");
                     title = utils.replacePronounTokens(title,baby.get("isMale"), "en");
                     var hasImage = achievement.get("attachmentType") && achievement.get("attachmentType").indexOf("image/") == 0;
-                    var photoUrl = hasImage ? achievement.get("attachment").url() : null ;
-                    res.render('achievements/show', {
-                        title: title,
-                        completedOn : achievement.get("completedOn"),
-                        photoUrl : photoUrl
-                    });
+                    var hasVideo = achievement.get("attachmentType") && achievement.get("attachmentType").indexOf("video/") == 0;
+
+                    if(hasImage) {
+                        res.render('achievements/show_photo', {
+                            title: title,
+                            completedOn : achievement.get("completedOn"),
+                            photoUrl : achievement.get("attachment").url()
+                        });
+                    } else if(hasVideo) {
+                        res.render('achievements/show_video', {
+                            title: title,
+                            completedOn : achievement.get("completedOn"),
+                            thumbnailUrl : achievement.get("attachmentThumbnail").url(),
+                            videoUrl : achievement.get("attachment").url()
+                        });
+                    } else {
+                        res.render('achievements/show_no_media', {
+                            title: title,
+                            completedOn : achievement.get("completedOn")
+                        });
+                    }
+
                 } else {
                     res.send(404,"Achievement is not shared");
                 }

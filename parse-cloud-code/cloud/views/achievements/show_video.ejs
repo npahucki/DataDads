@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>
+    <%= typeof title === "undefined" ? "Achievement" : title %>
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+  <link rel="icon" href="http://www.dataparenting.com/favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="/http://www.dataparenting.com/favicon.ico" type="image/x-icon">
+
+  <style>
+
+    body {
+      background-color: black;
+      color: white;
+    }
+
+    .title {
+      font-size: 20pt;
+      text-align: center;
+      color: white;
+      background-color: black;
+      border: 20px solid black
+    }
+
+    video {
+      max-width: 100%;
+      width : 80%;
+      height: auto;
+      padding-left: 0;
+      padding-right: 0;
+      margin-left: auto;
+      margin-right: auto;
+      display: block;
+    }
+
+    img {
+      max-width: 100%;
+      width : 80%;
+      height: auto;
+      padding-left: 0;
+      padding-right: 0;
+      margin-left: auto;
+      margin-right: auto;
+      display: block;
+    }
+
+  </style>
+
+
+</head>
+<body>
+
+
+<!-- content -->
+<div class='achievement'>
+  <div class='title'>
+    <%= title %>
+  </div>
+  <div>
+    <video id="milestoneVideo" poster="<%=thumbnailUrl%>"  preload="auto" controls="controls">
+      <source src="<%=videoUrl%>"/>
+      <object type="application/x-shockwave-flash" data="player.swf">
+        <param name="allowfullscreen" value="true"/>
+        <param name="allowscriptaccess" value="always"/>
+        <param name="flashvars" value="file=<%=videoUrl%>"/>
+        <!--[if IE]><param name="movie" value="player.swf"/><![endif]-->
+        <img src="<%=thumbnailUrl%>" alt="Video"/>
+        <p>Your browser can't play HTML5 video, please try Chrome or Safari</p>
+       </object>
+    </video>
+  </div>
+
+
+
+</div>
+
+</body>
+</html>
