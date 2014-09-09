@@ -26,4 +26,5 @@
 @property(weak, nonatomic) IBOutlet UIButton *detailsImageButton;
 @property(weak, nonatomic) IBOutlet UIBarButtonItem *actionBarButton;
 @property(weak, nonatomic) IBOutlet UIView *containerView;
+@property(weak, nonatomic) IBOutlet UIButton *playVideoButton;
 @end

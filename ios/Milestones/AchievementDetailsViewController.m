@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 DataParenting. All rights reserved.
 //
 
+#import <MediaPlayer/MediaPlayer.h>
 #import "AchievementDetailsViewController.h"
 #import "WebViewerViewController.h"
 #import "NSDate+Utils.m"
@@ -83,6 +84,7 @@ NSDateFormatter *_dateFormatter;
         if (!error) {
             // Get achievement details and image
             self.achievement = (MilestoneAchievement *) object;
+            self.playVideoButton.hidden = [self.achievement.attachmentType rangeOfString:@"video"].location == NSNotFound;
             BOOL hasImageAttachment = self.achievement.attachment && [self.achievement.attachmentType rangeOfString:@"image"].location != NSNotFound;
             PFFile *imageFile = hasImageAttachment ? self.achievement.attachment : Baby.currentBaby.avatarImage;
             if (imageFile) {
@@ -139,14 +141,6 @@ NSDateFormatter *_dateFormatter;
         [attrText appendAttributedString:commentsString];
     }
 
-//    // Completion date
-//    NSAttributedString *completedOnLabel = [[NSAttributedString alloc] initWithString:@"Completed on: " attributes:dataLabelTextAttributes];
-//    NSAttributedString *completedOnValue = [[NSAttributedString alloc] initWithString:[_dateFormatter stringFromDate:self.achievement.completionDate] attributes:dataValueTextAttributes];
-//    [attrText appendAttributedString:lf];
-//    [attrText appendAttributedString:lf];
-//    [attrText appendAttributedString:completedOnLabel];
-//    [attrText appendAttributedString:completedOnValue];
-
     NSAttributedString *completedAtAgeLabel = [[NSAttributedString alloc] initWithString:@"Completed at: " attributes:dataLabelTextAttributes];
     NSAttributedString *completedAtAgeValue = [[NSAttributedString alloc] initWithString:[[Baby currentBaby]
             ageAtDateFormattedAsNiceString:self.achievement.completionDate]   attributes:dataValueTextAttributes];
@@ -195,8 +189,8 @@ NSDateFormatter *_dateFormatter;
     _takeController.delegate = self;
     _takeController.viewControllerForPresentingImagePickerController = self;
     _takeController.allowsEditingPhoto = NO; // NOTE: Allowing photo editing causes a problem with landscape pictures!
-    _takeController.allowsEditingVideo = NO;
-    [_takeController takePhotoOrChooseFromLibrary];
+    _takeController.allowsEditingVideo = YES;
+    [_takeController takePhotoOrVideoOrChooseFromLibrary];
 }
 
 - (void)didClickDeleteButton:(id)sender {
@@ -263,6 +257,13 @@ NSDateFormatter *_dateFormatter;
         }
     }];
     [self presentViewController:controller animated:YES completion:nil];
+}
+
+- (IBAction)didClickPlayVideoButton:(id)sender {
+    NSAssert([self.achievement.attachmentType rangeOfString:@"video"].location != NSNotFound, @"Expected attachment with video type");
+    NSURL *url = [NSURL URLWithString:self.achievement.attachment.url];
+    MPMoviePlayerViewController *c = [[MPMoviePlayerViewController alloc] initWithContentURL:url];
+    [self.navigationController presentMoviePlayerViewControllerAnimated:c];
 }
 
 - (void)showPercentileMessage:(NSInteger)percent {
@@ -380,30 +381,49 @@ NSDateFormatter *_dateFormatter;
 #pragma mark FDTakeController Delegate
 
 - (void)takeController:(FDTakeController *)controller gotPhoto:(UIImage *)photo withInfo:(NSDictionary *)info {
-    // TODO: Support video too!
     [self showInProgressHUDWithMessage:@"Uploading Photo" andAnimation:YES andDimmedBackground:YES];
-    PFFile *file = [PFFile fileWithData:UIImageJPEGRepresentation(photo, 0.5f)];
-    [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+    NSString *mimeType = @"image/jpg";
+    PFFile *file = [PFFile fileWithName:@"photo.jpg" data:UIImageJPEGRepresentation(photo, 0.5f) contentType:mimeType];
+    [self saveAttachment:file withMimeType:mimeType andThumbnail:nil];
+    [self setButtonPhoto:photo];
+}
+
+- (void)takeController:(FDTakeController *)controller gotVideo:(NSURL *)videoUrl withInfo:(NSDictionary *)info {
+    UIImage *thumbnail = [[UIImage generateThumbImage:videoUrl] imageScaledToFitSize:CGSizeMake(320.0, 320.0)];
+    PFFile *thumbnailFile = [PFFile fileWithName:@"thumbnail.jpg" data:UIImageJPEGRepresentation(thumbnail, 0.5f) contentType:@"image/jpg"];
+    PFFile *file = [PFFile fileWithName:@"video.mov" contentsAtPath:videoUrl.path];
+    [self setButtonPhoto:thumbnail];
+    [self saveAttachment:file withMimeType:@"video/mov" andThumbnail:thumbnailFile];
+}
+
+- (void)saveAttachment:(PFFile *)attachment withMimeType:(NSString *)mimeType andThumbnail:(PFFile *)thumbnail {
+    NSString *type = [mimeType rangeOfString:@"video"].location != NSNotFound ? @"video" : @"photo";
+    NSString *title = [@"Uploading " stringByAppendingString:type];
+
+    self.playVideoButton.hidden = YES;
+    [self showInProgressHUDWithMessage:title andAnimation:YES andDimmedBackground:YES];
+    [attachment saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (error) {
-            [self showErrorThenRunBlock:error withMessage:@"Could not upload the photo." andBlock:nil];
+            [self showErrorThenRunBlock:error withMessage:@"Could not upload the video." andBlock:nil];
             [self.detailsImageButton setImage:nil forState:UIControlStateNormal];
         } else {
-            self.achievement.attachment = file;
-            self.achievement.attachmentType = @"image/jpg";
+            self.achievement.attachment = attachment;
+            self.achievement.attachmentType = mimeType;
+            if (thumbnail) self.achievement.attachmentThumbnail = thumbnail;
             [self saveObject:self.achievement withTitle:@"Updating Milestone" andFailureMessage:@"Could not save Milestone" andBlock:^(BOOL succeeded2, NSError *error2) {
                 if (error2) {
                     [self.detailsImageButton setImage:nil forState:UIControlStateNormal];
                 } else {
+                    self.playVideoButton.hidden = [mimeType rangeOfString:@"video"].location == NSNotFound;
                     [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationAchievementNotedAndSaved object:self.achievement];
                 }
             }];
-
-
         }
+    }                       progressBlock:^(int percentDone) {
+        [self showText:[NSString stringWithFormat:@"%@ %d%%", title, percentDone]];
     }];
-
-    [self setButtonPhoto:photo];
 }
+
 
 - (void)setButtonPhoto:(UIImage *)photo {
     [self.detailsImageButton setImage:[photo imageScaledToFitSize:self.detailsImageButton.bounds.size] forState:UIControlStateNormal];

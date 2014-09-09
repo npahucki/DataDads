@@ -93,11 +93,26 @@
                                             <constraint firstAttribute="height" constant="50" id="KpC-N2-Fdy"/>
                                         </constraints>
                                     </view>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QL3-hH-zQc">
+                                        <rect key="frame" x="137" y="295" width="22" height="22"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </button>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ruj-Ng-npm">
+                                        <rect key="frame" x="124" y="273" width="72" height="72"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="play_button">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="didClickPlayVideoButton:" destination="eNM-aT-BTU" eventType="touchUpInside" id="olM-mw-Jbf"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="hvI-wA-MYI" firstAttribute="top" secondItem="yCy-qS-Ug2" secondAttribute="top" id="5XA-Z9-lBx"/>
                                     <constraint firstItem="koa-H7-Px9" firstAttribute="width" secondItem="koa-H7-Px9" secondAttribute="height" multiplier="1:1" id="F7w-Fg-hV5"/>
+                                    <constraint firstItem="ruj-Ng-npm" firstAttribute="centerX" secondItem="koa-H7-Px9" secondAttribute="centerX" id="Ge4-l5-ALM"/>
                                     <constraint firstItem="hvI-wA-MYI" firstAttribute="leading" secondItem="YaB-Py-RbV" secondAttribute="trailing" constant="4" id="Hdr-QQ-rlw"/>
                                     <constraint firstItem="koa-H7-Px9" firstAttribute="top" secondItem="hvI-wA-MYI" secondAttribute="bottom" constant="8" id="Iir-Uv-4Pt"/>
                                     <constraint firstAttribute="trailing" secondItem="hvI-wA-MYI" secondAttribute="trailing" id="Ijd-PD-5VY"/>
@@ -107,6 +122,7 @@
                                     <constraint firstAttribute="trailing" secondItem="qgu-bh-LmM" secondAttribute="trailing" constant="8" id="Szw-aV-w9e"/>
                                     <constraint firstItem="yQZ-mp-MZA" firstAttribute="top" secondItem="koa-H7-Px9" secondAttribute="bottom" constant="8" id="XQU-Bi-xcf"/>
                                     <constraint firstItem="YaB-Py-RbV" firstAttribute="centerX" secondItem="ZWm-C3-ca7" secondAttribute="centerX" id="aWc-BA-myT"/>
+                                    <constraint firstItem="ruj-Ng-npm" firstAttribute="centerY" secondItem="koa-H7-Px9" secondAttribute="centerY" id="cXo-vF-gVf"/>
                                     <constraint firstItem="YaB-Py-RbV" firstAttribute="centerY" secondItem="hvI-wA-MYI" secondAttribute="centerY" id="hO6-uJ-Nmm"/>
                                     <constraint firstAttribute="centerX" secondItem="koa-H7-Px9" secondAttribute="centerX" id="hqi-nZ-wSW"/>
                                     <constraint firstItem="YaB-Py-RbV" firstAttribute="centerY" secondItem="RZ7-cs-8GY" secondAttribute="centerY" id="jKP-sX-PJ0"/>
@@ -145,6 +161,7 @@
                         <outlet property="detailsImageButton" destination="koa-H7-Px9" id="XsF-kQ-ftY"/>
                         <outlet property="detailsTextView" destination="JKB-u4-xbU" id="fuV-IC-H7K"/>
                         <outlet property="detailsTextViewContainerView" destination="hvI-wA-MYI" id="OcJ-j3-2kv"/>
+                        <outlet property="playVideoButton" destination="ruj-Ng-npm" id="GEq-0g-FMx"/>
                         <outlet property="rangeIndicatorView" destination="YaB-Py-RbV" id="ucr-W9-FY2"/>
                         <outlet property="rangleScaleLabel" destination="ZWm-C3-ca7" id="24q-Oc-eEa"/>
                         <outlet property="shareButtonBarItem" destination="9sO-vf-wct" id="TOM-Fc-xMf"/>
@@ -2374,6 +2391,7 @@
         <image name="modalBoxClose" width="9" height="9"/>
         <image name="newTagButton" width="43" height="43"/>
         <image name="newTagButton_pressed" width="43" height="43"/>
+        <image name="play_button" width="72" height="72"/>
         <image name="progress-0" width="74" height="75"/>
         <image name="settingsIcon" width="27" height="27"/>
         <image name="settingsIcon_pressed" width="27" height="27"/>

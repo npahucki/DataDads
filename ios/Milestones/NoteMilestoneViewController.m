@@ -356,10 +356,10 @@
 
     if (self.commentsTextField.text.length) self.achievement.comment = self.commentsTextField.text;
     self.achievement.attachment = attachment;
-    self.achievement.attachmentThumbnail = _thumbnailImage;
     self.achievement.attachmentType = type;
     self.achievement.completionDate = self.completionDateTextField.date;
     self.achievement.sharedVia = self.fbSwitch.on ? SharingMediumFacebook : SharingMediumNotShared;
+    if (_thumbnailImage) self.achievement.attachmentThumbnail = _thumbnailImage;
     [self saveObject:self.achievement withTitle:@"Noting Milestone" andFailureMessage:@"Could not note milestone." andBlock:^(BOOL succeeded, NSError *error) {
         if (!error) {
             // SEE NOTE ABOVE
@@ -502,7 +502,7 @@
     }
 
     _attachmentMimeType = @"image/jpg";
-    _attachment = [PFFile fileWithData:UIImageJPEGRepresentation(photo, 0.5f) contentType:_attachmentMimeType];
+    _attachment = [PFFile fileWithName:@"photo.jpg" data:UIImageJPEGRepresentation(photo, 0.5f) contentType:_attachmentMimeType];
 }
 
 //-(void) encodeVideo:(NSURL *)videoURL exportTo:(NSURL*) exportURL withQuality:(NSString*)quality andBlock:(PFBooleanResultBlock) block {
