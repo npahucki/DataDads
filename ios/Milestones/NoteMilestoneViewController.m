@@ -432,7 +432,6 @@
 - (void)updateDateFromFDTakeAsset:(NSURL *)assertUrl {
     NSAssert(assertUrl != nil, @"Expected non nil assertURL");
     [self.assetLibrary assetForURL:assertUrl resultBlock:^(ALAsset *asset) {
-        ALAssetRepresentation *imageRep = [asset defaultRepresentation];
         NSDate *createDate = [asset valueForProperty:ALAssetPropertyDate];
         if (createDate) {
             if ([self.achievement.baby daysSinceBirthDate:createDate] < 0) {

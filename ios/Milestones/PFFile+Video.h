@@ -8,8 +8,6 @@
 @interface PFFile (Video)
 
 @property(readonly, nonatomic) NSString *mimeType;
-@property(readonly, nonatomic) UIImage *thumbnailImage;
-
 
 + (instancetype)videoFileFromUrl:(NSURL *)videoUrl;
 
