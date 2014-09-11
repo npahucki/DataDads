@@ -18,6 +18,7 @@
 #import "UIImage+FX.h"
 #import "AlertThenDisappearView.h"
 #import "PFFile+Video.h"
+#import "InAppPurchaseHelper.h"
 
 @interface AchievementDetailsViewController ()
 @property TutorialBubbleView *tutorialBubbleView;
@@ -390,14 +391,17 @@ NSDateFormatter *_dateFormatter;
 }
 
 - (void)takeController:(FDTakeController *)controller gotVideo:(NSURL *)videoUrl withInfo:(NSDictionary *)info {
-
-    PFFile *file = [PFFile videoFileFromUrl:videoUrl];
-    if (file) {
-        UIImage *thumbnail = [[file generateThumbImage] imageScaledToFitSize:CGSizeMake(320.0, 320.0)];
-        PFFile *thumbnailFile = [PFFile fileWithName:@"thumbnail.jpg" data:UIImageJPEGRepresentation(thumbnail, 0.5f) contentType:@"image/jpg"];
-        [self setButtonPhoto:thumbnail];
-        [self saveAttachment:file withMimeType:file.mimeType andThumbnail:thumbnailFile];
-    }
+    [[InAppPurchaseHelper instance] ensureProductPurchased:DDProductVideoSupport withBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            PFFile *file = [PFFile videoFileFromUrl:videoUrl];
+            if (file) {
+                UIImage *thumbnail = [[file generateThumbImage] imageScaledToFitSize:CGSizeMake(320.0, 320.0)];
+                PFFile *thumbnailFile = [PFFile fileWithName:@"thumbnail.jpg" data:UIImageJPEGRepresentation(thumbnail, 0.5f) contentType:@"image/jpg"];
+                [self setButtonPhoto:thumbnail];
+                [self saveAttachment:file withMimeType:file.mimeType andThumbnail:thumbnailFile];
+            }
+        }
+    }];
 }
 
 - (void)saveAttachment:(PFFile *)attachment withMimeType:(NSString *)mimeType andThumbnail:(PFFile *)thumbnail {

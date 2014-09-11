@@ -8,9 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		72F1824FF832CD399E989C2F /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72F184C3C79880CF8D53574A /* MediaPlayer.framework */; };
+		72F1877F09F482E5A93B35AE /* AppleIncRootCertificate.cer in Resources */ = {isa = PBXBuildFile; fileRef = 72F18423ECAD54191B7179D7 /* AppleIncRootCertificate.cer */; };
+		72F187BDC76C613B6C98D5BF /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B58651891EED100C74C2B /* StoreKit.framework */; };
 		72F1883E74F2B648B80C5C0D /* PFFile+Video.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F184506900ECF329391D82 /* PFFile+Video.m */; };
+		72F18A0239394ADCB653A3C1 /* InAppPurchaseHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F1844739B4B51C27B34983 /* InAppPurchaseHelper.m */; };
 		72F18A8BAA52268B8AB8A3D1 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72F184C3C79880CF8D53574A /* MediaPlayer.framework */; };
+		72F18B2BB218DB4DF06FEC6B /* AppleIncRootCertificate.cer in Resources */ = {isa = PBXBuildFile; fileRef = 72F18423ECAD54191B7179D7 /* AppleIncRootCertificate.cer */; };
+		72F18C14C15309335F83127D /* InAppPurchaseHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F1844739B4B51C27B34983 /* InAppPurchaseHelper.m */; };
 		72F18ED08930567464526909 /* PFFile+Video.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F184506900ECF329391D82 /* PFFile+Video.m */; };
+		72F18F9470CB5D6C79E81125 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B58651891EED100C74C2B /* StoreKit.framework */; };
 		D6CB8834E1A347069F6D2883 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7AE7A55BFBD3425490A0E0F5 /* libPods.a */; };
 		E80BFB631989ACC100E98D9D /* Tutorial-Screen-3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E80BFB621989ACC100E98D9D /* Tutorial-Screen-3.jpg */; };
 		E80BFB641989ACC100E98D9D /* Tutorial-Screen-3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E80BFB621989ACC100E98D9D /* Tutorial-Screen-3.jpg */; };
@@ -226,6 +232,9 @@
 
 /* Begin PBXFileReference section */
 		38FA7AFE5F694C389969CCDD /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		72F183698C959E005935B194 /* InAppPurchaseHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InAppPurchaseHelper.h; sourceTree = "<group>"; };
+		72F18423ECAD54191B7179D7 /* AppleIncRootCertificate.cer */ = {isa = PBXFileReference; lastKnownFileType = file.cer; path = AppleIncRootCertificate.cer; sourceTree = "<group>"; };
+		72F1844739B4B51C27B34983 /* InAppPurchaseHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InAppPurchaseHelper.m; sourceTree = "<group>"; };
 		72F184506900ECF329391D82 /* PFFile+Video.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PFFile+Video.m"; sourceTree = "<group>"; };
 		72F184C3C79880CF8D53574A /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		72F18C88FC612D6CDB6F1B09 /* PFFile+Video.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PFFile+Video.h"; sourceTree = "<group>"; };
@@ -420,6 +429,7 @@
 				E8A02D4819817CCF001E0DAB /* Foundation.framework in Frameworks */,
 				E8A02D4919817CCF001E0DAB /* libPods.a in Frameworks */,
 				72F18A8BAA52268B8AB8A3D1 /* MediaPlayer.framework in Frameworks */,
+				72F187BDC76C613B6C98D5BF /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -445,6 +455,7 @@
 				E8DD48DE188EE5B900153095 /* Foundation.framework in Frameworks */,
 				D6CB8834E1A347069F6D2883 /* libPods.a in Frameworks */,
 				72F1824FF832CD399E989C2F /* MediaPlayer.framework in Frameworks */,
+				72F18F9470CB5D6C79E81125 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -557,6 +568,8 @@
 				E89AC31C1955E83D00AD3869 /* UsageAnalytics.m */,
 				72F184506900ECF329391D82 /* PFFile+Video.m */,
 				72F18C88FC612D6CDB6F1B09 /* PFFile+Video.h */,
+				72F1844739B4B51C27B34983 /* InAppPurchaseHelper.m */,
+				72F183698C959E005935B194 /* InAppPurchaseHelper.h */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -638,6 +651,7 @@
 				E8E39C1818EA137F0034982D /* ThirdParty */,
 				E8DD48DB188EE5B900153095 /* Products */,
 				38FA7AFE5F694C389969CCDD /* Pods.xcconfig */,
+				72F18423ECAD54191B7179D7 /* AppleIncRootCertificate.cer */,
 			);
 			sourceTree = "<group>";
 		};
@@ -915,6 +929,7 @@
 				E80BFB641989ACC100E98D9D /* Tutorial-Screen-3.jpg in Resources */,
 				E8A02D5919817CCF001E0DAB /* Main_iPhone.storyboard in Resources */,
 				E8A02D5A19817CCF001E0DAB /* InfoPlist.strings in Resources */,
+				72F1877F09F482E5A93B35AE /* AppleIncRootCertificate.cer in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -946,6 +961,7 @@
 				E80BFB631989ACC100E98D9D /* Tutorial-Screen-3.jpg in Resources */,
 				E8DD48F1188EE5B900153095 /* Main_iPhone.storyboard in Resources */,
 				E8DD48E8188EE5B900153095 /* InfoPlist.strings in Resources */,
+				72F18B2BB218DB4DF06FEC6B /* AppleIncRootCertificate.cer in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1114,6 +1130,7 @@
 				E8A02D3319817CCF001E0DAB /* MilestoneAchievement.m in Sources */,
 				E8A02D3419817CCF001E0DAB /* StandardMilestone.m in Sources */,
 				72F1883E74F2B648B80C5C0D /* PFFile+Video.m in Sources */,
+				72F18A0239394ADCB653A3C1 /* InAppPurchaseHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1178,6 +1195,7 @@
 				E81B588E189BFFFE00C74C2B /* MilestoneAchievement.m in Sources */,
 				E81B588B189BCCD200C74C2B /* StandardMilestone.m in Sources */,
 				72F18ED08930567464526909 /* PFFile+Video.m in Sources */,
+				72F18C14C15309335F83127D /* InAppPurchaseHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

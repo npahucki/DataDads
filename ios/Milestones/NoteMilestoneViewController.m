@@ -12,6 +12,7 @@
 #import "UIImage+FX.h"
 #import "TutorialBubbleView.h"
 #import "PFFile+Video.h"
+#import "InAppPurchaseHelper.h"
 
 @interface NoteMilestoneViewController ()
 @property TutorialBubbleView *tutorialBubbleView;
@@ -470,28 +471,32 @@
 #pragma mark - FDTakeDelegate
 
 - (void)takeController:(FDTakeController *)controller gotVideo:(NSURL *)videoUrl withInfo:(NSDictionary *)info {
-    NSURL *assetUrl = info[UIImagePickerControllerReferenceURL];
-    BOOL fromLibrary = assetUrl != nil;
+    [[InAppPurchaseHelper instance] ensureProductPurchased:DDProductVideoSupport withBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            NSURL *assetUrl = info[UIImagePickerControllerReferenceURL];
+            BOOL fromLibrary = assetUrl != nil;
 
-    if (!fromLibrary) {
-        [self.assetLibrary writeVideoAtPathToSavedPhotosAlbum:videoUrl completionBlock:^(NSURL *savedAssertUrl, NSError *error) {
-            if (error) {
-                [UsageAnalytics trackError:error forOperationNamed:@"writeVideoAtPathToSavedPhotosAlbum"];
+            if (!fromLibrary) {
+                [self.assetLibrary writeVideoAtPathToSavedPhotosAlbum:videoUrl completionBlock:^(NSURL *savedAssertUrl, NSError *error) {
+                    if (error) {
+                        [UsageAnalytics trackError:error forOperationNamed:@"writeVideoAtPathToSavedPhotosAlbum"];
+                    }
+                }];
             }
-        }];
-    }
 
-    _attachment = [PFFile videoFileFromUrl:videoUrl];
-    if (_attachment) {
-        _attachmentMimeType = _attachment.mimeType;
-        UIImage *thumbnail = [[_attachment generateThumbImage] imageScaledToFitSize:CGSizeMake(320.0, 320.0)];
-        [self.takePhotoButton setImage:thumbnail forState:UIControlStateNormal];
-        _thumbnailImage = [PFFile fileWithData:UIImageJPEGRepresentation(thumbnail, 0.5f) contentType:@"image/jpg"];
+            _attachment = [PFFile videoFileFromUrl:videoUrl];
+            if (_attachment) {
+                _attachmentMimeType = _attachment.mimeType;
+                UIImage *thumbnail = [[_attachment generateThumbImage] imageScaledToFitSize:CGSizeMake(320.0, 320.0)];
+                [self.takePhotoButton setImage:thumbnail forState:UIControlStateNormal];
+                _thumbnailImage = [PFFile fileWithData:UIImageJPEGRepresentation(thumbnail, 0.5f) contentType:@"image/jpg"];
 
-        if (fromLibrary) {
-            [self updateDateFromFDTakeAsset:assetUrl];
+                if (fromLibrary) {
+                    [self updateDateFromFDTakeAsset:assetUrl];
+                }
+            }
         }
-    }
+    }];
 }
 
 - (void)takeController:(FDTakeController *)controller gotPhoto:(UIImage *)photo withInfo:(NSDictionary *)info {

@@ -93,7 +93,7 @@
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
     NSString *email = [NSString stringWithFormat:@"mailto:support@dataparenting.com?subject=[SUPPORT REQUEST]:%@&body=\n\n\n-------\nVersion:%@\nBuild:%@\nUserId:%@\nDevice:%@\n  System:%@ %@\n-------\n",
                                                  infoDictionary[(NSString *) kCFBundleNameKey],
-                                                 infoDictionary[(NSString *) @"CFBundleShortVersionString"],
+                                                 infoDictionary[@"CFBundleShortVersionString"],
                                                  infoDictionary[(NSString *) kCFBundleVersionKey],
                                                  [ParentUser currentUser].objectId,
                                                  sDeviceModel,
