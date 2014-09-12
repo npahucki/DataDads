@@ -391,7 +391,9 @@ NSDateFormatter *_dateFormatter;
 }
 
 - (void)takeController:(FDTakeController *)controller gotVideo:(NSURL *)videoUrl withInfo:(NSDictionary *)info {
+    self.detailsImageButton.enabled = NO; // Prevent another click while sorting out purchase stuff.
     [[InAppPurchaseHelper instance] ensureProductPurchased:DDProductVideoSupport withBlock:^(BOOL succeeded, NSError *error) {
+        self.detailsImageButton.enabled = YES; // Restore
         if (succeeded) {
             PFFile *file = [PFFile videoFileFromUrl:videoUrl];
             if (file) {

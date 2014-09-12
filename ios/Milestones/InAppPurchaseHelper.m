@@ -71,7 +71,7 @@
                     [self purchaseProduct:productId withBlock:block];
                 } else {
                     [UsageAnalytics trackAccountThatCantPurchase];
-                    [[[UIAlertView alloc] initWithTitle:@"Can't make purchases" message:@"Your account is not allowed to make purchases." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+                    [[[UIAlertView alloc] initWithTitle:@"Can Not Make Purchases" message:@"Your account is currently not allowed to make purchases." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
                     block(NO, nil);
                 }
             }
@@ -80,7 +80,7 @@
             [[RMStore defaultStore] refreshReceiptOnSuccess:^{
                 [self ensureProductPurchased:product withBlock:block];
             }                                       failure:^(NSError *error) {
-                [[[UIAlertView alloc] initWithTitle:@"Can't make purchases" message:@"Could not connect to the AppStore to verify your purchases. Please try again later." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+                [[[UIAlertView alloc] initWithTitle:@"Could Not Connect to AppStore" message:@"Unable to verify your purchases at this moment. Please try again later." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
                 [UsageAnalytics trackError:error forOperationNamed:@"RMStore.refreshReceipt"];
                 block(NO, error);
             }];
@@ -96,8 +96,8 @@
 - (void)purchaseProduct:(NSString *)productId withBlock:(PFBooleanResultBlock)block {
     [self validateProductIdentifiers:@[productId] withBlock:^(NSArray *objects, NSError *error) {
         if (error) {
-            [[[UIAlertView alloc] initWithTitle:@"Could not activate Video Support" message:@"Please try again, perhaps a little later" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
-            [UsageAnalytics trackError:error forOperationNamed:@"lookupVideoURL"];
+            [[[UIAlertView alloc] initWithTitle:@"Could Not Connect to AppStore" message:@"Please try again, perhaps a little later" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+            [UsageAnalytics trackError:error forOperationNamed:@"lookupAppStoreProduct"];
             block(NO, error);
         } else {
             SKProduct *product = objects.firstObject;
@@ -120,7 +120,6 @@
                                 NSAssert(_paymentRequestCallbacks[payment.productIdentifier] == nil, @"Expected only a single payment per product to process at a time.");
                                 _paymentRequestCallbacks[payment.productIdentifier] = block;
                                 [[SKPaymentQueue defaultQueue] addPayment:payment];
-                                // TODO: UI Feedback (Progress or something)
                             } else {
                                 [UsageAnalytics trackPurchaseDecision:NO forProductId:productId];
                                 block(NO, nil);

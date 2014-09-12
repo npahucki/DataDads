@@ -262,7 +262,7 @@ static BOOL isRelease;
                 @"transactionId" : transaction.transactionIdentifier
         }];
     } else {
-        NSLog(@"[USAGE ANALYTICS]: purchaseTransactionState - state:%@ productId:%@", stateString, transaction.payment.productIdentifier);
+        NSLog(@"[USAGE ANALYTICS]: purchaseTransactionState - txId:%@ state:%@ productId:%@", transaction.transactionIdentifier, stateString, transaction.payment.productIdentifier);
     }
 }
 

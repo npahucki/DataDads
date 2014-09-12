@@ -471,15 +471,17 @@
 #pragma mark - FDTakeDelegate
 
 - (void)takeController:(FDTakeController *)controller gotVideo:(NSURL *)videoUrl withInfo:(NSDictionary *)info {
+    self.takePhotoButton.enabled = NO; // Prevent another click while sorting out purchase stuff.
     [[InAppPurchaseHelper instance] ensureProductPurchased:DDProductVideoSupport withBlock:^(BOOL succeeded, NSError *error) {
+        self.takePhotoButton.enabled = YES; // Restore
         if (succeeded) {
             NSURL *assetUrl = info[UIImagePickerControllerReferenceURL];
             BOOL fromLibrary = assetUrl != nil;
 
             if (!fromLibrary) {
-                [self.assetLibrary writeVideoAtPathToSavedPhotosAlbum:videoUrl completionBlock:^(NSURL *savedAssertUrl, NSError *error) {
-                    if (error) {
-                        [UsageAnalytics trackError:error forOperationNamed:@"writeVideoAtPathToSavedPhotosAlbum"];
+                [self.assetLibrary writeVideoAtPathToSavedPhotosAlbum:videoUrl completionBlock:^(NSURL *savedAssertUrl, NSError *error2) {
+                    if (error2) {
+                        [UsageAnalytics trackError:error2 forOperationNamed:@"writeVideoAtPathToSavedPhotosAlbum"];
                     }
                 }];
             }
