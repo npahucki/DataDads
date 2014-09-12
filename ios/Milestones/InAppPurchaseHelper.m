@@ -70,6 +70,7 @@
                 if ([SKPaymentQueue canMakePayments]) {
                     [self purchaseProduct:productId withBlock:block];
                 } else {
+                    [UsageAnalytics trackAccountThatCantPurchase];
                     [[[UIAlertView alloc] initWithTitle:@"Can't make purchases" message:@"Your account is not allowed to make purchases." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
                     block(NO, nil);
                 }
@@ -79,7 +80,7 @@
             [[RMStore defaultStore] refreshReceiptOnSuccess:^{
                 [self ensureProductPurchased:product withBlock:block];
             }                                       failure:^(NSError *error) {
-                [[[UIAlertView alloc] initWithTitle:@"Can't make purchases" message:@"Could not connect to the AppStore to verify your purchase. Please try again later." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+                [[[UIAlertView alloc] initWithTitle:@"Can't make purchases" message:@"Could not connect to the AppStore to verify your purchases. Please try again later." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
                 [UsageAnalytics trackError:error forOperationNamed:@"RMStore.refreshReceipt"];
                 block(NO, error);
             }];
@@ -100,46 +101,62 @@
             block(NO, error);
         } else {
             SKProduct *product = objects.firstObject;
-            NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
-            [numberFormatter setFormatterBehavior:NSNumberFormatterBehavior10_4];
-            [numberFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
-            [numberFormatter setLocale:product.priceLocale];
-            NSString *formattedPrice = [numberFormatter stringFromNumber:product.price];
-            NSString *title = [NSString stringWithFormat:@"Purchase %@ now?", product.localizedTitle];
-            NSString *msg = [NSString stringWithFormat:@"%@ costs %@.\n\n%@", product.localizedTitle,
-                                                       formattedPrice, product.localizedDescription];
-            [[[UIAlertView alloc] initWithTitle:title message:msg delegate:nil cancelButtonTitle:@"Not Now" otherButtonTitles:@"Yes", nil]
-                    showWithButtonBlock:^(NSInteger buttonIndex) {
-                        // TODO: Track Yes/No answer here!
-                        if (buttonIndex == 1) {
-                            SKMutablePayment *payment = [SKMutablePayment paymentWithProduct:product];
-                            payment.applicationUsername = [ParentUser currentUser].objectId;
-                            payment.quantity = 1;
-                            NSAssert(_paymentRequestCallbacks[payment.productIdentifier] == nil, @"Expected only a single payment per product to process at a time.");
-                            _paymentRequestCallbacks[payment.productIdentifier] = block;
-                            [[SKPaymentQueue defaultQueue] addPayment:payment];
-                            // TODO: UI Feedback (Progress or something)
-                        } else {
-                            block(NO, nil);
-                        }
-                    }];
+            if (product) {
+                NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+                [numberFormatter setFormatterBehavior:NSNumberFormatterBehavior10_4];
+                [numberFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+                [numberFormatter setLocale:product.priceLocale];
+                NSString *formattedPrice = [numberFormatter stringFromNumber:product.price];
+                NSString *title = [NSString stringWithFormat:@"Purchase %@ now?", product.localizedTitle];
+                NSString *msg = [NSString stringWithFormat:@"%@ costs %@.\n\n%@", product.localizedTitle,
+                                                           formattedPrice, product.localizedDescription];
+                [[[UIAlertView alloc] initWithTitle:title message:msg delegate:nil cancelButtonTitle:@"Not Now" otherButtonTitles:@"Yes", nil]
+                        showWithButtonBlock:^(NSInteger buttonIndex) {
+                            if (buttonIndex == 1) {
+                                [UsageAnalytics trackPurchaseDecision:YES forProductId:productId];
+                                SKMutablePayment *payment = [SKMutablePayment paymentWithProduct:product];
+                                payment.applicationUsername = [ParentUser currentUser].objectId;
+                                payment.quantity = 1;
+                                NSAssert(_paymentRequestCallbacks[payment.productIdentifier] == nil, @"Expected only a single payment per product to process at a time.");
+                                _paymentRequestCallbacks[payment.productIdentifier] = block;
+                                [[SKPaymentQueue defaultQueue] addPayment:payment];
+                                // TODO: UI Feedback (Progress or something)
+                            } else {
+                                [UsageAnalytics trackPurchaseDecision:NO forProductId:productId];
+                                block(NO, nil);
+                            }
+                        }];
+
+            } else {
+                // No purchase data, can't offer product.
+                NSString *msg = [NSString stringWithFormat:@"I'm sorry we can't offer the product '%@' right now. Please contact support with this message.", productId];
+                NSError *error2 = [NSError errorWithDomain:@"com.dataparenting.DataParenting" code:100 userInfo:
+                        @{NSLocalizedDescriptionKey : @"Product id not found in AppStore", @"productId" : productId}];
+                [UsageAnalytics trackError:error2 forOperationNamed:@"lookupProduct"];
+                [[[UIAlertView alloc] initWithTitle:@"Something Went Wrong" message:msg delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+            }
         }
     }];
 }
 
 - (void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray *)transactions {
     for (SKPaymentTransaction *transaction in transactions) {
+        [UsageAnalytics trackPurchaseTransactionState:transaction];
         PFBooleanResultBlock block = _paymentRequestCallbacks[transaction.payment.productIdentifier];
         switch (transaction.transactionState) {
             // Call the appropriate custom method.
             case SKPaymentTransactionStatePurchased:
                 [self completeTransaction:transaction withBlock:block];
+                [_paymentRequestCallbacks removeObjectForKey:transaction.payment.productIdentifier];
                 break;
             case SKPaymentTransactionStateFailed:
                 [self failedTransaction:transaction withBlock:block];
+                [_paymentRequestCallbacks removeObjectForKey:transaction.payment.productIdentifier];
                 break;
             case SKPaymentTransactionStateRestored:
                 [self restoreTransaction:transaction withBlock:block];
+                [_paymentRequestCallbacks removeObjectForKey:transaction.payment.productIdentifier];
+                break;
             default:
                 break;
         }
@@ -147,14 +164,12 @@
 }
 
 - (void)completeTransaction:(SKPaymentTransaction *)transaction withBlock:(PFBooleanResultBlock)block {
-    // Activate!
-    [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+    [self recordTransaction:transaction];
     block(YES, nil);
 }
 
 - (void)restoreTransaction:(SKPaymentTransaction *)transaction withBlock:(PFBooleanResultBlock)block {
-    // TODO: Activate!
-    [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+    [self recordTransaction:transaction];
     block(YES, nil);
 }
 
@@ -162,8 +177,36 @@
     [UsageAnalytics trackError:transaction.error forOperationNamed:@"activateVideo"];
     [[[UIAlertView alloc] initWithTitle:@"Could not complete purchase" message:transaction.error.localizedDescription
                                delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
-    [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+    [self recordTransaction:transaction];
     block(NO, transaction.error);
+}
+
+- (void)recordTransaction:(SKPaymentTransaction *)transaction {
+    PurchaseTransaction *purchaseTransaction = [PurchaseTransaction object];
+    purchaseTransaction.user = [ParentUser currentUser];
+    purchaseTransaction.txId = transaction.transactionIdentifier;
+    purchaseTransaction.originalId = transaction.originalTransaction.transactionIdentifier;
+    purchaseTransaction.productId = transaction.payment.productIdentifier;
+
+    switch (transaction.transactionState) {
+        case SKPaymentTransactionStatePurchased:
+            purchaseTransaction.type = @"new_purchase";
+            break;
+        case SKPaymentTransactionStateFailed:
+            purchaseTransaction.type = @"failed_purchase";
+            break;
+        case SKPaymentTransactionStateRestored:
+            purchaseTransaction.type = @"restored_purchase";
+            break;
+        default:
+            purchaseTransaction.type = nil;
+    }
+
+    [purchaseTransaction saveEventually:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+        }
+    }];
 }
 
 
@@ -176,9 +219,8 @@
 
 // SKProductsRequestDelegate protocol method
 - (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response {
-    // TODO: // what to do with this?
     for (NSString *invalidIdentifier in response.invalidProductIdentifiers) {
-        // Handle any invalid product identifiers.
+        NSLog(@"Unexpected invalid product id : %@", invalidIdentifier);
     }
 
     PFArrayResultBlock block = objc_getAssociatedObject(request, "block");

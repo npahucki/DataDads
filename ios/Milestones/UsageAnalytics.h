@@ -39,4 +39,10 @@
 + (void)trackTutorialResponse:(BOOL)viewed;
 
 + (void)trackSettingChange:(NSString *)settingName withValue:(id)value;
+
++ (void)trackPurchaseDecision:(BOOL)b forProductId:(NSString *)id;
+
++ (void)trackAccountThatCantPurchase;
+
++ (void)trackPurchaseTransactionState:(SKPaymentTransaction *)transaction;
 @end

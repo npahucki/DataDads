@@ -8,7 +8,6 @@
 
 #import "AppDelegate.h"
 
-
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -27,6 +26,7 @@
     [MilestoneAchievement registerSubclass];
     [Measurement registerSubclass];
     [ParentUser registerSubclass];
+    [PurchaseTransaction registerSubclass];
 
     // Make sure only users can read their own data!
     [PFACL setDefaultACL:[PFACL ACL] withAccessForCurrentUser:YES];

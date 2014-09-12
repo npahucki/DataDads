@@ -21,6 +21,7 @@
 #import "UIAlertView+BlockSupport.h"
 #import "Constants.h"
 #import "ParentUser.h"
+#import "PurchaseTransaction.h"
 #import "Baby.h"
 #import "Tag.h"
 #import "Tip.h"

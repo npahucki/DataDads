@@ -221,4 +221,49 @@ static BOOL isRelease;
     }
 
 }
+
++ (void)trackPurchaseDecision:(BOOL)b forProductId:(NSString *)productId {
+    if (isRelease) {
+        [Heap track:@"purchaseDecision" withProperties:@{@"productId" : productId}];
+    } else {
+        NSLog(@"[USAGE ANALYTICS]: purchaseDecision - productId:%@", productId);
+    }
+}
+
++ (void)trackAccountThatCantPurchase {
+    if (isRelease) {
+        [Heap track:@"accountCantPurchase" withProperties:nil];
+    } else {
+        NSLog(@"[USAGE ANALYTICS]: accountCantPurchase");
+    }
+}
+
++ (void)trackPurchaseTransactionState:(SKPaymentTransaction *)transaction {
+    NSString *stateString;
+    switch (transaction.transactionState) {
+        case SKPaymentTransactionStatePurchasing:
+            stateString = @"SKPaymentTransactionStatePurchasing";
+            break;
+        case SKPaymentTransactionStatePurchased:
+            stateString = @"SKPaymentTransactionStatePurchased";
+            break;
+        case SKPaymentTransactionStateFailed:
+            stateString = @"SKPaymentTransactionStateFailed";
+            break;
+        case SKPaymentTransactionStateRestored:
+            stateString = @"SKPaymentTransactionStateRestored";
+            break;
+    }
+
+    if (isRelease) {
+        [Heap track:@"purchaseTransactionState" withProperties:@{
+                @"state" : stateString,
+                @"productId" : transaction.payment.productIdentifier,
+                @"transactionId" : transaction.transactionIdentifier
+        }];
+    } else {
+        NSLog(@"[USAGE ANALYTICS]: purchaseTransactionState - state:%@ productId:%@", stateString, transaction.payment.productIdentifier);
+    }
+}
+
 @end

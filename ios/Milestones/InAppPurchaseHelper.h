@@ -16,8 +16,6 @@ typedef enum _DDProduct : NSUInteger {
 
 @interface InAppPurchaseHelper : NSObject <SKProductsRequestDelegate, SKPaymentTransactionObserver>
 
-+ (NSArray *)productCodes;
-
 + (InAppPurchaseHelper *)instance;
 
 
