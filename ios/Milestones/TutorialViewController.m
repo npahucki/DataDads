@@ -20,7 +20,14 @@
 
 
 - (void)viewDidLoad {
-    _imageNames = @[@"Tutorial-Screen-1.jpg", @"Tutorial-Screen-2.jpg", @"Tutorial-Screen-3.jpg", @"Tutorial-Screen-3d.jpg", @"Tutorial-Screen-4.jpg",@"Tutorial-Screen-4d.jpg", @"Tutorial-Screen-5.jpg", @"Tutorial-Screen-1.jpg"];
+    
+    if  ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) &&
+         ([UIScreen mainScreen].bounds.size.height > 480.0f)) {
+        _imageNames = @[@"Tutorial-Screen-1.jpg", @"Tutorial-Screen-2.jpg", @"Tutorial-Screen-3.jpg", @"Tutorial-Screen-3d.jpg", @"Tutorial-Screen-4.jpg",@"Tutorial-Screen-4d.jpg", @"Tutorial-Screen-5.jpg", @"Tutorial-Screen-1.jpg"];
+    } else {
+        _imageNames = @[@"Tutorial-Screen-1 640x960.jpg", @"Tutorial-Screen-2 640x960.jpg", @"Tutorial-Screen-3 640x960.jpg", @"Tutorial-Screen-3d 640x960.jpg", @"Tutorial-Screen-4 640x960.jpg",@"Tutorial-Screen-4d 640x960.jpg", @"Tutorial-Screen-5 640x960.jpg", @"Tutorial-Screen-1 640x960.jpg"];
+    }
+
     [super viewDidLoad];
     [self advanceToNextPage];
     UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(advanceToNextPage)];
