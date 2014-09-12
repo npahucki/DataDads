@@ -153,6 +153,7 @@
         [cell setCellHeight:cell.frame.size.height];
         cell.textLabel.text = tipAssignment.tip.titleForCurrentBaby;
         cell.detailTextLabel.text = [NSString stringWithFormat:@"Delivered %@", [tipAssignment.assignmentDate stringWithHumanizedTimeDifference]];
+        cell.imageView.image = [UIImage imageNamed:tipAssignment.tip.tipType == TipTypeGame ? @"gameIcon" : @"tipsButton_active"];
         // TODO: set image according to tip type.
         cell.accessoryType = tipAssignment.tip.url.length ? UITableViewCellAccessoryDetailButton : UITableViewCellAccessoryNone;
         return cell;
@@ -193,40 +194,6 @@
         detailController.tipAssignment = (BabyAssignedTip *) _objects[indexPath.row];
     }
 }
-
-
-// LOOKS COOL, BUT HAS ALL SORTS OF RENDERING ISSUES, MAYBE LATER!
-
-//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//  
-//  SWTableViewCell* previousCell = _selectedPath ? (SWTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath] : nil;
-//  
-//  _selectedPath = indexPath;
-//  SWTableViewCell* cell = (SWTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
-//
-//  [UIView beginAnimations:@"expandAnimationId" context:nil];
-//  [UIView setAnimationDuration:0.3]; // Set duration here
-//  [CATransaction begin];
-//  [CATransaction setCompletionBlock:^{
-//    // This is needed otherwise the cell does not draw it self correctly.
-//    if(previousCell) {
-//      previousCell.textLabel.numberOfLines = 2;
-//      previousCell.textLabel.lineBreakMode = NSLineBreakByTruncatingTail;
-//      [previousCell sizeToFit];
-//    }
-//
-//    cell.textLabel.numberOfLines = 0; // Allow all the content to be shown.
-//    [cell.textLabel sizeToFit];
-//    [cell setCellHeight:cell.frame.size.height];
-//  }];
-//  [self.tableView beginUpdates];
-//  [self.tableView endUpdates];
-//  [CATransaction commit];
-//  [UIView commitAnimations];
-//
-//
-//
-//}
 
 #pragma mark - private methods
 
