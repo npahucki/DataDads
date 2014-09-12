@@ -8,10 +8,13 @@
 #import "RMStore.h"
 #import "RMStoreAppReceiptVerificator.h"
 #import "RMAppReceipt.h"
+#import "NSDate+Utils.h"
 
 
 @implementation InAppPurchaseHelper {
     RMStoreAppReceiptVerificator *_verificator;
+    NSMutableDictionary *_paymentRequestCallbacks; // Naughty apple does not use the same SKPayment object, so we need to track blocks here.
+    NSMutableDictionary *_productPurchaseCache;
 }
 
 + (NSString *)productCodesForProduct:(DDProduct)product {
@@ -37,6 +40,8 @@
 - (id)init {
     self = [super init];
     if (self) {
+        _paymentRequestCallbacks = [[NSMutableDictionary alloc] init];
+        _productPurchaseCache = [[NSMutableDictionary alloc] init];
         [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
         _verificator = [[RMStoreAppReceiptVerificator alloc] init];
         _verificator.bundleIdentifier = @"com.dataparenting.DataParenting";
@@ -54,10 +59,11 @@
     if ([self isProductPurchaseInCache:productId]) {
         block(YES, nil);
     } else {
-
         if ([_verificator verifyAppReceipt]) {
             RMAppReceipt *receipt = [RMAppReceipt bundleReceipt];
-            if ([receipt containsActiveAutoRenewableSubscriptionOfProductIdentifier:productId forDate:[NSDate date]]) {
+            NSDate *today = [NSDate date];
+            if ([receipt containsActiveAutoRenewableSubscriptionOfProductIdentifier:productId forDate:today]) {
+                _productPurchaseCache[productId] = today;
                 // Already purchased
                 block(YES, nil);
             } else {
@@ -82,7 +88,8 @@
 }
 
 - (BOOL)isProductPurchaseInCache:(NSString *)productId {
-    return NO; // TODO
+    NSDate *cachedDate = _productPurchaseCache[productId];
+    return cachedDate && [cachedDate daysDifferenceFromNow] <= 1;
 }
 
 - (void)purchaseProduct:(NSString *)productId withBlock:(PFBooleanResultBlock)block {
@@ -104,13 +111,12 @@
             [[[UIAlertView alloc] initWithTitle:title message:msg delegate:nil cancelButtonTitle:@"Not Now" otherButtonTitles:@"Yes", nil]
                     showWithButtonBlock:^(NSInteger buttonIndex) {
                         // TODO: Track Yes/No answer here!
-                        if (buttonIndex == 0) {
-                            NSLog(@"Do PURCHANSE!");
+                        if (buttonIndex == 1) {
                             SKMutablePayment *payment = [SKMutablePayment paymentWithProduct:product];
                             payment.applicationUsername = [ParentUser currentUser].objectId;
                             payment.quantity = 1;
-                            // TODO: Caution: this may be a different instance, so the block may be nil!
-                            objc_setAssociatedObject(payment, "block", block, OBJC_ASSOCIATION_COPY_NONATOMIC);
+                            NSAssert(_paymentRequestCallbacks[payment.productIdentifier] == nil, @"Expected only a single payment per product to process at a time.");
+                            _paymentRequestCallbacks[payment.productIdentifier] = block;
                             [[SKPaymentQueue defaultQueue] addPayment:payment];
                             // TODO: UI Feedback (Progress or something)
                         } else {
@@ -119,14 +125,11 @@
                     }];
         }
     }];
-
-
 }
 
 - (void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray *)transactions {
     for (SKPaymentTransaction *transaction in transactions) {
-        // TODO: Caution: this may be a different instance, so the block may be nil!
-        PFBooleanResultBlock block = objc_getAssociatedObject(transaction.payment, @"block");
+        PFBooleanResultBlock block = _paymentRequestCallbacks[transaction.payment.productIdentifier];
         switch (transaction.transactionState) {
             // Call the appropriate custom method.
             case SKPaymentTransactionStatePurchased:
@@ -166,7 +169,7 @@
 
 - (void)validateProductIdentifiers:(NSArray *)productIdentifiers withBlock:(PFArrayResultBlock)block {
     SKProductsRequest *productsRequest = [[SKProductsRequest alloc] initWithProductIdentifiers:[NSSet setWithArray:productIdentifiers]];
-    objc_setAssociatedObject(block, "block", productsRequest, OBJC_ASSOCIATION_COPY_NONATOMIC);
+    objc_setAssociatedObject(productsRequest, "block", block, OBJC_ASSOCIATION_COPY_NONATOMIC);
     productsRequest.delegate = self;
     [productsRequest start];
 }
