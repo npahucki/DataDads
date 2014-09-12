@@ -21,6 +21,16 @@
     [self.continueButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.loginNowButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    
+    NSString *launchImage;
+    if  ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) &&
+         ([UIScreen mainScreen].bounds.size.height > 480.0f)) {
+        launchImage = @"LaunchImage-700-568h";
+    } else {
+        launchImage = @"LaunchImage-700";
+    }
+    
+    self.backgroundImage.image = [UIImage imageNamed:launchImage];
 }
 
 - (BOOL)prefersStatusBarHidden {

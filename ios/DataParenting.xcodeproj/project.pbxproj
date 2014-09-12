@@ -178,8 +178,6 @@
 		E8A02D5A19817CCF001E0DAB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E8DD48E6188EE5B900153095 /* InfoPlist.strings */; };
 		E8A99CF4196205E1008BCEFE /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8A99CF3196205E1008BCEFE /* AssetsLibrary.framework */; };
 		E8ABCFBA191D68FE0083ED25 /* UIDateField.m in Sources */ = {isa = PBXBuildFile; fileRef = E8ABCFB9191D68FE0083ED25 /* UIDateField.m */; };
-		E8ABE5701982D5140022D110 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = E8ABE56F1982D5140022D110 /* background.png */; };
-		E8ABE5711982D5140022D110 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = E8ABE56F1982D5140022D110 /* background.png */; };
 		E8ABE5741987FE6B0022D110 /* TutorialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8ABE5731987FE6B0022D110 /* TutorialViewController.m */; };
 		E8ABE5751987FE6B0022D110 /* TutorialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8ABE5731987FE6B0022D110 /* TutorialViewController.m */; };
 		E8BC76D518A50AD000983025 /* UIViewControllerWithHUDProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = E8BC76D418A50AD000983025 /* UIViewControllerWithHUDProgress.m */; };
@@ -351,7 +349,6 @@
 		E8A99CF3196205E1008BCEFE /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		E8ABCFB8191D68FE0083ED25 /* UIDateField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIDateField.h; sourceTree = "<group>"; };
 		E8ABCFB9191D68FE0083ED25 /* UIDateField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIDateField.m; sourceTree = "<group>"; };
-		E8ABE56F1982D5140022D110 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
 		E8ABE5721987FE6B0022D110 /* TutorialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialViewController.h; sourceTree = "<group>"; };
 		E8ABE5731987FE6B0022D110 /* TutorialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialViewController.m; sourceTree = "<group>"; };
 		E8BC76D318A50AD000983025 /* UIViewControllerWithHUDProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIViewControllerWithHUDProgress.h; sourceTree = "<group>"; };
@@ -755,7 +752,6 @@
 				E80BFB621989ACC100E98D9D /* Tutorial-Screen-3.jpg */,
 				E8278E43198822A300A6893E /* Tutorial-Screen-5.jpg */,
 				E8278E44198822A300A6893E /* Tutorial-Screen-2.jpg */,
-				E8ABE56F1982D5140022D110 /* background.png */,
 				E8E39C0618E615D20034982D /* fonts */,
 			);
 			name = Resources;
@@ -906,7 +902,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E8A02D4B19817CCF001E0DAB /* GothamRounded-Medium.otf in Resources */,
-				E8ABE5711982D5140022D110 /* background.png in Resources */,
 				E8A02D4C19817CCF001E0DAB /* NoConnectionAlertView.xib in Resources */,
 				E8A02D4D19817CCF001E0DAB /* GothamRounded-Book.otf in Resources */,
 				E8A02D4E19817CCF001E0DAB /* GothamRounded-Bold.otf in Resources */,
@@ -938,7 +933,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E8E39C1618E615D20034982D /* GothamRounded-Medium.otf in Resources */,
-				E8ABE5701982D5140022D110 /* background.png in Resources */,
 				E856BD461962DB1C00D00E5C /* NoConnectionAlertView.xib in Resources */,
 				E8E39C1218E615D20034982D /* GothamRounded-Book.otf in Resources */,
 				E8E39C1018E615D20034982D /* GothamRounded-Bold.otf in Resources */,
