@@ -192,6 +192,8 @@ NSDateFormatter *_dateFormatter;
     _takeController.viewControllerForPresentingImagePickerController = self;
     _takeController.allowsEditingPhoto = NO; // NOTE: Allowing photo editing causes a problem with landscape pictures!
     _takeController.allowsEditingVideo = YES;
+    _takeController.imagePicker.videoQuality = UIImagePickerControllerQualityType640x480;
+    _takeController.imagePicker.videoMaximumDuration = 90;
     [_takeController takePhotoOrVideoOrChooseFromLibrary];
 }
 

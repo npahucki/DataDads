@@ -20,7 +20,6 @@
 
 @implementation NoteMilestoneViewController {
     FDTakeController *_takeController;
-    BOOL attachmentPending;
     PFFile *_attachment;
     NSString *_attachmentMimeType;
     PFFile *_thumbnailImage;
@@ -256,6 +255,8 @@
     _takeController.viewControllerForPresentingImagePickerController = self;
     _takeController.allowsEditingPhoto = NO; // NOTE: Allowing photo editing causes a problem with landscape pictures!
     _takeController.allowsEditingVideo = YES;
+    _takeController.imagePicker.videoQuality = UIImagePickerControllerQualityType640x480;
+    _takeController.imagePicker.videoMaximumDuration = 90;
     [_takeController takePhotoOrVideoOrChooseFromLibrary];
 }
 
@@ -517,52 +518,6 @@
     _attachmentMimeType = @"image/jpg";
     _attachment = [PFFile fileWithName:@"photo.jpg" data:UIImageJPEGRepresentation(photo, 0.5f) contentType:_attachmentMimeType];
 }
-
-//-(void) encodeVideo:(NSURL *)videoURL exportTo:(NSURL*) exportURL withQuality:(NSString*)quality andBlock:(PFBooleanResultBlock) block {
-//
-//    AVURLAsset *asset = [[AVURLAsset alloc] initWithURL:videoURL options:nil];
-//
-//    // Create the composition and tracks
-//    AVMutableComposition *composition = [AVMutableComposition composition];
-//    AVMutableCompositionTrack *videoTrack = [composition addMutableTrackWithMediaType:AVMediaTypeVideo preferredTrackID:kCMPersistentTrackID_Invalid];
-//    AVMutableCompositionTrack *audioTrack = [composition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
-//    NSArray *assetVideoTracks = [asset tracksWithMediaType:AVMediaTypeVideo];
-//    if (assetVideoTracks.count <= 0) {
-//        block(NO, [NSError errorWithDomain:@"DataParenting" code:-1 userInfo:@{@"reason" : @"Error reading the transformed video track"}]);
-//        return;
-//    }
-//
-//    // Insert the tracks in the composition's tracks
-//    AVAssetTrack *assetVideoTrack = [assetVideoTracks firstObject];
-//    [videoTrack insertTimeRange:assetVideoTrack.timeRange ofTrack:assetVideoTrack atTime:CMTimeMake(0, 1) error:nil];
-//    [videoTrack setPreferredTransform:assetVideoTrack.preferredTransform];
-//
-//    AVAssetTrack *assetAudioTrack = [asset tracksWithMediaType:AVMediaTypeAudio][0];
-//    [audioTrack insertTimeRange:assetAudioTrack.timeRange ofTrack:assetAudioTrack atTime:CMTimeMake(0, 1) error:nil];
-//
-//    AVAssetExportSession *exportSession = [[AVAssetExportSession alloc] initWithAsset:composition presetName:quality];
-//    exportSession.outputURL = exportURL;
-//    CMTime start = CMTimeMakeWithSeconds(0.0, 0);
-//    CMTimeRange range = CMTimeRangeMake(start, [asset duration]);
-//    exportSession.timeRange = range;
-//    exportSession.outputFileType = AVFileTypeMPEG4;
-//    [exportSession exportAsynchronouslyWithCompletionHandler:^{
-//        switch ([exportSession status]) {
-//            case AVAssetExportSessionStatusCompleted:
-//                block(YES, nil);
-//                break;
-//            case AVAssetExportSessionStatusFailed:
-//                block(NO, exportSession.error);
-//                break;
-//            case AVAssetExportSessionStatusCancelled:
-//                block(NO, nil);
-//                break;
-//            default:
-//                break;
-//        }
-//    }];
-//}
-
 
 - (NSAttributedString *)createTitleTextFromMilestone {
     StandardMilestone *m = self.achievement.standardMilestone;

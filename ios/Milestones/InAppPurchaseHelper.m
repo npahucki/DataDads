@@ -87,6 +87,10 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
 }
 
 - (BOOL)verifyAppReceipt {
+#if DISABLEIAP
+    return YES;
+#endif
+
     if (!_appReceipt) _appReceipt = [RMAppReceipt bundleReceipt];
     return [self verifyAppReceipt:_appReceipt];
 }
@@ -116,6 +120,10 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
 // Call this method only after app receipt has been verified!
 // Accepts an array of product numbers, returns true if any of the products is valid.
 - (BOOL)checkProductsPurchased:(NSArray *)products {
+#if DISABLEIAP
+    return YES;
+#endif
+
     NSAssert([self verifyAppReceipt], @"Expected App reciept to be verified already!");
 
     for (NSNumber *productIdNumber in products) {
