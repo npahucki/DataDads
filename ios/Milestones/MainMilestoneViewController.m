@@ -14,6 +14,7 @@
 #import "NoConnectionAlertView.h"
 #import "AlertThenDisappearView.h"
 #import "PronounHelper.h"
+#import "InAppPurchaseHelper.h"
 
 #define AD_TRIGGER_LAUNCH_COUNT 2
 #define AD_TRIGGER_MAX_TIME 60
@@ -40,14 +41,19 @@
 
     [NoConnectionAlertView createInstanceForController:self];
 
-    _adView = [[DataParentingAdView alloc] initWithFrame:CGRectZero]; // adjust frame later
-    _adView.delegate = self;
-    _adView.containingViewController = self;
-    _adView.size = DataParentingAdViewSizeSmall;
-    _adView.layer.shadowColor = [UIColor blackColor].CGColor;
-    _adView.layer.shadowOpacity = 0.5;
-    _adView.hidden = YES;
-    [self.view addSubview:_adView];
+    [[InAppPurchaseHelper instance] checkAdFreeProductPurchased:^(BOOL purchased, NSError *error) {
+        if (!purchased) {
+            _adView = [[DataParentingAdView alloc] initWithFrame:CGRectZero]; // adjust frame later
+            _adView.delegate = self;
+            _adView.containingViewController = self;
+            _adView.size = DataParentingAdViewSizeSmall;
+            _adView.layer.shadowColor = [UIColor blackColor].CGColor;
+            _adView.layer.shadowOpacity = 0.5;
+            _adView.hidden = YES;
+            [self.view addSubview:_adView];
+        }
+    }];
+
 
     UISwipeGestureRecognizer *swipeUp = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(hideSearchBar)];
     swipeUp.direction = UISwipeGestureRecognizerDirectionUp;
@@ -291,10 +297,12 @@
 }
 
 - (void)showAdIfNeeded {
-    if (ParentUser.currentUser.launchCount > AD_TRIGGER_LAUNCH_COUNT) {
-        if (!_dateLastAdShown || abs(_dateLastAdShown.timeIntervalSinceNow) > AD_TRIGGER_MAX_TIME) {
-            _dateLastAdShown = [NSDate date];
-            [_adView attemptAdLoad];
+    if (_adView) { // If nil, means that the user has paid to turn them off
+        if (ParentUser.currentUser.launchCount > AD_TRIGGER_LAUNCH_COUNT) {
+            if (!_dateLastAdShown || abs(_dateLastAdShown.timeIntervalSinceNow) > AD_TRIGGER_MAX_TIME) {
+                _dateLastAdShown = [NSDate date];
+                [_adView attemptAdLoad];
+            }
         }
     }
 }

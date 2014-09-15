@@ -6,24 +6,29 @@
 #import <objc/runtime.h>
 #import "InAppPurchaseHelper.h"
 #import "RMStore.h"
-#import "RMStoreAppReceiptVerificator.h"
 #import "RMAppReceipt.h"
-#import "NSDate+Utils.h"
 
-
-@implementation InAppPurchaseHelper {
-    RMStoreAppReceiptVerificator *_verificator;
-    NSMutableDictionary *_paymentRequestCallbacks; // Naughty apple does not use the same SKPayment object, so we need to track blocks here.
-    NSMutableDictionary *_productPurchaseCache;
+static id safe(id object) {
+    return object ?: [NSNull null];
 }
 
-+ (NSString *)productCodesForProduct:(DDProduct)product {
+static NSDictionary *productInfoForProduct(DDProduct product) {
     static NSArray *productCodes;
     if (!productCodes) {
-        productCodes = @[@"none", @"com.dataparenting.ad_removal", @"com.dataparenting.video_1"];
+        productCodes = @[
+                @{@"id" : @"none"},
+                @{@"id" : @"com.dataparenting.ad_removal", @"type" : @(DDProductSalesTypeOneTime)},
+                @{@"id" : @"com.dataparenting.video_1", @"type" : @(DDProductSalesTypeSubscription)}];
     }
     return productCodes[product];
 }
+
+
+@implementation InAppPurchaseHelper {
+    NSMutableDictionary *_paymentRequestCallbacks; // Naughty apple does not use the same SKPayment object, so we need to track blocks here.
+    RMAppReceipt *_appReceipt;
+}
+
 
 + (InAppPurchaseHelper *)instance {
     static InAppPurchaseHelper *_instance = nil;
@@ -41,56 +46,99 @@
     self = [super init];
     if (self) {
         _paymentRequestCallbacks = [[NSMutableDictionary alloc] init];
-        _productPurchaseCache = [[NSMutableDictionary alloc] init];
         [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
-        _verificator = [[RMStoreAppReceiptVerificator alloc] init];
-        _verificator.bundleIdentifier = @"com.dataparenting.DataParenting";
-        _verificator.bundleVersion = [[NSBundle mainBundle] infoDictionary][(NSString *) kCFBundleVersionKey];
     }
     return self;
 }
+
 
 - (void)dealloc {
     [[SKPaymentQueue defaultQueue] removeTransactionObserver:self];
 }
 
+- (void)checkAdFreeProductPurchased:(PFBooleanResultBlock)block {
+    [self checkProductsPurchased:@[@(DDProductAdRemoval), @(DDProductVideoSupport)] withBlock:block];
+}
+
 - (void)ensureProductPurchased:(DDProduct)product withBlock:(PFBooleanResultBlock)block {
-    NSString *productId = [InAppPurchaseHelper productCodesForProduct:product];
-    if ([self isProductPurchaseInCache:productId]) {
-        block(YES, nil);
-    } else {
-        if ([_verificator verifyAppReceipt]) {
-            RMAppReceipt *receipt = [RMAppReceipt bundleReceipt];
-            NSDate *today = [NSDate date];
-            if ([receipt containsActiveAutoRenewableSubscriptionOfProductIdentifier:productId forDate:today]) {
-                _productPurchaseCache[productId] = today;
-                // Already purchased
-                block(YES, nil);
-            } else {
-                if ([SKPaymentQueue canMakePayments]) {
-                    [self purchaseProduct:productId withBlock:block];
-                } else {
-                    [UsageAnalytics trackAccountThatCantPurchase];
-                    [[[UIAlertView alloc] initWithTitle:@"Can Not Make Purchases" message:@"Your account is currently not allowed to make purchases." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
-                    block(NO, nil);
-                }
-            }
+    if ([self verifyAppReceipt]) {
+        if ([self checkProductsPurchased:@[@(product)]]) {
+            block(YES, nil); // Already purchased
         } else {
-            // Apple recommends refresh if receipt validation fails.
-            [[RMStore defaultStore] refreshReceiptOnSuccess:^{
-                [self ensureProductPurchased:product withBlock:block];
-            }                                       failure:^(NSError *error) {
-                [[[UIAlertView alloc] initWithTitle:@"Could Not Connect to AppStore" message:@"Unable to verify your purchases at this moment. Please try again later." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
-                [UsageAnalytics trackError:error forOperationNamed:@"RMStore.refreshReceipt"];
-                block(NO, error);
-            }];
+            if ([SKPaymentQueue canMakePayments]) {
+                NSString *productId = productInfoForProduct(product)[@"id"];
+                [self purchaseProduct:productId withBlock:block];
+            } else {
+                [UsageAnalytics trackAccountThatCantPurchase];
+                [[[UIAlertView alloc] initWithTitle:@"Can Not Make Purchases" message:@"Your account is currently not allowed to make purchases." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+                block(NO, nil);
+            }
         }
+    } else {
+        // Apple recommends refresh if receipt validation fails.
+        [[RMStore defaultStore] refreshReceiptOnSuccess:^{
+            [self ensureProductPurchased:product withBlock:block];
+        }                                       failure:^(NSError *error) {
+            [[[UIAlertView alloc] initWithTitle:@"Could Not Connect to AppStore" message:@"Unable to verify your purchases at this moment. Please try again later." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+            [UsageAnalytics trackError:error forOperationNamed:@"RMStore.refreshReceipt"];
+            block(NO, error);
+        }];
     }
 }
 
-- (BOOL)isProductPurchaseInCache:(NSString *)productId {
-    NSDate *cachedDate = _productPurchaseCache[productId];
-    return cachedDate && [cachedDate daysDifferenceFromNow] <= 1;
+- (BOOL)verifyAppReceipt {
+    if (!_appReceipt) _appReceipt = [RMAppReceipt bundleReceipt];
+    return [self verifyAppReceipt:_appReceipt];
+}
+
+- (BOOL)verifyAppReceipt:(RMAppReceipt *)receipt {
+    if (!receipt) return NO;
+    if (![receipt.bundleIdentifier isEqualToString:@"com.dataparenting.DataParenting"]) return NO;
+    if (![receipt.appVersion isEqualToString:[[NSBundle mainBundle] infoDictionary][(NSString *) kCFBundleVersionKey]]) return NO;
+    return [receipt verifyReceiptHash];
+}
+
+// If any of the products is purchased, then the block is called with YES.
+- (void)checkProductsPurchased:(NSArray *)products withBlock:(PFBooleanResultBlock)block {
+    if ([self verifyAppReceipt]) {
+        BOOL purchased = [self checkProductsPurchased:products];
+        block(purchased, nil);
+    } else {
+        // Apple recommends refresh if receipt validation fails.
+        [[RMStore defaultStore] refreshReceiptOnSuccess:^{
+            [self checkProductsPurchased:products withBlock:block];
+        }                                       failure:^(NSError *error) {
+            block(NO, error);
+        }];
+    }
+}
+
+// Call this method only after app receipt has been verified!
+// Accepts an array of product numbers, returns true if any of the products is valid.
+- (BOOL)checkProductsPurchased:(NSArray *)products {
+    NSAssert([self verifyAppReceipt], @"Expected App reciept to be verified already!");
+
+    for (NSNumber *productIdNumber in products) {
+        DDProduct product = (DDProduct) [productIdNumber unsignedIntegerValue];
+        NSDictionary *productInfo = productInfoForProduct(product);
+        NSString *productId = productInfo[@"id"];
+        DDProductSalesType salesType = (DDProductSalesType) [(NSNumber *) productInfo[@"type"] unsignedIntegerValue];
+
+        if (salesType == DDProductSalesTypeSubscription) {
+            if ([_appReceipt containsActiveAutoRenewableSubscriptionOfProductIdentifier:
+                    productId                                                   forDate:[NSDate date]]) {
+                return YES;
+            }
+        } else {
+            if ([_appReceipt containsInAppPurchaseOfProductIdentifier:productId]) {
+                return YES;
+            }
+        }
+    }
+
+    // Nothing purchased
+    return NO;
+
 }
 
 - (void)purchaseProduct:(NSString *)productId withBlock:(PFBooleanResultBlock)block {
@@ -144,16 +192,13 @@
         PFBooleanResultBlock block = _paymentRequestCallbacks[transaction.payment.productIdentifier];
         switch (transaction.transactionState) {
             // Call the appropriate custom method.
+            case SKPaymentTransactionStateRestored:
             case SKPaymentTransactionStatePurchased:
                 [self completeTransaction:transaction withBlock:block];
                 [_paymentRequestCallbacks removeObjectForKey:transaction.payment.productIdentifier];
                 break;
             case SKPaymentTransactionStateFailed:
                 [self failedTransaction:transaction withBlock:block];
-                [_paymentRequestCallbacks removeObjectForKey:transaction.payment.productIdentifier];
-                break;
-            case SKPaymentTransactionStateRestored:
-                [self restoreTransaction:transaction withBlock:block];
                 [_paymentRequestCallbacks removeObjectForKey:transaction.payment.productIdentifier];
                 break;
             default:
@@ -164,48 +209,46 @@
 
 - (void)completeTransaction:(SKPaymentTransaction *)transaction withBlock:(PFBooleanResultBlock)block {
     [self recordTransaction:transaction];
-    block(YES, nil);
-}
-
-- (void)restoreTransaction:(SKPaymentTransaction *)transaction withBlock:(PFBooleanResultBlock)block {
-    [self recordTransaction:transaction];
-    block(YES, nil);
+    if (block) block(YES, nil);
+    _appReceipt = nil; // Clear out cached receipt.
 }
 
 - (void)failedTransaction:(SKPaymentTransaction *)transaction withBlock:(PFBooleanResultBlock)block {
-    [UsageAnalytics trackError:transaction.error forOperationNamed:@"activateVideo"];
+    [UsageAnalytics trackError:transaction.error forOperationNamed:@"processPaymentTransaction"];
     [[[UIAlertView alloc] initWithTitle:@"Could not complete purchase" message:transaction.error.localizedDescription
                                delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
     [self recordTransaction:transaction];
-    block(NO, transaction.error);
+    if (block) block(NO, transaction.error);
 }
 
 - (void)recordTransaction:(SKPaymentTransaction *)transaction {
-    PurchaseTransaction *purchaseTransaction = [PurchaseTransaction object];
-    purchaseTransaction.user = [ParentUser currentUser];
-    purchaseTransaction.txId = transaction.transactionIdentifier;
-    purchaseTransaction.originalId = transaction.originalTransaction.transactionIdentifier;
-    purchaseTransaction.productId = transaction.payment.productIdentifier;
+    if ([ParentUser currentUser]) {
+        PurchaseTransaction *purchaseTransaction = [PurchaseTransaction object];
+        purchaseTransaction.user = [ParentUser currentUser];
+        purchaseTransaction.txId = transaction.transactionIdentifier;
+        purchaseTransaction.originalId = transaction.originalTransaction.transactionIdentifier;
+        purchaseTransaction.productId = transaction.payment.productIdentifier;
 
-    switch (transaction.transactionState) {
-        case SKPaymentTransactionStatePurchased:
-            purchaseTransaction.type = @"new_purchase";
-            break;
-        case SKPaymentTransactionStateFailed:
-            purchaseTransaction.type = @"failed_purchase";
-            break;
-        case SKPaymentTransactionStateRestored:
-            purchaseTransaction.type = @"restored_purchase";
-            break;
-        default:
-            purchaseTransaction.type = nil;
-    }
-
-    [purchaseTransaction saveEventually:^(BOOL succeeded, NSError *error) {
-        if (succeeded) {
-            [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+        switch (transaction.transactionState) {
+            case SKPaymentTransactionStatePurchased:
+                purchaseTransaction.type = @"new_purchase";
+                break;
+            case SKPaymentTransactionStateFailed:
+                purchaseTransaction.type = @"failed_purchase";
+                break;
+            case SKPaymentTransactionStateRestored:
+                purchaseTransaction.type = @"restored_purchase";
+                break;
+            default:
+                purchaseTransaction.type = nil;
         }
-    }];
+
+        [purchaseTransaction saveEventually:^(BOOL succeeded, NSError *error) {
+            if (succeeded) {
+                [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+            }
+        }];
+    }
 }
 
 

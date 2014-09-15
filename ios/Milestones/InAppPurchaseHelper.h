@@ -13,12 +13,18 @@ typedef enum _DDProduct : NSUInteger {
     DDProductVideoSupport
 } DDProduct;
 
+typedef enum _DDProductSalesType : NSUInteger {
+    DDProductSalesTypeOneTime = 0,
+    DDProductSalesTypeSubscription
+} DDProductSalesType;
+
+
 
 @interface InAppPurchaseHelper : NSObject <SKProductsRequestDelegate, SKPaymentTransactionObserver>
 
 + (InAppPurchaseHelper *)instance;
 
+- (void)checkAdFreeProductPurchased:(PFBooleanResultBlock)block;
 
 - (void)ensureProductPurchased:(DDProduct)product withBlock:(PFBooleanResultBlock)block;
-
 @end
