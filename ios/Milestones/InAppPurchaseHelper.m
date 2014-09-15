@@ -90,7 +90,6 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
 #if DISABLEIAP
     return YES;
 #endif
-
     if (!_appReceipt) _appReceipt = [RMAppReceipt bundleReceipt];
     return [self verifyAppReceipt:_appReceipt];
 }
