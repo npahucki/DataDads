@@ -149,7 +149,6 @@ static NSString *const kStringsTableName = @"FDTake";
 #pragma mark - UIActionSheetDelegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex {
-    UIViewController *aViewController = [self _topViewController:[[[UIApplication sharedApplication] keyWindow] rootViewController]];
     if (buttonIndex == self.actionSheet.cancelButtonIndex) {
         if ([self.delegate respondsToSelector:@selector(takeController:didCancelAfterAttempting:)])
             [self.delegate takeController:self didCancelAfterAttempting:NO];
@@ -186,17 +185,25 @@ static NSString *const kStringsTableName = @"FDTake";
             }
         }
 
-        // On iPad use pop-overs.
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            [self.popover presentPopoverFromRect:self.popOverPresentRect
-                                          inView:aViewController.view
-                        permittedArrowDirections:UIPopoverArrowDirectionAny
-                                        animated:YES];
+        if (![self.delegate respondsToSelector:@selector(takeController:shouldProceedWithCurrentSettings:)] ||
+                [self.delegate takeController:self shouldProceedWithCurrentSettings:self.imagePicker]) {
+            [self presentImagePicker];
         }
-        else {
-            // On iPhone use full screen presentation.
-            [[self presentingViewController] presentViewController:self.imagePicker animated:YES completion:nil];
-        }
+    }
+}
+
+- (void)presentImagePicker {
+    UIViewController *aViewController = [self _topViewController:[[[UIApplication sharedApplication] keyWindow] rootViewController]];
+    // On iPad use pop-overs.
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        [self.popover presentPopoverFromRect:self.popOverPresentRect
+                                      inView:aViewController.view
+                    permittedArrowDirections:UIPopoverArrowDirectionAny
+                                    animated:YES];
+    }
+    else {
+        // On iPhone use full screen presentation.
+        [[self presentingViewController] presentViewController:self.imagePicker animated:YES completion:nil];
     }
 }
 

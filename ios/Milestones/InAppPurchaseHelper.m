@@ -8,10 +8,6 @@
 #import "RMStore.h"
 #import "RMAppReceipt.h"
 
-static id safe(id object) {
-    return object ?: [NSNull null];
-}
-
 static NSDictionary *productInfoForProduct(DDProduct product) {
     static NSArray *productCodes;
     if (!productCodes) {

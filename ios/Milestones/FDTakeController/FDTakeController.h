@@ -32,6 +32,13 @@
 * Delegate method after the user has successfully taken or selected a video
 */
 - (void)takeController:(FDTakeController *)controller gotVideo:(NSURL *)video withInfo:(NSDictionary *)info;
+
+/**
+* Delegate method before the picker is shown
+*/
+- (BOOL)takeController:(FDTakeController *)controller shouldProceedWithCurrentSettings:(UIImagePickerController *)picker;
+
+
 @end
 
 @interface FDTakeController : NSObject <UIImagePickerControllerDelegate>
@@ -52,6 +59,8 @@
 * Presents the user with an option to take a photo/video or choose a photo/video from the library
 */
 - (void)takePhotoOrVideoOrChooseFromLibrary;
+
+- (void)presentImagePicker;
 
 /**
 * The delegate to receive updates from FDTake

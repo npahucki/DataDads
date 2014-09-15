@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 DataParenting. All rights reserved.
 //
 
+#import <MobileCoreServices/MobileCoreServices.h>
 #import "NoteMilestoneViewController.h"
 #import "WebViewerViewController.h"
 #import "UnitHelper.h"
@@ -470,6 +471,20 @@
 
 
 #pragma mark - FDTakeDelegate
+
+- (BOOL)takeController:(FDTakeController *)controller shouldProceedWithCurrentSettings:(UIImagePickerController *)picker {
+    if (picker.sourceType == UIImagePickerControllerSourceTypeCamera && [picker.mediaTypes containsObject:(NSString *) kUTTypeMovie]) {
+        // If they picked to record a video, then we must present them with the dialog as soon as possible, not waiting
+        // until after they already record the video.
+        self.takePhotoButton.enabled = NO; // prevent clicking more than once
+        [[InAppPurchaseHelper instance] ensureProductPurchased:DDProductVideoSupport withBlock:^(BOOL succeeded, NSError *error) {
+            if (succeeded) [controller presentImagePicker];
+            self.takePhotoButton.enabled = YES;
+        }];
+        return NO;
+    }
+    return YES;
+}
 
 - (void)takeController:(FDTakeController *)controller gotVideo:(NSURL *)videoUrl withInfo:(NSDictionary *)info {
     self.takePhotoButton.enabled = NO; // Prevent another click while sorting out purchase stuff.

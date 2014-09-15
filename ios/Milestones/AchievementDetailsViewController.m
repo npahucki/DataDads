@@ -7,6 +7,7 @@
 //
 
 #import <MediaPlayer/MediaPlayer.h>
+#import <MobileCoreServices/MobileCoreServices.h>
 #import "AchievementDetailsViewController.h"
 #import "WebViewerViewController.h"
 #import "NSDate+Utils.m"
@@ -19,6 +20,7 @@
 #import "AlertThenDisappearView.h"
 #import "PFFile+Video.h"
 #import "InAppPurchaseHelper.h"
+#import "FDTakeController.h"
 
 @interface AchievementDetailsViewController ()
 @property TutorialBubbleView *tutorialBubbleView;
@@ -383,6 +385,20 @@ NSDateFormatter *_dateFormatter;
 }
 
 #pragma mark FDTakeController Delegate
+
+- (BOOL)takeController:(FDTakeController *)controller shouldProceedWithCurrentSettings:(UIImagePickerController *)picker {
+    if (picker.sourceType == UIImagePickerControllerSourceTypeCamera && [picker.mediaTypes containsObject:(NSString *) kUTTypeMovie]) {
+        // If they picked to record a video, then we must present them with the dialog as soon as possible, not waiting
+        // until after they already record the video.
+        self.detailsImageButton.enabled = NO; // prevent clicking more than once
+        [[InAppPurchaseHelper instance] ensureProductPurchased:DDProductVideoSupport withBlock:^(BOOL succeeded, NSError *error) {
+            if (succeeded) [controller presentImagePicker];
+            self.detailsImageButton.enabled = YES;
+        }];
+        return NO;
+    }
+    return YES;
+}
 
 - (void)takeController:(FDTakeController *)controller gotPhoto:(UIImage *)photo withInfo:(NSDictionary *)info {
     [self showInProgressHUDWithMessage:@"Uploading Photo" andAnimation:YES andDimmedBackground:YES];

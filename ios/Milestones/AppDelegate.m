@@ -81,7 +81,7 @@
     // TODO: Move this
     [PFPurchase addObserverForProduct:@"video.1" block:^(SKPaymentTransaction *transaction) {
         // TODO: CLoud function to activate the purchase.
-        NSLog(@"Bought Product! State:%d", transaction.transactionState);
+        NSLog(@"Bought Product! State:%ld", (long) transaction.transactionState);
     }];
 
 
