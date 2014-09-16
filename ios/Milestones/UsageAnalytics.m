@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 DataParenting. All rights reserved.
 //
 
+#import <UXCam/UXCam.h>
 #import "Heap.h"
 #import "NSDate+Utils.h"
 #import "AppsFlyerTracker.h"
@@ -33,6 +34,8 @@ static BOOL isRelease;
         [AppsFlyerTracker sharedTracker].appleAppID = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.AppleStoreId"];
         [AppsFlyerTracker sharedTracker].isHTTPS = YES;
         [[AppsFlyerTracker sharedTracker] trackAppLaunch];
+        NSString *uxCamKey = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.UXCamKey"];
+        [UXCam startApplicationWithKey:uxCamKey];
     }
 }
 
@@ -56,6 +59,10 @@ static BOOL isRelease;
         if (isRelease) {
             [AppsFlyerTracker sharedTracker].customerUserID = user.objectId;
             [Heap identify:props];
+            [UXCam tagUsersName:user.objectId additionalData:nil];
+            [UXCam tagScreenName:user.screenName];
+            [UXCam addTag:user.isMale ? @"male" : @"female"];
+            [UXCam addTag:user.email ? @"anonymous" : @"signedup"];
         } else {
             NSLog(@"[USAGE ANALYTICS]: Identify - %@", props);
         }
