@@ -284,7 +284,7 @@ static BOOL isRelease;
 
 + (void)trackPurchaseTransactionState:(SKPaymentTransaction *)transaction {
 
-    NSString *stateString;
+    NSString *stateString = @"";
     switch (transaction.transactionState) {
         case SKPaymentTransactionStatePurchasing:
             stateString = @"SKPaymentTransactionStatePurchasing";
