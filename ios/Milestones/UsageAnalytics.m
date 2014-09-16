@@ -163,6 +163,7 @@ static BOOL isRelease;
                     @"baby.id" : safe(achievement.baby.objectId),
                     @"achievement.isStandard" : achievement.standardMilestone ? @"Y" : @"N",
                     @"achievement.standardMilestoneId" : safe(achievement.standardMilestone.objectId),
+                    @"achievement.title" : achievement.displayTitle,
                     @"achievement.attachmentType" : safe(achievement.attachmentType),
                     @"achievement.hasAttachment" : achievement.attachmentType ? @"Y" : @"N",
                     @"achievement.hasCustomTitle" : achievement.customTitle ? @"Y" : @"N",
