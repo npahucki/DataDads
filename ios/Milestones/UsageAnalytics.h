@@ -27,6 +27,10 @@
 
 + (void)trackUserSignout:(ParentUser *)user;
 
++ (void)trackAppBecameActive;
+
++ (void)trackCreateBaby:(Baby *)baby;
+
 + (void)trackAchievementLogged:(MilestoneAchievement *)achievement sharedOnFacebook:(BOOL)shared;
 
 + (void)trackMeasurement:(Measurement *)measurement;
@@ -43,6 +47,8 @@
 + (void)trackPurchaseDecision:(BOOL)b forProductId:(NSString *)id;
 
 + (void)trackAccountThatCantPurchase;
+
++ (void)trackPurchaseCompleted:(NSString *)productId atPrice:(NSNumber *)price andCurrency:(NSString *)currency;
 
 + (void)trackPurchaseTransactionState:(SKPaymentTransaction *)transaction;
 @end

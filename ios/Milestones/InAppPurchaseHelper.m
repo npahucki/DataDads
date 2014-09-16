@@ -22,7 +22,9 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
 
 @implementation InAppPurchaseHelper {
     NSMutableDictionary *_paymentRequestCallbacks; // Naughty apple does not use the same SKPayment object, so we need to track blocks here.
+    NSMutableDictionary *_productCache;
     RMAppReceipt *_appReceipt;
+
 }
 
 
@@ -42,6 +44,7 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
     self = [super init];
     if (self) {
         _paymentRequestCallbacks = [[NSMutableDictionary alloc] init];
+        _productCache = [[NSMutableDictionary alloc] init];
         [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
     }
     return self;
@@ -153,6 +156,7 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
         } else {
             SKProduct *product = objects.firstObject;
             if (product) {
+                _productCache[productId] = product;
                 NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
                 [numberFormatter setFormatterBehavior:NSNumberFormatterBehavior10_4];
                 [numberFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
@@ -212,8 +216,16 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
 
 - (void)completeTransaction:(SKPaymentTransaction *)transaction withBlock:(PFBooleanResultBlock)block {
     [self recordTransaction:transaction];
-    if (block) block(YES, nil);
     _appReceipt = nil; // Clear out cached receipt.
+
+    SKProduct *product = _productCache[transaction.payment.productIdentifier];
+    NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+    [numberFormatter setFormatterBehavior:NSNumberFormatterBehavior10_4];
+    [numberFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+    [numberFormatter setLocale:product.priceLocale];
+    NSString *currencyCode = [numberFormatter currencyCode];
+    [UsageAnalytics trackPurchaseCompleted:transaction.payment.productIdentifier atPrice:product.price andCurrency:currencyCode];
+    if (block) block(YES, nil);
 }
 
 - (void)failedTransaction:(SKPaymentTransaction *)transaction withBlock:(PFBooleanResultBlock)block {

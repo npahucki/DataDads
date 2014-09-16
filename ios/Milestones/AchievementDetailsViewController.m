@@ -20,7 +20,6 @@
 #import "AlertThenDisappearView.h"
 #import "PFFile+Video.h"
 #import "InAppPurchaseHelper.h"
-#import "FDTakeController.h"
 
 @interface AchievementDetailsViewController ()
 @property TutorialBubbleView *tutorialBubbleView;
@@ -406,6 +405,8 @@ NSDateFormatter *_dateFormatter;
     PFFile *file = [PFFile fileWithName:@"photo.jpg" data:UIImageJPEGRepresentation(photo, 0.5f) contentType:mimeType];
     [self saveAttachment:file withMimeType:mimeType andThumbnail:nil];
     [self setButtonPhoto:photo];
+
+    [[PFFile alloc] init]
 }
 
 - (void)takeController:(FDTakeController *)controller gotVideo:(NSURL *)videoUrl withInfo:(NSDictionary *)info {

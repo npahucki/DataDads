@@ -95,6 +95,7 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     [FBAppCall handleDidBecomeActiveWithSession:[PFFacebookUtils session]];
+    [UsageAnalytics trackAppBecameActive];
     // Register for push notifications
     // TODO: Do this only if the user is logged in.
     [application registerForRemoteNotificationTypes:
