@@ -27,7 +27,8 @@
     NSNumber *size = properties[NSFileSize];
     NSLog(@"Video is %@ bytes", size);
     if (size.integerValue >= MAX_ATTACHMENT_BYTES_SIZE) {
-        [[[UIAlertView alloc] initWithTitle:@"Video Too Big" message:@"Please edit the video so that it is smaller than 10 MB)" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+        NSString *msg = [NSString stringWithFormat:@"Your video is %.02fMB. Please edit the video so that it is smaller than 10 MB.", (size.integerValue / (1024.0 * 1024.0))];
+        [[[UIAlertView alloc] initWithTitle:@"Video Too Big" message:msg delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
         return nil;
     }
 
