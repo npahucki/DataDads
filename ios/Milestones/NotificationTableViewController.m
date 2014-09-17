@@ -82,6 +82,7 @@
         //    query.maxCacheAge = 60 * 60 * 24; // at max check once a day.
         [PFCloud callFunctionInBackground:@"queryMyTips"
                            withParameters:@{@"babyId" : Baby.currentBaby.objectId,
+                                   @"appVersion" : NSBundle.mainBundle.infoDictionary[@"CFBundleShortVersionString"],
                                    @"skip" : [@(skip) stringValue],
                                    @"limit" : [@(limit) stringValue],
                                    @"showHiddenTips" : @(ParentUser.currentUser.showHiddenTips)}

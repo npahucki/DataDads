@@ -150,6 +150,7 @@ typedef void (^StandardMilestoneResultBlock)(NSNumber *totalCount, NSArray *obje
 
         [PFCloud callFunctionInBackground:@"queryMyMilestones"
                            withParameters:@{@"babyId" : self.baby.objectId,
+                                   @"appVersion" : NSBundle.mainBundle.infoDictionary[@"CFBundleShortVersionString"],
                                    @"babyIsMale" : babySex,
                                    @"parentIsMale" : parentSex,
                                    @"timePeriod" : timePeriod,
@@ -191,6 +192,7 @@ typedef void (^StandardMilestoneResultBlock)(NSNumber *totalCount, NSArray *obje
         __block BOOL cachedResult = cachePolicy == kPFCachePolicyCacheThenNetwork;
         [PFCloud callFunctionInBackground:@"queryMyAchievements"
                            withParameters:@{@"babyId" : self.baby.objectId,
+                                   @"appVersion" : NSBundle.mainBundle.infoDictionary[@"CFBundleShortVersionString"],
                                    @"skip" : [@(startIndex) stringValue],
                                    @"limit" : [@(self.pagingSize) stringValue],
                                    @"filterTokens" : _filter ? _filterTokens : [NSNull null]}
