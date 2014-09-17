@@ -13,8 +13,8 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
     if (!productCodes) {
         productCodes = @[
                 @{@"id" : @"none"},
-                @{@"id" : @"com.dataparenting.ad_removal", @"type" : @(DDProductSalesTypeOneTime)},
-                @{@"id" : @"com.dataparenting.video_1", @"type" : @(DDProductSalesTypeSubscription)}];
+                @{@"id" : @"com.dataparenting.AdRemoval1", @"type" : @(DDProductSalesTypeOneTime)},
+                @{@"id" : @"com.dataparenting.VideoSupport1", @"type" : @(DDProductSalesTypeSubscription)}];
     }
     return productCodes[product];
 }
