@@ -14,7 +14,7 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
         productCodes = @[
                 @{@"id" : @"none"},
                 @{@"id" : @"com.dataparenting.AdRemoval1", @"type" : @(DDProductSalesTypeOneTime)},
-                @{@"id" : @"com.dataparenting.VideoSupport1", @"type" : @(DDProductSalesTypeSubscription)}];
+                @{@"id" : @"com.dataparenting.VideoUpgrade1", @"type" : @(DDProductSalesTypeSubscription)}];
     }
     return productCodes[product];
 }
