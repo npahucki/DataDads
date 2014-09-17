@@ -68,7 +68,9 @@
     if (self.standardMilestone.canCompare) {
         [PFCloud callFunctionInBackground:@"percentileRanking"
                            withParameters:@{@"milestoneId" : self.standardMilestone.objectId,
-                                   @"completionDays" : @([Baby.currentBaby daysSinceDueDate:self.completionDate])}
+                                   @"completionDays" : @([Baby.currentBaby daysSinceDueDate:self.completionDate]),
+                                   @"appVersion" : NSBundle.mainBundle.infoDictionary[@"CFBundleShortVersionString"]
+                           }
                                     block:^(NSNumber *result, NSError *error) {
             if (error) {
                 NSLog(@"Error trying to calulate percentile: %@", error);

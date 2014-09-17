@@ -54,7 +54,10 @@
 
 - (void)attemptAdLoad {
     [PFCloud callFunctionInBackground:@"getAdToShow"
-                       withParameters:@{@"size" : self.size == DataParentingAdViewSizeSmall ? @"small" : @"medium"}
+                       withParameters:@{
+                               @"size" : self.size == DataParentingAdViewSizeSmall ? @"small" : @"medium",
+                               @"appVersion" : NSBundle.mainBundle.infoDictionary[@"CFBundleShortVersionString"]
+                       }
                                 block:^(NSDictionary *results, NSError *error) {
         if (!error) {
             /**
