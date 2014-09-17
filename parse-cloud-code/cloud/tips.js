@@ -3,6 +3,8 @@ Parse.Cloud.define("queryMyTips", function (request, response) {
     var showHiddenTips = request.params.showHiddenTips;
     var limit = parseInt(request.params.limit);
     var skip = parseInt(request.params.skip);
+    var appVersion = request.params.appVersion;
+
 
     var userIsPremium = false; // TODO: load from user profile, or table of user purchases
 
@@ -17,13 +19,20 @@ Parse.Cloud.define("queryMyTips", function (request, response) {
     query.descending("assignmentDate");
     query.skip = skip;
     query.limit = limit;
+
     query.find().
             then(function (results) {
+                console.log("APP VERSION " + appVersion);
+                if (!appVersion || appVersion < "1.1") {
+                    results.map(function (assignment) {
+                        var tip = assignment.attributes["tip"];
+                        tip.attributes["title"] = tip.attributes["title"] + ". " + tip.get("shortDescription");
+                    });
+                }
                 response.success(results);
             }, function (error) {
                 response.error(error);
             });
-
 });
 
 
@@ -55,7 +64,6 @@ function processSingleBaby(baby, sendPushNotification) {
         console.log("Getting assignment date for baby '" + baby.id);
 
 
-
         var versionQuery = new Parse.Query(Parse.Installation);
         versionQuery.equalTo("user", baby.get("parentUser"));
         versionQuery.select("appVersion");
@@ -70,12 +78,12 @@ function processSingleBaby(baby, sendPushNotification) {
         assignmentInfo = {};
         assignmentInfo.baby = baby;
 
-        return Parse.Promise.when(promise1, promise2).then(function(installation, assignment) {
-            if(installation) {
+        return Parse.Promise.when(promise1, promise2).then(function (installation, assignment) {
+            if (installation) {
                 assignmentInfo.appVersion = installation.get("appVersion");
                 console.log("Baby " + baby.id + " has a software version of " + assignmentInfo.appVersion);
             }
-            if(assignment) {
+            if (assignment) {
                 assignmentInfo.assignmentDate = assignment.get("assignmentDate");
                 assignmentInfo.tipType = assignment.get("tip").get("tipType");
                 //console.log("Baby " + baby.id + " has an last assignment of " + JSON.stringify(assignmentInfo));
@@ -92,7 +100,7 @@ function processSingleBaby(baby, sendPushNotification) {
         var minAllowedTipType = 1;
         var maxAllowedTipType = supportsGames ? 2 : 1;
         lastAssignmentInfo.nextTipType = lastAssignmentInfo.nextTipType || lastAssignmentInfo.tipType;
-        if(++lastAssignmentInfo.nextTipType > maxAllowedTipType) {
+        if (++lastAssignmentInfo.nextTipType > maxAllowedTipType) {
             lastAssignmentInfo.nextTipType = minAllowedTipType;
         }
         var shouldTryAgainIfNoTipFound = lastAssignmentInfo.nextTipType != lastAssignmentInfo.tipType;
@@ -113,8 +121,8 @@ function processSingleBaby(baby, sendPushNotification) {
         tipsQuery.doesNotMatchKeyInQuery("objectId", "tipId", innerQuery);
         tipsQuery.equalTo("tipType", lastAssignmentInfo.nextTipType);
 
-        if(shouldTryAgainIfNoTipFound) {
-            return tipsQuery.first().then(function(tip) {
+        if (shouldTryAgainIfNoTipFound) {
+            return tipsQuery.first().then(function (tip) {
                 return tip ? Parse.Promise.as(tip) : findNextTip(lastAssignmentInfo);
             });
         } else {
@@ -171,7 +179,7 @@ function processSingleBaby(baby, sendPushNotification) {
 
     function isParentEligibleForTip(baby) {
         var parentUserRef = baby.get("parentUser");
-        if(parentUserRef) {
+        if (parentUserRef) {
             return parentUserRef.fetch().then(function (parentUser) {
                 return Parse.Promise.as(parentUser && parentUser.get("email"));
             });
@@ -243,15 +251,15 @@ var processBabies = function (babyQuery, sendPushNotification) {
     babyQuery.select("name", "dueDate", "parentUser", "isMale");
 
     // TODO: REMOVE
-    babyQuery.equalTo("objectId","TbymSzsB8j");
+    babyQuery.equalTo("objectId", "TbymSzsB8j");
 
     var babyPromises = [];
     return babyQuery.each(function (baby) {
         // Process each baby in parrallel
         babyPromises.push(processSingleBaby(baby, sendPushNotification));
     }).then(function () {
-        return Parse.Promise.when(babyPromises);
-    });
+                return Parse.Promise.when(babyPromises);
+            });
 };
 
 
