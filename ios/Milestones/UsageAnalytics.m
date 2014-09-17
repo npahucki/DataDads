@@ -60,9 +60,9 @@ static BOOL isRelease;
             [AppsFlyerTracker sharedTracker].customerUserID = user.objectId;
             [Heap identify:props];
             [UXCam tagUsersName:user.objectId additionalData:nil];
-            [UXCam tagScreenName:user.screenName];
             [UXCam addTag:user.isMale ? @"male" : @"female"];
             [UXCam addTag:user.email ? @"anonymous" : @"signedup"];
+            if (user.screenName) [UXCam tagScreenName:user.screenName];
         } else {
             NSLog(@"[USAGE ANALYTICS]: Identify - %@", props);
         }
@@ -167,7 +167,7 @@ static BOOL isRelease;
     if (isRelease) {
         NSDictionary *props = @{
                 @"baby.id" : baby.objectId,
-                @"baby.name" : baby.name,
+                @"baby.name" : safe(baby.name),
                 @"baby.daysSinceBirth" : @(baby.daysSinceBirth)
         };
         [Heap track:@"babyCreated" withProperties:props];
@@ -200,7 +200,7 @@ static BOOL isRelease;
                     @"baby.id" : safe(achievement.baby.objectId),
                     @"achievement.isStandard" : achievement.standardMilestone ? @"Y" : @"N",
                     @"achievement.standardMilestoneId" : safe(achievement.standardMilestone.objectId),
-                    @"achievement.title" : achievement.displayTitle,
+                    @"achievement.title" : safe(achievement.displayTitle),
                     @"achievement.attachmentType" : safe(achievement.attachmentType),
                     @"achievement.hasAttachment" : achievement.attachmentType ? @"Y" : @"N",
                     @"achievement.hasCustomTitle" : achievement.customTitle ? @"Y" : @"N",
@@ -267,7 +267,7 @@ static BOOL isRelease;
 
 + (void)trackPurchaseDecision:(BOOL)b forProductId:(NSString *)productId {
     if (isRelease) {
-        NSDictionary *props = @{@"productId" : productId, @"clickedYes" : @(b)};
+        NSDictionary *props = @{@"productId" : safe(productId), @"clickedYes" : @(b)};
         [Heap track:@"purchaseDecision" withProperties:props];
         [[AppsFlyerTracker sharedTracker] trackEvent:@"purchaseDecision" withValue:productId];
         [FBAppEvents logEvent:@"purchaseDecision" parameters:props];
@@ -279,7 +279,7 @@ static BOOL isRelease;
 
 + (void)trackAccountThatCantPurchase {
     if (isRelease) {
-        [Heap track:@"accountCantPurchase" withProperties:nil];
+        [Heap track:@"accountCantPurchase"];
     } else {
         NSLog(@"[USAGE ANALYTICS]: accountCantPurchase");
     }
@@ -305,12 +305,15 @@ static BOOL isRelease;
         case SKPaymentTransactionStateRestored:
             stateString = @"SKPaymentTransactionStateRestored";
             break;
+        default:
+            stateString = @"Unknown";
+            break;
     }
 
     NSDictionary *props = @{
             @"state" : stateString,
-            @"productId" : transaction.payment.productIdentifier,
-            @"transactionId" : transaction.transactionIdentifier
+            @"productId" : safe(transaction.payment.productIdentifier),
+            @"transactionId" : safe(transaction.transactionIdentifier)
     };
 
     if (isRelease) {
