@@ -7,56 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		72F1808C537BA45157BFEB30 /* FDTake.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F186BFB47D6376AA7A8A62 /* FDTake.strings */; };
-		72F181B3AB80669061B7B1B2 /* FDTake.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F18ABDB8BC882211D5C7EF /* FDTake.strings */; };
-		72F181D2DC757CE9953A9BDF /* FDTake.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F1851F7681F062BCC8F82A /* FDTake.strings */; };
-		72F18212C5B4DBD6B34BADB7 /* FDTake.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F18926641236FBF61B4450 /* FDTake.strings */; };
-		72F18249595184586BDA0003 /* FDTake.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F1851F7681F062BCC8F82A /* FDTake.strings */; };
 		72F1824FF832CD399E989C2F /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72F184C3C79880CF8D53574A /* MediaPlayer.framework */; };
-		72F182B0698520D09BFA9993 /* FDTake.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F188F4F3CE9101C0579459 /* FDTake.strings */; };
 		72F182FAB72978F3ACE021DD /* FDTakeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18A513D481205AD9FA1F1 /* FDTakeController.m */; };
 		72F1833039ED99453A7414AA /* PurchaseTransaction.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18CC0F7A7237D340BAB5B /* PurchaseTransaction.m */; };
 		72F183BEF9280905E6AFEDF9 /* FDTake.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F182B2192D608D0B45B9C9 /* FDTake.strings */; };
 		72F183DFFA43FAC7A9CEDEAE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F18627FC1325DE78BA4040 /* InfoPlist.strings */; };
-		72F1842CBF97DB47584DB0B0 /* FDTake.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F18ECBC19F946872590147 /* FDTake.strings */; };
-		72F184AC5943EFBF30F8AD8B /* FDTake.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F187D06B59A8A1106DAA81 /* FDTake.strings */; };
 		72F184EBDABA851F9BE570BC /* FDTake.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F182B2192D608D0B45B9C9 /* FDTake.strings */; };
-		72F18569D4EB360A10CB03F4 /* FDTake.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F187D06B59A8A1106DAA81 /* FDTake.strings */; };
-		72F185AF3BAE806627898843 /* FDTake.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F180CEDD98874059E11C75 /* FDTake.strings */; };
 		72F1860975D6B51CA5600385 /* PurchaseTransaction.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18CC0F7A7237D340BAB5B /* PurchaseTransaction.m */; };
-		72F186F2735A639FEF95929E /* FDTake.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F18FC4322906899E8198A5 /* FDTake.strings */; };
-		72F1873E782ECEEA7F133B9E /* FDTake.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F18DEC97E557BB264713C1 /* FDTake.strings */; };
 		72F1877F09F482E5A93B35AE /* AppleIncRootCertificate.cer in Resources */ = {isa = PBXBuildFile; fileRef = 72F18423ECAD54191B7179D7 /* AppleIncRootCertificate.cer */; };
-		72F18789073C9D48D252C861 /* FDTake.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F18DEC97E557BB264713C1 /* FDTake.strings */; };
-		72F187A54571CCACE81239EF /* FDTake.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F1872E2F569504FBD525D0 /* FDTake.strings */; };
 		72F187BDC76C613B6C98D5BF /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B58651891EED100C74C2B /* StoreKit.framework */; };
 		72F1883E74F2B648B80C5C0D /* PFFile+Video.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F184506900ECF329391D82 /* PFFile+Video.m */; };
-		72F188F922D4A8B0784F55DA /* FDTake.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F18BECDBD66AEAF5FB89E7 /* FDTake.strings */; };
-		72F18961760C04D5D13DEDAA /* FDTake.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F18926641236FBF61B4450 /* FDTake.strings */; };
 		72F18A0239394ADCB653A3C1 /* InAppPurchaseHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F1844739B4B51C27B34983 /* InAppPurchaseHelper.m */; };
-		72F18A19CC972DE742BEA56F /* FDTake.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F18FC4322906899E8198A5 /* FDTake.strings */; };
-		72F18A5D5288F6BC1F540975 /* FDTake.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F1809BD22F95705D54400C /* FDTake.strings */; };
 		72F18A8BAA52268B8AB8A3D1 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72F184C3C79880CF8D53574A /* MediaPlayer.framework */; };
-		72F18AAE9EDF2BD20994099C /* FDTake.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F1831A898F640DB96FC1DD /* FDTake.strings */; };
 		72F18B2BB218DB4DF06FEC6B /* AppleIncRootCertificate.cer in Resources */ = {isa = PBXBuildFile; fileRef = 72F18423ECAD54191B7179D7 /* AppleIncRootCertificate.cer */; };
 		72F18BC4AAF0B68D863E2B35 /* FDTakeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18A513D481205AD9FA1F1 /* FDTakeController.m */; };
-		72F18BCE76D18518ED97D1F3 /* FDTake.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F18252D9E8C46816F847E4 /* FDTake.strings */; };
-		72F18C098810C78E3BF4C637 /* FDTake.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F18BECDBD66AEAF5FB89E7 /* FDTake.strings */; };
 		72F18C14C15309335F83127D /* InAppPurchaseHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F1844739B4B51C27B34983 /* InAppPurchaseHelper.m */; };
-		72F18C30FC0D1B651755BF88 /* FDTake.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F18ECBC19F946872590147 /* FDTake.strings */; };
-		72F18C8CCD2442B50759834D /* FDTake.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F1831A898F640DB96FC1DD /* FDTake.strings */; };
-		72F18CCB1FF14C4D8C9A71E9 /* FDTake.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F188F4F3CE9101C0579459 /* FDTake.strings */; };
-		72F18D44B04221D3C4A4BE4D /* FDTake.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F186A8683279F00D9283CF /* FDTake.strings */; };
-		72F18D6C6E935A72454618C1 /* FDTake.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F180CEDD98874059E11C75 /* FDTake.strings */; };
-		72F18E1A4076E89CFE269ACB /* FDTake.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F1809BD22F95705D54400C /* FDTake.strings */; };
-		72F18E36B7107E06FA20AF55 /* FDTake.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F18ABDB8BC882211D5C7EF /* FDTake.strings */; };
-		72F18E52AE3A68F079A1D5A9 /* FDTake.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F186A8683279F00D9283CF /* FDTake.strings */; };
-		72F18E5380E167B1749F9F5E /* FDTake.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F186BFB47D6376AA7A8A62 /* FDTake.strings */; };
-		72F18E8BE3E1B78BD2A5B8E8 /* FDTake.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F1872E2F569504FBD525D0 /* FDTake.strings */; };
 		72F18ED08930567464526909 /* PFFile+Video.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F184506900ECF329391D82 /* PFFile+Video.m */; };
 		72F18F4E5A089D5B51F7A4AD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F18627FC1325DE78BA4040 /* InfoPlist.strings */; };
 		72F18F9470CB5D6C79E81125 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B58651891EED100C74C2B /* StoreKit.framework */; };
-		72F18FFF3D9F05A92BADFF75 /* FDTake.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F18252D9E8C46816F847E4 /* FDTake.strings */; };
 		D6CB8834E1A347069F6D2883 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7AE7A55BFBD3425490A0E0F5 /* libPods.a */; };
 		E80BFB631989ACC100E98D9D /* Tutorial-Screen-3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E80BFB621989ACC100E98D9D /* Tutorial-Screen-3.jpg */; };
 		E80BFB641989ACC100E98D9D /* Tutorial-Screen-3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E80BFB621989ACC100E98D9D /* Tutorial-Screen-3.jpg */; };
@@ -286,32 +254,16 @@
 		38FA7AFE5F694C389969CCDD /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		72F180425F4F1312AAAAA06A /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = FDTake.strings; sourceTree = "<group>"; };
 		72F180897A35DA9A91FA0D75 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
-		72F1809883DF00F37D5DB7E8 /* nb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = nb; path = FDTake.strings; sourceTree = "<group>"; };
-		72F182841094D3FE4F85DB87 /* tr */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = tr; path = FDTake.strings; sourceTree = "<group>"; };
-		72F182BF322543FB07659AAB /* ar */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ar; path = FDTake.strings; sourceTree = "<group>"; };
 		72F183698C959E005935B194 /* InAppPurchaseHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InAppPurchaseHelper.h; sourceTree = "<group>"; };
 		72F18423ECAD54191B7179D7 /* AppleIncRootCertificate.cer */ = {isa = PBXFileReference; lastKnownFileType = file.cer; path = AppleIncRootCertificate.cer; sourceTree = "<group>"; };
 		72F1844739B4B51C27B34983 /* InAppPurchaseHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InAppPurchaseHelper.m; sourceTree = "<group>"; };
 		72F184506900ECF329391D82 /* PFFile+Video.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PFFile+Video.m"; sourceTree = "<group>"; };
-		72F18455922930C2B87DE933 /* zh-Hant */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = FDTake.strings; sourceTree = "<group>"; };
 		72F184C3C79880CF8D53574A /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
-		72F184C8F543A26EED4D32BC /* el */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = el; path = FDTake.strings; sourceTree = "<group>"; };
-		72F186526994A29E9AE63BBC /* he */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = he; path = FDTake.strings; sourceTree = "<group>"; };
-		72F186AE8BD0252EB9E872A0 /* de */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = de; path = FDTake.strings; sourceTree = "<group>"; };
-		72F1888AE38019EB90313083 /* pt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = pt; path = FDTake.strings; sourceTree = "<group>"; };
-		72F18962C94B593DCE51B380 /* fr */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = fr; path = FDTake.strings; sourceTree = "<group>"; };
-		72F189E953E9FBA58A59C3D5 /* es */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = es; path = FDTake.strings; sourceTree = "<group>"; };
 		72F189EB828F0DC8FFD51914 /* FDTakeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDTakeController.h; sourceTree = "<group>"; };
-		72F189F08F63D7F3D74191C7 /* sv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = sv; path = FDTake.strings; sourceTree = "<group>"; };
 		72F18A513D481205AD9FA1F1 /* FDTakeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDTakeController.m; sourceTree = "<group>"; };
 		72F18AF5D227CE9B7280E8E6 /* PurchaseTransaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PurchaseTransaction.h; sourceTree = "<group>"; };
 		72F18C88FC612D6CDB6F1B09 /* PFFile+Video.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PFFile+Video.h"; sourceTree = "<group>"; };
 		72F18CC0F7A7237D340BAB5B /* PurchaseTransaction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PurchaseTransaction.m; sourceTree = "<group>"; };
-		72F18E87F003CF6DFA065377 /* zh-Hans */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = FDTake.strings; sourceTree = "<group>"; };
-		72F18EDDC07FEBC181AA02FB /* pl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = pl; path = FDTake.strings; sourceTree = "<group>"; };
-		72F18F5B3CA5C294A6E954D8 /* da */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = da; path = FDTake.strings; sourceTree = "<group>"; };
-		72F18F8C6E015ED77CFBBDF5 /* nl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = nl; path = FDTake.strings; sourceTree = "<group>"; };
-		72F18FA138F6562784F2D040 /* ru */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ru; path = FDTake.strings; sourceTree = "<group>"; };
 		7AE7A55BFBD3425490A0E0F5 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E80BFB621989ACC100E98D9D /* Tutorial-Screen-3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Tutorial-Screen-3.jpg"; sourceTree = "<group>"; };
 		E81B58571891EE7D00C74C2B /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -553,118 +505,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		72F1805937A9571DD5307A5D /* zh-Hans.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				72F18252D9E8C46816F847E4 /* FDTake.strings */,
-			);
-			path = "zh-Hans.lproj";
-			sourceTree = "<group>";
-		};
 		72F184235312F75098CB3B97 /* FDTakeController */ = {
 			isa = PBXGroup;
 			children = (
-				72F186E61851C3D29F6AF1E8 /* ar.lproj */,
-				72F18B5A08E0FF5F2BBB5733 /* da.lproj */,
-				72F18C44ED71DE32316EE328 /* de.lproj */,
-				72F18C5B2EF0E4D82284C15B /* el.lproj */,
 				72F18CAF7DFE531268DD766F /* en.lproj */,
-				72F18FF09F050E08D74E9C73 /* es.lproj */,
-				72F18E5C1DB4F4A67713B422 /* fr.lproj */,
-				72F187746A35F420D43B8F3A /* he.lproj */,
-				72F18FE9927B700D18BB00FE /* nb.lproj */,
-				72F18D630812319B6BDB29BE /* nl.lproj */,
-				72F1860BDFBC3D60BE588FF4 /* pl.lproj */,
-				72F18B0DED11D6FEED09BC04 /* pt.lproj */,
-				72F18FB183FBF5240D01CBF4 /* ru.lproj */,
-				72F18CA2089E18B1F0D0D8C1 /* sv.lproj */,
-				72F18C3A2F49C8C457EE7AB7 /* tr.lproj */,
-				72F1805937A9571DD5307A5D /* zh-Hans.lproj */,
-				72F185A6C01268BAD85812C9 /* zh-Hant.lproj */,
 				72F189EB828F0DC8FFD51914 /* FDTakeController.h */,
 				72F18A513D481205AD9FA1F1 /* FDTakeController.m */,
 			);
 			path = FDTakeController;
-			sourceTree = "<group>";
-		};
-		72F185A6C01268BAD85812C9 /* zh-Hant.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				72F18DEC97E557BB264713C1 /* FDTake.strings */,
-			);
-			path = "zh-Hant.lproj";
-			sourceTree = "<group>";
-		};
-		72F1860BDFBC3D60BE588FF4 /* pl.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				72F18926641236FBF61B4450 /* FDTake.strings */,
-			);
-			path = pl.lproj;
-			sourceTree = "<group>";
-		};
-		72F186E61851C3D29F6AF1E8 /* ar.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				72F1809BD22F95705D54400C /* FDTake.strings */,
-			);
-			path = ar.lproj;
-			sourceTree = "<group>";
-		};
-		72F187746A35F420D43B8F3A /* he.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				72F180CEDD98874059E11C75 /* FDTake.strings */,
-			);
-			path = he.lproj;
-			sourceTree = "<group>";
-		};
-		72F18B0DED11D6FEED09BC04 /* pt.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				72F1872E2F569504FBD525D0 /* FDTake.strings */,
-			);
-			path = pt.lproj;
-			sourceTree = "<group>";
-		};
-		72F18B5A08E0FF5F2BBB5733 /* da.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				72F1851F7681F062BCC8F82A /* FDTake.strings */,
-			);
-			path = da.lproj;
-			sourceTree = "<group>";
-		};
-		72F18C3A2F49C8C457EE7AB7 /* tr.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				72F186BFB47D6376AA7A8A62 /* FDTake.strings */,
-			);
-			path = tr.lproj;
-			sourceTree = "<group>";
-		};
-		72F18C44ED71DE32316EE328 /* de.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				72F18FC4322906899E8198A5 /* FDTake.strings */,
-			);
-			path = de.lproj;
-			sourceTree = "<group>";
-		};
-		72F18C5B2EF0E4D82284C15B /* el.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				72F188F4F3CE9101C0579459 /* FDTake.strings */,
-			);
-			path = el.lproj;
-			sourceTree = "<group>";
-		};
-		72F18CA2089E18B1F0D0D8C1 /* sv.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				72F1831A898F640DB96FC1DD /* FDTake.strings */,
-			);
-			path = sv.lproj;
 			sourceTree = "<group>";
 		};
 		72F18CAF7DFE531268DD766F /* en.lproj */ = {
@@ -674,46 +522,6 @@
 				72F18627FC1325DE78BA4040 /* InfoPlist.strings */,
 			);
 			path = en.lproj;
-			sourceTree = "<group>";
-		};
-		72F18D630812319B6BDB29BE /* nl.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				72F186A8683279F00D9283CF /* FDTake.strings */,
-			);
-			path = nl.lproj;
-			sourceTree = "<group>";
-		};
-		72F18E5C1DB4F4A67713B422 /* fr.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				72F18BECDBD66AEAF5FB89E7 /* FDTake.strings */,
-			);
-			path = fr.lproj;
-			sourceTree = "<group>";
-		};
-		72F18FB183FBF5240D01CBF4 /* ru.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				72F187D06B59A8A1106DAA81 /* FDTake.strings */,
-			);
-			path = ru.lproj;
-			sourceTree = "<group>";
-		};
-		72F18FE9927B700D18BB00FE /* nb.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				72F18ABDB8BC882211D5C7EF /* FDTake.strings */,
-			);
-			path = nb.lproj;
-			sourceTree = "<group>";
-		};
-		72F18FF09F050E08D74E9C73 /* es.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				72F18ECBC19F946872590147 /* FDTake.strings */,
-			);
-			path = es.lproj;
 			sourceTree = "<group>";
 		};
 		E81B58771896CE4600C74C2B /* Model */ = {
@@ -1188,24 +996,8 @@
 				E88386B919C35D2B00AE89AC /* Tutorial-Screen-1 640x960.jpg in Resources */,
 				72F1877F09F482E5A93B35AE /* AppleIncRootCertificate.cer in Resources */,
 				E88386BF19C35D2B00AE89AC /* Tutorial-Screen-3d 640x960.jpg in Resources */,
-				72F18A5D5288F6BC1F540975 /* FDTake.strings in Resources */,
-				72F181D2DC757CE9953A9BDF /* FDTake.strings in Resources */,
-				72F186F2735A639FEF95929E /* FDTake.strings in Resources */,
-				72F182B0698520D09BFA9993 /* FDTake.strings in Resources */,
 				72F183BEF9280905E6AFEDF9 /* FDTake.strings in Resources */,
 				72F18F4E5A089D5B51F7A4AD /* InfoPlist.strings in Resources */,
-				72F1842CBF97DB47584DB0B0 /* FDTake.strings in Resources */,
-				72F18C098810C78E3BF4C637 /* FDTake.strings in Resources */,
-				72F185AF3BAE806627898843 /* FDTake.strings in Resources */,
-				72F18E36B7107E06FA20AF55 /* FDTake.strings in Resources */,
-				72F18D44B04221D3C4A4BE4D /* FDTake.strings in Resources */,
-				72F18212C5B4DBD6B34BADB7 /* FDTake.strings in Resources */,
-				72F18E8BE3E1B78BD2A5B8E8 /* FDTake.strings in Resources */,
-				72F18569D4EB360A10CB03F4 /* FDTake.strings in Resources */,
-				72F18C8CCD2442B50759834D /* FDTake.strings in Resources */,
-				72F1808C537BA45157BFEB30 /* FDTake.strings in Resources */,
-				72F18FFF3D9F05A92BADFF75 /* FDTake.strings in Resources */,
-				72F18789073C9D48D252C861 /* FDTake.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1244,24 +1036,8 @@
 				E88386B819C35D2B00AE89AC /* Tutorial-Screen-1 640x960.jpg in Resources */,
 				72F18B2BB218DB4DF06FEC6B /* AppleIncRootCertificate.cer in Resources */,
 				E88386BE19C35D2B00AE89AC /* Tutorial-Screen-3d 640x960.jpg in Resources */,
-				72F18E1A4076E89CFE269ACB /* FDTake.strings in Resources */,
-				72F18249595184586BDA0003 /* FDTake.strings in Resources */,
-				72F18A19CC972DE742BEA56F /* FDTake.strings in Resources */,
-				72F18CCB1FF14C4D8C9A71E9 /* FDTake.strings in Resources */,
 				72F184EBDABA851F9BE570BC /* FDTake.strings in Resources */,
 				72F183DFFA43FAC7A9CEDEAE /* InfoPlist.strings in Resources */,
-				72F18C30FC0D1B651755BF88 /* FDTake.strings in Resources */,
-				72F188F922D4A8B0784F55DA /* FDTake.strings in Resources */,
-				72F18D6C6E935A72454618C1 /* FDTake.strings in Resources */,
-				72F181B3AB80669061B7B1B2 /* FDTake.strings in Resources */,
-				72F18E52AE3A68F079A1D5A9 /* FDTake.strings in Resources */,
-				72F18961760C04D5D13DEDAA /* FDTake.strings in Resources */,
-				72F187A54571CCACE81239EF /* FDTake.strings in Resources */,
-				72F184AC5943EFBF30F8AD8B /* FDTake.strings in Resources */,
-				72F18AAE9EDF2BD20994099C /* FDTake.strings in Resources */,
-				72F18E5380E167B1749F9F5E /* FDTake.strings in Resources */,
-				72F18BCE76D18518ED97D1F3 /* FDTake.strings in Resources */,
-				72F1873E782ECEEA7F133B9E /* FDTake.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1523,50 +1299,10 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		72F1809BD22F95705D54400C /* FDTake.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				72F182BF322543FB07659AAB /* ar */,
-			);
-			name = FDTake.strings;
-			sourceTree = "<group>";
-		};
-		72F180CEDD98874059E11C75 /* FDTake.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				72F186526994A29E9AE63BBC /* he */,
-			);
-			name = FDTake.strings;
-			sourceTree = "<group>";
-		};
-		72F18252D9E8C46816F847E4 /* FDTake.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				72F18E87F003CF6DFA065377 /* zh-Hans */,
-			);
-			name = FDTake.strings;
-			sourceTree = "<group>";
-		};
 		72F182B2192D608D0B45B9C9 /* FDTake.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				72F180425F4F1312AAAAA06A /* en */,
-			);
-			name = FDTake.strings;
-			sourceTree = "<group>";
-		};
-		72F1831A898F640DB96FC1DD /* FDTake.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				72F189F08F63D7F3D74191C7 /* sv */,
-			);
-			name = FDTake.strings;
-			sourceTree = "<group>";
-		};
-		72F1851F7681F062BCC8F82A /* FDTake.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				72F18F5B3CA5C294A6E954D8 /* da */,
 			);
 			name = FDTake.strings;
 			sourceTree = "<group>";
@@ -1577,94 +1313,6 @@
 				72F180897A35DA9A91FA0D75 /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		72F186A8683279F00D9283CF /* FDTake.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				72F18F8C6E015ED77CFBBDF5 /* nl */,
-			);
-			name = FDTake.strings;
-			sourceTree = "<group>";
-		};
-		72F186BFB47D6376AA7A8A62 /* FDTake.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				72F182841094D3FE4F85DB87 /* tr */,
-			);
-			name = FDTake.strings;
-			sourceTree = "<group>";
-		};
-		72F1872E2F569504FBD525D0 /* FDTake.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				72F1888AE38019EB90313083 /* pt */,
-			);
-			name = FDTake.strings;
-			sourceTree = "<group>";
-		};
-		72F187D06B59A8A1106DAA81 /* FDTake.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				72F18FA138F6562784F2D040 /* ru */,
-			);
-			name = FDTake.strings;
-			sourceTree = "<group>";
-		};
-		72F188F4F3CE9101C0579459 /* FDTake.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				72F184C8F543A26EED4D32BC /* el */,
-			);
-			name = FDTake.strings;
-			sourceTree = "<group>";
-		};
-		72F18926641236FBF61B4450 /* FDTake.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				72F18EDDC07FEBC181AA02FB /* pl */,
-			);
-			name = FDTake.strings;
-			sourceTree = "<group>";
-		};
-		72F18ABDB8BC882211D5C7EF /* FDTake.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				72F1809883DF00F37D5DB7E8 /* nb */,
-			);
-			name = FDTake.strings;
-			sourceTree = "<group>";
-		};
-		72F18BECDBD66AEAF5FB89E7 /* FDTake.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				72F18962C94B593DCE51B380 /* fr */,
-			);
-			name = FDTake.strings;
-			sourceTree = "<group>";
-		};
-		72F18DEC97E557BB264713C1 /* FDTake.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				72F18455922930C2B87DE933 /* zh-Hant */,
-			);
-			name = FDTake.strings;
-			sourceTree = "<group>";
-		};
-		72F18ECBC19F946872590147 /* FDTake.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				72F189E953E9FBA58A59C3D5 /* es */,
-			);
-			name = FDTake.strings;
-			sourceTree = "<group>";
-		};
-		72F18FC4322906899E8198A5 /* FDTake.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				72F186AE8BD0252EB9E872A0 /* de */,
-			);
-			name = FDTake.strings;
 			sourceTree = "<group>";
 		};
 		E8DD48E6188EE5B900153095 /* InfoPlist.strings */ = {
