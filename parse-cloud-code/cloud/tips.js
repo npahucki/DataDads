@@ -53,37 +53,55 @@ function processSingleBaby(baby, sendPushNotification) {
     // resolves to a date or nil (if no assignments for baby)
     var findLastAssignmenInfo = function (baby) {
         console.log("Getting assignment date for baby '" + baby.id);
-        var promise = new Parse.Promise();
-        // Find the last assignment for the baby
+
+
+
+        var versionQuery = new Parse.Query(Parse.Installation);
+        versionQuery.equalTo("user", baby.get("parentUser"));
+        versionQuery.select("appVersion");
+        var promise1 = versionQuery.first();
+
         var lastAssignmentQuery = new Parse.Query("BabyAssignedTips");
         lastAssignmentQuery.include("tip");
         lastAssignmentQuery.descending("assignmentDate");
         lastAssignmentQuery.equalTo("baby", baby);
-        lastAssignmentQuery.first().then(function (assignment) {
-            var assignmentInfo = null;
+        var promise2 = lastAssignmentQuery.first();
+
+        assignmentInfo = {};
+        assignmentInfo.baby = baby;
+
+        return Parse.Promise.when(promise1, promise2).then(function(installation, assignment) {
+            if(installation) {
+                assignmentInfo.appVersion = installation.get("appVersion");
+                console.log("Baby " + baby.id + " has a software version of " + assignmentInfo.appVersion);
+            }
             if(assignment) {
-                assignmentInfo = {};
-                assignmentInfo.baby = baby;
                 assignmentInfo.assignmentDate = assignment.get("assignmentDate");
                 assignmentInfo.tipType = assignment.get("tip").get("tipType");
-                console.log("Baby " + baby.id + " has an last assignment of " + JSON.stringify(assignmentInfo));
+                //console.log("Baby " + baby.id + " has an last assignment of " + JSON.stringify(assignmentInfo));
             }
-            promise.resolve(assignmentInfo);
-        }, function (error) {
-            console.error("Could not process assignment Date for baby " + baby.id);
-            promise.reject(error);
+
+            return Parse.Promise.as(assignmentInfo);
         });
-        return promise;
     };
 
     var findNextTip = function (lastAssignmentInfo) {
-        //NOTE: This assumes only 2 tips types for now
+        var supportsGames = lastAssignmentInfo.appVersion && lastAssignmentInfo.appVersion >= "1.1";
+
         // 1 == Normal, 2 == Game
-        var nextTipType = lastAssignmentInfo.tipType == 2 ? 1 : 2;
+        var minAllowedTipType = 1;
+        var maxAllowedTipType = supportsGames ? 2 : 1;
+        lastAssignmentInfo.nextTipType = lastAssignmentInfo.nextTipType || lastAssignmentInfo.tipType;
+        if(++lastAssignmentInfo.nextTipType > maxAllowedTipType) {
+            lastAssignmentInfo.nextTipType = minAllowedTipType;
+        }
+        var shouldTryAgainIfNoTipFound = lastAssignmentInfo.nextTipType != lastAssignmentInfo.tipType;
+        console.log("Looking for tip for " + lastAssignmentInfo.baby.id + " NEXT TipType:" + lastAssignmentInfo.nextTipType);
         var baby = lastAssignmentInfo.baby;
 
         innerQuery = new Parse.Query("BabyAssignedTips");
         innerQuery.equalTo("baby", baby);
+        innerQuery.limit(1000); // TODO: Will need to fix this once people get over 1000 tips!
         var babyDueDate = baby.get("dueDate");
         var babyAgeInDays = Math.abs(utils.dayDiffFromNow(babyDueDate));
         //console.log("Baby " + baby.id + " was due " + babyDueDate + " as is " + babyAgeInDays + " days old");
@@ -93,17 +111,16 @@ function processSingleBaby(baby, sendPushNotification) {
         tipsQuery.ascending("rangeHigh,rangeLow");
         // See https://parse.com/questions/trouble-with-nested-query-using-objectid
         tipsQuery.doesNotMatchKeyInQuery("objectId", "tipId", innerQuery);
-        tipsQuery.equalTo("tipType", nextTipType);
+        tipsQuery.equalTo("tipType", lastAssignmentInfo.nextTipType);
 
-        return tipsQuery.first().then(function(tip) {
-            if(tip) {
-                return Parse.Promise.as(tip);
-            } else {
-                // If we failed to find one that we want, substitute another
-                 lastAssignmentInfo.tipType = nextTipType;
-                return findNextTip(lastAssignmentInfo);
-            }
-        })
+        if(shouldTryAgainIfNoTipFound) {
+            return tipsQuery.first().then(function(tip) {
+                return tip ? Parse.Promise.as(tip) : findNextTip(lastAssignmentInfo);
+            });
+        } else {
+            return tipsQuery.first();
+        }
+
     };
 
 
@@ -224,6 +241,10 @@ function processSingleBaby(baby, sendPushNotification) {
 var processBabies = function (babyQuery, sendPushNotification) {
     babyQuery.include("parentUser");
     babyQuery.select("name", "dueDate", "parentUser", "isMale");
+
+    // TODO: REMOVE
+    babyQuery.equalTo("objectId","TbymSzsB8j");
+
     var babyPromises = [];
     return babyQuery.each(function (baby) {
         // Process each baby in parrallel
