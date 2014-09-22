@@ -401,7 +401,6 @@ NSDateFormatter *_dateFormatter;
 
 - (void)takeController:(FDTakeController *)controller gotPhoto:(UIImage *)photo withInfo:(NSDictionary *)info {
     [self showInProgressHUDWithMessage:@"Uploading Photo" andAnimation:YES andDimmedBackground:YES];
-    NSString *mimeType = @"image/jpg";
     PFFile *file = [PFFile imageFileFromImage:photo];
     [self saveAttachment:file andThumbnail:nil];
     [self setButtonPhoto:photo];
