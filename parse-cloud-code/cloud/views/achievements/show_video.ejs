@@ -5,11 +5,34 @@
   <title>
     <%= typeof title === "undefined" ? "Achievement" : title %>
   </title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
-  <link rel="icon" href="http://www.dataparenting.com/favicon.ico" type="image/x-icon">
-  <link rel="shortcut icon" href="/http://www.dataparenting.com/favicon.ico" type="image/x-icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui"/>
+  <link rel="icon" href="http://www.dataparenting.com/favicon.ico" type="image/x-icon"/>
+  <link rel="shortcut icon" href="/http://www.dataparenting.com/favicon.ico" type="image/x-icon"/>
+  <link href="http://vjs.zencdn.net/4.8/video-js.css" rel="stylesheet"/>
+  <script src="http://vjs.zencdn.net/4.8/video.js"></script>
+  <script src="../js/videojs.zoomrotate.js"></script>
 
   <style>
+
+
+    .wrapper {
+      padding: 4% 4%;
+      background: black;
+    }
+
+    .videocontent {
+      width: 80%;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .video-js {
+      padding-top: 55.25%;
+    }
+
+    .vjs-fullscreen {
+      padding-top: 0px;
+    }
 
     body {
       background-color: black;
@@ -24,57 +47,36 @@
       border: 20px solid black
     }
 
-    video {
-      max-width: 100%;
-      width : 80%;
-      height: auto;
-      padding-left: 0;
-      padding-right: 0;
-      margin-left: auto;
-      margin-right: auto;
-      display: block;
-    }
-
-    img {
-      max-width: 100%;
-      width : 80%;
-      height: auto;
-      padding-left: 0;
-      padding-right: 0;
-      margin-left: auto;
-      margin-right: auto;
-      display: block;
-    }
-
   </style>
-
-
 </head>
 <body>
 
 
-<!-- content -->
+
+
 <div class='achievement'>
-  <div class='title'>
-    <%= title %>
+  <div class='title'><%= title %></div>
+
+<div class="wrapper">
+ <div class="videocontent">
+      <video id="video" class="video-js vjs-default-skin vjs-big-play-centered" width="auto" height="auto" preload="auto" controls="controls" data-setup="{}">
+        <source src="<%=videoUrl%>" type="video/mp4"/>
+       <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+      </video>
   </div>
-  <div>
-    <video id="milestoneVideo" poster="<%=thumbnailUrl%>"  preload="auto" controls="controls">
-      <source src="<%=videoUrl%>"/>
-      <object type="application/x-shockwave-flash" data="player.swf">
-        <param name="allowfullscreen" value="true"/>
-        <param name="allowscriptaccess" value="always"/>
-        <param name="flashvars" value="file=<%=videoUrl%>"/>
-        <!--[if IE]><param name="movie" value="player.swf"/><![endif]-->
-        <img src="<%=thumbnailUrl%>" alt="Video"/>
-        <p>Your browser can't play HTML5 video, please try Chrome or Safari</p>
-       </object>
-    </video>
-  </div>
-
-
-
+ </div>
 </div>
+
+<script>
+  var isSafari = !!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/);
+  if(!isSafari) {
+    var video = videojs('video');
+    video.zoomrotate({
+      rotate: <%=videoRotation%>,
+      zoom: 1.0
+      });
+  }
+</script>
 
 </body>
 </html>
