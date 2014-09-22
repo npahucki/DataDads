@@ -87,19 +87,26 @@ NSDateFormatter *_dateFormatter;
         if (!error) {
             // Get achievement details and image
             self.achievement = (MilestoneAchievement *) object;
-            self.playVideoButton.hidden = !self.achievement.attachmentType || [self.achievement.attachmentType rangeOfString:@"video"].location == NSNotFound;
-            BOOL hasImageAttachment = self.achievement.attachment && [self.achievement.attachmentType rangeOfString:@"image"].location != NSNotFound;
-            PFFile *imageFile = hasImageAttachment ? self.achievement.attachment : Baby.currentBaby.avatarImage;
-            if (imageFile) {
-                [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error2) {
-                    if (!error2) {
-                        [self setButtonPhoto:[UIImage imageWithData:data]];
-                        self.detailsImageButton.alpha = (CGFloat) (hasImageAttachment ? 1.0 : 0.3);
-                    } else {
-                        [UsageAnalytics trackError:error2 forOperationNamed:@"FetchSingleAchievement" andAdditionalProperties:@{@"id" : self.achievement.objectId}];
-                    }
-                }];
+            BOOL isVideo = self.achievement.attachmentType && [self.achievement.attachmentType rangeOfString:@"video"].location != NSNotFound;
+            if (isVideo) { // If not a video try to load a better thumbnail
+                self.detailsImageButton.alpha = 1.0;
+                self.playVideoButton.hidden = NO;
+            } else {
+                self.playVideoButton.hidden = YES;
+                BOOL hasImageAttachment = self.achievement.attachment && [self.achievement.attachmentType rangeOfString:@"image"].location != NSNotFound;
+                PFFile *imageFile = hasImageAttachment ? self.achievement.attachment : Baby.currentBaby.avatarImage;
+                if (imageFile) {
+                    [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error2) {
+                        if (!error2) {
+                            [self setButtonPhoto:[UIImage imageWithData:data]];
+                            self.detailsImageButton.alpha = (CGFloat) (hasImageAttachment ? 1.0 : 0.3);
+                        } else {
+                            [UsageAnalytics trackError:error2 forOperationNamed:@"fetchAchievementImage" andAdditionalProperties:@{@"id" : self.achievement.objectId}];
+                        }
+                    }];
+                }
             }
+
 
             if (self.achievement.standardMilestone) {
                 self.rangeIndicatorView.startRange = self.achievement.standardMilestone.rangeLow.integerValue;
