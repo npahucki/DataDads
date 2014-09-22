@@ -5,14 +5,14 @@
 
 #import <AVFoundation/AVFoundation.h>
 #import <objc/runtime.h>
-#import "PFFile+Video.h"
+#import "PFFile+Media.h"
 
 // The maximum number of bytes that Parse allows to be uploaded.
 #define MAX_ATTACHMENT_BYTES_SIZE 10485760
 #define MAX_VIDEO_ATTACHMENT_LENGTH_SECS 120
 
 
-@implementation PFFile (Video)
+@implementation PFFile (Media)
 
 + (instancetype)videoFileFromUrl:(NSURL *)videoUrl {
 
@@ -40,14 +40,55 @@
         return nil;
     }
 
+    AVAssetTrack *videoTrack = [asset tracksWithMediaType:AVMediaTypeVideo][0];
+    CGSize dimensions = [videoTrack naturalSize];
+    CGAffineTransform txf = [videoTrack preferredTransform];
+    UIImageOrientation orientation;
+    if (dimensions.width == txf.tx && dimensions.height == txf.ty)
+        orientation = UIImageOrientationDown;
+    else if (txf.tx == 0 && txf.ty == 0)
+        orientation = UIImageOrientationUp;
+    else if (txf.tx == 0 && txf.ty == dimensions.width)
+        orientation = UIImageOrientationLeft;
+    else
+        orientation = UIImageOrientationRight;
+
     PFFile *file = [PFFile fileWithName:@"video.mov" contentsAtPath:videoUrl.path];
     objc_setAssociatedObject(file, "DP.videoFile", videoUrl, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     objc_setAssociatedObject(file, "DP.mimeType", @"video/mov", OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(file, "DP.orientation", @(orientation), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(file, "DP.dimensions.width", @(dimensions.width), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(file, "DP.dimensions.height", @(dimensions.height), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    return file;
+}
+
++ (instancetype)imageFileFromImage:(UIImage *)image {
+    NSString *mimeType = @"image/jpg";
+    PFFile *file = [PFFile fileWithName:@"photo.jpg" data:UIImageJPEGRepresentation(image, 0.5f) contentType:@"image/jpg"];
+    objc_setAssociatedObject(file, "DP.mimeType", mimeType, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(file, "DP.orientation", @(image.imageOrientation), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(file, "DP.dimensions.width", @(image.size.width), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(file, "DP.dimensions.height", @(image.size.height), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     return file;
 }
 
 - (NSString *)mimeType {
     return objc_getAssociatedObject(self, "DP.mimeType");
+}
+
+- (UIImageOrientation)orientation {
+    NSNumber *orientation = objc_getAssociatedObject(self, "DP.orientation");
+    return (UIImageOrientation) orientation.integerValue;
+}
+
+- (CGFloat)width {
+    NSNumber *width = objc_getAssociatedObject(self, "DP.dimensions.width");
+    return width.floatValue;
+}
+
+- (CGFloat)height {
+    NSNumber *height = objc_getAssociatedObject(self, "DP.dimensions.height");
+    return height.floatValue;
 }
 
 - (UIImage *)generateThumbImage {

@@ -12,7 +12,7 @@
 #import "UnitHelper.h"
 #import "UIImage+FX.h"
 #import "TutorialBubbleView.h"
-#import "PFFile+Video.h"
+#import "PFFile+Media.h"
 #import "InAppPurchaseHelper.h"
 
 @interface NoteMilestoneViewController ()
@@ -22,13 +22,11 @@
 @implementation NoteMilestoneViewController {
     FDTakeController *_takeController;
     PFFile *_attachment;
-    NSString *_attachmentMimeType;
     PFFile *_thumbnailImage;
     ALAssetsLibrary *_assetLibrary;
     BOOL _isKeyboardShowing;
     CGRect _originalFrame;
     UITextField *_activeField;
-    TutorialBubbleView *_tutorialBubbleView;
 
 }
 
@@ -269,7 +267,7 @@
     if (_attachment) {
         [self saveAttachment];
     } else {
-        [self saveAchievementWithAttachment:nil andType:nil];
+        [self saveAchievementWithAttachment:nil];
     }
 }
 
@@ -300,21 +298,21 @@
 }
 
 - (void)saveAttachment {
-    NSString *type = [_attachmentMimeType rangeOfString:@"video"].location != NSNotFound ? @"video" : @"photo";
+    NSString *type = [_attachment.mimeType rangeOfString:@"video"].location != NSNotFound ? @"video" : @"photo";
     NSString *title = [@"Uploading " stringByAppendingString:type];
     [self showInProgressHUDWithMessage:title andAnimation:YES andDimmedBackground:YES];
     [_attachment saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (error) {
             [self showErrorThenRunBlock:error withMessage:[@"Could not upload the " stringByAppendingString:type] andBlock:nil];
         } else {
-            [self saveAchievementWithAttachment:_attachment andType:_attachmentMimeType];
+            [self saveAchievementWithAttachment:_attachment];
         }
     }                        progressBlock:^(int percentDone) {
         [self showText:[NSString stringWithFormat:@"%@ %d%%", title, percentDone]];
     }];
 }
 
-- (void)saveAchievementWithAttachment:(PFFile *)attachment andType:(NSString *)type {
+- (void)saveAchievementWithAttachment:(PFFile *)attachment {
 
     // Bit of a hacky work around to the fact that CloudCode beforeSave trigger reloads the object after a save
     // buts does not load the pointers, so the achievement object has the Baby and StandardMilestone fields set to
@@ -360,7 +358,10 @@
 
     if (self.commentsTextField.text.length) self.achievement.comment = self.commentsTextField.text;
     self.achievement.attachment = attachment;
-    self.achievement.attachmentType = type;
+    self.achievement.attachmentType = _attachment.mimeType;
+    self.achievement.attachmentOrientation = _attachment.orientation;
+    self.achievement.attachmentWidth = _attachment.width;
+    self.achievement.attachmentHeight = _attachment.height;
     self.achievement.completionDate = self.completionDateTextField.date;
     self.achievement.sharedVia = self.fbSwitch.on ? SharingMediumFacebook : SharingMediumNotShared;
     if (_thumbnailImage) self.achievement.attachmentThumbnail = _thumbnailImage;
@@ -504,7 +505,6 @@
 
             _attachment = [PFFile videoFileFromUrl:videoUrl];
             if (_attachment) {
-                _attachmentMimeType = _attachment.mimeType;
                 UIImage *thumbnail = [[_attachment generateThumbImage] imageScaledToFitSize:CGSizeMake(320.0, 320.0)];
                 [self.takePhotoButton setImage:thumbnail forState:UIControlStateNormal];
                 _thumbnailImage = [PFFile fileWithData:UIImageJPEGRepresentation(thumbnail, 0.5f) contentType:@"image/jpg"];
@@ -530,8 +530,7 @@
         }];
     }
 
-    _attachmentMimeType = @"image/jpg";
-    _attachment = [PFFile fileWithName:@"photo.jpg" data:UIImageJPEGRepresentation(photo, 0.5f) contentType:_attachmentMimeType];
+    _attachment = [PFFile imageFileFromImage:photo];
 }
 
 - (NSAttributedString *)createTitleTextFromMilestone {

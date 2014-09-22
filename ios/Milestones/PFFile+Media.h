@@ -5,12 +5,23 @@
 
 #import <Foundation/Foundation.h>
 
-@interface PFFile (Video)
+@interface PFFile (Media)
 
 @property(readonly, nonatomic) NSString *mimeType;
 
 + (instancetype)videoFileFromUrl:(NSURL *)videoUrl;
 
++ (instancetype)imageFileFromImage:(UIImage *)image;
 
+
+- (NSString *)mimeType;
+
+- (UIImageOrientation)orientation;
+
+- (CGFloat)width;
+
+- (CGFloat)height;
+
+// May return nil if not implemented
 - (UIImage *)generateThumbImage;
 @end

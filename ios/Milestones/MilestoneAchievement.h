@@ -28,6 +28,9 @@ typedef NS_ENUM(NSInteger, SharingMedium) {
 @property NSDate *completionDate;
 @property PFFile *attachment;
 @property PFFile *attachmentThumbnail; // populated by trigger
+@property UIImageOrientation attachmentOrientation;
+@property CGFloat attachmentHeight;
+@property CGFloat attachmentWidth;
 @property NSString *attachmentType;
 @property NSString *customTitle;      // optional, should be set if milestone is nil
 @property NSString *comment;

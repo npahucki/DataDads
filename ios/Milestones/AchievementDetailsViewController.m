@@ -18,7 +18,7 @@
 #import "TutorialBubbleView.h"
 #import "UIImage+FX.h"
 #import "AlertThenDisappearView.h"
-#import "PFFile+Video.h"
+#import "PFFile+Media.h"
 #import "InAppPurchaseHelper.h"
 
 @interface AchievementDetailsViewController ()
@@ -402,8 +402,8 @@ NSDateFormatter *_dateFormatter;
 - (void)takeController:(FDTakeController *)controller gotPhoto:(UIImage *)photo withInfo:(NSDictionary *)info {
     [self showInProgressHUDWithMessage:@"Uploading Photo" andAnimation:YES andDimmedBackground:YES];
     NSString *mimeType = @"image/jpg";
-    PFFile *file = [PFFile fileWithName:@"photo.jpg" data:UIImageJPEGRepresentation(photo, 0.5f) contentType:mimeType];
-    [self saveAttachment:file withMimeType:mimeType andThumbnail:nil];
+    PFFile *file = [PFFile imageFileFromImage:photo];
+    [self saveAttachment:file andThumbnail:nil];
     [self setButtonPhoto:photo];
 }
 
@@ -417,14 +417,14 @@ NSDateFormatter *_dateFormatter;
                 UIImage *thumbnail = [[file generateThumbImage] imageScaledToFitSize:CGSizeMake(320.0, 320.0)];
                 PFFile *thumbnailFile = [PFFile fileWithName:@"thumbnail.jpg" data:UIImageJPEGRepresentation(thumbnail, 0.5f) contentType:@"image/jpg"];
                 [self setButtonPhoto:thumbnail];
-                [self saveAttachment:file withMimeType:file.mimeType andThumbnail:thumbnailFile];
+                [self saveAttachment:file andThumbnail:thumbnailFile];
             }
         }
     }];
 }
 
-- (void)saveAttachment:(PFFile *)attachment withMimeType:(NSString *)mimeType andThumbnail:(PFFile *)thumbnail {
-    NSString *type = [mimeType rangeOfString:@"video"].location != NSNotFound ? @"video" : @"photo";
+- (void)saveAttachment:(PFFile *)attachment andThumbnail:(PFFile *)thumbnail {
+    NSString *type = [attachment.mimeType rangeOfString:@"video"].location != NSNotFound ? @"video" : @"photo";
     NSString *title = [@"Uploading " stringByAppendingString:type];
 
     self.playVideoButton.hidden = YES;
@@ -435,13 +435,17 @@ NSDateFormatter *_dateFormatter;
             [self.detailsImageButton setImage:nil forState:UIControlStateNormal];
         } else {
             self.achievement.attachment = attachment;
-            self.achievement.attachmentType = mimeType;
+            self.achievement.attachmentType = attachment.mimeType;
+            self.achievement.attachmentOrientation = attachment.orientation;
+            self.achievement.attachmentWidth = attachment.width;
+            self.achievement.attachmentHeight = attachment.height;
+
             if (thumbnail) self.achievement.attachmentThumbnail = thumbnail;
             [self saveObject:self.achievement withTitle:@"Updating Milestone" andFailureMessage:@"Could not save Milestone" andBlock:^(BOOL succeeded2, NSError *error2) {
                 if (error2) {
                     [self.detailsImageButton setImage:nil forState:UIControlStateNormal];
                 } else {
-                    self.playVideoButton.hidden = !mimeType || [mimeType rangeOfString:@"video"].location == NSNotFound;
+                    self.playVideoButton.hidden = !attachment.mimeType || [attachment.mimeType rangeOfString:@"video"].location == NSNotFound;
                     [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationAchievementNotedAndSaved object:self.achievement];
                 }
             }];

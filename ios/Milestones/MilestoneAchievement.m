@@ -20,6 +20,9 @@
 @dynamic attachment;
 @dynamic attachmentType;
 @dynamic attachmentThumbnail;
+@dynamic attachmentOrientation;
+@dynamic attachmentWidth;
+@dynamic attachmentHeight;
 @dynamic customTitle;
 @dynamic comment;
 @dynamic isSkipped;
