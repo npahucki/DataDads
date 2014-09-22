@@ -11,14 +11,11 @@
   <link href="http://vjs.zencdn.net/4.8/video-js.css" rel="stylesheet"/>
   <script src="http://vjs.zencdn.net/4.8/video.js"></script>
   <script src="../js/videojs.zoomrotate.js"></script>
-
+  <script>
+    var isSafari = !!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/);
+  </script>
   <style>
 
-
-    .wrapper {
-      padding: 4% 4%;
-      background: black;
-    }
 
     .videocontent {
       width: 80%;
@@ -27,7 +24,7 @@
     }
 
     .video-js {
-      padding-top: 55.25%;
+      padding-top: 85.00%;
     }
 
     .vjs-fullscreen {
@@ -57,20 +54,17 @@
 <div class='achievement'>
   <div class='title'><%= title %></div>
 
-<div class="wrapper">
  <div class="videocontent">
       <video id="video" class="video-js vjs-default-skin vjs-big-play-centered" width="auto" height="auto" preload="auto" controls="controls" data-setup="{}">
         <source src="<%=videoUrl%>" type="video/mp4"/>
        <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
       </video>
   </div>
- </div>
 </div>
 
 <script>
-  var isSafari = !!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/);
+  var video = videojs('video');
   if(!isSafari) {
-    var video = videojs('video');
     video.zoomrotate({
       rotate: <%=videoRotation%>,
       zoom: 1.0
