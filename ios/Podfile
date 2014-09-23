@@ -6,14 +6,15 @@ inhibit_all_warnings!
 pod 'MBProgressHUD', '~> 0.8'
 pod 'SWTableViewCell', '0.2.7'
 pod 'Heap'
-pod 'Parse+NSCoding', :git => 'https://github.com/npahucki/Parse-NSCoding.git', :commit => '744ba670dfe64913c40cd6cbf8c9cafdb13aa383'
-pod 'ParseFacebookUtils', '1.2.21'
-pod 'PFCloud+Cache', :git => 'https://github.com/npahucki/PFCloud-Cache.git', :commit => 'b75e5f8856a2e7c12897cfad423c75684df00589'
+pod 'Parse+NSCoding', :git => 'https://github.com/npahucki/Parse-NSCoding.git', :commit => '322170389c928ba9edddd3402c70b107f24b83b8'
+pod 'ParseFacebookUtils', '1.4.0'
+pod 'PFCloud+Cache', :git => 'https://github.com/npahucki/PFCloud-Cache.git', :commit => 'b86b8f119e1d9242fc51ac1b683297239ac6e9b7'
 pod 'UIActionSheet+Blocks'
 pod 'BCGenieEffect', '1.1'
 pod 'AppsFlyer-SDK'
 pod 'RMStore/AppReceiptVerificator'
 pod 'UXCam'
+
 
 
 
