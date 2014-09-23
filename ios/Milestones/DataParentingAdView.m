@@ -80,13 +80,15 @@
 
 
 - (void)handleSingleTap {
-    if ([self.delegate respondsToSelector:@selector(adClicked)]) {
-        [self.delegate adClicked];
+    if (_currentAdImageURL && _currentAdLinkURL) {
+        if ([self.delegate respondsToSelector:@selector(adClicked)]) {
+            [self.delegate adClicked];
+        }
+        WebViewerViewController *vc = [WebViewerViewController webViewForUrl:_currentAdLinkURL];
+        vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        [self.containingViewController presentViewController:vc animated:YES completion:NULL];
+        [UsageAnalytics trackAdClicked:_currentAdImageURL.absoluteString];
     }
-    WebViewerViewController *vc = [WebViewerViewController webViewForUrl:_currentAdLinkURL];
-    vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    [self.containingViewController presentViewController:vc animated:YES completion:NULL];
-    [UsageAnalytics trackAdClicked:_currentAdImageURL.absoluteString];
 }
 
 - (void)loadImageData:(NSURL *)url {
