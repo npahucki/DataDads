@@ -99,7 +99,7 @@
     // Register for push notifications
     if ([app respondsToSelector:@selector(registerForRemoteNotifications)]) {
         // ios 8
-        [app registerUserNotificationSettings:[UIUserNotificationSettings                           settingsForTypes:
+        [app registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:
                 (UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge) categories:nil]];
         [app registerForRemoteNotifications];
     } else {
@@ -134,7 +134,12 @@
     // Store the deviceToken in the current installation and save it to Parse.
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     [currentInstallation setDeviceTokenFromData:newDeviceToken];
-    currentInstallation[@"pushNotificationType"] = @([[UIApplication sharedApplication] enabledRemoteNotificationTypes]);
+
+    if ([application respondsToSelector:@selector(isRegisteredForRemoteNotifications)]) {
+        currentInstallation[@"pushNotificationType"] = @([application currentUserNotificationSettings].types);
+    } else {
+        currentInstallation[@"pushNotificationType"] = @([application enabledRemoteNotificationTypes]);
+    }
     [currentInstallation saveInBackground];
 }
 
