@@ -169,8 +169,16 @@
                           otherButtonTitles:nil] show];
         return YES;
     } else if ([error.domain isEqualToString:@"com.facebook.sdk"] && [error.userInfo[@"com.facebook.sdk:ErrorLoginFailedReason"] isEqualToString:@"com.facebook.sdk:SystemLoginDisallowedWithoutError"]) {
-        NSString *msg = @"If you want to log in with facebook go to Settings>Facebook and enable acceess for 'DataParenting', then try to log in again.";
+        NSString *msg = @"Please go to Settings->Facebook and enable acceess for 'DataParenting', then try to log in again.";
         [[[UIAlertView alloc] initWithTitle:@"Facebook Login Is Disabled"
+                                    message:msg
+                                   delegate:nil
+                          cancelButtonTitle:@"OK"
+                          otherButtonTitles:nil] show];
+        return YES;
+    } else if ([error.domain isEqualToString:@"com.facebook.sdk"] && [error.userInfo[@"com.facebook.sdk:ErrorLoginFailedReason"] isEqualToString:@"com.facebook.sdk:SystemLoginCancelled"]) {
+        NSString *msg = @"Please go to Settings->Facebook and update your login information";
+        [[[UIAlertView alloc] initWithTitle:@"Facebook Token Invalid"
                                     message:msg
                                    delegate:nil
                           cancelButtonTitle:@"OK"

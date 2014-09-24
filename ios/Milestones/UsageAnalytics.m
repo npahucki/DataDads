@@ -26,7 +26,7 @@ static BOOL isRelease;
 #else
     isRelease = YES;
 #endif
-
+    NSLog(@"RUNNING IN RELEASE?:%d", isRelease);
     if (isRelease) {
         [Heap setAppId:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.HeapAppId"]];
         [Heap changeInterval:30];
@@ -157,9 +157,13 @@ static BOOL isRelease;
 }
 
 + (void)trackAppBecameActive {
-    [FBAppEvents activateApp];
-    [Heap track:@"activateApp"];
-    [[AppsFlyerTracker sharedTracker] trackEvent:@"activateApp" withValue:@""];
+    if (isRelease) {
+        [FBAppEvents activateApp];
+        [Heap track:@"activateApp"];
+        [[AppsFlyerTracker sharedTracker] trackEvent:@"activateApp" withValue:@""];
+    } else {
+        NSLog(@"[USAGE ANALYTICS]: trackAppBecameActive");
+    }
 }
 
 + (void)trackCreateBaby:(Baby *)baby {
@@ -286,7 +290,11 @@ static BOOL isRelease;
 }
 
 + (void)trackPurchaseCompleted:(NSString *)productId atPrice:(NSNumber *)price andCurrency:(NSString *)currency {
-    [FBAppEvents logPurchase:[price doubleValue] currency:currency parameters:@{@"productId" : productId}];
+    if (isRelease) {
+        [FBAppEvents logPurchase:[price doubleValue] currency:currency parameters:@{@"productId" : productId}];
+    } else {
+        NSLog(@"[USAGE ANALYTICS]: trackPurchaseCompleted - productId:%@ price:%@ currency:%@", productId, price, currency);
+    }
 }
 
 + (void)trackPurchaseTransactionState:(SKPaymentTransaction *)transaction {
