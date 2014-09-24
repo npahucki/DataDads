@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 DataParenting. All rights reserved.
 //
 
+#import <PFCloud+Cache/PFCloud+Cache.h>
 #import "AppDelegate.h"
 
 @implementation AppDelegate
@@ -16,6 +17,12 @@
 
     // Force class load and start monitoring network connection.
     [Reachability reachabilityForParseHost];
+
+    // Make sure if this is a new version, we discard the old cache which may cause crashing if incompatible
+    if ([self checkIsNewlyInstalledVersion]) {
+        [PFCloud clearAllCachedResults];
+        [PFQuery clearAllCachedResults];
+    }
 
     // Register custom subclasses
     [Baby registerSubclass];
@@ -86,15 +93,19 @@
     return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication withSession:[PFFacebookUtils session]];
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application {
+- (void)applicationDidBecomeActive:(UIApplication *)app {
     [FBAppCall handleDidBecomeActiveWithSession:[PFFacebookUtils session]];
     [UsageAnalytics trackAppBecameActive];
     // Register for push notifications
-    // TODO: Do this only if the user is logged in.
-    [application registerForRemoteNotificationTypes:
-            UIRemoteNotificationTypeBadge |
-                    UIRemoteNotificationTypeAlert |
-                    UIRemoteNotificationTypeSound];
+    if ([app respondsToSelector:@selector(registerForRemoteNotifications)]) {
+        // ios 8
+        [app registerUserNotificationSettings:[UIUserNotificationSettings                           settingsForTypes:
+                (UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge) categories:nil]];
+        [app registerForRemoteNotifications];
+    } else {
+        // ios 7
+        [app registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -137,6 +148,27 @@
     //      https://developer.apple.com/library/ios/samplecode/SysSound/Introduction/Intro.html
     AudioServicesPlaySystemSound(1003);
     [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationPushReceieved object:self userInfo:userInfo];
+}
+
+// Side effect is that after called, the last seen version is set, thus this should be called just once
+// each app startup. If called twice in a row after a new install, the first call will return YES, but the second false
+- (BOOL)checkIsNewlyInstalledVersion {
+    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+
+    NSString *currentVersion = infoDictionary[@"CFBundleShortVersionString"];
+    NSString *currentBuild = infoDictionary[(NSString *) kCFBundleVersionKey];
+
+    NSString *lastSeenVersion = [defaults stringForKey:@"lastSeenVersion"];
+    NSString *lastSeenBuild = [defaults stringForKey:@"lastSeenBuild"];
+
+    if ([currentVersion isEqualToString:lastSeenVersion] && [currentBuild isEqualToString:lastSeenBuild]) {
+        return NO;
+    } else {
+        [defaults setObject:currentVersion forKey:@"lastSeenVersion"];
+        [defaults setObject:currentBuild forKey:@"lastSeenBuild"];
+        return YES;
+    }
 }
 
 @end
