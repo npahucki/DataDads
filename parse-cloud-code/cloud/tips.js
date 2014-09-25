@@ -22,7 +22,6 @@ Parse.Cloud.define("queryMyTips", function (request, response) {
 
     query.find().
             then(function (results) {
-                console.log("APP VERSION " + appVersion);
                 if (!appVersion || appVersion < "1.1") {
                     results.map(function (assignment) {
                         var tip = assignment.attributes["tip"];
@@ -61,7 +60,7 @@ function processSingleBaby(baby, sendPushNotification) {
     // Takes a single baby and returns a promise that
     // resolves to a date or nil (if no assignments for baby)
     var findLastAssignmenInfo = function (baby) {
-        console.log("Getting assignment date for baby '" + baby.id);
+        //console.log("Getting assignment date for baby '" + baby.id);
 
 
         var versionQuery = new Parse.Query(Parse.Installation);
@@ -81,7 +80,7 @@ function processSingleBaby(baby, sendPushNotification) {
         return Parse.Promise.when(promise1, promise2).then(function (installation, assignment) {
             if (installation) {
                 assignmentInfo.appVersion = installation.get("appVersion");
-                console.log("Baby " + baby.id + " has a software version of " + assignmentInfo.appVersion);
+                //console.log("Baby " + baby.id + " has a software version of " + assignmentInfo.appVersion);
             }
             if (assignment) {
                 assignmentInfo.assignmentDate = assignment.get("assignmentDate");
@@ -104,7 +103,7 @@ function processSingleBaby(baby, sendPushNotification) {
             lastAssignmentInfo.nextTipType = minAllowedTipType;
         }
         var shouldTryAgainIfNoTipFound = lastAssignmentInfo.nextTipType != lastAssignmentInfo.tipType;
-        console.log("Looking for tip for " + lastAssignmentInfo.baby.id + " NEXT TipType:" + lastAssignmentInfo.nextTipType);
+        //console.log("Looking for tip for " + lastAssignmentInfo.baby.id + " NEXT TipType:" + lastAssignmentInfo.nextTipType);
         var baby = lastAssignmentInfo.baby;
 
         innerQuery = new Parse.Query("BabyAssignedTips");
@@ -172,7 +171,7 @@ function processSingleBaby(baby, sendPushNotification) {
     var testIfDueForDelivery = function (lastAssignmentInfo) {
         var frequencyDays = DEFAULT_DELIVERY_INTERVAL_DAYS; // TODO: calc based on user is premium or not
         var daysDiff = lastAssignmentInfo == null ? -1 : Math.abs(utils.dayDiffFromNow(lastAssignmentInfo.assignmentDate));
-        console.log("For baby " + lastAssignmentInfo.baby.id + " there are " + daysDiff + " days since last assignment");
+        //console.log("For baby " + lastAssignmentInfo.baby.id + " there are " + daysDiff + " days since last assignment");
         lastAssignmentInfo.needsTipAssignment = (daysDiff == -1 || daysDiff > frequencyDays);
         return Parse.Promise.as(lastAssignmentInfo);
     };
@@ -232,13 +231,13 @@ function processSingleBaby(baby, sendPushNotification) {
                                 }
                             }).
                             then(function () {
-                                console.log("Done processing baby " + baby.id);
+                                //console.log("Done processing baby " + baby.id);
                             }, function (error) {
                                 console.error("Could not process baby " + baby.id + " Error:" + JSON.stringify(error));
                             });
 
                 } else {
-                    console.log("Skipped baby " + baby.id + " because parent is not eligible");
+                    //console.log("Skipped baby " + baby.id + " because parent is not eligible");
                     return Parse.Promise.as(false);
                 }
             });
@@ -249,9 +248,6 @@ function processSingleBaby(baby, sendPushNotification) {
 var processBabies = function (babyQuery, sendPushNotification) {
     babyQuery.include("parentUser");
     babyQuery.select("name", "dueDate", "parentUser", "isMale");
-
-    // TODO: REMOVE
-    babyQuery.equalTo("objectId", "TbymSzsB8j");
 
     var babyPromises = [];
     return babyQuery.each(function (baby) {
