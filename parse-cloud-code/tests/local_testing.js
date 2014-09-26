@@ -23,4 +23,4 @@ require = function(lib) {
     return originalRequire(lib);
 };
 
-require("../cloud/main.js");
+require("../cloud/reports.js");

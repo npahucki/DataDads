@@ -22,10 +22,12 @@ Parse.Cloud.beforeSave("Babies", function (request, response) {
 
 Parse.Cloud.afterSave("Babies", function (request) {
     var baby = request.object;
-    var tips = require("cloud/tips");
-    tips.processBaby(baby, false).then(function (result) {
-        console.log("Automatically assigned tip for baby " + baby.id);
-    }, function (error) {
-        console.error("Failed to assigned tip for baby " + baby.id + ". Error " + JSON.stringify(error));
-    });
+    if(!baby.existed()) { // Only for new babies, not existing saves.
+        var tips = require("cloud/tips");
+        tips.processBaby(baby, false).then(function (result) {
+            console.log("Automatically assigned tip for baby " + baby.id);
+        }, function (error) {
+            console.error("Failed to assigned tip for baby " + baby.id + ". Error " + JSON.stringify(error));
+        });
+    }
 });

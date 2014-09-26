@@ -1,13 +1,13 @@
 // TODO: read from localization file.
 var PRONOUN_TRANSLATIONS = {
-    "en" : {
-        "${he}" : ["she","he"],
-        "${He}" : ["She" ,"He"],
-        "${his}" : ["her","his"],
-        "${his:p}" : ["hers","his"],
-        "${His}" :  ["Her","His"],
-        "${His:p}" :  ["Hers","His"],
-        "${him}" :  ["her","him"]
+    "en":{
+        "${he}":["she", "he"],
+        "${He}":["She" , "He"],
+        "${his}":["her", "his"],
+        "${his:p}":["hers", "his"],
+        "${His}":["Her", "His"],
+        "${His:p}":["Hers", "His"],
+        "${him}":["her", "him"]
     }
 };
 
@@ -17,30 +17,34 @@ function treatAsUTC(date) {
     return result;
 }
 
-exports.daysBetween = function(startDate, endDate) {
+exports.dateAddDays = function (date, days) {
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate() + days);
+};
+
+exports.daysBetween = function (startDate, endDate) {
     var millisecondsPerDay = 24 * 60 * 60 * 1000;
     return (treatAsUTC(endDate) - treatAsUTC(startDate)) / millisecondsPerDay;
 };
 
-exports.dayDiffFromNow = function(date) {
+exports.dayDiffFromNow = function (date) {
     return exports.daysBetween(new Date(), date);
 };
 
 // Baby sex should be 1:Male or 0:Female
-exports.replacePronounTokens = function(stringWithTokens, isMale, lang) {
+exports.replacePronounTokens = function (stringWithTokens, isMale, lang) {
     var result = stringWithTokens;
     var keyMap = PRONOUN_TRANSLATIONS[lang];
-    if(keyMap) {
-        for(var key in keyMap) {
+    if (keyMap) {
+        for (var key in keyMap) {
             // TODO: Cache RegExs
-            var value = keyMap[key][(isMale ? 1: 0)];
+            var value = keyMap[key][(isMale ? 1 : 0)];
             result = result.replace(new RegExp("\\" + key), value);
         }
     }
     return result;
 };
 
-exports.isDev = function() {
+exports.isDev = function () {
     return Parse.applicationId === "NlJHBG0NZgFS8JP76DBjA31MBRZ7kmb7dVSQQz3U";
 };
 
@@ -48,10 +52,10 @@ exports.isDev = function() {
 var Base64 = {
 
 
-    _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
+    _keyStr:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
 
 
-    encode: function(input) {
+    encode:function (input) {
         var output = "";
         var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
         var i = 0;
@@ -83,7 +87,7 @@ var Base64 = {
     },
 
 
-    decode: function(input) {
+    decode:function (input) {
         var output = "";
         var chr1, chr2, chr3;
         var enc1, enc2, enc3, enc4;
@@ -119,7 +123,7 @@ var Base64 = {
 
     },
 
-    _utf8_encode: function(string) {
+    _utf8_encode:function (string) {
         string = string.replace(/\r\n/g, "\n");
         var utftext = "";
 
@@ -145,7 +149,7 @@ var Base64 = {
         return utftext;
     },
 
-    _utf8_decode: function(utftext) {
+    _utf8_decode:function (utftext) {
         var string = "";
         var i = 0;
         var c = c1 = c2 = 0;

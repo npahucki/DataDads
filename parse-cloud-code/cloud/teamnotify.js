@@ -7,7 +7,7 @@ module.exports.notify = function(title, object) {
           to: "team@dataparenting.com",
           from: "app@alerts.dataparenting.com",
           subject: "[DP_ALERT]:" + title,
-          text: JSON.stringify(object,null,4)
+          text: typeof object === 'string' ? object : JSON.stringify(object,null,4)
         });
     } else {
         console.log("SKIPPED EMAIL: " + title + " Object:" + JSON.stringify(object));

@@ -96,22 +96,85 @@ Parse.Cloud.beforeSave("MilestoneAchievements", function (request, response) {
 
 
 Parse.Cloud.afterSave("MilestoneAchievements", function (request) {
+
     var achievement = request.object;
-    if(!achievement.get("isPostponed") && !achievement.get("isSkipped")) {
-        var standardMilestone = achievement.get("standardMilestone");
-        var promises = [achievement.get("baby").fetch()];
-        if (standardMilestone) {
-            promises.push(standardMilestone.fetch());
-        }
-        return Parse.Promise.when(promises).then(function (baby,standardMilestone) {
-            var data = achievement.toJSON();
-            if(standardMilestone) data.standardMilestone = standardMilestone.toJSON();
-            data.baby = baby.toJSON();
-            data.user = request.user.toJSON();
-            return require("cloud/teamnotify").notify("Someone just noted a milestone!", data);
+    if(achievement.existed()) return; // Only increment for new ones.
+
+    var milestone = achievement.get("standardMilestone");
+    var baby = achievement.get("baby");
+    var isSkipped = achievement.get("isSkipped");
+    var isPostponed = achievement.get("isPostponed");
+
+    function incrementStat(refObjectId,type) {
+        var statsQuery = new Parse.Query("Stats");
+        statsQuery.equalTo("refObjectId", refObjectId);
+        statsQuery.equalTo("type",type);
+        return statsQuery.first().then(function(stat) {
+          if(stat) {
+            stat.increment("count", 1);
+          } else if(!stat) {
+               stat = new Parse.Object("Stats");
+               stat.set("type", type);
+               stat.set("refObjectId",refObjectId);
+               stat.set("count", 1);
+           }
+           return stat.save();
         });
     }
+
+    // Update Baby stat
+    if(baby && !(isSkipped || isPostponed)) {
+        incrementStat(baby.id, "babyNotedMilestoneCount");
+    }
+
+    if(milestone) {
+        if(isSkipped) {
+            incrementStat(milestone.id,"standardMilestoneSkippedCount");
+        } else if(isPostponed) {
+            incrementStat(milestone.id,"standardMilestonePostponedCount");
+        } else {
+            incrementStat(milestone.id,"standardMilestoneNotedCount");
+        }
+    }
 });
+
+Parse.Cloud.afterDelete("MilestoneAchievements", function (request) {
+
+    var achievement = request.object;
+
+    var milestone = achievement.get("standardMilestone");
+    var baby = achievement.get("baby");
+    var isSkipped = achievement.get("isSkipped");
+    var isPostponed = achievement.get("isPostponed");
+
+    function decrementStat(refObjectId,type) {
+        var statsQuery = new Parse.Query("Stats");
+        statsQuery.equalTo("refObjectId", refObjectId);
+        statsQuery.equalTo("type",type);
+        return statsQuery.first().then(function(stat) {
+          if(stat) {
+            stat.increment("count", -1);
+            return stat.save();
+          }
+        });
+    }
+
+    // Update Baby stat
+    if(baby && !(isSkipped || isPostponed)) {
+        decrementStat(baby.id, "babyNotedMilestoneCount");
+    }
+
+    if(milestone) {
+        if(isSkipped) {
+            decrementStat(milestone.id,"standardMilestoneSkippedCount");
+        } else if(isPostponed) {
+            decrementStat(milestone.id,"standardMilestonePostponedCount");
+        } else {
+            decrementStat(milestone.id,"standardMilestoneNotedCount");
+        }
+    }
+});
+
 
 
 Parse.Cloud.job("indexCustomTitleField", function (request, status) {
