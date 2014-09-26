@@ -1,6 +1,56 @@
+Parse.Cloud.job("generateUserReport", function (request, status) {
+    console.log("Starting User Activity Report Generation Job...");
+    Parse.Cloud.useMasterKey();
+    var _ = require("underscore");
+    var util = require("cloud/utils");
+    var lastDay = util.dateAddDays(new Date(), -1);
+
+
+    // All Achievements logged in the last 24 hours
+    var achievementsQuery = new Parse.Query("MilestoneAchievements");
+    achievementsQuery.greaterThan("createdAt", lastDay);
+    achievementsQuery.include(["baby","baby.parentUser","standardMilestone"]);
+    achievementsQuery.limit(1000);
+    achievementsQuery.ascending("createdAt");
+    achievementsQuery.find().then(function(results) {
+        // Need to build a map based on the parent.
+        var groupedAchievements= _.groupBy(results, function(achievement) {
+                    var baby = achievement.get("baby");
+                    return baby.get("parentUser").id;
+                });
+        var reportText = "<html><body><h1>Report for " + new Date() + "</h1>";
+        _.each(groupedAchievements, function(achievements, parentId) {
+            var parent = achievements[0].get("baby").get("parentUser");
+            if(parent.id != parentId) throw "WTF? Achievements not grouped";
+            reportText += "<h2>" + (parent.get("email") ? parent.get("email") : parent.id) + "&lt;" + parent.get("screenName") + "&gt; (" + achievements.length + ")</h2><hr/></ol>";
+            _.each(achievements, function(achievement) {
+                var milestone = achievement.get("standardMilestone");
+                var title = milestone ? milestone.get("title") : achievement.get("customTitle");
+                var activityTime = new Date(achievement.createdAt.getTime() - 7 * 60 * 60 * 1000);
+                reportText += "<li>[" + activityTime.toLocaleTimeString() + " PST] " ;
+                if(achievement.get("isSkipped")) {
+                    reportText += "SKIPPED: ";
+                } else if(achievement.get("isPostponed")) {
+                    reportText += "POSTPONED: ";
+                }
+                reportText += title+"</li>";
+            });
+            reportText += "</ol><hr/><br/>";
+        });
+        reportText += "</body></html>";
+
+        var emailer = require("cloud/teamnotify");
+        emailer.notify("Daily DataParenting User Activity", reportText, "text/html");
+        status.success("Daily User Activity Report completed successfully.");
+    }, function (error) {
+        // Set the job's error status
+        status.error("Daily Summary Report  fatally failed : " + JSON.stringify(error));
+    });
+});
+
+
+
 Parse.Cloud.job("generateSummaryReport", function (request, status) {
-
-
     console.log("Starting Summary Report Generation Job...");
     Parse.Cloud.useMasterKey();
     var _ = require("underscore");
@@ -54,9 +104,6 @@ Parse.Cloud.job("generateSummaryReport", function (request, status) {
     newInstallQuery.greaterThan("createdAt", lastWeek);
     promises.push(newInstallQuery.count());
 
-
-
-
     var anonUserQuery = new Parse.Query(Parse.User);
     anonUserQuery.doesNotExist("email");
     promises.push(anonUserQuery.count());
@@ -65,15 +112,17 @@ Parse.Cloud.job("generateSummaryReport", function (request, status) {
     signedInUserQuery.exists("email");
     promises.push(signedInUserQuery.count());
 
-
-
     // Number of new milestones in last 7 days
     var newMilestoneQuery = new Parse.Query("MilestoneAchievements");
     newMilestoneQuery.greaterThan("createdAt", lastWeek);
+    newMilestoneQuery.equalTo("isSkipped", false);
+    newMilestoneQuery.equalTo("isPostponed", false);
     promises.push(newMilestoneQuery.count());
 
     // Total logged milestones
     var allMilestoneQuery = new Parse.Query("MilestoneAchievements");
+    allMilestoneQuery.equalTo("isSkipped", false);
+    allMilestoneQuery.equalTo("isPostponed", false);
     promises.push(allMilestoneQuery.count());
 
 
@@ -174,8 +223,7 @@ Parse.Cloud.job("generateSummaryReport", function (request, status) {
         // Set the job's error status
         status.error("Daily Summary Report  fatally failed : " + JSON.stringify(error));
     });
-})
-;
+});
 
 Parse.Cloud.job("generateInitialStats", function (request, status) {
     console.log("Starting Generate Initial Stats Job....");
