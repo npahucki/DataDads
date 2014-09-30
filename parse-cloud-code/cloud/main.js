@@ -9,6 +9,7 @@ require("cloud/tips.js");
 require("cloud/users.js");
 require("cloud/backup.js");
 require("cloud/reports.js");
+require("cloud/s3_storage.js");
 
 
 
