@@ -258,6 +258,7 @@
 		38FA7AFE5F694C389969CCDD /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		72F180425F4F1312AAAAA06A /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = FDTake.strings; sourceTree = "<group>"; };
 		72F180897A35DA9A91FA0D75 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
+		72F180A1C9F67C2395A0EF2F /* MediaFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaFile.h; sourceTree = "<group>"; };
 		72F183698C959E005935B194 /* InAppPurchaseHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InAppPurchaseHelper.h; sourceTree = "<group>"; };
 		72F18423ECAD54191B7179D7 /* AppleIncRootCertificate.cer */ = {isa = PBXFileReference; lastKnownFileType = file.cer; path = AppleIncRootCertificate.cer; sourceTree = "<group>"; };
 		72F1844739B4B51C27B34983 /* InAppPurchaseHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InAppPurchaseHelper.m; sourceTree = "<group>"; };
@@ -631,6 +632,7 @@
 				72F183698C959E005935B194 /* InAppPurchaseHelper.h */,
 				72F187DCCDCE0FA22CD5DEC4 /* ExternalMediaFile.m */,
 				72F18C88C0C62071581E6244 /* ExternalMediaFile.h */,
+				72F180A1C9F67C2395A0EF2F /* MediaFile.h */,
 			);
 			name = Util;
 			sourceTree = "<group>";

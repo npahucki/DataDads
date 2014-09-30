@@ -21,7 +21,7 @@
 
 @implementation NoteMilestoneViewController {
     FDTakeController *_takeController;
-    PFFile *_attachment;
+    NSObject <MediaFile> *_attachment;
     PFFile *_thumbnailImage;
     ALAssetsLibrary *_assetLibrary;
     BOOL _isKeyboardShowing;
@@ -267,7 +267,7 @@
     if (_attachment) {
         [self saveAttachment];
     } else {
-        [self saveAchievementWithAttachment:nil];
+        [self saveAchievement];
     }
 }
 
@@ -305,14 +305,14 @@
         if (error) {
             [self showErrorThenRunBlock:error withMessage:[@"Could not upload the " stringByAppendingString:type] andBlock:nil];
         } else {
-            [self saveAchievementWithAttachment:_attachment];
+            [self saveAchievement];
         }
     }                        progressBlock:^(int percentDone) {
         [self showText:[NSString stringWithFormat:@"%@ %d%%", title, percentDone]];
     }];
 }
 
-- (void)saveAchievementWithAttachment:(PFFile *)attachment {
+- (void)saveAchievement {
 
     // Bit of a hacky work around to the fact that CloudCode beforeSave trigger reloads the object after a save
     // buts does not load the pointers, so the achievement object has the Baby and StandardMilestone fields set to
@@ -357,7 +357,12 @@
     }
 
     if (self.commentsTextField.text.length) self.achievement.comment = self.commentsTextField.text;
-    self.achievement.attachment = attachment;
+    // Can be a PFFile (old style used for images) or an ExternalMediaFile object for larger things like videos.
+    if ([_attachment isKindOfClass:[ExternalMediaFile class]]) {
+        self.achievement.attachmentExternalStorageId = ((ExternalMediaFile *) _attachment).uniqueId;
+    } else {
+        self.achievement.attachment = (PFFile *) _attachment;
+    }
     self.achievement.attachmentType = _attachment.mimeType;
     self.achievement.attachmentOrientation = _attachment.orientation;
     self.achievement.attachmentWidth = _attachment.width;
@@ -503,12 +508,12 @@
                 }];
             }
 
-            _attachment = [PFFile videoFileFromUrl:videoUrl];
-            if (_attachment) {
-                UIImage *thumbnail = [[_attachment generateThumbImage] imageScaledToFitSize:CGSizeMake(320.0, 320.0)];
+            ExternalMediaFile *videoAttachment = [ExternalMediaFile videoFileFromUrl:videoUrl];
+            if (videoAttachment) {
+                UIImage *thumbnail = [videoAttachment.thumbnail imageScaledToFitSize:CGSizeMake(320.0, 320.0)];
                 [self.takePhotoButton setImage:thumbnail forState:UIControlStateNormal];
                 _thumbnailImage = [PFFile fileWithData:UIImageJPEGRepresentation(thumbnail, 0.5f) contentType:@"image/jpg"];
-
+                _attachment = videoAttachment;
                 if (fromLibrary) {
                     [self updateDateFromFDTakeAsset:assetUrl];
                 }

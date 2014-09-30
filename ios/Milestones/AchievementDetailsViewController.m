@@ -81,7 +81,7 @@ NSDateFormatter *_dateFormatter;
 
     // TODO: Cloud function to do all this in one shot!
     PFQuery *query = [MilestoneAchievement query];
-    [query selectKeys:@[@"attachment", @"attachmentType", @"customTitle", @"comment", @"completionDate", @"standardMilestone", @"baby"]];
+    [query selectKeys:@[@"attachment", @"attachmentType", @"attachmentExternalStorageId", @"customTitle", @"comment", @"completionDate", @"standardMilestone", @"baby"]];
     [query includeKey:@"standardMilestone"];
     [query getObjectInBackgroundWithId:self.achievement.objectId block:^(PFObject *object, NSError *error) {
         if (!error) {
@@ -273,9 +273,21 @@ NSDateFormatter *_dateFormatter;
 
 - (IBAction)didClickPlayVideoButton:(id)sender {
     NSAssert([self.achievement.attachmentType rangeOfString:@"video"].location != NSNotFound, @"Expected attachment with video type");
-    NSURL *url = [NSURL URLWithString:self.achievement.attachment.url];
-    MPMoviePlayerViewController *c = [[MPMoviePlayerViewController alloc] initWithContentURL:url];
-    [self.navigationController presentMoviePlayerViewControllerAnimated:c];
+    if (self.achievement.attachmentExternalStorageId) {
+        [ExternalMediaFile lookupMediaUrl:self.achievement.attachmentExternalStorageId withBlock:^(NSString *url, NSError *error) {
+            if (error) {
+                [UsageAnalytics trackError:error forOperationNamed:@"lookupVideoUrl"];
+            } else {
+                MPMoviePlayerViewController *c = [[MPMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:url]];
+                [self.navigationController presentMoviePlayerViewControllerAnimated:c];
+            }
+        }];
+    } else {
+        // TODO: For backward compatibility - remove once everything is migrated to S3.
+        NSURL *url = [NSURL URLWithString:self.achievement.attachment.url];
+        MPMoviePlayerViewController *c = [[MPMoviePlayerViewController alloc] initWithContentURL:url];
+        [self.navigationController presentMoviePlayerViewControllerAnimated:c];
+    }
 }
 
 - (void)showPercentileMessage:(NSInteger)percent {
@@ -418,9 +430,9 @@ NSDateFormatter *_dateFormatter;
     [[InAppPurchaseHelper instance] ensureProductPurchased:DDProductVideoSupport withBlock:^(BOOL succeeded, NSError *error) {
         self.detailsImageButton.enabled = YES; // Restore
         if (succeeded) {
-            PFFile *file = [PFFile videoFileFromUrl:videoUrl];
+            ExternalMediaFile *file = [ExternalMediaFile videoFileFromUrl:videoUrl];
             if (file) {
-                UIImage *thumbnail = [[file generateThumbImage] imageScaledToFitSize:CGSizeMake(320.0, 320.0)];
+                UIImage *thumbnail = [file.thumbnail imageScaledToFitSize:CGSizeMake(320.0, 320.0)];
                 PFFile *thumbnailFile = [PFFile fileWithName:@"thumbnail.jpg" data:UIImageJPEGRepresentation(thumbnail, 0.5f) contentType:@"image/jpg"];
                 [self setButtonPhoto:thumbnail];
                 [self saveAttachment:file andThumbnail:thumbnailFile];
@@ -429,7 +441,7 @@ NSDateFormatter *_dateFormatter;
     }];
 }
 
-- (void)saveAttachment:(PFFile *)attachment andThumbnail:(PFFile *)thumbnail {
+- (void)saveAttachment:(NSObject <MediaFile> *)attachment andThumbnail:(PFFile *)thumbnail {
     NSString *type = [attachment.mimeType rangeOfString:@"video"].location != NSNotFound ? @"video" : @"photo";
     NSString *title = [@"Uploading " stringByAppendingString:type];
 
@@ -440,7 +452,14 @@ NSDateFormatter *_dateFormatter;
             [self showErrorThenRunBlock:error withMessage:@"Could not upload the video." andBlock:nil];
             [self.detailsImageButton setImage:nil forState:UIControlStateNormal];
         } else {
-            self.achievement.attachment = attachment;
+            // Can be a PFFile (old style used for images) or an ExternalMediaFile object for larger things like videos.
+            if ([attachment isKindOfClass:[ExternalMediaFile class]]) {
+                self.achievement.attachment = nil;  // clear any old values
+                self.achievement.attachmentExternalStorageId = ((ExternalMediaFile *) attachment).uniqueId;
+            } else {
+                self.achievement.attachmentExternalStorageId = nil; // clear any old values
+                self.achievement.attachment = (PFFile *) attachment;
+            }
             self.achievement.attachmentType = attachment.mimeType;
             self.achievement.attachmentOrientation = attachment.orientation;
             self.achievement.attachmentWidth = attachment.width;

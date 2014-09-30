@@ -11,7 +11,7 @@
 
 @implementation MilestoneAchievement
 
-// Since we can't use an inner query based on an onject reference (See https://parse.com/questions/trouble-with-nested-query-using-objectid)
+// Since we can't use an inner query based on an object reference (See https://parse.com/questions/trouble-with-nested-query-using-objectid)
 // we must include a redundant column which is a string and has the milestoneId included. As such, to make sure this is always set correctly
 // we must implement the milestone getter/setter ourselves.
 //@dynamic standardMilestone;
@@ -21,6 +21,7 @@
 @dynamic attachmentType;
 @dynamic attachmentThumbnail;
 @dynamic attachmentOrientation;
+@dynamic attachmentExternalStorageId;
 @dynamic attachmentWidth;
 @dynamic attachmentHeight;
 @dynamic customTitle;
@@ -28,7 +29,6 @@
 @dynamic isSkipped;
 @dynamic isPostponed;
 @dynamic sharedVia;
-
 
 + (NSString *)parseClassName {
     return @"MilestoneAchievements";

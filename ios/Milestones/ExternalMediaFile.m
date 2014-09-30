@@ -7,17 +7,25 @@
 #import <objc/runtime.h>
 
 // The maximum number of bytes that Parse allows to be uploaded.
-#define MAX_ATTACHMENT_BYTES_SIZE 1024 * 1024 * 50
+#define MAX_ATTACHMENT_MEGA_BYTES 50
+#define MAX_ATTACHMENT_BYTES_SIZE 1024 * 1024 * MAX_ATTACHMENT_MEGA_BYTES
 #define MAX_VIDEO_ATTACHMENT_LENGTH_SECS 240
 
 
 
 @implementation ExternalMediaFile {
     NSString *_externalUrl;
+    NSString *_extension;
     NSURL *_localUrl;
     NSURLSession *_session;
     NSMutableDictionary *_responsesData;
 }
+
+@synthesize height = _height;
+@synthesize width = _width;
+@synthesize orientation = _orientation;
+@synthesize mimeType = _mimeType;
+@synthesize thumbnail = _thumbnail;
 
 + (instancetype)videoFileFromUrl:(NSURL *)videoUrl {
 
@@ -32,7 +40,7 @@
     NSNumber *size = properties[NSFileSize];
     NSLog(@"Video is %@ bytes", size);
     if (size.integerValue >= MAX_ATTACHMENT_BYTES_SIZE) {
-        NSString *msg = [NSString stringWithFormat:@"Your video is %.02fMB. Please edit the video so that it is smaller than 10 MB.", (size.integerValue / (1024.0 * 1024.0))];
+        NSString *msg = [NSString stringWithFormat:@"Your video is %.02fMB. Please edit the video so that it is smaller than %d MB.", (size.integerValue / (1024.0 * 1024.0)), MAX_ATTACHMENT_MEGA_BYTES];
         [[[UIAlertView alloc] initWithTitle:@"Video Too Big" message:msg delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
         return nil;
     }
@@ -58,12 +66,24 @@
     else
         orientation = UIImageOrientationRight;
 
+    AVAssetImageGenerator *imageGenerator = [[AVAssetImageGenerator alloc] initWithAsset:asset];
+    imageGenerator.appliesPreferredTrackTransform = YES;
+    CMTime time = [asset duration];
+    time.value = 0;
+    CGImageRef imageRef = [imageGenerator copyCGImageAtTime:time actualTime:NULL error:NULL];
+    UIImage *thumbnail = [UIImage imageWithCGImage:imageRef];
+    CGImageRelease(imageRef);  // CGImageRef won't be released by ARC
+
+
     ExternalMediaFile *file = [[ExternalMediaFile alloc] init];
     file->_localUrl = videoUrl;
     file->_mimeType = @"video/mov";
-    file->_orientation = @(orientation);
-    file->_width = @(dimensions.width);
-    file->_height = @(dimensions.height);
+    file->_extension = @".mov";
+    file->_orientation = orientation;
+    file->_width = dimensions.width;
+    file->_height = dimensions.height;
+    file->_thumbnail = thumbnail;
+    file->_uniqueId = [file->_uniqueId stringByAppendingString:@"-video.mov"];
     return file;
 }
 
@@ -89,12 +109,13 @@
 
 + (void)lookupMediaUrl:(NSString *)uniqueId forMethod:(NSString *)method andContentType:(NSString *)contentType withBlock:(PFStringResultBlock)block {
     NSAssert(uniqueId, @"Unique ID must be set before url can be looked up");
-    // TODO: Add cachiing
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:
+            @{@"uniqueId" : uniqueId,
+                    @"method" : method,
+                    @"appVersion" : NSBundle.mainBundle.infoDictionary[@"CFBundleShortVersionString"]}];
+    if (contentType) params[@"contentType"] = contentType;
     [PFCloud callFunctionInBackground:@"fetchStorageUploadUrl"
-                       withParameters:@{@"uniqueId" : uniqueId,
-                               @"contentType" : contentType,
-                               @"method" : method,
-                               @"appVersion" : NSBundle.mainBundle.infoDictionary[@"CFBundleShortVersionString"]}
+                       withParameters:params
                                 block:^(NSDictionary *results, NSError *error) {
                                     if (error) {
                                         block(nil, error);
@@ -149,7 +170,11 @@
           totalBytesSent:(int64_t)totalBytesSent
 totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend {
     PFProgressBlock progressBlock = objc_getAssociatedObject(task, "DP.progressBlock");
-    if (progressBlock) progressBlock((int) (totalBytesExpectedToSend / totalBytesSent));
+    if (progressBlock) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            progressBlock((int) (100.0 * ((double) totalBytesSent / (double) totalBytesExpectedToSend)));
+        });
+    }
 }
 
 /* Sent as the last message related to a specific task.  Error may be
@@ -165,7 +190,11 @@ totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend {
         [_responsesData removeObjectForKey:@(task.taskIdentifier)];
     }
     PFBooleanResultBlock block = objc_getAssociatedObject(task, "DP.block");
-    if (block) block(success, error);
+    if (block) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            block(success, error);
+        });
+    }
 }
 
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data {
