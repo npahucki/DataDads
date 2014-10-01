@@ -1,12 +1,4 @@
-
-
-
-Parse.Cloud.define("fetchStorageUploadUrl", function (request, response) {
-    if(!request.user) {
-        response.error(400,"Need user to store file");
-        return;
-    }
-
+function generateSignedS3Url(method, filePath, contentType) {
     var util = require("cloud/utils.js");
 
     var bucket, accessKey, secretKey;
@@ -22,16 +14,23 @@ Parse.Cloud.define("fetchStorageUploadUrl", function (request, response) {
     }
 
     var sig = require('cloud/s3_signature.js');
-    var uniqueId = request.params.uniqueId;
-    var userPrefix = request.user.id + "/";
-    var method = request.params.method;
-    var contentType = request.params.contentType;
-    var expiresMinutes = 10;
-
     var signer = sig.urlSigner(accessKey, secretKey);
-    var signedUrl = signer.getUrl(method, bucket, userPrefix + uniqueId,  contentType, expiresMinutes);
-    response.success({url: signedUrl});
+    return signer.getUrl(method, bucket, filePath,  contentType, 10);
+}
 
+
+module.exports.generateSignedGetS3Url = function(filePath) {
+    return generateSignedS3Url("GET",filePath);
+};
+
+Parse.Cloud.define("fetchStorageUploadUrl", function (request, response) {
+    if(!request.user) {
+        response.error(400,"Need user to store file");
+        return;
+    }
+
+    var filePath = request.user.id + "/" + request.params.uniqueId;
+    response.success({url: generateSignedS3Url(request.params.method, filePath, request.params.contentType)});
 });
 
 
