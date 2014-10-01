@@ -31,6 +31,7 @@ Parse.Cloud.define("fetchStorageUploadUrl", function (request, response) {
     var signer = sig.urlSigner(accessKey, secretKey);
     var signedUrl = signer.getUrl(method, bucket, userPrefix + uniqueId,  contentType, expiresMinutes);
     response.success({url: signedUrl});
+
 });
 
 

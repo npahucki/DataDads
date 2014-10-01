@@ -12,10 +12,8 @@
 #define MAX_VIDEO_ATTACHMENT_LENGTH_SECS 240
 
 
-
 @implementation ExternalMediaFile {
     NSString *_externalUrl;
-    NSString *_extension;
     NSURL *_localUrl;
     NSURLSession *_session;
     NSMutableDictionary *_responsesData;
@@ -78,7 +76,6 @@
     ExternalMediaFile *file = [[ExternalMediaFile alloc] init];
     file->_localUrl = videoUrl;
     file->_mimeType = @"video/mov";
-    file->_extension = @".mov";
     file->_orientation = orientation;
     file->_width = dimensions.width;
     file->_height = dimensions.height;
@@ -163,6 +160,21 @@
     }
 }
 
+- (void)cancel {
+    [_session getTasksWithCompletionHandler:^(NSArray *dataTasks, NSArray *uploadTasks, NSArray *downloadTasks) {
+        for (NSURLSessionTask *task in uploadTasks) {
+            [task cancel];
+        }
+        for (NSURLSessionTask *task in downloadTasks) {
+            [task cancel];
+        }
+        for (NSURLSessionTask *task in dataTasks) {
+            [task cancel];
+        }
+    }];
+}
+
+
 /* Sent periodically to notify the delegate of upload progress.  This
  * information is also available as properties of the task.
  */
@@ -182,13 +194,21 @@ totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend {
  */
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error {
     NSHTTPURLResponse *httpResp = (NSHTTPURLResponse *) task.response;
-    BOOL success = httpResp.statusCode == 200;
-    if (!success) {
-        NSLog(@"Error Code:%d", httpResp.statusCode);
-        NSMutableData *responseData = _responsesData[@(task.taskIdentifier)];
-        NSLog(@"ERROR RESONSE:%@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
-        [_responsesData removeObjectForKey:@(task.taskIdentifier)];
+    BOOL success;
+    if (!error) {
+        success = httpResp.statusCode == 200;
+        if (!success) {
+            NSMutableData *responseData = _responsesData[@(task.taskIdentifier)];
+            NSLog(@"Error Code:%d Response:%@", httpResp.statusCode, responseData);
+        }
+    } else {
+        if ([error.domain isEqualToString:NSURLErrorDomain] && error.code == NSURLErrorCancelled) {
+            // Canceled at user's request
+            success = NO;
+            error = nil;
+        }
     }
+    [_responsesData removeObjectForKey:@(task.taskIdentifier)];
     PFBooleanResultBlock block = objc_getAssociatedObject(task, "DP.block");
     if (block) {
         dispatch_async(dispatch_get_main_queue(), ^{

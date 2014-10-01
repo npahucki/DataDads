@@ -59,7 +59,7 @@
         // Account already exists (logged in before, perhaps with facebook).
         [self saveUserPreferences:parent];
     } else {
-        [self showInProgressHUDWithMessage:@"Registering..." andAnimation:YES andDimmedBackground:YES];
+        [self showInProgressHUDWithMessage:@"Registering..." andAnimation:YES andDimmedBackground:YES withCancel:NO];
         [PFAnonymousUtils logInWithBlock:^(PFUser *user, NSError *error) {
             if (error) {
                 [self showErrorThenRunBlock:error withMessage:@"Unable to register. Please check your internet connection and try again." andBlock:nil];
@@ -77,7 +77,7 @@
     if (!user.screenName) user.screenName = [self nameFromDeviceName];
     user.isMale = self.maleButton.isSelected;
 
-    [self showInProgressHUDWithMessage:@"Saving your preferences" andAnimation:YES andDimmedBackground:YES];
+    [self showInProgressHUDWithMessage:@"Saving your preferences" andAnimation:YES andDimmedBackground:YES withCancel:NO];
     [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (error) {
             [self showErrorThenRunBlock:error withMessage:@"Unable to save preferences" andBlock:nil];
@@ -142,7 +142,7 @@
     if (self.baby.isDirty) {
         self.baby.ACL = [PFACL ACLWithUser:self.baby.parentUser];
         Baby.currentBaby = nil; // Clear the current baby, will get set on the MainViewController
-        [self showInProgressHUDWithMessage:[NSString stringWithFormat:@"Saving %@'s info", self.baby.name] andAnimation:YES andDimmedBackground:YES];
+        [self showInProgressHUDWithMessage:[NSString stringWithFormat:@"Saving %@'s info", self.baby.name] andAnimation:YES andDimmedBackground:YES withCancel:NO];
         [self.baby saveInBackgroundWithBlock:block];
     } else {
         block(NO, nil);
@@ -151,7 +151,7 @@
 
 - (void)saveBabyAvatar:(PFBooleanResultBlock)block {
     if (self.baby.avatarImage.isDirty) {
-        [self showInProgressHUDWithMessage:[NSString stringWithFormat:@"Uploading %@'s photo", self.baby.name] andAnimation:YES andDimmedBackground:YES];
+        [self showInProgressHUDWithMessage:[NSString stringWithFormat:@"Uploading %@'s photo", self.baby.name] andAnimation:YES andDimmedBackground:YES withCancel:NO];
         [self.baby.avatarImage saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (error) {
                 [self showErrorThenRunBlock:error withMessage:@"Could not upload photo." andBlock:^{

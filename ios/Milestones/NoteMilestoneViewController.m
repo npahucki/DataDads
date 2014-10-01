@@ -298,18 +298,23 @@
 }
 
 - (void)saveAttachment {
-    NSString *type = [_attachment.mimeType rangeOfString:@"video"].location != NSNotFound ? @"video" : @"photo";
+    BOOL isVideo = [_attachment.mimeType rangeOfString:@"video"].location != NSNotFound;
+    NSString *type = isVideo ? @"video" : @"photo";
     NSString *title = [@"Uploading " stringByAppendingString:type];
-    [self showInProgressHUDWithMessage:title andAnimation:YES andDimmedBackground:YES];
+    [self showInProgressHUDWithMessage:title andAnimation:YES andDimmedBackground:YES withCancel:isVideo];
     [_attachment saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (error) {
             [self showErrorThenRunBlock:error withMessage:[@"Could not upload the " stringByAppendingString:type] andBlock:nil];
-        } else {
+        } else if (succeeded) {
             [self saveAchievement];
         }
     }                        progressBlock:^(int percentDone) {
         [self showText:[NSString stringWithFormat:@"%@ %d%%", title, percentDone]];
     }];
+}
+
+- (void)handleHudCanceled {
+    [_attachment cancel];
 }
 
 - (void)saveAchievement {

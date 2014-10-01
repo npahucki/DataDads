@@ -32,6 +32,7 @@
     BOOL _beganDrag;
     UIView *_backgroundView;
     FDTakeController *_takeController;
+    NSObject <MediaFile> *_attachment;
 }
 
 // Global for all instances
@@ -68,11 +69,7 @@ NSDateFormatter *_dateFormatter;
     NSAssert([self.achievement.baby.objectId isEqualToString:Baby.currentBaby.objectId], @"Expected achievements for current baby only!");
 
     // Start with the thumbnail (if loaded), then load the bigger one later on.
-    PFFile *thumbnailImageFile = self.achievement.attachmentThumbnail ? self.achievement.attachmentThumbnail : Baby.currentBaby.avatarImageThumbnail;
-    [thumbnailImageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-        [self.detailsImageButton setImage:[UIImage imageWithData:data] forState:UIControlStateNormal];
-        self.detailsImageButton.alpha = (CGFloat) (self.achievement.attachmentThumbnail ? 1.0 : 0.3);
-    }];
+    [self loadPreview];
 
     self.rangeIndicatorView.rangeScale = 5 * 365;
     self.rangeIndicatorView.rangeReferencePoint = [Baby.currentBaby.birthDate daysDifference:self.achievement.completionDate];
@@ -81,33 +78,13 @@ NSDateFormatter *_dateFormatter;
 
     // TODO: Cloud function to do all this in one shot!
     PFQuery *query = [MilestoneAchievement query];
-    [query selectKeys:@[@"attachment", @"attachmentType", @"attachmentExternalStorageId", @"customTitle", @"comment", @"completionDate", @"standardMilestone", @"baby"]];
+    [query selectKeys:@[@"attachment", @"attachmentType", @"attachmentThumbnail", @"attachmentExternalStorageId", @"customTitle", @"comment", @"completionDate", @"standardMilestone", @"baby"]];
     [query includeKey:@"standardMilestone"];
     [query getObjectInBackgroundWithId:self.achievement.objectId block:^(PFObject *object, NSError *error) {
         if (!error) {
             // Get achievement details and image
             self.achievement = (MilestoneAchievement *) object;
-            BOOL isVideo = self.achievement.attachmentType && [self.achievement.attachmentType rangeOfString:@"video"].location != NSNotFound;
-            if (isVideo) { // If not a video try to load a better thumbnail
-                self.detailsImageButton.alpha = 1.0;
-                self.playVideoButton.hidden = NO;
-            } else {
-                self.playVideoButton.hidden = YES;
-                BOOL hasImageAttachment = self.achievement.attachment && [self.achievement.attachmentType rangeOfString:@"image"].location != NSNotFound;
-                PFFile *imageFile = hasImageAttachment ? self.achievement.attachment : Baby.currentBaby.avatarImage;
-                if (imageFile) {
-                    [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error2) {
-                        if (!error2) {
-                            [self setButtonPhoto:[UIImage imageWithData:data]];
-                            self.detailsImageButton.alpha = (CGFloat) (hasImageAttachment ? 1.0 : 0.3);
-                        } else {
-                            [UsageAnalytics trackError:error2 forOperationNamed:@"fetchAchievementImage" andAdditionalProperties:@{@"id" : self.achievement.objectId}];
-                        }
-                    }];
-                }
-            }
-
-
+            [self loadAttachment];
             if (self.achievement.standardMilestone) {
                 self.rangeIndicatorView.startRange = self.achievement.standardMilestone.rangeLow.integerValue;
                 self.rangeIndicatorView.endRange = self.achievement.standardMilestone.rangeHigh.integerValue;
@@ -132,6 +109,37 @@ NSDateFormatter *_dateFormatter;
     [self updateTitleTextFromAchievement];
 
 }
+
+- (void)loadPreview {
+    PFFile *thumbnailImageFile = self.achievement.attachmentThumbnail ? self.achievement.attachmentThumbnail : Baby.currentBaby.avatarImageThumbnail;
+    [thumbnailImageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+        [self.detailsImageButton setImage:[UIImage imageWithData:data] forState:UIControlStateNormal];
+        self.detailsImageButton.alpha = (CGFloat) (self.achievement.attachmentThumbnail ? 1.0 : 0.3);
+    }];
+}
+
+- (void)loadAttachment {
+    BOOL isVideo = self.achievement.attachmentType && [self.achievement.attachmentType rangeOfString:@"video"].location != NSNotFound;
+    if (isVideo) { // If not a video try to load a better thumbnail
+        self.detailsImageButton.alpha = 1.0;
+        self.playVideoButton.hidden = NO;
+    } else {
+        self.playVideoButton.hidden = YES;
+        BOOL hasImageAttachment = self.achievement.attachment && [self.achievement.attachmentType rangeOfString:@"image"].location != NSNotFound;
+        PFFile *imageFile = hasImageAttachment ? self.achievement.attachment : Baby.currentBaby.avatarImage;
+        if (imageFile) {
+            [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error2) {
+                if (!error2) {
+                    [self setButtonPhoto:[UIImage imageWithData:data]];
+                    self.detailsImageButton.alpha = (CGFloat) (hasImageAttachment ? 1.0 : 0.3);
+                } else {
+                    [UsageAnalytics trackError:error2 forOperationNamed:@"fetchAchievementImage" andAdditionalProperties:@{@"id" : self.achievement.objectId}];
+                }
+            }];
+        }
+    }
+}
+
 
 - (void)updateTitleTextFromAchievement {
     StandardMilestone *m = self.achievement.standardMilestone;
@@ -419,7 +427,7 @@ NSDateFormatter *_dateFormatter;
 }
 
 - (void)takeController:(FDTakeController *)controller gotPhoto:(UIImage *)photo withInfo:(NSDictionary *)info {
-    [self showInProgressHUDWithMessage:@"Uploading Photo" andAnimation:YES andDimmedBackground:YES];
+    [self showInProgressHUDWithMessage:@"Uploading Photo" andAnimation:YES andDimmedBackground:YES withCancel:NO];
     PFFile *file = [PFFile imageFileFromImage:photo];
     [self saveAttachment:file andThumbnail:nil];
     [self setButtonPhoto:photo];
@@ -442,16 +450,19 @@ NSDateFormatter *_dateFormatter;
 }
 
 - (void)saveAttachment:(NSObject <MediaFile> *)attachment andThumbnail:(PFFile *)thumbnail {
-    NSString *type = [attachment.mimeType rangeOfString:@"video"].location != NSNotFound ? @"video" : @"photo";
+    _attachment = attachment;
+    BOOL isVideo = [attachment.mimeType rangeOfString:@"video"].location != NSNotFound;
+    NSString *type = isVideo ? @"video" : @"photo";
     NSString *title = [@"Uploading " stringByAppendingString:type];
 
     self.playVideoButton.hidden = YES;
-    [self showInProgressHUDWithMessage:title andAnimation:YES andDimmedBackground:YES];
+    [self showInProgressHUDWithMessage:title andAnimation:YES andDimmedBackground:YES withCancel:isVideo];
     [attachment saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        _attachment = nil;
         if (error) {
             [self showErrorThenRunBlock:error withMessage:@"Could not upload the video." andBlock:nil];
             [self.detailsImageButton setImage:nil forState:UIControlStateNormal];
-        } else {
+        } else if (succeeded) {
             // Can be a PFFile (old style used for images) or an ExternalMediaFile object for larger things like videos.
             if ([attachment isKindOfClass:[ExternalMediaFile class]]) {
                 self.achievement.attachment = nil;  // clear any old values
@@ -474,12 +485,21 @@ NSDateFormatter *_dateFormatter;
                     [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationAchievementNotedAndSaved object:self.achievement];
                 }
             }];
+        } else {
+            // Cancelled, restore
+            [self loadPreview];
+            [self loadAttachment];
+            [self hideHud];
         }
     }                       progressBlock:^(int percentDone) {
         [self showText:[NSString stringWithFormat:@"%@ %d%%", title, percentDone]];
     }];
 }
 
+- (void)handleHudCanceled {
+    [_attachment cancel];
+
+}
 
 - (void)setButtonPhoto:(UIImage *)photo {
     [self.detailsImageButton setImage:[photo imageScaledToFitSize:self.detailsImageButton.bounds.size] forState:UIControlStateNormal];

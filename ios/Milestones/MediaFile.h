@@ -17,4 +17,6 @@
 - (void)saveInBackgroundWithBlock:(PFBooleanResultBlock)block
                     progressBlock:(PFProgressBlock)progressBlock;
 
+// Cancel any ongoing data transfer.
+- (void)cancel;
 @end

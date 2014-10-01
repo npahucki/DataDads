@@ -15,7 +15,7 @@
 @implementation UIViewControllerWithHUDProgress
 
 - (void)saveObject:(PFObject *)object withTitle:(NSString *)title andFailureMessage:(NSString *)msg andBlock:(PFBooleanResultBlock)block {
-    [self showInProgressHUDWithMessage:title andAnimation:YES andDimmedBackground:YES];
+    [self showInProgressHUDWithMessage:title andAnimation:YES andDimmedBackground:YES withCancel:NO];
     [object saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (error) {
             [self showErrorThenRunBlock:error withMessage:msg andBlock:^{
