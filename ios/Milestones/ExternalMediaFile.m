@@ -131,14 +131,14 @@
     if (!_session) {
         NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
         sessionConfig.allowsCellularAccess = YES;
-        sessionConfig.timeoutIntervalForRequest = 15.0;
+        sessionConfig.timeoutIntervalForRequest = 10.0;
         sessionConfig.timeoutIntervalForResource = 360.0;
-        sessionConfig.HTTPMaximumConnectionsPerHost = 5;
+        sessionConfig.HTTPMaximumConnectionsPerHost = 1;
         _session = [NSURLSession sessionWithConfiguration:sessionConfig delegate:self delegateQueue:nil];
     }
 
     NSURLSessionUploadTask *task = [_session uploadTaskWithRequest:request fromFile:_localUrl];
-    task.taskDescription = @"uploadMedia";
+    task.taskDescription = url;
     objc_setAssociatedObject(task, "DP.progressBlock", progressBlock, OBJC_ASSOCIATION_COPY_NONATOMIC);
     objc_setAssociatedObject(task, "DP.block", block, OBJC_ASSOCIATION_COPY_NONATOMIC);
     [task resume];
@@ -194,6 +194,9 @@ totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend {
  */
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error {
     NSHTTPURLResponse *httpResp = (NSHTTPURLResponse *) task.response;
+    PFBooleanResultBlock block = objc_getAssociatedObject(task, "DP.block");
+    PFProgressBlock progressBlock = objc_getAssociatedObject(task, "DP.progressBlock");
+
     BOOL success;
     if (!error) {
         success = httpResp.statusCode == 200;
@@ -206,10 +209,17 @@ totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend {
             // Canceled at user's request
             success = NO;
             error = nil;
+        } else {
+            // If reachable, retry, if not, show a message
+            if ([Reachability isParseCurrentlyReachable]) {
+                // Retry...
+                [self saveInBackgroundWithBlock:block progressBlock:progressBlock];
+                NSLog(@"Retrying after error uploading video. Error:%@", error);
+                return; // don't call block, we retried
+            }
         }
     }
     [_responsesData removeObjectForKey:@(task.taskIdentifier)];
-    PFBooleanResultBlock block = objc_getAssociatedObject(task, "DP.block");
     if (block) {
         dispatch_async(dispatch_get_main_queue(), ^{
             block(success, error);

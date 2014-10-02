@@ -430,7 +430,6 @@ NSDateFormatter *_dateFormatter;
     [self showInProgressHUDWithMessage:@"Uploading Photo" andAnimation:YES andDimmedBackground:YES withCancel:NO];
     PFFile *file = [PFFile imageFileFromImage:photo];
     [self saveAttachment:file andThumbnail:nil];
-    [self setButtonPhoto:photo];
 }
 
 - (void)takeController:(FDTakeController *)controller gotVideo:(NSURL *)videoUrl withInfo:(NSDictionary *)info {
@@ -442,7 +441,6 @@ NSDateFormatter *_dateFormatter;
             if (file) {
                 UIImage *thumbnail = [file.thumbnail imageScaledToFitSize:CGSizeMake(320.0, 320.0)];
                 PFFile *thumbnailFile = [PFFile fileWithName:@"thumbnail.jpg" data:UIImageJPEGRepresentation(thumbnail, 0.5f) contentType:@"image/jpg"];
-                [self setButtonPhoto:thumbnail];
                 [self saveAttachment:file andThumbnail:thumbnailFile];
             }
         }
@@ -459,17 +457,19 @@ NSDateFormatter *_dateFormatter;
     [self showInProgressHUDWithMessage:title andAnimation:YES andDimmedBackground:YES withCancel:isVideo];
     [attachment saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         _attachment = nil;
-        if (error) {
-            [self showErrorThenRunBlock:error withMessage:@"Could not upload the video." andBlock:nil];
-            [self.detailsImageButton setImage:nil forState:UIControlStateNormal];
-        } else if (succeeded) {
+        if (succeeded) {
+            self.playVideoButton.hidden = !isVideo;
             // Can be a PFFile (old style used for images) or an ExternalMediaFile object for larger things like videos.
             if ([attachment isKindOfClass:[ExternalMediaFile class]]) {
                 self.achievement.attachment = nil;  // clear any old values
                 self.achievement.attachmentExternalStorageId = ((ExternalMediaFile *) attachment).uniqueId;
+                [self setButtonPhoto:((ExternalMediaFile *) attachment).thumbnail];
             } else {
                 self.achievement.attachmentExternalStorageId = nil; // clear any old values
-                self.achievement.attachment = (PFFile *) attachment;
+                PFFile *file = ((PFFile *) attachment);
+                self.achievement.attachment = file;
+                NSAssert(file.isDataAvailable, @"Expected data to be availble since we just saved it!");
+                [self setButtonPhoto:[UIImage imageWithData:[file getData]]];
             }
             self.achievement.attachmentType = attachment.mimeType;
             self.achievement.attachmentOrientation = attachment.orientation;
@@ -486,10 +486,12 @@ NSDateFormatter *_dateFormatter;
                 }
             }];
         } else {
-            // Cancelled, restore
-            [self loadPreview];
-            [self loadAttachment];
-            [self hideHud];
+            if (error) {
+                [self showErrorThenRunBlock:error withMessage:@"Could not upload the video." andBlock:nil];
+            } else {
+                // else user cancelled
+                [self hideHud];
+            }
         }
     }                       progressBlock:^(int percentDone) {
         [self showText:[NSString stringWithFormat:@"%@ %d%%", title, percentDone]];
