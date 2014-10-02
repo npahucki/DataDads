@@ -96,8 +96,8 @@ Parse.Cloud.beforeSave("MilestoneAchievements", function (request, response) {
         var video = require("cloud/video.js");
         var videoPath = request.user.id + "/" + achievement.get("attachmentExternalStorageId");
         video.generateWebCompatibleVideosFromMov(videoPath).
-                then(function (jobId) {
-                    console.log("Submit video transcoding job '" + jobId + "' for achievement " + achievement.id);
+                then(function () {
+                    console.log("Submit video transcoding job(s) '" + JSON.stringify(arguments) + "' for achievement " + achievement.id);
                     response.success();
                 }, function (error) {
                     console.error("Could not trigger transcoding of video " + videoPath + " Error: " + JSON.stringify(error));

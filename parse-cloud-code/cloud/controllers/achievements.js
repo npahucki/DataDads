@@ -55,11 +55,13 @@ exports.show = function (req, res) {
                             var s3lib = require("cloud/s3_storage.js");
                             var movFilePath = baby.get("parentUser").id + "/" + externalId;
                             var webmFilePath = movFilePath.replace(".mov", ".webm");
+                            var mp4FilePath = movFilePath.replace(".mov", ".mp4");
                             videoUrls.push({ url : s3lib.generateSignedGetS3Url(webmFilePath), type : "video/webm"});
-                            videoUrls.push({ url: s3lib.generateSignedGetS3Url(movFilePath), type : "video/mp4"});
+                            videoUrls.push({ url: s3lib.generateSignedGetS3Url(movFilePath), type : "video/mov"});
+                            videoUrls.push({ url : s3lib.generateSignedGetS3Url(mp4FilePath), type : "video/mp4"});
                         } else {
                             // Old style for backward compatible support.. no other formats available.
-                            videoUrls.push({ url : achievement.get("attachment").url(), type : "'video/quicktime"});
+                            videoUrls.push({ url : achievement.get("attachment").url(), type : "'video/mov"});
                         }
 
                         res.render('achievements/show_video', {
