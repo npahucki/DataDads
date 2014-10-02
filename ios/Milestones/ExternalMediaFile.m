@@ -131,9 +131,9 @@
     if (!_session) {
         NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
         sessionConfig.allowsCellularAccess = YES;
-        sessionConfig.timeoutIntervalForRequest = 30.0;
+        sessionConfig.timeoutIntervalForRequest = 15.0;
         sessionConfig.timeoutIntervalForResource = 360.0;
-        sessionConfig.HTTPMaximumConnectionsPerHost = 1;
+        sessionConfig.HTTPMaximumConnectionsPerHost = 5;
         _session = [NSURLSession sessionWithConfiguration:sessionConfig delegate:self delegateQueue:nil];
     }
 

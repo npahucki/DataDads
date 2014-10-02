@@ -49,30 +49,33 @@
 <body>
 <% include google_tracking.ejs %>
 
-
-
-
-
 <div class='achievement'>
   <div class='title'><%= title %></div>
 
  <div class="videocontent">
-      <video id="video" class="video-js vjs-default-skin vjs-big-play-centered" width="auto" height="auto" preload="auto" controls="controls" data-setup="{}">
-        <source src="<%=videoUrl%>" type="video/mp4"/>
+      <video id="video" class="video-js vjs-default-skin vjs-big-play-centered" width="auto" height="auto" preload="auto" controls="controls" poster="<%=thumbnailUrl%>" data-setup="{}">
+        <%
+          videoUrls.forEach(function(videoInfo, index) {
+            %>
+              <source src="<%=videoInfo.url%>" type="<%=videoInfo.type%>"  />
+            <%
+        });
+        %>
+
        <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
       </video>
   </div>
 </div>
 
-<script>
-  var video = videojs('video');
-  if(!isSafari) {
-    video.zoomrotate({
-      rotate: <%=videoRotation%>,
-      zoom: 1.0
-      });
-  }
-</script>
+<!--<script>-->
+  <!--var video = videojs('video');-->
+  <!--if(!isSafari) {-->
+    <!--video.zoomrotate({-->
+      <!--rotate: <%=videoRotation%>,-->
+      <!--zoom: 1.0-->
+      <!--});-->
+  <!--}-->
+<!--</script>-->
 
 
 <% include clicky_tracking.ejs %>
