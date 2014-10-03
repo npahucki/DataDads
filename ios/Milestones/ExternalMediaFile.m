@@ -197,7 +197,7 @@ totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend {
     PFBooleanResultBlock block = objc_getAssociatedObject(task, "DP.block");
     PFProgressBlock progressBlock = objc_getAssociatedObject(task, "DP.progressBlock");
 
-    BOOL success;
+    BOOL success = NO;
     if (!error) {
         success = httpResp.statusCode == 200;
         if (!success) {
