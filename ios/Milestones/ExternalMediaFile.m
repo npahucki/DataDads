@@ -202,7 +202,7 @@ totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend {
         success = httpResp.statusCode == 200;
         if (!success) {
             NSMutableData *responseData = _responsesData[@(task.taskIdentifier)];
-            NSLog(@"Error Code:%d Response:%@", httpResp.statusCode, responseData);
+            NSLog(@"Error Code:%ld Response:%@", (long) httpResp.statusCode, responseData);
         }
     } else {
         if ([error.domain isEqualToString:NSURLErrorDomain] && error.code == NSURLErrorCancelled) {
