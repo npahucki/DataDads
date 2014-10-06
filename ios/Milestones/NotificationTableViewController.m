@@ -23,6 +23,7 @@
     BOOL _hasMoreTips;
     BOOL _hadError;
     BOOL _isEmpty;
+    BOOL _isMorganTouch;
 }
 
 - (void)viewDidLoad {
@@ -36,6 +37,10 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userSignedUp) name:kDDNotificationUserSignedUp object:nil];
 
     _hasMoreTips = YES;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    _isMorganTouch = NO; // Hack work around a double segue bug, caused by touching the cell too long
 }
 
 - (void)userSignedUp {
@@ -116,13 +121,16 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([self isLoadingRow:indexPath] && (_hadError || _isEmpty)) {
+    if (!_isMorganTouch) {
+        _isMorganTouch = YES;
+        if ([self isLoadingRow:indexPath] && (_hadError || _isEmpty)) {
         _isEmpty = NO;
         _hadError = NO; // Make sure loading icon shows again
         [self.tableView reloadData];
         [self loadObjects];
     } else {
         [self performSegueWithIdentifier:kDDSegueShowNotificationDetails sender:[self.tableView cellForRowAtIndexPath:indexPath]];
+        }
     }
 }
 
