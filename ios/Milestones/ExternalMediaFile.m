@@ -202,7 +202,7 @@ totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend {
         success = httpResp.statusCode == 200;
         if (!success) {
             NSMutableData *responseData = _responsesData[@(task.taskIdentifier)];
-            NSLog(@"Error Code:%ld Response:%@", (long) httpResp.statusCode, responseData);
+            NSLog(@"Error Code:%ld Response:%@", (long) httpResp.statusCode, [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
         }
     } else {
         if ([error.domain isEqualToString:NSURLErrorDomain] && error.code == NSURLErrorCancelled) {
@@ -213,6 +213,7 @@ totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend {
             // If reachable, retry, if not, show a message
             if ([Reachability isParseCurrentlyReachable]) {
                 // Retry...
+                _externalUrl = nil; // Get a new external URL, since this other one may have timed out.
                 [self saveInBackgroundWithBlock:block progressBlock:progressBlock];
                 NSLog(@"Retrying after error uploading video. Error:%@", error);
                 return; // don't call block, we retried
