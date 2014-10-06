@@ -6,11 +6,6 @@
 #import <AVFoundation/AVFoundation.h>
 #import <objc/runtime.h>
 
-// The maximum number of bytes that Parse allows to be uploaded.
-#define MAX_ATTACHMENT_MEGA_BYTES 50
-#define MAX_ATTACHMENT_BYTES_SIZE 1024 * 1024 * MAX_ATTACHMENT_MEGA_BYTES
-#define MAX_VIDEO_ATTACHMENT_LENGTH_SECS 240
-
 
 @implementation ExternalMediaFile {
     NSString *_externalUrl;
