@@ -80,7 +80,7 @@ function processSingleBaby(baby, sendPushNotification) {
         return Parse.Promise.when(promise1, promise2).then(function (installation, assignment) {
             if (installation) {
                 assignmentInfo.appVersion = installation.get("appVersion");
-                //console.log("Baby " + baby.id + " has a software version of " + assignmentInfo.appVersion);
+                console.log("Baby " + baby.id + " has a software version of " + assignmentInfo.appVersion);
             }
             if (assignment) {
                 assignmentInfo.assignmentDate = assignment.get("assignmentDate");
@@ -93,7 +93,11 @@ function processSingleBaby(baby, sendPushNotification) {
     };
 
     var findNextTip = function (lastAssignmentInfo) {
-        var supportsGames = lastAssignmentInfo.appVersion && lastAssignmentInfo.appVersion >= "1.1";
+        // Ths problem with this is that a single user MAY have multiple versions of the app
+        // installed on different devices, so we can't assume that the app version we get here
+        // applies to all devices! In any case, since the games are shown in a backward compatible way
+        // now, there is no reason not to deliver games as 'tips' to older installs.
+        var supportsGames = true; //lastAssignmentInfo.appVersion && lastAssignmentInfo.appVersion >= "1.1";
 
         // 1 == Normal, 2 == Game
         var minAllowedTipType = 1;
@@ -111,7 +115,7 @@ function processSingleBaby(baby, sendPushNotification) {
         innerQuery.limit(1000); // TODO: Will need to fix this once people get over 1000 tips!
         var babyDueDate = baby.get("dueDate");
         var babyAgeInDays = Math.abs(utils.dayDiffFromNow(babyDueDate));
-        //console.log("Baby " + baby.id + " was due " + babyDueDate + " as is " + babyAgeInDays + " days old");
+        console.log("Baby " + baby.id + " was due " + babyDueDate + " as is " + babyAgeInDays + " days old");
         tipsQuery = new Parse.Query("Tips");
         tipsQuery.greaterThanOrEqualTo("rangeHigh", babyAgeInDays);
         tipsQuery.lessThanOrEqualTo("rangeLow", babyAgeInDays);
@@ -271,6 +275,30 @@ Parse.Cloud.job("tipsAssignment", function (request, status) {
                 status.error("Tip Assignment fatally failed : " + JSON.stringify(error));
             });
 });
+
+Parse.Cloud.job("tipsAssignmentSingleBaby", function (request, status) {
+    var babyId = request.params.babyId;
+    if(!babyId) {
+        status.error("The babyId parameter must be specified!");
+        return;
+    }
+
+    console.log("Starting tipsAssignment job for " + babyId);
+    Parse.Cloud.useMasterKey();
+    var query = new Parse.Query("Babies");
+    query.equalTo("objectId", babyId);
+    return processBabies(query, true).
+            then(function () {
+                // Set the job's success status
+                status.success("Tip Assignment completed successfully.");
+            }, function (error) {
+                // Set the job's error status
+                status.error("Tip Assignment fatally failed : " + JSON.stringify(error));
+            });
+});
+
+
+
 
 module.exports.processBabies = processBabies;
 module.exports.processBaby = processSingleBaby;
