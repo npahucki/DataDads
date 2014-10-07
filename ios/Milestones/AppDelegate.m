@@ -84,8 +84,12 @@
     pageControl.currentPageIndicatorTintColor = [UIColor appNormalColor];
     pageControl.backgroundColor = [UIColor whiteColor];
 
+    if (launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]) {
+        [self incrementOpenViaPushNotificationCount];
+    }
 
     return YES;
+
 
 }
 
@@ -144,15 +148,25 @@
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-    NSLog(@"Failed to register for push noticiations :%@", error);
+    [UsageAnalytics trackError:error forOperationNamed:@"registerForPushNotifications"];
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    currentInstallation[@"pushNotificationType"] = @(-1);
+    [currentInstallation saveInBackground];
 }
-
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     // Hope this does not get us rejected if it does use :
     //      https://developer.apple.com/library/ios/samplecode/SysSound/Introduction/Intro.html
     AudioServicesPlaySystemSound(1003);
     [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationPushReceieved object:self userInfo:userInfo];
+    if (application.applicationState == UIApplicationStateInactive || application.applicationState == UIApplicationStateBackground) {
+        [self incrementOpenViaPushNotificationCount];
+    }
+}
+
+- (void)incrementOpenViaPushNotificationCount {
+    [[PFInstallation currentInstallation] incrementKey:@"pushNotificationActivateCount" byAmount:@(1)];
+    [[PFInstallation currentInstallation] saveEventually];
 }
 
 // Side effect is that after called, the last seen version is set, thus this should be called just once
