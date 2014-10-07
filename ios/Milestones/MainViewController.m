@@ -7,9 +7,13 @@
 //
 
 #import "MainViewController.h"
+#import "MainNotificationsViewController.h"
+#import "SignUpViewController.h"
+
+#define NOTIFICATION_CONTROLLER_ID @"notificationNavigationController"
 
 @implementation MainViewController {
-    UITabBarItem *_notificationsTabItem;
+    BOOL shouldTryToShowNotifications;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
@@ -18,8 +22,8 @@
 }
 
 - (void)viewDidLoad {
+    self.delegate = self;
     [super viewDidLoad];
-    _notificationsTabItem = ((UIViewController *) [self.viewControllers objectAtIndex:1]).tabBarItem;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appEnterForeground:) name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gotPushNotification:) name:kDDNotificationPushReceieved object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidLogOut) name:kDDNotificationUserLoggedOut object:nil];
@@ -34,7 +38,7 @@
 }
 
 - (void)gotPushNotification:(NSNotification *)notice {
-    NSNumber *badgeNumber = [[notice.userInfo objectForKey:@"aps"] objectForKey:@"badge"];
+    NSNumber *badgeNumber = notice.userInfo[@"aps"][@"badge"];
     [self updateNotificationTabBadge:badgeNumber.integerValue];
 }
 
@@ -43,11 +47,24 @@
     [self.tabBarController setSelectedIndex:0];
 }
 
+-(UIViewController *) notificationViewController {
+    UIViewController * controller = nil;
+    for(controller in self.viewControllers) {
+        if([controller.restorationIdentifier isEqualToString:NOTIFICATION_CONTROLLER_ID]) {
+            break;
+        }
+    }
+    return controller;
+}
 
 - (void)updateNotificationTabBadge:(NSInteger)badge {
-    if (self.selectedViewController.tabBarItem == _notificationsTabItem) {
-        // clear the notificaiton, we are already on it
-        _notificationsTabItem.badgeValue = nil;
+    // Find notifications view controller
+    UIViewController * controller = [self notificationViewController];
+    UITabBarItem *notificationsTabItem = controller.tabBarItem;
+
+    if (self.selectedViewController.tabBarItem == notificationsTabItem) {
+        // clear the notification, we are already on it
+        notificationsTabItem.badgeValue = nil;
         [PFInstallation currentInstallation].badge = 0;
         [[PFInstallation currentInstallation] saveEventually];
     } else {
@@ -55,7 +72,7 @@
             // use default
             badge = [PFInstallation currentInstallation].badge;
         }
-        _notificationsTabItem.badgeValue = badge ? [NSString stringWithFormat:@"%ld", (long) badge] : nil;
+        notificationsTabItem.badgeValue = badge ? [NSString stringWithFormat:@"%ld", (long) badge] : nil;
     }
 }
 
@@ -108,16 +125,37 @@
     }
 }
 
-- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
-    if (item == _notificationsTabItem) {
+- (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController {
+    if ([viewController.restorationIdentifier isEqualToString:NOTIFICATION_CONTROLLER_ID]) {
+        if(![ParentUser currentUser].email) {
+            UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Please Sign Up" message:@"To see useful tips, SIGN-UP now. We'll also back-up your milestones and photos."
+                                                            delegate:nil
+                             cancelButtonTitle:@"Maybe Later"
+                             otherButtonTitles:@"Sign Up",nil];
+            [alert showWithButtonBlock:^(NSInteger buttonIndex) {
+                if(buttonIndex == 1) {
+                    SignUpViewController *signupController = [[SignUpViewController alloc] init];
+                    signupController.showExternal = YES;
+                    [self presentViewController:signupController animated:YES completion:nil];
+                }
+            }];
+        }
+    }
+
+    return YES;
+}
+
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
+    if ([viewController.restorationIdentifier isEqualToString:NOTIFICATION_CONTROLLER_ID]) {
         // Reset badge count when the view is shown
         PFInstallation *currentInstallation = [PFInstallation currentInstallation];
         if (currentInstallation.badge != 0) {
             currentInstallation.badge = 0;
             [currentInstallation saveEventually];
         }
-        item.badgeValue = nil;
+        viewController.tabBarItem.badgeValue = nil;
     }
+
 }
 
 - (void)showTutorialPromptIfNeeded:(ParentUser *)user {

@@ -2280,8 +2280,8 @@
         <!--Tips-->
         <scene sceneID="kAc-OT-5lo">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="m8v-2N-ncs" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Tips" image="tipsIcon" badgeValue="2" id="eLA-ls-ENZ"/>
+                <navigationController restorationIdentifier="notificationNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="m8v-2N-ncs" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" tag="1" title="Tips" image="tipsIcon" badgeValue="2" id="eLA-ls-ENZ"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="rZ5-E2-EpP">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -2294,7 +2294,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Izf-u7-HV1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3077" y="-132"/>
+            <point key="canvasLocation" x="3073" y="-182"/>
         </scene>
     </scenes>
     <resources>
@@ -2338,10 +2338,10 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="JWT-5h-xS8"/>
+        <segue reference="0ED-bk-NzY"/>
         <segue reference="LCs-nH-0km"/>
-        <segue reference="q2I-r6-ZGD"/>
         <segue reference="9u5-1o-6Cv"/>
         <segue reference="HiK-bz-YEB"/>
-        <segue reference="0vw-rA-jx1"/>
     </inferredMetricsTieBreakers>
 </document>
