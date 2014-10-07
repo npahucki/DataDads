@@ -47,7 +47,7 @@
     if (Baby.currentBaby) {
         NSString *msg = @"Thanks for signing in! Tips are delivered once per day";
         if (_isEmpty) {
-            msg = [msg stringByAppendingString:@"you should be getting one soon!"];
+            msg = [msg stringByAppendingString:@". You should be getting one soon!"];
         } else {
             msg = [msg stringByAppendingString:@"."];
         }
