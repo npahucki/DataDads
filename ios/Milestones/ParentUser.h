@@ -21,7 +21,7 @@
 @property NSInteger launchCount;
 @property BOOL shownTutorialPrompt;
 @property BOOL suppressLoginPrompt;
-
+@property BOOL supportScience;
 
 + (void)incrementLaunchCount;
 

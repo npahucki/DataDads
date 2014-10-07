@@ -8,9 +8,12 @@
 
 #import "EnterScreenNameViewController.h"
 #import "WebViewerViewController.h"
+#import "TutorialBubbleView.h"
 
 
-@implementation EnterScreenNameViewController
+@implementation EnterScreenNameViewController {
+    TutorialBubbleView *_tutorialBubbleView;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -20,7 +23,9 @@
     self.maleLabel.font = self.femaleLabel.font = [UIFont fontForAppWithType:Bold andSize:17.0];
 
 
-    self.acceptTACLabelButton.titleLabel.font = [UIFont fontForAppWithType:Bold andSize:13.0];
+    self.acceptTACButton.titleLabel.font = [UIFont fontForAppWithType:Bold andSize:13.0];
+    self.supportScienceButton.titleLabel.font = [UIFont fontForAppWithType:Bold andSize:13.0];
+
     [[UIDevice currentDevice] name];
     NSNumber *gender = [ParentUser.currentUser objectForKey:@"isMale"];
     if (gender && gender.boolValue) {
@@ -50,6 +55,32 @@
     [self updateNextButtonState];
 }
 
+- (IBAction)didClickSupportScienceButton:(id)sender {
+    self.supportScienceButton.selected = !self.supportScienceButton.selected;
+}
+
+
+- (IBAction)didClickSupportScienceInfoButton:(id)sender {
+    if (_tutorialBubbleView) {
+        [self dismissTutorialBubbleViewInfo];
+    } else {
+        __weak EnterScreenNameViewController *_self = self;
+        _tutorialBubbleView = [[NSBundle mainBundle] loadNibNamed:@"TutorialBubbleView" owner:self options:nil][0];
+        _tutorialBubbleView.dismissBlock = ^{
+            [_self dismissTutorialBubbleViewInfo];
+        };
+        UIButton *infoButton = (UIButton *) sender;
+        _tutorialBubbleView.arrowTip = infoButton.center;
+        _tutorialBubbleView.textLabel.font = [UIFont fontForAppWithType:Medium andSize:14];
+        [_tutorialBubbleView showInView:self.view withText:@"Do you want to have your child's milestone data anonymously aggregated and shared with select scientists? If not, the predictions may be less accurate."];
+    }
+}
+
+- (void)dismissTutorialBubbleViewInfo {
+    [_tutorialBubbleView dismiss];
+    _tutorialBubbleView = nil;
+}
+
 - (IBAction)didClickDoneButton:(id)sender {
 
     if ([Reachability showAlertIfParseNotReachable]) return;
@@ -76,6 +107,7 @@
     user.ACL = [PFACL ACLWithUser:user];
     if (!user.screenName) user.screenName = [self nameFromDeviceName];
     user.isMale = self.maleButton.isSelected;
+    user.supportScience = self.supportScienceButton.isSelected;
 
     [self showInProgressHUDWithMessage:@"Saving your preferences" andAnimation:YES andDimmedBackground:YES withCancel:NO];
     [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {

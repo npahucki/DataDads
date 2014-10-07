@@ -12,6 +12,7 @@
 @dynamic isMale;
 @dynamic usesMetric;
 @dynamic launchCount;
+@dynamic supportScience;
 
 
 - (BOOL)showHiddenTips {
