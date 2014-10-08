@@ -23,8 +23,8 @@
     self.maleLabel.font = self.femaleLabel.font = [UIFont fontForAppWithType:Bold andSize:17.0];
 
 
-    self.acceptTACButton.titleLabel.font = [UIFont fontForAppWithType:Bold andSize:13.0];
-    self.supportScienceButton.titleLabel.font = [UIFont fontForAppWithType:Bold andSize:13.0];
+    self.acceptTACButton.titleLabel.font = [UIFont fontForAppWithType:Bold andSize:12.5];
+    self.supportScienceButton.titleLabel.font = [UIFont fontForAppWithType:Bold andSize:12.5];
 
     [[UIDevice currentDevice] name];
     NSNumber *gender = [ParentUser.currentUser objectForKey:@"isMale"];
@@ -72,7 +72,8 @@
         UIButton *infoButton = (UIButton *) sender;
         _tutorialBubbleView.arrowTip = infoButton.center;
         _tutorialBubbleView.textLabel.font = [UIFont fontForAppWithType:Medium andSize:14];
-        [_tutorialBubbleView showInView:self.view withText:@"Do you want to have your child's milestone data anonymously aggregated and shared with select scientists? If not, the predictions may be less accurate."];
+        [_tutorialBubbleView showInView:self.view withText:@"Your child's milestone data will be anonymously"
+                " aggregated for select scientists. If you don't agree, your child's upcoming milestone may be less accurate."];
     }
 }
 
