@@ -13,8 +13,8 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
     if (!productCodes) {
         productCodes = @[
                 @{@"id" : @"none"},
-                @{@"id" : @"com.dataparenting.AdRemoval1", @"type" : @(DDProductSalesTypeOneTime)},
-                @{@"id" : @"com.dataparenting.VideoUpgrade1", @"type" : @(DDProductSalesTypeSubscription)}];
+                @{@"id" : @"com.dataparenting.AdRemoval_1", @"type" : @(DDProductSalesTypeOneTime)},
+                @{@"id" : @"com.dataparenting.VideoUpgrade_1", @"type" : @(DDProductSalesTypeSubscription)}];
     }
     return productCodes[product];
 }
@@ -56,7 +56,7 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
 }
 
 - (void)checkAdFreeProductPurchased:(PFBooleanResultBlock)block {
-    [self checkProductsPurchased:@[@(DDProductAdRemoval), @(DDProductVideoSupport)] withBlock:block];
+    [self checkProductsPurchased:@[@(DDProductAdRemoval), @(DDProductVideoSupport)] andAllowReceiptRefresh:NO withBlock:block];
 }
 
 - (void)ensureProductPurchased:(DDProduct)product withBlock:(PFBooleanResultBlock)block {
@@ -101,17 +101,23 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
 }
 
 // If any of the products is purchased, then the block is called with YES.
-- (void)checkProductsPurchased:(NSArray *)products withBlock:(PFBooleanResultBlock)block {
+// Allowing reciept refresh may prompt the user for his iTunes password.
+// Thus, if you just want a 'soft' check for non critical things (like ads), don't allow refresh
+- (void)checkProductsPurchased:(NSArray *)products andAllowReceiptRefresh:(BOOL)refresh withBlock:(PFBooleanResultBlock)block {
     if ([self verifyAppReceipt]) {
         BOOL purchased = [self checkProductsPurchased:products];
         block(purchased, nil);
     } else {
-        // Apple recommends refresh if receipt validation fails.
-        [[RMStore defaultStore] refreshReceiptOnSuccess:^{
-            [self checkProductsPurchased:products withBlock:block];
-        }                                       failure:^(NSError *error) {
-            block(NO, error);
-        }];
+        if (refresh) {
+            // Apple recommends refresh if receipt validation fails.
+            [[RMStore defaultStore] refreshReceiptOnSuccess:^{
+                [self checkProductsPurchased:products andAllowReceiptRefresh:NO withBlock:block];
+            }                                       failure:^(NSError *error) {
+                block(NO, error);
+            }];
+        } else {
+            block(NO, nil);
+        }
     }
 }
 
@@ -122,7 +128,7 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
     return YES;
 #endif
 
-    NSAssert([self verifyAppReceipt], @"Expected App reciept to be verified already!");
+    if ([self verifyAppReceipt], @"Expected App reciept to be verified already!");
 
     for (NSNumber *productIdNumber in products) {
         DDProduct product = (DDProduct) [productIdNumber unsignedIntegerValue];
@@ -148,7 +154,17 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
 }
 
 - (void)purchaseProduct:(NSString *)productId withBlock:(PFBooleanResultBlock)block {
-    [self validateProductIdentifiers:@[productId] withBlock:^(NSArray *objects, NSError *error) {
+    // NOTE: In the iTunes Connect, if something happens to a product, you can not recreate it using the same id
+    // thus you're screwed if the app is out in production..you'd have to deploy a new version of the app, thus
+    // we build in some contingency here, so you can create the same product with an alternate name and not have to
+    // deploy the app again.
+    NSArray *productIds = @[
+            productId,
+            [productId stringByAppendingString:@".1"],
+            [productId stringByAppendingString:@".2"],
+            [productId stringByAppendingString:@".3"]
+    ];
+    [self validateProductIdentifiers:productIds withBlock:^(NSArray *objects, NSError *error) {
         if (error) {
             [[[UIAlertView alloc] initWithTitle:@"Could Not Connect to AppStore" message:@"Please try again, perhaps a little later" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
             [UsageAnalytics trackError:error forOperationNamed:@"lookupAppStoreProduct"];
@@ -277,7 +293,7 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
 // SKProductsRequestDelegate protocol method
 - (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response {
     for (NSString *invalidIdentifier in response.invalidProductIdentifiers) {
-        NSLog(@"Unexpected invalid product id : %@", invalidIdentifier);
+        NSLog(@"Invalid products id : %@", invalidIdentifier);
     }
 
     PFArrayResultBlock block = objc_getAssociatedObject(request, "block");
