@@ -749,7 +749,7 @@
                                 <color key="highlightedColor" red="0.23529411759999999" green="0.57254901960000004" blue="0.81176470590000005" alpha="1" colorSpace="calibratedRGB"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="cWs-jA-HSK">
-                                <rect key="frame" x="8" y="484" width="278" height="20"/>
+                                <rect key="frame" x="16" y="484" width="262" height="20"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="14"/>
                                 <inset key="titleEdgeInsets" minX="4" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <state key="normal" title="I accept the awesome friendly terms!" image="tagCheckbox">
@@ -761,7 +761,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="detailDisclosure" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Wb-8n-uAK" userLabel="Terms and Conditions Info">
-                                <rect key="frame" x="290" y="483" width="22" height="22"/>
+                                <rect key="frame" x="282" y="483" width="22" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="22" id="eVq-dq-rba"/>
                                     <constraint firstAttribute="width" constant="22" id="eyD-1y-43T"/>
@@ -776,7 +776,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="detailDisclosure" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x9Z-or-VrY" userLabel="Support Science Info">
-                                <rect key="frame" x="290" y="431" width="22" height="22"/>
+                                <rect key="frame" x="282" y="431" width="22" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="22" id="5GQ-hB-jzy"/>
                                     <constraint firstAttribute="width" constant="22" id="kO2-gF-C1K"/>
@@ -790,7 +790,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="oPv-FS-W6C">
-                                <rect key="frame" x="8" y="432" width="282" height="20"/>
+                                <rect key="frame" x="16" y="432" width="266" height="20"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="13"/>
                                 <inset key="titleEdgeInsets" minX="4" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <state key="normal" title="I support Parenting Science!" image="tagCheckbox">
@@ -805,7 +805,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="x9Z-or-VrY" firstAttribute="leading" secondItem="oPv-FS-W6C" secondAttribute="trailing" id="2BU-jw-E7w"/>
-                            <constraint firstAttribute="trailing" secondItem="3Wb-8n-uAK" secondAttribute="trailing" constant="8" id="6ym-hN-jcK"/>
+                            <constraint firstAttribute="trailing" secondItem="3Wb-8n-uAK" secondAttribute="trailing" constant="16" id="6ym-hN-jcK"/>
                             <constraint firstItem="6ky-RZ-XmB" firstAttribute="leading" secondItem="7AV-Yg-IC7" secondAttribute="trailing" constant="-100" id="9E5-Ty-Xgm"/>
                             <constraint firstItem="oPv-FS-W6C" firstAttribute="centerY" secondItem="x9Z-or-VrY" secondAttribute="centerY" id="AgX-IU-GxI"/>
                             <constraint firstItem="7AV-Yg-IC7" firstAttribute="leading" secondItem="WwB-P1-dEE" secondAttribute="trailing" constant="-99" id="ES6-1O-98V"/>
@@ -818,11 +818,11 @@
                             <constraint firstItem="oPv-FS-W6C" firstAttribute="leading" secondItem="cWs-jA-HSK" secondAttribute="leading" id="clK-pu-pjA"/>
                             <constraint firstItem="jGo-OK-GAP" firstAttribute="centerX" secondItem="WwB-P1-dEE" secondAttribute="centerX" id="d83-Zk-oy5"/>
                             <constraint firstItem="7AV-Yg-IC7" firstAttribute="top" secondItem="jGo-OK-GAP" secondAttribute="bottom" constant="7" id="fef-yn-KSv"/>
-                            <constraint firstAttribute="trailing" secondItem="x9Z-or-VrY" secondAttribute="trailing" constant="8" id="hcD-pb-WTR"/>
+                            <constraint firstAttribute="trailing" secondItem="x9Z-or-VrY" secondAttribute="trailing" constant="16" id="hcD-pb-WTR"/>
                             <constraint firstAttribute="centerY" secondItem="7AV-Yg-IC7" secondAttribute="centerY" id="k9l-uF-Tqz"/>
                             <constraint firstAttribute="centerX" secondItem="7AV-Yg-IC7" secondAttribute="centerX" id="l3p-fe-t6h"/>
                             <constraint firstItem="7AV-Yg-IC7" firstAttribute="top" secondItem="pvJ-sQ-KKx" secondAttribute="bottom" constant="7" id="nag-AM-vAJ"/>
-                            <constraint firstItem="cWs-jA-HSK" firstAttribute="leading" secondItem="XZi-y1-eA9" secondAttribute="leading" constant="8" id="nga-xN-iNu"/>
+                            <constraint firstItem="cWs-jA-HSK" firstAttribute="leading" secondItem="XZi-y1-eA9" secondAttribute="leading" constant="16" id="nga-xN-iNu"/>
                             <constraint firstItem="cWs-jA-HSK" firstAttribute="centerY" secondItem="3Wb-8n-uAK" secondAttribute="centerY" id="ot7-3J-I3k"/>
                             <constraint firstItem="7AV-Yg-IC7" firstAttribute="top" secondItem="6ky-RZ-XmB" secondAttribute="bottom" constant="-101" id="q3j-uG-JJT"/>
                             <constraint firstItem="3Wb-8n-uAK" firstAttribute="leading" secondItem="cWs-jA-HSK" secondAttribute="trailing" constant="4" id="xo7-Q2-DCd"/>
