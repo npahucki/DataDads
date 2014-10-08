@@ -7,13 +7,11 @@
 //
 
 #import "MainViewController.h"
-#import "MainNotificationsViewController.h"
 #import "SignUpViewController.h"
 
 #define NOTIFICATION_CONTROLLER_ID @"notificationNavigationController"
 
 @implementation MainViewController {
-    BOOL shouldTryToShowNotifications;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
@@ -47,10 +45,10 @@
     [self.tabBarController setSelectedIndex:0];
 }
 
--(UIViewController *) notificationViewController {
-    UIViewController * controller = nil;
-    for(controller in self.viewControllers) {
-        if([controller.restorationIdentifier isEqualToString:NOTIFICATION_CONTROLLER_ID]) {
+- (UIViewController *)notificationViewController {
+    UIViewController *controller = nil;
+    for (controller in self.viewControllers) {
+        if ([controller.restorationIdentifier isEqualToString:NOTIFICATION_CONTROLLER_ID]) {
             break;
         }
     }
@@ -59,7 +57,7 @@
 
 - (void)updateNotificationTabBadge:(NSInteger)badge {
     // Find notifications view controller
-    UIViewController * controller = [self notificationViewController];
+    UIViewController *controller = [self notificationViewController];
     UITabBarItem *notificationsTabItem = controller.tabBarItem;
 
     if (self.selectedViewController.tabBarItem == notificationsTabItem) {
@@ -127,13 +125,13 @@
 
 - (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController {
     if ([viewController.restorationIdentifier isEqualToString:NOTIFICATION_CONTROLLER_ID]) {
-        if(![ParentUser currentUser].email) {
-            UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Please Sign Up" message:@"To see useful tips, SIGN-UP now. We'll also back-up your milestones and photos."
-                                                            delegate:nil
-                             cancelButtonTitle:@"Maybe Later"
-                             otherButtonTitles:@"Sign Up",nil];
+        if (![ParentUser currentUser].email) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Please Sign Up" message:@"To see useful tips, SIGN-UP now. We'll also back-up your milestones and photos."
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"Maybe Later"
+                                                  otherButtonTitles:@"Sign Up", nil];
             [alert showWithButtonBlock:^(NSInteger buttonIndex) {
-                if(buttonIndex == 1) {
+                if (buttonIndex == 1) {
                     SignUpViewController *signupController = [[SignUpViewController alloc] init];
                     signupController.showExternal = YES;
                     [self presentViewController:signupController animated:YES completion:nil];
@@ -159,7 +157,7 @@
 }
 
 - (void)showTutorialPromptIfNeeded:(ParentUser *)user {
-    if(!user.shownTutorialPrompt) {
+    if (!user.shownTutorialPrompt) {
         user.shownTutorialPrompt = YES;
         [[[UIAlertView alloc] initWithTitle:@"Take a Quick Tour?"
                                     message:@"Do you want to see a quick tour about how things work? You can view it under 'account settings' anytime."

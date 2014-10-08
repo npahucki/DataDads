@@ -225,6 +225,7 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
                 [_paymentRequestCallbacks removeObjectForKey:transaction.payment.productIdentifier];
                 break;
             default:
+                NSLog(@"Transaction for product %@: state:%d ", transaction.payment.productIdentifier, transaction.transactionState);
                 break;
         }
     }
@@ -242,6 +243,7 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
     NSString *currencyCode = [numberFormatter currencyCode];
     [UsageAnalytics trackPurchaseCompleted:transaction.payment.productIdentifier atPrice:product.price andCurrency:currencyCode];
     if (block) block(YES, nil);
+    [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationProductPurchased object:transaction];
 }
 
 - (void)failedTransaction:(SKPaymentTransaction *)transaction withBlock:(PFBooleanResultBlock)block {
@@ -277,6 +279,7 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
         [purchaseTransaction saveEventually:^(BOOL succeeded, NSError *error) {
             if (succeeded) {
                 [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+                NSLog(@"Recorded Transaction for Product: %@", transaction.payment.productIdentifier);
             }
         }];
     }

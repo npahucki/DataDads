@@ -51,17 +51,12 @@ extern NSString *const kDDNotificationNeedDataRefreshNotification;  // When tabl
 extern NSString *const kDDNotificationAchievementNeedsDeleteAction;
 extern NSString *const kDDNotificationMilestoneNeedsPostponeAction;
 extern NSString *const kDDNotificationMilestoneNeedsIgnoreAction;
+extern NSString *const kDDNotificationProductPurchased;
 
 
 extern NSString *const kDDURLTermsAndConditions;
 extern NSString *const kDDURLPrivacyPolicy;
 extern NSString *const kDDURLSupport;
-
-
-
-
-
-
 
 
 #pragma mark Application Colors

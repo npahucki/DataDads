@@ -15,6 +15,7 @@
 #import "AlertThenDisappearView.h"
 #import "PronounHelper.h"
 #import "InAppPurchaseHelper.h"
+#import "SignUpViewController.h"
 
 #define AD_TRIGGER_LAUNCH_COUNT 2
 #define AD_TRIGGER_MAX_TIME 60
@@ -29,15 +30,17 @@
     UIDynamicAnimator *_animator;
     DataParentingAdView *_adView;
     NSDate *_dateLastAdShown;
+    BOOL _productJustPurchased;
+
 }
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _productJustPurchased = NO;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(babyUpdated:) name:kDDNotificationCurrentBabyChanged object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(milestoneNotedAndSaved:) name:kDDNotificationMilestoneNotedAndSaved object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showAdIfNeeded) name:UIApplicationDidBecomeActiveNotification object:nil];
-
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(productPurchased:) name:kDDNotificationProductPurchased object:nil];
 
     [NoConnectionAlertView createInstanceForController:self];
     UISwipeGestureRecognizer *swipeUp = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(hideSearchBar)];
@@ -68,10 +71,15 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    [self checkAndAskToLogInIfRecentPurchase];
     self.addMilestoneButton.enabled = Baby.currentBaby != nil;
     self.menuButton.enabled = Baby.currentBaby != nil;
     _isMorganTouch = NO; // Hack work around a double segue bug, caused by touching the cell too long
     [self showAdIfNeeded];
+}
+
+- (void)productPurchased:(id)productPurchased {
+    _productJustPurchased = YES;
 }
 
 - (void)milestoneNotedAndSaved:(NSNotification *)notification {
@@ -134,6 +142,26 @@
         }];
     }
 }
+
+- (void)checkAndAskToLogInIfRecentPurchase {
+    if (_productJustPurchased) {
+        _productJustPurchased = NO;
+        if (![ParentUser currentUser].email) {
+            [[[UIAlertView alloc] initWithTitle:@"Make sure your pecious memories are safe!"
+                                        message:@"Do you want to sign up now so we can backup your milestones and photos and videos in the cloud?"
+                                       delegate:nil
+                              cancelButtonTitle:@"Not Now"
+                              otherButtonTitles:@"Yes", nil] showWithButtonBlock:^(NSInteger buttonIndex) {
+                if (buttonIndex == 1) {
+                    SignUpViewController *signupController = [[SignUpViewController alloc] init];
+                    signupController.showExternal = YES;
+                    [self presentViewController:signupController animated:YES completion:nil];
+                }
+            }];
+        }
+    }
+}
+
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Embedded table
