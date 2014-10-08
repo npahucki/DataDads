@@ -40,8 +40,8 @@ Parse.Cloud.job("generateUserReport", function (request, status) {
         reportText += "</body></html>";
 
         var emailer = require("cloud/teamnotify");
-        emailer.notify("Daily DataParenting User Activity", reportText, "text/html");
-        status.success("Daily User Activity Report completed successfully.");
+        emailer.notify("Daily User Flow", reportText, "text/html");
+        status.success("Daily User Flow Report completed successfully.");
     }, function (error) {
         // Set the job's error status
         status.error("Daily Summary Report  fatally failed : " + JSON.stringify(error));
@@ -217,8 +217,8 @@ Parse.Cloud.job("generateSummaryReport", function (request, status) {
 
         // Set the job's success status
         var emailer = require("cloud/teamnotify");
-        emailer.notify("Daily DataParenting Activity", reportText, "text/html");
-        status.success("Daily Summary Report completed successfully.");
+        emailer.notify("Daily Summary Stats", reportText, "text/html");
+        status.success("Daily Summary Stats Report completed successfully.");
     }, function (error) {
         // Set the job's error status
         status.error("Daily Summary Report  fatally failed : " + JSON.stringify(error));
