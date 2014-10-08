@@ -261,6 +261,7 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
         purchaseTransaction.txId = transaction.transactionIdentifier;
         purchaseTransaction.originalId = transaction.originalTransaction.transactionIdentifier;
         purchaseTransaction.productId = transaction.payment.productIdentifier;
+        purchaseTransaction.date = transaction.transactionDate;
 
         switch (transaction.transactionState) {
             case SKPaymentTransactionStatePurchased:
