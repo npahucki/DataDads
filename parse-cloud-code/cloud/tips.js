@@ -1,3 +1,5 @@
+var DEBUG = false;
+
 Parse.Cloud.define("queryMyTips", function (request, response) {
     var babyId = request.params.babyId;
     var showHiddenTips = request.params.showHiddenTips;
@@ -60,9 +62,7 @@ function processSingleBaby(baby, sendPushNotification) {
     // Takes a single baby and returns a promise that
     // resolves to a date or nil (if no assignments for baby)
     var findLastAssignmenInfo = function (baby) {
-        //console.log("Getting assignment date for baby '" + baby.id);
-
-
+        if(DEBUG) console.log("Getting assignment date for baby '" + baby.id);
         var versionQuery = new Parse.Query(Parse.Installation);
         versionQuery.equalTo("user", baby.get("parentUser"));
         versionQuery.select("appVersion");
@@ -76,16 +76,18 @@ function processSingleBaby(baby, sendPushNotification) {
 
         assignmentInfo = {};
         assignmentInfo.baby = baby;
+        assignmentInfo.assignmentDate = null;
+        assignmentInfo.appVersion = null;
 
         return Parse.Promise.when(promise1, promise2).then(function (installation, assignment) {
             if (installation) {
                 assignmentInfo.appVersion = installation.get("appVersion");
-                console.log("Baby " + baby.id + " has a software version of " + assignmentInfo.appVersion);
+                if(DEBUG) console.log("Baby " + baby.id + " has a software version of " + assignmentInfo.appVersion);
             }
             if (assignment) {
                 assignmentInfo.assignmentDate = assignment.get("assignmentDate");
                 assignmentInfo.tipType = assignment.get("tip").get("tipType");
-                //console.log("Baby " + baby.id + " has an last assignment of " + JSON.stringify(assignmentInfo));
+                if(DEBUG) console.log("Baby " + baby.id + " has an last assignment of " + JSON.stringify(assignmentInfo));
             }
 
             return Parse.Promise.as(assignmentInfo);
@@ -102,12 +104,12 @@ function processSingleBaby(baby, sendPushNotification) {
         // 1 == Normal, 2 == Game
         var minAllowedTipType = 1;
         var maxAllowedTipType = supportsGames ? 2 : 1;
-        lastAssignmentInfo.nextTipType = lastAssignmentInfo.nextTipType || lastAssignmentInfo.tipType;
+        lastAssignmentInfo.nextTipType = (lastAssignmentInfo.nextTipType || lastAssignmentInfo.tipType) || maxAllowedTipType;
         if (++lastAssignmentInfo.nextTipType > maxAllowedTipType) {
             lastAssignmentInfo.nextTipType = minAllowedTipType;
         }
         var shouldTryAgainIfNoTipFound = lastAssignmentInfo.nextTipType != lastAssignmentInfo.tipType;
-        //console.log("Looking for tip for " + lastAssignmentInfo.baby.id + " NEXT TipType:" + lastAssignmentInfo.nextTipType);
+        if(DEBUG) console.log("Looking for tip for " + lastAssignmentInfo.baby.id + " NEXT TipType:" + lastAssignmentInfo.nextTipType);
         var baby = lastAssignmentInfo.baby;
 
         innerQuery = new Parse.Query("BabyAssignedTips");
@@ -115,7 +117,7 @@ function processSingleBaby(baby, sendPushNotification) {
         innerQuery.limit(1000); // TODO: Will need to fix this once people get over 1000 tips!
         var babyDueDate = baby.get("dueDate");
         var babyAgeInDays = Math.abs(utils.dayDiffFromNow(babyDueDate));
-        console.log("Baby " + baby.id + " was due " + babyDueDate + " as is " + babyAgeInDays + " days old");
+        if(DEBUG) console.log("Baby " + baby.id + " was due " + babyDueDate + " as is " + babyAgeInDays + " days old");
         tipsQuery = new Parse.Query("Tips");
         tipsQuery.greaterThanOrEqualTo("rangeHigh", babyAgeInDays);
         tipsQuery.lessThanOrEqualTo("rangeLow", babyAgeInDays);
@@ -136,7 +138,7 @@ function processSingleBaby(baby, sendPushNotification) {
 
 
     var doAssignTip = function (tip, baby) {
-        //console.log("Assigning tip " + tip.id + " for baby " + baby.id);
+        if(DEBUG) console.log("Assigning tip " + tip.id + " for baby " + baby.id);
         var assignment = new Parse.Object("BabyAssignedTips");
         assignment.set("baby", baby);
         assignment.set("isHidden", false);
@@ -148,7 +150,7 @@ function processSingleBaby(baby, sendPushNotification) {
     };
 
     var pushMessageToUserForBaby = function (tipAssignment, parentUser) {
-        //console.log("Pushing tip assignment " + tipAssignment.id + " to user " + parentUser.id);
+        if(DEBUG) console.log("Pushing tip assignment " + tipAssignment.id + " to user " + parentUser.id);
         title = tipAssignment.get("tip").get("title");
         // TODO: get languange from parent profile!
         title = utils.replacePronounTokens(title, tipAssignment.get("baby").get("isMale"), "en");
@@ -174,8 +176,9 @@ function processSingleBaby(baby, sendPushNotification) {
 
     var testIfDueForDelivery = function (lastAssignmentInfo) {
         var frequencyDays = DEFAULT_DELIVERY_INTERVAL_DAYS; // TODO: calc based on user is premium or not
-        var daysDiff = lastAssignmentInfo == null ? -1 : Math.abs(utils.dayDiffFromNow(lastAssignmentInfo.assignmentDate));
-        //console.log("For baby " + lastAssignmentInfo.baby.id + " there are " + daysDiff + " days since last assignment");
+        var daysDiff = lastAssignmentInfo && lastAssignmentInfo.assignmentDate ?
+                Math.abs(utils.dayDiffFromNow(lastAssignmentInfo.assignmentDate)) : -1;
+        if(DEBUG) console.log("For baby " + lastAssignmentInfo.baby.id + " there are " + daysDiff + " days since last assignment");
         lastAssignmentInfo.needsTipAssignment = (daysDiff == -1 || daysDiff > frequencyDays);
         return Parse.Promise.as(lastAssignmentInfo);
     };
@@ -199,33 +202,33 @@ function processSingleBaby(baby, sendPushNotification) {
     // Takes a single baby, returns a Promise that
     //  writes an assignment record (if needed)
     //  pushes a notification to the user's phone.
-    //console.log("Processing baby " + baby.id);
+    if(DEBUG) console.log("Processing baby " + baby.id);
 
     return isParentEligibleForTip(baby).
             then(function (isEligible) {
                 if (isEligible) {
                     return findLastAssignmenInfo(baby).
                             then(function (lastAssignmentInfo) {
-                                //console.log("Found last assignmentDate for " + baby.id + " it is " + lastAssignmentDate);
+                                if(DEBUG) console.log("Found last assignmentDate for " + baby.id + " it is " + lastAssignmentInfo.assignmentDate);
                                 return testIfDueForDelivery(lastAssignmentInfo);
                             }).
                             then(function (lastAssignmentInfo) {
                                 if (lastAssignmentInfo.needsTipAssignment) {
-                                    //console.log("Will attempt to find tip for baby " + baby.id);
+                                    if(DEBUG) console.log("Will attempt to find tip for baby " + baby.id);
                                     return findNextTip(lastAssignmentInfo);
                                 }
                             }).
                             then(function (tip) {
                                 if (tip) {
-                                    //console.log("Will assign tip " + tip.id + " to baby " + baby.id);
+                                    if(DEBUG) console.log("Will assign tip " + tip.id + " to baby " + baby.id);
                                     return doAssignTip(tip, baby);
                                 } else {
-                                    //console.log("No more eligible tips found for " + baby.id);
+                                    if(DEBUG) console.log("No more eligible tips found for " + baby.id);
                                 }
                             }).
                             then(function (tipAssignment) {
                                 if (tipAssignment && sendPushNotification) {
-                                    //console.log("Will push message for tip assignment " + tipAssignment.id + " to baby " + baby.id);
+                                    if(DEBUG) console.log("Will push message for tip assignment " + tipAssignment.id + " to baby " + baby.id);
                                     var parentUser = baby.get("parentUser");
                                     if (parentUser) {
                                         return pushMessageToUserForBaby(tipAssignment, parentUser);
@@ -235,13 +238,13 @@ function processSingleBaby(baby, sendPushNotification) {
                                 }
                             }).
                             then(function () {
-                                //console.log("Done processing baby " + baby.id);
+                                if(DEBUG) console.log("Done processing baby " + baby.id);
                             }, function (error) {
                                 console.error("Could not process baby " + baby.id + " Error:" + JSON.stringify(error));
                             });
 
                 } else {
-                    //console.log("Skipped baby " + baby.id + " because parent is not eligible");
+                    if(DEBUG) console.log("Skipped baby " + baby.id + " because parent is not eligible");
                     return Parse.Promise.as(false);
                 }
             });
