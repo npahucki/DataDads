@@ -12,7 +12,7 @@
 #import "FDTakeController.h"
 #import "UIViewControllerWithHUDProgress.h"
 
-@interface AchievementDetailsViewController : UIViewControllerWithHUDProgress <UITextViewDelegate, UIDynamicAnimatorDelegate, FDTakeDelegate>
+@interface AchievementDetailsViewController : UIViewControllerWithHUDProgress <UITextViewDelegate, UIDynamicAnimatorDelegate, FDTakeDelegate, DataParentingAdViewDelegate>
 @property(weak, nonatomic) IBOutlet DataParentingAdView *adView;
 
 @property MilestoneAchievement *achievement;
@@ -27,4 +27,5 @@
 @property(weak, nonatomic) IBOutlet UIBarButtonItem *actionBarButton;
 @property(weak, nonatomic) IBOutlet UIView *containerView;
 @property(weak, nonatomic) IBOutlet UIButton *playVideoButton;
+@property(weak, nonatomic) IBOutlet NSLayoutConstraint *adViewHeightConstraint;
 @end

@@ -17,7 +17,7 @@
 #import "DataParentingAdView.h"
 
 
-@interface NoteMilestoneViewController : UIViewControllerWithHUDProgress <FDTakeDelegate, UITextFieldDelegate, UITextViewDelegate, UIScrollViewDelegate>
+@interface NoteMilestoneViewController : UIViewControllerWithHUDProgress <FDTakeDelegate, UITextFieldDelegate, UITextViewDelegate, UIScrollViewDelegate, DataParentingAdViewDelegate>
 
 @property MilestoneAchievement *achievement;
 @property(strong, nonatomic) IBOutlet UIDateField *completionDateTextField;
@@ -41,5 +41,6 @@
 @property(weak, nonatomic) IBOutlet UIView *titleTextFadingView;
 @property(weak, nonatomic) IBOutlet UITextField *weightTextField;
 @property(weak, nonatomic) IBOutlet DataParentingAdView *adView;
+@property(weak, nonatomic) IBOutlet NSLayoutConstraint *adViewHeightConstraint;
 @end
 

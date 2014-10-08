@@ -128,7 +128,7 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
     return YES;
 #endif
 
-    if ([self verifyAppReceipt], @"Expected App reciept to be verified already!");
+    NSAssert([self verifyAppReceipt], @"Expected App reciept to be verified already!");
 
     for (NSNumber *productIdNumber in products) {
         DDProduct product = (DDProduct) [productIdNumber unsignedIntegerValue];

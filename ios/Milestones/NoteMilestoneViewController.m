@@ -43,6 +43,15 @@
                                              selector:@selector(keyboardWillBeHidden:)
                                                  name:UIKeyboardWillHideNotification object:nil];
 
+    // Decide to show the add or not.
+    self.adView.delegate = self;
+    [[InAppPurchaseHelper instance] checkAdFreeProductPurchased:^(BOOL purchased, NSError *error) {
+        if (purchased) {
+            [self hideAdView];
+        } else {
+            [self.adView attemptAdLoad];
+        }
+    }];
 
     if (self.isCustom) {
         self.detailsContainerView.hidden = YES;
@@ -588,6 +597,25 @@
 - (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)url inRange:(NSRange)characterRange {
     [self presentViewController:[WebViewerViewController webViewForUrl:url] animated:YES completion:NULL];
     return NO;
+}
+
+#pragma mark - DataParentingAdViewDelegate
+
+- (void)displayAdView {
+    self.adView.hidden = NO;
+    [self.view layoutIfNeeded];
+    self.adViewHeightConstraint.constant = 50;
+    [self.view setNeedsUpdateConstraints];
+    [UIView animateWithDuration:0.5
+                     animations:^{
+                         [self.view layoutIfNeeded];
+                     }];
+}
+
+- (void)hideAdView {
+    self.adView.hidden = YES;
+    self.adViewHeightConstraint.constant = 8;
+    [self.view layoutIfNeeded];
 }
 
 

@@ -14,6 +14,7 @@
 #import "NoConnectionAlertView.h"
 #import "AlertThenDisappearView.h"
 #import "PronounHelper.h"
+#import "InAppPurchaseHelper.h"
 
 #define AD_TRIGGER_LAUNCH_COUNT 2
 #define AD_TRIGGER_MAX_TIME 60
@@ -39,21 +40,6 @@
 
 
     [NoConnectionAlertView createInstanceForController:self];
-    // TODO:
-    //[[InAppPurchaseHelper instance] checkAdFreeProductPurchased:^(BOOL purchased, NSError *error) {
-    //    if (!purchased) {
-            _adView = [[DataParentingAdView alloc] initWithFrame:CGRectZero]; // adjust frame later
-            _adView.delegate = self;
-            _adView.containingViewController = self;
-            _adView.size = DataParentingAdViewSizeSmall;
-            _adView.layer.shadowColor = [UIColor blackColor].CGColor;
-            _adView.layer.shadowOpacity = 0.5;
-            _adView.hidden = YES;
-            [self.view addSubview:_adView];
-    //    }
-    //}];
-
-
     UISwipeGestureRecognizer *swipeUp = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(hideSearchBar)];
     swipeUp.direction = UISwipeGestureRecognizerDirectionUp;
     [self.searchBar addGestureRecognizer:swipeUp];
@@ -252,26 +238,23 @@
 #pragma mark HistoryViewControllerDelegate
 
 - (void)standardMilestoneClicked:(StandardMilestone *)milestone {
-    // TODO: Find the cause of this bug: If you click for a longer time on the tablecell, it somehow triggers two rapid
-    // events in row. I think this is caused by a bug in the Swipable Table Cell we are using. The work around for now
-    // is to ignore any further touches until this view shows again.
+    // This is a bug in the SWSwipeTableCell which fires both a short and long press gesture handler
+    // events in row. The work around for now is to ignore any further touches until this view shows again.
     if (!_isMorganTouch) {
         _isMorganTouch = YES;
         [self createAchievementForMilestone:milestone];
         [self performSegueWithIdentifier:kDDSegueNoteMilestone sender:self];
-    } else {
-        // TODO: Log this to somewhere to see how many people have the morgan touch.
-        NSLog(@"YOU GOT THE MORGAN TOUCH!!!!!");
     }
 }
 
 - (void)achievementClicked:(MilestoneAchievement *)achievement {
+    // This is a bug in the SWSwipeTableCell which fires both a short and long press gesture handler
+    // events in row. The work around for now is to ignore any further touches until this view shows again.
     if (!_isMorganTouch) {
         _isMorganTouch = YES;
         _currentAchievment = achievement;
         [self performSegueWithIdentifier:kDDSegueShowAchievementDetails sender:self];
     } else {
-        // TODO: Log this to somewhere to see how many people have the morgan touch.
         NSLog(@"YOU GOT THE MORGAN TOUCH!!!!!");
     }
 
@@ -296,14 +279,32 @@
 }
 
 - (void)showAdIfNeeded {
-    if (_adView) { // If nil, means that the user has paid to turn them off
-        if (ParentUser.currentUser.launchCount > AD_TRIGGER_LAUNCH_COUNT) {
-            if (!_dateLastAdShown || abs(_dateLastAdShown.timeIntervalSinceNow) > AD_TRIGGER_MAX_TIME) {
-                _dateLastAdShown = [NSDate date];
-                [_adView attemptAdLoad];
+    [[InAppPurchaseHelper instance] checkAdFreeProductPurchased:^(BOOL purchased, NSError *error) {
+        if (purchased) {
+            if (_adView) {
+                [_adView removeFromSuperview];
+                _adView = nil;
             }
+        } else {
+            if (ParentUser.currentUser.launchCount > AD_TRIGGER_LAUNCH_COUNT) {
+                if (!_dateLastAdShown || abs((int) _dateLastAdShown.timeIntervalSinceNow) > AD_TRIGGER_MAX_TIME) {
+                    _dateLastAdShown = [NSDate date];
+                    if (!_adView) {
+                        _adView = [[DataParentingAdView alloc] initWithFrame:CGRectZero]; // adjust frame later
+                        _adView.delegate = self;
+                        _adView.containingViewController = self;
+                        _adView.size = DataParentingAdViewSizeSmall;
+                        _adView.layer.shadowColor = [UIColor blackColor].CGColor;
+                        _adView.layer.shadowOpacity = 0.5;
+                        _adView.hidden = YES;
+                        [self.view addSubview:_adView];
+                    }
+                    [_adView attemptAdLoad];
+                }
+            }
+
         }
-    }
+    }];
 }
 
 #pragma mark DataParentingAdViewDelegate

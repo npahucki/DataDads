@@ -48,6 +48,8 @@ NSDateFormatter *_dateFormatter;
 - (void)viewDidLoad {
     // Capture the screen before the transition
     _backgroundView = [[UIScreen mainScreen] snapshotViewAfterScreenUpdates:NO];
+    // Work around to bug on iOS 8, where the screen jumps if just relying on the hidesToolBarOnPush
+    self.tabBarController.tabBar.hidden = YES;
 
     [super viewDidLoad];
     NSAssert(self.achievement, @"Expected Achievement to be set before loading view!");
@@ -56,7 +58,6 @@ NSDateFormatter *_dateFormatter;
     // Add in another button to the right.
     UIBarButtonItem *deleteButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(didClickDeleteButton:)];
     self.navigationItem.rightBarButtonItems = @[self.shareButtonBarItem, deleteButtonItem];
-
 
     self.adView.containingViewController = self;
     self.detailsTextView.delegate = self;
@@ -107,6 +108,16 @@ NSDateFormatter *_dateFormatter;
     }];
 
     [self updateTitleTextFromAchievement];
+
+    // Decide to show the add or not.
+    self.adView.delegate = self;
+    [[InAppPurchaseHelper instance] checkAdFreeProductPurchased:^(BOOL purchased, NSError *error) {
+        if (purchased) {
+            [self hideAdView];
+        } else {
+            [self.adView attemptAdLoad];
+        }
+    }];
 
 }
 
@@ -506,5 +517,25 @@ NSDateFormatter *_dateFormatter;
 - (void)setButtonPhoto:(UIImage *)photo {
     [self.detailsImageButton setImage:[photo imageScaledToFitSize:self.detailsImageButton.bounds.size] forState:UIControlStateNormal];
 }
+
+#pragma mark - DataParentingAdViewDelegate
+
+- (void)displayAdView {
+    self.adView.hidden = NO;
+    [self.view layoutIfNeeded];
+    self.adViewHeightConstraint.constant = 50;
+    [self.view setNeedsUpdateConstraints];
+    [UIView animateWithDuration:0.5
+                     animations:^{
+                         [self.view layoutIfNeeded];
+                     }];
+}
+
+- (void)hideAdView {
+    self.adView.hidden = YES;
+    self.adViewHeightConstraint.constant = 8;
+    [self.view layoutIfNeeded];
+}
+
 
 @end

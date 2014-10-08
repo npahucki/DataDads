@@ -48,7 +48,7 @@
 }
 
 - (void)awakeFromNib {
-    [self attemptAdLoad];
+    if (!self.hidden) [self attemptAdLoad];
 }
 
 
