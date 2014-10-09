@@ -18,6 +18,7 @@
 #endif
 
 #import <Parse/Parse.h>
+#import <Optimizely/Optimizely.h>
 #import "ExternalMediaFile.h"
 #import "UIAlertView+BlockSupport.h"
 #import "Constants.h"

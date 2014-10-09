@@ -897,6 +897,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E8DD4912188EE5BA00153095 /* Build configuration list for PBXNativeTarget "DataParenting" */;
 			buildPhases = (
+				CDDA7D08E9B24CC38C75A1E3 /* Label Optimizely Views */,
 				7B33C7CA9A6742DC86D81DA9 /* Check Pods Manifest.lock */,
 				E8DD48D6188EE5B900153095 /* Sources */,
 				E8DD48D7188EE5B900153095 /* Frameworks */,
@@ -1123,6 +1124,20 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		CDDA7D08E9B24CC38C75A1E3 /* Label Optimizely Views */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Label Optimizely Views";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "ruby \"$PODS_ROOT/Optimizely-iOS-SDK/scripts/OptimizelyPrepareNibs.rb\"";
 		};
 		E8A02CFD19817CCF001E0DAB /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

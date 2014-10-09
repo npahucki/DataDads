@@ -10,7 +10,7 @@
 
 @interface UsageAnalytics : NSObject
 
-+ (void)initializeAnalytics;
++ (void)initializeAnalytics:(NSDictionary *)launchOptions;
 
 + (void)idenfity:(ParentUser *)user withBaby:(Baby *)baby;
 

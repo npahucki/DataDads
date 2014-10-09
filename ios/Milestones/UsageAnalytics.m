@@ -20,13 +20,17 @@ static BOOL isRelease;
 
 @implementation UsageAnalytics
 
-+ (void)initializeAnalytics {
++ (void)initializeAnalytics:(NSDictionary *)launchOptions {
 # if DEBUG || TARGET_IPHONE_SIMULATOR
     isRelease = NO;
 #else
     isRelease = YES;
 #endif
     NSLog(@"RUNNING IN RELEASE?:%d", isRelease);
+
+    [Optimizely                                                        startOptimizelyWithAPIToken:
+            [[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.OptimizelyToken"] launchOptions:launchOptions];
+
     if (isRelease) {
         [Heap setAppId:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.HeapAppId"]];
         [Heap changeInterval:30];
@@ -36,6 +40,8 @@ static BOOL isRelease;
         [[AppsFlyerTracker sharedTracker] trackAppLaunch];
         NSString *uxCamKey = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.UXCamKey"];
         [UXCam startApplicationWithKey:uxCamKey];
+    } else {
+        [Optimizely enableEditor];
     }
 }
 
@@ -63,6 +69,10 @@ static BOOL isRelease;
             [UXCam addTag:user.isMale ? @"male" : @"female"];
             [UXCam addTag:user.email ? @"anonymous" : @"signedup"];
             if (user.screenName) [UXCam tagScreenName:user.screenName];
+
+            for (NSString *key in props) {
+                [Optimizely setValue:key forCustomTag:props[key]];
+            }
         } else {
             NSLog(@"[USAGE ANALYTICS]: Identify - %@", props);
         }
@@ -118,6 +128,7 @@ static BOOL isRelease;
             [Heap track:@"userSignedUp" withProperties:props];
             [[AppsFlyerTracker sharedTracker] trackEvent:@"userSignedUp" withValue:@"0"];
             [FBAppEvents logEvent:FBAppEventNameCompletedRegistration parameters:props];
+            [Optimizely trackEvent:@"userSignup"];
         } else {
             NSLog(@"[USAGE ANALYTICS]: trackUserSignup - User:%@ Method:%@", user, method);
         }
@@ -140,6 +151,7 @@ static BOOL isRelease;
             [Heap track:@"userLinkedWithFacebook" withProperties:props];
             [FBAppEvents logEvent:@"userLinkedWithFacebook" parameters:props];
             [[AppsFlyerTracker sharedTracker] trackEvent:@"userLinkedWithFacebook" withValue:@""];
+            [Optimizely trackEvent:@"userLinkedWithFacebook"];
         } else {
             NSLog(@"[USAGE ANALYTICS]: trackUserLinkedWithFacebook - User:%@ Publish:%d", user, publish);
         }
@@ -151,6 +163,7 @@ static BOOL isRelease;
         [Heap track:@"userSignedOut" withProperties:@{@"user.id" : safe(user.objectId)}];
         [FBAppEvents logEvent:@"userSignedOut" parameters:@{@"user.id" : safe(user.objectId)}];
         [[AppsFlyerTracker sharedTracker] trackEvent:@"userSignedOut" withValue:@""];
+        [Optimizely trackEvent:@"userSignedOut"];
     } else {
         NSLog(@"[USAGE ANALYTICS]: trackUserSignout - User:%@", user);
     }
@@ -177,7 +190,7 @@ static BOOL isRelease;
         [Heap track:@"babyCreated" withProperties:props];
         [FBAppEvents logEvent:@"babyCreated" parameters:props];
         [[AppsFlyerTracker sharedTracker] trackEvent:@"babyCreated" withValue:props.description];
-
+        [Optimizely trackEvent:@"babyCreated"];
     } else {
         NSLog(@"[USAGE ANALYTICS]: trackCreateBaby - Baby:%@", baby);
     }
@@ -192,12 +205,14 @@ static BOOL isRelease;
                     @"baby.id" : safe(achievement.baby.objectId),
                     @"milestoneId" : safe(achievement.standardMilestone.objectId)
             }];
+            [Optimizely trackEvent:@"milestonePostponed"];
         } else if (achievement.isSkipped) {
             [Heap track:@"milestoneSkipped" withProperties:@{
                     @"user.id" : safe(achievement.baby.parentUser.objectId),
                     @"baby.id" : safe(achievement.baby.objectId),
                     @"milestoneId" : safe(achievement.standardMilestone.objectId)
             }];
+            [Optimizely trackEvent:@"milestoneSkipped"];
         } else {
             NSDictionary *props = @{
                     @"user.id" : safe(achievement.baby.parentUser.objectId),
@@ -213,6 +228,7 @@ static BOOL isRelease;
             };
             [Heap track:@"achievementLogged" withProperties:props];
             [FBAppEvents logEvent:@"achievementLogged" parameters:props];
+            [Optimizely trackEvent:@"achievementLogged"];
         }
     } else {
         NSLog(@"[USAGE ANALYTICS]: trackAchievementLogged - Achievement:%@", achievement);
@@ -227,6 +243,7 @@ static BOOL isRelease;
                 @"baby.id" : safe(measurement.baby.objectId),
                 @"measurement.type" : safe(measurement.type)
         }];
+        [Optimizely trackEvent:@"measurementLogged"];
     } else {
         NSLog(@"[USAGE ANALYTICS]: trackMeasurement - Measurement:%@", measurement);
     }
@@ -236,6 +253,7 @@ static BOOL isRelease;
     if (isRelease) {
         [Heap track:@"searchExecuted" withProperties:@{@"filterString" : filterString}];
         [FBAppEvents logEvent:FBAppEventNameSearched parameters:@{FBAppEventParameterNameSearchString : filterString}];
+        [Optimizely trackEvent:@"searchExecuted"];
     } else {
         NSLog(@"[USAGE ANALYTICS]: trackSearch - Filter:%@", filterString);
     }
@@ -246,6 +264,7 @@ static BOOL isRelease;
         [Heap track:@"adClicked" withProperties:@{@"adIdentifier" : adIdentifier}];
         [[AppsFlyerTracker sharedTracker] trackEvent:@"adIdentifier" withValue:adIdentifier];
         [FBAppEvents logEvent:@"adClicked" parameters:@{@"adIdentifier" : adIdentifier}];
+        [Optimizely trackEvent:@"adClicked"];
     } else {
         NSLog(@"[USAGE ANALYTICS]: trackAdClick - AdId:%@", adIdentifier);
     }
@@ -255,6 +274,7 @@ static BOOL isRelease;
     if (isRelease) {
         [Heap track:@"respondedToTutoriaPrompt" withProperties:@{@"viewed" : @(viewed)}];
         [FBAppEvents logEvent:FBAppEventNameCompletedTutorial];
+        [Optimizely trackEvent:viewed ? @"tutorialViewed" : @"tutorialSkipped"];
     } else {
         NSLog(@"[USAGE ANALYTICS]: respondedToTutoriaPrompt - viewed:%d", viewed);
     }
@@ -275,7 +295,11 @@ static BOOL isRelease;
         [Heap track:@"purchaseDecision" withProperties:props];
         [[AppsFlyerTracker sharedTracker] trackEvent:@"purchaseDecision" withValue:productId];
         [FBAppEvents logEvent:@"purchaseDecision" parameters:props];
-        if (b) [FBAppEvents logEvent:FBAppEventNameAddedToCart parameters:props];
+        if (b) {
+            [FBAppEvents logEvent:FBAppEventNameAddedToCart parameters:props];
+            [Optimizely trackEvent:@"decidedToPurchase"];
+        }
+
     } else {
         NSLog(@"[USAGE ANALYTICS]: purchaseDecision - productId:%@", productId);
     }
@@ -292,6 +316,7 @@ static BOOL isRelease;
 + (void)trackPurchaseCompleted:(NSString *)productId atPrice:(NSNumber *)price andCurrency:(NSString *)currency {
     if (isRelease) {
         [FBAppEvents logPurchase:[price doubleValue] currency:currency parameters:@{@"productId" : productId}];
+        [Optimizely trackEvent:@"purchaseCompleted"];
     } else {
         NSLog(@"[USAGE ANALYTICS]: trackPurchaseCompleted - productId:%@ price:%@ currency:%@", productId, price, currency);
     }

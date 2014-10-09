@@ -13,7 +13,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
-    [UsageAnalytics initializeAnalytics];
+    [UsageAnalytics initializeAnalytics:launchOptions];
 
     // Force class load and start monitoring network connection.
     [Reachability reachabilityForParseHost];
