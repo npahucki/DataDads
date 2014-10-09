@@ -17,8 +17,32 @@
 #define MAX_LOAD_COUNT 15
 
 
+@implementation NotificationTableViewCell
+
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    NSMutableArray *rightUtilityButtons = [NSMutableArray new];
+    //[rightUtilityButtons sw_addUtilityButtonWithColor: [UIColor appSelectedColor] title:@"Share"];
+    [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor redColor] title:@"Hide"];
+    self.rightUtilityButtons = rightUtilityButtons;
+
+    self.textLabel.font = TITLE_FONT;
+    self.textLabel.textColor = [UIColor appNormalColor];
+    self.detailTextLabel.font = DETAIL_FONT;
+    self.detailTextLabel.textColor = [UIColor appGreyTextColor];
+}
+
+- (void)setBabyAssignedTip:(BabyAssignedTip *)tipAssignment {
+    self.textLabel.text = tipAssignment.tip.titleForCurrentBaby;
+    self.detailTextLabel.text = [NSString stringWithFormat:@"Delivered %@", [tipAssignment.assignmentDate stringWithHumanizedTimeDifference]];
+    self.imageView.image = [UIImage imageNamed:tipAssignment.tip.tipType == TipTypeGame ? @"gameIcon" : @"tipsButton_active"];
+    self.accessoryType = tipAssignment.tip.url.length ? UITableViewCellAccessoryDetailButton : UITableViewCellAccessoryNone;
+}
+
+
+@end
+
 @implementation NotificationTableViewController {
-    TipType _tipFilter;
     NSMutableArray *_objects;
     BOOL _hasMoreTips;
     BOOL _hadError;
@@ -67,15 +91,6 @@
     if ([Reachability isParseCurrentlyReachable]) {
         [self loadObjects];
     }
-}
-
-- (TipType)tipFilter {
-    return _tipFilter;
-}
-
-- (void)setTipFilter:(TipType)tipFilter {
-    _tipFilter = tipFilter;
-    [self loadObjects];
 }
 
 - (void)loadObjects {
@@ -142,29 +157,9 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (![self isLoadingRow:indexPath]) {
-        SWTableViewCell *cell = (SWTableViewCell *) [tableView dequeueReusableCellWithIdentifier:@"tipCell" forIndexPath:indexPath];
-        __weak SWTableViewCell *weakCell = cell;
-        [cell setAppearanceWithBlock:^{
-            NSMutableArray *rightUtilityButtons = [NSMutableArray new];
-            //[rightUtilityButtons sw_addUtilityButtonWithColor: [UIColor appSelectedColor] title:@"Share"];
-            [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor redColor] title:@"Hide"];
-            weakCell.rightUtilityButtons = rightUtilityButtons;
-
-            weakCell.textLabel.font = TITLE_FONT;
-            weakCell.textLabel.textColor = [UIColor appNormalColor];
-            weakCell.detailTextLabel.font = DETAIL_FONT;
-            weakCell.detailTextLabel.textColor = [UIColor appGreyTextColor];
-            weakCell.containingTableView = tableView;
-            weakCell.delegate = self;
-        }                      force:NO];
-
-        BabyAssignedTip *tipAssignment = (BabyAssignedTip *) _objects[indexPath.row];
-        [cell setCellHeight:cell.frame.size.height];
-        cell.textLabel.text = tipAssignment.tip.titleForCurrentBaby;
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"Delivered %@", [tipAssignment.assignmentDate stringWithHumanizedTimeDifference]];
-        cell.imageView.image = [UIImage imageNamed:tipAssignment.tip.tipType == TipTypeGame ? @"gameIcon" : @"tipsButton_active"];
-        // TODO: set image according to tip type.
-        cell.accessoryType = tipAssignment.tip.url.length ? UITableViewCellAccessoryDetailButton : UITableViewCellAccessoryNone;
+        NotificationTableViewCell *cell = (NotificationTableViewCell *) [tableView dequeueReusableCellWithIdentifier:@"tipCell" forIndexPath:indexPath];
+        cell.delegate = self;
+        [cell setBabyAssignedTip:(BabyAssignedTip *) _objects[(NSUInteger) indexPath.row]];
         return cell;
     } else {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"loadingCell" forIndexPath:indexPath];
@@ -188,7 +183,7 @@
 
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
-    [self performSegueWithIdentifier:kDDSegueShowWebView sender:_objects[indexPath.row]];
+    [self performSegueWithIdentifier:kDDSegueShowWebView sender:_objects[(NSUInteger) indexPath.row]];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -200,7 +195,7 @@
     } else if ([segue.identifier isEqualToString:kDDSegueShowNotificationDetails]) {
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
         NotificationDetailViewController *detailController = (NotificationDetailViewController *) segue.destinationViewController;
-        detailController.tipAssignment = (BabyAssignedTip *) _objects[indexPath.row];
+        detailController.tipAssignment = (BabyAssignedTip *) _objects[(NSUInteger) indexPath.row];
     }
 }
 
@@ -225,7 +220,7 @@
     }
 }
 
-- (CGFloat)getLabelSize:(NSString *)text andFont:(UIFont *)font withMaxWidth:(int)width {
+- (CGFloat)getLabelSize:(NSString *)text andFont:(UIFont *)font withMaxWidth:(CGFloat)width {
 
     NSDictionary *attributesDictionary = @{NSFontAttributeName : font};
     CGRect frame = [text boundingRectWithSize:CGSizeMake(width, 2000.0)
@@ -248,28 +243,21 @@
     [notificaiton saveEventually];
 
     [self.tableView beginUpdates];
-    [_objects removeObjectAtIndex:path.row];
-    [self.tableView deleteRowsAtIndexPaths:@[path] withRowAnimation:YES];
+    [_objects removeObjectAtIndex:(NSUInteger) path.row];
+    [self.tableView deleteRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationRight];
     [self.tableView endUpdates];
     _isEmpty = _objects.count == 0;
     if (_isEmpty) [self.tableView reloadData];
 }
 
-- (void)shareNotification:(BabyAssignedTip *)notificaiton withIndexPath:(NSIndexPath *)path {
-    [[[UIAlertView alloc] initWithTitle:@"Keep your pants on!" message:@"Coming soon!" delegate:nil cancelButtonTitle:@"Yeah, I got it" otherButtonTitles:nil, nil] show];
-}
 
 #pragma mark - SWTableViewDelegate
 
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)buttonIndex {
-    // TODO: rework this to not use PF table view - so we can do animated deletes.
-
     NSIndexPath *path = [self.tableView indexPathForCell:cell];
     BabyAssignedTip *a = [self tipForIndexPath:path];
     if (buttonIndex == 0) {
         [self hideNotification:a withIndexPath:path];
-    } else if (buttonIndex == 1) {
-        [self shareNotification:a withIndexPath:path];
     }
 }
 
@@ -297,7 +285,7 @@
 
 - (BabyAssignedTip *)tipForIndexPath:(NSIndexPath *)indexPath {
     NSAssert(indexPath.section == 0, @"Unexpected section %ld", (long) indexPath.section);
-    return _objects[indexPath.row];
+    return _objects[(NSUInteger) indexPath.row];
 }
 
 - (BOOL)isLoadingRow:(NSIndexPath *)indexPath {

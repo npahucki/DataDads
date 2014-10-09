@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="8YX-ce-x5E">
     <dependencies>
-        <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -2154,7 +2153,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationWidth="0.0" reuseIdentifier="tipCell" textLabel="YQ8-um-tgp" detailTextLabel="EI6-hI-P8K" imageView="upt-Tq-dHm" rowHeight="44" style="IBUITableViewCellStyleSubtitle" id="k1B-UL-Jsf" customClass="SWTableViewCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationWidth="0.0" reuseIdentifier="tipCell" textLabel="YQ8-um-tgp" detailTextLabel="EI6-hI-P8K" imageView="upt-Tq-dHm" rowHeight="44" style="IBUITableViewCellStyleSubtitle" id="k1B-UL-Jsf" customClass="NotificationTableViewCell">
                                 <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="k1B-UL-Jsf" id="PjE-cl-4BT">
@@ -2341,8 +2340,8 @@
     <inferredMetricsTieBreakers>
         <segue reference="JWT-5h-xS8"/>
         <segue reference="0ED-bk-NzY"/>
-        <segue reference="LCs-nH-0km"/>
-        <segue reference="9u5-1o-6Cv"/>
         <segue reference="HiK-bz-YEB"/>
+        <segue reference="LCs-nH-0km"/>
+        <segue reference="sNA-hk-F8e"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -8,10 +8,16 @@
 
 #import "SWTableViewCell.h"
 
-@interface NotificationTableViewController : UITableViewController <SWTableViewCellDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface NotificationTableViewCell : SWTableViewCell
 
-@property TipType tipFilter;
+- (void)setBabyAssignedTip:(BabyAssignedTip *)tipAssignment;
+
+@end
+
+@interface NotificationTableViewController : UITableViewController <SWTableViewCellDelegate, UITableViewDelegate, UITableViewDataSource>
 
 - (void)loadObjects;
 
 @end
+
+

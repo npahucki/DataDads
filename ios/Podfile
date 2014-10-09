@@ -4,7 +4,7 @@ inhibit_all_warnings!
 #link_with ['DataParenting', 'DataParentingDev', 'DataParentingTests']
 
 pod 'MBProgressHUD', '~> 0.8'
-pod 'SWTableViewCell', '0.2.7'
+pod 'SWTableViewCell', '0.3.4'
 pod 'Heap'
 pod 'Parse+NSCoding', :git => 'https://github.com/npahucki/Parse-NSCoding.git', :commit => '5c4b4c4db5c11d2b4f77e3f684d2c421b8b578ab'
 pod 'ParseFacebookUtils', '1.4.1'

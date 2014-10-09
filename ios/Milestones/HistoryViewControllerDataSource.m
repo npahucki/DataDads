@@ -80,8 +80,6 @@
     }
 
     cell.delegate = self.cellSwipeDelegate;
-    cell.containingTableView = tableView;
-    [cell setCellHeight:tableView.rowHeight];
     return cell;
 }
 
