@@ -114,6 +114,7 @@
         cell.loadingLabel.text = @"Failed to load. Touch here to try loading again.";
         cell.loadingLabel.textColor = UIColorFromRGB(0xCE3339);  // Same color as icon
     } else {
+        cell.pictureView.image = nil; // TODO: remove : Work around for Bug (see 18595125)  on ios 8
         cell.pictureView.image = [UIImage animatedImageNamed:@"progress-" duration:1];
         cell.loadingLabel.text = @"Loading...";
         cell.loadingLabel.textColor = [UIColor appGreyTextColor];
