@@ -7,6 +7,7 @@
 #import "InAppPurchaseHelper.h"
 #import "RMStore.h"
 #import "RMAppReceipt.h"
+#import "WebViewerViewController.h"
 
 static NSDictionary *productInfoForProduct(DDProduct product) {
     static NSArray *productCodes;
@@ -181,7 +182,7 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
                 NSString *title = [NSString stringWithFormat:@"Purchase %@ now?", product.localizedTitle];
                 NSString *msg = [NSString stringWithFormat:@"%@ costs %@.\n\n%@", product.localizedTitle,
                                                            formattedPrice, product.localizedDescription];
-                [[[UIAlertView alloc] initWithTitle:title message:msg delegate:nil cancelButtonTitle:@"Not Now" otherButtonTitles:@"Yes", nil]
+                [[[UIAlertView alloc] initWithTitle:title message:msg delegate:nil cancelButtonTitle:@"Not Now" otherButtonTitles:@"Purchase Now", @"Read Our Awseome Terms", nil]
                         showWithButtonBlock:^(NSInteger buttonIndex) {
                             if (buttonIndex == 1) {
                                 [UsageAnalytics trackPurchaseDecision:YES forProductId:productId];
@@ -191,6 +192,12 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
                                 NSAssert(_paymentRequestCallbacks[payment.productIdentifier] == nil, @"Expected only a single payment per product to process at a time.");
                                 _paymentRequestCallbacks[payment.productIdentifier] = block;
                                 [[SKPaymentQueue defaultQueue] addPayment:payment];
+                            } else if (buttonIndex == 2) {
+                                WebViewerViewController *vc = [WebViewerViewController webViewForUrlString:kDDURLTermsAndConditions];
+                                UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+                                [window.rootViewController presentViewController:vc animated:YES completion:^{
+                                    block(NO, nil);
+                                }];
                             } else {
                                 [UsageAnalytics trackPurchaseDecision:NO forProductId:productId];
                                 block(NO, nil);
