@@ -67,7 +67,7 @@ static BOOL isRelease;
         if (isRelease) {
             [AppsFlyerTracker sharedTracker].customerUserID = user.objectId;
             [Heap identify:props];
-            [UXCam tagUsersName:user.objectId additionalData:nil];
+            [UXCam tagUsersName:user.objectId additionalData:user.email];
             [UXCam addTag:user.isMale ? @"male" : @"female"];
             [UXCam addTag:user.email ? @"anonymous" : @"signedup"];
             if (user.screenName) [UXCam tagScreenName:user.screenName];

@@ -16,7 +16,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.prompt = [NSString stringWithFormat:@"Step %d of %d", self.currentStepNumber, self.totalSteps];
+    self.navigationItem.prompt = [NSString stringWithFormat:@"Step %d of %d", (int) self.currentStepNumber, (int) self.totalSteps];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
