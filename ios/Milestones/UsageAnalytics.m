@@ -38,7 +38,7 @@ static BOOL isRelease;
         NSString *uxCamKey = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.UXCamKey"];
         [UXCam startApplicationWithKey:uxCamKey];
     } else {
-        [Optimizely enableEditor];
+        //[Optimizely enableEditor];
     }
 
     [Optimizely                                                        startOptimizelyWithAPIToken:
