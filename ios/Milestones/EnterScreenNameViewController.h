@@ -10,9 +10,7 @@
 #import "BabyInfoViewController.h"
 #import "UIViewControllerWithHUDProgress.h"
 
-@interface EnterScreenNameViewController : UIViewControllerWithHUDProgress <ViewControllerWithBaby, UITextFieldDelegate>
-
-@property Baby *baby;
+@interface EnterScreenNameViewController : OnboardingStepViewController <UITextFieldDelegate>
 
 @property(strong, nonatomic) IBOutlet UIButton *maleButton;
 @property(strong, nonatomic) IBOutlet UIButton *femaleButton;

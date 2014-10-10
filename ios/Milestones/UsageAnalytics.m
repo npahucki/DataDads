@@ -28,9 +28,6 @@ static BOOL isRelease;
 #endif
     NSLog(@"RUNNING IN RELEASE?:%d", isRelease);
 
-    [Optimizely                                                        startOptimizelyWithAPIToken:
-            [[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.OptimizelyToken"] launchOptions:launchOptions];
-
     if (isRelease) {
         [Heap setAppId:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.HeapAppId"]];
         [Heap changeInterval:30];
@@ -43,6 +40,11 @@ static BOOL isRelease;
     } else {
         [Optimizely enableEditor];
     }
+
+    [Optimizely                                                        startOptimizelyWithAPIToken:
+            [[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.OptimizelyToken"] launchOptions:launchOptions];
+
+
 }
 
 + (void)idenfity:(ParentUser *)user withBaby:(Baby *)baby {

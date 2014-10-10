@@ -225,7 +225,7 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
                 [_paymentRequestCallbacks removeObjectForKey:transaction.payment.productIdentifier];
                 break;
             default:
-                NSLog(@"Transaction for product %@: state:%d ", transaction.payment.productIdentifier, transaction.transactionState);
+                NSLog(@"Transaction for product %@: state:%ld ", transaction.payment.productIdentifier, transaction.transactionState);
                 break;
         }
     }

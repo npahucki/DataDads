@@ -10,18 +10,12 @@
 #import "UIViewControllerWithHUDProgress.h"
 #import "BabyTagsTableViewController.h"
 #import "UIDateField.h"
-
-@protocol ViewControllerWithBaby
-@required
-
-- (void)setBaby:(Baby *)baby;
-
-@end
-
-@interface BabyInfoViewController : UIViewController <UITextFieldDelegate, ViewControllerWithBaby>
+#import "OnboardingStepViewController.h"
 
 
-@property Baby *baby;
+@interface BabyInfoViewController : OnboardingStepViewController <UITextFieldDelegate>
+
+
 
 @property(strong, nonatomic) IBOutlet UIDateField *dobTextField;
 @property(strong, nonatomic) IBOutlet UIDateField *dueDateTextField;

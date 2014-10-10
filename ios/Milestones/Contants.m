@@ -20,6 +20,8 @@ NSString *const kDDSegueShowLoginScreen = @"showLoginScreen";
 NSString *const kDDSegueEnterBabyInfo = @"enterBabyInfo";
 NSString *const kDDSegueShowFullScreenImage = @"showFullScreenImage";
 NSString *const kDDSegueShowWebView = @"showWebView";
+NSString *const kDDSegueShowAboutYou = @"showAboutYou";
+NSString *const kDDSegueShowOptionalSignup = @"showOptionalSignup";
 
 
 #pragma mark - Events

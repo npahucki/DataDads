@@ -11,9 +11,8 @@
 #import "BabyInfoViewController.h"
 
 
-@interface BabyTagsViewController : UIViewController <ViewControllerWithBaby>
+@interface BabyTagsViewController : OnboardingStepViewController
 
-@property(strong, nonatomic) Baby *baby;
 @property(strong, nonatomic) IBOutlet UITextField *addTagTextField;
 @property(strong, nonatomic) IBOutlet UIButton *addTagButton;
 

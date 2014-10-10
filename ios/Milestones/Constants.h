@@ -35,6 +35,8 @@ extern NSString *const kDDSegueShowLoginScreen;
 extern NSString *const kDDSegueEnterBabyInfo;
 extern NSString *const kDDSegueShowFullScreenImage;
 extern NSString *const kDDSegueShowWebView;
+extern NSString *const kDDSegueShowAboutYou;
+extern NSString *const kDDSegueShowOptionalSignup;
 
 
 #pragma mark Notification Names

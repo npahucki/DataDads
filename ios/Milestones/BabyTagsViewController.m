@@ -48,7 +48,7 @@
         _tagTableViewController.selectedTags = [NSSet setWithArray:self.baby.tags];
     } else {
         self.baby.tags = [_tagTableViewController.selectedTags allObjects];
-        ((UIViewController <ViewControllerWithBaby> *) segue.destinationViewController).baby = self.baby;
+        [super prepareForSegue:segue sender:sender];
     }
 }
 
