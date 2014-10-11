@@ -23,6 +23,9 @@
                             </fragment>
                         </attributedString>
                     </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_NoConnectionAlertView-button-KIN-a9-J2A"/>
+                    </userDefinedRuntimeAttributes>
                 </button>
             </subviews>
             <color key="backgroundColor" red="0.2666666667" green="0.2666666667" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
@@ -36,6 +39,9 @@
             <connections>
                 <outlet property="displayButton" destination="KIN-a9-J2A" id="2ZH-Pc-IPP"/>
             </connections>
+            <userDefinedRuntimeAttributes>
+                <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_NoConnectionAlertView-view-iN0-l3-epB"/>
+            </userDefinedRuntimeAttributes>
         </view>
     </objects>
     <resources>

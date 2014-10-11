@@ -13,6 +13,9 @@
                 <imageView userInteractionEnabled="NO" alpha="0.80000000000000004" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tutorial_up_arrow" translatesAutoresizingMaskIntoConstraints="NO" id="c9p-Ir-0lM">
                     <rect key="frame" x="14" y="0.0" width="26" height="13"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_TutorialBubbleView-imageView-c9p-Ir-0lM"/>
+                    </userDefinedRuntimeAttributes>
                 </imageView>
                 <view alpha="0.80000000000000004" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E03-Ar-ynF" userLabel="Background View">
                     <rect key="frame" x="0.0" y="13" width="256" height="61"/>
@@ -32,6 +35,9 @@
                             <connections>
                                 <action selector="didClickCloseButton:" destination="iN0-l3-epB" eventType="touchUpInside" id="k79-z2-QEe"/>
                             </connections>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_TutorialBubbleView-button-vd5-lq-xpn"/>
+                            </userDefinedRuntimeAttributes>
                         </button>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Blah Blah Blah Blah Blah Blah Nlah Blah " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="209" translatesAutoresizingMaskIntoConstraints="NO" id="Faw-Lr-Uxa" userLabel="Label - Blah Blah Blah Blah Blah Blah Nlah Blah">
                             <rect key="frame" x="3" y="3" width="209" height="55"/>
@@ -39,6 +45,9 @@
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_TutorialBubbleView-label-Faw-Lr-Uxa"/>
+                            </userDefinedRuntimeAttributes>
                         </label>
                     </subviews>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -50,6 +59,9 @@
                         <constraint firstAttribute="trailing" secondItem="vd5-lq-xpn" secondAttribute="trailing" id="n3z-JT-6da"/>
                         <constraint firstAttribute="bottom" secondItem="Faw-Lr-Uxa" secondAttribute="bottom" constant="3" id="pOk-wV-0EJ"/>
                     </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_TutorialBubbleView-view-E03-Ar-ynF"/>
+                    </userDefinedRuntimeAttributes>
                 </view>
             </subviews>
             <constraints>
@@ -67,6 +79,9 @@
                 <outlet property="closeButton" destination="vd5-lq-xpn" id="NoU-8m-vBk"/>
                 <outlet property="textLabel" destination="Faw-Lr-Uxa" id="apR-tS-XlF"/>
             </connections>
+            <userDefinedRuntimeAttributes>
+                <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_TutorialBubbleView-view-iN0-l3-epB"/>
+            </userDefinedRuntimeAttributes>
         </view>
     </objects>
     <resources>
