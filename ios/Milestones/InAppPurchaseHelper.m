@@ -182,7 +182,7 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
                 NSString *title = [NSString stringWithFormat:@"Purchase %@ now?", product.localizedTitle];
                 NSString *msg = [NSString stringWithFormat:@"%@ costs %@.\n\n%@", product.localizedTitle,
                                                            formattedPrice, product.localizedDescription];
-                [[[UIAlertView alloc] initWithTitle:title message:msg delegate:nil cancelButtonTitle:@"Not Now" otherButtonTitles:@"Purchase Now", @"Read Our Awseome Terms", nil]
+                [[[UIAlertView alloc] initWithTitle:title message:msg delegate:nil cancelButtonTitle:@"Not Now" otherButtonTitles:@"Purchase Now", @"Read Our Awesome Terms", nil]
                         showWithButtonBlock:^(NSInteger buttonIndex) {
                             if (buttonIndex == 1) {
                                 [UsageAnalytics trackPurchaseDecision:YES forProductId:productId];
