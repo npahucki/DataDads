@@ -1,21 +1,9 @@
 function generateSignedS3Url(method, filePath, contentType) {
     var util = require("cloud/utils.js");
-
-    var bucket, accessKey, secretKey;
-    // Note it would be great to keep these in COnfig, but it's not secure.
-    if(util.isDev()) {
-        bucket = "dp-mf-media-dev";
-        accessKey = "AKIAJRGMQXTMWZAS63EQ";
-        secretKey = "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";
-    } else {
-        bucket = "dp-mf-media-prod";
-        accessKey = "AKIAJVJAO4WVS4INUGUA";
-        secretKey = "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";
-    }
-
+    var awsInfo = util.awsVideoEnv();
     var sig = require('cloud/s3_signature.js');
-    var signer = sig.urlSigner(accessKey, secretKey);
-    return signer.getUrl(method, bucket, filePath,  contentType, 10);
+    var signer = sig.urlSigner(awsInfo.accessKey, awsInfo.secretKey);
+    return signer.getUrl(method, awsInfo.bucket, filePath,  contentType, 10);
 }
 
 

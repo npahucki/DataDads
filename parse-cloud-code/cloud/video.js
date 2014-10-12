@@ -1,12 +1,11 @@
 function createRequester() {
-        // TODO: Access Keys!
-    var accessKey = 'AKIAITC5ZG4R2F4WU4ZQ';
-    var secretKey = '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';
+    var util = require("cloud/utils.js");
+    var awsInfo = util.awsVideoEnv();
 
     var Requester = require("cloud/aws/Request.js");
     return new Requester({
-        key:accessKey,
-        secret:secretKey,
+        key:awsInfo.accessKey,
+        secret:awsInfo.secretKey,
         service:"elastictranscoder",
         region:"us-east-1",
         version:"2012-09-25"
@@ -47,9 +46,8 @@ module.exports.generateWebCompatibleVideosFromMov = function (sourceFile) {
         return requestPromise;
     }
 
-    // Change for dev/prod
-    var pipelineId = "1412173550726-nz7h9a";
-
+    var util = require("cloud/utils.js");
+    var pipelineId = util.awsVideoEnv().webVideoPipelineId;
     var mp4RequestJson = {
         "Input":{
             "Key":sourceFile
