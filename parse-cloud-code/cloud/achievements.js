@@ -143,8 +143,8 @@ Parse.Cloud.afterSave("MilestoneAchievements", function (request) {
     }
 
     if(request.user) {
-        user.set("lastSeenAt", new Date());
-        user.save();
+        request.user.set("lastSeenAt", new Date());
+        request.user.save();
     }
 
     if(milestone) {
@@ -185,8 +185,8 @@ Parse.Cloud.afterDelete("MilestoneAchievements", function (request) {
     }
 
     if(request.user) {
-        user.set("lastSeenAt", new Date());
-        user.save();
+        request.user.set("lastSeenAt", new Date());
+        request.user.save();
     }
 
     if(milestone) {
