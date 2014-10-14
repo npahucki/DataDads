@@ -142,6 +142,11 @@ Parse.Cloud.afterSave("MilestoneAchievements", function (request) {
         incrementStat(baby.id, "babyNotedMilestoneCount");
     }
 
+    if(request.user) {
+        user.set("lastSeenAt", new Date());
+        user.save();
+    }
+
     if(milestone) {
         if(isSkipped) {
             incrementStat(milestone.id,"standardMilestoneSkippedCount");
@@ -177,6 +182,11 @@ Parse.Cloud.afterDelete("MilestoneAchievements", function (request) {
     // Update Baby stat
     if(baby && !(isSkipped || isPostponed)) {
         decrementStat(baby.id, "babyNotedMilestoneCount");
+    }
+
+    if(request.user) {
+        user.set("lastSeenAt", new Date());
+        user.save();
     }
 
     if(milestone) {

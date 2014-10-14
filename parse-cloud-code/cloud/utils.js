@@ -11,7 +11,7 @@ var PRONOUN_TRANSLATIONS = {
     }
 };
 
-
+var MILLIS_PER_DAY = 24 * 60 * 60 * 1000;
 
 function treatAsUTC(date) {
     var result = new Date(date);
@@ -20,12 +20,11 @@ function treatAsUTC(date) {
 }
 
 exports.dateAddDays = function (date, days) {
-    return new Date(date.getFullYear(), date.getMonth(), date.getDate() + days);
+    return new Date(date.getTime() + (MILLIS_PER_DAY * days));
 };
 
 exports.daysBetween = function (startDate, endDate) {
-    var millisecondsPerDay = 24 * 60 * 60 * 1000;
-    return (treatAsUTC(endDate) - treatAsUTC(startDate)) / millisecondsPerDay;
+    return (treatAsUTC(endDate) - treatAsUTC(startDate)) / MILLIS_PER_DAY;
 };
 
 exports.dayDiffFromNow = function (date) {
