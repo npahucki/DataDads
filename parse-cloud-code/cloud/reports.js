@@ -193,8 +193,8 @@ Parse.Cloud.job("generateSummaryReport", function (request, status) {
 
     // Retention Data
     var retentionRows = [];
-    var installSampleDays = [2, 3, 4, 5, 6, 7, 8, 14, 21, 28];
-    var activeSampleDays = [1, 2, 3, 4, 5, 6, 7, 8, 14, 21, 28];
+    var installSampleDays = [2, 3, 4, 5, 6, 7, 8, 14, 21, 28, 45, 60];
+    var activeSampleDays = [1,2,3,4,5,6,7,8,11,14,18,21,25,28,32,35,38,42,45,49,51,56,59,60];
     promises.push(calculateRetention(installSampleDays, activeSampleDays).then(function (retentionRows) {
         var retentionData = "<table border='1'>";
         // make the headers
