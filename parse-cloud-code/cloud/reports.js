@@ -105,12 +105,12 @@ Parse.Cloud.job("generateSummaryReport", function (request, status) {
             totalUserOnDateQuery.greaterThan("createdAt", startCutOffDate);
             totalUserOnDateQuery.lessThanOrEqualTo("createdAt", endCutOffDate);
             return totalUserOnDateQuery.count().then(function (count) {
-                return Parse.Promise.as({ days:days, activeUserCount:[], totalUserCount:count });
+                return Parse.Promise.as({ days:days, activeUserCount:{}, totalUserCount:count });
             });
         });
 
         return Parse.Promise.when(sampleDayCountPromises).then(function () {
-                    var samples = Array.prototype.slice.call(arguments).reverse();
+                    var samples = Array.prototype.slice.call(arguments);
                     var cutOffDate = util.dateAddDays(now, -(_.max(installSampleDays)));
 
                     var activeUserQueryForDay = new Parse.Query(UserClass);
@@ -124,7 +124,6 @@ Parse.Cloud.job("generateSummaryReport", function (request, status) {
                             var endInstallCutOffDate = util.dateAddDays(installedDate, 1);
 
                             _.each(activeSampleDays, function (activitySampleDay) {
-                                var sampleStartCutOffDate = util.dateAddDays(installedDate, activitySampleDay);
                                 var sampleEndCutOffDate = util.dateAddDays(installedDate, activitySampleDay + 1);
                                 installSample.activeUserCount[activitySampleDay] |= 0;
                                 if (userLastActivityDate >= sampleEndCutOffDate &&
@@ -136,16 +135,16 @@ Parse.Cloud.job("generateSummaryReport", function (request, status) {
                     }).then(function () {
                                 var retentionTable = [];
                                 _.each(samples, function (sample) {
+                                    var row = [];
+                                    retentionTable.push(row);
                                     _.each(sample.activeUserCount, function (activeUserCountForDay, daysAfterInstall) {
                                         if (daysAfterInstall <= sample.days) {
-                                            var installedDaysAgo = sample.days;
                                             var percent = (sample.totalUserCount ? (activeUserCountForDay / sample.totalUserCount * 100) : 0).toFixed(2);
-                                            retentionTable[installedDaysAgo] = retentionTable[installedDaysAgo] || [];
-                                            retentionTable[installedDaysAgo][daysAfterInstall] = {
+                                            row.push({
                                                 installs:sample.totalUserCount,
                                                 active:activeUserCountForDay,
                                                 percent:percent
-                                            };
+                                            });
                                         }
                                     });
                                 });
@@ -204,18 +203,18 @@ Parse.Cloud.job("generateSummaryReport", function (request, status) {
             retentionData += "<th>" + day + "</th>";
         });
         retentionData += "</tr>";
-        for (var rowHeader = retentionRows.length; rowHeader >= 0; rowHeader--) {
-            var row = retentionRows[rowHeader];
-            if (row) { // some row indexes will be unassigned
-                var installDate = util.dateAddDays(now, -rowHeader);
-                var installDisplayDate = rowHeader <= 7 ? months[installDate.getMonth()] + " " + installDate.getDate() : rowHeader + " days ago";
-                retentionData += "<tr><th>" + installDisplayDate + "</th>";
-                _.each(row, function (sample, sampleDay) {
-                    var mouseOverText = "Of " + sample.installs + " install(s) from " + installDisplayDate + ", " + sample.active + " were active after " + sampleDay + " day(s)";
-                    retentionData += "<td><span title='" + mouseOverText +"'>" + (sample.installs ? sample.percent + "%" : "-") + "</span></td>";
-                });
-                retentionData += "</tr>";
-            }
+        for (var rowIdx = retentionRows.length - 1; rowIdx >= 0; rowIdx--) {
+            var rowHeader = installSampleDays[rowIdx];
+            var installDate = util.dateAddDays(now, -rowHeader);
+            var installDisplayDate = rowHeader <= 7 ? months[installDate.getMonth()] + " " + installDate.getDate() : rowHeader + " days ago";
+            retentionData += "<tr><th>" + installDisplayDate + "</th>";
+            var row = retentionRows[rowIdx];
+            _.each(row, function (colData, colIdx) {
+                var sampleDay = activeSampleDays[colIdx];
+                var mouseOverText = "Of " + colData.installs + " install(s) from " + installDisplayDate + ", " + colData.active + " were active after " + sampleDay + " day(s)";
+                retentionData += "<td><span title='" + mouseOverText +"'>" + (colData.installs ? colData.percent + "%" : "-") + "</span></td>";
+            });
+            retentionData += "</tr>";
         }
         retentionData += "</table>";
         return Parse.Promise.as(retentionData);
