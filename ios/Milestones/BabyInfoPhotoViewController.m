@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 DataParenting. All rights reserved.
 //
 
+#import <Mixpanel/MPTweakInline.h>
 #import "BabyInfoPhotoViewController.h"
 
-OptimizelyVariableKeyForBool(ShowOptinalSignUpScreenDuringOnBoarding, NO);
 
 @interface BabyInfoPhotoViewController ()
 
@@ -40,7 +40,7 @@ OptimizelyVariableKeyForBool(ShowOptinalSignUpScreenDuringOnBoarding, NO);
     }
 
     self.navigationItem.prompt = [self.navigationItem.prompt stringByAppendingString:@" (Optional)"];
-    _showOptionalSignup = ![ParentUser currentUser].isAuthenticated && [Optimizely boolForKey:ShowOptinalSignUpScreenDuringOnBoarding];
+    _showOptionalSignup = ![ParentUser currentUser].isAuthenticated && MPTweakValue(@"ShowOptionalSignupDuringOnBoarding", NO);
 
 
 }

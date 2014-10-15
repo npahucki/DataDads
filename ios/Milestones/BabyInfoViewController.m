@@ -8,11 +8,11 @@
 
 #import "BabyInfoViewController.h"
 #import "NSDate+Utils.h"
+#import "Mixpanel/MPTweakInline.h"
 
 #define MIN_DUE_BEFORE -60
 #define MAX_DUE_AFTER 21
 
-OptimizelyVariableKeyForBool(ShowOptinalSignUpScreenDuringOnBoarding, NO);
 
 @interface BabyInfoViewController ()
 
@@ -24,7 +24,7 @@ OptimizelyVariableKeyForBool(ShowOptinalSignUpScreenDuringOnBoarding, NO);
 
 
 - (void)viewDidLoad {
-    BOOL willShowOptionalSignup = ![ParentUser currentUser].isAuthenticated && [Optimizely boolForKey:ShowOptinalSignUpScreenDuringOnBoarding];
+    BOOL willShowOptionalSignup = ![ParentUser currentUser].isAuthenticated && MPTweakValue(@"ShowOptionalSignupDuringOnBoarding", NO);
     self.totalSteps = willShowOptionalSignup ? 4 : 3;
     self.currentStepNumber = 1;
 

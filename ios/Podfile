@@ -14,8 +14,8 @@ pod 'BCGenieEffect', '1.1'
 pod 'AppsFlyer-SDK'
 pod 'RMStore/AppReceiptVerificator'
 pod 'UXCam'
-pod 'Optimizely-iOS-SDK'
 pod 'Mixpanel'
+pod 'Optimizely-iOS-SDK'
 
 
 

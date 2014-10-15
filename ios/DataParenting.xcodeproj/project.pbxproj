@@ -909,7 +909,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E8DD4912188EE5BA00153095 /* Build configuration list for PBXNativeTarget "DataParenting" */;
 			buildPhases = (
-				CDDA7D08E9B24CC38C75A1E3 /* Label Optimizely Views */,
+				AABF2000674748FABD83CF98 /* Label Optimizely Views */,
 				7B33C7CA9A6742DC86D81DA9 /* Check Pods Manifest.lock */,
 				E8DD48D6188EE5B900153095 /* Sources */,
 				E8DD48D7188EE5B900153095 /* Frameworks */,
@@ -1137,7 +1137,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		CDDA7D08E9B24CC38C75A1E3 /* Label Optimizely Views */ = {
+		AABF2000674748FABD83CF98 /* Label Optimizely Views */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
