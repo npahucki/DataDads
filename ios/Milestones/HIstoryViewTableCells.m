@@ -22,7 +22,7 @@
 
 + (void)initialize {
     [[UIButton appearanceWhenContainedIn:[SWTableViewCell class], nil] setTitleColor:[UIColor appInputGreyTextColor] forState:UIControlStateNormal];
-    [UILabel appearanceWhenContainedIn:[SWTableViewCell class], nil].font = [UIFont fontForAppWithType:Medium andSize:13];
+    [UILabel appearanceWhenContainedIn:[SWTableViewCell class], nil].font = [UIFont fontForAppWithType:Medium andSize:14];
 }
 
 - (void)layoutSubviews {
@@ -79,8 +79,9 @@
 
 
 @implementation LoadingTableViewCell
-- (void)layoutSubviews {
-    [super layoutSubviews];
+
+- (void)willMoveToSuperview:(UIView *)newSuperview {
+    [super willMoveToSuperview:newSuperview];
     self.loadingLabel.font = [UIFont fontForAppWithType:Bold andSize:14];
 }
 
@@ -97,12 +98,12 @@
     [self resetPicture];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
+- (void)willMoveToSuperview:(UIView *)newSuperview {
+    [super willMoveToSuperview:newSuperview];
+    // This must be done here, as the UIAppearance overrides any values set in the awakeFromNib,
+    // and using layoutViews causes an infinate triggering of view layouts because of some logic in the SWTableCell
     self.achievementDateLabel.font = [UIFont fontForAppWithType:Bold andSize:13];
-    self.achievementTitleLabel.font = [UIFont fontForAppWithType:Medium andSize:14];
 }
-
 
 - (void)prepareForReuse {
     [super prepareForReuse];
@@ -147,8 +148,6 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    // For some reason, setitng this in awakeFromNib has no effect at all!
-    self.milestoneTitleLabel.font = [UIFont fontForAppWithType:Medium andSize:14];
     _rangeView.frame = self.pictureView.frame;
 }
 
