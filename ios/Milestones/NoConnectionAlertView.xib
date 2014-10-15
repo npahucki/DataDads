@@ -24,7 +24,7 @@
                         </attributedString>
                     </state>
                     <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_NoConnectionAlertView-button-KIN-a9-J2A"/>
+                        
                     </userDefinedRuntimeAttributes>
                 </button>
             </subviews>
@@ -40,7 +40,7 @@
                 <outlet property="displayButton" destination="KIN-a9-J2A" id="2ZH-Pc-IPP"/>
             </connections>
             <userDefinedRuntimeAttributes>
-                <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_NoConnectionAlertView-view-iN0-l3-epB"/>
+                
             </userDefinedRuntimeAttributes>
         </view>
     </objects>

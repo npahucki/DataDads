@@ -23,7 +23,7 @@ static BOOL isRelease;
 
 + (void)initializeAnalytics:(NSDictionary *)launchOptions {
 # if DEBUG || TARGET_IPHONE_SIMULATOR
-    isRelease = YES;
+    isRelease = NO;
 #else
     isRelease = YES;
 #endif

@@ -14,7 +14,7 @@
                     <rect key="frame" x="14" y="0.0" width="26" height="13"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_TutorialBubbleView-imageView-c9p-Ir-0lM"/>
+                        
                     </userDefinedRuntimeAttributes>
                 </imageView>
                 <view alpha="0.80000000000000004" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E03-Ar-ynF" userLabel="Background View">
@@ -36,7 +36,7 @@
                                 <action selector="didClickCloseButton:" destination="iN0-l3-epB" eventType="touchUpInside" id="k79-z2-QEe"/>
                             </connections>
                             <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_TutorialBubbleView-button-vd5-lq-xpn"/>
+                                
                             </userDefinedRuntimeAttributes>
                         </button>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Blah Blah Blah Blah Blah Blah Nlah Blah " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="209" translatesAutoresizingMaskIntoConstraints="NO" id="Faw-Lr-Uxa" userLabel="Label - Blah Blah Blah Blah Blah Blah Nlah Blah">
@@ -46,7 +46,7 @@
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                             <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_TutorialBubbleView-label-Faw-Lr-Uxa"/>
+                                
                             </userDefinedRuntimeAttributes>
                         </label>
                     </subviews>
@@ -60,7 +60,7 @@
                         <constraint firstAttribute="bottom" secondItem="Faw-Lr-Uxa" secondAttribute="bottom" constant="3" id="pOk-wV-0EJ"/>
                     </constraints>
                     <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_TutorialBubbleView-view-E03-Ar-ynF"/>
+                        
                     </userDefinedRuntimeAttributes>
                 </view>
             </subviews>
@@ -80,7 +80,7 @@
                 <outlet property="textLabel" destination="Faw-Lr-Uxa" id="apR-tS-XlF"/>
             </connections>
             <userDefinedRuntimeAttributes>
-                <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_TutorialBubbleView-view-iN0-l3-epB"/>
+                
             </userDefinedRuntimeAttributes>
         </view>
     </objects>

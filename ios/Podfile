@@ -15,7 +15,6 @@ pod 'AppsFlyer-SDK'
 pod 'RMStore/AppReceiptVerificator'
 pod 'UXCam'
 pod 'Mixpanel'
-pod 'Optimizely-iOS-SDK'
 
 
 

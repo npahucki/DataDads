@@ -18,7 +18,7 @@
                         <constraint firstAttribute="height" constant="38" id="dIp-Vi-uF7"/>
                     </constraints>
                     <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_AlertThenDisappearView-imageView-mDa-j8-9Jd"/>
+                        
                     </userDefinedRuntimeAttributes>
                 </imageView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="269" translatesAutoresizingMaskIntoConstraints="NO" id="ia7-Ny-XM2">
@@ -35,7 +35,7 @@
                     </attributedString>
                     <nil key="highlightedColor"/>
                     <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_AlertThenDisappearView-label-ia7-Ny-XM2"/>
+                        
                     </userDefinedRuntimeAttributes>
                 </label>
             </subviews>
@@ -53,7 +53,7 @@
                 <outlet property="titleLabel" destination="ia7-Ny-XM2" id="BG4-5Y-fOz"/>
             </connections>
             <userDefinedRuntimeAttributes>
-                <userDefinedRuntimeAttribute type="string" keyPath="optimizelyId" value="_AlertThenDisappearView-view-iN0-l3-epB"/>
+                
             </userDefinedRuntimeAttributes>
         </view>
     </objects>
