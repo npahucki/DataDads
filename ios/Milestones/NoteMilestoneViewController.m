@@ -301,7 +301,7 @@
     if (ParentUser.currentUser.autoPublishToFacebook != self.fbSwitch.on) {
         ParentUser.currentUser.autoPublishToFacebook = self.fbSwitch.on;
         [ParentUser.currentUser saveEventually:^(BOOL succeeded, NSError *error) {
-            if (succeeded) [ParentUser.currentUser refreshInBackgroundWithBlock:nil]; // Make sure cache is updated
+            if (succeeded) [ParentUser.currentUser fetchInBackgroundWithBlock:nil]; // Make sure cache is updated
         }];
     }
 }

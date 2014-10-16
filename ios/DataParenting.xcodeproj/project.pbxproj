@@ -459,6 +459,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E8A02D4519817CCF001E0DAB /* AudioToolbox.framework in Frameworks */,
 				E8A02D3619817CCF001E0DAB /* AssetsLibrary.framework in Frameworks */,
 				E8A02D3819817CCF001E0DAB /* SystemConfiguration.framework in Frameworks */,
 				E8A02D3919817CCF001E0DAB /* QuartzCore.framework in Frameworks */,
@@ -472,7 +473,6 @@
 				E8A02D4219817CCF001E0DAB /* libz.dylib in Frameworks */,
 				E8A02D4319817CCF001E0DAB /* CoreLocation.framework in Frameworks */,
 				E8A02D4419817CCF001E0DAB /* CFNetwork.framework in Frameworks */,
-				E8A02D4519817CCF001E0DAB /* AudioToolbox.framework in Frameworks */,
 				E8A02D4719817CCF001E0DAB /* UIKit.framework in Frameworks */,
 				E8A02D4819817CCF001E0DAB /* Foundation.framework in Frameworks */,
 				E8A02D4919817CCF001E0DAB /* libPods.a in Frameworks */,
@@ -485,6 +485,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E81B58581891EE7D00C74C2B /* AudioToolbox.framework in Frameworks */,
 				E8A99CF4196205E1008BCEFE /* AssetsLibrary.framework in Frameworks */,
 				E81B58681891EEDB00C74C2B /* SystemConfiguration.framework in Frameworks */,
 				E81B58621891EEBE00C74C2B /* QuartzCore.framework in Frameworks */,
@@ -498,7 +499,6 @@
 				E81B585E1891EEAC00C74C2B /* libz.dylib in Frameworks */,
 				E81B585C1891EE9E00C74C2B /* CoreLocation.framework in Frameworks */,
 				E81B585A1891EE8D00C74C2B /* CFNetwork.framework in Frameworks */,
-				E81B58581891EE7D00C74C2B /* AudioToolbox.framework in Frameworks */,
 				E8DD48E2188EE5B900153095 /* UIKit.framework in Frameworks */,
 				E8DD48DE188EE5B900153095 /* Foundation.framework in Frameworks */,
 				D6CB8834E1A347069F6D2883 /* libPods.a in Frameworks */,

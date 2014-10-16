@@ -8,6 +8,7 @@
 
 #import <PFCloud+Cache/PFCloud+Cache.h>
 #import "AppDelegate.h"
+#import <AudioToolbox/AudioToolbox.h> 
 
 @implementation AppDelegate
 
@@ -103,7 +104,7 @@
     // Register for push notifications
     if ([app respondsToSelector:@selector(registerForRemoteNotifications)]) {
         // ios 8
-        [app registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:
+        [app registerUserNotificationSettings:[UIUserNotificationSettings                           settingsForTypes:
                 (UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge) categories:nil]];
         [app registerForRemoteNotifications];
     } else {
