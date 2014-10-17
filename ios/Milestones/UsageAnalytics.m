@@ -17,13 +17,33 @@ static id safe(id object) {
     return object ?: [NSNull null];
 }
 
+static NSDictionary * safeForFB(NSDictionary * dict) {
+    NSMutableDictionary * fbFriendlyDictionary = [[NSMutableDictionary alloc] initWithCapacity:dict.count];
+    for(id key in dict.allKeys) {
+        NSString * fbKey;
+        if([key isKindOfClass:[NSString class]]) {
+            fbKey = [(NSString *)key stringByReplacingOccurrencesOfString:@"." withString:@"_"];
+        } else {
+            fbKey = key;
+        }
+        
+        id value = dict[key];
+        // Skip null keys. 
+        if(value != [NSNull null]) {
+            fbFriendlyDictionary[fbKey] =  value;
+        }
+    }
+    return fbFriendlyDictionary;
+}
+
+
 static BOOL isRelease;
 
 @implementation UsageAnalytics
 
 + (void)initializeAnalytics:(NSDictionary *)launchOptions {
 # if DEBUG || TARGET_IPHONE_SIMULATOR
-    isRelease = NO;
+    isRelease = YES;
 #else
     isRelease = YES;
 #endif
@@ -117,7 +137,7 @@ static BOOL isRelease;
                 [Heap track:@"userSignedUp" withProperties:props];
                 [[Mixpanel sharedInstance] track:@"userSignup" properties:props];
                 [[AppsFlyerTracker sharedTracker] trackEvent:@"userSignedUp" withValue:[@(number) stringValue]];
-                [FBAppEvents logEvent:FBAppEventNameCompletedRegistration parameters:props];
+                [FBAppEvents logEvent:FBAppEventNameCompletedRegistration parameters:safeForFB(props)];
             } else {
                 NSLog(@"[USAGE ANALYTICS]: trackUserSignup - User:%@ Method:%@ Number of Achievements:%d", user, method, number);
             }
@@ -130,7 +150,7 @@ static BOOL isRelease;
             };
             [Heap track:@"userSignedUp" withProperties:props];
             [[AppsFlyerTracker sharedTracker] trackEvent:@"userSignedUp" withValue:@"0"];
-            [FBAppEvents logEvent:FBAppEventNameCompletedRegistration parameters:props];
+            [FBAppEvents logEvent:FBAppEventNameCompletedRegistration parameters:safeForFB(props)];
             [[Mixpanel sharedInstance] track:@"userSignup" properties:props];
         } else {
             NSLog(@"[USAGE ANALYTICS]: trackUserSignup - User:%@ Method:%@", user, method);
@@ -153,7 +173,7 @@ static BOOL isRelease;
         if (isRelease) {
             [Heap track:@"userLinkedWithFacebook" withProperties:props];
             [[Mixpanel sharedInstance] track:@"userLinkedWithFacebook" properties:props];
-            [FBAppEvents logEvent:@"userLinkedWithFacebook" parameters:props];
+            [FBAppEvents logEvent:@"userLinkedWithFacebook" parameters:safeForFB(props)];
             [[AppsFlyerTracker sharedTracker] trackEvent:@"userLinkedWithFacebook" withValue:@""];
         } else {
             NSLog(@"[USAGE ANALYTICS]: trackUserLinkedWithFacebook - User:%@ Publish:%d", user, publish);
@@ -165,7 +185,7 @@ static BOOL isRelease;
     if (isRelease) {
         [Heap track:@"userSignedOut" withProperties:@{@"user.id" : safe(user.objectId)}];
         [[Mixpanel sharedInstance] track:@"userSignedOut" properties:@{@"user.id" : safe(user.objectId)}];
-        [FBAppEvents logEvent:@"userSignedOut" parameters:@{@"user.id" : safe(user.objectId)}];
+        [FBAppEvents logEvent:@"userSignedOut" parameters:@{@"user_id" : safe(user.objectId)}];
         [[AppsFlyerTracker sharedTracker] trackEvent:@"userSignedOut" withValue:@""];
     } else {
         NSLog(@"[USAGE ANALYTICS]: trackUserSignout - User:%@", user);
@@ -193,7 +213,7 @@ static BOOL isRelease;
         };
         [Heap track:@"babyCreated" withProperties:props];
         [[Mixpanel sharedInstance] track:@"babyCreated" properties:props];
-        [FBAppEvents logEvent:@"babyCreated" parameters:props];
+        [FBAppEvents logEvent:@"babyCreated" parameters:safeForFB(props)];
         [[AppsFlyerTracker sharedTracker] trackEvent:@"babyCreated" withValue:props.description];
     } else {
         NSLog(@"[USAGE ANALYTICS]: trackCreateBaby - Baby:%@", baby);
@@ -237,7 +257,7 @@ static BOOL isRelease;
             [Heap track:@"achievementLogged" withProperties:props];
             [[Mixpanel sharedInstance] track:@"achievementLogged" properties:props];
             [[Mixpanel sharedInstance].people increment:@"achievementsLogged" by:@(1)];
-            [FBAppEvents logEvent:@"achievementLogged" parameters:props];
+            [FBAppEvents logEvent:@"achievementLogged" parameters:safeForFB(props)];
         }
     } else {
         NSLog(@"[USAGE ANALYTICS]: trackAchievementLogged - Achievement:%@", achievement);
@@ -307,7 +327,7 @@ static BOOL isRelease;
         [[Mixpanel sharedInstance] track:@"purchaseDecision" properties:props];
 
         [[AppsFlyerTracker sharedTracker] trackEvent:@"purchaseDecision" withValue:productId];
-        [FBAppEvents logEvent:@"purchaseDecision" parameters:props];
+        [FBAppEvents logEvent:@"purchaseDecision" parameters:safeForFB(props)];
         if (b) {
             [FBAppEvents logEvent:FBAppEventNameAddedToCart parameters:props];
         }
@@ -367,9 +387,9 @@ static BOOL isRelease;
     if (isRelease) {
         [Heap track:@"purchaseTransactionState" withProperties:props];
         [[Mixpanel sharedInstance] track:@"purchaseTransactionState" properties:props];
-        [FBAppEvents logEvent:@"purchaseTransactionState" parameters:props];
+        [FBAppEvents logEvent:@"purchaseTransactionState" parameters:safeForFB(props)];
         if (transaction.transactionState == SKPaymentTransactionStatePurchasing) {
-            [FBAppEvents logEvent:FBAppEventNameInitiatedCheckout parameters:props];
+            [FBAppEvents logEvent:FBAppEventNameInitiatedCheckout parameters:safeForFB(props)];
         }
     } else {
         NSLog(@"[USAGE ANALYTICS]: purchaseTransactionState - txId:%@ state:%@ productId:%@", transaction.transactionIdentifier, stateString, transaction.payment.productIdentifier);
