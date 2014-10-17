@@ -328,7 +328,7 @@ static BOOL isRelease;
 
 + (void)trackPurchaseCompleted:(NSString *)productId atPrice:(NSNumber *)price andCurrency:(NSString *)currency {
     if (isRelease) {
-        NSDictionary *props = @{@"productId" : productId, @"price" : price, @"currency" : currency};
+        NSDictionary *props = @{@"productId" : safe(productId), @"price" : safe(price), @"currency" : safe(currency)};
         [Heap track:@"purchaseCompleted" withProperties:props];
         [[Mixpanel sharedInstance].people trackCharge:price withProperties:props];
         [FBAppEvents logPurchase:[price doubleValue] currency:currency parameters:@{@"productId" : productId}];
