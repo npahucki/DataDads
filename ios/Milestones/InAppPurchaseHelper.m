@@ -260,7 +260,7 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
     if(product.price)
         [UsageAnalytics trackPurchaseCompleted:transaction.payment.productIdentifier atPrice:product.price andCurrency:currencyCode];
     else
-        NSLog("Got transaction %@ with no price!", transaction.transactionIdentifier);
+        NSLog(@"Got transaction %@ with no price!", transaction.transactionIdentifier);
     if (block) block(YES, nil);
     [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationProductPurchased object:transaction];
 }
