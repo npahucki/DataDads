@@ -176,7 +176,32 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
             [productId stringByAppendingString:@".3"]
     ];
 
-    // TOOD: Move this to the UI so it can show a loading view
+    // Show view with loading indicator
+    InAppPurchaseAlertView *alert = [[InAppPurchaseAlertView alloc] init];
+    PFBooleanResultBlock wrapperBlock = ^(BOOL succeeded, NSError *error) {
+        [alert close];
+        block(succeeded, error);
+    };
+
+    //Show the dialog first, so the user has some indication of what is going on
+    [alert showWithBlock:^(InAppPurchaseChoice choice) {
+        if (choice == InAppPurchaseChoicePurchase) {
+            [UsageAnalytics trackPurchaseDecision:YES forProductId:productId];
+            SKMutablePayment *payment = [SKMutablePayment paymentWithProduct:alert.product];
+            payment.applicationUsername = [ParentUser currentUser].objectId;
+            payment.quantity = 1;
+            NSAssert(_paymentRequestCallbacks[payment.productIdentifier] == nil, @"Expected only a single payment per product to process at a time.");
+            _paymentRequestCallbacks[payment.productIdentifier] = wrapperBlock;
+            [[SKPaymentQueue defaultQueue] addPayment:payment];
+        } else if (choice == InAppPurchaseChoiceRestore) {
+            [self ensureProductRestored:ddProduct allowRefresh:YES withBlock:wrapperBlock];
+        } else {
+            [UsageAnalytics trackPurchaseDecision:NO forProductId:productId];
+            wrapperBlock(NO, nil);
+        }
+    }];
+
+    // Look up and present the product to the user
     [self validateProductIdentifiers:productIds withBlock:^(NSArray *objects, NSError *error) {
         if (error) {
             [[[UIAlertView alloc] initWithTitle:@"Could Not Connect to AppStore" message:@"Please try again, perhaps a little later" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
@@ -186,30 +211,7 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
             SKProduct *product = objects.firstObject;
             if (product) {
                 _productCache[productId] = product;
-                InAppPurchaseAlertView *alert = [[InAppPurchaseAlertView alloc] init];
-                alert.product = product;
-                [alert showWithBlock:^(InAppPurchaseChoice choice) {
-                    // Wrapper, closes the dialog when done
-                    PFBooleanResultBlock wrapperBlock = ^(BOOL succeeded, NSError *error) {
-                        [alert close];
-                        block(succeeded, error);
-                    };
-
-                    if (choice == InAppPurchaseChoicePurchase) {
-                        [UsageAnalytics trackPurchaseDecision:YES forProductId:productId];
-                        SKMutablePayment *payment = [SKMutablePayment paymentWithProduct:product];
-                        payment.applicationUsername = [ParentUser currentUser].objectId;
-                        payment.quantity = 1;
-                        NSAssert(_paymentRequestCallbacks[payment.productIdentifier] == nil, @"Expected only a single payment per product to process at a time.");
-                        _paymentRequestCallbacks[payment.productIdentifier] = wrapperBlock;
-                        [[SKPaymentQueue defaultQueue] addPayment:payment];
-                    } else if (choice == InAppPurchaseChoiceRestore) {
-                        [self ensureProductRestored:ddProduct allowRefresh:YES withBlock:wrapperBlock];
-                    } else {
-                        [UsageAnalytics trackPurchaseDecision:NO forProductId:productId];
-                        wrapperBlock(NO, nil);
-                    }
-                }];
+                alert.product = product; // This will activate the dialog.
             } else {
                 // No purchase data, can't offer product.
                 NSString *msg = [NSString stringWithFormat:@"I'm sorry we can't offer the product '%@' right now. Please contact support with this message.", productId];
@@ -217,6 +219,7 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
                         @{NSLocalizedDescriptionKey : @"Product id not found in AppStore", @"productId" : productId}];
                 [UsageAnalytics trackError:error2 forOperationNamed:@"lookupProduct"];
                 [[[UIAlertView alloc] initWithTitle:@"Something Went Wrong" message:msg delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+                wrapperBlock(NO, error);
             }
         }
     }];

@@ -209,8 +209,6 @@
 		E8A02D5A19817CCF001E0DAB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E8DD48E6188EE5B900153095 /* InfoPlist.strings */; };
 		E8A29BCE19F0148E00DFDE66 /* InAppPurchaseView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E8A29BCD19F0148E00DFDE66 /* InAppPurchaseView.xib */; };
 		E8A29BCF19F0148E00DFDE66 /* InAppPurchaseView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E8A29BCD19F0148E00DFDE66 /* InAppPurchaseView.xib */; };
-		E8A29BDD19F057AE00DFDE66 /* InAppPurchaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A29BDC19F057AE00DFDE66 /* InAppPurchaseView.m */; };
-		E8A29BDE19F057AE00DFDE66 /* InAppPurchaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A29BDC19F057AE00DFDE66 /* InAppPurchaseView.m */; };
 		E8A29BE119F0633300DFDE66 /* InAppPurchaseAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A29BE019F0633300DFDE66 /* InAppPurchaseAlertView.m */; };
 		E8A29BE219F0633300DFDE66 /* InAppPurchaseAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A29BE019F0633300DFDE66 /* InAppPurchaseAlertView.m */; };
 		E8A99CF4196205E1008BCEFE /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8A99CF3196205E1008BCEFE /* AssetsLibrary.framework */; };
@@ -407,8 +405,6 @@
 		E8A02D5F19817CCF001E0DAB /* DataParentingDev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DataParentingDev.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E8A02D6019817CCF001E0DAB /* DataParentingDev-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "DataParentingDev-Info.plist"; path = "/Users/npahucki/Projects/DataParenting/ios/DataParentingDev-Info.plist"; sourceTree = "<absolute>"; };
 		E8A29BCD19F0148E00DFDE66 /* InAppPurchaseView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InAppPurchaseView.xib; sourceTree = "<group>"; };
-		E8A29BDB19F057AE00DFDE66 /* InAppPurchaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InAppPurchaseView.h; sourceTree = "<group>"; };
-		E8A29BDC19F057AE00DFDE66 /* InAppPurchaseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InAppPurchaseView.m; sourceTree = "<group>"; };
 		E8A29BDF19F0633300DFDE66 /* InAppPurchaseAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InAppPurchaseAlertView.h; sourceTree = "<group>"; };
 		E8A29BE019F0633300DFDE66 /* InAppPurchaseAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InAppPurchaseAlertView.m; sourceTree = "<group>"; };
 		E8A99CF3196205E1008BCEFE /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
@@ -600,8 +596,6 @@
 				E85A99A7198FE84B00AFE096 /* TutorialBubbleView.h */,
 				E85A99A8198FE84B00AFE096 /* TutorialBubbleView.m */,
 				E8A29BCD19F0148E00DFDE66 /* InAppPurchaseView.xib */,
-				E8A29BDB19F057AE00DFDE66 /* InAppPurchaseView.h */,
-				E8A29BDC19F057AE00DFDE66 /* InAppPurchaseView.m */,
 				E8A29BDF19F0633300DFDE66 /* InAppPurchaseAlertView.h */,
 				E8A29BE019F0633300DFDE66 /* InAppPurchaseAlertView.m */,
 				E8914C8F19F0925C0028F051 /* TestView.xib */,
@@ -1225,7 +1219,6 @@
 				E8A02D1819817CCF001E0DAB /* ParentUser.m in Sources */,
 				E8A02D1919817CCF001E0DAB /* SettingPanelViewController.m in Sources */,
 				E8A02D1A19817CCF001E0DAB /* AppDelegate.m in Sources */,
-				E8A29BDE19F057AE00DFDE66 /* InAppPurchaseView.m in Sources */,
 				E8A02D1B19817CCF001E0DAB /* TakePhotoButton.m in Sources */,
 				E85A99AA198FE84B00AFE096 /* TutorialBubbleView.m in Sources */,
 				E8A02D1C19817CCF001E0DAB /* main.m in Sources */,
@@ -1297,7 +1290,6 @@
 				E872D4CA1940B412003F461C /* ParentUser.m in Sources */,
 				E88F3635194A5A4100BE74E9 /* SettingPanelViewController.m in Sources */,
 				E8DD48EE188EE5B900153095 /* AppDelegate.m in Sources */,
-				E8A29BDD19F057AE00DFDE66 /* InAppPurchaseView.m in Sources */,
 				E856BD581964455200D00E5C /* TakePhotoButton.m in Sources */,
 				E85A99A9198FE84B00AFE096 /* TutorialBubbleView.m in Sources */,
 				E8DD48EA188EE5B900153095 /* main.m in Sources */,

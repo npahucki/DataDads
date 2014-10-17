@@ -20,17 +20,22 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="InAppPurchaseAlertView">
             <connections>
+                <outlet property="cancelButton" destination="4Dd-Fj-CDc" id="nt4-kM-nU0"/>
                 <outlet property="descriptionTextView" destination="w8F-gi-oxS" id="NR0-dG-lUE"/>
+                <outlet property="fadeView" destination="P5n-An-J2H" id="K80-82-1xG"/>
                 <outlet property="progressImageView" destination="1Aj-dS-y8R" id="OW2-nQ-JqK"/>
+                <outlet property="purchaseNowButton" destination="p9T-YE-HTl" id="fhA-jU-8Qt"/>
+                <outlet property="restorePurchaseButton" destination="p6f-yb-kQR" id="ohm-5x-gbS"/>
+                <outlet property="termsAndConditionsButton" destination="rof-R7-Nce" id="Nf3-tE-0fB"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB" userLabel="In App Purchase View" customClass="InAppPurchaseView">
+        <view contentMode="scaleToFill" id="iN0-l3-epB" userLabel="In App Purchase View">
             <rect key="frame" x="0.0" y="0.0" width="349" height="378"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="purchaseNow" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p9T-YE-HTl">
-                    <rect key="frame" x="16" y="190" width="317" height="44"/>
+                    <rect key="frame" x="16" y="182" width="317" height="44"/>
                     <color key="backgroundColor" red="0.0" green="0.5568627451" blue="0.62352941179999999" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="44" id="Z6o-8b-Ca0"/>
@@ -102,9 +107,9 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" alpha="0.69999999999999973" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rof-R7-Nce">
-                    <rect key="frame" x="8" y="159" width="225" height="23"/>
+                    <rect key="frame" x="8" y="130" width="333" height="44"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="23" id="d2M-5P-2Ha">
+                        <constraint firstAttribute="height" constant="44" id="d2M-5P-2Ha">
                             <variation key="heightClass=compact-widthClass=compact" constant="44"/>
                         </constraint>
                     </constraints>
@@ -122,20 +127,7 @@
                         <action selector="didClickReadTermsAndConditions:" destination="-1" eventType="touchUpInside" id="PDz-SV-WF1"/>
                     </connections>
                 </button>
-                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" editable="NO" usesAttributedText="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w8F-gi-oxS">
-                    <rect key="frame" x="8" y="8" width="333" height="151"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <attributedString key="attributedText">
-                        <fragment content="Description here">
-                            <attributes>
-                                <font key="NSFont" size="13" name="GothamRounded-Book"/>
-                                <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
-                            </attributes>
-                        </fragment>
-                    </attributedString>
-                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                </textView>
-                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="progress-0" translatesAutoresizingMaskIntoConstraints="NO" id="1Aj-dS-y8R">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="progress-0" translatesAutoresizingMaskIntoConstraints="NO" id="1Aj-dS-y8R">
                     <rect key="frame" x="157" y="240" width="35" height="35"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="35" id="Zs9-qm-ZBC"/>
@@ -148,24 +140,48 @@
                         </mask>
                     </variation>
                 </imageView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P5n-An-J2H" userLabel="Fade Container">
+                    <rect key="frame" x="8" y="8" width="333" height="130"/>
+                    <subviews>
+                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" editable="NO" usesAttributedText="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w8F-gi-oxS">
+                            <rect key="frame" x="0.0" y="0.0" width="333" height="130"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <attributedString key="attributedText">
+                                <fragment content="Loading Products....">
+                                    <attributes>
+                                        <font key="NSFont" size="18" name="GothamRounded-Book"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                    </attributes>
+                                </fragment>
+                            </attributedString>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                        </textView>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="w8F-gi-oxS" firstAttribute="top" secondItem="P5n-An-J2H" secondAttribute="top" id="5KE-qm-wDz"/>
+                        <constraint firstAttribute="trailing" secondItem="w8F-gi-oxS" secondAttribute="trailing" id="7Lv-Eb-dGJ"/>
+                        <constraint firstItem="w8F-gi-oxS" firstAttribute="leading" secondItem="P5n-An-J2H" secondAttribute="leading" id="GDn-zS-L4W"/>
+                        <constraint firstAttribute="bottom" secondItem="w8F-gi-oxS" secondAttribute="bottom" id="ku1-lR-gf8"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="rof-R7-Nce" firstAttribute="top" secondItem="w8F-gi-oxS" secondAttribute="bottom" id="1Bi-nd-NeV"/>
-                <constraint firstItem="w8F-gi-oxS" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="2Ew-6L-o7g"/>
+                <constraint firstAttribute="trailing" secondItem="rof-R7-Nce" secondAttribute="trailing" constant="8" id="8yw-G2-jL6"/>
                 <constraint firstItem="4Dd-Fj-CDc" firstAttribute="top" secondItem="p6f-yb-kQR" secondAttribute="bottom" constant="-6" id="9oQ-jr-yCL"/>
                 <constraint firstItem="1Aj-dS-y8R" firstAttribute="centerY" secondItem="UjH-z6-EBn" secondAttribute="centerY" id="BfM-dJ-8aF"/>
+                <constraint firstItem="P5n-An-J2H" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="GyD-c1-gTP"/>
                 <constraint firstItem="p9T-YE-HTl" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="HPj-5z-WeT"/>
                 <constraint firstItem="4Dd-Fj-CDc" firstAttribute="centerX" secondItem="p6f-yb-kQR" secondAttribute="centerX" id="K0c-Yt-sSR"/>
                 <constraint firstAttribute="centerX" secondItem="p6f-yb-kQR" secondAttribute="centerX" id="K7t-O8-CU1"/>
-                <constraint firstItem="w8F-gi-oxS" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="Kuw-Sx-Xd5"/>
                 <constraint firstItem="0JN-Na-WXQ" firstAttribute="centerX" secondItem="UjH-z6-EBn" secondAttribute="centerX" id="U9Y-c0-ISW"/>
                 <constraint firstAttribute="trailing" secondItem="UjH-z6-EBn" secondAttribute="trailing" id="VpU-Z2-Cgj"/>
                 <constraint firstAttribute="centerX" secondItem="p6f-yb-kQR" secondAttribute="centerX" id="XeB-DV-JK5"/>
                 <constraint firstItem="1Aj-dS-y8R" firstAttribute="centerX" secondItem="UjH-z6-EBn" secondAttribute="centerX" id="YjE-vm-WDI"/>
-                <constraint firstAttribute="trailing" secondItem="w8F-gi-oxS" secondAttribute="trailing" constant="8" id="aQx-EJ-rtj"/>
                 <constraint firstAttribute="trailing" secondItem="p9T-YE-HTl" secondAttribute="trailing" constant="16" id="amE-qO-AlG"/>
                 <constraint firstItem="p6f-yb-kQR" firstAttribute="top" secondItem="UjH-z6-EBn" secondAttribute="bottom" constant="8" id="c9t-bW-gBC"/>
+                <constraint firstAttribute="trailing" secondItem="P5n-An-J2H" secondAttribute="trailing" constant="8" id="dVT-2U-zon"/>
                 <constraint firstItem="p9T-YE-HTl" firstAttribute="top" secondItem="rof-R7-Nce" secondAttribute="bottom" constant="8" id="gJj-P7-bxe">
                     <variation key="heightClass=compact-widthClass=compact" constant="16"/>
                 </constraint>
@@ -173,11 +189,14 @@
                 <constraint firstAttribute="centerX" secondItem="p9T-YE-HTl" secondAttribute="centerX" id="hMt-iC-wqz"/>
                 <constraint firstItem="rof-R7-Nce" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="p98-WK-WCd"/>
                 <constraint firstItem="UjH-z6-EBn" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="tL6-qt-3BZ"/>
-                <constraint firstItem="UjH-z6-EBn" firstAttribute="top" secondItem="p9T-YE-HTl" secondAttribute="bottom" constant="8" id="v1D-Aq-H6T">
+                <constraint firstItem="UjH-z6-EBn" firstAttribute="top" secondItem="p9T-YE-HTl" secondAttribute="bottom" constant="16" id="v1D-Aq-H6T">
                     <variation key="heightClass=compact-widthClass=compact" constant="16"/>
                 </constraint>
+                <constraint firstItem="rof-R7-Nce" firstAttribute="top" secondItem="P5n-An-J2H" secondAttribute="bottom" constant="-8" id="xAp-ha-2vP"/>
                 <constraint firstItem="rof-R7-Nce" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="yBk-sg-4vo"/>
+                <constraint firstItem="P5n-An-J2H" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="yks-Pg-cCo"/>
                 <constraint firstAttribute="bottom" secondItem="4Dd-Fj-CDc" secondAttribute="bottom" constant="16" id="yyI-1c-44P"/>
+                <constraint firstItem="p9T-YE-HTl" firstAttribute="top" secondItem="P5n-An-J2H" secondAttribute="bottom" constant="8" id="zUQ-HP-F0b"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <nil key="simulatedTopBarMetrics"/>
@@ -192,33 +211,29 @@
                     <include reference="UjH-z6-EBn"/>
                     <include reference="0JN-Na-WXQ"/>
                     <include reference="rof-R7-Nce"/>
-                    <include reference="w8F-gi-oxS"/>
                     <include reference="1Aj-dS-y8R"/>
                 </mask>
                 <mask key="constraints">
-                    <include reference="BfM-dJ-8aF"/>
-                    <include reference="YjE-vm-WDI"/>
-                    <include reference="VpU-Z2-Cgj"/>
-                    <include reference="tL6-qt-3BZ"/>
-                    <include reference="v1D-Aq-H6T"/>
-                    <include reference="2Ew-6L-o7g"/>
-                    <include reference="Kuw-Sx-Xd5"/>
-                    <include reference="aQx-EJ-rtj"/>
-                    <include reference="U9Y-c0-ISW"/>
-                    <include reference="gVp-pF-xCL"/>
-                    <include reference="9oQ-jr-yCL"/>
-                    <include reference="K0c-Yt-sSR"/>
-                    <include reference="yyI-1c-44P"/>
-                    <include reference="K7t-O8-CU1"/>
-                    <include reference="XeB-DV-JK5"/>
-                    <include reference="c9t-bW-gBC"/>
+                    <include reference="p98-WK-WCd"/>
+                    <include reference="yBk-sg-4vo"/>
                     <include reference="HPj-5z-WeT"/>
                     <include reference="amE-qO-AlG"/>
                     <include reference="gJj-P7-bxe"/>
                     <include reference="hMt-iC-wqz"/>
-                    <include reference="1Bi-nd-NeV"/>
-                    <include reference="p98-WK-WCd"/>
-                    <include reference="yBk-sg-4vo"/>
+                    <exclude reference="zUQ-HP-F0b"/>
+                    <include reference="VpU-Z2-Cgj"/>
+                    <include reference="tL6-qt-3BZ"/>
+                    <include reference="v1D-Aq-H6T"/>
+                    <include reference="BfM-dJ-8aF"/>
+                    <include reference="YjE-vm-WDI"/>
+                    <include reference="U9Y-c0-ISW"/>
+                    <include reference="gVp-pF-xCL"/>
+                    <include reference="K7t-O8-CU1"/>
+                    <include reference="XeB-DV-JK5"/>
+                    <include reference="c9t-bW-gBC"/>
+                    <include reference="9oQ-jr-yCL"/>
+                    <include reference="K0c-Yt-sSR"/>
+                    <include reference="yyI-1c-44P"/>
                 </mask>
             </variation>
             <point key="canvasLocation" x="654.5" y="67"/>

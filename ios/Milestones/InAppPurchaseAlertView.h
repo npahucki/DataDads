@@ -23,6 +23,11 @@ typedef void (^InAppPurchaseChoiceBlock)(InAppPurchaseChoice choice);
 @property(weak, nonatomic) IBOutlet UITextView *descriptionTextView;
 @property(weak, nonatomic) IBOutlet UIImageView *progressImageView;
 @property(strong, nonatomic) SKProduct *product;
+@property(weak, nonatomic) IBOutlet UIButton *termsAndConditionsButton;
+@property(weak, nonatomic) IBOutlet UIButton *purchaseNowButton;
+@property(weak, nonatomic) IBOutlet UIButton *restorePurchaseButton;
+@property(weak, nonatomic) IBOutlet UIButton *cancelButton;
+@property(weak, nonatomic) IBOutlet UIView *fadeView;
 
 - (void)showWithBlock:(InAppPurchaseChoiceBlock)choiceBlock;
 

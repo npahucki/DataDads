@@ -13,6 +13,7 @@ const static CGFloat kCustomIOS7MotionEffectExtent = 10.0;
 
 @implementation InAppPurchaseAlertView {
     UIView *_dialogView;
+    SKProduct *_product;
     InAppPurchaseChoiceBlock _resultBlock;
 }
 
@@ -34,41 +35,58 @@ const static CGFloat kCustomIOS7MotionEffectExtent = 10.0;
 
 - (IBAction)didClickPurchaseNow:(id)sender {
     if (_resultBlock) _resultBlock(InAppPurchaseChoicePurchase);
-    [self showProgress];
+    [self showProgress:YES];
 }
 
 - (IBAction)didClickRestorePurchases:(id)sender {
     if (_resultBlock) _resultBlock(InAppPurchaseChoiceRestore);
-    [self showProgress];
+    [self showProgress:YES];
 }
 
 - (IBAction)didClickCancel:(id)sender {
     if (_resultBlock) _resultBlock(InAppPurchaseChoiceCancel);
-    [self showProgress];
+    [self showProgress:YES];
 }
 
-- (void)showProgress {
-    for (UIView *view in _dialogView.subviews) {
-        if ([view isKindOfClass:[UIButton class]]) {
-            ((UIButton *) view).enabled = NO;
-        }
-    }
+- (void)showProgress:(BOOL)isInProgress {
+    self.purchaseNowButton.enabled =
+            self.termsAndConditionsButton.enabled =
+                    self.restorePurchaseButton.enabled =
+                            self.cancelButton.enabled =
+                                    self.progressImageView.hidden = !isInProgress;
     self.progressImageView.image = [UIImage animatedImageNamed:@"progress-" duration:1.0];
-    self.progressImageView.hidden = NO;
 }
 
+
+- (SKProduct *)product {
+    return _product;
+}
+
+- (void)setProduct:(SKProduct *)product {
+    _product = product;
+    self.descriptionTextView.attributedText = [self createDescriptionText];
+    [self showProgress:NO];
+    // Make the bottom of the Text field fade out
+    CAGradientLayer *l = [CAGradientLayer layer];
+    l.frame = self.fadeView.bounds;
+    l.colors = @[(id) [UIColor whiteColor].CGColor, (id) [UIColor clearColor].CGColor];
+    l.startPoint = CGPointMake(0.0f, 0.9f);
+    l.endPoint = CGPointMake(0.0f, 1.0f);
+    self.fadeView.layer.mask = l;
+
+}
 
 - (void)showWithBlock:(InAppPurchaseChoiceBlock)choiceBlock {
     _resultBlock = choiceBlock;
 
     _dialogView = [[NSBundle mainBundle] loadNibNamed:@"InAppPurchaseView" owner:self options:nil][0];
+    [self.purchaseNowButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self showProgress:YES]; // show progress until the product is set
+
     _dialogView.layer.shouldRasterize = YES;
     _dialogView.layer.rasterizationScale = [[UIScreen mainScreen] scale];
     _dialogView.layer.cornerRadius = 7;
-
-    self.descriptionTextView.attributedText = [self createDescriptionText];
-    // TODO: Calc based on size of text!
-    _dialogView.frame = CGRectInset(self.bounds, 20.0, 80.0);
+    _dialogView.frame = CGRectInset(self.bounds, 20.0, 60.0);
 
     // For the black background
     self.frame = [UIScreen mainScreen].bounds;
@@ -117,12 +135,6 @@ const static CGFloat kCustomIOS7MotionEffectExtent = 10.0;
     ];
 }
 
-- (CGFloat)calculateDialogSize:(NSAttributedString *)text forWidth:(CGFloat)width {
-    UITextView *textView = [[UITextView alloc] init];
-    [textView setAttributedText:text];
-    CGSize size = [textView sizeThatFits:CGSizeMake(width, FLT_MAX)];
-    return size.height;
-}
 
 
 - (NSAttributedString *)createDescriptionText {
