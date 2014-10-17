@@ -6,8 +6,8 @@
 #import <objc/runtime.h>
 #import "InAppPurchaseHelper.h"
 #import "RMAppReceipt.h"
-#import "WebViewerViewController.h"
 #import "RMStore.h"
+#import "InAppPurchaseAlertView.h"
 
 static NSDictionary *productInfoForProduct(DDProduct product) {
     static NSArray *productCodes;
@@ -175,6 +175,8 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
             [productId stringByAppendingString:@".2"],
             [productId stringByAppendingString:@".3"]
     ];
+
+    // TOOD: Move this to the UI so it can show a loading view
     [self validateProductIdentifiers:productIds withBlock:^(NSArray *objects, NSError *error) {
         if (error) {
             [[[UIAlertView alloc] initWithTitle:@"Could Not Connect to AppStore" message:@"Please try again, perhaps a little later" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
@@ -184,39 +186,30 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
             SKProduct *product = objects.firstObject;
             if (product) {
                 _productCache[productId] = product;
-                NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
-                [numberFormatter setFormatterBehavior:NSNumberFormatterBehavior10_4];
-                [numberFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
-                [numberFormatter setLocale:product.priceLocale];
-                NSString *formattedPrice = [numberFormatter stringFromNumber:product.price];
-                NSString *title = [NSString stringWithFormat:@"Purchase %@ now?", product.localizedTitle];
-                NSString *msg = [NSString stringWithFormat:@"%@ costs %@.\n\n%@", product.localizedTitle,
-                                                           formattedPrice, product.localizedDescription];
+                InAppPurchaseAlertView *alert = [[InAppPurchaseAlertView alloc] init];
+                alert.product = product;
+                [alert showWithBlock:^(InAppPurchaseChoice choice) {
+                    // Wrapper, closes the dialog when done
+                    PFBooleanResultBlock wrapperBlock = ^(BOOL succeeded, NSError *error) {
+                        [alert close];
+                        block(succeeded, error);
+                    };
 
-                // TODO: Show a custom dialog
-                [[[UIAlertView alloc] initWithTitle:title message:msg delegate:nil cancelButtonTitle:@"Not Now" otherButtonTitles:@"Purchase Now", @"Restore Purchase", @"Read Our Awesome Terms", nil]
-                        showWithButtonBlock:^(NSInteger buttonIndex) {
-                            if (buttonIndex == 1) {
-                                [UsageAnalytics trackPurchaseDecision:YES forProductId:productId];
-                                SKMutablePayment *payment = [SKMutablePayment paymentWithProduct:product];
-                                payment.applicationUsername = [ParentUser currentUser].objectId;
-                                payment.quantity = 1;
-                                NSAssert(_paymentRequestCallbacks[payment.productIdentifier] == nil, @"Expected only a single payment per product to process at a time.");
-                                _paymentRequestCallbacks[payment.productIdentifier] = block;
-                                [[SKPaymentQueue defaultQueue] addPayment:payment];
-                            } else if (buttonIndex == 2) {
-                                [self ensureProductRestored:ddProduct allowRefresh:YES withBlock:block];
-                            } else if (buttonIndex == 3) {
-                                WebViewerViewController *vc = [WebViewerViewController webViewForUrlString:kDDURLTermsAndConditions];
-                                UIWindow *window = [[UIApplication sharedApplication] keyWindow];
-                                [window.rootViewController presentViewController:vc animated:YES completion:^{
-                                    block(NO, nil);
-                                }];
-                            } else {
-                                [UsageAnalytics trackPurchaseDecision:NO forProductId:productId];
-                                block(NO, nil);
-                            }
-                        }];
+                    if (choice == InAppPurchaseChoicePurchase) {
+                        [UsageAnalytics trackPurchaseDecision:YES forProductId:productId];
+                        SKMutablePayment *payment = [SKMutablePayment paymentWithProduct:product];
+                        payment.applicationUsername = [ParentUser currentUser].objectId;
+                        payment.quantity = 1;
+                        NSAssert(_paymentRequestCallbacks[payment.productIdentifier] == nil, @"Expected only a single payment per product to process at a time.");
+                        _paymentRequestCallbacks[payment.productIdentifier] = wrapperBlock;
+                        [[SKPaymentQueue defaultQueue] addPayment:payment];
+                    } else if (choice == InAppPurchaseChoiceRestore) {
+                        [self ensureProductRestored:ddProduct allowRefresh:YES withBlock:wrapperBlock];
+                    } else {
+                        [UsageAnalytics trackPurchaseDecision:NO forProductId:productId];
+                        wrapperBlock(NO, nil);
+                    }
+                }];
             } else {
                 // No purchase data, can't offer product.
                 NSString *msg = [NSString stringWithFormat:@"I'm sorry we can't offer the product '%@' right now. Please contact support with this message.", productId];

@@ -116,6 +116,8 @@
 		E89035E819303D13004A4013 /* SignUpPromptViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89035E719303D13004A4013 /* SignUpPromptViewController.m */; };
 		E89035EB19337807004A4013 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = E89035EA19337807004A4013 /* Reachability.m */; };
 		E89035EF1934C97F004A4013 /* AchievementDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89035EE1934C97F004A4013 /* AchievementDetailsViewController.m */; };
+		E8914C9019F0925C0028F051 /* TestView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E8914C8F19F0925C0028F051 /* TestView.xib */; };
+		E8914C9119F0925C0028F051 /* TestView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E8914C8F19F0925C0028F051 /* TestView.xib */; };
 		E89AC31D1955E83D00AD3869 /* UsageAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E89AC31C1955E83D00AD3869 /* UsageAnalytics.m */; };
 		E89AC31F195A0D1C00AD3869 /* NSDateHumanizedTime.strings in Resources */ = {isa = PBXBuildFile; fileRef = E89AC31E195A0D1C00AD3869 /* NSDateHumanizedTime.strings */; };
 		E89AC324195A204100AD3869 /* UIImage+FX.m in Sources */ = {isa = PBXBuildFile; fileRef = E89AC323195A204100AD3869 /* UIImage+FX.m */; };
@@ -205,6 +207,12 @@
 		E8A02D5819817CCF001E0DAB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E8DD48FB188EE5B900153095 /* Images.xcassets */; };
 		E8A02D5919817CCF001E0DAB /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E8DD48EF188EE5B900153095 /* Main_iPhone.storyboard */; };
 		E8A02D5A19817CCF001E0DAB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E8DD48E6188EE5B900153095 /* InfoPlist.strings */; };
+		E8A29BCE19F0148E00DFDE66 /* InAppPurchaseView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E8A29BCD19F0148E00DFDE66 /* InAppPurchaseView.xib */; };
+		E8A29BCF19F0148E00DFDE66 /* InAppPurchaseView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E8A29BCD19F0148E00DFDE66 /* InAppPurchaseView.xib */; };
+		E8A29BDD19F057AE00DFDE66 /* InAppPurchaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A29BDC19F057AE00DFDE66 /* InAppPurchaseView.m */; };
+		E8A29BDE19F057AE00DFDE66 /* InAppPurchaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A29BDC19F057AE00DFDE66 /* InAppPurchaseView.m */; };
+		E8A29BE119F0633300DFDE66 /* InAppPurchaseAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A29BE019F0633300DFDE66 /* InAppPurchaseAlertView.m */; };
+		E8A29BE219F0633300DFDE66 /* InAppPurchaseAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = E8A29BE019F0633300DFDE66 /* InAppPurchaseAlertView.m */; };
 		E8A99CF4196205E1008BCEFE /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8A99CF3196205E1008BCEFE /* AssetsLibrary.framework */; };
 		E8ABCFBA191D68FE0083ED25 /* UIDateField.m in Sources */ = {isa = PBXBuildFile; fileRef = E8ABCFB9191D68FE0083ED25 /* UIDateField.m */; };
 		E8ABE5741987FE6B0022D110 /* TutorialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8ABE5731987FE6B0022D110 /* TutorialViewController.m */; };
@@ -388,6 +396,7 @@
 		E89035EA19337807004A4013 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		E89035ED1934C97F004A4013 /* AchievementDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AchievementDetailsViewController.h; sourceTree = "<group>"; };
 		E89035EE1934C97F004A4013 /* AchievementDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AchievementDetailsViewController.m; sourceTree = "<group>"; };
+		E8914C8F19F0925C0028F051 /* TestView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TestView.xib; sourceTree = "<group>"; };
 		E89AC31B1955E83D00AD3869 /* UsageAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UsageAnalytics.h; sourceTree = "<group>"; };
 		E89AC31C1955E83D00AD3869 /* UsageAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UsageAnalytics.m; sourceTree = "<group>"; };
 		E89AC31E195A0D1C00AD3869 /* NSDateHumanizedTime.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = NSDateHumanizedTime.strings; sourceTree = "<group>"; };
@@ -397,6 +406,11 @@
 		E89AC326195B029600AD3869 /* RangeIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RangeIndicatorView.m; sourceTree = "<group>"; };
 		E8A02D5F19817CCF001E0DAB /* DataParentingDev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DataParentingDev.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E8A02D6019817CCF001E0DAB /* DataParentingDev-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "DataParentingDev-Info.plist"; path = "/Users/npahucki/Projects/DataParenting/ios/DataParentingDev-Info.plist"; sourceTree = "<absolute>"; };
+		E8A29BCD19F0148E00DFDE66 /* InAppPurchaseView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InAppPurchaseView.xib; sourceTree = "<group>"; };
+		E8A29BDB19F057AE00DFDE66 /* InAppPurchaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InAppPurchaseView.h; sourceTree = "<group>"; };
+		E8A29BDC19F057AE00DFDE66 /* InAppPurchaseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InAppPurchaseView.m; sourceTree = "<group>"; };
+		E8A29BDF19F0633300DFDE66 /* InAppPurchaseAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InAppPurchaseAlertView.h; sourceTree = "<group>"; };
+		E8A29BE019F0633300DFDE66 /* InAppPurchaseAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InAppPurchaseAlertView.m; sourceTree = "<group>"; };
 		E8A99CF3196205E1008BCEFE /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		E8ABCFB8191D68FE0083ED25 /* UIDateField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIDateField.h; sourceTree = "<group>"; };
 		E8ABCFB9191D68FE0083ED25 /* UIDateField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIDateField.m; sourceTree = "<group>"; };
@@ -585,6 +599,12 @@
 				E85A99A4198FE3A800AFE096 /* TutorialBubbleView.xib */,
 				E85A99A7198FE84B00AFE096 /* TutorialBubbleView.h */,
 				E85A99A8198FE84B00AFE096 /* TutorialBubbleView.m */,
+				E8A29BCD19F0148E00DFDE66 /* InAppPurchaseView.xib */,
+				E8A29BDB19F057AE00DFDE66 /* InAppPurchaseView.h */,
+				E8A29BDC19F057AE00DFDE66 /* InAppPurchaseView.m */,
+				E8A29BDF19F0633300DFDE66 /* InAppPurchaseAlertView.h */,
+				E8A29BE019F0633300DFDE66 /* InAppPurchaseAlertView.m */,
+				E8914C8F19F0925C0028F051 /* TestView.xib */,
 			);
 			name = CustomViews;
 			sourceTree = "<group>";
@@ -1021,6 +1041,8 @@
 				72F1877F09F482E5A93B35AE /* AppleIncRootCertificate.cer in Resources */,
 				E88386BF19C35D2B00AE89AC /* Tutorial-Screen-3d 640x960.jpg in Resources */,
 				72F183BEF9280905E6AFEDF9 /* FDTake.strings in Resources */,
+				E8A29BCF19F0148E00DFDE66 /* InAppPurchaseView.xib in Resources */,
+				E8914C9119F0925C0028F051 /* TestView.xib in Resources */,
 				72F18F4E5A089D5B51F7A4AD /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1061,6 +1083,8 @@
 				72F18B2BB218DB4DF06FEC6B /* AppleIncRootCertificate.cer in Resources */,
 				E88386BE19C35D2B00AE89AC /* Tutorial-Screen-3d 640x960.jpg in Resources */,
 				72F184EBDABA851F9BE570BC /* FDTake.strings in Resources */,
+				E8A29BCE19F0148E00DFDE66 /* InAppPurchaseView.xib in Resources */,
+				E8914C9019F0925C0028F051 /* TestView.xib in Resources */,
 				72F183DFFA43FAC7A9CEDEAE /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1201,10 +1225,12 @@
 				E8A02D1819817CCF001E0DAB /* ParentUser.m in Sources */,
 				E8A02D1919817CCF001E0DAB /* SettingPanelViewController.m in Sources */,
 				E8A02D1A19817CCF001E0DAB /* AppDelegate.m in Sources */,
+				E8A29BDE19F057AE00DFDE66 /* InAppPurchaseView.m in Sources */,
 				E8A02D1B19817CCF001E0DAB /* TakePhotoButton.m in Sources */,
 				E85A99AA198FE84B00AFE096 /* TutorialBubbleView.m in Sources */,
 				E8A02D1C19817CCF001E0DAB /* main.m in Sources */,
 				E8A02D1D19817CCF001E0DAB /* BannerViewController.m in Sources */,
+				E8A29BE219F0633300DFDE66 /* InAppPurchaseAlertView.m in Sources */,
 				E8A02D1E19817CCF001E0DAB /* NoConnectionAlertView.m in Sources */,
 				E8A02D1F19817CCF001E0DAB /* BabyInfoViewController.m in Sources */,
 				E8A02D2019817CCF001E0DAB /* BabyInfoPhotoViewController.m in Sources */,
@@ -1271,10 +1297,12 @@
 				E872D4CA1940B412003F461C /* ParentUser.m in Sources */,
 				E88F3635194A5A4100BE74E9 /* SettingPanelViewController.m in Sources */,
 				E8DD48EE188EE5B900153095 /* AppDelegate.m in Sources */,
+				E8A29BDD19F057AE00DFDE66 /* InAppPurchaseView.m in Sources */,
 				E856BD581964455200D00E5C /* TakePhotoButton.m in Sources */,
 				E85A99A9198FE84B00AFE096 /* TutorialBubbleView.m in Sources */,
 				E8DD48EA188EE5B900153095 /* main.m in Sources */,
 				E881F8DF1962006E0066046E /* BannerViewController.m in Sources */,
+				E8A29BE119F0633300DFDE66 /* InAppPurchaseAlertView.m in Sources */,
 				E856BD4F1962DDDB00D00E5C /* NoConnectionAlertView.m in Sources */,
 				E8D00A1A188F362100DF2786 /* BabyInfoViewController.m in Sources */,
 				E840251918F0DEC800AF1B27 /* BabyInfoPhotoViewController.m in Sources */,
