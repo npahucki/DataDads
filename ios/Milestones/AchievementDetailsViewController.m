@@ -511,7 +511,8 @@ NSDateFormatter *_dateFormatter;
 
 - (void)handleHudCanceled {
     [_attachment cancel];
-
+    // Dismiss the HUD right away, don't wait for the network operation to cancel since this can take a while.
+    [self hideHud];
 }
 
 - (void)setButtonPhoto:(UIImage *)photo {

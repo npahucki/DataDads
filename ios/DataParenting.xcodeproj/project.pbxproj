@@ -116,8 +116,6 @@
 		E89035E819303D13004A4013 /* SignUpPromptViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89035E719303D13004A4013 /* SignUpPromptViewController.m */; };
 		E89035EB19337807004A4013 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = E89035EA19337807004A4013 /* Reachability.m */; };
 		E89035EF1934C97F004A4013 /* AchievementDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89035EE1934C97F004A4013 /* AchievementDetailsViewController.m */; };
-		E8914C9019F0925C0028F051 /* TestView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E8914C8F19F0925C0028F051 /* TestView.xib */; };
-		E8914C9119F0925C0028F051 /* TestView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E8914C8F19F0925C0028F051 /* TestView.xib */; };
 		E89AC31D1955E83D00AD3869 /* UsageAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E89AC31C1955E83D00AD3869 /* UsageAnalytics.m */; };
 		E89AC31F195A0D1C00AD3869 /* NSDateHumanizedTime.strings in Resources */ = {isa = PBXBuildFile; fileRef = E89AC31E195A0D1C00AD3869 /* NSDateHumanizedTime.strings */; };
 		E89AC324195A204100AD3869 /* UIImage+FX.m in Sources */ = {isa = PBXBuildFile; fileRef = E89AC323195A204100AD3869 /* UIImage+FX.m */; };
@@ -394,7 +392,6 @@
 		E89035EA19337807004A4013 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		E89035ED1934C97F004A4013 /* AchievementDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AchievementDetailsViewController.h; sourceTree = "<group>"; };
 		E89035EE1934C97F004A4013 /* AchievementDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AchievementDetailsViewController.m; sourceTree = "<group>"; };
-		E8914C8F19F0925C0028F051 /* TestView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TestView.xib; sourceTree = "<group>"; };
 		E89AC31B1955E83D00AD3869 /* UsageAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UsageAnalytics.h; sourceTree = "<group>"; };
 		E89AC31C1955E83D00AD3869 /* UsageAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UsageAnalytics.m; sourceTree = "<group>"; };
 		E89AC31E195A0D1C00AD3869 /* NSDateHumanizedTime.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = NSDateHumanizedTime.strings; sourceTree = "<group>"; };
@@ -598,7 +595,6 @@
 				E8A29BCD19F0148E00DFDE66 /* InAppPurchaseView.xib */,
 				E8A29BDF19F0633300DFDE66 /* InAppPurchaseAlertView.h */,
 				E8A29BE019F0633300DFDE66 /* InAppPurchaseAlertView.m */,
-				E8914C8F19F0925C0028F051 /* TestView.xib */,
 			);
 			name = CustomViews;
 			sourceTree = "<group>";
@@ -1036,7 +1032,6 @@
 				E88386BF19C35D2B00AE89AC /* Tutorial-Screen-3d 640x960.jpg in Resources */,
 				72F183BEF9280905E6AFEDF9 /* FDTake.strings in Resources */,
 				E8A29BCF19F0148E00DFDE66 /* InAppPurchaseView.xib in Resources */,
-				E8914C9119F0925C0028F051 /* TestView.xib in Resources */,
 				72F18F4E5A089D5B51F7A4AD /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1078,7 +1073,6 @@
 				E88386BE19C35D2B00AE89AC /* Tutorial-Screen-3d 640x960.jpg in Resources */,
 				72F184EBDABA851F9BE570BC /* FDTake.strings in Resources */,
 				E8A29BCE19F0148E00DFDE66 /* InAppPurchaseView.xib in Resources */,
-				E8914C9019F0925C0028F051 /* TestView.xib in Resources */,
 				72F183DFFA43FAC7A9CEDEAE /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
