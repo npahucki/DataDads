@@ -28,7 +28,7 @@ static NSDictionary * safeForFB(NSDictionary * dict) {
         }
         
         id value = dict[key];
-        // Skip null keys. 
+        // Skip null keys.
         if(value != [NSNull null]) {
             fbFriendlyDictionary[fbKey] =  value;
         }
@@ -43,7 +43,7 @@ static BOOL isRelease;
 
 + (void)initializeAnalytics:(NSDictionary *)launchOptions {
 # if DEBUG || TARGET_IPHONE_SIMULATOR
-    isRelease = YES;
+    isRelease = NO;
 #else
     isRelease = YES;
 #endif
