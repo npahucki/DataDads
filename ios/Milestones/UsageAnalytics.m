@@ -67,7 +67,7 @@ static BOOL isRelease;
     }
 }
 
-+ (void)idenfity:(ParentUser *)user withBaby:(Baby *)baby {
++ (void)idenfity:(ParentUser *)user {
     if (user) {
         NSMutableDictionary *props = [@{
                 @"user.id" : safe(user.objectId),
@@ -79,11 +79,6 @@ static BOOL isRelease;
         } mutableCopy];
         // Don't add if null, this causes problems in Heap!
         if (user.email) props[@"email"] = user.email;
-        if (baby) {
-            props[@"baby.id"] = safe(baby.objectId);
-            props[@"baby.sex"] = baby.isMale ? @"M" : @"F";
-        }
-
         if (isRelease) {
             [AppsFlyerTracker sharedTracker].customerUserID = user.objectId;
             [Heap identify:props];
