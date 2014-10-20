@@ -9,6 +9,7 @@
 #import "InAppPurchaseAlertView.h"
 #import "WebViewerViewController.h"
 
+
 const static CGFloat kCustomIOS7MotionEffectExtent = 10.0;
 
 @implementation InAppPurchaseAlertView {
@@ -26,11 +27,17 @@ const static CGFloat kCustomIOS7MotionEffectExtent = 10.0;
 }
 
 - (IBAction)didClickReadTermsAndConditions:(id)sender {
+    if (_resultBlock) _resultBlock(InAppPurchaseChoiceCancel);
     WebViewerViewController *vc = [WebViewerViewController webViewForUrlString:kDDURLTermsAndConditions];
     UIWindow *window = [[UIApplication sharedApplication] keyWindow];
-    [window.rootViewController presentViewController:vc animated:YES completion:^{
-        if (_resultBlock) _resultBlock(InAppPurchaseChoiceCancel);
-    }];
+    UIViewController * target = window.rootViewController;
+    if([target isKindOfClass:[UITabBarController class]]) {
+        target = ((UITabBarController *)target).selectedViewController;
+    }
+    if([target isKindOfClass:[UINavigationController class]]) {
+        target = ((UINavigationController *)target).visibleViewController;
+    }
+    [target presentViewController:vc animated:YES completion:nil];
 }
 
 - (IBAction)didClickPurchaseNow:(id)sender {
