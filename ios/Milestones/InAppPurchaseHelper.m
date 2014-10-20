@@ -204,7 +204,7 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
     // Look up and present the product to the user
     [self validateProductIdentifiers:productIds withBlock:^(NSArray *objects, NSError *error) {
         if (error) {
-            [[[UIAlertView alloc] initWithTitle:@"Could Not Connect to AppStore" message:@"Please try again, perhaps a little later" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+            [[[UIAlertView alloc] initWithTitle:@"Could Not Connect to AppStore" message:@"Try your again in a little while since this could have been caused by a network hiccup." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
             [UsageAnalytics trackError:error forOperationNamed:@"lookupAppStoreProduct"];
             block(NO, error);
         } else {
@@ -267,7 +267,7 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
 
 - (void)failedTransaction:(SKPaymentTransaction *)transaction withBlock:(PFBooleanResultBlock)block {
     [UsageAnalytics trackError:transaction.error forOperationNamed:@"processPaymentTransaction"];
-    [[[UIAlertView alloc] initWithTitle:@"Could not complete purchase or restore" message:transaction.error.localizedDescription
+    [[[UIAlertView alloc] initWithTitle:@"Could Not Complete Purchase/Restore" message:[transaction.error.localizedDescription stringByAppendingString:@" Try your purchase again in a little while since this could have been caused by a network hiccup."]
                                delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
     [self recordTransaction:transaction];
     if (block) block(NO, transaction.error);
