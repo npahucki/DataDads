@@ -267,7 +267,7 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
 
 - (void)failedTransaction:(SKPaymentTransaction *)transaction withBlock:(PFBooleanResultBlock)block {
     [UsageAnalytics trackError:transaction.error forOperationNamed:@"processPaymentTransaction"];
-    [[[UIAlertView alloc] initWithTitle:@"Could Not Complete Purchase/Restore" message:[transaction.error.localizedDescription stringByAppendingString:@" Try your purchase again in a little while since this could have been caused by a network hiccup."]
+    [[[UIAlertView alloc] initWithTitle:@"Could Not Complete Purchase/Restore" message:[transaction.error.localizedDescription stringByAppendingString:@". Try your purchase again in a little while since this could have been caused by a network hiccup."]
                                delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
     [self recordTransaction:transaction];
     if (block) block(NO, transaction.error);
