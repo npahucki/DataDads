@@ -17,6 +17,9 @@
                         <constraint firstAttribute="width" constant="38" id="447-x5-unF"/>
                         <constraint firstAttribute="height" constant="38" id="dIp-Vi-uF7"/>
                     </constraints>
+                    <userDefinedRuntimeAttributes>
+                        
+                    </userDefinedRuntimeAttributes>
                 </imageView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="269" translatesAutoresizingMaskIntoConstraints="NO" id="ia7-Ny-XM2">
                     <rect key="frame" x="51" y="13" width="269" height="19"/>
@@ -31,6 +34,9 @@
                         </fragment>
                     </attributedString>
                     <nil key="highlightedColor"/>
+                    <userDefinedRuntimeAttributes>
+                        
+                    </userDefinedRuntimeAttributes>
                 </label>
             </subviews>
             <color key="backgroundColor" red="0.1019607843" green="0.5568627451" blue="0.62352941179999999" alpha="0.94999999999999996" colorSpace="calibratedRGB"/>
@@ -46,6 +52,9 @@
                 <outlet property="imageView" destination="mDa-j8-9Jd" id="AVm-XL-mBf"/>
                 <outlet property="titleLabel" destination="ia7-Ny-XM2" id="BG4-5Y-fOz"/>
             </connections>
+            <userDefinedRuntimeAttributes>
+                
+            </userDefinedRuntimeAttributes>
         </view>
     </objects>
     <resources>

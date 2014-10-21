@@ -8,9 +8,12 @@
 
 #import "EnterScreenNameViewController.h"
 #import "WebViewerViewController.h"
+#import "TutorialBubbleView.h"
 
 
-@implementation EnterScreenNameViewController
+@implementation EnterScreenNameViewController {
+    TutorialBubbleView *_tutorialBubbleView;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -20,7 +23,9 @@
     self.maleLabel.font = self.femaleLabel.font = [UIFont fontForAppWithType:Bold andSize:17.0];
 
 
-    self.acceptTACLabelButton.titleLabel.font = [UIFont fontForAppWithType:Bold andSize:13.0];
+    self.acceptTACButton.titleLabel.font = [UIFont fontForAppWithType:Bold andSize:12.5];
+    self.supportScienceButton.titleLabel.font = [UIFont fontForAppWithType:Bold andSize:12.5];
+
     [[UIDevice currentDevice] name];
     NSNumber *gender = [ParentUser.currentUser objectForKey:@"isMale"];
     if (gender && gender.boolValue) {
@@ -50,6 +55,33 @@
     [self updateNextButtonState];
 }
 
+- (IBAction)didClickSupportScienceButton:(id)sender {
+    self.supportScienceButton.selected = !self.supportScienceButton.selected;
+}
+
+
+- (IBAction)didClickSupportScienceInfoButton:(id)sender {
+    if (_tutorialBubbleView) {
+        [self dismissTutorialBubbleViewInfo];
+    } else {
+        __weak EnterScreenNameViewController *_self = self;
+        _tutorialBubbleView = [[NSBundle mainBundle] loadNibNamed:@"TutorialBubbleView" owner:self options:nil][0];
+        _tutorialBubbleView.dismissBlock = ^{
+            [_self dismissTutorialBubbleViewInfo];
+        };
+        UIButton *infoButton = (UIButton *) sender;
+        _tutorialBubbleView.arrowTip = infoButton.center;
+        _tutorialBubbleView.textLabel.font = [UIFont fontForAppWithType:Medium andSize:14];
+        [_tutorialBubbleView showInView:self.view withText:@"Your child's milestone data will be anonymously"
+                " aggregated for select scientists. If you don't agree, your child's upcoming milestone may be less accurate."];
+    }
+}
+
+- (void)dismissTutorialBubbleViewInfo {
+    [_tutorialBubbleView dismiss];
+    _tutorialBubbleView = nil;
+}
+
 - (IBAction)didClickDoneButton:(id)sender {
 
     if ([Reachability showAlertIfParseNotReachable]) return;
@@ -59,7 +91,7 @@
         // Account already exists (logged in before, perhaps with facebook).
         [self saveUserPreferences:parent];
     } else {
-        [self showInProgressHUDWithMessage:@"Registering..." andAnimation:YES andDimmedBackground:YES];
+        [self showInProgressHUDWithMessage:@"Registering..." andAnimation:YES andDimmedBackground:YES withCancel:NO];
         [PFAnonymousUtils logInWithBlock:^(PFUser *user, NSError *error) {
             if (error) {
                 [self showErrorThenRunBlock:error withMessage:@"Unable to register. Please check your internet connection and try again." andBlock:nil];
@@ -76,8 +108,9 @@
     user.ACL = [PFACL ACLWithUser:user];
     if (!user.screenName) user.screenName = [self nameFromDeviceName];
     user.isMale = self.maleButton.isSelected;
+    user.supportScience = self.supportScienceButton.isSelected;
 
-    [self showInProgressHUDWithMessage:@"Saving your preferences" andAnimation:YES andDimmedBackground:YES];
+    [self showInProgressHUDWithMessage:@"Saving your preferences" andAnimation:YES andDimmedBackground:YES withCancel:NO];
     [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (error) {
             [self showErrorThenRunBlock:error withMessage:@"Unable to save preferences" andBlock:nil];
@@ -142,7 +175,7 @@
     if (self.baby.isDirty) {
         self.baby.ACL = [PFACL ACLWithUser:self.baby.parentUser];
         Baby.currentBaby = nil; // Clear the current baby, will get set on the MainViewController
-        [self showInProgressHUDWithMessage:[NSString stringWithFormat:@"Saving %@'s info", self.baby.name] andAnimation:YES andDimmedBackground:YES];
+        [self showInProgressHUDWithMessage:[NSString stringWithFormat:@"Saving %@'s info", self.baby.name] andAnimation:YES andDimmedBackground:YES withCancel:NO];
         [self.baby saveInBackgroundWithBlock:block];
     } else {
         block(NO, nil);
@@ -151,7 +184,7 @@
 
 - (void)saveBabyAvatar:(PFBooleanResultBlock)block {
     if (self.baby.avatarImage.isDirty) {
-        [self showInProgressHUDWithMessage:[NSString stringWithFormat:@"Uploading %@'s photo", self.baby.name] andAnimation:YES andDimmedBackground:YES];
+        [self showInProgressHUDWithMessage:[NSString stringWithFormat:@"Uploading %@'s photo", self.baby.name] andAnimation:YES andDimmedBackground:YES withCancel:NO];
         [self.baby.avatarImage saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (error) {
                 [self showErrorThenRunBlock:error withMessage:@"Could not upload photo." andBlock:^{

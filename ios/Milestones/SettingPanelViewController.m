@@ -47,7 +47,7 @@
     ParentUser.currentUser.showMilestoneStats = self.showMilestoneStatisticsSwitch.on;
     if (ParentUser.currentUser.isDirty) {
         [ParentUser.currentUser saveEventually:^(BOOL succeeded, NSError *error) {
-            if (succeeded) [ParentUser.currentUser refreshInBackgroundWithBlock:nil];
+            if (succeeded) [ParentUser.currentUser fetchInBackgroundWithBlock:nil];
         }];
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationNeedDataRefreshNotification object:nil];
@@ -89,7 +89,7 @@
     sysctlbyname("hw.machine", model, &size, NULL, 0);
     NSString *sDeviceModel = [NSString stringWithCString:model encoding:NSUTF8StringEncoding];
     free(model);
-    
+
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
     NSString *email = [NSString stringWithFormat:@"mailto:support@dataparenting.com?subject=[SUPPORT REQUEST]:%@&body=\n\n\n-------\nVersion:%@\nBuild:%@\nUserId:%@\nDevice:%@\n  System:%@ %@\n-------\n",
                                                  infoDictionary[(NSString *) kCFBundleNameKey],

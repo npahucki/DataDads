@@ -14,6 +14,8 @@
 #import "NoConnectionAlertView.h"
 #import "AlertThenDisappearView.h"
 #import "PronounHelper.h"
+#import "InAppPurchaseHelper.h"
+#import "SignUpViewController.h"
 
 #define AD_TRIGGER_LAUNCH_COUNT 2
 #define AD_TRIGGER_MAX_TIME 60
@@ -28,32 +30,19 @@
     UIDynamicAnimator *_animator;
     DataParentingAdView *_adView;
     NSDate *_dateLastAdShown;
+    BOOL _productJustPurchased;
+
 }
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _productJustPurchased = NO;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(babyUpdated:) name:kDDNotificationCurrentBabyChanged object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(milestoneNotedAndSaved:) name:kDDNotificationMilestoneNotedAndSaved object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showAdIfNeeded) name:UIApplicationDidBecomeActiveNotification object:nil];
-
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(productPurchased:) name:kDDNotificationProductPurchased object:nil];
 
     [NoConnectionAlertView createInstanceForController:self];
-    // TODO:
-    //[[InAppPurchaseHelper instance] checkAdFreeProductPurchased:^(BOOL purchased, NSError *error) {
-    //    if (!purchased) {
-            _adView = [[DataParentingAdView alloc] initWithFrame:CGRectZero]; // adjust frame later
-            _adView.delegate = self;
-            _adView.containingViewController = self;
-            _adView.size = DataParentingAdViewSizeSmall;
-            _adView.layer.shadowColor = [UIColor blackColor].CGColor;
-            _adView.layer.shadowOpacity = 0.5;
-            _adView.hidden = YES;
-            [self.view addSubview:_adView];
-    //    }
-    //}];
-
-
     UISwipeGestureRecognizer *swipeUp = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(hideSearchBar)];
     swipeUp.direction = UISwipeGestureRecognizerDirectionUp;
     [self.searchBar addGestureRecognizer:swipeUp];
@@ -82,10 +71,15 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    [self checkAndAskToLogInIfRecentPurchase];
     self.addMilestoneButton.enabled = Baby.currentBaby != nil;
     self.menuButton.enabled = Baby.currentBaby != nil;
     _isMorganTouch = NO; // Hack work around a double segue bug, caused by touching the cell too long
     [self showAdIfNeeded];
+}
+
+- (void)productPurchased:(id)productPurchased {
+    _productJustPurchased = YES;
 }
 
 - (void)milestoneNotedAndSaved:(NSNotification *)notification {
@@ -148,6 +142,26 @@
         }];
     }
 }
+
+- (void)checkAndAskToLogInIfRecentPurchase {
+    if (_productJustPurchased) {
+        _productJustPurchased = NO;
+        if (![ParentUser currentUser].email) {
+            [[[UIAlertView alloc] initWithTitle:@"Make sure your pecious memories are safe!"
+                                        message:@"Do you want to sign up now so we can backup your milestones and photos and videos in the cloud?"
+                                       delegate:nil
+                              cancelButtonTitle:@"Not Now"
+                              otherButtonTitles:@"Yes", nil] showWithButtonBlock:^(NSInteger buttonIndex) {
+                if (buttonIndex == 1) {
+                    SignUpViewController *signupController = [[SignUpViewController alloc] init];
+                    signupController.showExternal = YES;
+                    [self presentViewController:signupController animated:YES completion:nil];
+                }
+            }];
+        }
+    }
+}
+
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Embedded table
@@ -252,26 +266,23 @@
 #pragma mark HistoryViewControllerDelegate
 
 - (void)standardMilestoneClicked:(StandardMilestone *)milestone {
-    // TODO: Find the cause of this bug: If you click for a longer time on the tablecell, it somehow triggers two rapid
-    // events in row. I think this is caused by a bug in the Swipable Table Cell we are using. The work around for now
-    // is to ignore any further touches until this view shows again.
+    // This is a bug in the SWSwipeTableCell which fires both a short and long press gesture handler
+    // events in row. The work around for now is to ignore any further touches until this view shows again.
     if (!_isMorganTouch) {
         _isMorganTouch = YES;
         [self createAchievementForMilestone:milestone];
         [self performSegueWithIdentifier:kDDSegueNoteMilestone sender:self];
-    } else {
-        // TODO: Log this to somewhere to see how many people have the morgan touch.
-        NSLog(@"YOU GOT THE MORGAN TOUCH!!!!!");
     }
 }
 
 - (void)achievementClicked:(MilestoneAchievement *)achievement {
+    // This is a bug in the SWSwipeTableCell which fires both a short and long press gesture handler
+    // events in row. The work around for now is to ignore any further touches until this view shows again.
     if (!_isMorganTouch) {
         _isMorganTouch = YES;
         _currentAchievment = achievement;
         [self performSegueWithIdentifier:kDDSegueShowAchievementDetails sender:self];
     } else {
-        // TODO: Log this to somewhere to see how many people have the morgan touch.
         NSLog(@"YOU GOT THE MORGAN TOUCH!!!!!");
     }
 
@@ -296,14 +307,32 @@
 }
 
 - (void)showAdIfNeeded {
-    if (_adView) { // If nil, means that the user has paid to turn them off
-        if (ParentUser.currentUser.launchCount > AD_TRIGGER_LAUNCH_COUNT) {
-            if (!_dateLastAdShown || abs(_dateLastAdShown.timeIntervalSinceNow) > AD_TRIGGER_MAX_TIME) {
-                _dateLastAdShown = [NSDate date];
-                [_adView attemptAdLoad];
+    [[InAppPurchaseHelper instance] checkAdFreeProductPurchased:^(BOOL purchased, NSError *error) {
+        if (purchased) {
+            if (_adView) {
+                [_adView removeFromSuperview];
+                _adView = nil;
             }
+        } else {
+            if (ParentUser.currentUser.launchCount > AD_TRIGGER_LAUNCH_COUNT) {
+                if (!_dateLastAdShown || abs((int) _dateLastAdShown.timeIntervalSinceNow) > AD_TRIGGER_MAX_TIME) {
+                    _dateLastAdShown = [NSDate date];
+                    if (!_adView) {
+                        _adView = [[DataParentingAdView alloc] initWithFrame:CGRectZero]; // adjust frame later
+                        _adView.delegate = self;
+                        _adView.containingViewController = self;
+                        _adView.size = DataParentingAdViewSizeSmall;
+                        _adView.layer.shadowColor = [UIColor blackColor].CGColor;
+                        _adView.layer.shadowOpacity = 0.5;
+                        _adView.hidden = YES;
+                        [self.view addSubview:_adView];
+                    }
+                    [_adView attemptAdLoad];
+                }
+            }
+
         }
-    }
+    }];
 }
 
 #pragma mark DataParentingAdViewDelegate

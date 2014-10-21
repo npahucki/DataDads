@@ -21,7 +21,7 @@
 
 @implementation NoteMilestoneViewController {
     FDTakeController *_takeController;
-    PFFile *_attachment;
+    NSObject <MediaFile> *_attachment;
     PFFile *_thumbnailImage;
     ALAssetsLibrary *_assetLibrary;
     BOOL _isKeyboardShowing;
@@ -43,6 +43,15 @@
                                              selector:@selector(keyboardWillBeHidden:)
                                                  name:UIKeyboardWillHideNotification object:nil];
 
+    // Decide to show the add or not.
+    self.adView.delegate = self;
+    [[InAppPurchaseHelper instance] checkAdFreeProductPurchased:^(BOOL purchased, NSError *error) {
+        if (purchased) {
+            [self hideAdView];
+        } else {
+            [self.adView attemptAdLoad];
+        }
+    }];
 
     if (self.isCustom) {
         self.detailsContainerView.hidden = YES;
@@ -255,7 +264,7 @@
     _takeController.allowsEditingPhoto = NO; // NOTE: Allowing photo editing causes a problem with landscape pictures!
     _takeController.allowsEditingVideo = YES;
     _takeController.imagePicker.videoQuality = UIImagePickerControllerQualityType640x480;
-    _takeController.imagePicker.videoMaximumDuration = 90;
+    _takeController.imagePicker.videoMaximumDuration = MAX_VIDEO_ATTACHMENT_LENGTH_SECS;
     [_takeController takePhotoOrVideoOrChooseFromLibrary];
 }
 
@@ -267,7 +276,7 @@
     if (_attachment) {
         [self saveAttachment];
     } else {
-        [self saveAchievementWithAttachment:nil];
+        [self saveAchievement];
     }
 }
 
@@ -292,27 +301,34 @@
     if (ParentUser.currentUser.autoPublishToFacebook != self.fbSwitch.on) {
         ParentUser.currentUser.autoPublishToFacebook = self.fbSwitch.on;
         [ParentUser.currentUser saveEventually:^(BOOL succeeded, NSError *error) {
-            if (succeeded) [ParentUser.currentUser refreshInBackgroundWithBlock:nil]; // Make sure cache is updated
+            if (succeeded) [ParentUser.currentUser fetchInBackgroundWithBlock:nil]; // Make sure cache is updated
         }];
     }
 }
 
 - (void)saveAttachment {
-    NSString *type = [_attachment.mimeType rangeOfString:@"video"].location != NSNotFound ? @"video" : @"photo";
+    BOOL isVideo = [_attachment.mimeType rangeOfString:@"video"].location != NSNotFound;
+    NSString *type = isVideo ? @"video" : @"photo";
     NSString *title = [@"Uploading " stringByAppendingString:type];
-    [self showInProgressHUDWithMessage:title andAnimation:YES andDimmedBackground:YES];
+    [self showInProgressHUDWithMessage:title andAnimation:YES andDimmedBackground:YES withCancel:isVideo];
     [_attachment saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (error) {
             [self showErrorThenRunBlock:error withMessage:[@"Could not upload the " stringByAppendingString:type] andBlock:nil];
-        } else {
-            [self saveAchievementWithAttachment:_attachment];
+        } else if (succeeded) {
+            [self saveAchievement];
         }
     }                        progressBlock:^(int percentDone) {
         [self showText:[NSString stringWithFormat:@"%@ %d%%", title, percentDone]];
     }];
 }
 
-- (void)saveAchievementWithAttachment:(PFFile *)attachment {
+- (void)handleHudCanceled {
+    [_attachment cancel];
+    // Dismiss the HUD right away, don't wait for the network operation to cancel since this can take a while.
+    [self hideHud];
+}
+
+- (void)saveAchievement {
 
     // Bit of a hacky work around to the fact that CloudCode beforeSave trigger reloads the object after a save
     // buts does not load the pointers, so the achievement object has the Baby and StandardMilestone fields set to
@@ -357,7 +373,12 @@
     }
 
     if (self.commentsTextField.text.length) self.achievement.comment = self.commentsTextField.text;
-    self.achievement.attachment = attachment;
+    // Can be a PFFile (old style used for images) or an ExternalMediaFile object for larger things like videos.
+    if ([_attachment isKindOfClass:[ExternalMediaFile class]]) {
+        self.achievement.attachmentExternalStorageId = ((ExternalMediaFile *) _attachment).uniqueId;
+    } else {
+        self.achievement.attachment = (PFFile *) _attachment;
+    }
     self.achievement.attachmentType = _attachment.mimeType;
     self.achievement.attachmentOrientation = _attachment.orientation;
     self.achievement.attachmentWidth = _attachment.width;
@@ -503,12 +524,12 @@
                 }];
             }
 
-            _attachment = [PFFile videoFileFromUrl:videoUrl];
-            if (_attachment) {
-                UIImage *thumbnail = [[_attachment generateThumbImage] imageScaledToFitSize:CGSizeMake(320.0, 320.0)];
+            ExternalMediaFile *videoAttachment = [ExternalMediaFile videoFileFromUrl:videoUrl];
+            if (videoAttachment) {
+                UIImage *thumbnail = [videoAttachment.thumbnail imageScaledToFitSize:CGSizeMake(320.0, 320.0)];
                 [self.takePhotoButton setImage:thumbnail forState:UIControlStateNormal];
                 _thumbnailImage = [PFFile fileWithData:UIImageJPEGRepresentation(thumbnail, 0.5f) contentType:@"image/jpg"];
-
+                _attachment = videoAttachment;
                 if (fromLibrary) {
                     [self updateDateFromFDTakeAsset:assetUrl];
                 }
@@ -578,6 +599,25 @@
 - (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)url inRange:(NSRange)characterRange {
     [self presentViewController:[WebViewerViewController webViewForUrl:url] animated:YES completion:NULL];
     return NO;
+}
+
+#pragma mark - DataParentingAdViewDelegate
+
+- (void)displayAdView {
+    self.adView.hidden = NO;
+    [self.view layoutIfNeeded];
+    self.adViewHeightConstraint.constant = 50;
+    [self.view setNeedsUpdateConstraints];
+    [UIView animateWithDuration:0.5
+                     animations:^{
+                         [self.view layoutIfNeeded];
+                     }];
+}
+
+- (void)hideAdView {
+    self.adView.hidden = YES;
+    self.adViewHeightConstraint.constant = 8;
+    [self.view layoutIfNeeded];
 }
 
 

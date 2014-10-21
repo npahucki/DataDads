@@ -11,6 +11,7 @@ Parse.Cloud.define("getAdToShow", function (request, response) {
 
     var query = new Parse.Query("Ads");
     query.equalTo("size", request.params.size);
+    query.equalTo("enabled", true);
     query.count().then(function (count) {
         return Parse.Promise.as(Math.floor(Math.random() * count));
     }).then(function (randomIdx) {

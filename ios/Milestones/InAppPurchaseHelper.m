@@ -5,16 +5,17 @@
 
 #import <objc/runtime.h>
 #import "InAppPurchaseHelper.h"
-#import "RMStore.h"
 #import "RMAppReceipt.h"
+#import "RMStore.h"
+#import "InAppPurchaseAlertView.h"
 
 static NSDictionary *productInfoForProduct(DDProduct product) {
     static NSArray *productCodes;
     if (!productCodes) {
         productCodes = @[
                 @{@"id" : @"none"},
-                @{@"id" : @"com.dataparenting.AdRemoval1", @"type" : @(DDProductSalesTypeOneTime)},
-                @{@"id" : @"com.dataparenting.VideoUpgrade1", @"type" : @(DDProductSalesTypeSubscription)}];
+                @{@"id" : @"com.dataparenting.AdRemoval_1", @"type" : @(DDProductSalesTypeOneTime)},
+                @{@"id" : @"com.dataparenting.VideoUpgrade_1", @"type" : @(DDProductSalesTypeSubscription)}];
     }
     return productCodes[product];
 }
@@ -65,8 +66,7 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
             block(YES, nil); // Already purchased
         } else {
             if ([SKPaymentQueue canMakePayments]) {
-                NSString *productId = productInfoForProduct(product)[@"id"];
-                [self purchaseProduct:productId withBlock:block];
+                [self purchaseProduct:product withBlock:block];
             } else {
                 [UsageAnalytics trackAccountThatCantPurchase];
                 [[[UIAlertView alloc] initWithTitle:@"Can Not Make Purchases" message:@"Your account is currently not allowed to make purchases." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
@@ -74,16 +74,35 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
             }
         }
     } else {
-        // Apple recommends refresh if receipt validation fails.
+        // No receipt, need to purchase or restore
+        [self purchaseProduct:product withBlock:block];
+    }
+}
+
+
+- (void)ensureProductRestored:(DDProduct)product allowRefresh:(BOOL)refresh withBlock:(PFBooleanResultBlock)block {
+    if ([self verifyAppReceipt] && [self checkProductsPurchased:@[@(product)]]) {
+        block(YES, nil); // Already purchased
+    } else if (refresh) {
         [[RMStore defaultStore] refreshReceiptOnSuccess:^{
-            [self ensureProductPurchased:product withBlock:block];
-        }                                       failure:^(NSError *error) {
+            [self ensureProductRestored:product allowRefresh:NO withBlock:block];
+        } failure:^(NSError *error2) {
             [[[UIAlertView alloc] initWithTitle:@"Could Not Connect to AppStore" message:@"Unable to verify your purchases at this moment. Please try again later." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
-            [UsageAnalytics trackError:error forOperationNamed:@"RMStore.refreshReceipt"];
-            block(NO, error);
+            [UsageAnalytics trackError:error2 forOperationNamed:@"RMStore.refreshReceipt"];
+            block(NO, error2);
+        }];
+    } else {
+        // No valid receipt or subscription is out of date.
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Could Not Restore Purchases"
+                                                        message:@"Either you have not purchased the product before, or your subscription is expired."
+                                                       delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+
+        [alert showWithButtonBlock:^(NSInteger buttonIndex) {
+            [self ensureProductPurchased:product withBlock:block];
         }];
     }
 }
+
 
 - (BOOL)verifyAppReceipt {
 #if DISABLEIAP
@@ -101,17 +120,14 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
 }
 
 // If any of the products is purchased, then the block is called with YES.
+// Allowing reciept refresh may prompt the user for his iTunes password.
+// Thus, if you just want a 'soft' check for non critical things (like ads), don't allow refresh
 - (void)checkProductsPurchased:(NSArray *)products withBlock:(PFBooleanResultBlock)block {
     if ([self verifyAppReceipt]) {
         BOOL purchased = [self checkProductsPurchased:products];
         block(purchased, nil);
     } else {
-        // Apple recommends refresh if receipt validation fails.
-        [[RMStore defaultStore] refreshReceiptOnSuccess:^{
-            [self checkProductsPurchased:products withBlock:block];
-        }                                       failure:^(NSError *error) {
-            block(NO, error);
-        }];
+        block(NO, nil);
     }
 }
 
@@ -147,40 +163,55 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
 
 }
 
-- (void)purchaseProduct:(NSString *)productId withBlock:(PFBooleanResultBlock)block {
-    [self validateProductIdentifiers:@[productId] withBlock:^(NSArray *objects, NSError *error) {
+- (void)purchaseProduct:(DDProduct)ddProduct withBlock:(PFBooleanResultBlock)block {
+    // NOTE: In the iTunes Connect, if something happens to a product, you can not recreate it using the same id
+    // thus you're screwed if the app is out in production..you'd have to deploy a new version of the app, thus
+    // we build in some contingency here, so you can create the same product with an alternate name and not have to
+    // deploy the app again.
+    NSString *productId = productInfoForProduct(ddProduct)[@"id"];
+    NSArray *productIds = @[
+            productId,
+            [productId stringByAppendingString:@".1"],
+            [productId stringByAppendingString:@".2"],
+            [productId stringByAppendingString:@".3"]
+    ];
+
+    // Show view with loading indicator
+    InAppPurchaseAlertView *alert = [[InAppPurchaseAlertView alloc] init];
+    PFBooleanResultBlock wrapperBlock = ^(BOOL succeeded, NSError *error) {
+        [alert close];
+        block(succeeded, error);
+    };
+
+    //Show the dialog first, so the user has some indication of what is going on
+    [alert showWithBlock:^(InAppPurchaseChoice choice) {
+        if (choice == InAppPurchaseChoicePurchase) {
+            [UsageAnalytics trackPurchaseDecision:YES forProductId:productId];
+            SKMutablePayment *payment = [SKMutablePayment paymentWithProduct:alert.product];
+            payment.applicationUsername = [ParentUser currentUser].objectId;
+            payment.quantity = 1;
+            NSAssert(_paymentRequestCallbacks[payment.productIdentifier] == nil, @"Expected only a single payment per product to process at a time.");
+            _paymentRequestCallbacks[payment.productIdentifier] = wrapperBlock;
+            [[SKPaymentQueue defaultQueue] addPayment:payment];
+        } else if (choice == InAppPurchaseChoiceRestore) {
+            [self ensureProductRestored:ddProduct allowRefresh:YES withBlock:wrapperBlock];
+        } else {
+            [UsageAnalytics trackPurchaseDecision:NO forProductId:productId];
+            wrapperBlock(NO, nil);
+        }
+    }];
+
+    // Look up and present the product to the user
+    [self validateProductIdentifiers:productIds withBlock:^(NSArray *objects, NSError *error) {
         if (error) {
-            [[[UIAlertView alloc] initWithTitle:@"Could Not Connect to AppStore" message:@"Please try again, perhaps a little later" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+            [[[UIAlertView alloc] initWithTitle:@"Could Not Connect to AppStore" message:@"Try your again in a little while since this could have been caused by a network hiccup." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
             [UsageAnalytics trackError:error forOperationNamed:@"lookupAppStoreProduct"];
             block(NO, error);
         } else {
             SKProduct *product = objects.firstObject;
             if (product) {
                 _productCache[productId] = product;
-                NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
-                [numberFormatter setFormatterBehavior:NSNumberFormatterBehavior10_4];
-                [numberFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
-                [numberFormatter setLocale:product.priceLocale];
-                NSString *formattedPrice = [numberFormatter stringFromNumber:product.price];
-                NSString *title = [NSString stringWithFormat:@"Purchase %@ now?", product.localizedTitle];
-                NSString *msg = [NSString stringWithFormat:@"%@ costs %@.\n\n%@", product.localizedTitle,
-                                                           formattedPrice, product.localizedDescription];
-                [[[UIAlertView alloc] initWithTitle:title message:msg delegate:nil cancelButtonTitle:@"Not Now" otherButtonTitles:@"Yes", nil]
-                        showWithButtonBlock:^(NSInteger buttonIndex) {
-                            if (buttonIndex == 1) {
-                                [UsageAnalytics trackPurchaseDecision:YES forProductId:productId];
-                                SKMutablePayment *payment = [SKMutablePayment paymentWithProduct:product];
-                                payment.applicationUsername = [ParentUser currentUser].objectId;
-                                payment.quantity = 1;
-                                NSAssert(_paymentRequestCallbacks[payment.productIdentifier] == nil, @"Expected only a single payment per product to process at a time.");
-                                _paymentRequestCallbacks[payment.productIdentifier] = block;
-                                [[SKPaymentQueue defaultQueue] addPayment:payment];
-                            } else {
-                                [UsageAnalytics trackPurchaseDecision:NO forProductId:productId];
-                                block(NO, nil);
-                            }
-                        }];
-
+                alert.product = product; // This will activate the dialog.
             } else {
                 // No purchase data, can't offer product.
                 NSString *msg = [NSString stringWithFormat:@"I'm sorry we can't offer the product '%@' right now. Please contact support with this message.", productId];
@@ -188,6 +219,7 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
                         @{NSLocalizedDescriptionKey : @"Product id not found in AppStore", @"productId" : productId}];
                 [UsageAnalytics trackError:error2 forOperationNamed:@"lookupProduct"];
                 [[[UIAlertView alloc] initWithTitle:@"Something Went Wrong" message:msg delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+                wrapperBlock(NO, error);
             }
         }
     }];
@@ -209,6 +241,7 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
                 [_paymentRequestCallbacks removeObjectForKey:transaction.payment.productIdentifier];
                 break;
             default:
+                NSLog(@"Transaction for product %@: state:%ld ", transaction.payment.productIdentifier, (unsigned long) transaction.transactionState);
                 break;
         }
     }
@@ -224,13 +257,17 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
     [numberFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
     [numberFormatter setLocale:product.priceLocale];
     NSString *currencyCode = [numberFormatter currencyCode];
-    [UsageAnalytics trackPurchaseCompleted:transaction.payment.productIdentifier atPrice:product.price andCurrency:currencyCode];
+    if(product.price)
+        [UsageAnalytics trackPurchaseCompleted:transaction.payment.productIdentifier atPrice:product.price andCurrency:currencyCode];
+    else
+        NSLog(@"Got transaction %@ with no price!", transaction.transactionIdentifier);
     if (block) block(YES, nil);
+    [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationProductPurchased object:transaction];
 }
 
 - (void)failedTransaction:(SKPaymentTransaction *)transaction withBlock:(PFBooleanResultBlock)block {
     [UsageAnalytics trackError:transaction.error forOperationNamed:@"processPaymentTransaction"];
-    [[[UIAlertView alloc] initWithTitle:@"Could not complete purchase" message:transaction.error.localizedDescription
+    [[[UIAlertView alloc] initWithTitle:@"Could Not Complete Purchase/Restore" message:[transaction.error.localizedDescription stringByAppendingString:@". Try your purchase again in a little while since this could have been caused by a network hiccup."]
                                delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
     [self recordTransaction:transaction];
     if (block) block(NO, transaction.error);
@@ -243,6 +280,7 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
         purchaseTransaction.txId = transaction.transactionIdentifier;
         purchaseTransaction.originalId = transaction.originalTransaction.transactionIdentifier;
         purchaseTransaction.productId = transaction.payment.productIdentifier;
+        purchaseTransaction.date = transaction.transactionDate;
 
         switch (transaction.transactionState) {
             case SKPaymentTransactionStatePurchased:
@@ -261,6 +299,7 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
         [purchaseTransaction saveEventually:^(BOOL succeeded, NSError *error) {
             if (succeeded) {
                 [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+                NSLog(@"Recorded Transaction for Product: %@", transaction.payment.productIdentifier);
             }
         }];
     }
@@ -277,7 +316,7 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
 // SKProductsRequestDelegate protocol method
 - (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response {
     for (NSString *invalidIdentifier in response.invalidProductIdentifiers) {
-        NSLog(@"Unexpected invalid product id : %@", invalidIdentifier);
+        NSLog(@"Invalid products id : %@", invalidIdentifier);
     }
 
     PFArrayResultBlock block = objc_getAssociatedObject(request, "block");

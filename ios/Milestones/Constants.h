@@ -35,6 +35,8 @@ extern NSString *const kDDSegueShowLoginScreen;
 extern NSString *const kDDSegueEnterBabyInfo;
 extern NSString *const kDDSegueShowFullScreenImage;
 extern NSString *const kDDSegueShowWebView;
+extern NSString *const kDDSegueShowAboutYou;
+extern NSString *const kDDSegueShowOptionalSignup;
 
 
 #pragma mark Notification Names
@@ -51,17 +53,12 @@ extern NSString *const kDDNotificationNeedDataRefreshNotification;  // When tabl
 extern NSString *const kDDNotificationAchievementNeedsDeleteAction;
 extern NSString *const kDDNotificationMilestoneNeedsPostponeAction;
 extern NSString *const kDDNotificationMilestoneNeedsIgnoreAction;
+extern NSString *const kDDNotificationProductPurchased;
 
 
 extern NSString *const kDDURLTermsAndConditions;
 extern NSString *const kDDURLPrivacyPolicy;
 extern NSString *const kDDURLSupport;
-
-
-
-
-
-
 
 
 #pragma mark Application Colors

@@ -79,19 +79,34 @@ Parse.Cloud.beforeSave("MilestoneAchievements", function (request, response) {
     // Make the thumbnail is needed.
     var isImage = achievement.get("attachmentType") && achievement.get("attachmentType").indexOf("image/") == 0;
     var needThumbnail = achievement.dirty("attachment");
-    if (!isImage || !needThumbnail) {
-        response.success();
-        return;
-    }
+    var isVideo = achievement.get("attachmentType") && achievement.get("attachmentType").indexOf("video/") == 0;
+    var needsVideoTranscoding =  achievement.dirty("attachmentExternalStorageId");
 
-    thumbnails.makeImageThumbnail(achievement.get("attachment"), 320, 320, true)
-            .then(function (thumbnail) {
-                achievement.set("attachmentThumbnail", thumbnail);
-            }).then(function (result) {
-                response.success();
-            }, function (error) {
-                response.error(error);
-            });
+    if (isImage && needThumbnail) {
+        thumbnails.makeImageThumbnail(achievement.get("attachment"), 320, 320, true)
+                .then(function (thumbnail) {
+                    achievement.set("attachmentThumbnail", thumbnail);
+                }).then(function (result) {
+                    response.success();
+                }, function (error) {
+                    console.error("Could not generate thumbnail for achievement " + achievement.id + " Error: " + JSON.stringify(error));
+                    response.success(); // don't fail the save!
+                });
+    } else if(isVideo && needsVideoTranscoding) {
+        var video = require("cloud/video.js");
+        var videoPath = request.user.id + "/" + achievement.get("attachmentExternalStorageId");
+        video.generateWebCompatibleVideosFromMov(videoPath).
+                then(function () {
+                    console.log("Submit video transcoding job(s) '" + JSON.stringify(arguments) + "' for achievement " + achievement.id);
+                    response.success();
+                }, function (error) {
+                    console.error("Could not trigger transcoding of video " + videoPath + " Error: " + JSON.stringify(error));
+                    response.success(); // don't fail the save!
+                });
+
+    } else {
+        response.success();
+    }
 });
 
 
@@ -125,6 +140,11 @@ Parse.Cloud.afterSave("MilestoneAchievements", function (request) {
     // Update Baby stat
     if(baby && !(isSkipped || isPostponed)) {
         incrementStat(baby.id, "babyNotedMilestoneCount");
+    }
+
+    if(request.user) {
+        request.user.set("lastSeenAt", new Date());
+        request.user.save();
     }
 
     if(milestone) {
@@ -162,6 +182,11 @@ Parse.Cloud.afterDelete("MilestoneAchievements", function (request) {
     // Update Baby stat
     if(baby && !(isSkipped || isPostponed)) {
         decrementStat(baby.id, "babyNotedMilestoneCount");
+    }
+
+    if(request.user) {
+        request.user.set("lastSeenAt", new Date());
+        request.user.save();
     }
 
     if(milestone) {

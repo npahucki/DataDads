@@ -20,13 +20,18 @@ and should use the standard app defined progress indicator.
 
 - (void)showHUDWithMessage:(NSString *)msg andAnimation:(BOOL)animated andDimmedBackground:(BOOL)dimmed;
 
-- (void)showInProgressHUDWithMessage:(NSString *)msg andAnimation:(BOOL)animated andDimmedBackground:(BOOL)dimmed;
+- (void)showInProgressHUDWithMessage:(NSString *)msg andAnimation:(BOOL)animated andDimmedBackground:(BOOL)dimmed withCancel:(BOOL)allowCancel;
 
 - (void)showText:(NSString *)text;
 
 - (void)showSuccessThenRunBlock:(dispatch_block_t)block;
 
 - (void)showErrorThenRunBlock:(NSError *)error withMessage:(NSString *)msg andBlock:(dispatch_block_t)block;
+
+// Override to implement cancel
+- (void)handleHudCanceled;
+
+- (void)hideHud;
 
 
 @end

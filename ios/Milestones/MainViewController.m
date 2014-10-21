@@ -7,9 +7,13 @@
 //
 
 #import "MainViewController.h"
+#import "SignUpViewController.h"
+#import "OnboardingStepViewController.h"
+
+#define NOTIFICATION_CONTROLLER_ID @"notificationNavigationController"
 
 @implementation MainViewController {
-    UITabBarItem *_notificationsTabItem;
+    BOOL _isIdentified;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
@@ -18,8 +22,8 @@
 }
 
 - (void)viewDidLoad {
+    self.delegate = self;
     [super viewDidLoad];
-    _notificationsTabItem = ((UIViewController *) [self.viewControllers objectAtIndex:1]).tabBarItem;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appEnterForeground:) name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gotPushNotification:) name:kDDNotificationPushReceieved object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidLogOut) name:kDDNotificationUserLoggedOut object:nil];
@@ -34,7 +38,7 @@
 }
 
 - (void)gotPushNotification:(NSNotification *)notice {
-    NSNumber *badgeNumber = [[notice.userInfo objectForKey:@"aps"] objectForKey:@"badge"];
+    NSNumber *badgeNumber = notice.userInfo[@"aps"][@"badge"];
     [self updateNotificationTabBadge:badgeNumber.integerValue];
 }
 
@@ -43,11 +47,24 @@
     [self.tabBarController setSelectedIndex:0];
 }
 
+- (UIViewController *)notificationViewController {
+    UIViewController *controller = nil;
+    for (controller in self.viewControllers) {
+        if ([controller.restorationIdentifier isEqualToString:NOTIFICATION_CONTROLLER_ID]) {
+            break;
+        }
+    }
+    return controller;
+}
 
 - (void)updateNotificationTabBadge:(NSInteger)badge {
-    if (self.selectedViewController.tabBarItem == _notificationsTabItem) {
-        // clear the notificaiton, we are already on it
-        _notificationsTabItem.badgeValue = nil;
+    // Find notifications view controller
+    UIViewController *controller = [self notificationViewController];
+    UITabBarItem *notificationsTabItem = controller.tabBarItem;
+
+    if (self.selectedViewController.tabBarItem == notificationsTabItem) {
+        // clear the notification, we are already on it
+        notificationsTabItem.badgeValue = nil;
         [PFInstallation currentInstallation].badge = 0;
         [[PFInstallation currentInstallation] saveEventually];
     } else {
@@ -55,7 +72,7 @@
             // use default
             badge = [PFInstallation currentInstallation].badge;
         }
-        _notificationsTabItem.badgeValue = badge ? [NSString stringWithFormat:@"%ld", (long) badge] : nil;
+        notificationsTabItem.badgeValue = badge ? [NSString stringWithFormat:@"%ld", (long) badge] : nil;
     }
 }
 
@@ -65,63 +82,99 @@
 
     ParentUser *user = ParentUser.currentUser;
     if (user) {
-        [UsageAnalytics idenfity:user withBaby:nil];
-        if (Baby.currentBaby == nil) {
-            // Finally, we must have at least one baby's info on file
-            PFQuery *query = [Baby queryForBabiesForUser:PFUser.currentUser];
-            query.cachePolicy = [Reachability isParseCurrentlyReachable] ? kPFCachePolicyCacheThenNetwork : kPFCachePolicyCacheOnly;
-            __block BOOL cachedResult = YES;
-            [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-                if (!error) {
-                    // NOTE: This block gets called twice, once for cache, then once for network
-                    // With the Cache then Network Policy both are always called.
-                    if ([objects count] > 0) {
-                        // First call will be cache, we use that, then when the network call is complete
-                        // If and only if the Baby object is different do we replace it and send the notfication again
-                        Baby *newBaby = [objects firstObject];
-                        if (![Baby currentBaby] || [newBaby.updatedAt compare:[Baby currentBaby].updatedAt] == NSOrderedDescending) {
-                            [Baby setCurrentBaby:newBaby];
-                            if (newBaby) [self showTutorialPromptIfNeeded:user];
+        if ([user objectForKey:@"isMale"]) { // If the isMale is not set, it means that they did not finish the signup process.
+            if(!_isIdentified) {
+                [UsageAnalytics idenfity:user];
+                _isIdentified = YES;
+            }
+            if (Baby.currentBaby == nil) {
+                // Finally, we must have at least one baby's info on file
+                PFQuery *query = [Baby queryForBabiesForUser:PFUser.currentUser];
+                query.cachePolicy = [Reachability isParseCurrentlyReachable] ? kPFCachePolicyCacheThenNetwork : kPFCachePolicyCacheOnly;
+                __block BOOL cachedResult = YES;
+                [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                    if (!error) {
+                        // NOTE: This block gets called twice, once for cache, then once for network
+                        // With the Cache then Network Policy both are always called.
+                        if ([objects count] > 0) {
+                            // First call will be cache, we use that, then when the network call is complete
+                            // If and only if the Baby object is different do we replace it and send the notfication again
+                            Baby *newBaby = [objects firstObject];
+                            if (![Baby currentBaby] || [newBaby.updatedAt compare:[Baby currentBaby].updatedAt] == NSOrderedDescending) {
+                                [Baby setCurrentBaby:newBaby];
+                                if (newBaby) [self showTutorialPromptIfNeeded:user];
+                            }
+                        } else if (!cachedResult) { // Don't show the baby screen when there are simply no objects in the cache.
+                            // Must show the enter baby screen since there are none registered yet
+                            [self performSegueWithIdentifier:@"enterBabyInfo" sender:self];
                         }
-                    } else if (!cachedResult) { // Don't show the baby screen when there are simply no objects in the cache.
-                        // Must show the enter baby screen since there are none registered yet
-                        [self performSegueWithIdentifier:@"enterBabyInfo" sender:self];
+                    } else {
+                        if (error.code != kPFErrorCacheMiss) {
+                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Small Problem" message:@"Could not load info for your baby. You may want to check that you have an internet connection and/or try again a little later" delegate:nil cancelButtonTitle:@"Accept" otherButtonTitles:nil, nil];
+                            [alert show];
+                            NSLog(@"Error trying to load baby : %@", error);
+                        }
                     }
-                } else {
-                    if (error.code != kPFErrorCacheMiss) {
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Small Problem" message:@"Could not load info for your baby. You may want to check that you have an internet connection and/or try again a little later" delegate:nil cancelButtonTitle:@"Accept" otherButtonTitles:nil, nil];
-                        [alert show];
-                        NSLog(@"Error trying to load baby : %@", error);
-                    }
-                }
 
-                // Flip the bit
-                if (cachedResult) {
-                    cachedResult = NO;
-                }
-            }];
+                    // Flip the bit
+                    if (cachedResult) {
+                        cachedResult = NO;
+                    }
+                }];
+            }
+            [super viewDidAppear:animated];
+        } else {
+            // Missing user Info, perhaps didn't complete the signup process
+            [self performSegueWithIdentifier:kDDSegueEnterBabyInfo sender:self];
+            [[[UIAlertView alloc] initWithTitle:@"Ooops!" message:@"It looks like we didn't finish your last attempt to signup - let's finish it now!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
         }
-        [UsageAnalytics idenfity:user withBaby:Baby.currentBaby];
-        [super viewDidAppear:animated];
     } else {
         [self performSegueWithIdentifier:@"showIntroScreen" sender:self];
     }
 }
 
-- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
-    if (item == _notificationsTabItem) {
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:kDDSegueEnterBabyInfo]) {
+        OnboardingStepViewController * topController = (OnboardingStepViewController *) ((UINavigationController *)segue.destinationViewController).topViewController;
+        topController.baby = Baby.currentBaby;
+    }
+}
+
+- (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController {
+    if ([viewController.restorationIdentifier isEqualToString:NOTIFICATION_CONTROLLER_ID]) {
+        if (![ParentUser currentUser].email) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Please Sign Up" message:@"To see useful tips, SIGN-UP now. We'll also back-up your milestones and photos."
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"Maybe Later"
+                                                  otherButtonTitles:@"Sign Up", nil];
+            [alert showWithButtonBlock:^(NSInteger buttonIndex) {
+                if (buttonIndex == 1) {
+                    SignUpViewController *signupController = [[SignUpViewController alloc] init];
+                    signupController.showExternal = YES;
+                    [self presentViewController:signupController animated:YES completion:nil];
+                }
+            }];
+        }
+    }
+
+    return YES;
+}
+
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
+    if ([viewController.restorationIdentifier isEqualToString:NOTIFICATION_CONTROLLER_ID]) {
         // Reset badge count when the view is shown
         PFInstallation *currentInstallation = [PFInstallation currentInstallation];
         if (currentInstallation.badge != 0) {
             currentInstallation.badge = 0;
             [currentInstallation saveEventually];
         }
-        item.badgeValue = nil;
+        viewController.tabBarItem.badgeValue = nil;
     }
+
 }
 
 - (void)showTutorialPromptIfNeeded:(ParentUser *)user {
-    if(!user.shownTutorialPrompt) {
+    if (!user.shownTutorialPrompt) {
         user.shownTutorialPrompt = YES;
         [[[UIAlertView alloc] initWithTitle:@"Take a Quick Tour?"
                                     message:@"Do you want to see a quick tour about how things work? You can view it under 'account settings' anytime."

@@ -20,6 +20,8 @@ NSString *const kDDSegueShowLoginScreen = @"showLoginScreen";
 NSString *const kDDSegueEnterBabyInfo = @"enterBabyInfo";
 NSString *const kDDSegueShowFullScreenImage = @"showFullScreenImage";
 NSString *const kDDSegueShowWebView = @"showWebView";
+NSString *const kDDSegueShowAboutYou = @"showAboutYou";
+NSString *const kDDSegueShowOptionalSignup = @"showOptionalSignup";
 
 
 #pragma mark - Events
@@ -38,6 +40,7 @@ NSString *const kDataObjectNeedsAction = @"dataObjectNeedsAction"; // request to
 NSString *const kDDNotificationAchievementNeedsDeleteAction = @"achievementNeedsDeleteAction";
 NSString *const kDDNotificationMilestoneNeedsPostponeAction = @"milestoneNeedsPostponeAction";
 NSString *const kDDNotificationMilestoneNeedsIgnoreAction = @"milestoneNeedsIgnoreAction";
+NSString *const kDDNotificationProductPurchased = @"productPurchased";
 
 
 NSString *const kDDURLTermsAndConditions = @"http://dataparenting.com/terms-conditions-and-privacy/";

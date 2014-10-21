@@ -113,6 +113,7 @@
 
     if (_isLoading) {
         cell = [tableView dequeueReusableCellWithIdentifier:@"loadingCell" forIndexPath:indexPath];
+        cell.imageView.image = nil; // TODO: remove : Work around for Bug (see 18595125)  on ios 8
         cell.imageView.image = [UIImage animatedImageNamed:@"progress-" duration:1.0];
     } else {
         cell = [tableView dequeueReusableCellWithIdentifier:@"tagCell" forIndexPath:indexPath];

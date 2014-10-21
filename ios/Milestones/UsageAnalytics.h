@@ -10,9 +10,9 @@
 
 @interface UsageAnalytics : NSObject
 
-+ (void)initializeAnalytics;
++ (void)initializeAnalytics:(NSDictionary *)launchOptions;
 
-+ (void)idenfity:(ParentUser *)user withBaby:(Baby *)baby;
++ (void)idenfity:(ParentUser *)user;
 
 + (void)trackError:(NSError *)error forOperationNamed:(NSString *)operation;
 

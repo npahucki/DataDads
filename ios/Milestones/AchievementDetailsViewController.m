@@ -32,6 +32,7 @@
     BOOL _beganDrag;
     UIView *_backgroundView;
     FDTakeController *_takeController;
+    NSObject <MediaFile> *_attachment;
 }
 
 // Global for all instances
@@ -47,6 +48,8 @@ NSDateFormatter *_dateFormatter;
 - (void)viewDidLoad {
     // Capture the screen before the transition
     _backgroundView = [[UIScreen mainScreen] snapshotViewAfterScreenUpdates:NO];
+    // Work around to bug on iOS 8, where the screen jumps if just relying on the hidesToolBarOnPush
+    self.tabBarController.tabBar.hidden = YES;
 
     [super viewDidLoad];
     NSAssert(self.achievement, @"Expected Achievement to be set before loading view!");
@@ -55,7 +58,6 @@ NSDateFormatter *_dateFormatter;
     // Add in another button to the right.
     UIBarButtonItem *deleteButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(didClickDeleteButton:)];
     self.navigationItem.rightBarButtonItems = @[self.shareButtonBarItem, deleteButtonItem];
-
 
     self.adView.containingViewController = self;
     self.detailsTextView.delegate = self;
@@ -68,11 +70,7 @@ NSDateFormatter *_dateFormatter;
     NSAssert([self.achievement.baby.objectId isEqualToString:Baby.currentBaby.objectId], @"Expected achievements for current baby only!");
 
     // Start with the thumbnail (if loaded), then load the bigger one later on.
-    PFFile *thumbnailImageFile = self.achievement.attachmentThumbnail ? self.achievement.attachmentThumbnail : Baby.currentBaby.avatarImageThumbnail;
-    [thumbnailImageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-        [self.detailsImageButton setImage:[UIImage imageWithData:data] forState:UIControlStateNormal];
-        self.detailsImageButton.alpha = (CGFloat) (self.achievement.attachmentThumbnail ? 1.0 : 0.3);
-    }];
+    [self loadPreview];
 
     self.rangeIndicatorView.rangeScale = 5 * 365;
     self.rangeIndicatorView.rangeReferencePoint = [Baby.currentBaby.birthDate daysDifference:self.achievement.completionDate];
@@ -81,33 +79,13 @@ NSDateFormatter *_dateFormatter;
 
     // TODO: Cloud function to do all this in one shot!
     PFQuery *query = [MilestoneAchievement query];
-    [query selectKeys:@[@"attachment", @"attachmentType", @"customTitle", @"comment", @"completionDate", @"standardMilestone", @"baby"]];
+    [query selectKeys:@[@"attachment", @"attachmentType", @"attachmentThumbnail", @"attachmentExternalStorageId", @"customTitle", @"comment", @"completionDate", @"standardMilestone", @"baby"]];
     [query includeKey:@"standardMilestone"];
     [query getObjectInBackgroundWithId:self.achievement.objectId block:^(PFObject *object, NSError *error) {
         if (!error) {
             // Get achievement details and image
             self.achievement = (MilestoneAchievement *) object;
-            BOOL isVideo = self.achievement.attachmentType && [self.achievement.attachmentType rangeOfString:@"video"].location != NSNotFound;
-            if (isVideo) { // If not a video try to load a better thumbnail
-                self.detailsImageButton.alpha = 1.0;
-                self.playVideoButton.hidden = NO;
-            } else {
-                self.playVideoButton.hidden = YES;
-                BOOL hasImageAttachment = self.achievement.attachment && [self.achievement.attachmentType rangeOfString:@"image"].location != NSNotFound;
-                PFFile *imageFile = hasImageAttachment ? self.achievement.attachment : Baby.currentBaby.avatarImage;
-                if (imageFile) {
-                    [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error2) {
-                        if (!error2) {
-                            [self setButtonPhoto:[UIImage imageWithData:data]];
-                            self.detailsImageButton.alpha = (CGFloat) (hasImageAttachment ? 1.0 : 0.3);
-                        } else {
-                            [UsageAnalytics trackError:error2 forOperationNamed:@"fetchAchievementImage" andAdditionalProperties:@{@"id" : self.achievement.objectId}];
-                        }
-                    }];
-                }
-            }
-
-
+            [self loadAttachment];
             if (self.achievement.standardMilestone) {
                 self.rangeIndicatorView.startRange = self.achievement.standardMilestone.rangeLow.integerValue;
                 self.rangeIndicatorView.endRange = self.achievement.standardMilestone.rangeHigh.integerValue;
@@ -131,7 +109,48 @@ NSDateFormatter *_dateFormatter;
 
     [self updateTitleTextFromAchievement];
 
+    // Decide to show the add or not.
+    self.adView.delegate = self;
+    [[InAppPurchaseHelper instance] checkAdFreeProductPurchased:^(BOOL purchased, NSError *error) {
+        if (purchased) {
+            [self hideAdView];
+        } else {
+            [self.adView attemptAdLoad];
+        }
+    }];
+
 }
+
+- (void)loadPreview {
+    PFFile *thumbnailImageFile = self.achievement.attachmentThumbnail ? self.achievement.attachmentThumbnail : Baby.currentBaby.avatarImageThumbnail;
+    [thumbnailImageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+        [self.detailsImageButton setImage:[UIImage imageWithData:data] forState:UIControlStateNormal];
+        self.detailsImageButton.alpha = (CGFloat) (self.achievement.attachmentThumbnail ? 1.0 : 0.3);
+    }];
+}
+
+- (void)loadAttachment {
+    BOOL isVideo = self.achievement.attachmentType && [self.achievement.attachmentType rangeOfString:@"video"].location != NSNotFound;
+    if (isVideo) { // If not a video try to load a better thumbnail
+        self.detailsImageButton.alpha = 1.0;
+        self.playVideoButton.hidden = NO;
+    } else {
+        self.playVideoButton.hidden = YES;
+        BOOL hasImageAttachment = self.achievement.attachment && [self.achievement.attachmentType rangeOfString:@"image"].location != NSNotFound;
+        PFFile *imageFile = hasImageAttachment ? self.achievement.attachment : Baby.currentBaby.avatarImage;
+        if (imageFile) {
+            [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error2) {
+                if (!error2) {
+                    [self setButtonPhoto:[UIImage imageWithData:data]];
+                    self.detailsImageButton.alpha = (CGFloat) (hasImageAttachment ? 1.0 : 0.3);
+                } else {
+                    [UsageAnalytics trackError:error2 forOperationNamed:@"fetchAchievementImage" andAdditionalProperties:@{@"id" : self.achievement.objectId}];
+                }
+            }];
+        }
+    }
+}
+
 
 - (void)updateTitleTextFromAchievement {
     StandardMilestone *m = self.achievement.standardMilestone;
@@ -201,7 +220,7 @@ NSDateFormatter *_dateFormatter;
     _takeController.allowsEditingPhoto = NO; // NOTE: Allowing photo editing causes a problem with landscape pictures!
     _takeController.allowsEditingVideo = YES;
     _takeController.imagePicker.videoQuality = UIImagePickerControllerQualityType640x480;
-    _takeController.imagePicker.videoMaximumDuration = 90;
+    _takeController.imagePicker.videoMaximumDuration = MAX_VIDEO_ATTACHMENT_LENGTH_SECS;
     [_takeController takePhotoOrVideoOrChooseFromLibrary];
 }
 
@@ -273,9 +292,21 @@ NSDateFormatter *_dateFormatter;
 
 - (IBAction)didClickPlayVideoButton:(id)sender {
     NSAssert([self.achievement.attachmentType rangeOfString:@"video"].location != NSNotFound, @"Expected attachment with video type");
-    NSURL *url = [NSURL URLWithString:self.achievement.attachment.url];
-    MPMoviePlayerViewController *c = [[MPMoviePlayerViewController alloc] initWithContentURL:url];
-    [self.navigationController presentMoviePlayerViewControllerAnimated:c];
+    if (self.achievement.attachmentExternalStorageId) {
+        [ExternalMediaFile lookupMediaUrl:self.achievement.attachmentExternalStorageId withBlock:^(NSString *url, NSError *error) {
+            if (error) {
+                [UsageAnalytics trackError:error forOperationNamed:@"lookupVideoUrl"];
+            } else {
+                MPMoviePlayerViewController *c = [[MPMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:url]];
+                [self.navigationController presentMoviePlayerViewControllerAnimated:c];
+            }
+        }];
+    } else {
+        // TODO: For backward compatibility - remove once everything is migrated to S3.
+        NSURL *url = [NSURL URLWithString:self.achievement.attachment.url];
+        MPMoviePlayerViewController *c = [[MPMoviePlayerViewController alloc] initWithContentURL:url];
+        [self.navigationController presentMoviePlayerViewControllerAnimated:c];
+    }
 }
 
 - (void)showPercentileMessage:(NSInteger)percent {
@@ -407,10 +438,9 @@ NSDateFormatter *_dateFormatter;
 }
 
 - (void)takeController:(FDTakeController *)controller gotPhoto:(UIImage *)photo withInfo:(NSDictionary *)info {
-    [self showInProgressHUDWithMessage:@"Uploading Photo" andAnimation:YES andDimmedBackground:YES];
+    [self showInProgressHUDWithMessage:@"Uploading Photo" andAnimation:YES andDimmedBackground:YES withCancel:NO];
     PFFile *file = [PFFile imageFileFromImage:photo];
     [self saveAttachment:file andThumbnail:nil];
-    [self setButtonPhoto:photo];
 }
 
 - (void)takeController:(FDTakeController *)controller gotVideo:(NSURL *)videoUrl withInfo:(NSDictionary *)info {
@@ -418,29 +448,40 @@ NSDateFormatter *_dateFormatter;
     [[InAppPurchaseHelper instance] ensureProductPurchased:DDProductVideoSupport withBlock:^(BOOL succeeded, NSError *error) {
         self.detailsImageButton.enabled = YES; // Restore
         if (succeeded) {
-            PFFile *file = [PFFile videoFileFromUrl:videoUrl];
+            ExternalMediaFile *file = [ExternalMediaFile videoFileFromUrl:videoUrl];
             if (file) {
-                UIImage *thumbnail = [[file generateThumbImage] imageScaledToFitSize:CGSizeMake(320.0, 320.0)];
+                UIImage *thumbnail = [file.thumbnail imageScaledToFitSize:CGSizeMake(320.0, 320.0)];
                 PFFile *thumbnailFile = [PFFile fileWithName:@"thumbnail.jpg" data:UIImageJPEGRepresentation(thumbnail, 0.5f) contentType:@"image/jpg"];
-                [self setButtonPhoto:thumbnail];
                 [self saveAttachment:file andThumbnail:thumbnailFile];
             }
         }
     }];
 }
 
-- (void)saveAttachment:(PFFile *)attachment andThumbnail:(PFFile *)thumbnail {
-    NSString *type = [attachment.mimeType rangeOfString:@"video"].location != NSNotFound ? @"video" : @"photo";
+- (void)saveAttachment:(NSObject <MediaFile> *)attachment andThumbnail:(PFFile *)thumbnail {
+    _attachment = attachment;
+    BOOL isVideo = [attachment.mimeType rangeOfString:@"video"].location != NSNotFound;
+    NSString *type = isVideo ? @"video" : @"photo";
     NSString *title = [@"Uploading " stringByAppendingString:type];
 
     self.playVideoButton.hidden = YES;
-    [self showInProgressHUDWithMessage:title andAnimation:YES andDimmedBackground:YES];
+    [self showInProgressHUDWithMessage:title andAnimation:YES andDimmedBackground:YES withCancel:isVideo];
     [attachment saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        if (error) {
-            [self showErrorThenRunBlock:error withMessage:@"Could not upload the video." andBlock:nil];
-            [self.detailsImageButton setImage:nil forState:UIControlStateNormal];
-        } else {
-            self.achievement.attachment = attachment;
+        _attachment = nil;
+        if (succeeded) {
+            self.playVideoButton.hidden = !isVideo;
+            // Can be a PFFile (old style used for images) or an ExternalMediaFile object for larger things like videos.
+            if ([attachment isKindOfClass:[ExternalMediaFile class]]) {
+                self.achievement.attachment = nil;  // clear any old values
+                self.achievement.attachmentExternalStorageId = ((ExternalMediaFile *) attachment).uniqueId;
+                [self setButtonPhoto:((ExternalMediaFile *) attachment).thumbnail];
+            } else {
+                self.achievement.attachmentExternalStorageId = nil; // clear any old values
+                PFFile *file = ((PFFile *) attachment);
+                self.achievement.attachment = file;
+                NSAssert(file.isDataAvailable, @"Expected data to be availble since we just saved it!");
+                [self setButtonPhoto:[UIImage imageWithData:[file getData]]];
+            }
             self.achievement.attachmentType = attachment.mimeType;
             self.achievement.attachmentOrientation = attachment.orientation;
             self.achievement.attachmentWidth = attachment.width;
@@ -455,15 +496,47 @@ NSDateFormatter *_dateFormatter;
                     [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationAchievementNotedAndSaved object:self.achievement];
                 }
             }];
+        } else {
+            if (error) {
+                [self showErrorThenRunBlock:error withMessage:@"Could not upload the video." andBlock:nil];
+            } else {
+                // else user cancelled
+                [self hideHud];
+            }
         }
     }                       progressBlock:^(int percentDone) {
         [self showText:[NSString stringWithFormat:@"%@ %d%%", title, percentDone]];
     }];
 }
 
+- (void)handleHudCanceled {
+    [_attachment cancel];
+    // Dismiss the HUD right away, don't wait for the network operation to cancel since this can take a while.
+    [self hideHud];
+}
 
 - (void)setButtonPhoto:(UIImage *)photo {
     [self.detailsImageButton setImage:[photo imageScaledToFitSize:self.detailsImageButton.bounds.size] forState:UIControlStateNormal];
 }
+
+#pragma mark - DataParentingAdViewDelegate
+
+- (void)displayAdView {
+    self.adView.hidden = NO;
+    [self.view layoutIfNeeded];
+    self.adViewHeightConstraint.constant = 50;
+    [self.view setNeedsUpdateConstraints];
+    [UIView animateWithDuration:0.5
+                     animations:^{
+                         [self.view layoutIfNeeded];
+                     }];
+}
+
+- (void)hideAdView {
+    self.adView.hidden = YES;
+    self.adViewHeightConstraint.constant = 8;
+    [self.view layoutIfNeeded];
+}
+
 
 @end

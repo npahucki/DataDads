@@ -27,7 +27,8 @@ typedef NS_ENUM(NSInteger, SharingMedium) {
 @property StandardMilestone *standardMilestone; // optional, could be custom in which case customTitle and customDescription should be set
 @property NSDate *completionDate;
 @property PFFile *attachment;
-@property PFFile *attachmentThumbnail; // populated by trigger
+@property PFFile *attachmentThumbnail;
+@property NSString *attachmentExternalStorageId;
 @property UIImageOrientation attachmentOrientation;
 @property CGFloat attachmentHeight;
 @property CGFloat attachmentWidth;

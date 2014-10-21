@@ -12,6 +12,7 @@
 @dynamic isMale;
 @dynamic usesMetric;
 @dynamic launchCount;
+@dynamic supportScience;
 
 
 - (BOOL)showHiddenTips {
@@ -74,7 +75,7 @@
 + (void)incrementLaunchCount {
     [self.currentUser incrementKey:@"launchCount"];
     [self.currentUser saveEventually:^(BOOL succeeded, NSError *error) {
-        if (succeeded) [ParentUser.currentUser refreshInBackgroundWithBlock:nil];
+        if (succeeded) [ParentUser.currentUser fetchInBackgroundWithBlock:nil];
     }];
 }
 

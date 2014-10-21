@@ -6,16 +6,19 @@
 //  Copyright (c) 2014 DataParenting. All rights reserved.
 //
 
+#import <Mixpanel/MPTweakInline.h>
 #import "BabyInfoPhotoViewController.h"
-#import "FDTakeController.h"
+
 
 @interface BabyInfoPhotoViewController ()
 
 @end
 
+
 @implementation BabyInfoPhotoViewController {
     FDTakeController *_takeController;
     NSData *_imageData;
+    BOOL _showOptionalSignup;
 }
 
 
@@ -34,6 +37,19 @@
                 NSLog(@"Failed to load image %@", error);
             }
         }];
+    }
+
+    self.navigationItem.prompt = [self.navigationItem.prompt stringByAppendingString:@" (Optional)"];
+    _showOptionalSignup = ![ParentUser currentUser].isAuthenticated && MPTweakValue(@"ShowOptionalSignupDuringOnBoarding", NO);
+
+
+}
+
+- (IBAction)didClickNextButton:(id)sender {
+    if (_showOptionalSignup) {
+        [self performSegueWithIdentifier:kDDSegueShowOptionalSignup sender:self];
+    } else {
+        [self performSegueWithIdentifier:kDDSegueShowAboutYou sender:self];
     }
 }
 
@@ -62,7 +78,7 @@
         PFFile *file = [PFFile fileWithData:_imageData];
         self.baby.avatarImage = file;
     }
-    ((UIViewController <ViewControllerWithBaby> *) segue.destinationViewController).baby = self.baby;
+    [super prepareForSegue:segue sender:sender];
 }
 
 

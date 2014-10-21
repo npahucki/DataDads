@@ -11,6 +11,8 @@ var PRONOUN_TRANSLATIONS = {
     }
 };
 
+var MILLIS_PER_DAY = 24 * 60 * 60 * 1000;
+
 function treatAsUTC(date) {
     var result = new Date(date);
     result.setMinutes(result.getMinutes() - result.getTimezoneOffset());
@@ -18,12 +20,11 @@ function treatAsUTC(date) {
 }
 
 exports.dateAddDays = function (date, days) {
-    return new Date(date.getFullYear(), date.getMonth(), date.getDate() + days);
+    return new Date(date.getTime() + (MILLIS_PER_DAY * days));
 };
 
 exports.daysBetween = function (startDate, endDate) {
-    var millisecondsPerDay = 24 * 60 * 60 * 1000;
-    return (treatAsUTC(endDate) - treatAsUTC(startDate)) / millisecondsPerDay;
+    return (treatAsUTC(endDate) - treatAsUTC(startDate)) / MILLIS_PER_DAY;
 };
 
 exports.dayDiffFromNow = function (date) {
@@ -47,6 +48,22 @@ exports.replacePronounTokens = function (stringWithTokens, isMale, lang) {
 exports.isDev = function () {
     return Parse.applicationId === "NlJHBG0NZgFS8JP76DBjA31MBRZ7kmb7dVSQQz3U";
 };
+
+exports.awsVideoEnv = function() {
+    var info = {};
+    if(exports.isDev()) {
+        info.bucket = "dp-mf-media-dev";
+        info.accessKey = "AKIAJRGMQXTMWZAS63EQ";
+        info.secretKey = "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";
+        info.webVideoPipelineId = "1412173550726-nz7h9a";
+    } else {
+        info.bucket = "dp-mf-media-prod";
+        info.accessKey = "AKIAJVJAO4WVS4INUGUA";
+        info.secretKey = "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";
+        info.webVideoPipelineId = "1412984874675-8ajzup";
+    }
+    return info;
+}
 
 
 var Base64 = {

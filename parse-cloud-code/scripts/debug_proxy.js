@@ -1,0 +1,1 @@
+require("./find_bad_tip_assignments.js");

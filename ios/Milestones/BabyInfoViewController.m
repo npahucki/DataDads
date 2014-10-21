@@ -8,6 +8,7 @@
 
 #import "BabyInfoViewController.h"
 #import "NSDate+Utils.h"
+#import "Mixpanel/MPTweakInline.h"
 
 #define MIN_DUE_BEFORE -60
 #define MAX_DUE_AFTER 21
@@ -23,6 +24,10 @@
 
 
 - (void)viewDidLoad {
+    BOOL willShowOptionalSignup = ![ParentUser currentUser].isAuthenticated && MPTweakValue(@"ShowOptionalSignupDuringOnBoarding", NO);
+    self.totalSteps = willShowOptionalSignup ? 4 : 3;
+    self.currentStepNumber = 1;
+
     [super viewDidLoad];
     self.maleLabel.highlightedTextColor = self.femaleLabel.highlightedTextColor = [UIColor appNormalColor];
     self.maleLabel.font = self.femaleLabel.font = [UIFont fontForAppWithType:Bold andSize:17];
@@ -106,7 +111,7 @@
     self.baby.isMale = self.maleButton.isSelected;
     self.baby.birthDate = ((UIDatePicker *) self.dobTextField.inputView).date;
     self.baby.dueDate = ((UIDatePicker *) self.dueDateTextField.inputView).date;
-    ((UIViewController <ViewControllerWithBaby> *) segue.destinationViewController).baby = self.baby;
+    [super prepareForSegue:segue sender:sender];
 }
 
 - (IBAction)didClickCancelButton:(id)sender {

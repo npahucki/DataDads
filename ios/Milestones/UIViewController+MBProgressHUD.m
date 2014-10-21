@@ -23,9 +23,15 @@
         hud.animationType = MBProgressHUDAnimationFade;
         hud.completionBlock = nil;
     }
+    self.hud.removeFromSuperViewOnHide = YES;
     self.hud.dimBackground = dimmed;
     [self.hud show:animated];
     self.hud.hidden = NO;
+    self.hud.detailsLabelText = nil;
+
+    for (UIGestureRecognizer *recognizer in self.hud.gestureRecognizers) {
+        [self.hud removeGestureRecognizer:recognizer];
+    }
 }
 
 - (void)showHUDWithMessage:(NSString *)msg andAnimation:(BOOL)animated andDimmedBackground:(BOOL)dimmed {
@@ -33,11 +39,38 @@
     self.hud.labelText = msg;
 }
 
-- (void)showInProgressHUDWithMessage:(NSString *)msg andAnimation:(BOOL)animated andDimmedBackground:(BOOL)dimmed {
+- (void)hudCanceled {
+    self.hud.userInteractionEnabled = NO;
+    self.hud.detailsLabelText = nil;
+    self.hud.labelText = @"Cancelling...";
+    [self handleHudCanceled];
+}
+
+// Override to implement cancel
+- (void)handleHudCanceled {
+    NSLog(@"OVERRIDE THIS TO HANDLE CANCEL");
+}
+
+- (void)hideHud {
+    [self.hud hide:YES];
+}
+
+- (void)showInProgressHUDWithMessage:(NSString *)msg andAnimation:(BOOL)animated andDimmedBackground:(BOOL)dimmed withCancel:(BOOL)allowCancel {
     [self showHUDWithMessage:msg andAnimation:animated andDimmedBackground:dimmed];
     self.hud.mode = MBProgressHUDModeCustomView;
     self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage animatedImageNamed:@"progress-" duration:1.0f]];
+
+    if (allowCancel) {
+        self.hud.detailsLabelColor = [UIColor appSelectedColor];
+        self.hud.detailsLabelText = @"Double tap to cancel";
+        self.hud.userInteractionEnabled = YES;
+
+        UITapGestureRecognizer *cancelTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hudCanceled)];
+        cancelTap.numberOfTapsRequired = 2;
+        [self.hud addGestureRecognizer:cancelTap];
+    }
 }
+
 
 - (void)showText:(NSString *)text {
     self.hud.labelText = text;
