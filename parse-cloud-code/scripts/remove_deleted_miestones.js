@@ -17,8 +17,8 @@ deletedQuery.startsWith("title", prefixToken);
 deletedQuery.select("title");
 deletedQuery.each(function (milestoneToDelete) {
     console.log("Processing milestone with id " + milestoneToDelete.id);
-    return deleteStandardMilestone(milestoneToDelete).then(function() {
-        deletedCount++;
+    return deleteStandardMilestone(milestoneToDelete).then(function(result) {
+        if(result) deletedCount++;
     });
 }).then(function () {
     console.log("Hapi Hapi! Deleted " + deletedCount + " milestones");
@@ -33,17 +33,46 @@ function deleteStandardMilestone(milestone) {
         var replacementString = title.substr(replacementStart + 1);
         // verify exists
         console.log("Looking up replacement with id " + replacementString);
-        return new Parse.Query("StandardMilestones").get(replacementString).then(function (replacement) {
-            return replaceMilestone(milestone, replacement);
+        var milestoneQuery = new Parse.Query("StandardMilestones");
+        milestoneQuery.equalTo("objectId", replacementString);
+        return milestoneQuery.find().then(function (replacements) {
+            var replacement = _.first(replacements);
+            if(replacement) {
+                return replaceMilestone(milestone, replacement);
+            } else {
+                // Else this was a title to use, instead of a replacement - we convert to custom milestone
+                return convertToCustomMilestone(milestone, replacementString)
+            }
         }).then(function () {
                     console.log("Made replacements and now deleting " + milestone.id);
                     return milestone.destroy();
                 });
     } else {
-        console.log("There was no replacement specified, simply deleting " + milestone.id);
-        return milestone.destroy();
+        var achievementsQuery = new Parse.Query("MilestoneAchievements");
+        achievementsQuery.equalTo("standardMilestone", milestone);
+        return achievementsQuery.count().then(function(count) {
+            if(count) {
+                console.log("Will not delete milestone " + milestone.id + " because it has " + count + " achievements referring to it")
+                return Parse.Promise.as(false)
+            } else {
+                console.log("There was no replacement, but no achievements refer to tho milestone " + milestone.id + " so just deleting it.");
+                return milestone.destroy();
+            }
+        });
     }
 
+}
+
+function convertToCustomMilestone(milestone, newTitle) {
+    var achievementsQuery = new Parse.Query("MilestoneAchievements");
+    achievementsQuery.equalTo("standardMilestone", milestone);
+    return achievementsQuery.each(function (achievement) {
+        achievement.set("customTitle", newTitle);
+        achievement.unset("standardMilestone");
+        achievement.unset("standardMilestoneId");
+        console.log("Converted achievement " + achievement.id + " to custom milestone achievement")
+        return achievement.save();
+    });
 }
 
 function replaceMilestone(original, replacement) {
