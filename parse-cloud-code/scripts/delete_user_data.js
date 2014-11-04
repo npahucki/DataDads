@@ -8,38 +8,38 @@ var archive = {}; // makes a backup of the user's data just in case.
 var objectsToDelete = [];
 
 var rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
+    input:process.stdin,
+    output:process.stdout
 });
 
-rl.question("Enter userid to delete, or blank to cancel. Please BACKUP before running!", function(userId) {
+rl.question("Enter userid to delete, or blank to cancel. Please BACKUP before running!", function (userId) {
     rl.close();
-    if(userId) {
+    if (userId) {
         var basePath = "archived_users/";
-        if(!fs.existsSync(basePath)) fs.mkdirSync(basePath);
+        if (!fs.existsSync(basePath)) fs.mkdirSync(basePath);
         var path = basePath + userId + "/";
-        if(fs.existsSync(path)) {
+        if (fs.existsSync(path)) {
             console.error("A backup for " + userId + " already exists, delete it first");
             process.exit();
         }
 
         deleteUser(userId).then(function () {
             return saveArchivedObjects(path);
-        }).then(function() {
-            if(DRY_RUN) {
-               console.log("DRY_RUN mode, nothing deleted from Parse!");
-               return Parse.Promise.as();
-            } else {
-                console.log("Please standby while deleting objects....this could take a while!");
-                return Parse.Object.destroyAll(objectsToDelete);
-            }
-        }).then(function() {
-            console.log("All Done. Archive file located at: " + path);
-        }, function (error) {
-            console.log("Failed to delete user " + userId + " Reason:" + JSON.stringify(error));
-        }).always(function() {
-            process.exit();
-        });
+        }).then(function () {
+                    if (DRY_RUN) {
+                        console.log("DRY_RUN mode, nothing deleted from Parse!");
+                        return Parse.Promise.as();
+                    } else {
+                        console.log("Please standby while deleting objects....this could take a while!");
+                        return Parse.Object.destroyAll(objectsToDelete);
+                    }
+                }).then(function () {
+                    console.log("All Done. Archive file located at: " + path);
+                },function (error) {
+                    console.log("Failed to delete user " + userId + " Reason:" + JSON.stringify(error));
+                }).always(function () {
+                    process.exit();
+                });
     } else {
         console.log("Canceled at your request");
         process.exit();
@@ -51,8 +51,8 @@ function saveArchivedObjects(path) {
     for (var prop in archive) {
         if (archive.hasOwnProperty(prop)) {
             var fileName = prop + ".json";
-            var exportObject = { results : archive[prop]};
-            fs.writeFileSync(path + fileName, JSON.stringify(exportObject , null, 2));
+            var exportObject = { results:archive[prop]};
+            fs.writeFileSync(path + fileName, JSON.stringify(exportObject, null, 2));
         }
     }
     return Parse.Promise.as(true);
@@ -65,6 +65,8 @@ function deleteUser(userId) {
         user = u;
     }).then(function () {
         return deleteUserInstallations(user, archive);
+    }).then(function () {
+        return deleteUserTransactions(user, archive);
     }).then(function () {
         return deleteUserBabies(user, archive);
     }).then(function () {
@@ -86,17 +88,32 @@ function deleteUserInstallations(user, archive) {
     });
 }
 
+function deleteUserTransactions(user, archive) {
+    archive.PurchaseTransactions = [];
+    var query = new Parse.Query("PurchaseTransactions");
+    query.equalTo("user", user);
+    return query.each(function (transaction) {
+        archive.PurchaseTransactions = transaction.toJSON();
+        console.log("Will delete PurchaseTransaction with id " + transaction.id);
+        objectsToDelete.push(transaction);
+    });
+}
+
+
+
 function deleteUserBabies(user, archive) {
     archive.Babies = [];
     var query = new Parse.Query("Babies");
     query.equalTo("parentUser", user);
-    return query.each(function(baby) {
+    return query.each(function (baby) {
         console.log("Processing Baby " + baby.id);
         archive.Babies.push(baby.toJSON());
         return Parse.Promise.as().then(function () {
             return deleteBabyObjects(baby, "MilestoneAchievements", archive);
         }).then(function () {
             return deleteBabyObjects(baby, "BabyAssignedTips", archive);
+        }).then(function () {
+            return deleteBabyObjects(baby, "Measurements", archive);
         }).then(function () {
             return deleteBabyObjects(baby, "Measurements", archive);
         }).then(function () {
@@ -107,7 +124,7 @@ function deleteUserBabies(user, archive) {
 }
 
 function deleteBabyObjects(baby, objectName, archive) {
-    if(!archive[objectName]) {
+    if (!archive[objectName]) {
         archive[objectName] = [];
     }
     console.log("Will delete " + objectName + " objects for baby " + baby.id);
