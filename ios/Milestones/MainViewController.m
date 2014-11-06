@@ -82,9 +82,9 @@
 
     ParentUser *user = ParentUser.currentUser;
     if (user) {
-        if ([user objectForKey:@"isMale"]) { // If the isMale is not set, it means that they did not finish the signup process.
+        if ([user objectForKey:@"isMale"] != nil) { // If the isMale is not set, it means that they did not finish the signup process.
             if(!_isIdentified) {
-                [UsageAnalytics idenfity:user];
+                [UsageAnalytics identify:user];
                 _isIdentified = YES;
             }
             if (Baby.currentBaby == nil) {
@@ -102,6 +102,7 @@
                             Baby *newBaby = [objects firstObject];
                             if (![Baby currentBaby] || [newBaby.updatedAt compare:[Baby currentBaby].updatedAt] == NSOrderedDescending) {
                                 [Baby setCurrentBaby:newBaby];
+                                [UsageAnalytics identify:user]; // include baby'info in profile.
                                 if (newBaby) [self showTutorialPromptIfNeeded:user];
                             }
                         } else if (!cachedResult) { // Don't show the baby screen when there are simply no objects in the cache.

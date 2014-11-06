@@ -62,13 +62,14 @@ static BOOL isRelease;
         [UXCam startApplicationWithKey:uxCamKey];
 
         NSString *mixPanelKey = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.MixPanelKey"];
-        [Mixpanel sharedInstanceWithToken:mixPanelKey];
+        [Mixpanel sharedInstanceWithToken:mixPanelKey launchOptions:launchOptions];
 
     }
 }
 
-+ (void)idenfity:(ParentUser *)user {
++ (void)identify:(ParentUser *)user {
     if (user) {
+        NSAssert(user.objectId != nil, @"Expected user would have objectId set already");
         NSMutableDictionary *props = [@{
                 @"user.id" : safe(user.objectId),
                 @"user.anonymous" : user.email ? @"N" : @"Y",

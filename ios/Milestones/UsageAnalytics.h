@@ -12,7 +12,7 @@
 
 + (void)initializeAnalytics:(NSDictionary *)launchOptions;
 
-+ (void)idenfity:(ParentUser *)user;
++ (void)identify:(ParentUser *)user;
 
 + (void)trackError:(NSError *)error forOperationNamed:(NSString *)operation;
 
