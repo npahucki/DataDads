@@ -26,7 +26,7 @@ Parse.Cloud.define("percentileRanking", function (request, response) {
     scoreQuery.greaterThan("completionDays", completionDays);
     Parse.Promise.when(countQuery.count(), scoreQuery.count())
             .then(function (totalCount, scoreCount) {
-                console.log("Score Count=" + scoreCount + " Total Count=" + totalCount);
+                //console.log("Score Count=" + scoreCount + " Total Count=" + totalCount);
                 // Need at least mine and one other to compare
                 if (totalCount == 0) {
                     // Nothing to compare to, just say that you are ahead of 100% of babies.
