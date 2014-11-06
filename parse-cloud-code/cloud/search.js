@@ -4,7 +4,7 @@ var toLowerCase = function (w) {
     return w.toLowerCase();
 };
 var _ = require('underscore');
-var Snowball = require('cloud/node_modules/snowball/stemmer/lib/Snowball.js');
+var Snowball = require('cloud/snowball/stemmer/lib/Snowball.js');
 
 function canonicalize(words) {
     var stemmer = new Snowball(lang);
