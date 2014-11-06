@@ -2,7 +2,8 @@
 ios/Pods/
 build
 tmp
-#node_modules
+parse-cloud-code/node_modules/
+archived_users/
 
 # And no IDEA IntelliJ project files either
 .idea
