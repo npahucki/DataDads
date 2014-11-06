@@ -48,7 +48,7 @@
     // Skip any thing in the past. This can happen if the user has entered bad dates
     // or uploads a photo with a bad date on it.
     NSInteger days = [self.baby daysSinceDueDate:completionDate];
-    if (days >= 0) [self setObject:@(days) forKey:@"completionDays"];
+    [self setObject:@(days) forKey:@"completionDays"]; // Always set, even if negative.
 }
 
 - (NSDate *)completionDate {
