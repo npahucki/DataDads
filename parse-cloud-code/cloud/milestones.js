@@ -2,7 +2,11 @@ var search = require("cloud/search.js");
 
 Parse.Cloud.define("queryMyMilestones", function (request, response) {
 
-    // TODO: May need to look up baby and verify against user for security!
+    if (typeof request.params.babyId == "undefined" || typeof request.params.rangeDays == "undefined") {
+        response.error("Invalid query, need babyId and rangeDays parameters.");
+        return;
+    }
+
     var babyId = request.params.babyId;
     var babySex = request.params.babyIsMale ? 1 : 0;
     var parentSex = request.params.parentIsMale ? 1 : 0;
@@ -13,12 +17,6 @@ Parse.Cloud.define("queryMyMilestones", function (request, response) {
     var filterTokens = request.params.filterTokens;
     var showPostponed = request.params.showPostponed;
     var showIgnored = request.params.showIgnored;
-
-    if (!babyId || rangeDays < 0) {
-        response.error("Invalid query, need babyId and rangeDays parameters.");
-        return;
-    }
-
 
     innerQuery = new Parse.Query("MilestoneAchievements");
     innerQuery.equalTo("baby", {__type:"Pointer", className:"Babies", objectId:babyId});
@@ -69,7 +67,7 @@ Parse.Cloud.define("queryMyMilestones", function (request, response) {
 Parse.Cloud.beforeSave("StandardMilestones", function (request, response) {
     var milestone = request.object;
     if (!milestone.get("searchIndex") || (milestone.dirty("title") && milestone.previous("title") != milestone.get("title"))) {
-        if(milestone.get("title")) { // During population, the title may have been blank
+        if (milestone.get("title")) { // During population, the title may have been blank
             var tokens = search.tokenize(milestone.get("title"));
             milestone.set("searchIndex", tokens);
         }
