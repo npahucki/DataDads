@@ -28,7 +28,7 @@ Parse.Cloud.beforeSave(Parse.User, function (request, response) {
             })
 
         }, function(error) {
-            console.warn("There was an error on the babyQuery first method");
+            console.warn("There was an error on the babyQuery first method while saving User");
         });
     } else {
         response.success();
