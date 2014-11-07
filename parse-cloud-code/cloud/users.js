@@ -4,12 +4,32 @@ Parse.Cloud.beforeSave(Parse.User, function (request, response) {
     if (userObject.get("email") && userObject.dirty("email")) {
         // Wait until assignment is done.
         userObject.set("needsTipAssignmentNow", true);
+        
         var userName = userObject.get('email');
-        // Send morgan an email!
         var subject = "A user has signed up: " + userName;
-        require("cloud/teamnotify").notify(subject, userObject).then(function () {
-            response.success();
-        })
+
+        var notificationObject = {};
+        notificationObject.user = userObject;
+
+        var babyQuery = new Parse.Query("Babies");
+            
+        babyQuery.equalTo("parentUser", userObject);
+        babyQuery.first().then( function( babyObject ){
+            // Check if baby exists and add it to the email body.
+            // Add user email / baby name to the subject if baby exists.
+            if ( babyObject){
+                var name = babyObject.get("name");
+                subject = subject + "/" + name;
+                notificationObject.baby = babyObject;
+            }
+            // Send morgan an email!
+            require("cloud/teamnotify").notify(subject, notificationObject).then(function () {
+                response.success();
+            })
+
+        }, function(error) {
+            console.warn("There was an error on the babyQuery first method while saving User");
+        });
     } else {
         response.success();
     }
