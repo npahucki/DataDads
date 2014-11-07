@@ -45,8 +45,6 @@
 
 - (void)setCompletionDate:(NSDate *)completionDate {
     [self setObject:completionDate forKey:@"completionDate"];
-    // Skip any thing in the past. This can happen if the user has entered bad dates
-    // or uploads a photo with a bad date on it.
     NSInteger days = [self.baby daysSinceDueDate:completionDate];
     [self setObject:@(days) forKey:@"completionDays"]; // Always set, even if negative.
 }
@@ -75,13 +73,13 @@
                                    @"appVersion" : NSBundle.mainBundle.infoDictionary[@"CFBundleShortVersionString"]
                            }
                                     block:^(NSNumber *result, NSError *error) {
-            if (error) {
-                NSLog(@"Error trying to calulate percentile: %@", error);
-                block(-1);
-            } else {
-                block([result floatValue]);
-            }
-        }];
+                                        if (error) {
+                                            NSLog(@"Error trying to calulate percentile: %@", error);
+                                            block(-1);
+                                        } else {
+                                            block([result floatValue]);
+                                        }
+                                    }];
     } else {
         block(-1);
     }
