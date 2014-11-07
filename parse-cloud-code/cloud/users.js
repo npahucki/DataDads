@@ -4,8 +4,10 @@ Parse.Cloud.beforeSave(Parse.User, function (request, response) {
     if (userObject.get("email") && userObject.dirty("email")) {
         // Wait until assignment is done.
         userObject.set("needsTipAssignmentNow", true);
+        var userName = userObject.get('email');
         // Send morgan an email!
-        require("cloud/teamnotify").notify("A user has signed up!", userObject).then(function () {
+        var subject = "A user has signed up: " + userName;
+        require("cloud/teamnotify").notify(subject, userObject).then(function () {
             response.success();
         })
     } else {
