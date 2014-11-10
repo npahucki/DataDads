@@ -6,7 +6,6 @@
 //  Copyright (c) 2014 DataParenting. All rights reserved.
 //
 
-#import <Mixpanel/MPTweakInline.h>
 #import "BabyInfoPhotoViewController.h"
 
 
@@ -40,7 +39,7 @@
     }
 
     self.navigationItem.prompt = [self.navigationItem.prompt stringByAppendingString:@" (Optional)"];
-    _showOptionalSignup = ![ParentUser currentUser].isAuthenticated && MPTweakValue(@"ShowOptionalSignupDuringOnBoarding", NO);
+    _showOptionalSignup = ![ParentUser currentUser].isAuthenticated && SHOW_OPTIONAL_SIGNUP_TWEAK;
 
 
 }

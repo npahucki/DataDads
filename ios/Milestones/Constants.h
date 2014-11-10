@@ -18,6 +18,9 @@
 #define VIEW_HOST @"view.dataparenting.com"
 #endif
 
+#define SHOW_OPTIONAL_SIGNUP_TWEAK MPTweakValue(@"ShowOptionalSignupDuringOnBoarding", YES);
+
+
 
 #pragma mark DD Error Codes
 typedef enum _DDErrorCodeType : NSUInteger {

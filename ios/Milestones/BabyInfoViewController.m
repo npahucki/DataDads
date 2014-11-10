@@ -8,7 +8,6 @@
 
 #import "BabyInfoViewController.h"
 #import "NSDate+Utils.h"
-#import "Mixpanel/MPTweakInline.h"
 
 #define MIN_DUE_BEFORE -60
 #define MAX_DUE_AFTER 21
@@ -24,7 +23,7 @@
 
 
 - (void)viewDidLoad {
-    BOOL willShowOptionalSignup = ![ParentUser currentUser].isAuthenticated && MPTweakValue(@"ShowOptionalSignupDuringOnBoarding", NO);
+    BOOL willShowOptionalSignup = ![ParentUser currentUser].isAuthenticated && SHOW_OPTIONAL_SIGNUP_TWEAK;
     self.totalSteps = willShowOptionalSignup ? 4 : 3;
     self.currentStepNumber = 1;
 

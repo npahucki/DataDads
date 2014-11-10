@@ -87,6 +87,16 @@
     }
 }
 
+- (BOOL)textFieldShouldReturn:(UITextField *)theTextField {
+    if (theTextField == self.passwordTextField) {
+        [theTextField resignFirstResponder];
+    } else if (theTextField == self.emailTextField) {
+        [self.passwordTextField becomeFirstResponder];
+    }
+    return YES;
+}
+
+
 - (IBAction)didClickLoginWithFacebook:(id)sender {
     [self showInProgressHUDWithMessage:@"Authenticating..." andAnimation:YES andDimmedBackground:YES withCancel:NO];
     [PFFacebookUtils logInWithPermissions:@[@"user_about_me", @"email"] block:^(PFUser *user, NSError *error) {

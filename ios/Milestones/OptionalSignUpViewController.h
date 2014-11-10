@@ -10,7 +10,7 @@
 #import "BabyInfoViewController.h"
 #import "UIViewController+MBProgressHUD.h"
 
-@interface OptionalSignUpViewController : OnboardingStepViewController
+@interface OptionalSignUpViewController : OnboardingStepViewController<UITextFieldDelegate>
 
 @property(weak, nonatomic) IBOutlet UITextField *emailTextField;
 @property(weak, nonatomic) IBOutlet UITextField *passwordTextField;
