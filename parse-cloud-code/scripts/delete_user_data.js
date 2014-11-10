@@ -30,7 +30,6 @@ rl.question("Enter userid to delete, or blank to cancel. Please BACKUP before ru
                         console.log("DRY_RUN mode, nothing deleted from Parse!");
                         return Parse.Promise.as();
                     } else {
-                        console.log("Please standby while deleting objects....this could take a while!");
                         return Parse.Object.destroyAll(objectsToDelete);
                     }
                 }).then(function () {
@@ -63,6 +62,7 @@ function deleteUser(userId) {
     var user = null;
     return new Parse.Query(Parse.User).get(userId).then(function (u) {
         user = u;
+        console.log("Will delete User with email:" + user.get("email") + " and screen name:" + user.get("screenName"));
     }).then(function () {
         return deleteUserInstallations(user, archive);
     }).then(function () {
@@ -106,7 +106,7 @@ function deleteUserBabies(user, archive) {
     var query = new Parse.Query("Babies");
     query.equalTo("parentUser", user);
     return query.each(function (baby) {
-        console.log("Processing Baby " + baby.id);
+        console.log("Processing Baby " + baby.id + " with name '"+ baby.get("name") +"'");
         archive.Babies.push(baby.toJSON());
         return Parse.Promise.as().then(function () {
             return deleteBabyObjects(baby, "MilestoneAchievements", archive);
