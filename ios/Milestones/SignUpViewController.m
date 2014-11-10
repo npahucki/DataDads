@@ -14,6 +14,7 @@
 
 @implementation SignUpViewController {
     NSString *_methodName;
+    PFUser *_originalUserCopy;
 }
 
 - (void)viewDidLoad {
@@ -145,7 +146,7 @@
 }
 
 
-// Copy username to email
+// Copy username to For the
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
     if (textField == self.signUpView.usernameField) {
         textField.text = [textField.text lowercaseString];
@@ -222,8 +223,10 @@
 - (void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user {
     [[PFInstallation currentInstallation] setObject:user forKey:@"user"];
     [[PFInstallation currentInstallation] saveEventually];
-    user.ACL = [PFACL ACLWithUser:user];
-    [user saveEventually];
+    if (!user.ACL) {
+        user.ACL = [PFACL ACLWithUser:user];
+        [user saveEventually];
+    }
     [UsageAnalytics trackUserSignup:(ParentUser *) user usingMethod:_methodName];
     [self showSignupSuccessAndRunBlock:^{
         [[NSNotificationCenter defaultCenter]
@@ -244,8 +247,15 @@
 
 /// Sent to the delegate when the sign up attempt fails.
 - (void)signUpViewController:(PFSignUpViewController *)signUpController didFailToSignUpWithError:(NSError *)error {
+    self.signUpView.signUpButton.enabled = NO;
     [UsageAnalytics trackUserSignupError:error usingMethod:_methodName];
     [self showSignupError:error withMessage:@"Bummer!"];
+    // Work around to Parse bug.
+    [[PFUser currentUser] fetchInBackgroundWithBlock:^(PFObject *object, NSError *error2) {
+        if (!error2) {
+            self.signUpView.signUpButton.enabled = YES;
+        }
+    }];
 }
 
 
