@@ -81,6 +81,7 @@ static BOOL isRelease;
         } mutableCopy];
         // Don't add if null, this causes problems in Heap!
         if (user.email) props[@"email"] = user.email;
+        
         if (isRelease) {
             [AppsFlyerTracker sharedTracker].customerUserID = user.objectId;
             [Heap identify:props];
@@ -89,29 +90,13 @@ static BOOL isRelease;
             [UXCam addTag:user.email ? @"anonymous" : @"signedup"];
             //if (user.screenName) [UXCam tagScreenName:user.screenName]; // this causes the screenname to be used instead of the user id...not what we want.
             [mixpanel identify:mixpanel.distinctId];
+            if (user.email) props[@"$email"] = user.email;
             [mixpanel.people set:props];
         } else {
             NSLog(@"[USAGE ANALYTICS]: Identify - %@", props);
         }
     }
 }
-
-+ (void)trackUserCreated:(ParentUser *)user {
-    Mixpanel *mixpanel = [Mixpanel sharedInstance];
-    NSUserDefaults * defs = [NSUserDefaults standardUserDefaults];
-    NSString * defsKey = [@"trackUserCreatedCalled:" stringByAppendingString:user.objectId];
-    BOOL calledAlready = [defs boolForKey:defsKey];
-    NSAssert(!calledAlready, @"Expected that the trackUserCreated would only ever be called once for %@",user.objectId);
-    if(!calledAlready) {
-        [defs setBool:YES forKey:defsKey];
-        if(isRelease) {
-            [mixpanel createAlias:user.objectId forDistinctID:mixpanel.distinctId];
-        } else {
-            NSLog(@"[USAGE ANALYTICS]: trackUserCreated %@", user.objectId);
-        }
-    }
-}
-
 
 + (void)trackError:(NSError *)error forOperationNamed:(NSString *)operation {
     [self trackError:error forOperationNamed:operation andAdditionalProperties:nil];
@@ -227,6 +212,10 @@ static BOOL isRelease;
         [[Mixpanel sharedInstance] track:@"babyCreated" properties:props];
         [FBAppEvents logEvent:@"babyCreated" parameters:safeForFB(props)];
         [[AppsFlyerTracker sharedTracker] trackEvent:@"babyCreated" withValue:props.description];
+        
+        // Add baby properties
+        [[Mixpanel sharedInstance].people set:props];
+        [Heap identify:props];
     } else {
         NSLog(@"[USAGE ANALYTICS]: trackCreateBaby - Baby:%@", baby);
     }
