@@ -58,7 +58,7 @@ Parse.Cloud.job("generateSummaryReport", function (request, status) {
     var util = require("cloud/utils");
     var now = new Date(); //Date.parse("2014-10-13T00:00:00.000Z"));
     var lastWeek = util.dateAddDays(now, -7);
-
+    var lastDay = util.dateAddDays(new Date(), -1);
 
     function coalateStats(statsQuery, objectQuery) {
         return statsQuery.find()
@@ -155,20 +155,43 @@ Parse.Cloud.job("generateSummaryReport", function (request, status) {
     }
 
 
+
+    // Number of new users in last day.
+    var newUsersLastDayQuery = new Parse.Query(Parse.User);
+    newUsersLastDayQuery.greaterThan("createdAt", lastDay);
+    promises.push(newUsersLastDayQuery.count());
+
+    // Number of new babies in last day.
+    var newBabiesLastDayQuery = new Parse.Query("Babies");
+    newBabiesLastDayQuery.greaterThan("createdAt", lastDay);
+    promises.push(newBabiesLastDayQuery.count());
+
+    // Number of new installs in last day.
+    var newInstallsLastDayQuery = new Parse.Query(Parse.Installation);
+    newInstallsLastDayQuery.greaterThan("createdAt", lastDay);
+    promises.push(newInstallsLastDayQuery.count());
+
+    // Number of new milestones in last day
+    var newMilestoneLastDayQuery = new Parse.Query("MilestoneAchievements");
+    newMilestoneLastDayQuery.greaterThan("createdAt", lastDay);
+    newMilestoneLastDayQuery.equalTo("isSkipped", false);
+    newMilestoneLastDayQuery.equalTo("isPostponed", false);
+    promises.push(newMilestoneLastDayQuery.count());
+
     // Number of new users in last 7 days.
-    var newUserQuery = new Parse.Query(Parse.User);
-    newUserQuery.greaterThan("createdAt", lastWeek);
-    promises.push(newUserQuery.count());
+    var newUsersLastWeekQuery = new Parse.Query(Parse.User);
+    newUsersLastWeekQuery.greaterThan("createdAt", lastWeek);
+    promises.push(newUsersLastWeekQuery.count());
 
     // Number of new babies in last 7 days.
-    var newBabiesQuery = new Parse.Query("Babies");
-    newBabiesQuery.greaterThan("createdAt", lastWeek);
-    promises.push(newBabiesQuery.count());
+    var newBabiesLastWeekQuery = new Parse.Query("Babies");
+    newBabiesLastWeekQuery.greaterThan("createdAt", lastWeek);
+    promises.push(newBabiesLastWeekQuery.count());
 
     // Number of new installs in last 7 days.
-    var newInstallQuery = new Parse.Query(Parse.Installation);
-    newInstallQuery.greaterThan("createdAt", lastWeek);
-    promises.push(newInstallQuery.count());
+    var newInstallsLastWeekQuery = new Parse.Query(Parse.Installation);
+    newInstallsLastWeekQuery.greaterThan("createdAt", lastWeek);
+    promises.push(newInstallsLastWeekQuery.count());
 
     var anonUserQuery = new Parse.Query(Parse.User);
     anonUserQuery.doesNotExist("email");
@@ -179,11 +202,11 @@ Parse.Cloud.job("generateSummaryReport", function (request, status) {
     promises.push(signedInUserQuery.count());
 
     // Number of new milestones in last 7 days
-    var newMilestoneQuery = new Parse.Query("MilestoneAchievements");
-    newMilestoneQuery.greaterThan("createdAt", lastWeek);
-    newMilestoneQuery.equalTo("isSkipped", false);
-    newMilestoneQuery.equalTo("isPostponed", false);
-    promises.push(newMilestoneQuery.count());
+    var newMilestoneLastWeekQuery = new Parse.Query("MilestoneAchievements");
+    newMilestoneLastWeekQuery.greaterThan("createdAt", lastWeek);
+    newMilestoneLastWeekQuery.equalTo("isSkipped", false);
+    newMilestoneLastWeekQuery.equalTo("isPostponed", false);
+    promises.push(newMilestoneLastWeekQuery.count());
 
     // Total logged milestones
     var allMilestoneQuery = new Parse.Query("MilestoneAchievements");
@@ -272,37 +295,22 @@ Parse.Cloud.job("generateSummaryReport", function (request, status) {
     mostPostponedMilestonesQuery.addDescending("count");
     promises.push(milestoneStatsToText(mostPostponedMilestonesQuery));
 
-    Parse.Promise.when(promises).then(function (newUserCount, newBabiesCount, newInstallCount, anonUserCount, signedInUserCount, newMilestoneCount, allMilestoneCount, retentionStats, mostActiveUsers, mostActiveMilestonesThisWeek, mostActiveMilestones, mostSkippedMilestones, mostPostponedMilestones) {
+    Parse.Promise.when(promises).then(function ( newUserCountLastDay, newBabiesCountLastDay, newInstallCountLastDay, newMilestoneCountLastDay, newUserCountLastWeek, newBabiesCountLastWeek, newInstallCountLastWeek, anonUserCount, signedInUserCount, newMilestoneCountLastWeek, allMilestoneCount, retentionStats, mostActiveUsers, mostActiveMilestonesThisWeek, mostActiveMilestones, mostSkippedMilestones, mostPostponedMilestones) {
 
-        var reportText = "<html><body><h1>Report for " + new Date() + "</h1><ul>" +
-                "<li><b>New installs in the Last 7 days :</b> " + newInstallCount + "</li>" +
-                "<li><b>New users in the Last 7 days :</b> " + newUserCount + "</li>" +
-                "<li><b>New babies in the Last 7 days :</b> " + newBabiesCount + "</li>" +
-                "<li><b>New milestones in the last 7 days:</b> " + newMilestoneCount + "</li>" +
-                "<hr/>" +
-                "<li><b>Installs resulting in new babies in the last 7 days:</b> " + ((newBabiesCount / newInstallCount) * 100).toFixed(2) + "%</li>" +
-                "<hr/>" +
-                "<li><b>Total anonymous users :</b> " + anonUserCount + "</li>" +
-                "<li><b>Total signed in users :</b> " + signedInUserCount + "</li>" +
-                "<li><b>Total users :</b> " + (anonUserCount + signedInUserCount) + "</li>" +
-                "<li><b>Total number of logged milestones:</b> " + allMilestoneCount + "</li>" +
-                "<hr/>" +
-                "<li><b>Retention Stats:</b> " + retentionStats + "</li>" +
-                "<hr/>" +
-                "<li><b>Top 20 active users in the last 7 days :</b> " + mostActiveUsers + "</li>" +
-                "<hr/>" +
-                "<li><b>Top 20 milestones in the last 7 days :</b> " + mostActiveMilestonesThisWeek + "</li>" +
-                "</hr>" +
-                "<li><b>Top 20 milestones of all time :</b> " + mostActiveMilestones + "</li>" +
-                "<hr/>" +
-                "<li><b>Top 20 skipped milestones :</b> " + mostSkippedMilestones + "</li>" +
-                "<hr/>" +
-                "<li><b>Top 20 postponed of all time :</b> " + mostPostponedMilestones + "</li>" +
-                "</ul></body></html>";
-
+        var templateParams = {newUserCountLastDay: newUserCountLastDay, newBabiesCountLastDay: newBabiesCountLastDay, newInstallCountLastDay: newInstallCountLastDay , newMilestoneCountLastDay: newMilestoneCountLastDay, newUserCountLastWeek: newUserCountLastWeek, newBabiesCountLastWeek: newBabiesCountLastWeek, newInstallCountLastWeek: newInstallCountLastWeek, anonUserCount: anonUserCount, signedInUserCount: signedInUserCount, newMilestoneCountLastWeek: newMilestoneCountLastWeek, allMilestoneCount: allMilestoneCount, retentionStats: retentionStats, mostActiveUsers: mostActiveUsers, mostActiveMilestonesThisWeek: mostActiveMilestonesThisWeek, mostActiveMilestones: mostActiveMilestones, mostSkippedMilestones: mostSkippedMilestones, mostPostponedMilestones: mostPostponedMilestones}
+        var fs = require('fs');
+        var ejs = require('ejs');
+        var template = fs.readFileSync('../cloud/views/reports/summaryReport.ejs', 'utf-8');
+        var reportText = ejs.render(template, templateParams);
         // Set the job's success status
         var emailer = require("cloud/teamnotify");
         emailer.notify("Daily Summary Stats", reportText, "text/html");
+        if (typeof process.env.LOCAL !== "undefined"){
+            fs.writeFile('summaryReport.html', reportText, function(err){
+                if (err) throw err;
+                console.log('It\'s saved!');
+            })
+        }
         status.success("Daily Summary Stats Report completed successfully.");
     }, function (error) {
         // Set the job's error status
