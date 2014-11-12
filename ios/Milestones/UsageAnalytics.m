@@ -68,6 +68,7 @@ static BOOL isRelease;
 }
 
 + (void)identify:(ParentUser *)user {
+    Mixpanel *mixpanel = [Mixpanel sharedInstance];
     if (user) {
         NSAssert(user.objectId != nil, @"Expected user would have objectId set already");
         NSMutableDictionary *props = [@{
@@ -87,15 +88,30 @@ static BOOL isRelease;
             [UXCam addTag:user.isMale ? @"male" : @"female"];
             [UXCam addTag:user.email ? @"anonymous" : @"signedup"];
             if (user.screenName) [UXCam tagScreenName:user.screenName];
-
-            Mixpanel *mixpanel = [Mixpanel sharedInstance];
-            [mixpanel identify:user.objectId];
+            [mixpanel identify:mixpanel.distinctId];
             [mixpanel.people set:props];
         } else {
             NSLog(@"[USAGE ANALYTICS]: Identify - %@", props);
         }
     }
 }
+
++ (void)trackUserCreated:(ParentUser *)user {
+    Mixpanel *mixpanel = [Mixpanel sharedInstance];
+    NSUserDefaults * defs = [NSUserDefaults standardUserDefaults];
+    NSString * defsKey = [@"trackUserCreatedCalled:" stringByAppendingString:user.objectId];
+    BOOL calledAlready = [defs boolForKey:defsKey];
+    NSAssert(!calledAlready, @"Expected that the trackUserCreated would only ever be called once for %@",user.objectId);
+    if(!calledAlready) {
+        [defs setBool:YES forKey:defsKey];
+        if(isRelease) {
+            [mixpanel createAlias:user.objectId forDistinctID:mixpanel.distinctId];
+        } else {
+            NSLog(@"[USAGE ANALYTICS]: trackUserCreated %@", user.objectId);
+        }
+    }
+}
+
 
 + (void)trackError:(NSError *)error forOperationNamed:(NSString *)operation {
     [self trackError:error forOperationNamed:operation andAdditionalProperties:nil];

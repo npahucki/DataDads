@@ -361,11 +361,18 @@
             weightMeasurement.baby = self.achievement.baby;
         }
 
+        
+        NSNumberFormatter *doubleValueWithMaxTwoDecimalPlaces = [[NSNumberFormatter alloc] init];
+        [doubleValueWithMaxTwoDecimalPlaces setNumberStyle:NSNumberFormatterDecimalStyle];
+        [doubleValueWithMaxTwoDecimalPlaces setMaximumFractionDigits:1];
         if (heightMeasurement && weightMeasurement) {
-            self.achievement.customTitle = [NSString stringWithFormat:@"${He} reaches %@%@ and %@%@!", heightMeasurement.quantity, heightMeasurement.unit, weightMeasurement.quantity, weightMeasurement.unit];
+            self.achievement.customTitle = [NSString stringWithFormat:@"${He} reaches %@%@ and %@%@!",
+                                            [doubleValueWithMaxTwoDecimalPlaces stringFromNumber:heightMeasurement.quantity] , heightMeasurement.unit,
+                                            [doubleValueWithMaxTwoDecimalPlaces stringFromNumber:weightMeasurement.quantity], weightMeasurement.unit];
         } else {
             Measurement *measurement = heightMeasurement ? heightMeasurement : weightMeasurement;
-            self.achievement.customTitle = [NSString stringWithFormat:@"${He} reaches %@%@!", measurement.quantity, measurement.unit];
+            self.achievement.customTitle = [NSString stringWithFormat:@"${He} reaches %@%@!",
+                                            [doubleValueWithMaxTwoDecimalPlaces stringFromNumber:measurement.quantity], measurement.unit];
         }
     } else if (self.isCustom) {
         NSAssert(self.customTitleTextField.text.length, @"Expected non empty custom title!");
