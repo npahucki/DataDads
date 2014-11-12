@@ -342,12 +342,15 @@
     Measurement *heightMeasurement;
     Measurement *weightMeasurement;
     if (self.isMeasurement) {
+        NSNumberFormatter *doubleValueWithMaxTwoDecimalPlaces = [[NSNumberFormatter alloc] init];
+        [doubleValueWithMaxTwoDecimalPlaces setNumberStyle:NSNumberFormatterDecimalStyle];
+        [doubleValueWithMaxTwoDecimalPlaces setMaximumFractionDigits:1];
 
         if (self.heightTextField.text.floatValue) {
             heightMeasurement = [Measurement object];
             heightMeasurement.type = @"height";
             heightMeasurement.unit = self.heightUnitLabel.text;
-            heightMeasurement.quantity = @(self.heightTextField.text.floatValue);
+            heightMeasurement.quantity = [doubleValueWithMaxTwoDecimalPlaces numberFromString:self.heightTextField.text];
             heightMeasurement.achievement = self.achievement;
             heightMeasurement.baby = self.achievement.baby;
         }
@@ -356,15 +359,12 @@
             weightMeasurement = [Measurement object];
             weightMeasurement.type = @"weight";
             weightMeasurement.unit = self.weightUnitLabel.text;
-            weightMeasurement.quantity = @(self.weightTextField.text.floatValue);
+            weightMeasurement.quantity = [doubleValueWithMaxTwoDecimalPlaces numberFromString:self.weightTextField.text];
             weightMeasurement.achievement = self.achievement;
             weightMeasurement.baby = self.achievement.baby;
         }
 
         
-        NSNumberFormatter *doubleValueWithMaxTwoDecimalPlaces = [[NSNumberFormatter alloc] init];
-        [doubleValueWithMaxTwoDecimalPlaces setNumberStyle:NSNumberFormatterDecimalStyle];
-        [doubleValueWithMaxTwoDecimalPlaces setMaximumFractionDigits:1];
         if (heightMeasurement && weightMeasurement) {
             self.achievement.customTitle = [NSString stringWithFormat:@"${He} reaches %@%@ and %@%@!",
                                             [doubleValueWithMaxTwoDecimalPlaces stringFromNumber:heightMeasurement.quantity] , heightMeasurement.unit,
