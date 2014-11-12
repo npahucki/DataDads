@@ -121,5 +121,16 @@ typedef enum _AppFontType : NSUInteger {
 + (UIFont *)fontForAppWithType:(AppFontType)type andSize:(CGFloat)size;
 @end
 
+// Designed to be ORed together.
+typedef NS_ENUM(NSInteger, SharingMedium) {
+    SharingMediumNotShared = 0,
+    SharingMediumFacebook = 1,
+    SharingMediumTwitter = 2,
+    SharingMediumEmail = 4,
+    SharingMediumTextMessage = 8,
+    SharingMediumOther = 128
+    
+};
+
 
 #endif

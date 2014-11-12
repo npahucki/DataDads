@@ -87,7 +87,7 @@ static BOOL isRelease;
             [UXCam tagUsersName:user.objectId additionalData:user.email];
             [UXCam addTag:user.isMale ? @"male" : @"female"];
             [UXCam addTag:user.email ? @"anonymous" : @"signedup"];
-            if (user.screenName) [UXCam tagScreenName:user.screenName];
+            //if (user.screenName) [UXCam tagScreenName:user.screenName]; // this causes the screenname to be used instead of the user id...not what we want.
             [mixpanel identify:mixpanel.distinctId];
             [mixpanel.people set:props];
         } else {
@@ -290,6 +290,46 @@ static BOOL isRelease;
         NSLog(@"[USAGE ANALYTICS]: trackMeasurement - Measurement:%@", measurement);
     }
 }
+
++ (void)trackAchievementShared:(MilestoneAchievement *)achievement sharingMedium:(NSString*) medium {
+    medium = [medium stringByReplacingOccurrencesOfString:@"com.apple.UIKit.activity." withString:@""];
+    NSDictionary *props = @{
+                            @"achievement.isStandard" : achievement.standardMilestone ? @"Y" : @"N",
+                            @"achievement.standardMilestoneId" : safe(achievement.standardMilestone.objectId),
+                            @"achievement.title" : safe(achievement.displayTitle),
+                            @"achievement.attachmentType" : safe(achievement.attachmentType),
+                            @"achievement.hasAttachment" : achievement.attachmentType ? @"Y" : @"N",
+                            @"achievement.hasCustomTitle" : achievement.customTitle ? @"Y" : @"N",
+                            @"achievement.hasComment" : achievement.comment ? @"Y" : @"N",
+                            };
+    
+    if(isRelease) {
+        [Heap track:@"achievementShared" withProperties:props];
+        [[Mixpanel sharedInstance] track:@"achievementShared" properties:props];
+        [FBAppEvents logEvent:@"achievementShared" parameters:safeForFB(props)];
+    } else {
+        NSLog(@"[USAGE ANALYTICS]: trackAchievementShared via %@ : %@", medium, props);
+    }
+}
+
++ (void)trackTipShared:(Tip *)tip sharingMedium:(NSString*) medium {
+    medium = [medium stringByReplacingOccurrencesOfString:@"com.apple.UIKit.activity." withString:@""];
+    NSDictionary *props = @{
+                            @"tip.title" : safe(tip.title),
+                            @"tip.id" : safe(tip.objectId),
+                            @"tip.type" : tip.tipType == TipTypeGame ? @"game" : @"normal"
+                            };
+    
+    if(isRelease) {
+        [Heap track:@"tipShared" withProperties:props];
+        [[Mixpanel sharedInstance] track:@"tipShared" properties:props];
+        [FBAppEvents logEvent:@"tipShared" parameters:safeForFB(props)];
+    } else {
+        NSLog(@"[USAGE ANALYTICS]: trackTipShared via %@: %@", medium, props);
+    }
+    
+}
+
 
 + (void)trackSearch:(NSString *)filterString {
     if (isRelease) {

@@ -36,12 +36,15 @@
 
 + (void)trackAchievementLogged:(MilestoneAchievement *)achievement sharedOnFacebook:(BOOL)shared;
 
++ (void)trackAchievementShared:(MilestoneAchievement *)achievement sharingMedium:(NSString*) medium;
+
++ (void)trackTipShared:(Tip *)achievement sharingMedium:(NSString*) medium;
+
 + (void)trackMeasurement:(Measurement *)measurement;
 
 + (void)trackSearch:(NSString *)filterString;
 
 + (void)trackAdClicked:(NSString *)adIdentifier;
-
 
 + (void)trackTutorialResponse:(BOOL)viewed;
 

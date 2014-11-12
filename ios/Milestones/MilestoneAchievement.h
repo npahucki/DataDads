@@ -10,16 +10,6 @@
 #import "Baby.h"
 #import "StandardMilestone.h"
 
-// Designed to be ORed together.
-typedef NS_ENUM(NSInteger, SharingMedium) {
-    SharingMediumNotShared = 0,
-    SharingMediumFacebook = 1,
-    SharingMediumTwitter = 2,
-    SharingMediumEmail = 4,
-    SharingMediumTextMessage = 8,
-    SharingMediumOther = 128
-
-};
 
 @interface MilestoneAchievement : PFObject <PFSubclassing>
 

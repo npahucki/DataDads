@@ -262,26 +262,31 @@ NSDateFormatter *_dateFormatter;
     controller.excludedActivityTypes = @[UIActivityTypeAssignToContact, UIActivityTypePostToVimeo];
     [controller setCompletionHandler:^(NSString *activityType, BOOL completed) {
         if (completed) {
+            [UsageAnalytics trackAchievementShared:self.achievement sharingMedium:activityType];
             AlertThenDisappearView *alert = [AlertThenDisappearView instanceForViewController:self];
             alert.titleLabel.text = @"Milestone Sucessfully Shared!";
             alert.imageView.image = [UIImage imageNamed:@"success-8"];
             [alert showWithDelay:0.3];
+
+            SharingMedium medium =  SharingMediumOther;
+            if ([activityType isEqualToString:UIActivityTypeMail]) {
+                medium = SharingMediumEmail;
+            } else if ([activityType isEqualToString:UIActivityTypePostToFacebook]) {
+                medium = SharingMediumFacebook;
+            } else if ([activityType isEqualToString:UIActivityTypePostToTwitter]) {
+                medium = SharingMediumTwitter;
+            } else if ([activityType isEqualToString:UIActivityTypeMessage]) {
+                medium = SharingMediumTextMessage;
+            } else {
+                medium = SharingMediumOther;
+            }
+            
             [self.achievement fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
                 if (error) {
                     [UsageAnalytics trackError:error forOperationNamed:@"fetchAchievementForSharedViaUpdate"];
                 } else {
                     MilestoneAchievement *a = (MilestoneAchievement *) object;
-                    if ([activityType isEqualToString:UIActivityTypeMail]) {
-                        a.sharedVia = a.sharedVia | SharingMediumEmail;
-                    } else if ([activityType isEqualToString:UIActivityTypePostToFacebook]) {
-                        a.sharedVia = a.sharedVia | SharingMediumFacebook;
-                    } else if ([activityType isEqualToString:UIActivityTypePostToTwitter]) {
-                        a.sharedVia = a.sharedVia | SharingMediumTwitter;
-                    } else if ([activityType isEqualToString:UIActivityTypeMessage]) {
-                        a.sharedVia = a.sharedVia | SharingMediumTextMessage;
-                    } else {
-                        a.sharedVia = a.sharedVia | SharingMediumOther;
-                    }
+                    a.sharedVia = a.sharedVia | SharingMediumOther;
                     [a saveEventually];
                 }
             }];
