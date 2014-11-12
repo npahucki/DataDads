@@ -300,12 +300,12 @@ Parse.Cloud.job("generateSummaryReport", function (request, status) {
         var templateParams = {newUserCountLastDay: newUserCountLastDay, newBabiesCountLastDay: newBabiesCountLastDay, newInstallCountLastDay: newInstallCountLastDay , newMilestoneCountLastDay: newMilestoneCountLastDay, newUserCountLastWeek: newUserCountLastWeek, newBabiesCountLastWeek: newBabiesCountLastWeek, newInstallCountLastWeek: newInstallCountLastWeek, anonUserCount: anonUserCount, signedInUserCount: signedInUserCount, newMilestoneCountLastWeek: newMilestoneCountLastWeek, allMilestoneCount: allMilestoneCount, retentionStats: retentionStats, mostActiveUsers: mostActiveUsers, mostActiveMilestonesThisWeek: mostActiveMilestonesThisWeek, mostActiveMilestones: mostActiveMilestones, mostSkippedMilestones: mostSkippedMilestones, mostPostponedMilestones: mostPostponedMilestones}
         var fs = require('fs');
         var ejs = require('ejs');
-        var template = fs.readFileSync('../cloud/views/reports/summaryReport.ejs', 'utf-8');
+        var template = fs.readFileSync('cloud/views/reports/summaryReport.ejs', 'utf-8');
         var reportText = ejs.render(template, templateParams);
         // Set the job's success status
         var emailer = require("cloud/teamnotify");
         emailer.notify("Daily Summary Stats", reportText, "text/html");
-        if (typeof process.env.LOCAL !== "undefined"){
+        if (process && process.env && typeof process.env.LOCAL !== "undefined"){
             fs.writeFile('summaryReport.html', reportText, function(err){
                 if (err) throw err;
                 console.log('It\'s saved!');
