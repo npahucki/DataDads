@@ -3,17 +3,17 @@ Parse.Cloud.job("backup", function (request, status) {
     var Base64 = require("cloud/utils.js").Base64;
 
     function backUpClass(className, backupLog) {
-        var objects = [];
+        var results = "{\"results\": [";
         var file;
         var fieldName = className.indexOf('_') == 0 ?
                 className.substring(1, className.length) :
                 className;
 
         return new Parse.Query(className).each(function(obj){
-            objects.push(JSON.stringify(obj));
+            results+=JSON.stringify(obj);
         }).then( function() {
-            var data = {base64: Base64.encode( '{"results": [' + objects.join(',') + ']}' )};
-            objects = [];
+            results+= ']}';
+            var data = {base64: Base64.encode(results)};
             return new Parse.File(fieldName, data, "application/json").save();
         }).then( function(file) {
             backupLog.set(fieldName, file);
