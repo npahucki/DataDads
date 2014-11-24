@@ -8,36 +8,43 @@ Parse.Cloud.job("backup", function (request, status) {
         var fieldName = className.indexOf('_') == 0 ?
                 className.substring(1, className.length) :
                 className;
-        return new Parse.Query(className).each(function (baby) {
-            objects.push(baby);
-        }).then(function () {
-                    var data = {base64:Base64.encode(JSON.stringify({results:objects}))};
-                    file = new Parse.File(fieldName, data, "application/json");
-                    return file.save();
-                }).then(function () {
-                    backupLog.set(fieldName, file);
-                    return Parse.Promise.as(file);
-                });
+
+        return new Parse.Query(className).each(function(obj){
+            objects.push(JSON.stringify(obj));
+        }).then( function() {
+            var data = {base64: Base64.encode( '{"results": [' + objects.join(',') + ']}' )};
+            objects = [];
+            return new Parse.File(fieldName, data, "application/json").save();
+        }).then( function(file) {
+            backupLog.set(fieldName, file);
+            return backupLog.save().then(function () {
+                console.log(fieldName + " file was saved");
+            });
+        })
     }
 
     Parse.Cloud.useMasterKey();
     var _ = require('underscore');
-    var classNames = ["_User", "_Installation", "Babies", "BabyAssignedTips", "MilestoneAchievements", "Measurements"];
+    var classNames = ["MilestoneAchievements", "_User", "_Installation", "Babies", "BabyAssignedTips", "Measurements"];
     var backupLog = new Parse.Object("BackupLog");
-    var promises = [];
+
+    var promise = Parse.Promise.as(true);
     _.each(classNames, function (className) {
-        promises.push(backUpClass(className, backupLog));
+        console.log("Going to backup " + className);
+        promise = promise.then(function() {
+            return backUpClass(className, backupLog);
+        })
     });
 
-    Parse.Promise.when(promises).then(function () {
+
+
+    promise.then(function () {
         // Set the job's success status
-        backupLog.save().then(function () {
-            status.success("Backup complete!");
+        status.success("Backup complete!");
         }, function (error) {
             // Set the job's error status
             require("cloud/teamnotify").notify("Automated backup failed!", error).then(function () {
                 status.error("Back up fatally failed : " + JSON.stringify(error));
             });
-        });
     });
 });
