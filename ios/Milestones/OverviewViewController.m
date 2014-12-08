@@ -56,6 +56,8 @@
         }                     completion:^(BOOL finished) {
             self.babyAvatar.alpha = 1.0;
         }];
+    } else {
+        self.babyAvatar.alpha = 1.0;
     }
 }
 

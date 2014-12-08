@@ -68,21 +68,22 @@ static BOOL isRelease;
 }
 
 + (void)identify:(ParentUser *)user {
-    Mixpanel *mixpanel = [Mixpanel sharedInstance];
+    NSAssert([NSThread isMainThread], @"UsagaeAnalytics.identify called using a thread other than main!");
     if (user) {
         NSAssert(user.objectId != nil, @"Expected user would have objectId set already");
-        NSMutableDictionary *props = [@{
+        NSMutableDictionary *props = [[NSMutableDictionary alloc] initWithDictionary:@{
                 @"user.id" : safe(user.objectId),
                 @"user.anonymous" : user.email ? @"N" : @"Y",
                 @"user.screenName" : safe(user.screenName),
                 @"user.linkedToFacebook" : [PFFacebookUtils isLinkedWithUser:user] ? @"Y" : @"N",
                 @"user.emailVerified" : [user objectForKey:@"emailVerified"] ? @"Y" : @"N",
                 @"user.sex" : user.isMale ? @"M" : @"F"
-        } mutableCopy];
+        }];
         // Don't add if null, this causes problems in Heap!
         if (user.email) props[@"email"] = user.email;
         
         if (isRelease) {
+            Mixpanel *mixpanel = [Mixpanel sharedInstance];
             [AppsFlyerTracker sharedTracker].customerUserID = user.objectId;
             [Heap identify:props];
             [UXCam tagUsersName:user.objectId additionalData:user.email];

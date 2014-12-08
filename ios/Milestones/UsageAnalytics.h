@@ -14,9 +14,6 @@
 
 + (void)identify:(ParentUser *)user;
 
-/// Should only ever be called once after newly creating a user.
-+ (void)trackUserCreated:(ParentUser *)user;
-
 + (void)trackError:(NSError *)error forOperationNamed:(NSString *)operation;
 
 + (void)trackError:(NSError *)error forOperationNamed:(NSString *)operation andAdditionalProperties:(NSDictionary *)props;
