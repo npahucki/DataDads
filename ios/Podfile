@@ -2,11 +2,11 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, 7.0
 xcodeproj 'DataParenting.xcodeproj'
 inhibit_all_warnings!
-link_with ['DataParenting', 'DataParentingDev', 'DataParentingTests']
+#link_with ['DataParenting', 'DataParentingDev', 'DataParentingTests']
 
 pod 'MBProgressHUD', '~> 0.8'
 pod 'SWTableViewCell', '0.3.4'
-pod 'Heap', '2.0.7'
+pod 'Heap', '2.0.8'
 pod 'Parse+NSCoding', :git => 'https://github.com/npahucki/Parse-NSCoding.git', :commit => '5c4b4c4db5c11d2b4f77e3f684d2c421b8b578ab'
 pod 'Parse', '1.4.2'
 pod 'ParseFacebookUtils', '1.4.2'

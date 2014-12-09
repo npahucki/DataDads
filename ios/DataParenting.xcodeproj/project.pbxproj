@@ -1401,7 +1401,6 @@
 /* Begin XCBuildConfiguration section */
 		E8A02D5D19817CCF001E0DAB /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4499694599B7E5AE56DC3A5F /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconDev;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1439,7 +1438,6 @@
 		};
 		E8A02D5E19817CCF001E0DAB /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BB01C68A19528AA181E9A195 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconDev;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1549,7 +1547,6 @@
 		};
 		E8DD4913188EE5BA00153095 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4499694599B7E5AE56DC3A5F /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1575,7 +1572,6 @@
 		};
 		E8DD4914188EE5BA00153095 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BB01C68A19528AA181E9A195 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1607,7 +1603,6 @@
 		};
 		E8DD4916188EE5BA00153095 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4499694599B7E5AE56DC3A5F /* Pods.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/DataParentingDev.app/DataParentingDev";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1631,7 +1626,6 @@
 		};
 		E8DD4917188EE5BA00153095 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BB01C68A19528AA181E9A195 /* Pods.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/DataParentingDev.app/DataParentingDev";
 				FRAMEWORK_SEARCH_PATHS = (

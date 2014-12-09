@@ -170,7 +170,9 @@
         _historyController.delegate = self;
         return;
     } else if ([segue.identifier isEqualToString:kDDSegueShowSettings]) {
-        ((OverviewViewController *) [((UINavigationController *) segue.destinationViewController) childViewControllers][0]).milestoneCount = _historyController.model.countOfAchievements;
+        if(!_historyController.model.filter) {
+            ((OverviewViewController *) [((UINavigationController *) segue.destinationViewController) childViewControllers][0]).milestoneCount = _historyController.model.countOfAchievements;
+        }
     }
 
 
