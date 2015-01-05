@@ -10,11 +10,11 @@ exports.show = function (req, res) {
 
 
     query.get(achievementId).then(function (achievement) {
-                var isShared = achievement.get("sharedVia") > 0;
+                var baby = achievement.get("baby");
+                var isShared = achievement.get("sharedVia") > 0 || baby.has("followerEmails");
                 if (isShared) {
                     var title = achievement.get("customTitle");
                     var milestone = achievement.get("standardMilestone");
-                    var baby = achievement.get("baby");
                     if (!title) title = milestone.get("title");
                     title = utils.replacePronounTokens(title, baby.get("isMale"), "en");
                     var hasImage = achievement.get("attachmentType") && achievement.get("attachmentType").indexOf("image/") == 0;

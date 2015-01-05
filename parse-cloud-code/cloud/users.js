@@ -30,7 +30,7 @@ Parse.Cloud.afterSave(Parse.User, function (request) {
             }
         });
 
-        var notifier = require("cloud/teamnotify");
+        var notifier = require("cloud/emails");
         var userName = userObject.get('email');
         var subject = "A user has signed up: " + userName;
         var notificationObject = { user : userObject};
@@ -43,7 +43,7 @@ Parse.Cloud.afterSave(Parse.User, function (request) {
                 notificationObject.baby = babyObject;
             }
             // Send morgan an email!
-            notifier.notify(subject, notificationObject);
+            notifier.notifyTeam(subject, notificationObject);
         }, function(error) {
             console.warn("There was an error looking up the baby in afterSave: " + JSON.stringify(error));
             notifier.notify(subject, notificationObject);
@@ -53,7 +53,7 @@ Parse.Cloud.afterSave(Parse.User, function (request) {
 
 Parse.Cloud.afterSave(Parse.Installation, function (request) {
     if (!request.object.existed()) {
-        require("cloud/teamnotify").notify("Someone just installed the app!", request.object);
+        require("cloud/emails").notifyTeam("Someone just installed the app!", request.object);
     }
 });
 

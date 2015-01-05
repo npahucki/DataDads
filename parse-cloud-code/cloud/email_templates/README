@@ -1,0 +1,5 @@
+This directory contains templates used for sending emails. It's expected that all templates render text/html content suitable for sending in a email.
+The templates in this directory can simply be named when using emails.sendTemplateEmail(), no extra path is needed.
+
+
+

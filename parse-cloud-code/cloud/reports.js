@@ -39,8 +39,8 @@ Parse.Cloud.job("generateUserReport", function (request, status) {
         });
         reportText += "</body></html>";
 
-        var emailer = require("cloud/teamnotify");
-        emailer.notify("Daily User Flow", reportText, "text/html");
+        var emails = require("cloud/emails");
+        emails.notifyTeam("[DP_ALERT]: Daily User Flow", reportText, "text/html");
         status.success("Daily User Flow Report completed successfully.");
     }, function (error) {
         // Set the job's error status
@@ -296,15 +296,9 @@ Parse.Cloud.job("generateSummaryReport", function (request, status) {
     promises.push(milestoneStatsToText(mostPostponedMilestonesQuery));
 
     Parse.Promise.when(promises).then(function ( newUserCountLastDay, newBabiesCountLastDay, newInstallCountLastDay, newMilestoneCountLastDay, newUserCountLastWeek, newBabiesCountLastWeek, newInstallCountLastWeek, anonUserCount, signedInUserCount, newMilestoneCountLastWeek, allMilestoneCount, retentionStats, mostActiveUsers, mostActiveMilestonesThisWeek, mostActiveMilestones, mostSkippedMilestones, mostPostponedMilestones) {
-
         var templateParams = {newUserCountLastDay: newUserCountLastDay, newBabiesCountLastDay: newBabiesCountLastDay, newInstallCountLastDay: newInstallCountLastDay , newMilestoneCountLastDay: newMilestoneCountLastDay, newUserCountLastWeek: newUserCountLastWeek, newBabiesCountLastWeek: newBabiesCountLastWeek, newInstallCountLastWeek: newInstallCountLastWeek, anonUserCount: anonUserCount, signedInUserCount: signedInUserCount, newMilestoneCountLastWeek: newMilestoneCountLastWeek, allMilestoneCount: allMilestoneCount, retentionStats: retentionStats, mostActiveUsers: mostActiveUsers, mostActiveMilestonesThisWeek: mostActiveMilestonesThisWeek, mostActiveMilestones: mostActiveMilestones, mostSkippedMilestones: mostSkippedMilestones, mostPostponedMilestones: mostPostponedMilestones}
-        var fs = require('fs');
-        var ejs = require('ejs');
-        var template = fs.readFileSync('cloud/views/reports/summaryReport.ejs', 'utf-8');
-        var reportText = ejs.render(template, templateParams);
-        // Set the job's success status
-        var emailer = require("cloud/teamnotify");
-        emailer.notify("Daily Summary Stats", reportText, "text/html");
+        var emails = require("cloud/emails");
+        emails.notifyTeam("[DP_ALERT]: Daily Summary Stats", "reports/summaryReport.ejs", templateParams);
         if (process && process.env && typeof process.env.LOCAL !== "undefined"){
             fs.writeFile('summaryReport.html', reportText, function(err){
                 if (err) throw err;

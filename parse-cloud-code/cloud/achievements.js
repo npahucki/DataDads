@@ -113,33 +113,38 @@ Parse.Cloud.beforeSave("MilestoneAchievements", function (request, response) {
 Parse.Cloud.afterSave("MilestoneAchievements", function (request) {
 
     var achievement = request.object;
-    if(achievement.existed()) return; // Only increment for new ones.
-
     var milestone = achievement.get("standardMilestone");
     var baby = achievement.get("baby");
     var isSkipped = achievement.get("isSkipped");
     var isPostponed = achievement.get("isPostponed");
 
-    function incrementStat(refObjectId,type) {
-        var statsQuery = new Parse.Query("Stats");
-        statsQuery.equalTo("refObjectId", refObjectId);
-        statsQuery.equalTo("type",type);
-        return statsQuery.first().then(function(stat) {
-          if(stat) {
-            stat.increment("count", 1);
-          } else if(!stat) {
-               stat = new Parse.Object("Stats");
-               stat.set("type", type);
-               stat.set("refObjectId",refObjectId);
-               stat.set("count", 1);
-           }
-           return stat.save();
+    // Send email to any followers
+    if(baby && !isSkipped && !isPostponed) {
+        // Get everything we need in one fell swoop
+        var query = new Parse.Query("MilestoneAchievements");
+        query.include("standardMilestone");
+        query.include("baby");
+        return query.get(achievement.id).then(function (achievement) {
+            milestone = achievement.get("standardMilestone");
+            baby = achievement.get("baby");
+            var followerEmails = baby.get("followerEmails");
+            if(followerEmails) {
+                var milestonePromise = milestone ? milestone.fetch() : Parse.promise.as();
+                return milestonePromise.then(function(populatedMilestone) {
+                    milestone = populatedMilestone;
+                    var subjectText = baby.get("name") + " has just completed a milestone!";
+                    var title = achievement.has("customTitle") ? achievement.get("customTitle") : milestone.get("title")
+                    var utils = require("cloud/utils");
+                    var params = {
+                        title : utils.replacePronounTokens(title, baby.get("isMale"), "en"),
+                        linkUrl  : "http://dataparenting-dev.parseapp.com/achievements/" + achievement.id,
+                        imageUrl : achievement.has("attachmentThumbnail") ? achievement.get("attachmentThumbnail").url() : null
+                    };
+                    var emails = require('cloud/emails.js');
+                    return emails.sendTemplateEmail(subjectText, followerEmails,"follow/notification.ejs", params);
+                });
+            }
         });
-    }
-
-    // Update Baby stat
-    if(baby && !(isSkipped || isPostponed)) {
-        incrementStat(baby.id, "babyNotedMilestoneCount");
     }
 
     if(request.user) {
@@ -147,13 +152,38 @@ Parse.Cloud.afterSave("MilestoneAchievements", function (request) {
         request.user.save();
     }
 
-    if(milestone) {
-        if(isSkipped) {
-            incrementStat(milestone.id,"standardMilestoneSkippedCount");
-        } else if(isPostponed) {
-            incrementStat(milestone.id,"standardMilestonePostponedCount");
-        } else {
-            incrementStat(milestone.id,"standardMilestoneNotedCount");
+    if(!achievement.existed()) {
+        function incrementStat(refObjectId,type) {
+            var statsQuery = new Parse.Query("Stats");
+            statsQuery.equalTo("refObjectId", refObjectId);
+            statsQuery.equalTo("type",type);
+            return statsQuery.first().then(function(stat) {
+              if(stat) {
+                stat.increment("count", 1);
+              } else if(!stat) {
+                   stat = new Parse.Object("Stats");
+                   stat.set("type", type);
+                   stat.set("refObjectId",refObjectId);
+                   stat.set("count", 1);
+               }
+               return stat.save();
+            });
+        }
+
+        // Update Baby stat
+        if(baby && !(isSkipped || isPostponed)) {
+            incrementStat(baby.id, "babyNotedMilestoneCount");
+        }
+
+
+        if(milestone) {
+            if(isSkipped) {
+                incrementStat(milestone.id,"standardMilestoneSkippedCount");
+            } else if(isPostponed) {
+                incrementStat(milestone.id,"standardMilestonePostponedCount");
+            } else {
+                incrementStat(milestone.id,"standardMilestoneNotedCount");
+            }
         }
     }
 });
