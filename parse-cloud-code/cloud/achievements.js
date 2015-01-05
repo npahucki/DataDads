@@ -129,15 +129,15 @@ Parse.Cloud.afterSave("MilestoneAchievements", function (request) {
             baby = achievement.get("baby");
             var followerEmails = baby.get("followerEmails");
             if(followerEmails) {
-                var milestonePromise = milestone ? milestone.fetch() : Parse.promise.as();
+                var milestonePromise = milestone ? milestone.fetch() : Parse.Promise.as(null);
                 return milestonePromise.then(function(populatedMilestone) {
                     milestone = populatedMilestone;
                     var subjectText = baby.get("name") + " has just completed a milestone!";
-                    var title = achievement.has("customTitle") ? achievement.get("customTitle") : milestone.get("title")
+                    var title = achievement.has("customTitle") ? achievement.get("customTitle") : milestone.get("title");
                     var utils = require("cloud/utils");
                     var params = {
                         title : utils.replacePronounTokens(title, baby.get("isMale"), "en"),
-                        linkUrl  : "http://dataparenting-dev.parseapp.com/achievements/" + achievement.id,
+                        linkUrl  : utils.achievementViewerUrl(achievement),
                         imageUrl : achievement.has("attachmentThumbnail") ? achievement.get("attachmentThumbnail").url() : null
                     };
                     var emails = require('cloud/emails.js');

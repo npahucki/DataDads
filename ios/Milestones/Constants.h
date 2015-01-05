@@ -128,6 +128,7 @@ typedef NS_ENUM(NSInteger, SharingMedium) {
     SharingMediumTwitter = 2,
     SharingMediumEmail = 4,
     SharingMediumTextMessage = 8,
+    SharingMediumFollow = 16,
     SharingMediumOther = 128
     
 };

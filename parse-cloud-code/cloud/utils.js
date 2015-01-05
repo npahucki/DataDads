@@ -31,6 +31,12 @@ exports.dayDiffFromNow = function (date) {
     return exports.daysBetween(new Date(), date);
 };
 
+exports.achievementViewerUrl = function (achievement) {
+    var host = exports.isDev() ? "dataparenting-dev.parseapp.com" : "view.dataparenting.com";
+    return "http://" + host + "/achievements/" + achievement.id
+};
+
+
 // Baby sex should be 1:Male or 0:Female
 exports.replacePronounTokens = function (stringWithTokens, isMale, lang) {
     var result = stringWithTokens;
