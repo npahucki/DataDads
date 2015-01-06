@@ -9,13 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "SWTableViewCell.h"
 #import "RangeIndicatorView.h"
+#import "CirclePictureTableViewCell.h"
 
+#define RANGE_INDICATOR_SCALE 365 * 5
 
-@interface HistoryTableViewCell : SWTableViewCell
-
-@property(weak, nonatomic) IBOutlet UIImageView *pictureView;
-@property BOOL topLineHidden;
-@property BOOL bottomLineHidden;
+@interface HistoryTableViewCell : CirclePictureTableViewCell
 
 @end
 
