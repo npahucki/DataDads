@@ -9,6 +9,7 @@
 @implementation ParentUser
 
 @dynamic screenName;
+@dynamic fullName;
 @dynamic isMale;
 @dynamic usesMetric;
 @dynamic launchCount;
@@ -77,6 +78,10 @@
     [self.currentUser saveEventually:^(BOOL succeeded, NSError *error) {
         if (succeeded) [ParentUser.currentUser fetchInBackgroundWithBlock:nil];
     }];
+}
+
+- (BOOL)isSameUser:(PFUser *)otherUser {
+    return [otherUser.objectId isEqualToString:self.objectId];
 }
 
 

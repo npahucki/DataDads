@@ -35,6 +35,7 @@
     [Measurement registerSubclass];
     [ParentUser registerSubclass];
     [PurchaseTransaction registerSubclass];
+    [FollowConnection registerSubclass];
 
     // Make sure only users can read their own data!
     [PFACL setDefaultACL:[PFACL ACL] withAccessForCurrentUser:YES];

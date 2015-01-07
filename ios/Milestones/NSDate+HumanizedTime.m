@@ -13,6 +13,11 @@
 @implementation NSDate (HumanizedTime)
 
 - (NSString *)stringWithHumanizedTimeDifference {
+    return [self stringWithHumanizedTimeDifference:YES];
+}
+
+
+- (NSString *)stringWithHumanizedTimeDifference:(BOOL)withSuffix {
 
     NSTimeInterval timeInterval = [self timeIntervalSinceNow];
 
@@ -24,7 +29,7 @@
     int minutesDiff = abs((abs(timeInterval) - ((daysDiff * secondsInADay) + (hoursDiff * 60))) / 60);
     //int secondsDiff = (abs(timeInterval) - ((daysDiff * secondsInADay) + (hoursDiff * 3600) + (minutesDiff * 60)));
 
-    NSString *positivity = [NSString stringWithFormat:@"%@", timeInterval < 0 ? NSLocalizedStringFromTable(@"AgoKey", NSDATE_TABLE_NAME, @"") : NSLocalizedStringFromTable(@"LaterKey", NSDATE_TABLE_NAME, @"")];
+    NSString *positivity = withSuffix ? [NSString stringWithFormat:@"%@", timeInterval < 0 ? NSLocalizedStringFromTable(@"AgoKey", NSDATE_TABLE_NAME, @"") : NSLocalizedStringFromTable(@"LaterKey", NSDATE_TABLE_NAME, @"")] : @"";
 
 
     //Some languages don't need whitespeces between words.

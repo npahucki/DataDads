@@ -7,10 +7,12 @@
 //
 
 #import <Parse/Parse.h>
+#import "PFSubclassing.h"
 
 @interface ParentUser : PFUser <PFSubclassing>
 
 @property NSString *screenName;
+@property NSString *fullName;
 @property BOOL isMale;
 @property BOOL autoPublishToFacebook;
 @property BOOL usesMetric;
@@ -25,6 +27,7 @@
 
 + (void)incrementLaunchCount;
 
+- (BOOL)isSameUser:(PFUser *)otherUser;
 
 @end
 

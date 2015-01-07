@@ -120,6 +120,14 @@
 		E89AC31F195A0D1C00AD3869 /* NSDateHumanizedTime.strings in Resources */ = {isa = PBXBuildFile; fileRef = E89AC31E195A0D1C00AD3869 /* NSDateHumanizedTime.strings */; };
 		E89AC324195A204100AD3869 /* UIImage+FX.m in Sources */ = {isa = PBXBuildFile; fileRef = E89AC323195A204100AD3869 /* UIImage+FX.m */; };
 		E89AC327195B029600AD3869 /* RangeIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = E89AC326195B029600AD3869 /* RangeIndicatorView.m */; };
+		E89BA8181A5C1041001F8DC2 /* MainFollowConnectionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89BA8171A5C1041001F8DC2 /* MainFollowConnectionsViewController.m */; };
+		E89BA81B1A5C10ED001F8DC2 /* FollowConnectionsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89BA81A1A5C10ED001F8DC2 /* FollowConnectionsTableViewController.m */; };
+		E89BA8201A5C1657001F8DC2 /* FollowConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = E89BA81F1A5C1657001F8DC2 /* FollowConnection.m */; };
+		E89BA8211A5C63C4001F8DC2 /* FollowConnectionsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89BA81A1A5C10ED001F8DC2 /* FollowConnectionsTableViewController.m */; };
+		E89BA8221A5C63CA001F8DC2 /* MainFollowConnectionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89BA8171A5C1041001F8DC2 /* MainFollowConnectionsViewController.m */; };
+		E89BA8231A5C63D6001F8DC2 /* FollowConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = E89BA81F1A5C1657001F8DC2 /* FollowConnection.m */; };
+		E89BA8261A5C9409001F8DC2 /* CirclePictureTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E89BA8251A5C9409001F8DC2 /* CirclePictureTableViewCell.m */; };
+		E89BA8271A5C9409001F8DC2 /* CirclePictureTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E89BA8251A5C9409001F8DC2 /* CirclePictureTableViewCell.m */; };
 		E8A02CFF19817CCF001E0DAB /* EnterScreenNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E81B58751896C1A900C74C2B /* EnterScreenNameViewController.m */; };
 		E8A02D0019817CCF001E0DAB /* MainNotificationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89035E41930328E004A4013 /* MainNotificationsViewController.m */; };
 		E8A02D0219817CCF001E0DAB /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E81B58721896B89E00C74C2B /* MainViewController.m */; };
@@ -400,6 +408,14 @@
 		E89AC323195A204100AD3869 /* UIImage+FX.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+FX.m"; sourceTree = "<group>"; };
 		E89AC325195B029600AD3869 /* RangeIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RangeIndicatorView.h; sourceTree = "<group>"; };
 		E89AC326195B029600AD3869 /* RangeIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RangeIndicatorView.m; sourceTree = "<group>"; };
+		E89BA8161A5C1041001F8DC2 /* MainFollowConnectionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainFollowConnectionsViewController.h; sourceTree = "<group>"; };
+		E89BA8171A5C1041001F8DC2 /* MainFollowConnectionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainFollowConnectionsViewController.m; sourceTree = "<group>"; };
+		E89BA8191A5C10ED001F8DC2 /* FollowConnectionsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FollowConnectionsTableViewController.h; sourceTree = "<group>"; };
+		E89BA81A1A5C10ED001F8DC2 /* FollowConnectionsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FollowConnectionsTableViewController.m; sourceTree = "<group>"; };
+		E89BA81E1A5C1657001F8DC2 /* FollowConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FollowConnection.h; sourceTree = "<group>"; };
+		E89BA81F1A5C1657001F8DC2 /* FollowConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FollowConnection.m; sourceTree = "<group>"; };
+		E89BA8241A5C9409001F8DC2 /* CirclePictureTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CirclePictureTableViewCell.h; sourceTree = "<group>"; };
+		E89BA8251A5C9409001F8DC2 /* CirclePictureTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CirclePictureTableViewCell.m; sourceTree = "<group>"; };
 		E8A02D5F19817CCF001E0DAB /* DataParentingDev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DataParentingDev.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E8A02D6019817CCF001E0DAB /* DataParentingDev-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "DataParentingDev-Info.plist"; path = "/Users/npahucki/Projects/DataParenting/ios/DataParentingDev-Info.plist"; sourceTree = "<absolute>"; };
 		E8A29BCD19F0148E00DFDE66 /* InAppPurchaseView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InAppPurchaseView.xib; sourceTree = "<group>"; };
@@ -570,6 +586,8 @@
 				E866E7F819364607004963C9 /* Tip.m */,
 				E877FCAB19368AE4002405BF /* BabyAssignedTip.h */,
 				E877FCAC19368AE4002405BF /* BabyAssignedTip.m */,
+				E89BA81E1A5C1657001F8DC2 /* FollowConnection.h */,
+				E89BA81F1A5C1657001F8DC2 /* FollowConnection.m */,
 				E81B5889189BCCD200C74C2B /* StandardMilestone.h */,
 				E81B588A189BCCD200C74C2B /* StandardMilestone.m */,
 				E872D6291949E9C0003F461C /* Measurement.h */,
@@ -605,13 +623,27 @@
 				E8A29BCD19F0148E00DFDE66 /* InAppPurchaseView.xib */,
 				E8A29BDF19F0633300DFDE66 /* InAppPurchaseAlertView.h */,
 				E8A29BE019F0633300DFDE66 /* InAppPurchaseAlertView.m */,
+				E89BA8241A5C9409001F8DC2 /* CirclePictureTableViewCell.h */,
+				E89BA8251A5C9409001F8DC2 /* CirclePictureTableViewCell.m */,
 			);
 			name = CustomViews;
+			sourceTree = "<group>";
+		};
+		E89BA8151A5C0FF9001F8DC2 /* FollowConnections */ = {
+			isa = PBXGroup;
+			children = (
+				E89BA8161A5C1041001F8DC2 /* MainFollowConnectionsViewController.h */,
+				E89BA8171A5C1041001F8DC2 /* MainFollowConnectionsViewController.m */,
+				E89BA8191A5C10ED001F8DC2 /* FollowConnectionsTableViewController.h */,
+				E89BA81A1A5C10ED001F8DC2 /* FollowConnectionsTableViewController.m */,
+			);
+			name = FollowConnections;
 			sourceTree = "<group>";
 		};
 		E8ABCFB6191D63980083ED25 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				E89BA8151A5C0FF9001F8DC2 /* FollowConnections */,
 				E8BDE6BE193E6F40001D6995 /* Milestones */,
 				E8BDE6BF193E6F82001D6995 /* Notifications */,
 				E8BDE6BC193E6EC7001D6995 /* Intro */,
@@ -1203,8 +1235,10 @@
 				E8A02D0519817CCF001E0DAB /* NotificationTableViewController.m in Sources */,
 				E8A02D0619817CCF001E0DAB /* HistoryTableHeaderView.m in Sources */,
 				E8A02D0719817CCF001E0DAB /* UnitHelper.m in Sources */,
+				E89BA8271A5C9409001F8DC2 /* CirclePictureTableViewCell.m in Sources */,
 				E8A02D0819817CCF001E0DAB /* Baby.m in Sources */,
 				E8A02D0919817CCF001E0DAB /* SignUpViewController.m in Sources */,
+				E89BA8221A5C63CA001F8DC2 /* MainFollowConnectionsViewController.m in Sources */,
 				E8A02D0A19817CCF001E0DAB /* IntroScreenPageViewController.m in Sources */,
 				E8A02D0B19817CCF001E0DAB /* PronounHelper.m in Sources */,
 				E8A02D0C19817CCF001E0DAB /* AchievementDetailsViewController.m in Sources */,
@@ -1230,6 +1264,7 @@
 				E8A29BE219F0633300DFDE66 /* InAppPurchaseAlertView.m in Sources */,
 				E8A02D1E19817CCF001E0DAB /* NoConnectionAlertView.m in Sources */,
 				E8A02D1F19817CCF001E0DAB /* BabyInfoViewController.m in Sources */,
+				E89BA8231A5C63D6001F8DC2 /* FollowConnection.m in Sources */,
 				E8A02D2019817CCF001E0DAB /* BabyInfoPhotoViewController.m in Sources */,
 				E8A02D2119817CCF001E0DAB /* SevenSwitch.m in Sources */,
 				E8A02D2219817CCF001E0DAB /* BabyAssignedTip.m in Sources */,
@@ -1240,6 +1275,7 @@
 				E8A02D2619817CCF001E0DAB /* HistoryViewControllerDataSource.m in Sources */,
 				E8A02D2719817CCF001E0DAB /* Measurement.m in Sources */,
 				E8A02D2819817CCF001E0DAB /* HIstoryViewTableCells.m in Sources */,
+				E89BA8211A5C63C4001F8DC2 /* FollowConnectionsTableViewController.m in Sources */,
 				E8A02D2919817CCF001E0DAB /* HistoryViewTableModel.m in Sources */,
 				E8A02D2A19817CCF001E0DAB /* AlertThenDisappearView.m in Sources */,
 				E848696019E81F5A00E37782 /* OnboardingStepViewController.m in Sources */,
@@ -1274,6 +1310,7 @@
 				E866E7F31936448C004963C9 /* NotificationTableViewController.m in Sources */,
 				E8255DE4195CF3710008B82F /* HistoryTableHeaderView.m in Sources */,
 				E872D62E194A5425003F461C /* UnitHelper.m in Sources */,
+				E89BA8261A5C9409001F8DC2 /* CirclePictureTableViewCell.m in Sources */,
 				E81B587A1896CE7800C74C2B /* Baby.m in Sources */,
 				E8F485481901C6F90030912F /* SignUpViewController.m in Sources */,
 				E8250F43192561A7004A1B41 /* IntroScreenPageViewController.m in Sources */,
@@ -1296,11 +1333,13 @@
 				E8DD48EE188EE5B900153095 /* AppDelegate.m in Sources */,
 				E856BD581964455200D00E5C /* TakePhotoButton.m in Sources */,
 				E85A99A9198FE84B00AFE096 /* TutorialBubbleView.m in Sources */,
+				E89BA81B1A5C10ED001F8DC2 /* FollowConnectionsTableViewController.m in Sources */,
 				E8DD48EA188EE5B900153095 /* main.m in Sources */,
 				E881F8DF1962006E0066046E /* BannerViewController.m in Sources */,
 				E8A29BE119F0633300DFDE66 /* InAppPurchaseAlertView.m in Sources */,
 				E856BD4F1962DDDB00D00E5C /* NoConnectionAlertView.m in Sources */,
 				E8D00A1A188F362100DF2786 /* BabyInfoViewController.m in Sources */,
+				E89BA8201A5C1657001F8DC2 /* FollowConnection.m in Sources */,
 				E840251918F0DEC800AF1B27 /* BabyInfoPhotoViewController.m in Sources */,
 				E872D4C71940943F003F461C /* SevenSwitch.m in Sources */,
 				E877FCAD19368AE4002405BF /* BabyAssignedTip.m in Sources */,
@@ -1319,6 +1358,7 @@
 				E8FFCCE8196DF78400969083 /* DataParentingAdView.m in Sources */,
 				E876159E18EF892C00B0C6D9 /* BabyTagsTableViewController.m in Sources */,
 				E8E39C6D18EB9A090034982D /* OverviewViewController.m in Sources */,
+				E89BA8181A5C1041001F8DC2 /* MainFollowConnectionsViewController.m in Sources */,
 				E8ABCFBA191D68FE0083ED25 /* UIDateField.m in Sources */,
 				E866E7F919364607004963C9 /* Tip.m in Sources */,
 				E84A2CF01953C3D300BFA857 /* NSDate+HumanizedTime.m in Sources */,
@@ -1431,7 +1471,7 @@
 				PRODUCT_NAME = DataParentingDev;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
-				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/Pods\"/** \"${PROJECT_DIR}/Pods\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/Pods\"/** \"${PROJECT_DIR}/Pods\"/** \"${PROJECT_DIR}/Pods\"/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1461,7 +1501,7 @@
 				PRODUCT_NAME = DataParentingDev;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
-				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/Pods\"/** \"${PROJECT_DIR}/Pods\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/Pods\"/** \"${PROJECT_DIR}/Pods\"/** \"${PROJECT_DIR}/Pods\"/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

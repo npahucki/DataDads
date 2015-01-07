@@ -12,5 +12,6 @@
 
 - (NSString *)stringWithHumanizedTimeDifference;
 
+- (NSString *)stringWithHumanizedTimeDifference:(BOOL)withSuffix;
 
 @end

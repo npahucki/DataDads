@@ -30,6 +30,7 @@
 #import "Measurement.h"
 #import "StandardMilestone.h"
 #import "BabyAssignedTip.h"
+#import "FollowConnection.h"
 #import "Reachability.h"
 #import "PFFacebookUtils+Extras.h"
 #import "UsageAnalytics.h"
