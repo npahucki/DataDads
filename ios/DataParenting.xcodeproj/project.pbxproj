@@ -13,11 +13,13 @@
 		72F1833039ED99453A7414AA /* PurchaseTransaction.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18CC0F7A7237D340BAB5B /* PurchaseTransaction.m */; };
 		72F183BEF9280905E6AFEDF9 /* FDTake.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F182B2192D608D0B45B9C9 /* FDTake.strings */; };
 		72F183DFFA43FAC7A9CEDEAE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F18627FC1325DE78BA4040 /* InfoPlist.strings */; };
+		72F184E3E3BAD40F4F93005F /* UIImageView+URLLoading.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F1819FEE30D8DFEAA8F678 /* UIImageView+URLLoading.m */; };
 		72F184EBDABA851F9BE570BC /* FDTake.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F182B2192D608D0B45B9C9 /* FDTake.strings */; };
 		72F1860975D6B51CA5600385 /* PurchaseTransaction.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18CC0F7A7237D340BAB5B /* PurchaseTransaction.m */; };
 		72F1877F09F482E5A93B35AE /* AppleIncRootCertificate.cer in Resources */ = {isa = PBXBuildFile; fileRef = 72F18423ECAD54191B7179D7 /* AppleIncRootCertificate.cer */; };
 		72F187BDC76C613B6C98D5BF /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B58651891EED100C74C2B /* StoreKit.framework */; };
 		72F1883E74F2B648B80C5C0D /* PFFile+Media.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F184506900ECF329391D82 /* PFFile+Media.m */; };
+		72F18929ED476F9AA8B3F2E3 /* UIImageView+URLLoading.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F1819FEE30D8DFEAA8F678 /* UIImageView+URLLoading.m */; };
 		72F18A0239394ADCB653A3C1 /* InAppPurchaseHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F1844739B4B51C27B34983 /* InAppPurchaseHelper.m */; };
 		72F18A8BAA52268B8AB8A3D1 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72F184C3C79880CF8D53574A /* MediaPlayer.framework */; };
 		72F18B2BB218DB4DF06FEC6B /* AppleIncRootCertificate.cer in Resources */ = {isa = PBXBuildFile; fileRef = 72F18423ECAD54191B7179D7 /* AppleIncRootCertificate.cer */; };
@@ -27,6 +29,7 @@
 		72F18ED08930567464526909 /* PFFile+Media.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F184506900ECF329391D82 /* PFFile+Media.m */; };
 		72F18F4E5A089D5B51F7A4AD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F18627FC1325DE78BA4040 /* InfoPlist.strings */; };
 		72F18F9470CB5D6C79E81125 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B58651891EED100C74C2B /* StoreKit.framework */; };
+		72F18FB51B7939470119D4FA /* UIImageView+URLLoading.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F1819FEE30D8DFEAA8F678 /* UIImageView+URLLoading.m */; };
 		72F18FD7438151EF56C71915 /* ExternalMediaFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F187DCCDCE0FA22CD5DEC4 /* ExternalMediaFile.m */; };
 		D6CB8834E1A347069F6D2883 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7AE7A55BFBD3425490A0E0F5 /* libPods.a */; };
 		E80BFB631989ACC100E98D9D /* Tutorial-Screen-3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E80BFB621989ACC100E98D9D /* Tutorial-Screen-3.jpg */; };
@@ -275,11 +278,13 @@
 		72F180425F4F1312AAAAA06A /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = FDTake.strings; sourceTree = "<group>"; };
 		72F180897A35DA9A91FA0D75 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
 		72F180A1C9F67C2395A0EF2F /* MediaFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaFile.h; sourceTree = "<group>"; };
+		72F1819FEE30D8DFEAA8F678 /* UIImageView+URLLoading.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+URLLoading.m"; sourceTree = "<group>"; };
 		72F183698C959E005935B194 /* InAppPurchaseHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InAppPurchaseHelper.h; sourceTree = "<group>"; };
 		72F18423ECAD54191B7179D7 /* AppleIncRootCertificate.cer */ = {isa = PBXFileReference; lastKnownFileType = file.cer; path = AppleIncRootCertificate.cer; sourceTree = "<group>"; };
 		72F1844739B4B51C27B34983 /* InAppPurchaseHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InAppPurchaseHelper.m; sourceTree = "<group>"; };
 		72F184506900ECF329391D82 /* PFFile+Media.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PFFile+Media.m"; sourceTree = "<group>"; };
 		72F184C3C79880CF8D53574A /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		72F1855685E8FD6A455E30AB /* UIImageView+URLLoading.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+URLLoading.h"; sourceTree = "<group>"; };
 		72F187DCCDCE0FA22CD5DEC4 /* ExternalMediaFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExternalMediaFile.m; sourceTree = "<group>"; };
 		72F18854EC2953038E616417 /* ExternalMediaFileTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExternalMediaFileTests.m; sourceTree = "<group>"; };
 		72F189EB828F0DC8FFD51914 /* FDTakeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDTakeController.h; sourceTree = "<group>"; };
@@ -693,6 +698,8 @@
 				72F187DCCDCE0FA22CD5DEC4 /* ExternalMediaFile.m */,
 				72F18C88C0C62071581E6244 /* ExternalMediaFile.h */,
 				72F180A1C9F67C2395A0EF2F /* MediaFile.h */,
+				72F1819FEE30D8DFEAA8F678 /* UIImageView+URLLoading.m */,
+				72F1855685E8FD6A455E30AB /* UIImageView+URLLoading.h */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -1295,6 +1302,7 @@
 				72F1833039ED99453A7414AA /* PurchaseTransaction.m in Sources */,
 				72F18BC4AAF0B68D863E2B35 /* FDTakeController.m in Sources */,
 				72F1832E50AB67DDE44C4A12 /* ExternalMediaFile.m in Sources */,
+				72F18FB51B7939470119D4FA /* UIImageView+URLLoading.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1370,6 +1378,7 @@
 				72F1860975D6B51CA5600385 /* PurchaseTransaction.m in Sources */,
 				72F182FAB72978F3ACE021DD /* FDTakeController.m in Sources */,
 				72F18FD7438151EF56C71915 /* ExternalMediaFile.m in Sources */,
+				72F184E3E3BAD40F4F93005F /* UIImageView+URLLoading.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1381,6 +1390,7 @@
 				E8B2A71019DA10880034BF2E /* ExternalMediaFile.m in Sources */,
 				E8BDE6BA193E1522001D6995 /* PronounHelperTests.m in Sources */,
 				72F18DE7FE4FD3F62D59569E /* ExternalMediaFileTests.m in Sources */,
+				72F18929ED476F9AA8B3F2E3 /* UIImageView+URLLoading.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

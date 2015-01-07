@@ -17,7 +17,7 @@
 @property(weak, nonatomic) IBOutlet UILabel *statusLabel;
 @property(weak, nonatomic) IBOutlet UIImageView *pictureView;
 @property(retain, nonatomic) FollowConnection *connection;
-
+@property(weak, nonatomic) IBOutlet NSLayoutConstraint *acceptButtonWidth;
 
 @end
 

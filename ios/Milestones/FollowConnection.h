@@ -14,6 +14,11 @@
 @property(readonly) NSDate *inviteSentOn;
 @property(readonly) NSDate *inviteAcceptedOn;
 @property(readonly) NSString *otherPartyDisplayName;
-@property(readonly) PFFile *otherPartyAvatar;
+@property(readonly) NSString *otherPartyAuxDisplayName;
+@property(readonly) NSString *otherPartyAvatar;
 
+
+- (void)resendInvitationInBackgroundWithBlock:(PFBooleanResultBlock)block;
+
+- (void)acceptInvitationInBackgroundWithBlock:(PFBooleanResultBlock)block;
 @end

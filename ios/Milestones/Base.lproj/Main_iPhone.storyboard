@@ -2493,7 +2493,7 @@
         <scene sceneID="pd5-hC-nLs">
             <objects>
                 <tableViewController id="rvN-rW-MYl" userLabel="Connections Table View Controller" customClass="FollowConnectionsTableViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="70" sectionHeaderHeight="22" sectionFooterHeight="22" id="LjM-UR-dcx">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="70" sectionHeaderHeight="22" sectionFooterHeight="22" id="LjM-UR-dcx">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -2533,6 +2533,8 @@
                                             <state key="normal" image="deleteIcon">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
+                                            <state key="selected" image="deleteIcon_ready"/>
+                                            <state key="highlighted" image="deleteIcon_ready"/>
                                             <connections>
                                                 <action selector="didClickDestroyButton:" destination="rvN-rW-MYl" eventType="touchUpInside" id="AFn-fB-pKt"/>
                                             </connections>
@@ -2543,9 +2545,10 @@
                                                 <constraint firstAttribute="height" constant="44" id="7q1-vz-3HV"/>
                                                 <constraint firstAttribute="width" constant="44" id="bAG-sM-7kS"/>
                                             </constraints>
-                                            <state key="normal" image="deleteIcon">
+                                            <state key="normal" image="acceptIcon">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
+                                            <state key="highlighted" image="acceptIcon_ready"/>
                                             <connections>
                                                 <action selector="didClickAcceptButton:" destination="rvN-rW-MYl" eventType="touchUpInside" id="D1i-3c-izX"/>
                                             </connections>
@@ -2568,6 +2571,7 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="acceptButton" destination="uiw-LM-fH1" id="GDG-mM-DCl"/>
+                                    <outlet property="acceptButtonWidth" destination="bAG-sM-7kS" id="1Q5-2s-Yi5"/>
                                     <outlet property="destroyButton" destination="11O-sW-zqI" id="EEH-PB-f2A"/>
                                     <outlet property="displayNameLabel" destination="ead-S2-Uql" id="ghy-KR-z0M"/>
                                     <outlet property="pictureView" destination="mqW-C8-Ath" id="lgK-JZ-bQO"/>
@@ -2627,6 +2631,8 @@
         </scene>
     </scenes>
     <resources>
+        <image name="acceptIcon" width="31" height="31"/>
+        <image name="acceptIcon_ready" width="31" height="31"/>
         <image name="avatarButtonDefault" width="38" height="38"/>
         <image name="avatarButtonDefault_pressed" width="38" height="38"/>
         <image name="avatarShadow" width="128" height="126"/>
@@ -2637,6 +2643,7 @@
         <image name="completedNormal" width="47" height="49"/>
         <image name="createButton" width="12" height="12"/>
         <image name="deleteIcon" width="31" height="31"/>
+        <image name="deleteIcon_ready" width="31" height="31"/>
         <image name="facebookIcon" width="29" height="29"/>
         <image name="femaleIcon" width="80" height="80"/>
         <image name="femaleIcon_selected" width="80" height="80"/>
@@ -2671,9 +2678,9 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="M4B-Bx-AaL"/>
         <segue reference="JWT-5h-xS8"/>
         <segue reference="0ED-bk-NzY"/>
+        <segue reference="M4B-Bx-AaL"/>
         <segue reference="LCs-nH-0km"/>
         <segue reference="sNA-hk-F8e"/>
         <segue reference="HiK-bz-YEB"/>

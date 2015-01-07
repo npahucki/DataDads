@@ -19,16 +19,19 @@ Parse.Cloud.define("queryMyFollowConnections", function (request, response) {
     query.skip = skip;
     query.limit = limit;
 
+    var finalResults = [];
+
     query.find().
         then(function (results) {
-                var finalResults = _.map(results, function(connectionObject) {
+                var promises = _.map(results, function(connectionObject) {
                     // Not a valid connection without an inviter
                     if(!connectionObject.has("user1")) throw "Connection with id " + connectionObject.id + " has no user1";
                     var isInviter = user.id == connectionObject.get("user1").id;
                     var otherUserName;
                     var otherUserAvatar = null; // TODO
+                    var inviterUser = connectionObject.get("user1");
+                    var inviteeUser = connectionObject.get("user2");
                     if(isInviter) {
-                        var inviteeUser = connectionObject.get("user2");
                         if(inviteeUser) {
                             otherUserName = inviteeUser.has("fullName") ? inviteeUser.get("fullName") : connectionObject.get("inviteSentToName");
                         } else {
@@ -36,26 +39,42 @@ Parse.Cloud.define("queryMyFollowConnections", function (request, response) {
                             otherUserName = connectionObject.get("inviteSentToName");
                         }
                     } else {
-                        var inviterUser = connectionObject.get("user1");
                         otherUserName = inviterUser.has("fullName") ? inviterUser.get("fullName") : inviterUser.get("username");
                     }
                     var connection = {
                         __type : "Object",
                         className : "Parse.Cloud.FollowConnections",
+                        objectId : connectionObject.id,
                         inviteSentOn : connectionObject.get("inviteSentOn"),
                         isInviter : isInviter  ,
                         otherPartyDisplayName : otherUserName
                     };
                     if(connectionObject.has("inviteAcceptedOn")) {
                         connection["inviteAcceptedOn"] = connectionObject.get("inviteAcceptedOn");
+                        // Look up baby so we can get the name and icon
+                        var babyQuery = new Parse.Query("Babies");
+                        babyQuery.equalTo("parentUser", isInviter ? inviteeUser : inviterUser);
+                        babyQuery.limit = 1;
+                        return babyQuery.first().then(function(baby) {
+                            if(baby) {
+                                connection["otherPartyAuxDisplayName"] = baby.get("name");
+                                if(baby.has("avatarImageThumbnail"))
+                                    connection["otherPartyAvatar"] = baby.get("avatarImageThumbnail").url()
+                            }
+                            return Parse.Promise.as(connection);
+                        });
+                    } else {
+                        if(otherUserAvatar) {
+                            connection["otherPartyAvatar"] = otherUserAvatar
+                        }
+                        return Parse.Promise.as(connection);
                     }
-                    if(otherUserAvatar) {
-                        connection["otherPartyAvatar"] = otherUserAvatar
-                    }
-
-                    return connection;
                 });
-            response.success(finalResults);
+
+                Parse.Promise.when(promises).then(function() {
+                    console.log("************ RESULT:" + _.values(arguments));
+                    response.success(_.values(arguments));
+                })
         }, function (error) {
             response.error(error);
         });

@@ -8,6 +8,9 @@
 
 #import "FollowConnectionsTableViewController.h"
 #import "NSDate+HumanizedTime.h"
+#import "UIImageView+URLLoading.h"
+#import "NSDate+Utils.h"
+#import "PFCloud+Cache.h"
 
 #define MAX_LOAD_COUNT 50
 
@@ -33,6 +36,19 @@
     self.displayNameLabel.font = [UIFont fontForAppWithType:Book andSize:15];
     self.statusLabel.textColor = [UIColor appGreyTextColor];
     self.statusLabel.font = [UIFont fontForAppWithType:Light andSize:13];
+
+
+    CALayer *innerShadowLayer = [CALayer layer];
+    innerShadowLayer.contents = (id) [UIImage imageNamed:@"avatarButtonShadow"].CGImage;
+    innerShadowLayer.contentsCenter = CGRectMake(10.0f / 21.0f, 10.0f / 21.0f, 1.0f / 21.0f, 1.0f / 21.0f);
+    innerShadowLayer.frame = CGRectInset(self.pictureView.bounds, 2.5, 2.5);
+    [self.pictureView.layer addSublayer:innerShadowLayer];
+    self.pictureView.layer.borderWidth = 3;
+    self.pictureView.layer.borderColor = [UIColor appNormalColor].CGColor;
+    self.pictureView.layer.cornerRadius = self.pictureView.bounds.size.width / 2;
+    self.pictureView.contentMode = UIViewContentModeScaleAspectFill;
+    self.pictureView.clipsToBounds = YES;
+
 }
 
 - (void)layoutSubviews {
@@ -44,23 +60,40 @@
     return _connection;
 }
 
+- (void)setShowAcceptButton:(BOOL)show {
+    if (show) {
+        self.acceptButtonWidth.constant = 44.0;
+    } else {
+        self.acceptButtonWidth.constant = 0;
+    }
+}
+
 - (void)setConnection:(FollowConnection *)connection {
     _connection = connection;
-    // TODO: Set icon
-    self.displayNameLabel.text = connection.otherPartyDisplayName;
+    self.pictureView.image = [UIImage imageNamed:@"avatarButtonDefault"];
+    self.showAcceptButton = YES;
     if (connection.inviteAcceptedOn) {
         // Connection made!
-        self.acceptButton.hidden = YES;
-        self.destroyButton.hidden = NO;
-        self.statusLabel.text = [NSString stringWithFormat:@"For %@", [connection.inviteAcceptedOn stringWithHumanizedTimeDifference:NO]];
+        self.showAcceptButton = NO;
+        self.displayNameLabel.text = connection.otherPartyAuxDisplayName;
+        self.statusLabel.text = [NSString stringWithFormat:@"Child of %@", connection.otherPartyDisplayName];
+        [self.pictureView loadImageFromUrlString:connection.otherPartyAvatar];
     } else {
         // Pending
-        self.acceptButton.hidden = NO;
-        self.destroyButton.hidden = NO;
+        self.displayNameLabel.text = connection.otherPartyDisplayName;
         if (connection.isInviter) {
             self.statusLabel.text = [NSString stringWithFormat:@"Pending for %@", [connection.inviteSentOn stringWithHumanizedTimeDifference:NO]];
+            // If the invite has been pending more than 5 days show resend button.
+            if ([connection.inviteSentOn daysDifferenceFromNow] > 5) {
+                [self.acceptButton setImage:[UIImage imageNamed:@"redoIcon"] forState:UIControlStateNormal];
+                [self.acceptButton setImage:[UIImage imageNamed:@"redoIcon_ready"] forState:UIControlStateHighlighted];
+            } else {
+                self.showAcceptButton = NO;
+            }
         } else {
             self.statusLabel.text = [NSString stringWithFormat:@"Recieved %@", [connection.inviteSentOn stringWithHumanizedTimeDifference]];
+            [self.acceptButton setImage:[UIImage imageNamed:@"acceptIcon"] forState:UIControlStateNormal];
+            [self.acceptButton setImage:[UIImage imageNamed:@"acceptIcon_ready"] forState:UIControlStateHighlighted];
         }
     }
 }
@@ -75,15 +108,48 @@
 }
 
 - (IBAction)didClickDestroyButton:(UIButton *)sender {
+    FollowConnectionTableViewCell *cell = [self findTableViewCell:sender];
+    if (cell.connection.inviteAcceptedOn) {
+        [[[UIAlertView alloc] initWithTitle:@"Are you sure?"
+                                    message:[NSString stringWithFormat:@"Delete this connection and stop following %@?", cell.connection.otherPartyDisplayName]
+                                   delegate:nil
+                          cancelButtonTitle:@"No"
+                          otherButtonTitles:@"Yes", nil]
+                showWithButtonBlock:^(NSInteger buttonIndex) {
+                    if (buttonIndex == 1) {
+                        [self deleteConnection:cell];
+                    }
+                }];
+    } else {
+        // Just delete it, don't ask.
+        [self deleteConnection:cell];
+    }
 }
 
 - (IBAction)didClickAcceptButton:(UIButton *)sender {
+    FollowConnectionTableViewCell *cell = [self findTableViewCell:sender];
+    if (cell.connection.isInviter && !cell.connection.inviteAcceptedOn) {
+        // Resend invite
+        [self resendInvitation:cell];
+    } else {
+        [self acceptInvitation:cell];
+    }
+}
+
+- (FollowConnectionTableViewCell *)findTableViewCell:(UIView *)view {
+    if (view.superview == nil || [view.superview isKindOfClass:[FollowConnectionTableViewCell class]])
+        return (FollowConnectionTableViewCell *) view.superview;
+    else
+        return [self findTableViewCell:view.superview];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.tableView.allowsSelection = YES;
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(loadObjects) forControlEvents:UIControlEventValueChanged];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkReachabilityChanged:) name:kReachabilityChangedNotification object:nil];
     _hasMore = YES;
     [self loadObjects];
@@ -111,7 +177,7 @@
     [PFCloud callFunctionInBackground:@"queryMyFollowConnections"
                        withParameters:@{@"appVersion" : NSBundle.mainBundle.infoDictionary[@"CFBundleShortVersionString"],
                                @"limit" : [@(limit) stringValue]}
-//                          cachePolicy:_objects.count == 0 ? kPFCachePolicyCacheThenNetwork : kPFCachePolicyNetworkOnly
+                          cachePolicy:[self hasAnyConnections] ? kPFCachePolicyNetworkOnly : kPFCachePolicyCacheThenNetwork
                                 block:^(NSArray *objects, NSError *error) {
                                     _hadError = error != nil;
                                     if (!_hadError) {
@@ -129,6 +195,8 @@
                                         _hasMore = objects.count == MAX_LOAD_COUNT;
                                     }
                                     [self.tableView reloadData];
+                                    [self.refreshControl endRefreshing];
+                                    self.tableView.allowsSelection = ![self hasAnyConnections];
                                 }];
 }
 
@@ -214,6 +282,42 @@
 
 #pragma mark - private methods
 
+- (void)deleteConnection:(FollowConnectionTableViewCell *)connectionCell {
+    [connectionCell.connection deleteInBackgroundWithBlock:nil];
+    // Animate delete
+    NSIndexPath *pathToDelete = [self.tableView indexPathForCell:connectionCell];
+    [self.tableView beginUpdates];
+    NSMutableArray *sectionArray = (NSMutableArray *) _allConnections[(NSUInteger) pathToDelete.section];
+    [sectionArray removeObjectAtIndex:(NSUInteger) pathToDelete.row];
+    [self.tableView deleteRowsAtIndexPaths:@[pathToDelete] withRowAnimation:UITableViewRowAnimationBottom];
+    [self.tableView endUpdates];
+
+    if (![self hasAnyConnections]) {
+        // TODO: Show the other view describing how to add connections!
+        [self.tableView reloadData];
+    }
+}
+
+- (void)resendInvitation:(FollowConnectionTableViewCell *)connectionCell {
+    // Next time table gets rendered, since the date is changed, the acceptButton won't be shown.
+    [connectionCell.connection resendInvitationInBackgroundWithBlock:nil];
+    [connectionCell setShowAcceptButton:NO];
+    [[[UIAlertView alloc] initWithTitle:@"Success!" message:@"Invitation has been resent!" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+}
+
+- (void)acceptInvitation:(FollowConnectionTableViewCell *)connectionCell {
+    [connectionCell.connection acceptInvitationInBackgroundWithBlock:nil];
+    NSIndexPath *pathToDelete = [self.tableView indexPathForCell:connectionCell];
+    [self.tableView beginUpdates];
+    NSMutableArray *sectionArray = (NSMutableArray *) _allConnections[(NSUInteger) pathToDelete.section];
+    [sectionArray removeObjectAtIndex:(NSUInteger) pathToDelete.row];
+    [self.tableView deleteRowsAtIndexPaths:@[pathToDelete] withRowAnimation:UITableViewRowAnimationBottom];
+    [self.tableView endUpdates];
+    [self loadObjects];
+}
+
+
+
 - (void)resetAllConnections {
     NSMutableArray *allConnections = [[NSMutableArray alloc] initWithCapacity:3];
     [allConnections addObject:[[NSMutableArray alloc] init]];
@@ -228,64 +332,4 @@
     }
     return NO;
 }
-
-//- (void)hideNotification:(BabyAssignedTip *)notificaiton withIndexPath:(NSIndexPath *)path {
-//    
-//    if (ParentUser.currentUser.showHiddenTips) {
-//        [[[UIAlertView alloc] initWithTitle:@"Can't do that" message:@"While showing hidden tips you can not hide one. Turn off 'Show HiddenTips' in settings if you want to hide this tip." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-//        return;
-//    }
-//    
-//    [notificaiton saveEventually];
-//    
-//    [self.tableView beginUpdates];
-//    [_objects removeObjectAtIndex:(NSUInteger) path.row];
-//    [self.tableView deleteRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationRight];
-//    [self.tableView endUpdates];
-//    _isEmpty = _objects.count == 0;
-//    if (_isEmpty) [self.tableView reloadData];
-//}
-
-
-#pragma mark - SWTableViewDelegate
-
-//- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)buttonIndex {
-//    NSIndexPath *path = [self.tableView indexPathForCell:cell];
-//    BabyAssignedTip *a = [self tipForIndexPath:path];
-//    if (buttonIndex == 0) {
-//        [self hideNotification:a withIndexPath:path];
-//    }
-//}
-
-//- (BOOL)swipeableTableViewCell:(SWTableViewCell *)cell canSwipeToState:(SWCellState)state {
-//    if (state != kCellStateCenter) {
-//        cell.accessoryType = UITableViewCellAccessoryNone;
-//    }
-//    return YES;
-//}
-
-
-//// Work around a bug where the accessory view is on top of the slide cell.
-//- (void)swipeableTableViewCell:(SWTableViewCell *)cell scrollingToState:(SWCellState)state {
-//    if (state == kCellStateCenter) {
-//        // Back to normal. Must use delay to not interfere with scroll animation.
-//        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC);
-//        dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
-//            NSIndexPath *path = [self.tableView indexPathForCell:cell];
-//            BabyAssignedTip *tipAssignment = [self tipForIndexPath:path];
-//            cell.accessoryType = tipAssignment.tip.url.length ? UITableViewCellAccessoryDetailButton : UITableViewCellAccessoryNone;
-//        });
-//    }
-//}
-
-
-//- (BabyAssignedTip *)tipForIndexPath:(NSIndexPath *)indexPath {
-//    NSAssert(indexPath.section == 0, @"Unexpected section %ld", (long) indexPath.section);
-//    return _objects[(NSUInteger) indexPath.row];
-//}
-
-- (BOOL)isLoadingRow:(NSIndexPath *)indexPath {
-    return ![self hasAnyConnections];
-}
-
 @end
