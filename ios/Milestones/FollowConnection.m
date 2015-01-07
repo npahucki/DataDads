@@ -21,15 +21,31 @@
 }
 
 - (void)deleteInBackgroundWithBlock:(PFBooleanResultBlock)block {
-
+    [self executeCloudFuncitonNamed:@"deleteFollowConnection" andBlock:block];
 }
 
 - (void)resendInvitationInBackgroundWithBlock:(PFBooleanResultBlock)block {
-
+    [self executeCloudFuncitonNamed:@"resendFollowConnectionInvitation" andBlock:block];
 }
 
 - (void)acceptInvitationInBackgroundWithBlock:(PFBooleanResultBlock)block {
-
+    [self executeCloudFuncitonNamed:@"acceptFollowConnectionInvitation" andBlock:block];
 }
+
+- (void)executeCloudFuncitonNamed:(NSString *)functionName andBlock:(PFBooleanResultBlock)block {
+    [PFCloud                    callFunctionInBackground:functionName withParameters:@{
+            @"appVersion" : NSBundle.mainBundle.infoDictionary[@"CFBundleShortVersionString"],
+            @"connectionObjectId" : self.objectId} block:^(id object, NSError *error) {
+
+        if(error) {
+            // TODO: Retries....
+        }
+
+        if (block) {
+            block(((NSNumber *) object).boolValue, error);
+        }
+    }];
+}
+
 
 @end

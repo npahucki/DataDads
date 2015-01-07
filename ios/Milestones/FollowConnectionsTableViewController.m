@@ -104,7 +104,6 @@
     NSArray *_allConnections;
     BOOL _hasMore;
     BOOL _hadError;
-    BOOL _isMorganTouch;
 }
 
 - (IBAction)didClickDestroyButton:(UIButton *)sender {
@@ -149,14 +148,11 @@
     self.tableView.dataSource = self;
     self.tableView.allowsSelection = YES;
     self.refreshControl = [[UIRefreshControl alloc] init];
+    self.refreshControl.tintColor = [UIColor appNormalColor];
     [self.refreshControl addTarget:self action:@selector(loadObjects) forControlEvents:UIControlEventValueChanged];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkReachabilityChanged:) name:kReachabilityChangedNotification object:nil];
     _hasMore = YES;
     [self loadObjects];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    _isMorganTouch = NO; // Hack work around a double segue bug, caused by touching the cell too long
 }
 
 - (void)dealloc {
@@ -213,15 +209,12 @@
 //}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (!_isMorganTouch) {
-        //_isMorganTouch = YES; // Not needed until/unless we open a detail page
-        if (![self hasAnyConnections]) {
-            _hadError = NO; // Make sure loading icon shows again
-            [self.tableView reloadData];
-            [self loadObjects];
-        } else {
-            // Nothing for now.
-        }
+    if (![self hasAnyConnections]) {
+        _hadError = NO; // Make sure loading icon shows again
+        [self.tableView reloadData];
+        [self loadObjects];
+    } else {
+        // Nothing for now.
     }
 }
 
