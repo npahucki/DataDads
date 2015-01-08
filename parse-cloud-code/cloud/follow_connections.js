@@ -70,11 +70,12 @@ Parse.Cloud.define("queryMyFollowConnections", function (request, response) {
                         var inviterUser = connectionObject.get("user1");
                         var inviteeUser = connectionObject.get("user2");
                         if (isInviter) {
-                            if (inviteeUser) {
-                                otherUserName = inviteeUser.has("fullName") ? inviteeUser.get("fullName") : connectionObject.get("inviteSentToName");
-                            } else {
-                                // Use the name in the invite
-                                otherUserName = connectionObject.get("inviteSentToName");
+                            otherUserName =  connectionObject.has("inviteSentToName") ?
+                                    connectionObject.get("inviteSentToName") :
+                                    connectionObject.get("inviteSentToEmail");
+                            // Always prefer what the user says his name is, if he does at all
+                            if (inviteeUser && inviteeUser.has("fullName")) {
+                                otherUserName =  inviteeUser.get("fullName")
                             }
                         } else {
                             otherUserName = inviterUser.has("fullName") ? inviterUser.get("fullName") : inviterUser.get("username");
@@ -117,20 +118,40 @@ Parse.Cloud.define("queryMyFollowConnections", function (request, response) {
 
 
 
-//Parse.Cloud.define("deleteFollowConnection", function (request, response) {
-//    Parse.Cloud.useMasterKey();
-//    lookupConnectionObject(request).then(function(connectionObject) {
-//        // TODO:  Remove emails from baby
-//        return Parse.Promise.as(true);
-//    }).then(function() {
-//        return connectionObject.destroy();
-//    }).then(function() {
-//                response.success(true);
-//            },
-//            function(error) {
-//                response.error(error);
-//            });
-//});
+Parse.Cloud.define("deleteFollowConnection", function (request, response) {
+    Parse.Cloud.useMasterKey();
+    var connectionObject;
+    lookupConnectionObject(request).then(function(newConnectionObject) {
+        connectionObject = newConnectionObject;
+        // Break the connection in the babies, so there are no more email updates.
+        var user1 = connectionObject.get("user1");
+        var user2 = connectionObject.get("user2");
+        // Only if both users are present, can we attempt to undo the email links.
+        // If the invitation was never accepted, then user2 will be undefined.
+        if(user1 && user2) {
+            var babyQuery1 = new Parse.Query("Babies");
+            babyQuery1.equalTo("parentUser", user1);
+            var babyPromise1 = babyQuery1.each(function(baby) {
+                baby.remove("followerEmails",user2.get("email"));
+                return baby.save();
+            });
+            var babyQuery2 = new Parse.Query("Babies");
+            babyQuery2.equalTo("parentUser", user2);
+            var babyPromise2 = babyQuery2.each(function(baby) {
+                baby.remove("followerEmails",user1.get("email"));
+                return baby.save();
+            });
+            return Parse.Promise.when(babyPromise1, babyPromise2);
+        }
+    }).then(function() {
+        return connectionObject.destroy();
+    }).then(function() {
+        response.success(true);
+    },
+    function(error) {
+        response.error(error);
+    });
+});
 //
 //Parse.Cloud.define("resendFollowConnectionInvitation", function (request, response) {
 //});

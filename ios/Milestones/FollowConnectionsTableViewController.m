@@ -207,6 +207,9 @@
 //        }
 //    }
 //}
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return ((NSArray *) _allConnections[(NSUInteger) section]).count > 0 ? 44 : 0;
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (![self hasAnyConnections]) {
