@@ -1,5 +1,5 @@
 source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, 7.0
+platform :ios, 7.1
 xcodeproj 'DataParenting.xcodeproj'
 inhibit_all_warnings!
 #link_with ['DataParenting', 'DataParentingDev', 'DataParentingTests']
@@ -17,6 +17,8 @@ pod 'AppsFlyer-SDK'
 pod 'RMStore/AppReceiptVerificator'
 pod 'UXCam'
 pod 'Mixpanel'
+pod 'MBContactPicker', '0.1.5'
+
 
 
 

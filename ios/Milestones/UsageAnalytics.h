@@ -54,4 +54,8 @@
 + (void)trackPurchaseCompleted:(NSString *)productId atPrice:(NSNumber *)price andCurrency:(NSString *)currency;
 
 + (void)trackPurchaseTransactionState:(SKPaymentTransaction *)transaction;
+
++ (void)trackUserDeniedAddressBookAccess;
+
+
 @end

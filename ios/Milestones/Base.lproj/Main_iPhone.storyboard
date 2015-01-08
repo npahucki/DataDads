@@ -2444,25 +2444,36 @@
                         <viewControllerLayoutGuide type="bottom" id="Nc8-6g-4pI"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="iB9-C6-hPn">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <containerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AMH-kh-Pyf" userLabel="Normal Container View">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <rect key="frame" x="0.0" y="44" width="320" height="480"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <connections>
                                     <segue destination="rvN-rW-MYl" kind="embed" id="K6S-TK-22h"/>
                                 </connections>
                             </containerView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kL0-zn-xqN" customClass="MBContactPicker">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="5QE-VQ-BZM"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="AMH-kh-Pyf" firstAttribute="top" secondItem="iB9-C6-hPn" secondAttribute="top" id="CGV-ug-zsI"/>
+                            <constraint firstItem="AMH-kh-Pyf" firstAttribute="top" secondItem="kL0-zn-xqN" secondAttribute="bottom" id="5BN-7F-ZQa"/>
                             <constraint firstAttribute="trailing" secondItem="AMH-kh-Pyf" secondAttribute="trailing" id="CUx-yC-bdF"/>
                             <constraint firstItem="AMH-kh-Pyf" firstAttribute="leading" secondItem="iB9-C6-hPn" secondAttribute="leading" id="WTP-df-rEq"/>
+                            <constraint firstItem="kL0-zn-xqN" firstAttribute="leading" secondItem="iB9-C6-hPn" secondAttribute="leading" id="c5d-WV-ad1"/>
                             <constraint firstAttribute="bottom" secondItem="AMH-kh-Pyf" secondAttribute="bottom" id="gWb-DQ-AG7"/>
+                            <constraint firstItem="kL0-zn-xqN" firstAttribute="top" secondItem="iB9-C6-hPn" secondAttribute="top" id="juW-KX-ZqK"/>
+                            <constraint firstAttribute="trailing" secondItem="kL0-zn-xqN" secondAttribute="trailing" id="uvL-c2-3mL"/>
                         </constraints>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Playgroups" id="PaP-W2-MdE">
                         <barButtonItem key="leftBarButtonItem" image="backIcon" id="ja0-UQ-p3P">
@@ -2476,6 +2487,11 @@
                                 <state key="highlighted" image="avatarButtonDefault_pressed"/>
                             </button>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Invite" id="HOo-KB-6HE">
+                            <connections>
+                                <action selector="didClickInviteButton:" destination="lQH-ts-C0K" id="jSK-kq-HX2"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <nil key="simulatedStatusBarMetrics"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
@@ -2483,18 +2499,21 @@
                     <connections>
                         <outlet property="babyMenuButton" destination="21J-FY-kOd" id="ydW-l4-zCg"/>
                         <outlet property="containerView" destination="AMH-kh-Pyf" id="TH8-1z-RPC"/>
+                        <outlet property="inviteButton" destination="HOo-KB-6HE" id="nJl-2w-BCh"/>
+                        <outlet property="pickerHeightConstraint" destination="5QE-VQ-BZM" id="0be-Ot-aHS"/>
+                        <outlet property="pickerView" destination="kL0-zn-xqN" id="jpG-bl-u3i"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uvd-v2-IAX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2224" y="534"/>
+            <point key="canvasLocation" x="1712" y="325"/>
         </scene>
         <!--Connections Table View Controller-->
         <scene sceneID="pd5-hC-nLs">
             <objects>
                 <tableViewController id="rvN-rW-MYl" userLabel="Connections Table View Controller" customClass="FollowConnectionsTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="70" sectionHeaderHeight="22" sectionFooterHeight="22" id="LjM-UR-dcx">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -2608,7 +2627,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b4F-a8-Egp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2224" y="1220"/>
+            <point key="canvasLocation" x="1712" y="1141"/>
         </scene>
         <!--Invitations Navigration-->
         <scene sceneID="gar-VS-cxc">
@@ -2627,7 +2646,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fQm-jh-Y58" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2224" y="-190"/>
+            <point key="canvasLocation" x="1712" y="-408"/>
         </scene>
     </scenes>
     <resources>

@@ -8,8 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MainFollowConnectionsViewController : UIViewController
+@class MBContactPicker;
 
+@interface MainFollowConnectionsViewController : UIViewController <MBContactPickerDelegate>
+
+@property(weak, nonatomic) IBOutlet UIBarButtonItem *inviteButton;
+@property(weak, nonatomic) IBOutlet MBContactPicker *pickerView;
+@property(weak, nonatomic) IBOutlet NSLayoutConstraint *pickerHeightConstraint;
 @property(weak, nonatomic) IBOutlet UIView *containerView;
 @property(weak, nonatomic) IBOutlet UIButton *babyMenuButton;
 

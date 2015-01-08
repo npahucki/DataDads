@@ -438,4 +438,10 @@ static BOOL isRelease;
     }
 }
 
++ (void)trackUserDeniedAddressBookAccess {
+    [Heap track:@"userDeniedAddressBookAccess"];
+    [[Mixpanel sharedInstance] track:@"userDeniedAddressBookAccess"];
+}
+
+
 @end
