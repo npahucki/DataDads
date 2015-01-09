@@ -2,9 +2,6 @@ var express = require('express');
 var moment = require('moment');
 var _ = require('underscore');
 
-// Controller code in separate files.
-var achievementsController = require('cloud/controllers/achievements.js');
-
 // Required for initializing Express app in Cloud Code.
 var app = express();
 
@@ -22,7 +19,7 @@ app.locals.formatTime = function(time) {
   return moment(time).format('MMMM Do YYYY, h:mm a');
 };
 
-app.get('/achievements/:id', achievementsController.show);
-
+app.get('/achievements/:id', require('cloud/controllers/achievements.js').show);
+app.get('/accept_invite/:id',  require('cloud/controllers/accept_invite.js').show);
 
 app.listen();

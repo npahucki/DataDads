@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>
+    <%= typeof title === "undefined" ? "Achievement" : title %>
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+  <link rel="icon" href="http://www.dataparenting.com/favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="/http://www.dataparenting.com/favicon.ico" type="image/x-icon">
+</head>
+<body>
+<% include ../google_tracking.ejs %>
+
+<!-- content -->
+<div>
+
+
+  <%if(isInviteAlreadyAccepted){%>
+  <h1>You have already accepted this invitation!</h1>
+  <%} else { %>
+    <h1>Your invite has been accepted!</h1>
+  <%}%>
+
+  <%if(isExistingUser) {%>
+  <!-- TODO: only show link if opend on an iphone? -->
+    <a href="">
+      <p>If you are on your iPhone, click here to open the app and see the connection</p>
+    </a>
+  <%} else { %>
+    <!-- TODO: Tracking to let us know click came from invite email -->
+    <!-- TODO: There is an (maybe) edge case where the invited user is already a user, but they were invited with the wrong email address! -->
+    <a href="https://itunes.apple.com/us/app/dataparenting-baby-milestones/id905124835?mt=8">
+      <p>Next step: install the DataParenting App from the App Store. Make sure to log in with email address '' to see the connection with ''</p>
+    </a>
+  <%}%>
+
+
+
+
+
+
+</div>
+
+<% include ../clicky_tracking.ejs %>
+</body>
+</html>

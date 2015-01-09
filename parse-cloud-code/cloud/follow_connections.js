@@ -278,6 +278,7 @@ Parse.Cloud.job("deliverFollowConnectionInvites", function (request, status) {
     var sentCount = 0;
     var query = new Parse.Query("FollowConnections");
     query.doesNotExist("inviteDeliveredOn");
+    query.doesNotExist("inviteAcceptedOn");
     query.include(["user1", "user2"]);
 
     query.each(function(connectionInvite) {
@@ -335,6 +336,9 @@ Parse.Cloud.job("deliverFollowConnectionInvites", function (request, status) {
         status.error(error);
     });
 });
+
+// TODO: send push to existing user to let them know, invite was accepted?
+
 
 
 
