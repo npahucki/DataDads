@@ -25,6 +25,7 @@
 
 @implementation InviteContactsAddressBookDataSource {
     ABAddressBookRef _addressBook;
+    BOOL _showedPermissionWarning;
 }
 
 - (void)dealloc {
@@ -121,8 +122,11 @@
 }
 
 - (void)showNoAddressBookAccessMsg {
-    [UsageAnalytics trackUserDeniedAddressBookAccess];
-    [[[UIAlertView alloc] initWithTitle:@"No Access To Contacts" message:@"Since you have not allowed access to your contacts, we will NOT be able to help you pick them. You can still enter email addresses manualy. To enable picking from your contacts go to the Privacy->Contacts section in the Settings app and enable access for DataParenting." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+    if (!_showedPermissionWarning) {
+        _showedPermissionWarning = YES;
+        [UsageAnalytics trackUserDeniedAddressBookAccess];
+        [[[UIAlertView alloc] initWithTitle:@"No Access To Contacts" message:@"Since you have not allowed access to your contacts, we will NOT be able to help you pick them. You can still enter email addresses manualy. To enable picking from your contacts go to the Privacy->Contacts section in the Settings app and enable access for DataParenting." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+    }
 }
 
 

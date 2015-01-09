@@ -124,7 +124,8 @@
         contact.emailAddress = text;
         [_pickerView addToSelectedContacts:contact];
     } else {
-        [[[UIAlertView alloc] initWithTitle:@"Whoops" message:@"Invalid email address, please correct it" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+        [[[UIAlertView alloc] initWithTitle:@"Whoops" message:@"Invalid email address, please correct it"
+                                   delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
     }
 }
 

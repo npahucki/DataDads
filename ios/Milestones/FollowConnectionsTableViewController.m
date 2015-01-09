@@ -104,6 +104,7 @@
     NSArray *_allConnections;
     BOOL _hasMore;
     BOOL _hadError;
+    BOOL _isLoading;
 }
 
 - (IBAction)didClickDestroyButton:(UIButton *)sender {
@@ -170,6 +171,8 @@
 }
 
 - (void)loadObjectsWithLimit:(NSInteger)limit {
+    _isLoading = YES;
+    [self.tableView reloadData];
     [PFCloud callFunctionInBackground:@"queryMyFollowConnections"
                        withParameters:@{@"appVersion" : NSBundle.mainBundle.infoDictionary[@"CFBundleShortVersionString"],
                                @"limit" : [@(limit) stringValue]}
@@ -190,6 +193,7 @@
                                         }
                                         _hasMore = objects.count == MAX_LOAD_COUNT;
                                     }
+                                    _isLoading = NO;
                                     [self.tableView reloadData];
                                     [self.refreshControl endRefreshing];
                                     self.tableView.allowsSelection = ![self hasAnyConnections];
@@ -262,7 +266,7 @@
             cell.textLabel.text = @"Couldn't load connections. Click to try again";
             cell.imageView.image = [UIImage imageNamed:@"error-9"];
         } else {
-            if (!_hasMore) {
+            if (!_isLoading) {
                 cell.textLabel.text = @"No connections to show now. Touch here to refresh";
                 cell.imageView.image = [UIImage imageNamed:@"tipsButton_active"];
             } else {
@@ -282,15 +286,18 @@
     [connectionCell.connection deleteInBackgroundWithBlock:nil];
     // Animate delete
     NSIndexPath *pathToDelete = [self.tableView indexPathForCell:connectionCell];
-    [self.tableView beginUpdates];
     NSMutableArray *sectionArray = (NSMutableArray *) _allConnections[(NSUInteger) pathToDelete.section];
-    [sectionArray removeObjectAtIndex:(NSUInteger) pathToDelete.row];
-    [self.tableView deleteRowsAtIndexPaths:@[pathToDelete] withRowAnimation:UITableViewRowAnimationBottom];
-    [self.tableView endUpdates];
 
-    if (![self hasAnyConnections]) {
-        // TODO: Show the other view describing how to add connections!
+    // To avoid a crash, we can't animate deleting the last item
+    if ([self countOfTotalConnections] <= 1) {
+        [sectionArray removeObjectAtIndex:(NSUInteger) pathToDelete.row];
         [self.tableView reloadData];
+        // TODO: Show the other view describing how to add connections!
+    } else {
+        [self.tableView beginUpdates];
+        [sectionArray removeObjectAtIndex:(NSUInteger) pathToDelete.row];
+        [self.tableView deleteRowsAtIndexPaths:@[pathToDelete] withRowAnimation:UITableViewRowAnimationBottom];
+        [self.tableView endUpdates];
     }
 }
 
@@ -322,10 +329,21 @@
     _allConnections = allConnections;
 }
 
+- (NSUInteger)countOfTotalConnections {
+    NSUInteger count = 0;
+    for (NSArray *array in _allConnections) {
+        count += array.count;
+    }
+    return count;
+}
+
+
 - (BOOL)hasAnyConnections {
     for (NSArray *array in _allConnections) {
         if (array.count > 0) return YES;
     }
     return NO;
 }
+
+
 @end
