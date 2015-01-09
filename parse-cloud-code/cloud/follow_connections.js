@@ -271,5 +271,70 @@ Parse.Cloud.define("acceptFollowConnectionInvitation", function (request, respon
 
 });
 
+// Designed to be idempotent and recoverable, so that if anything keeps the job from finishing
+// the next run will pick up where this one left off.
+Parse.Cloud.job("deliverFollowConnectionInvites", function (request, status) {
+    Parse.Cloud.useMasterKey();
+    var sentCount = 0;
+    var query = new Parse.Query("FollowConnections");
+    query.doesNotExist("inviteDeliveredOn");
+    query.include(["user1", "user2"]);
+
+    query.each(function(connectionInvite) {
+        // NOTE: when the invitation is created (in sendFollowInvitation) user2 (the receiver)
+        // is set if the email address was already registered as a user in the system.
+
+        // Used for push and email title.
+        var inviterUser =  connectionInvite.get("user1");
+        var inviteeUser =  connectionInvite.get("user2");
+        var inviterUserName = inviterUser.has("fullName") ? inviterUser.get("fullName") : inviterUser.get("username");
+
+        return lookupFirstBabyForUser(inviterUser).then(function(inviterBaby) {
+            var inviterBabyName = inviterBaby ? inviterBaby.get("name") : null;
+            var pushPromise = null;
+            if(inviteeUser) {
+                var pushQuery = new Parse.Query(Parse.Installation);
+                       pushQuery.equalTo("user", inviteeUser);
+                       pushQuery.equalTo("deviceType", "ios");
+                pushPromise = Parse.Push.send({
+                   where:pushQuery,
+                   data:{
+                       alert: inviterUserName + " has sent you a Playgroup request!",
+                       cdata:{ "followConnectionId": connectionInvite.id },
+                       badge:"Increment",
+                       sound:"default"
+                   }
+                });
+            }
+
+            // Always send email, if installed already and on ios device, then link to open app.
+            var utils = require("cloud/utils");
+            var subjectTitle = inviterUserName + " wants to connect with you on DataParenting!";
+            var params = {
+                inviterName : inviterUserName,
+                inviterBabyName : inviterBabyName,
+                acceptLinkUrl  : utils.inviteAcceptUrl(connectionInvite)
+            };
+            var emails = require('cloud/emails.js');
+            var emailPromise = emails.sendTemplateEmail(subjectTitle,connectionInvite.get("inviteSentToEmail"),"follow/invitation.ejs", params);
+
+
+            // Wait for push and email to complete.
+            return Parse.Promise.when(pushPromise,emailPromise).then(function() {
+                // Now that they have been delivered, we can update the connection record.
+                connectionInvite.set("inviteDeliveredOn", new Date());
+                return connectionInvite.save();
+            }).then(function() {
+                sentCount++;
+            });
+        })
+    }).then(function () {
+        status.success("Delivered " + sentCount + " invite(s)");
+    },
+    function (error) {
+        status.error(error);
+    });
+});
+
 
 

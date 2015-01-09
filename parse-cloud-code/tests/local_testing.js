@@ -23,4 +23,4 @@ require = function(lib) {
     return originalRequire(lib);
 };
 
-require("../cloud/backup.js");
+require("../cloud/follow_connections.js");

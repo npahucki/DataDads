@@ -19,6 +19,12 @@ function treatAsUTC(date) {
     return result;
 }
 
+exports.isDev = function () {
+    return Parse.applicationId === "NlJHBG0NZgFS8JP76DBjA31MBRZ7kmb7dVSQQz3U";
+};
+
+exports.websiteHost = exports.isDev() ? "dataparenting-dev.parseapp.com" : "view.dataparenting.com";
+
 exports.dateAddDays = function (date, days) {
     return new Date(date.getTime() + (MILLIS_PER_DAY * days));
 };
@@ -32,9 +38,13 @@ exports.dayDiffFromNow = function (date) {
 };
 
 exports.achievementViewerUrl = function (achievement) {
-    var host = exports.isDev() ? "dataparenting-dev.parseapp.com" : "view.dataparenting.com";
-    return "http://" + host + "/achievements/" + achievement.id
+    return "http://" + exports.websiteHost + "/achievements/" + achievement.id
 };
+
+exports.inviteAcceptUrl = function (followConnectionInvite) {
+    return "http://" + exports.websiteHost + "/accept_invite/" + followConnectionInvite.id
+};
+
 
 
 // Baby sex should be 1:Male or 0:Female
@@ -49,10 +59,6 @@ exports.replacePronounTokens = function (stringWithTokens, isMale, lang) {
         }
     }
     return result;
-};
-
-exports.isDev = function () {
-    return Parse.applicationId === "NlJHBG0NZgFS8JP76DBjA31MBRZ7kmb7dVSQQz3U";
 };
 
 exports.awsVideoEnv = function() {
