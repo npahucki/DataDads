@@ -9,12 +9,14 @@
 #import <MBContactPicker/MBContactPicker.h>
 #import "MainFollowConnectionsViewController.h"
 #import "InviteContactsAddressBookDataSource.h"
+#import "FollowConnectionsTableViewController.h"
 
 
 @interface MainFollowConnectionsViewController ()
 @end
 
 @implementation MainFollowConnectionsViewController {
+    FollowConnectionsTableViewController * _followConnectionsTableController;
     InviteContactsAddressBookDataSource *_addressBookDataSource;
     BOOL _inviteMode;
 }
@@ -32,6 +34,12 @@
     self.pickerView.datasource = _addressBookDataSource;
     [[MBContactCollectionViewContactCell appearance] setTintColor:[UIColor appNormalColor]];
     self.inviteMode = NO;
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if([segue.destinationViewController isKindOfClass:[FollowConnectionsTableViewController class]]) {
+        _followConnectionsTableController = (FollowConnectionsTableViewController*)segue.destinationViewController;
+    }
 }
 
 - (IBAction)didClickInviteButton:(id)sender {
@@ -81,6 +89,13 @@
                        withParameters:@{@"appVersion" : NSBundle.mainBundle.infoDictionary[@"CFBundleShortVersionString"],
                                @"invites" : inviteArray}
                                 block:^(NSArray *objects, NSError *error) {
+                                    if(error) {
+                                        [UsageAnalytics trackError:error forOperationNamed:@"sendInvites"];
+                                        [[[UIAlertView alloc] initWithTitle:@"Could Not Send Invites" message:@"There was an error trying to send the invites. Make sure you have an internet connection and try again" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+                                    }
+
+                                    // Show any invites in the window now.
+                                    [_followConnectionsTableController loadObjects];
                                 }];
 }
 

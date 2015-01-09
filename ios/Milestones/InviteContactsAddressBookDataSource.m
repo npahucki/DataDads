@@ -122,7 +122,7 @@
 
 - (void)showNoAddressBookAccessMsg {
     [UsageAnalytics trackUserDeniedAddressBookAccess];
-    [[[UIAlertView alloc] initWithTitle:nil message:@"Since you have not allowed access to your contacts, we will no be able to help you pick them. You can still enter email addresses manualy. To enable picking from your contacts go to the Privacy->Contacts section in the Settings app and enable access for DataParenting." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+    [[[UIAlertView alloc] initWithTitle:@"No Access To Contacts" message:@"Since you have not allowed access to your contacts, we will NOT be able to help you pick them. You can still enter email addresses manualy. To enable picking from your contacts go to the Privacy->Contacts section in the Settings app and enable access for DataParenting." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
 }
 
 
