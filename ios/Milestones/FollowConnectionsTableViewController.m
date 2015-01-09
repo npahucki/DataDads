@@ -84,7 +84,7 @@
         if (connection.isInviter) {
             self.statusLabel.text = [NSString stringWithFormat:@"Pending for %@", [connection.inviteSentOn stringWithHumanizedTimeDifference:NO]];
             // If the invite has been pending more than 5 days show resend button.
-            if ([connection.inviteSentOn daysDifferenceFromNow] > 5) {
+            if ([connection.inviteSentOn daysDifferenceFromNow] < -5) {
                 [self.acceptButton setImage:[UIImage imageNamed:@"redoIcon"] forState:UIControlStateNormal];
                 [self.acceptButton setImage:[UIImage imageNamed:@"redoIcon_ready"] forState:UIControlStateHighlighted];
             } else {

@@ -51,7 +51,7 @@ Parse.Cloud.define("queryMyFollowConnections", function (request, response) {
         var query2 = new Parse.Query("FollowConnections");
         query2.equalTo("user2", user);
         var query3 = new Parse.Query("FollowConnections");
-        query2.equalTo("inviteSentToEmail", user.get("email"));
+        query3.equalTo("inviteSentToEmail", user.get("email"));
 
         var query = Parse.Query.or(query1, query2, query3);
         query.include(["user1", "user2"]);
@@ -166,26 +166,40 @@ Parse.Cloud.define("sendFollowInvitation", function (request, response) {
     }
 
     var utils = require("cloud/utils");
+    Parse.Cloud.useMasterKey();
     var promises = _.map(request.params.invites, function(invite) {
-        if(utils.isValidEmailAddress(invite.sentToEmail)) {
-            var conn = new Parse.Object("FollowConnections");
-            conn.set("user1", request.user);
-            conn.set("inviteSentToEmail", invite.sendToEmail);
-            conn.set("inviteSentOn", new Date());
-            if(invite.sendToName) conn.set("inviteSentToName", invite.sendToName);
-            Parse.Cloud.useMasterKey();
-            var lookUpUserByEmailQuery = new Parse.Query(Parse.User);
-            lookUpUserByEmailQuery.equalTo("email",invite.sendToEmail);
-            return lookUpUserByEmailQuery.first(function(invitedUser) {
-                if(invitedUser) {
-                    conn.set("user2",invitedUser);
-                } // else, user not in system already
-                return conn.save();
+        if(utils.isValidEmailAddress(invite.sendToEmail)) {
+            var existingConnectionQuery = new Parse.Query("FollowConnections");
+            existingConnectionQuery.equalTo("user1", request.user);
+            existingConnectionQuery.equalTo("inviteSentToEmail", invite.sendToEmail);
+            return existingConnectionQuery.first().then(function(existingConn) {
+                if(existingConn) {
+                    if(existingConn.has("inviteAcceptedOn")) {
+                        console.warn("Ignored request to send invite for an already accepted connection:" + existingConn.id);
+                    } else {
+                        existingConn.set("inviteSentOn", new Date());
+                        existingConn.unset("inviteDeliveredOn");
+                        return existingConn.save();
+                    }
+                } else {
+                    var conn = new Parse.Object("FollowConnections");
+                    conn.set("user1", request.user);
+                    conn.set("inviteSentToEmail", invite.sendToEmail);
+                    conn.set("inviteSentOn", new Date());
+                    if(invite.sendToName) conn.set("inviteSentToName", invite.sendToName);
+                    var lookUpUserByEmailQuery = new Parse.Query(Parse.User);
+                    lookUpUserByEmailQuery.equalTo("email",invite.sendToEmail);
+                    return lookUpUserByEmailQuery.first(function(invitedUser) {
+                        if(invitedUser) {
+                            conn.set("user2",invitedUser);
+                        } // else, user not in system already
+                        return conn.save();
+                    });
+                }
             });
         } else {
-            console.warn("Skipped sending invite to invalid email address:" + invite.sentToEmail);
+            console.warn("Skipped sending invite to invalid email address:" + invite.sendToEmail);
         }
-
     });
 
     Parse.Promise.when(promises).then(function() {
@@ -194,6 +208,21 @@ Parse.Cloud.define("sendFollowInvitation", function (request, response) {
         response.error(error);
     });
 });
+
+Parse.Cloud.define("resendFollowConnectionInvitation", function (request, response) {
+    Parse.Cloud.useMasterKey();
+    lookupConnectionObject(request).then(function (newConnectionObject) {
+        newConnectionObject.set("inviteSentOn", new Date());
+        newConnectionObject.unset("inviteDeliveredOn");
+        return newConnectionObject.save();
+    }).then(function () {
+        response.success(true);
+    },
+    function (error) {
+        response.error(error);
+    });
+});
+
 
 Parse.Cloud.define("acceptFollowConnectionInvitation", function (request, response) {
     Parse.Cloud.useMasterKey();
@@ -242,7 +271,5 @@ Parse.Cloud.define("acceptFollowConnectionInvitation", function (request, respon
 
 });
 
-
-Parse.Cloud.define("acceptFollowConnectionInvitation", function (request, response) {
 
 
