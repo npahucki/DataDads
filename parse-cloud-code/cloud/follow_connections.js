@@ -165,23 +165,27 @@ Parse.Cloud.define("sendFollowInvitation", function (request, response) {
         return;
     }
 
+    var utils = require("cloud/utils");
     var promises = _.map(request.params.invites, function(invite) {
-        // TODO: check email format before saving.
+        if(utils.isValidEmailAddress(invite.sentToEmail)) {
+            var conn = new Parse.Object("FollowConnections");
+            conn.set("user1", request.user);
+            conn.set("inviteSentToEmail", invite.sendToEmail);
+            conn.set("inviteSentOn", new Date());
+            if(invite.sendToName) conn.set("inviteSentToName", invite.sendToName);
+            Parse.Cloud.useMasterKey();
+            var lookUpUserByEmailQuery = new Parse.Query(Parse.User);
+            lookUpUserByEmailQuery.equalTo("email",invite.sendToEmail);
+            return lookUpUserByEmailQuery.first(function(invitedUser) {
+                if(invitedUser) {
+                    conn.set("user2",invitedUser);
+                } // else, user not in system already
+                return conn.save();
+            });
+        } else {
+            console.warn("Skipped sending invite to invalid email address:" + invite.sentToEmail);
+        }
 
-        var conn = new Parse.Object("FollowConnections");
-        conn.set("user1", request.user);
-        conn.set("inviteSentToEmail", invite.sendToEmail);
-        conn.set("inviteSentOn", new Date());
-        if(invite.sendToName) conn.set("inviteSentToName", invite.sendToName);
-        Parse.Cloud.useMasterKey();
-        var lookUpUserByEmailQuery = new Parse.Query(Parse.User);
-        lookUpUserByEmailQuery.equalTo("email",invite.sendToEmail);
-        return lookUpUserByEmailQuery.first(function(invitedUser) {
-            if(invitedUser) {
-                conn.set("user2",invitedUser);
-            } // else, user not in system already
-            return conn.save();
-        });
     });
 
     Parse.Promise.when(promises).then(function() {
@@ -189,8 +193,6 @@ Parse.Cloud.define("sendFollowInvitation", function (request, response) {
     }, function(error) {
         response.error(error);
     });
-
-    // TODO: Job to send push notifications and emails!
 });
 
 Parse.Cloud.define("acceptFollowConnectionInvitation", function (request, response) {
@@ -239,4 +241,8 @@ Parse.Cloud.define("acceptFollowConnectionInvitation", function (request, respon
     });
 
 });
+
+
+Parse.Cloud.define("acceptFollowConnectionInvitation", function (request, response) {
+
 

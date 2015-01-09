@@ -7,6 +7,7 @@
 //
 
 #import "OptionalSignUpViewController.h"
+#import "NSString+EmailAddress.h"
 
 @interface OptionalSignUpViewController ()
 
@@ -39,9 +40,7 @@
             return;
         }
 
-        NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
-        NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
-        if (![emailTest evaluateWithObject:_emailTextField.text]) {
+        if (![_emailTextField.text isValidEmailAddress]) {
             [[[UIAlertView alloc]                                                  initWithTitle:@"Valid Email Address Required" message:
                     @"If you want to sign in now, please provide a valid email address" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
             return;

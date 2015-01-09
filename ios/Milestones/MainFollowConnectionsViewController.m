@@ -10,6 +10,7 @@
 #import "MainFollowConnectionsViewController.h"
 #import "InviteContactsAddressBookDataSource.h"
 #import "FollowConnectionsTableViewController.h"
+#import "NSString+EmailAddress.h"
 
 
 @interface MainFollowConnectionsViewController ()
@@ -118,9 +119,13 @@
 
 // NOTE: This method is named badly.
 - (void)contactcollectionView:(MBContactCollectionView *)contactCollectionView didEnterCustomContact:(NSString *)text {
-    InviteContact *contact = [[InviteContact alloc] init];
-    contact.emailAddress = text;
-    [_pickerView addToSelectedContacts:contact];
+    if (text.isValidEmailAddress) {
+        InviteContact *contact = [[InviteContact alloc] init];
+        contact.emailAddress = text;
+        [_pickerView addToSelectedContacts:contact];
+    } else {
+        [[[UIAlertView alloc] initWithTitle:@"Whoops" message:@"Invalid email address, please correct it" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+    }
 }
 
 // This delegate method is called to allow the parent view to increase the size of
