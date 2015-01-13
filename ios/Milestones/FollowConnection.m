@@ -15,6 +15,7 @@
 @dynamic otherPartyDisplayName;
 @dynamic otherPartyAuxDisplayName;
 @dynamic otherPartyAvatar;
+@dynamic otherPartyEmail;
 
 + (NSString *)parseClassName {
     return @"Parse.Cloud.FollowConnections"; // Not a real Parse Entity - only returned from Cloud Code function.

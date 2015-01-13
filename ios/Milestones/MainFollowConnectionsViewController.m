@@ -14,6 +14,7 @@
 
 
 @interface MainFollowConnectionsViewController ()
+@property(readonly) InviteContactsAddressBookDataSource *addressBookDataSource;
 @end
 
 @implementation MainFollowConnectionsViewController {
@@ -25,21 +26,33 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    _addressBookDataSource = [[InviteContactsAddressBookDataSource alloc] init];
     self.pickerView.layer.borderColor = [UIColor appNormalColor].CGColor;
     self.pickerView.layer.borderWidth = 1;
     self.pickerView.allowsCompletionOfSelectedContacts = NO;
     self.pickerView.prompt = @"Invite:";
     self.pickerView.maxVisibleRows = 5;
     self.pickerView.delegate = self;
-    self.pickerView.datasource = _addressBookDataSource;
+    self.pickerView.datasource = self.addressBookDataSource;
     [[MBContactCollectionViewContactCell appearance] setTintColor:[UIColor appNormalColor]];
     self.inviteMode = NO;
+}
+
+- (InviteContactsAddressBookDataSource *)addressBookDataSource {
+    if (!_addressBookDataSource) {
+        _addressBookDataSource = [[InviteContactsAddressBookDataSource alloc] init];
+        [_addressBookDataSource addExcludeContactWithEmail:[PFUser currentUser].email];
+    }
+    return _addressBookDataSource;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [_addressBookDataSource clearCache];
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if([segue.destinationViewController isKindOfClass:[FollowConnectionsTableViewController class]]) {
         _followConnectionsTableController = (FollowConnectionsTableViewController*)segue.destinationViewController;
+        _followConnectionsTableController.contactsDataSource = self.addressBookDataSource;
     }
 }
 
@@ -83,22 +96,10 @@
         NSMutableArray *inviteArray = [[NSMutableArray alloc] initWithCapacity:_pickerView.contactsSelected.count];
         for (InviteContact *contact in _pickerView.contactsSelected) {
             NSAssert(contact.emailAddress, @"Unexpected nil emailAddress");
-// TODO: // Upload an avatar
-//            if(contact.image) {
-//                PFFile * avatar = [PFFile fileWithData:UIImageJPEGRepresentation(contact.image, 0.5) contentType:@"image/jpg"];
-//                [avatar saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-//                    [inviteArray addObject:@{
-//                            @"sendToName" : contact.fullName ? contact.fullName : [NSNull null],
-//                            @"sendToEmail" : contact.emailAddress,
-//                            @"sendToAvatar" : avatar.url
-//                    }];
-//                }];
-//            } else {
             [inviteArray addObject:@{
                     @"sendToName" : contact.fullName ? contact.fullName : [NSNull null],
                     @"sendToEmail" : contact.emailAddress
             }];
-//            }
         }
         [PFCloud callFunctionInBackground:@"sendFollowInvitation"
                            withParameters:@{@"appVersion" : NSBundle.mainBundle.infoDictionary[@"CFBundleShortVersionString"],
@@ -119,7 +120,7 @@
     ParentUser *user = [ParentUser currentUser];
     if (!user.fullName.length) {
         // This is probably the most accurate one.
-        user.fullName = _addressBookDataSource.contactForCurrentUser.fullName;
+        user.fullName = [_addressBookDataSource findContactForEmailAddress:user.email].fullName;
         if (!user.fullName.length) {
             // Then Facebook (sometimes people put odd/fake names in Facebook)
             if ([PFFacebookUtils isLinkedWithUser:user]) {

@@ -9,6 +9,8 @@
 #import "SWTableViewCell.h"
 #import "CirclePictureTableViewCell.h"
 
+@class InviteContactsAddressBookDataSource;
+
 
 @interface FollowConnectionTableViewCell : UITableViewCell
 @property(weak, nonatomic) IBOutlet UIButton *destroyButton;
@@ -16,13 +18,17 @@
 @property(weak, nonatomic) IBOutlet UILabel *displayNameLabel;
 @property(weak, nonatomic) IBOutlet UILabel *statusLabel;
 @property(weak, nonatomic) IBOutlet UIImageView *pictureView;
-@property(retain, nonatomic) FollowConnection *connection;
+@property(readonly, nonatomic) FollowConnection *connection;
 @property(weak, nonatomic) IBOutlet NSLayoutConstraint *acceptButtonWidth;
+
+- (void)setConnection:(FollowConnection *)connection andDefaultAvatar:(UIImage *)defaultAvatar;
 
 @end
 
 
 @interface FollowConnectionsTableViewController : UITableViewController <SWTableViewCellDelegate, UITableViewDelegate, UITableViewDataSource>
+
+@property(nonatomic, strong) InviteContactsAddressBookDataSource *contactsDataSource;
 
 - (void)loadObjects;
 

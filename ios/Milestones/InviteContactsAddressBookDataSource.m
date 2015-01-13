@@ -27,6 +27,9 @@
     ABAddressBookRef _addressBook;
     BOOL _showedPermissionWarning;
     InviteContact *_contactForCurrentUser;
+    NSDictionary *_contactsByEmail;
+    NSArray *_orderedContacts;
+    NSMutableSet *_excludeContactsWithEmail;
 }
 
 - (void)dealloc {
@@ -44,17 +47,44 @@
 
 // Use this method to give the contact picker the entire set of possible contacts.  Required.
 - (NSArray *)contactModelsForContactPicker:(MBContactPicker *)contactPickerView {
-    // TODO: Remove contacts with pending invites or already connected!
-    return [self getContactsWithEmailAddress];
+    if (!_orderedContacts) [self populateContactsWithEmailAddress];
+    return _orderedContacts;
 }
+
+- (InviteContact *)findContactForEmailAddress:(NSString *)searchEmail {
+    // Don't show warning when just trying to check addresses - just don't return anything.
+    if (!_contactsByEmail && [self openAddressBook:NO]) {
+        [self populateContactsWithEmailAddress];
+    }
+    return _contactsByEmail[searchEmail];
+}
+
+- (void)clearCache {
+    _contactsByEmail = nil;
+    _orderedContacts = nil;
+}
+
+- (void)addExcludeContactWithEmail:(NSString *)email {
+    if (!_excludeContactsWithEmail) _excludeContactsWithEmail = [[NSMutableSet alloc] init];
+    [_excludeContactsWithEmail addObject:email];
+    _contactsByEmail = nil; // force refresh
+}
+
+- (void)removeExcludeContactWithEmail:(NSString *)email {
+    [_excludeContactsWithEmail removeObject:email];
+    [self clearCache];
+}
+
 
 #pragma mark - private
 
-- (NSArray *)getContactsWithEmailAddress {
 
-    if (![self openAddressBook]) return nil;
+- (void)populateContactsWithEmailAddress {
 
-    NSMutableArray *contacts = [[NSMutableArray alloc] init];
+    if (![self openAddressBook:YES]) return;
+
+    NSMutableDictionary *contactsByEmail = [[NSMutableDictionary alloc] init];
+    NSMutableArray *orderedContacts = [[NSMutableArray alloc] init];
 
     NSInteger numberOfPeople = ABAddressBookGetPersonCount(_addressBook);
     NSArray *allPeople = CFBridgingRelease(ABAddressBookCopyArrayOfAllPeople(_addressBook));
@@ -70,29 +100,29 @@
         CFIndex numberOfEmailAddresses = ABMultiValueGetCount(emailAddresses);
         if (numberOfEmailAddresses > 0) { // Skip contacts without email address
             for (CFIndex ii = 0; ii < numberOfEmailAddresses; ii++) {
+                NSString *email = CFBridgingRelease(ABMultiValueCopyValueAtIndex(emailAddresses, ii));
                 InviteContact *contact = [[InviteContact alloc] init];
                 contact.image = imagine;
                 contact.fullName = [NSString stringWithFormat:@"%@ %@", firstName, lastName];
-                contact.emailAddress = CFBridgingRelease(ABMultiValueCopyValueAtIndex(emailAddresses, ii));
-                [contacts addObject:contact];
-                if ([contact.emailAddress localizedCaseInsensitiveCompare:[PFUser currentUser].email] == NSOrderedSame) {
-                    _contactForCurrentUser = contact;
-                }
+                contact.emailAddress = email;
+                contactsByEmail[email] = contact;
+                if (![_excludeContactsWithEmail containsObject:email]) [orderedContacts addObject:contact];
             }
         }
         CFRelease(emailAddresses);
     }
 
-    return contacts;
+    _contactsByEmail = contactsByEmail;
+    _orderedContacts = orderedContacts;
 }
 
-- (BOOL)openAddressBook {
+- (BOOL)openAddressBook:(BOOL)withWarning {
 
     if (_addressBook) return YES; // already opened.
 
     ABAuthorizationStatus status = ABAddressBookGetAuthorizationStatus();
     if (status == kABAuthorizationStatusDenied) {
-        [self showNoAddressBookAccessMsg];
+        if (withWarning) [self showNoAddressBookAccessMsg];
         return NO;
     }
 
@@ -116,7 +146,7 @@
                 // however, if they didn't give you permission, handle it gracefully, for example...
                 dispatch_async(dispatch_get_main_queue(), ^{
                     // BTW, this is not on the main thread, so dispatch UI updates back to the main queue
-                    [self showNoAddressBookAccessMsg];
+                    if (withWarning) [self showNoAddressBookAccessMsg];
                 });
                 if (addressBook) CFRelease(addressBook);
             }

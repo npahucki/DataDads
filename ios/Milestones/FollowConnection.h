@@ -13,6 +13,7 @@
 @property(readonly) BOOL isInviter;
 @property(readonly) NSDate *inviteSentOn;
 @property(readonly) NSDate *inviteAcceptedOn;
+@property(readonly) NSString *otherPartyEmail;
 @property(readonly) NSString *otherPartyDisplayName;
 @property(readonly) NSString *otherPartyAuxDisplayName;
 @property(readonly) NSString *otherPartyAvatar;

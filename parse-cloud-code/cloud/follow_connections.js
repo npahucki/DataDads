@@ -67,17 +67,21 @@ Parse.Cloud.define("queryMyFollowConnections", function (request, response) {
                         var isInviter = user.id == connectionObject.get("user1").id;
                         var otherUserName;
                         var otherUserAvatar = null; // TODO
+                        var otherUserEmail;
                         var inviterUser = connectionObject.get("user1");
                         var inviteeUser = connectionObject.get("user2");
+
                         if (isInviter) {
                             otherUserName =  connectionObject.has("inviteSentToName") ?
                                     connectionObject.get("inviteSentToName") :
                                     connectionObject.get("inviteSentToEmail");
+                            otherUserEmail = connectionObject.get("inviteSentToEmail");
                             // Always prefer what the user says his name is, if he does at all
                             if (inviteeUser && inviteeUser.has("fullName")) {
                                 otherUserName =  inviteeUser.get("fullName")
                             }
                         } else {
+                            otherUserEmail = inviterUser.get("email");
                             otherUserName = inviterUser.has("fullName") ? inviterUser.get("fullName") : inviterUser.get("username");
                         }
                         var connection = {
@@ -86,7 +90,8 @@ Parse.Cloud.define("queryMyFollowConnections", function (request, response) {
                             objectId:connectionObject.id,
                             inviteSentOn:connectionObject.get("inviteSentOn"),
                             isInviter:isInviter,
-                            otherPartyDisplayName:otherUserName
+                            otherPartyDisplayName:otherUserName,
+                            otherPartyEmail : otherUserEmail
                         };
                         if (connectionObject.has("inviteAcceptedOn")) {
                             connection["inviteAcceptedOn"] = connectionObject.get("inviteAcceptedOn");

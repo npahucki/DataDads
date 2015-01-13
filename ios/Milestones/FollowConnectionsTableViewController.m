@@ -11,6 +11,7 @@
 #import "UIImageView+URLLoading.h"
 #import "NSDate+Utils.h"
 #import "PFCloud+Cache.h"
+#import "InviteContactsAddressBookDataSource.h"
 
 #define MAX_LOAD_COUNT 50
 
@@ -68,16 +69,18 @@
     }
 }
 
-- (void)setConnection:(FollowConnection *)connection {
+- (void)setConnection:(FollowConnection *)connection andDefaultAvatar:(UIImage *)defaultAvatar {
     _connection = connection;
-    self.pictureView.image = [UIImage imageNamed:@"avatarButtonDefault"];
+    self.pictureView.image = defaultAvatar ? defaultAvatar : [UIImage imageNamed:@"avatarButtonDefault"];
     self.showAcceptButton = YES;
     if (connection.inviteAcceptedOn) {
         // Connection made!
         self.showAcceptButton = NO;
         self.displayNameLabel.text = connection.otherPartyAuxDisplayName;
         self.statusLabel.text = [NSString stringWithFormat:@"Child of %@", connection.otherPartyDisplayName];
-        [self.pictureView loadImageFromUrlString:connection.otherPartyAvatar];
+        if (connection.otherPartyAvatar.length) {
+            [self.pictureView loadImageFromUrlString:connection.otherPartyAvatar];
+        }
     } else {
         // Pending
         self.displayNameLabel.text = connection.otherPartyDisplayName;
@@ -183,6 +186,7 @@
                                         [self resetAllConnections];
                                         // Go through and sort the follow connections into buckets
                                         for (FollowConnection *conn in objects) {
+                                            [self.contactsDataSource addExcludeContactWithEmail:conn.otherPartyEmail];
                                             if (conn.inviteAcceptedOn) {
                                                 [_allConnections[SECTION_CONNECTED] addObject:conn];
                                             } else if (conn.isInviter) {
@@ -256,7 +260,9 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([self hasAnyConnections]) {
         FollowConnectionTableViewCell *cell = (FollowConnectionTableViewCell *) [tableView dequeueReusableCellWithIdentifier:@"connectionCell" forIndexPath:indexPath];
-        [cell setConnection:(FollowConnection *) ((NSArray *) _allConnections[(NSUInteger) indexPath.section])[(NSUInteger) indexPath.row]];
+        FollowConnection *connection = (FollowConnection *) ((NSArray *) _allConnections[(NSUInteger) indexPath.section])[(NSUInteger) indexPath.row];
+        UIImage *defaultAvatar = [self.contactsDataSource findContactForEmailAddress:connection.otherPartyEmail].image;
+        [cell setConnection:connection andDefaultAvatar:defaultAvatar];
         return cell;
     } else {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"loadingCell" forIndexPath:indexPath];
@@ -284,6 +290,7 @@
 
 - (void)deleteConnection:(FollowConnectionTableViewCell *)connectionCell {
     [connectionCell.connection deleteInBackgroundWithBlock:nil];
+    [self.contactsDataSource removeExcludeContactWithEmail:connectionCell.connection.otherPartyEmail];
     // Animate delete
     NSIndexPath *pathToDelete = [self.tableView indexPathForCell:connectionCell];
     NSMutableArray *sectionArray = (NSMutableArray *) _allConnections[(NSUInteger) pathToDelete.section];
@@ -299,6 +306,7 @@
         [self.tableView deleteRowsAtIndexPaths:@[pathToDelete] withRowAnimation:UITableViewRowAnimationBottom];
         [self.tableView endUpdates];
     }
+
 }
 
 - (void)resendInvitation:(FollowConnectionTableViewCell *)connectionCell {
