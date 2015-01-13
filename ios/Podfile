@@ -17,7 +17,8 @@ pod 'AppsFlyer-SDK'
 pod 'RMStore/AppReceiptVerificator'
 pod 'UXCam'
 pod 'Mixpanel'
-pod 'MBContactPicker', '0.1.5'
+pod 'MBContactPicker', :git => 'https://github.com/npahucki/MBContactPicker.git', :commit => 'b7e7510d21e3e5fdf5f2054bf1775dabb888c412'
+
 
 
 

@@ -102,23 +102,9 @@
 
 #pragma mark - MBContactPickerDelegate
 
-// Optional
-- (void)contactCollectionView:(MBContactCollectionView *)contactCollectionView didSelectContact:(id <MBContactPickerModelProtocol>)model {
-    NSLog(@"Did Select: %@", model.contactTitle);
-}
-
-// Optional
-- (void)contactCollectionView:(MBContactCollectionView *)contactCollectionView didAddContact:(id <MBContactPickerModelProtocol>)model {
-    NSLog(@"Did Add: %@", model.contactTitle);
-}
-
-// Optional
-- (void)contactCollectionView:(MBContactCollectionView *)contactCollectionView didRemoveContact:(id <MBContactPickerModelProtocol>)model {
-    NSLog(@"Did Remove: %@", model.contactTitle);
-}
 
 // NOTE: This method is named badly.
-- (void)contactcollectionView:(MBContactCollectionView *)contactCollectionView didEnterCustomContact:(NSString *)text {
+- (void)contactPicker:(MBContactPicker *)contactPicker didEnterCustomText:(NSString *)text {
     if (text.isValidEmailAddress) {
         InviteContact *contact = [[InviteContact alloc] init];
         contact.emailAddress = text;
