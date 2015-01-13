@@ -128,9 +128,7 @@
             if (block) block(NO, error);
         } else {
             NSString *facebookEMail = result[@"email"];
-            NSString *firstName = result[@"first_name"];
-            NSString *lastName = result[@"last_name"];
-            NSString *username = result[@"username"];
+            NSString *usersName = result[@"name"];
             NSString *gender = result[@"gender"];
 
             if (facebookEMail.length) {
@@ -144,13 +142,8 @@
                 user.isMale = NO;
             } // else don't set it
 
-            // Only set if not set previously.
-            if (!user.screenName) {
-                if (firstName.length && lastName.length) {
-                    user.screenName = [NSString stringWithFormat:@"%@ %@.", firstName, [lastName substringToIndex:1]];
-                } else {
-                    user.screenName = username;
-                }
+            if (usersName.length) {
+                user.fullName = usersName;
             }
             [user saveEventually:block];
         }

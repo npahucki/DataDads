@@ -8,7 +8,6 @@
 
 @implementation ParentUser
 
-@dynamic screenName;
 @dynamic fullName;
 @dynamic isMale;
 @dynamic usesMetric;
@@ -80,8 +79,39 @@
     }];
 }
 
-- (BOOL)isSameUser:(PFUser *)otherUser {
-    return [otherUser.objectId isEqualToString:self.objectId];
+
++ (NSString *)nameFromCurrentDevice {
+    return [self nameFromDeviceName:[UIDevice currentDevice].name];
+}
+
++ (NSString *)nameFromDeviceName:(NSString *)deviceName {
+    NSError *error;
+    static NSString *expression = (@"^(?:iPhone|phone|iPad|iPod)\\s+(?:de\\s+)?|"
+            "(\\S+?)(?:['’]?s)?(?:\\s+(?:iPhone|phone|iPad|iPod))?$|"
+            "(\\S+?)(?:['’]?的)?(?:\\s*(?:iPhone|phone|iPad|iPod))?$|"
+            "(\\S+)\\s+");
+    static NSRange RangeNotFound = (NSRange) {.location=NSNotFound, .length=0};
+    NSMutableArray *names = [[NSMutableArray alloc] init];
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:expression
+                                                                           options:(NSRegularExpressionCaseInsensitive)
+                                                                             error:&error];
+    for (NSTextCheckingResult *result in [regex matchesInString:deviceName
+                                                        options:0
+                                                          range:NSMakeRange(0, deviceName.length)]) {
+        for (NSUInteger i = 1; i < result.numberOfRanges; i++) {
+            if (!NSEqualRanges([result rangeAtIndex:i], RangeNotFound)) {
+                NSString *namePart = [deviceName substringWithRange:[result rangeAtIndex:i]];
+                if ([namePart isEqualToString:@"iPhone"] ||
+                        [namePart isEqualToString:@"iPad"] ||
+                        [namePart isEqualToString:@"iPod"] ||
+                        [namePart isEqualToString:@"phone"]) {
+                    return nil; // Failed to parse out name
+                }
+                [names addObject:namePart.capitalizedString];
+            }
+        }
+    }
+    return names.count ? [names componentsJoinedByString:@" "] : nil;
 }
 
 

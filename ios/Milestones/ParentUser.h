@@ -11,7 +11,6 @@
 
 @interface ParentUser : PFUser <PFSubclassing>
 
-@property NSString *screenName;
 @property NSString *fullName;
 @property BOOL isMale;
 @property BOOL autoPublishToFacebook;
@@ -27,7 +26,10 @@
 
 + (void)incrementLaunchCount;
 
-- (BOOL)isSameUser:(PFUser *)otherUser;
++ (NSString *)nameFromDeviceName:(NSString *)deviceName;
+
++ (NSString *)nameFromCurrentDevice;
+
 
 @end
 

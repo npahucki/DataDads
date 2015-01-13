@@ -106,7 +106,7 @@
 
 - (void)saveUserPreferences:(ParentUser *)user {
     user.ACL = [PFACL ACLWithUser:user];
-    if (!user.screenName) user.screenName = [self nameFromDeviceName];
+    if (!user.fullName) user.fullName = [ParentUser nameFromCurrentDevice];
     user.isMale = self.maleButton.isSelected;
     user.supportScience = self.supportScienceButton.isSelected;
 
@@ -220,28 +220,4 @@
         [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
     }
 }
-
-- (NSString *)nameFromDeviceName {
-    NSString *deviceName = [[UIDevice currentDevice] name];
-    NSError *error;
-    static NSString *expression = (@"^(?:iPhone|phone|iPad|iPod)\\s+(?:de\\s+)?|"
-            "(\\S+?)(?:['’]?s)?(?:\\s+(?:iPhone|phone|iPad|iPod))?$|"
-            "(\\S+?)(?:['’]?的)?(?:\\s*(?:iPhone|phone|iPad|iPod))?$|"
-            "(\\S+)\\s+");
-    static NSRange RangeNotFound = (NSRange) {.location=NSNotFound, .length=0};
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:expression
-                                                                           options:(NSRegularExpressionCaseInsensitive)
-                                                                             error:&error];
-    for (NSTextCheckingResult *result in [regex matchesInString:deviceName
-                                                        options:0
-                                                          range:NSMakeRange(0, deviceName.length)]) {
-        for (int i = 1; i < result.numberOfRanges; i++) {
-            if (!NSEqualRanges([result rangeAtIndex:i], RangeNotFound)) {
-                return [deviceName substringWithRange:[result rangeAtIndex:i]].capitalizedString;
-            }
-        }
-    }
-    return nil;
-}
-
 @end

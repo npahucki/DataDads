@@ -17,4 +17,7 @@
 
 @interface InviteContactsAddressBookDataSource : NSObject <MBContactPickerDataSource>
 
+// Only valid after contactModelsForContactPicker has been called at least once.
+@property(readonly, nonatomic) InviteContact *contactForCurrentUser;
+
 @end

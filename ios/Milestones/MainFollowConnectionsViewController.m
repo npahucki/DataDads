@@ -78,27 +78,74 @@
 
 - (void)sendInvites {
 
-    NSMutableArray *inviteArray = [[NSMutableArray alloc] initWithCapacity:_pickerView.contactsSelected.count];
-    for (InviteContact *contact in _pickerView.contactsSelected) {
-        NSAssert(contact.emailAddress, @"Unexpected nill emailAddress");
-        [inviteArray addObject:@{
-                @"sendToName" : contact.fullName ? contact.fullName : [NSNull null],
-                @"sendToEmail" : contact.emailAddress
-        }];
-    }
-    [PFCloud callFunctionInBackground:@"sendFollowInvitation"
-                       withParameters:@{@"appVersion" : NSBundle.mainBundle.infoDictionary[@"CFBundleShortVersionString"],
-                               @"invites" : inviteArray}
-                                block:^(NSArray *objects, NSError *error) {
-                                    if(error) {
-                                        [UsageAnalytics trackError:error forOperationNamed:@"sendInvites"];
-                                        [[[UIAlertView alloc] initWithTitle:@"Could Not Send Invites" message:@"There was an error trying to send the invites. Make sure you have an internet connection and try again" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
-                                    }
+    // We need a name from which to send the invite.
+    [self makeBestAttemptToPopulateSendersFullNameWithBlock:^(NSString *string, NSError *error) {
+        NSMutableArray *inviteArray = [[NSMutableArray alloc] initWithCapacity:_pickerView.contactsSelected.count];
+        for (InviteContact *contact in _pickerView.contactsSelected) {
+            NSAssert(contact.emailAddress, @"Unexpected nil emailAddress");
+// TODO: // Upload an avatar
+//            if(contact.image) {
+//                PFFile * avatar = [PFFile fileWithData:UIImageJPEGRepresentation(contact.image, 0.5) contentType:@"image/jpg"];
+//                [avatar saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+//                    [inviteArray addObject:@{
+//                            @"sendToName" : contact.fullName ? contact.fullName : [NSNull null],
+//                            @"sendToEmail" : contact.emailAddress,
+//                            @"sendToAvatar" : avatar.url
+//                    }];
+//                }];
+//            } else {
+            [inviteArray addObject:@{
+                    @"sendToName" : contact.fullName ? contact.fullName : [NSNull null],
+                    @"sendToEmail" : contact.emailAddress
+            }];
+//            }
+        }
+        [PFCloud callFunctionInBackground:@"sendFollowInvitation"
+                           withParameters:@{@"appVersion" : NSBundle.mainBundle.infoDictionary[@"CFBundleShortVersionString"],
+                                   @"invites" : inviteArray}
+                                    block:^(NSArray *objects, NSError *error) {
+                                        if (error) {
+                                            [UsageAnalytics trackError:error forOperationNamed:@"sendInvites"];
+                                            [[[UIAlertView alloc] initWithTitle:@"Could Not Send Invites" message:@"There was an error trying to send the invites. Make sure you have an internet connection and try again" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+                                        }
 
-                                    // Show any invites in the window now.
-                                    [_followConnectionsTableController loadObjects];
-                                }];
+                                        // Show any invites in the window now.
+                                        [_followConnectionsTableController loadObjects];
+                                    }];
+    }];
 }
+
+- (void)makeBestAttemptToPopulateSendersFullNameWithBlock:(PFStringResultBlock)block {
+    ParentUser *user = [ParentUser currentUser];
+    if (!user.fullName.length) {
+        // This is probably the most accurate one.
+        user.fullName = _addressBookDataSource.contactForCurrentUser.fullName;
+        if (!user.fullName.length) {
+            // Then Facebook (sometimes people put odd/fake names in Facebook)
+            if ([PFFacebookUtils isLinkedWithUser:user]) {
+                // Try to get information from Facebook
+                [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+                    NSString *usersName = result[@"name"];
+                    if (usersName.length) {
+                        user.fullName = usersName;
+                    } else {
+                        user.fullName = [ParentUser nameFromCurrentDevice];
+                    }
+                    if (user.fullName.length) [user saveEventually];
+                    block(user.fullName, nil);
+                }];
+            } else {
+                user.fullName = [ParentUser nameFromCurrentDevice];
+            }
+        }
+
+        // Save if assigned
+        if (user.fullName.length) [user saveEventually];
+    }
+
+    block(user.fullName, nil);
+}
+
 
 #pragma mark - MBContactPickerDelegate
 

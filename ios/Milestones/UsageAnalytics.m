@@ -74,7 +74,7 @@ static BOOL isRelease;
         NSMutableDictionary *props = [[NSMutableDictionary alloc] initWithDictionary:@{
                 @"user.id" : safe(user.objectId),
                 @"user.anonymous" : user.email ? @"N" : @"Y",
-                @"user.screenName" : safe(user.screenName),
+                @"user.fullName" : safe(user.fullName),
                 @"user.linkedToFacebook" : [PFFacebookUtils isLinkedWithUser:user] ? @"Y" : @"N",
                 @"user.emailVerified" : [user objectForKey:@"emailVerified"] ? @"Y" : @"N",
                 @"user.sex" : user.isMale ? @"M" : @"F"

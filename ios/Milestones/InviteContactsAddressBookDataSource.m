@@ -26,6 +26,7 @@
 @implementation InviteContactsAddressBookDataSource {
     ABAddressBookRef _addressBook;
     BOOL _showedPermissionWarning;
+    InviteContact *_contactForCurrentUser;
 }
 
 - (void)dealloc {
@@ -33,6 +34,10 @@
         CFRelease(_addressBook);
         _addressBook = nil;
     }
+}
+
+- (InviteContact *)contactForCurrentUser {
+    return _contactForCurrentUser;
 }
 
 #pragma mark - MBContactPickerDataSource
@@ -70,6 +75,9 @@
                 contact.fullName = [NSString stringWithFormat:@"%@ %@", firstName, lastName];
                 contact.emailAddress = CFBridgingRelease(ABMultiValueCopyValueAtIndex(emailAddresses, ii));
                 [contacts addObject:contact];
+                if ([contact.emailAddress localizedCaseInsensitiveCompare:[PFUser currentUser].email] == NSOrderedSame) {
+                    _contactForCurrentUser = contact;
+                }
             }
         }
         CFRelease(emailAddresses);
