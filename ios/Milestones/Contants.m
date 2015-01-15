@@ -43,6 +43,11 @@ NSString *const kDDNotificationMilestoneNeedsIgnoreAction = @"milestoneNeedsIgno
 NSString *const kDDNotificationProductPurchased = @"productPurchased";
 NSString *const kDDNotificationTipAssignmentViewedOrHidden = @"tipAssignmentViewedOrHidden";
 
+NSString *const kDDNotificationFollowConnectionsDataSourceWillLoadObjects = @"followConnectionsDataSourceWillLoadObjects";
+NSString *const kDDNotificationFollowConnectionsDataSourceDidLoadObjects = @"followConnectionsDataSourceDidLoadObjects";
+NSString *const kDDNotificationFollowConnectionsDataSourceDidChange = @"followConnectionsDataSourceDidChange";
+
+
 NSString *const kDDURLTermsAndConditions = @"http://dataparenting.com/terms-conditions-and-privacy/";
 NSString *const kDDURLPrivacyPolicy = @"http://dataparenting.com/terms-conditions-and-privacy/#privacy";
 NSString *const kDDURLSupport = @"http://dataparenting.com/milestones-app-support/";

@@ -10,14 +10,7 @@
 #import "NSDate+HumanizedTime.h"
 #import "UIImageView+URLLoading.h"
 #import "NSDate+Utils.h"
-#import "PFCloud+Cache.h"
 #import "InviteContactsAddressBookDataSource.h"
-
-#define MAX_LOAD_COUNT 50
-
-#define SECTION_WAITING_TO_ACCEPT 0
-#define SECTION_CONNECTED 1
-#define SECTION_SENT_PENDING 2
 
 
 @interface FollowConnectionsTableViewController ()
@@ -104,10 +97,6 @@
 @end
 
 @implementation FollowConnectionsTableViewController {
-    NSArray *_allConnections;
-    BOOL _hasMore;
-    BOOL _hadError;
-    BOOL _isLoading;
 }
 
 - (IBAction)didClickDestroyButton:(UIButton *)sender {
@@ -155,7 +144,8 @@
     self.refreshControl.tintColor = [UIColor appNormalColor];
     [self.refreshControl addTarget:self action:@selector(loadObjects) forControlEvents:UIControlEventValueChanged];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkReachabilityChanged:) name:kReachabilityChangedNotification object:nil];
-    _hasMore = YES;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(followConnectionsDataSourceWillLoad) name:kDDNotificationFollowConnectionsDataSourceWillLoadObjects object:self.followConnectionsDataSource];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(followConnectionsDataSourceDidLoad) name:kDDNotificationFollowConnectionsDataSourceDidLoadObjects object:self.followConnectionsDataSource];
     [self loadObjects];
 }
 
@@ -170,40 +160,27 @@
 }
 
 - (void)loadObjects {
-    [self loadObjectsWithLimit:MAX_LOAD_COUNT];
+    [self.followConnectionsDataSource loadObjects];
 }
 
-- (void)loadObjectsWithLimit:(NSInteger)limit {
-    _isLoading = YES;
+- (void)followConnectionsDataSourceWillLoad {
     [self.tableView reloadData];
-    [PFCloud callFunctionInBackground:@"queryMyFollowConnections"
-                       withParameters:@{@"appVersion" : NSBundle.mainBundle.infoDictionary[@"CFBundleShortVersionString"],
-                               @"limit" : [@(limit) stringValue]}
-                          cachePolicy:[self hasAnyConnections] ? kPFCachePolicyNetworkOnly : kPFCachePolicyCacheThenNetwork
-                                block:^(NSArray *objects, NSError *error) {
-                                    _hadError = error != nil;
-                                    if (!_hadError) {
-                                        [self resetAllConnections];
-                                        // Go through and sort the follow connections into buckets
-                                        for (FollowConnection *conn in objects) {
-                                            [self.contactsDataSource addExcludeContactWithEmail:conn.otherPartyEmail];
-                                            if (conn.inviteAcceptedOn) {
-                                                [_allConnections[SECTION_CONNECTED] addObject:conn];
-                                            } else if (conn.isInviter) {
-                                                [_allConnections[SECTION_SENT_PENDING] addObject:conn];
-                                            } else {
-                                                [_allConnections[SECTION_WAITING_TO_ACCEPT] addObject:conn];
-                                            }
-                                        }
-                                        _hasMore = objects.count == MAX_LOAD_COUNT;
-                                    }
-                                    _isLoading = NO;
-                                    [self.tableView reloadData];
-                                    [self.refreshControl endRefreshing];
-                                    self.tableView.allowsSelection = ![self hasAnyConnections];
-                                }];
 }
 
+- (void)followConnectionsDataSourceDidLoad {
+    // Make sure we don't show contacts that already have conenctions
+    NSArray *all = [[NSArray alloc] init];
+    [all arrayByAddingObjectsFromArray:[self.followConnectionsDataSource connectionsInSection:FollowConnectionDataSourceSection_Connected]];
+    [all arrayByAddingObjectsFromArray:[self.followConnectionsDataSource connectionsInSection:FollowConnectionDataSourceSection_WaitingToAccept]];
+    [all arrayByAddingObjectsFromArray:[self.followConnectionsDataSource connectionsInSection:FollowConnectionDataSourceSection_Pending]];
+    for (FollowConnection *connection in all) {
+        [self.contactsDataSource addExcludeContactWithEmail:connection.otherPartyEmail];
+    }
+
+    [self.tableView reloadData];
+    [self.refreshControl endRefreshing];
+    self.tableView.allowsSelection = !self.followConnectionsDataSource.hasAnyConnections;
+}
 
 #pragma mark UITableViewDelegate
 
@@ -216,13 +193,11 @@
 //    }
 //}
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return ((NSArray *) _allConnections[(NSUInteger) section]).count > 0 ? 44 : 0;
+    return [self.followConnectionsDataSource connectionsInSection:(FollowConnectionDataSourceSection) section].count > 0 ? 44 : 0;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (![self hasAnyConnections]) {
-        _hadError = NO; // Make sure loading icon shows again
-        [self.tableView reloadData];
+    if (!self.followConnectionsDataSource.hasAnyConnections) {
         [self loadObjects];
     } else {
         // Nothing for now.
@@ -232,21 +207,22 @@
 #pragma mark UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self hasAnyConnections] ? ((NSArray *) _allConnections[(NSUInteger) section]).count : 1;
+    return self.followConnectionsDataSource.hasAnyConnections ?
+            [self.followConnectionsDataSource connectionsInSection:(FollowConnectionDataSourceSection) section].count : 1;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return [self hasAnyConnections] ? 3 : 1;
+    return self.followConnectionsDataSource.hasAnyConnections ? 3 : 1;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if ([self hasAnyConnections]) {
-        switch (section) {
-            case SECTION_CONNECTED:
+    if (self.followConnectionsDataSource.hasAnyConnections) {
+        switch ((FollowConnectionDataSourceSection) section) {
+            case FollowConnectionDataSourceSection_Connected:
                 return @"Following";
-            case SECTION_SENT_PENDING:
+            case FollowConnectionDataSourceSection_Pending:
                 return @"Pending Invitations";
-            case SECTION_WAITING_TO_ACCEPT:
+            case FollowConnectionDataSourceSection_WaitingToAccept:
                 return @"Waiting to Accept";
             default:
                 return @"???";
@@ -258,9 +234,10 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([self hasAnyConnections]) {
+    if (self.followConnectionsDataSource.hasAnyConnections) {
         FollowConnectionTableViewCell *cell = (FollowConnectionTableViewCell *) [tableView dequeueReusableCellWithIdentifier:@"connectionCell" forIndexPath:indexPath];
-        FollowConnection *connection = (FollowConnection *) ((NSArray *) _allConnections[(NSUInteger) indexPath.section])[(NSUInteger) indexPath.row];
+        NSArray *connectionsInSection = [self.followConnectionsDataSource connectionsInSection:(FollowConnectionDataSourceSection) indexPath.section];
+        FollowConnection *connection = (FollowConnection *) connectionsInSection[(NSUInteger) indexPath.row];
         UIImage *defaultAvatar = [self.contactsDataSource findContactForEmailAddress:connection.otherPartyEmail].image;
         [cell setConnection:connection andDefaultAvatar:defaultAvatar];
         return cell;
@@ -268,11 +245,11 @@
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"loadingCell" forIndexPath:indexPath];
         cell.textLabel.textColor = [UIColor appGreyTextColor];
         cell.textLabel.font = [UIFont fontForAppWithType:Bold andSize:14];
-        if (_hadError) {
+        if (self.followConnectionsDataSource.hadError) {
             cell.textLabel.text = @"Couldn't load connections. Click to try again";
             cell.imageView.image = [UIImage imageNamed:@"error-9"];
         } else {
-            if (!_isLoading) {
+            if (!self.followConnectionsDataSource.isLoading) {
                 cell.textLabel.text = @"No connections to show now. Touch here to refresh";
                 cell.imageView.image = [UIImage imageNamed:@"tipsButton_active"];
             } else {
@@ -292,21 +269,7 @@
     [connectionCell.connection deleteInBackgroundWithBlock:nil];
     [self.contactsDataSource removeExcludeContactWithEmail:connectionCell.connection.otherPartyEmail];
     // Animate delete
-    NSIndexPath *pathToDelete = [self.tableView indexPathForCell:connectionCell];
-    NSMutableArray *sectionArray = (NSMutableArray *) _allConnections[(NSUInteger) pathToDelete.section];
-
-    // To avoid a crash, we can't animate deleting the last item
-    if ([self countOfTotalConnections] <= 1) {
-        [sectionArray removeObjectAtIndex:(NSUInteger) pathToDelete.row];
-        [self.tableView reloadData];
-        // TODO: Show the other view describing how to add connections!
-    } else {
-        [self.tableView beginUpdates];
-        [sectionArray removeObjectAtIndex:(NSUInteger) pathToDelete.row];
-        [self.tableView deleteRowsAtIndexPaths:@[pathToDelete] withRowAnimation:UITableViewRowAnimationBottom];
-        [self.tableView endUpdates];
-    }
-
+    [self removeTableRow:connectionCell];
 }
 
 - (void)resendInvitation:(FollowConnectionTableViewCell *)connectionCell {
@@ -317,41 +280,28 @@
 }
 
 - (void)acceptInvitation:(FollowConnectionTableViewCell *)connectionCell {
-    [connectionCell.connection acceptInvitationInBackgroundWithBlock:nil];
-    NSIndexPath *pathToDelete = [self.tableView indexPathForCell:connectionCell];
-    [self.tableView beginUpdates];
-    NSMutableArray *sectionArray = (NSMutableArray *) _allConnections[(NSUInteger) pathToDelete.section];
-    [sectionArray removeObjectAtIndex:(NSUInteger) pathToDelete.row];
-    [self.tableView deleteRowsAtIndexPaths:@[pathToDelete] withRowAnimation:UITableViewRowAnimationBottom];
-    [self.tableView endUpdates];
-    [self loadObjects];
+    [self removeTableRow:connectionCell]; // for immediate feedback
+    [connectionCell.connection acceptInvitationInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        // to show the newly moved rows.
+        [self.followConnectionsDataSource loadObjects];
+    }];
 }
 
-
-
-- (void)resetAllConnections {
-    NSMutableArray *allConnections = [[NSMutableArray alloc] initWithCapacity:3];
-    [allConnections addObject:[[NSMutableArray alloc] init]];
-    [allConnections addObject:[[NSMutableArray alloc] init]];
-    [allConnections addObject:[[NSMutableArray alloc] init]];
-    _allConnections = allConnections;
-}
-
-- (NSUInteger)countOfTotalConnections {
-    NSUInteger count = 0;
-    for (NSArray *array in _allConnections) {
-        count += array.count;
+- (void)removeTableRow:(UITableViewCell *)cell {
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    // To avoid a crash, we can't animate deleting the last item
+    if (self.followConnectionsDataSource.countOfTotalConnections <= 1) {
+        [self.followConnectionsDataSource removeConnectionAtIndex:indexPath.row inSection:(FollowConnectionDataSourceSection) indexPath.section];
+        [self.tableView reloadData];
+    } else {
+        [self.tableView beginUpdates];
+        [self.followConnectionsDataSource removeConnectionAtIndex:indexPath.row inSection:(FollowConnectionDataSourceSection) indexPath.section];
+        [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
+        [self.tableView endUpdates];
     }
-    return count;
 }
 
 
-- (BOOL)hasAnyConnections {
-    for (NSArray *array in _allConnections) {
-        if (array.count > 0) return YES;
-    }
-    return NO;
-}
 
 
 @end

@@ -8,6 +8,7 @@
 
 #import "SWTableViewCell.h"
 #import "CirclePictureTableViewCell.h"
+#import "FollowConnectionsDataSource.h"
 
 @class InviteContactsAddressBookDataSource;
 
@@ -29,7 +30,6 @@
 @interface FollowConnectionsTableViewController : UITableViewController <SWTableViewCellDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @property(nonatomic, strong) InviteContactsAddressBookDataSource *contactsDataSource;
-
-- (void)loadObjects;
+@property(nonatomic, strong) FollowConnectionsDataSource *followConnectionsDataSource;
 
 @end

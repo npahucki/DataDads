@@ -60,6 +60,9 @@ extern NSString *const kDDNotificationProductPurchased;
 
 extern NSString *const kDDNotificationTipAssignmentViewedOrHidden;
 
+extern NSString *const kDDNotificationFollowConnectionsDataSourceWillLoadObjects;
+extern NSString *const kDDNotificationFollowConnectionsDataSourceDidLoadObjects;
+extern NSString *const kDDNotificationFollowConnectionsDataSourceDidChange;
 
 
 extern NSString *const kDDURLTermsAndConditions;

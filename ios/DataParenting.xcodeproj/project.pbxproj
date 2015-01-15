@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		72F1801C43E6C695896617EE /* NSString+EmailAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18B2AFF977957CF046E9E /* NSString+EmailAddress.m */; };
+		72F1821D4331F0249A938183 /* FollowConnectionsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18BDBDA243B1941504FEB /* FollowConnectionsDataSource.m */; };
 		72F1824FF832CD399E989C2F /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72F184C3C79880CF8D53574A /* MediaPlayer.framework */; };
 		72F182FAB72978F3ACE021DD /* FDTakeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18A513D481205AD9FA1F1 /* FDTakeController.m */; };
 		72F1832E50AB67DDE44C4A12 /* ExternalMediaFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F187DCCDCE0FA22CD5DEC4 /* ExternalMediaFile.m */; };
@@ -24,6 +25,7 @@
 		72F188388D1CDFC1BA64908F /* ParentUserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F185D7FC4A3D3E7821DD24 /* ParentUserTests.m */; };
 		72F1883E74F2B648B80C5C0D /* PFFile+Media.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F184506900ECF329391D82 /* PFFile+Media.m */; };
 		72F18929ED476F9AA8B3F2E3 /* UIImageView+URLLoading.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F1819FEE30D8DFEAA8F678 /* UIImageView+URLLoading.m */; };
+		72F189D03635D080146BA4E8 /* FollowConnectionsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18BDBDA243B1941504FEB /* FollowConnectionsDataSource.m */; };
 		72F18A0239394ADCB653A3C1 /* InAppPurchaseHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F1844739B4B51C27B34983 /* InAppPurchaseHelper.m */; };
 		72F18A8BAA52268B8AB8A3D1 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72F184C3C79880CF8D53574A /* MediaPlayer.framework */; };
 		72F18B2BB218DB4DF06FEC6B /* AppleIncRootCertificate.cer in Resources */ = {isa = PBXBuildFile; fileRef = 72F18423ECAD54191B7179D7 /* AppleIncRootCertificate.cer */; };
@@ -302,6 +304,8 @@
 		72F18A81B5FA1498B57E2602 /* InviteContactsAddressBookDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InviteContactsAddressBookDataSource.h; sourceTree = "<group>"; };
 		72F18AF5D227CE9B7280E8E6 /* PurchaseTransaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PurchaseTransaction.h; sourceTree = "<group>"; };
 		72F18B2AFF977957CF046E9E /* NSString+EmailAddress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+EmailAddress.m"; sourceTree = "<group>"; };
+		72F18BDBDA243B1941504FEB /* FollowConnectionsDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FollowConnectionsDataSource.m; sourceTree = "<group>"; };
+		72F18C0A7E84AA6ED34A57C2 /* FollowConnectionsDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FollowConnectionsDataSource.h; sourceTree = "<group>"; };
 		72F18C28332684D9113B3101 /* NSString+EmailAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+EmailAddress.h"; sourceTree = "<group>"; };
 		72F18C88C0C62071581E6244 /* ExternalMediaFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExternalMediaFile.h; sourceTree = "<group>"; };
 		72F18C88FC612D6CDB6F1B09 /* PFFile+Media.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PFFile+Media.h"; sourceTree = "<group>"; };
@@ -659,6 +663,8 @@
 				E89BA81A1A5C10ED001F8DC2 /* FollowConnectionsTableViewController.m */,
 				72F18A81B5FA1498B57E2602 /* InviteContactsAddressBookDataSource.h */,
 				72F181D2F3F21DC238F85FEA /* InviteContactsAddressBookDataSource.m */,
+				72F18BDBDA243B1941504FEB /* FollowConnectionsDataSource.m */,
+				72F18C0A7E84AA6ED34A57C2 /* FollowConnectionsDataSource.h */,
 			);
 			name = FollowConnections;
 			sourceTree = "<group>";
@@ -1327,6 +1333,7 @@
 				72F18FB51B7939470119D4FA /* UIImageView+URLLoading.m in Sources */,
 				72F18E4159113C7B822E740D /* InviteContactsAddressBookDataSource.m in Sources */,
 				72F1801C43E6C695896617EE /* NSString+EmailAddress.m in Sources */,
+				72F189D03635D080146BA4E8 /* FollowConnectionsDataSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1405,6 +1412,7 @@
 				72F184E3E3BAD40F4F93005F /* UIImageView+URLLoading.m in Sources */,
 				72F183C52E9C9C15CCC42714 /* InviteContactsAddressBookDataSource.m in Sources */,
 				72F18617EC21AE75149CBA42 /* NSString+EmailAddress.m in Sources */,
+				72F1821D4331F0249A938183 /* FollowConnectionsDataSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

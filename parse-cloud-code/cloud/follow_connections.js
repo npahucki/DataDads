@@ -1,3 +1,6 @@
+var DRY_RUN = false; // Does not alter DB, implies DEBUG=true.
+var DEBUG = DRY_RUN || true;
+
 var _ = require("underscore");
 
 function lookupFirstBabyForUser(user) {
@@ -120,8 +123,6 @@ Parse.Cloud.define("queryMyFollowConnections", function (request, response) {
                 });
     });
 });
-
-
 
 Parse.Cloud.define("deleteFollowConnection", function (request, response) {
     Parse.Cloud.useMasterKey();
@@ -266,7 +267,26 @@ Parse.Cloud.define("acceptFollowConnectionInvitation", function (request, respon
             return baby.save();
         });
 
-        return Parse.Promise.when(babyPromise1, babyPromise2);
+        return Parse.Promise.when(babyPromise1, babyPromise2).then(function() {
+            // Send push to inviter, letting him know his invite has been accepted!
+            var inviteeUserName = user2.has("fullName") ? user2.get("fullName") : user2.get("username");
+
+            var pushQuery = new Parse.Query(Parse.Installation);
+                   pushQuery.equalTo("user", user1);
+                   pushQuery.equalTo("deviceType", "ios");
+            return Parse.Push.send({
+               where:pushQuery,
+               data:{
+                   alert: inviteeUserName + " has accepted your a Playgroup request!",
+                   cdata:{
+                       type : "follow",
+                       "relatedObjectId": connectionObject.id
+                   },
+                   badge:"Increment",
+                   sound:"default"
+               }
+            });
+        });
     }).then(function () {
         response.success(true);
     },
@@ -297,8 +317,9 @@ Parse.Cloud.job("deliverFollowConnectionInvites", function (request, status) {
 
         return lookupFirstBabyForUser(inviterUser).then(function(inviterBaby) {
             var inviterBabyName = inviterBaby ? inviterBaby.get("name") : null;
-            var pushPromise = null;
+            var pushPromise;
             if(inviteeUser) {
+                if(DEBUG) console.log("Sending push notification to user " + inviteeUser.id);
                 var pushQuery = new Parse.Query(Parse.Installation);
                        pushQuery.equalTo("user", inviteeUser);
                        pushQuery.equalTo("deviceType", "ios");
@@ -306,11 +327,17 @@ Parse.Cloud.job("deliverFollowConnectionInvites", function (request, status) {
                    where:pushQuery,
                    data:{
                        alert: inviterUserName + " has sent you a Playgroup request!",
-                       cdata:{ type : "followConnection", "followConnectionId": connectionInvite.id },
+                       cdata:{
+                           type : "follow",
+                           "relatedObjectId": connectionInvite.id
+                       },
                        badge:"Increment",
                        sound:"default"
                    }
                 });
+            } else {
+                if(DEBUG) console.log("User with email " + connectionInvite.get("inviteSentToEmail") + " not already a user, skipping push notification");
+                pushPromise = Parse.Promise.as();
             }
 
             // Always send email, if installed already and on ios device, then link to open app.
@@ -331,6 +358,7 @@ Parse.Cloud.job("deliverFollowConnectionInvites", function (request, status) {
                 connectionInvite.set("inviteDeliveredOn", new Date());
                 return connectionInvite.save();
             }).then(function() {
+                if(DEBUG) console.log("EMail '" + connectionInvite.get("inviteSentToEmail") + "' sent invite email for invite " + connectionInvite.id);
                 sentCount++;
             });
         })
@@ -341,9 +369,3 @@ Parse.Cloud.job("deliverFollowConnectionInvites", function (request, status) {
         status.error(error);
     });
 });
-
-// TODO: send push to existing user to let them know, invite was accepted?
-
-
-
-

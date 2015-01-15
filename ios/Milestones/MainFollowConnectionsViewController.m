@@ -7,6 +7,7 @@
 //
 
 #import <MBContactPicker/MBContactPicker.h>
+#import <AudioToolbox/AudioToolbox.h>
 #import "MainFollowConnectionsViewController.h"
 #import "InviteContactsAddressBookDataSource.h"
 #import "FollowConnectionsTableViewController.h"
@@ -18,10 +19,24 @@
 @end
 
 @implementation MainFollowConnectionsViewController {
-    FollowConnectionsTableViewController * _followConnectionsTableController;
+    FollowConnectionsTableViewController *_tableController;
     InviteContactsAddressBookDataSource *_addressBookDataSource;
+    FollowConnectionsDataSource *_dataSource;
     BOOL _inviteMode;
 }
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    _dataSource = [[FollowConnectionsDataSource alloc] init];
+    // Register here so we can handle these in the background, EVEN if the tab has never been selected
+    // since selecting the tab the first time is what triggers viewDidLoad.
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appEnterForeground:) name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gotPushNotification:) name:kDDNotificationPushReceieved object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(followConnectionsDataSourceDidChange) name:kDDNotificationFollowConnectionsDataSourceDidChange object:_dataSource];
+    return self;
+}
+
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -37,22 +52,15 @@
     self.inviteMode = NO;
 }
 
-- (InviteContactsAddressBookDataSource *)addressBookDataSource {
-    if (!_addressBookDataSource) {
-        _addressBookDataSource = [[InviteContactsAddressBookDataSource alloc] init];
-        [_addressBookDataSource addExcludeContactWithEmail:[PFUser currentUser].email];
-    }
-    return _addressBookDataSource;
-}
-
 - (void)viewDidAppear:(BOOL)animated {
     [_addressBookDataSource clearCache];
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if([segue.destinationViewController isKindOfClass:[FollowConnectionsTableViewController class]]) {
-        _followConnectionsTableController = (FollowConnectionsTableViewController*)segue.destinationViewController;
-        _followConnectionsTableController.contactsDataSource = self.addressBookDataSource;
+        _tableController = (FollowConnectionsTableViewController *) segue.destinationViewController;
+        _tableController.contactsDataSource = self.addressBookDataSource;
+        _tableController.followConnectionsDataSource = _dataSource;
     }
 }
 
@@ -63,6 +71,14 @@
     } else {
         self.inviteMode = YES;
     }
+}
+
+- (InviteContactsAddressBookDataSource *)addressBookDataSource {
+    if (!_addressBookDataSource) {
+        _addressBookDataSource = [[InviteContactsAddressBookDataSource alloc] init];
+        [_addressBookDataSource addExcludeContactWithEmail:[PFUser currentUser].email];
+    }
+    return _addressBookDataSource;
 }
 
 - (void)setInviteMode:(BOOL)inviteMode {
@@ -89,6 +105,31 @@
     }
 }
 
+- (void)followConnectionsDataSourceDidChange {
+    [self updateBadgeFromCurrent];
+}
+
+- (void)gotPushNotification:(NSNotification *)notice {
+    // First check if it is a tipsNotification, ignore if not.
+    if ([kDDPushNotificationTypeFollowConnection isEqualToString:notice.userInfo[kDDPushNotificationField_CData][kDDPushNotificationField_Type]]) {
+        [_dataSource loadObjects];
+    }
+}
+
+- (void)updateBadgeFromCurrent {
+    NSInteger waitingInvitationsCount = [_dataSource connectionsInSection:FollowConnectionDataSourceSection_WaitingToAccept].count;
+    NSInteger oldBadgeNumber = self.navigationController.tabBarItem.badgeValue.integerValue;
+    if (waitingInvitationsCount > oldBadgeNumber) {
+        // Play sound
+        AudioServicesPlaySystemSound(1003);
+    }
+    self.navigationController.tabBarItem.badgeValue = waitingInvitationsCount > 0 ? @(waitingInvitationsCount).stringValue : nil;
+}
+
+- (void)appEnterForeground:(NSNotification *)notice {
+    [_dataSource loadObjects];
+}
+
 - (void)sendInvites {
 
     // We need a name from which to send the invite.
@@ -104,14 +145,14 @@
         [PFCloud callFunctionInBackground:@"sendFollowInvitation"
                            withParameters:@{@"appVersion" : NSBundle.mainBundle.infoDictionary[@"CFBundleShortVersionString"],
                                    @"invites" : inviteArray}
-                                    block:^(NSArray *objects, NSError *error) {
-                                        if (error) {
-                                            [UsageAnalytics trackError:error forOperationNamed:@"sendInvites"];
+                                    block:^(NSArray *objects, NSError *blockError) {
+                                        if (blockError) {
+                                            [UsageAnalytics trackError:blockError forOperationNamed:@"sendInvites"];
                                             [[[UIAlertView alloc] initWithTitle:@"Could Not Send Invites" message:@"There was an error trying to send the invites. Make sure you have an internet connection and try again" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
                                         }
 
                                         // Show any invites in the window now.
-                                        [_followConnectionsTableController loadObjects];
+                                        [_dataSource loadObjects];
                                     }];
     }];
 }
