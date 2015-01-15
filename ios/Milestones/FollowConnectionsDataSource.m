@@ -16,8 +16,10 @@
 }
 
 - (void)loadObjects {
-    // Even though we don't depend on the baby being set, we do need the Parse libs to have finished initializing.
-    [self loadObjectsWithLimit:MAX_LOAD_COUNT];
+    if (!_isLoading) {
+        // Even though we don't depend on the baby being set, we do need the Parse libs to have finished initializing.
+        [self loadObjectsWithLimit:MAX_LOAD_COUNT];
+    }
 }
 
 - (void)loadObjectsWithLimit:(NSInteger)limit {
@@ -27,7 +29,7 @@
     [PFCloud callFunctionInBackground:@"queryMyFollowConnections"
                        withParameters:@{@"appVersion" : NSBundle.mainBundle.infoDictionary[@"CFBundleShortVersionString"],
                                @"limit" : [@(limit) stringValue]}
-                          cachePolicy:[self hasAnyConnections] ? kPFCachePolicyNetworkOnly : kPFCachePolicyCacheThenNetwork
+                          cachePolicy:_allConnections != nil ? kPFCachePolicyNetworkOnly : kPFCachePolicyCacheThenNetwork
                                 block:^(NSArray *objects, NSError *error) {
                                     _hadError = error != nil;
                                     if (!_hadError) {
