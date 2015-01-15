@@ -52,6 +52,7 @@
                                                                  attributes:metaAttributes]];
 
     self.detailTextView.attributedText = text;
+
 }
 
 - (IBAction)didClickActionButton:(id)sender {
@@ -67,25 +68,10 @@
     [controller setCompletionHandler:^(NSString *activityType, BOOL completed) {
         if (completed) {
             [UsageAnalytics trackTipShared:self.tipAssignment.tip sharingMedium:activityType];
-
             AlertThenDisappearView *alert = [AlertThenDisappearView instanceForViewController:self];
             alert.titleLabel.text = [NSString stringWithFormat:@"%@ Sucessfully Shared!", [tipType capitalizedString]];
             alert.imageView.image = [UIImage imageNamed:@"success-8"];
             [alert showWithDelay:0.3];
-            
-            SharingMedium medium =  SharingMediumOther;
-            if ([activityType isEqualToString:UIActivityTypeMail]) {
-                medium = SharingMediumEmail;
-            } else if ([activityType isEqualToString:UIActivityTypePostToFacebook]) {
-                medium = SharingMediumFacebook;
-            } else if ([activityType isEqualToString:UIActivityTypePostToTwitter]) {
-                medium = SharingMediumTwitter;
-            } else if ([activityType isEqualToString:UIActivityTypeMessage]) {
-                medium = SharingMediumTextMessage;
-            } else {
-                medium = SharingMediumOther;
-            }
-
         }
     }];
     [self presentViewController:controller animated:YES completion:nil];

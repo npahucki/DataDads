@@ -12,22 +12,23 @@ Parse.Cloud.define("queryMyTips", function (request, response) {
     var appVersion = request.params.appVersion;
 
 
-    var userIsPremium = false; // TODO: load from user profile, or table of user purchases
-
     var query = new Parse.Query("BabyAssignedTips");
     query.include("tip");
     if (!showHiddenTips) query.equalTo("isHidden", false);
-    if (!userIsPremium) {
+    query.equalTo("baby", {__type:"Pointer", className:"Babies", objectId:babyId});
+    query.descending("assignmentDate");
+    query.skip(skip);
+    query.limit(limit);
+
+    // Keep old behavior for old clients which may have had some bugs in the UI.
+    if (appVersion < "1.3") {
         var sevenDaysAgo = new Date(new Date().setDate(new Date().getDate() - 7));
         query.greaterThanOrEqualTo("assignmentDate", sevenDaysAgo);
     }
-    query.equalTo("baby", {__type:"Pointer", className:"Babies", objectId:babyId});
-    query.descending("assignmentDate");
-    query.skip = skip;
-    query.limit = limit;
 
     query.find().
             then(function (results) {
+                // TODO: Remove after not many users are on 1.1
                 if (!appVersion || appVersion < "1.1") {
                     results.map(function (assignment) {
                         var tip = assignment.attributes["tip"];
@@ -39,6 +40,25 @@ Parse.Cloud.define("queryMyTips", function (request, response) {
                 response.error(error);
             });
 });
+
+Parse.Cloud.define("tipBadgeCount", function (request, response) {
+    var babyId = request.params.babyId;
+    var showHiddenTips = request.params.showHiddenTips;
+    //var appVersion = request.params.appVersion;
+
+    var query = new Parse.Query("BabyAssignedTips");
+    if (!showHiddenTips) query.equalTo("isHidden", false);
+    query.doesNotExist("viewedOn");
+    query.equalTo("baby", {__type:"Pointer", className:"Babies", objectId:babyId});
+    query.count().
+            then(function (count) {
+                response.success({badge : count});
+            }, function (error) {
+                response.error(error);
+            });
+});
+
+
 
 
 ///////////////////////////////////////////////////////////////////
@@ -177,10 +197,13 @@ function processSingleBaby(baby, sendPushNotification) {
                 where:pushQuery,
                 data:{
                     alert:title,
-                    cdata:{ "tipAssignmentId":tipAssignment.id },
+                    cdata:{
+                        type : "tip",
+                        relatedObjectId:tipAssignment.id
+                    },
                     badge:"Increment",
-                    sound:"default",
-                    expiration_interval:PUSH_EXP_SECONDS
+                    sound:"default"
+                    //expiration_interval:PUSH_EXP_SECONDS
                 }
             });
         }

@@ -42,7 +42,7 @@ extern NSString *const kDDSegueShowAboutYou;
 extern NSString *const kDDSegueShowOptionalSignup;
 
 
-#pragma mark Notification Names
+#pragma mark NotificationCenter Event Names
 extern NSString *const kDDNotificationCurrentBabyChanged;
 extern NSString *const kDDNotificationMilestoneNotedAndSaved;
 extern NSString *const kDDNotificationAchievementNotedAndSaved;
@@ -58,10 +58,25 @@ extern NSString *const kDDNotificationMilestoneNeedsPostponeAction;
 extern NSString *const kDDNotificationMilestoneNeedsIgnoreAction;
 extern NSString *const kDDNotificationProductPurchased;
 
+extern NSString *const kDDNotificationTipAssignmentViewedOrHidden;
+
+
 
 extern NSString *const kDDURLTermsAndConditions;
 extern NSString *const kDDURLPrivacyPolicy;
 extern NSString *const kDDURLSupport;
+
+
+#pragma mark Push Notification Constants
+// Fields
+extern NSString *const kDDPushNotificationField_Type;
+extern NSString *const kDDPushNotificationField_CData;
+extern NSString *const kDDPushNotificationField_RelatedObjectId;
+extern NSString *const kDDPushNotificationField_BadgeForType;
+extern NSString *const kDDPushNotificationField_OpenedFromBackground;
+// Types
+extern NSString *const kDDPushNotificationTypeTip;
+extern NSString *const kDDPushNotificationTypeFollowConnection;
 
 
 #pragma mark Application Colors

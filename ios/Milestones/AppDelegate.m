@@ -8,11 +8,13 @@
 
 #import <PFCloud+Cache/PFCloud+Cache.h>
 #import "AppDelegate.h"
-#import <AudioToolbox/AudioToolbox.h> 
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    NSString *parseAppId = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.ParseApplicationId"];
+    NSLog(@"Using Parse Application Id '%@'", parseAppId);
+    [Parse setApplicationId:parseAppId clientKey:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.ParseClientId"]];
 
     [UsageAnalytics initializeAnalytics:launchOptions];
 
@@ -39,11 +41,6 @@
 
     // Make sure only users can read their own data!
     [PFACL setDefaultACL:[PFACL ACL] withAccessForCurrentUser:YES];
-
-    NSString *parseAppId = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.ParseApplicationId"];
-    NSLog(@"Using Parse Application Id '%@'", parseAppId);
-    [Parse setApplicationId:parseAppId clientKey:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.ParseClientId"]];
-
     [PFFacebookUtils initializeFacebook];
 
     // Setup user tracking and A/B tests
@@ -89,13 +86,11 @@
     if (launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]) {
         [self incrementOpenViaPushNotificationCount];
     }
-
     return YES;
-
-
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    // TODO: Open URL to the invite page.
     return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication withSession:[PFFacebookUtils session]];
 }
 
@@ -157,13 +152,13 @@
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    // Hope this does not get us rejected if it does use :
-    //      https://developer.apple.com/library/ios/samplecode/SysSound/Introduction/Intro.html
-    AudioServicesPlaySystemSound(1003);
+    BOOL openFromBackground = application.applicationState == UIApplicationStateInactive || application.applicationState == UIApplicationStateBackground;
+    //userInfo[kDDPushNotificationField_OpenedFromBackground] = @(openFromBackground);
     [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationPushReceieved object:self userInfo:userInfo];
-    if (application.applicationState == UIApplicationStateInactive || application.applicationState == UIApplicationStateBackground) {
+    if (openFromBackground) {
         [self incrementOpenViaPushNotificationCount];
     }
+
 }
 
 - (void)incrementOpenViaPushNotificationCount {

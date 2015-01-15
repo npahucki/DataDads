@@ -15,5 +15,7 @@
 @property Baby *baby;
 @property Tip *tip;
 @property NSDate *assignmentDate;
+@property NSDate *viewedOn;
+@property BOOL isHidden;
 
 @end

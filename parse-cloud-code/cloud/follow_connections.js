@@ -56,8 +56,8 @@ Parse.Cloud.define("queryMyFollowConnections", function (request, response) {
         var query = Parse.Query.or(query1, query2, query3);
         query.include(["user1", "user2"]);
         query.descending("invitationSentOn");
-        query.skip = skip;
-        query.limit = limit;
+        query.skip(skip);
+        query.limit(limit);
 
         return query.find().
                 then(function (results) {
@@ -306,7 +306,7 @@ Parse.Cloud.job("deliverFollowConnectionInvites", function (request, status) {
                    where:pushQuery,
                    data:{
                        alert: inviterUserName + " has sent you a Playgroup request!",
-                       cdata:{ "followConnectionId": connectionInvite.id },
+                       cdata:{ type : "followConnection", "followConnectionId": connectionInvite.id },
                        badge:"Increment",
                        sound:"default"
                    }

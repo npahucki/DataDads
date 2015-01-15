@@ -10,7 +10,7 @@
 # import "Baby.h"
 # import "Reachability.h"
 
-@interface MainViewController : UITabBarController <UITabBarControllerDelegate>
+@interface MainViewController : UITabBarController
 
 
 @end

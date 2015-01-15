@@ -7,10 +7,7 @@
 //
 
 #import "MainViewController.h"
-#import "SignUpViewController.h"
 #import "OnboardingStepViewController.h"
-
-#define NOTIFICATION_CONTROLLER_ID @"notificationNavigationController"
 
 @implementation MainViewController
 
@@ -20,24 +17,13 @@
 }
 
 - (void)viewDidLoad {
-    self.delegate = self;
     [super viewDidLoad];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appEnterForeground:) name:UIApplicationDidBecomeActiveNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gotPushNotification:) name:kDDNotificationPushReceieved object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidLogOut) name:kDDNotificationUserLoggedOut object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateApplicationBadgeFromTabs) name:UIApplicationWillResignActiveNotification object:nil];
 }
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-- (void)appEnterForeground:(NSNotification *)notice {
-    [self updateNotificationTabBadge:-1];
-}
-
-- (void)gotPushNotification:(NSNotification *)notice {
-    NSNumber *badgeNumber = notice.userInfo[@"aps"][@"badge"];
-    [self updateNotificationTabBadge:badgeNumber.integerValue];
 }
 
 - (void)userDidLogOut {
@@ -45,39 +31,7 @@
     [self.tabBarController setSelectedIndex:0];
 }
 
-- (UIViewController *)notificationViewController {
-    UIViewController *controller = nil;
-    for (controller in self.viewControllers) {
-        if ([controller.restorationIdentifier isEqualToString:NOTIFICATION_CONTROLLER_ID]) {
-            break;
-        }
-    }
-    return controller;
-}
-
-- (void)updateNotificationTabBadge:(NSInteger)badge {
-    // Find notifications view controller
-    UIViewController *controller = [self notificationViewController];
-    UITabBarItem *notificationsTabItem = controller.tabBarItem;
-
-    if (self.selectedViewController.tabBarItem == notificationsTabItem) {
-        // clear the notification, we are already on it
-        notificationsTabItem.badgeValue = nil;
-        [PFInstallation currentInstallation].badge = 0;
-        [[PFInstallation currentInstallation] saveEventually];
-    } else {
-        if (badge == -1) {
-            // use default
-            badge = [PFInstallation currentInstallation].badge;
-        }
-        notificationsTabItem.badgeValue = badge ? [NSString stringWithFormat:@"%ld", (long) badge] : nil;
-    }
-}
-
-
 - (void)viewDidAppear:(BOOL)animated {
-    [self updateNotificationTabBadge:-1];
-
     ParentUser *user = ParentUser.currentUser;
     if (user) {
         if ([user objectForKey:@"isMale"] != nil) { // If the isMale is not set, it means that they did not finish the signup process.
@@ -126,6 +80,18 @@
     } else {
         [self performSegueWithIdentifier:@"showIntroScreen" sender:self];
     }
+
+
+}
+
+// Run when the app is going to the background
+- (void)updateApplicationBadgeFromTabs {
+    NSInteger totalBadgeCount = 0;
+    for (UIViewController *vc in self.viewControllers) {
+        totalBadgeCount += vc.tabBarItem.badgeValue.integerValue;
+    }
+    [PFInstallation currentInstallation].badge = totalBadgeCount;
+    [[PFInstallation currentInstallation] saveEventually];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -133,39 +99,6 @@
         OnboardingStepViewController * topController = (OnboardingStepViewController *) ((UINavigationController *)segue.destinationViewController).topViewController;
         topController.baby = Baby.currentBaby;
     }
-}
-
-- (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController {
-    if ([viewController.restorationIdentifier isEqualToString:NOTIFICATION_CONTROLLER_ID]) {
-        if (![ParentUser currentUser].email) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Please Sign Up" message:@"To see useful tips, SIGN-UP now. We'll also back-up your milestones and photos."
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"Maybe Later"
-                                                  otherButtonTitles:@"Sign Up", nil];
-            [alert showWithButtonBlock:^(NSInteger buttonIndex) {
-                if (buttonIndex == 1) {
-                    SignUpViewController *signupController = [[SignUpViewController alloc] init];
-                    signupController.showExternal = YES;
-                    [self presentViewController:signupController animated:YES completion:nil];
-                }
-            }];
-        }
-    }
-
-    return YES;
-}
-
-- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
-    if ([viewController.restorationIdentifier isEqualToString:NOTIFICATION_CONTROLLER_ID]) {
-        // Reset badge count when the view is shown
-        PFInstallation *currentInstallation = [PFInstallation currentInstallation];
-        if (currentInstallation.badge != 0) {
-            currentInstallation.badge = 0;
-            [currentInstallation saveEventually];
-        }
-        viewController.tabBarItem.badgeValue = nil;
-    }
-
 }
 
 - (void)showTutorialPromptIfNeeded:(ParentUser *)user {

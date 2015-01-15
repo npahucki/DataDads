@@ -17,7 +17,9 @@
 		72F183DFFA43FAC7A9CEDEAE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F18627FC1325DE78BA4040 /* InfoPlist.strings */; };
 		72F184E3E3BAD40F4F93005F /* UIImageView+URLLoading.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F1819FEE30D8DFEAA8F678 /* UIImageView+URLLoading.m */; };
 		72F184EBDABA851F9BE570BC /* FDTake.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F182B2192D608D0B45B9C9 /* FDTake.strings */; };
+		72F186005FB7CB9E3F82C6BD /* PFInstallation+BadgeSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F1856ED019B95ED26FB4A6 /* PFInstallation+BadgeSupport.m */; };
 		72F1860975D6B51CA5600385 /* PurchaseTransaction.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18CC0F7A7237D340BAB5B /* PurchaseTransaction.m */; };
+		72F1860D0E0F046682913777 /* PFInstallation+BadgeSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F1856ED019B95ED26FB4A6 /* PFInstallation+BadgeSupport.m */; };
 		72F18617EC21AE75149CBA42 /* NSString+EmailAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18B2AFF977957CF046E9E /* NSString+EmailAddress.m */; };
 		72F1877F09F482E5A93B35AE /* AppleIncRootCertificate.cer in Resources */ = {isa = PBXBuildFile; fileRef = 72F18423ECAD54191B7179D7 /* AppleIncRootCertificate.cer */; };
 		72F187BDC76C613B6C98D5BF /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B58651891EED100C74C2B /* StoreKit.framework */; };
@@ -286,6 +288,7 @@
 		72F180425F4F1312AAAAA06A /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = FDTake.strings; sourceTree = "<group>"; };
 		72F180897A35DA9A91FA0D75 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
 		72F180A1C9F67C2395A0EF2F /* MediaFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaFile.h; sourceTree = "<group>"; };
+		72F1816AAE1BAC52E0B929FB /* PFInstallation+BadgeSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PFInstallation+BadgeSupport.h"; sourceTree = "<group>"; };
 		72F1819FEE30D8DFEAA8F678 /* UIImageView+URLLoading.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+URLLoading.m"; sourceTree = "<group>"; };
 		72F181D2F3F21DC238F85FEA /* InviteContactsAddressBookDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InviteContactsAddressBookDataSource.m; sourceTree = "<group>"; };
 		72F183698C959E005935B194 /* InAppPurchaseHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InAppPurchaseHelper.h; sourceTree = "<group>"; };
@@ -294,6 +297,7 @@
 		72F184506900ECF329391D82 /* PFFile+Media.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PFFile+Media.m"; sourceTree = "<group>"; };
 		72F184C3C79880CF8D53574A /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		72F1855685E8FD6A455E30AB /* UIImageView+URLLoading.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+URLLoading.h"; sourceTree = "<group>"; };
+		72F1856ED019B95ED26FB4A6 /* PFInstallation+BadgeSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PFInstallation+BadgeSupport.m"; sourceTree = "<group>"; };
 		72F185D7FC4A3D3E7821DD24 /* ParentUserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParentUserTests.m; sourceTree = "<group>"; };
 		72F187DCCDCE0FA22CD5DEC4 /* ExternalMediaFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExternalMediaFile.m; sourceTree = "<group>"; };
 		72F18854EC2953038E616417 /* ExternalMediaFileTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExternalMediaFileTests.m; sourceTree = "<group>"; };
@@ -720,6 +724,8 @@
 				72F1855685E8FD6A455E30AB /* UIImageView+URLLoading.h */,
 				72F18B2AFF977957CF046E9E /* NSString+EmailAddress.m */,
 				72F18C28332684D9113B3101 /* NSString+EmailAddress.h */,
+				72F1856ED019B95ED26FB4A6 /* PFInstallation+BadgeSupport.m */,
+				72F1816AAE1BAC52E0B929FB /* PFInstallation+BadgeSupport.h */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -1327,6 +1333,7 @@
 				72F18FB51B7939470119D4FA /* UIImageView+URLLoading.m in Sources */,
 				72F18E4159113C7B822E740D /* InviteContactsAddressBookDataSource.m in Sources */,
 				72F1801C43E6C695896617EE /* NSString+EmailAddress.m in Sources */,
+				72F186005FB7CB9E3F82C6BD /* PFInstallation+BadgeSupport.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1405,6 +1412,7 @@
 				72F184E3E3BAD40F4F93005F /* UIImageView+URLLoading.m in Sources */,
 				72F183C52E9C9C15CCC42714 /* InviteContactsAddressBookDataSource.m in Sources */,
 				72F18617EC21AE75149CBA42 /* NSString+EmailAddress.m in Sources */,
+				72F1860D0E0F046682913777 /* PFInstallation+BadgeSupport.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

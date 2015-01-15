@@ -41,12 +41,23 @@ NSString *const kDDNotificationAchievementNeedsDeleteAction = @"achievementNeeds
 NSString *const kDDNotificationMilestoneNeedsPostponeAction = @"milestoneNeedsPostponeAction";
 NSString *const kDDNotificationMilestoneNeedsIgnoreAction = @"milestoneNeedsIgnoreAction";
 NSString *const kDDNotificationProductPurchased = @"productPurchased";
-
+NSString *const kDDNotificationTipAssignmentViewedOrHidden = @"tipAssignmentViewedOrHidden";
 
 NSString *const kDDURLTermsAndConditions = @"http://dataparenting.com/terms-conditions-and-privacy/";
 NSString *const kDDURLPrivacyPolicy = @"http://dataparenting.com/terms-conditions-and-privacy/#privacy";
 NSString *const kDDURLSupport = @"http://dataparenting.com/milestones-app-support/";
 
+
+#pragma mark Push Notification Constants
+// Fields
+NSString *const kDDPushNotificationField_Type = @"type";
+NSString *const kDDPushNotificationField_CData = @"cdata";
+NSString *const kDDPushNotificationField_RelatedObjectId = @"relatedObjectId";
+NSString *const kDDPushNotificationField_OpenedFromBackground = @"openedFromBackground";
+
+// Types
+NSString *const kDDPushNotificationTypeTip = @"tip";
+NSString *const kDDPushNotificationTypeFollowConnection = @"follow";
 
 #pragma mark - Application Colors
 

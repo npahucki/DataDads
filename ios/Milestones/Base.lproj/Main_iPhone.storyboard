@@ -2097,7 +2097,7 @@
                                 </connections>
                             </containerView>
                             <containerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uzW-c1-zNY" userLabel="Normal Container View">
-                                <rect key="frame" x="0.0" y="44" width="320" height="524"/>
+                                <rect key="frame" x="0.0" y="44" width="320" height="480"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <connections>
                                     <segue destination="GIs-GP-D2g" kind="embed" id="anm-1N-lYZ"/>
@@ -2109,7 +2109,7 @@
                             <constraint firstAttribute="trailing" secondItem="uzW-c1-zNY" secondAttribute="trailing" id="3O0-wb-gde"/>
                             <constraint firstItem="uzW-c1-zNY" firstAttribute="top" secondItem="hkV-TT-P7k" secondAttribute="bottom" id="DoU-g3-CNg"/>
                             <constraint firstItem="aZn-1n-Qiu" firstAttribute="top" secondItem="hkV-TT-P7k" secondAttribute="bottom" id="GeW-vx-qMZ"/>
-                            <constraint firstAttribute="bottom" secondItem="uzW-c1-zNY" secondAttribute="bottom" id="KZN-KU-1iU"/>
+                            <constraint firstItem="pw7-7J-THh" firstAttribute="top" secondItem="uzW-c1-zNY" secondAttribute="bottom" id="Nzw-F7-vSB"/>
                             <constraint firstItem="pw7-7J-THh" firstAttribute="top" secondItem="aZn-1n-Qiu" secondAttribute="bottom" id="bKV-nM-3p8"/>
                             <constraint firstItem="uzW-c1-zNY" firstAttribute="leading" secondItem="6fo-qg-tKg" secondAttribute="leading" id="gUr-e0-Lkk"/>
                             <constraint firstAttribute="trailing" secondItem="aZn-1n-Qiu" secondAttribute="trailing" id="hnD-BM-eiC"/>
@@ -2288,7 +2288,7 @@
             <objects>
                 <tableViewController id="GIs-GP-D2g" customClass="NotificationTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="8kc-FY-0Bd">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -2367,11 +2367,11 @@
                         <viewControllerLayoutGuide type="bottom" id="tge-Ya-dB4"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="j40-P0-keu">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Ix-Jh-EpC" userLabel="Container View">
-                                <rect key="frame" x="0.0" y="44" width="320" height="480"/>
+                                <rect key="frame" x="0.0" y="44" width="320" height="436"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zSN-LX-pjZ">
                                         <rect key="frame" x="20" y="20" width="280" height="440"/>
@@ -2420,7 +2420,7 @@
         <scene sceneID="kAc-OT-5lo">
             <objects>
                 <navigationController restorationIdentifier="notificationNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="m8v-2N-ncs" userLabel="Tips Navigation" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" tag="1" title="Tips" image="tipsIcon" badgeValue="2" id="eLA-ls-ENZ"/>
+                    <tabBarItem key="tabBarItem" tag="1" title="Tips" image="tipsIcon" id="eLA-ls-ENZ"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="rZ5-E2-EpP">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -2633,7 +2633,7 @@
         <scene sceneID="gar-VS-cxc">
             <objects>
                 <navigationController restorationIdentifier="invitationNavigationController" title="Playgroups" automaticallyAdjustsScrollViewInsets="NO" id="GOu-FM-6yM" userLabel="Invitations Navigration" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" tag="2" title="Playgroups" image="searchButton" badgeValue="1" id="FYg-D5-nrX"/>
+                    <tabBarItem key="tabBarItem" tag="2" title="Playgroups" image="searchButton" id="FYg-D5-nrX"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="EdB-1Z-KVt">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>

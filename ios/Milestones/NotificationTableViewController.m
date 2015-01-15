@@ -12,9 +12,11 @@
 #import "PFCloud+Cache.h"
 #import "NotificationDetailViewController.h"
 
-#define TITLE_FONT [UIFont fontForAppWithType:Book andSize:14]
+#define TITLE_FONT_READ [UIFont fontForAppWithType:Light andSize:14]
+#define TITLE_FONT_UNREAD [UIFont fontForAppWithType:Bold andSize:14]
+
 #define DETAIL_FONT [UIFont fontForAppWithType:Book andSize:12]
-#define MAX_LOAD_COUNT 15
+#define MAX_LOAD_COUNT 10
 
 
 @implementation NotificationTableViewCell
@@ -26,7 +28,6 @@
     [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor redColor] title:@"Hide"];
     self.rightUtilityButtons = rightUtilityButtons;
 
-    self.textLabel.font = TITLE_FONT;
     self.textLabel.textColor = [UIColor appNormalColor];
     self.detailTextLabel.font = DETAIL_FONT;
     self.detailTextLabel.textColor = [UIColor appGreyTextColor];
@@ -34,11 +35,11 @@
 
 - (void)setBabyAssignedTip:(BabyAssignedTip *)tipAssignment {
     self.textLabel.text = tipAssignment.tip.titleForCurrentBaby;
+    self.textLabel.font = tipAssignment.viewedOn ? TITLE_FONT_READ : TITLE_FONT_UNREAD;
     self.detailTextLabel.text = [NSString stringWithFormat:@"Delivered %@", [tipAssignment.assignmentDate stringWithHumanizedTimeDifference]];
     self.imageView.image = [UIImage imageNamed:tipAssignment.tip.tipType == TipTypeGame ? @"gameIcon" : @"tipsButton_active"];
     self.accessoryType = tipAssignment.tip.url.length ? UITableViewCellAccessoryDetailButton : UITableViewCellAccessoryNone;
 }
-
 
 @end
 
@@ -65,6 +66,7 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     _isMorganTouch = NO; // Hack work around a double segue bug, caused by touching the cell too long
+    [self.tableView reloadData];
 }
 
 - (void)userSignedUp {
@@ -195,8 +197,17 @@
         webView.url = [NSURL URLWithString:assignment.tip.url];
     } else if ([segue.identifier isEqualToString:kDDSegueShowNotificationDetails]) {
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+        BabyAssignedTip *tipAssignment = (BabyAssignedTip *) _objects[(NSUInteger) indexPath.row];
         NotificationDetailViewController *detailController = (NotificationDetailViewController *) segue.destinationViewController;
-        detailController.tipAssignment = (BabyAssignedTip *) _objects[(NSUInteger) indexPath.row];
+        detailController.tipAssignment = tipAssignment;
+
+        if (!tipAssignment.viewedOn) {
+            tipAssignment.viewedOn = [NSDate date];
+            [tipAssignment saveEventually];
+            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+            // Send this so the badges can be updated.
+            [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationTipAssignmentViewedOrHidden object:tipAssignment];
+        }
     }
 }
 
@@ -211,8 +222,9 @@
         }
 
         BabyAssignedTip *assignment = [self tipForIndexPath:indexPath];
+        UIFont *fontToUse = assignment.viewedOn ? TITLE_FONT_READ : TITLE_FONT_UNREAD;
         CGFloat width = assignment.tip.url.length ? self.tableView.frame.size.width - 44 : self.tableView.frame.size.width;
-        CGFloat newTitleLabelSize = [self getLabelSize:assignment.tip.titleForCurrentBaby andFont:TITLE_FONT withMaxWidth:width];
+        CGFloat newTitleLabelSize = [self getLabelSize:assignment.tip.titleForCurrentBaby andFont:fontToUse withMaxWidth:width];
         CGFloat newDateLabelSize = [self getLabelSize:[assignment.createdAt stringWithHumanizedTimeDifference] andFont:DETAIL_FONT withMaxWidth:width];
         return MAX(newTitleLabelSize + newDateLabelSize + 40, defaultSize);
     } else {
@@ -234,14 +246,15 @@
     return size.height;
 }
 
-- (void)hideNotification:(BabyAssignedTip *)notificaiton withIndexPath:(NSIndexPath *)path {
+- (void)hideNotification:(BabyAssignedTip *)tipAssignment withIndexPath:(NSIndexPath *)path {
 
     if (ParentUser.currentUser.showHiddenTips) {
         [[[UIAlertView alloc] initWithTitle:@"Can't do that" message:@"While showing hidden tips you can not hide one. Turn off 'Show HiddenTips' in settings if you want to hide this tip." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
         return;
     }
 
-    [notificaiton saveEventually];
+    tipAssignment.isHidden = YES;
+    [tipAssignment saveEventually];
 
     [self.tableView beginUpdates];
     [_objects removeObjectAtIndex:(NSUInteger) path.row];
@@ -249,6 +262,9 @@
     [self.tableView endUpdates];
     _isEmpty = _objects.count == 0;
     if (_isEmpty) [self.tableView reloadData];
+
+    // Send this so the badges can be updated.
+    [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationTipAssignmentViewedOrHidden object:tipAssignment];
 }
 
 
