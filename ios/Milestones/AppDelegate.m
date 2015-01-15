@@ -152,9 +152,10 @@
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    NSMutableDictionary *newUserInfo = [[NSMutableDictionary alloc] initWithDictionary:userInfo];
     BOOL openFromBackground = application.applicationState == UIApplicationStateInactive || application.applicationState == UIApplicationStateBackground;
-    //userInfo[kDDPushNotificationField_OpenedFromBackground] = @(openFromBackground);
-    [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationPushReceieved object:self userInfo:userInfo];
+    newUserInfo[kDDPushNotificationField_OpenedFromBackground] = @(openFromBackground);
+    [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationPushReceieved object:self userInfo:newUserInfo];
     if (openFromBackground) {
         [self incrementOpenViaPushNotificationCount];
     }

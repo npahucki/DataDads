@@ -108,6 +108,10 @@
 - (void)gotPushNotification:(NSNotification *)notice {
     // First check if it is a tipsNotification, ignore if not.
     if ([kDDPushNotificationTypeTip isEqualToString:notice.userInfo[kDDPushNotificationField_CData][kDDPushNotificationField_Type]]) {
+        if (((NSNumber *) notice.userInfo[kDDPushNotificationField_OpenedFromBackground]).boolValue) {
+            // Make this the currently selected tab
+            self.navigationController.tabBarController.selectedViewController = self.navigationController;
+        }
         [_tableController loadObjects];
         [self ensureInitialBadgeValueSet:YES playSoundIfUpdated:YES];
     }
