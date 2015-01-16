@@ -17,6 +17,8 @@
 
 @interface InviteContactsAddressBookDataSource : NSObject <MBContactPickerDataSource>
 
+- (void)ensureAddressBookOpenWithBlock:(PFBooleanResultBlock)block;
+
 - (void)clearCache;
 
 - (InviteContact *)findContactForEmailAddress:(NSString *)searchEmail;

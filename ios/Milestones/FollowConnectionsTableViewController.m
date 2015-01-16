@@ -249,19 +249,13 @@
             cell.textLabel.text = @"Couldn't load connections. Click to try again";
             cell.imageView.image = [UIImage imageNamed:@"error-9"];
         } else {
-            if (!self.followConnectionsDataSource.isLoading) {
-                cell.textLabel.text = @"No connections to show now. Touch here to refresh";
-                cell.imageView.image = [UIImage imageNamed:@"tipsButton_active"];
-            } else {
-                cell.textLabel.text = @"Loading...";
-                cell.imageView.image = nil; // TODO: remove : Work around for Bug (see 18595125)  on ios 8
-                cell.imageView.image = [UIImage animatedImageNamed:@"progress-" duration:1.0];
-            }
+            cell.textLabel.text = @"Loading...";
+            cell.imageView.image = nil; // TODO: remove : Work around for Bug (see 18595125)  on ios 8
+            cell.imageView.image = [UIImage animatedImageNamed:@"progress-" duration:1.0];
         }
         return cell;
     }
 }
-
 
 #pragma mark - private methods
 

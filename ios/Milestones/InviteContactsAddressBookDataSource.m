@@ -25,7 +25,6 @@
 
 @implementation InviteContactsAddressBookDataSource {
     ABAddressBookRef _addressBook;
-    BOOL _showedPermissionWarning;
     InviteContact *_contactForCurrentUser;
     NSDictionary *_contactsByEmail;
     NSArray *_orderedContacts;
@@ -39,10 +38,6 @@
     }
 }
 
-- (InviteContact *)contactForCurrentUser {
-    return _contactForCurrentUser;
-}
-
 #pragma mark - MBContactPickerDataSource
 
 // Use this method to give the contact picker the entire set of possible contacts.  Required.
@@ -53,9 +48,7 @@
 
 - (InviteContact *)findContactForEmailAddress:(NSString *)searchEmail {
     // Don't show warning when just trying to check addresses - just don't return anything.
-    if (!_contactsByEmail && [self openAddressBook:NO]) {
-        [self populateContactsWithEmailAddress];
-    }
+    if (!_contactsByEmail) [self populateContactsWithEmailAddress];
     return _contactsByEmail[searchEmail];
 }
 
@@ -77,13 +70,55 @@
     [self clearCache];
 }
 
+- (void)ensureAddressBookOpenWithBlock:(PFBooleanResultBlock)block {
+
+    if (_addressBook) {
+        block(YES, nil);
+        return;
+    }
+
+    ABAuthorizationStatus status = ABAddressBookGetAuthorizationStatus();
+    if (status == kABAuthorizationStatusDenied) {
+        block(NO, nil);
+        return;
+    }
+
+    CFErrorRef error = NULL;
+    ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, &error);
+    if (error) {
+        if (addressBook) CFRelease(addressBook);
+        block(NO, (__bridge NSError *) error);
+        return;
+    }
+
+    if (status == kABAuthorizationStatusNotDetermined) {
+        // present the user the UI that requests permission to contacts ...
+        ABAddressBookRequestAccessWithCompletion(addressBook, ^void(bool granted, CFErrorRef cfError) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (granted) {
+                    _addressBook = addressBook;
+                } else if (addressBook) {
+                    [UsageAnalytics trackUserDeniedAddressBookAccess];
+                    CFRelease(addressBook);
+                }
+                block(granted, (__bridge NSError *) error);
+            });
+        });
+
+    } else if (status == kABAuthorizationStatusAuthorized) {
+        _addressBook = addressBook;
+        block(YES, nil);
+    }
+}
+
+
 
 #pragma mark - private
 
 
 - (void)populateContactsWithEmailAddress {
 
-    if (![self openAddressBook:YES]) return;
+    if (!_addressBook) return;
 
     NSMutableDictionary *contactsByEmail = [[NSMutableDictionary alloc] init];
     NSMutableArray *orderedContacts = [[NSMutableArray alloc] init];
@@ -117,57 +152,5 @@
     _contactsByEmail = contactsByEmail;
     _orderedContacts = orderedContacts;
 }
-
-- (BOOL)openAddressBook:(BOOL)withWarning {
-
-    if (_addressBook) return YES; // already opened.
-
-    ABAuthorizationStatus status = ABAddressBookGetAuthorizationStatus();
-    if (status == kABAuthorizationStatusDenied) {
-        if (withWarning) [self showNoAddressBookAccessMsg];
-        return NO;
-    }
-
-    CFErrorRef error = NULL;
-    ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, &error);
-    if (error) {
-        [UsageAnalytics trackError:CFBridgingRelease(error) forOperationNamed:@"addressBookCreate"];
-        if (addressBook) CFRelease(addressBook);
-        return NO;
-    }
-
-    if (status == kABAuthorizationStatusNotDetermined) {
-        // present the user the UI that requests permission to contacts ...
-        ABAddressBookRequestAccessWithCompletion(addressBook, ^void(bool granted, CFErrorRef cfError) {
-            if (cfError) {
-                [UsageAnalytics trackError:CFBridgingRelease(cfError) forOperationNamed:@"addressBookAuthorization"];
-            }
-            if (granted) {
-                _addressBook = addressBook;
-            } else {
-                // however, if they didn't give you permission, handle it gracefully, for example...
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    // BTW, this is not on the main thread, so dispatch UI updates back to the main queue
-                    if (withWarning) [self showNoAddressBookAccessMsg];
-                });
-                if (addressBook) CFRelease(addressBook);
-            }
-        });
-    } else if (status == kABAuthorizationStatusAuthorized) {
-        _addressBook = addressBook;
-    }
-
-    return _addressBook != nil;
-
-}
-
-- (void)showNoAddressBookAccessMsg {
-    if (!_showedPermissionWarning) {
-        _showedPermissionWarning = YES;
-        [UsageAnalytics trackUserDeniedAddressBookAccess];
-        [[[UIAlertView alloc] initWithTitle:@"No Access To Contacts" message:@"Since you have not allowed access to your contacts, we will NOT be able to help you pick them. You can still enter email addresses manualy. To enable picking from your contacts go to the Privacy->Contacts section in the Settings app and enable access for DataParenting." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-    }
-}
-
 
 @end

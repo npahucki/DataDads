@@ -23,6 +23,7 @@
     InviteContactsAddressBookDataSource *_addressBookDataSource;
     FollowConnectionsDataSource *_dataSource;
     BOOL _inviteMode;
+    BOOL _showedPermissionWarning;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
@@ -65,7 +66,6 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if([segue.destinationViewController isKindOfClass:[FollowConnectionsTableViewController class]]) {
         _tableController = (FollowConnectionsTableViewController *) segue.destinationViewController;
-        _tableController.contactsDataSource = self.addressBookDataSource;
         _tableController.followConnectionsDataSource = _dataSource;
     }
 }
@@ -82,7 +82,22 @@
         if (_pickerView.contactsSelected.count > 0) [self sendInvites];
         self.inviteMode = NO;
     } else {
-        self.inviteMode = YES;
+        // The user has taken an action to invite people, thus we can allow the address book prompt
+        [self.addressBookDataSource ensureAddressBookOpenWithBlock:^(BOOL succeeded, NSError *error) {
+            if (error) {
+                [UsageAnalytics trackError:error forOperationNamed:@"openAddressBook"];
+            }
+            if (succeeded) {
+                [self.pickerView reloadData];
+            } else {
+                // UIAlert, if not shown already.
+                if (!_showedPermissionWarning) {
+                    _showedPermissionWarning = YES;
+                    [[[UIAlertView alloc] initWithTitle:@"No Access To Contacts" message:@"Since you have not allowed access to your contacts, we will NOT be able to help you pick them. You can still enter email addresses manualy and press return. To enable picking from your contacts go to the Privacy->Contacts section in the Settings app and enable access for DataParenting." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+                }
+            }
+            self.inviteMode = YES;
+        }];
     }
 }
 
@@ -161,6 +176,9 @@
 }
 
 - (void)sendInvites {
+    // Since we are sending invites, we can make the intro screen go away right away.
+    self.nothingToShowContainerView.hidden = YES;
+    self.containerView.hidden = NO;
 
     // We need a name from which to send the invite.
     [self makeBestAttemptToPopulateSendersFullNameWithBlock:^(NSString *string, NSError *error) {
