@@ -1983,20 +1983,6 @@
                         </userDefinedRuntimeAttributes>
                     </view>
                     <navigationItem key="navigationItem" title="Milestones" id="kki-pT-UDA">
-                        <barButtonItem key="leftBarButtonItem" image="backIcon" id="qU1-vG-KKB">
-                            <button key="customView" opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="mVe-t7-qKM">
-                                <rect key="frame" x="16" y="3" width="38" height="38"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="avatarButtonDefault">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="selected" backgroundImage="avatarButtonDefault_pressed"/>
-                                <state key="highlighted" image="avatarButtonDefault_pressed"/>
-                                <connections>
-                                    <segue destination="QfA-Ku-3Fd" kind="modal" identifier="showSettings" modalTransitionStyle="coverVertical" id="6HZ-Iq-Yef"/>
-                                </connections>
-                            </button>
-                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="createButton" id="3Ta-5N-9G4">
                             <color key="tintColor" red="0.1019607843" green="0.5568627451" blue="0.62352941179999999" alpha="1" colorSpace="calibratedRGB"/>
                             <userDefinedRuntimeAttributes>
@@ -2011,8 +1997,6 @@
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="addMilestoneButton" destination="3Ta-5N-9G4" id="f7r-82-edB"/>
-                        <outlet property="babyMenuButton" destination="mVe-t7-qKM" id="m4P-Dq-K8j"/>
-                        <outlet property="menuButton" destination="qU1-vG-KKB" id="h3u-Mt-G7a"/>
                         <outlet property="searchBar" destination="ba8-Ol-INx" id="1UF-E7-F80"/>
                         <segue destination="eNM-aT-BTU" kind="push" identifier="showAchievementDetails" id="QpM-9P-itO"/>
                         <segue destination="n8g-sI-yKY" kind="modal" identifier="noteMilestone" id="HiK-bz-YEB"/>
@@ -2025,7 +2009,7 @@
         <!--Baby Info Navigation Controller-->
         <scene sceneID="OjL-gf-ruf">
             <objects>
-                <navigationController title="Baby Info Navigation Controller" automaticallyAdjustsScrollViewInsets="NO" id="QfA-Ku-3Fd" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="babyInfoNavigationController" title="Baby Info Navigation Controller" automaticallyAdjustsScrollViewInsets="NO" id="QfA-Ku-3Fd" sceneMemberID="viewController">
                     <toolbarItems/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="huo-Fv-tVs">
@@ -2121,27 +2105,11 @@
                         </constraints>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Tips &amp; Games" id="k5z-id-eI8">
-                        <barButtonItem key="leftBarButtonItem" image="backIcon" id="9LW-MR-dhH">
-                            <button key="customView" opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="uEx-2R-s1Y">
-                                <rect key="frame" x="16" y="3" width="38" height="38"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="avatarButtonDefault">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="selected" backgroundImage="avatarButtonDefault_pressed"/>
-                                <state key="highlighted" image="avatarButtonDefault_pressed"/>
-                                <connections>
-                                    <segue destination="QfA-Ku-3Fd" kind="modal" identifier="showSettings" modalTransitionStyle="coverVertical" id="LCs-nH-0km"/>
-                                </connections>
-                            </button>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Tips &amp; Games" id="k5z-id-eI8"/>
                     <nil key="simulatedStatusBarMetrics"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="babyMenuButton" destination="uEx-2R-s1Y" id="XjV-eN-Ile"/>
                         <outlet property="containerView" destination="uzW-c1-zNY" id="jpu-1D-sut"/>
                         <outlet property="signUpContainerView" destination="aZn-1n-Qiu" id="C3f-dY-Kny"/>
                     </connections>
@@ -2490,17 +2458,6 @@
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Playgroups" id="PaP-W2-MdE">
-                        <barButtonItem key="leftBarButtonItem" image="backIcon" id="ja0-UQ-p3P">
-                            <button key="customView" opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="21J-FY-kOd">
-                                <rect key="frame" x="16" y="3" width="38" height="38"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="avatarButtonDefault">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="selected" backgroundImage="avatarButtonDefault_pressed"/>
-                                <state key="highlighted" image="avatarButtonDefault_pressed"/>
-                            </button>
-                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Invite" id="HOo-KB-6HE">
                             <connections>
                                 <action selector="didClickInviteButton:" destination="lQH-ts-C0K" id="jSK-kq-HX2"/>
@@ -2511,7 +2468,6 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="babyMenuButton" destination="21J-FY-kOd" id="ydW-l4-zCg"/>
                         <outlet property="containerView" destination="AMH-kh-Pyf" id="TH8-1z-RPC"/>
                         <outlet property="inviteButton" destination="HOo-KB-6HE" id="nJl-2w-BCh"/>
                         <outlet property="nothingToShowContainerView" destination="KeJ-pH-REB" id="jT9-0Q-0zJ"/>
@@ -2765,9 +2721,7 @@
         <image name="acceptIcon" width="31" height="31"/>
         <image name="acceptIcon_ready" width="31" height="31"/>
         <image name="avatarButtonDefault" width="38" height="38"/>
-        <image name="avatarButtonDefault_pressed" width="38" height="38"/>
         <image name="avatarShadow" width="128" height="126"/>
-        <image name="backIcon" width="12" height="20"/>
         <image name="camIconWithBorder" width="226" height="226"/>
         <image name="cameraButton_pressed" width="212" height="212"/>
         <image name="completedBest" width="47" height="49"/>
@@ -2811,11 +2765,10 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="JWT-5h-xS8"/>
-        <segue reference="0ED-bk-NzY"/>
+        <segue reference="zMK-LI-8Wn"/>
         <segue reference="M4B-Bx-AaL"/>
-        <segue reference="LCs-nH-0km"/>
-        <segue reference="sNA-hk-F8e"/>
+        <segue reference="0ED-bk-NzY"/>
         <segue reference="HiK-bz-YEB"/>
+        <segue reference="sNA-hk-F8e"/>
     </inferredMetricsTieBreakers>
 </document>

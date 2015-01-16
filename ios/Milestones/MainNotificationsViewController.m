@@ -10,7 +10,6 @@
 #import "MainNotificationsViewController.h"
 #import "NotificationTableViewController.h"
 #import "NoConnectionAlertView.h"
-#import "UIImage+FX.h"
 #import "SignUpViewController.h"
 
 @interface MainNotificationsViewController ()
@@ -26,7 +25,6 @@
     self = [super initWithCoder:aDecoder];
     // Register here so we can handle these in the background, EVEN if the tab has never been selected
     // since selecting the tab the first time is what triggers viewDidLoad.
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(babyUpdated:) name:kDDNotificationCurrentBabyChanged object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appEnterForeground:) name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gotPushNotification:) name:kDDNotificationPushReceieved object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tipAssignmentViewedOrHidden:) name:kDDNotificationTipAssignmentViewedOrHidden object:nil];
@@ -37,8 +35,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [NoConnectionAlertView createInstanceForController:self];
-    // Since controller loads after baby is set, we need to run the code to update the button icon.
-    [self updateBabyInfo:Baby.currentBaby];
 }
 
 - (void)dealloc {
@@ -47,7 +43,6 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    self.babyMenuButton.enabled = Baby.currentBaby != nil;
     BOOL isAnonymous =  [PFAnonymousUtils isLinkedWithUser:PFUser.currentUser];
     self.containerView.hidden = isAnonymous;
     self.signUpContainerView.hidden = !isAnonymous;
@@ -135,39 +130,10 @@
 }
 
 - (void)babyUpdated:(NSNotification *)notification {
-    Baby *baby = (Baby *) notification.object;
-    [self updateBabyInfo:baby];
+    [super babyUpdated:notification];
     [self ensureInitialBadgeValueSet:YES playSoundIfUpdated:NO];
 }
 
-- (void)updateBabyInfo:(Baby *)baby {
-    self.babyMenuButton.enabled = baby != nil;
-
-    PFFile *imageFile = baby.avatarImageThumbnail ? baby.avatarImageThumbnail : baby.avatarImage;
-    if (imageFile) {
-        [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-            if (!error) {
-                UIImage *image = [[UIImage alloc] initWithData:data];
-                if (image) {
-                    [self.babyMenuButton setImage:image forState:UIControlStateNormal];
-                    [self.babyMenuButton setImage:[image imageWithAlpha:.70] forState:UIControlStateHighlighted];
-                    self.babyMenuButton.layer.borderColor = [UIColor appNormalColor].CGColor;
-
-                    CALayer *innerShadowLayer = [CALayer layer];
-                    innerShadowLayer.contents = (id) [UIImage imageNamed:@"avatarButtonShadow"].CGImage;
-                    innerShadowLayer.contentsCenter = CGRectMake(10.0f / 21.0f, 10.0f / 21.0f, 1.0f / 21.0f, 1.0f / 21.0f);
-                    innerShadowLayer.frame = CGRectInset(self.babyMenuButton.bounds, 2.5, 2.5);
-                    [self.babyMenuButton.layer addSublayer:innerShadowLayer];
-                    self.babyMenuButton.layer.borderWidth = 3;
-                    self.babyMenuButton.layer.cornerRadius = self.babyMenuButton.bounds.size.width / 2;
-                    self.babyMenuButton.imageView.contentMode = UIViewContentModeScaleAspectFill;
-                    self.babyMenuButton.clipsToBounds = YES;
-                    self.babyMenuButton.showsTouchWhenHighlighted = YES;
-                }
-            }
-        }];
-    }
-}
 
 
 @end

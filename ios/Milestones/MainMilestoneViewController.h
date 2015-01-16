@@ -10,9 +10,9 @@
 #import "HistoryViewController.h"
 #import "MilestoneAchievement.h"
 #import "DataParentingAdView.h"
+#import "ViewControllerWithBabyInfoButton.h"
 
-@interface MainMilestoneViewController : UIViewController <HistoryViewControllerDelegate, UISearchBarDelegate, UICollisionBehaviorDelegate, DataParentingAdViewDelegate, UIDynamicAnimatorDelegate>
-@property(weak, nonatomic) IBOutlet UIButton *babyMenuButton;
+@interface MainMilestoneViewController : ViewControllerWithBabyInfoButton <HistoryViewControllerDelegate, UISearchBarDelegate, UICollisionBehaviorDelegate, DataParentingAdViewDelegate, UIDynamicAnimatorDelegate>
 
 @property(weak, nonatomic) IBOutlet UIBarButtonItem *addMilestoneButton;
 @property(weak, nonatomic) IBOutlet UIBarButtonItem *menuButton;

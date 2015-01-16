@@ -7,10 +7,8 @@
 //
 
 #import "MainMilestoneViewController.h"
-#import "OverviewViewController.h"
 #import "NoteMilestoneViewController.h"
 #import "AchievementDetailsViewController.h"
-#import "UIImage+FX.h"
 #import "NoConnectionAlertView.h"
 #import "AlertThenDisappearView.h"
 #import "PronounHelper.h"
@@ -110,36 +108,12 @@
 }
 
 - (void)babyUpdated:(NSNotification *)notification {
+    [super babyUpdated:notification];
     Baby *baby = notification.object;
     self.addMilestoneButton.enabled = baby != nil;
     self.menuButton.enabled = baby != nil;
     if (!baby) {
         [self hideSearchBar];
-    }
-
-    PFFile *imageFile = baby.avatarImageThumbnail ? baby.avatarImageThumbnail : baby.avatarImage;
-    if (imageFile) {
-        [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-            if (!error) {
-                UIImage *image = [[UIImage alloc] initWithData:data];
-                if (image) {
-                    [self.babyMenuButton setImage:image forState:UIControlStateNormal];
-                    [self.babyMenuButton setImage:[image imageWithAlpha:.70] forState:UIControlStateHighlighted];
-                    self.babyMenuButton.layer.borderColor = [UIColor appNormalColor].CGColor;
-
-                    CALayer *innerShadowLayer = [CALayer layer];
-                    innerShadowLayer.contents = (id) [UIImage imageNamed:@"avatarButtonShadow"].CGImage;
-                    innerShadowLayer.contentsCenter = CGRectMake(10.0f / 21.0f, 10.0f / 21.0f, 1.0f / 21.0f, 1.0f / 21.0f);
-                    innerShadowLayer.frame = CGRectInset(self.babyMenuButton.bounds, 2.5, 2.5);
-                    [self.babyMenuButton.layer addSublayer:innerShadowLayer];
-                    self.babyMenuButton.layer.borderWidth = 3;
-                    self.babyMenuButton.layer.cornerRadius = self.babyMenuButton.bounds.size.width / 2;
-                    self.babyMenuButton.imageView.contentMode = UIViewContentModeScaleAspectFill;
-                    self.babyMenuButton.clipsToBounds = YES;
-                    self.babyMenuButton.showsTouchWhenHighlighted = YES;
-                }
-            }
-        }];
     }
 }
 
@@ -169,12 +143,7 @@
         _historyController = ((HistoryViewController *) segue.destinationViewController);
         _historyController.delegate = self;
         return;
-    } else if ([segue.identifier isEqualToString:kDDSegueShowSettings]) {
-        if(!_historyController.model.filter) {
-            ((OverviewViewController *) [((UINavigationController *) segue.destinationViewController) childViewControllers][0]).milestoneCount = _historyController.model.countOfAchievements;
-        }
     }
-
 
     // Navigation Segues
     if ([segue.identifier isEqualToString:kDDSegueNoteMilestone] || [segue.identifier isEqualToString:kDDSegueNoteCustomMilestone]) {

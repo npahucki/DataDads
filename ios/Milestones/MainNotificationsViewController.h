@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ViewControllerWithBabyInfoButton.h"
 
-@interface MainNotificationsViewController : UIViewController
+@interface MainNotificationsViewController : ViewControllerWithBabyInfoButton
 @property(weak, nonatomic) IBOutlet UIView *containerView;
 @property(weak, nonatomic) IBOutlet UIView *signUpContainerView;
-@property(weak, nonatomic) IBOutlet UIButton *babyMenuButton;
 
 @end
