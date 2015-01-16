@@ -90,8 +90,13 @@
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-    // TODO: Open URL to the invite page.
-    return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication withSession:[PFFacebookUtils session]];
+    if ([url.scheme hasPrefix:@"dataparenting"]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationURLOpened object:url];
+        return YES;
+    } else {
+        // TODO: Open URL to the invite page.
+        return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication withSession:[PFFacebookUtils session]];
+    }
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)app {

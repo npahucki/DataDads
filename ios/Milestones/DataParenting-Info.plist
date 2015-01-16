@@ -38,6 +38,16 @@
 			<key>CFBundleURLName</key>
 			<string>fb682520505147994</string>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.dataparenting.DataParenting</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>dataparentingapp</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1.3</string>

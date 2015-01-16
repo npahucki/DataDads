@@ -32,6 +32,7 @@
     // since selecting the tab the first time is what triggers viewDidLoad.
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appEnterForeground:) name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gotPushNotification:) name:kDDNotificationPushReceieved object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(urlOpened:) name:kDDNotificationURLOpened object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(followConnectionsDataSourceDidChange) name:kDDNotificationFollowConnectionsDataSourceDidChange object:_dataSource];
     return self;
 }
@@ -49,11 +50,16 @@
     self.pickerView.delegate = self;
     self.pickerView.datasource = self.addressBookDataSource;
     [[MBContactCollectionViewContactCell appearance] setTintColor:[UIColor appNormalColor]];
-    self.inviteMode = NO;
+    [self setInviteMode:NO withAnimation:NO];
+
+    self.containerView.hidden = YES;
+    self.nothingToShowContainerView.hidden = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     [_addressBookDataSource clearCache];
+    [self updateContainerViewState];
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -62,6 +68,13 @@
         _tableController.contactsDataSource = self.addressBookDataSource;
         _tableController.followConnectionsDataSource = _dataSource;
     }
+}
+
+- (void)updateContainerViewState {
+    BOOL showContainerView = [PFUser currentUser].email && _dataSource.hasAnyConnections;
+    self.nothingToShowContainerView.hidden = showContainerView;
+    self.containerView.hidden = !showContainerView;
+    self.inviteButton.enabled = [PFUser currentUser].email != nil;
 }
 
 - (IBAction)didClickInviteButton:(id)sender {
@@ -82,6 +95,10 @@
 }
 
 - (void)setInviteMode:(BOOL)inviteMode {
+    [self setInviteMode:inviteMode withAnimation:YES];
+}
+
+- (void)setInviteMode:(BOOL)inviteMode withAnimation:(BOOL)animates {
     _inviteMode = inviteMode;
     if (_inviteMode) {
         self.inviteButton.style = UIBarButtonItemStyleDone;
@@ -90,23 +107,32 @@
         [self.pickerView reloadData];
         [self.pickerView becomeFirstResponder];
         self.pickerHeightConstraint.constant = self.pickerView.currentContentHeight;
-        [UIView animateWithDuration:self.pickerView.animationSpeed animations:^{
-            [self.view layoutIfNeeded];
-        }];
     } else {
         [self.pickerView resignFirstResponder];
         self.pickerHeightConstraint.constant = 0;
-        [UIView animateWithDuration:self.pickerView.animationSpeed animations:^{
-            [self.view layoutIfNeeded];
-        }];
         self.inviteButton.style = UIBarButtonItemStylePlain;
         self.inviteButton.title = nil;
         self.inviteButton.image = [UIImage imageNamed:@"createButton"];
     }
+
+    if (animates) {
+        [UIView animateWithDuration:self.pickerView.animationSpeed animations:^{
+            [self.view layoutIfNeeded];
+        }];
+    }
+
 }
 
 - (void)followConnectionsDataSourceDidChange {
     [self updateBadgeFromCurrent];
+    [self updateContainerViewState];
+}
+
+- (void)urlOpened:(NSNotification *)notice {
+    NSURL *url = notice.object;
+    if ([url.host isEqualToString:kDDPushNotificationTypeFollowConnection]) {
+        self.navigationController.tabBarController.selectedViewController = self.navigationController;
+    }
 }
 
 - (void)gotPushNotification:(NSNotification *)notice {

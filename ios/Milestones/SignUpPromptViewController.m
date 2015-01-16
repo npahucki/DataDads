@@ -8,7 +8,6 @@
 
 #import "SignUpPromptViewController.h"
 #import "SignUpViewController.h"
-#import "LoginViewController.h"
 
 @interface SignUpPromptViewController ()
 
@@ -32,10 +31,5 @@
     signupController.showExternal = YES;
     [self presentViewController:signupController animated:YES completion:nil];
 }
-
-//- (IBAction)didClickLogin:(id)sender {
-//    LoginViewController *loginController = [[LoginViewController alloc] init];
-//    [self presentViewController:loginController animated:YES completion:nil];
-//}
 
 @end

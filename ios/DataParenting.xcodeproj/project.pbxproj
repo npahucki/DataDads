@@ -61,6 +61,8 @@
 		E8250F43192561A7004A1B41 /* IntroScreenPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8250F42192561A7004A1B41 /* IntroScreenPageViewController.m */; };
 		E8255DE4195CF3710008B82F /* HistoryTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E8255DE3195CF3710008B82F /* HistoryTableHeaderView.m */; };
 		E825C1CB195B5B010081614F /* HIstoryViewTableCells.m in Sources */ = {isa = PBXBuildFile; fileRef = E825C1CA195B5B010081614F /* HIstoryViewTableCells.m */; };
+		E82715B61A69613A004CD18C /* FollowConnectionsNothingToShowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E82715B51A69613A004CD18C /* FollowConnectionsNothingToShowViewController.m */; };
+		E82715B71A69613A004CD18C /* FollowConnectionsNothingToShowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E82715B51A69613A004CD18C /* FollowConnectionsNothingToShowViewController.m */; };
 		E8278E45198822A300A6893E /* Tutorial-Screen-1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E8278E40198822A300A6893E /* Tutorial-Screen-1.jpg */; };
 		E8278E46198822A300A6893E /* Tutorial-Screen-1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E8278E40198822A300A6893E /* Tutorial-Screen-1.jpg */; };
 		E8278E4B198822A300A6893E /* Tutorial-Screen-5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E8278E43198822A300A6893E /* Tutorial-Screen-5.jpg */; };
@@ -344,6 +346,8 @@
 		E8255DE3195CF3710008B82F /* HistoryTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryTableHeaderView.m; sourceTree = "<group>"; };
 		E825C1C9195B5B010081614F /* HIstoryViewTableCells.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HIstoryViewTableCells.h; sourceTree = "<group>"; };
 		E825C1CA195B5B010081614F /* HIstoryViewTableCells.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HIstoryViewTableCells.m; sourceTree = "<group>"; };
+		E82715B41A69613A004CD18C /* FollowConnectionsNothingToShowViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FollowConnectionsNothingToShowViewController.h; sourceTree = "<group>"; };
+		E82715B51A69613A004CD18C /* FollowConnectionsNothingToShowViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FollowConnectionsNothingToShowViewController.m; sourceTree = "<group>"; };
 		E8278E40198822A300A6893E /* Tutorial-Screen-1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Tutorial-Screen-1.jpg"; sourceTree = "<group>"; };
 		E8278E43198822A300A6893E /* Tutorial-Screen-5.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Tutorial-Screen-5.jpg"; sourceTree = "<group>"; };
 		E832436E18F895F500307356 /* HistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryViewController.h; sourceTree = "<group>"; };
@@ -657,6 +661,8 @@
 		E89BA8151A5C0FF9001F8DC2 /* FollowConnections */ = {
 			isa = PBXGroup;
 			children = (
+				E82715B41A69613A004CD18C /* FollowConnectionsNothingToShowViewController.h */,
+				E82715B51A69613A004CD18C /* FollowConnectionsNothingToShowViewController.m */,
 				E89BA8161A5C1041001F8DC2 /* MainFollowConnectionsViewController.h */,
 				E89BA8171A5C1041001F8DC2 /* MainFollowConnectionsViewController.m */,
 				E89BA8191A5C10ED001F8DC2 /* FollowConnectionsTableViewController.h */,
@@ -1278,6 +1284,7 @@
 				E8A02D0B19817CCF001E0DAB /* PronounHelper.m in Sources */,
 				E8A02D0C19817CCF001E0DAB /* AchievementDetailsViewController.m in Sources */,
 				E8A02D0D19817CCF001E0DAB /* BabyTagsViewController.m in Sources */,
+				E82715B71A69613A004CD18C /* FollowConnectionsNothingToShowViewController.m in Sources */,
 				E8CE70F719B7C55C0051FF97 /* NotificationDetailViewController.m in Sources */,
 				E8A02D0E19817CCF001E0DAB /* Contants.m in Sources */,
 				E8A02D0F19817CCF001E0DAB /* NoteMilestoneViewController.m in Sources */,
@@ -1357,6 +1364,7 @@
 				E89035EF1934C97F004A4013 /* AchievementDetailsViewController.m in Sources */,
 				E876159B18EF83C100B0C6D9 /* BabyTagsViewController.m in Sources */,
 				E8CE70F619B7C55C0051FF97 /* NotificationDetailViewController.m in Sources */,
+				E82715B61A69613A004CD18C /* FollowConnectionsNothingToShowViewController.m in Sources */,
 				E81B58701896A75700C74C2B /* Contants.m in Sources */,
 				E8D00A20188F435300DF2786 /* NoteMilestoneViewController.m in Sources */,
 				E81B588318992B7000C74C2B /* Tag.m in Sources */,
@@ -1490,7 +1498,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconDev;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Nathan Pahucki (BMBLXM4GHQ)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1527,7 +1535,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconDev;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Nathan Pahucki (7F4YJQGJ9E)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				FRAMEWORK_SEARCH_PATHS = (
 					"./**",

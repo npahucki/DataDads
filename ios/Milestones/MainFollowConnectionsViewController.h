@@ -17,6 +17,7 @@
 @property(weak, nonatomic) IBOutlet NSLayoutConstraint *pickerHeightConstraint;
 @property(weak, nonatomic) IBOutlet UIView *containerView;
 @property(weak, nonatomic) IBOutlet UIButton *babyMenuButton;
+@property(weak, nonatomic) IBOutlet UIView *nothingToShowContainerView;
 
 
 @end

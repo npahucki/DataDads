@@ -4,11 +4,15 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="GothamRounded-Bold.otf">
             <string>GothamRounded-Bold</string>
+        </mutableArray>
+        <mutableArray key="GothamRounded-Book.otf">
+            <string>GothamRounded-Book</string>
         </mutableArray>
         <mutableArray key="GothamRounded-Light.otf">
             <string>GothamRounded-Light</string>
@@ -2158,13 +2162,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="welcomeScreenBaby" translatesAutoresizingMaskIntoConstraints="NO" id="qgb-6Z-O8p">
-                                <rect key="frame" x="120" y="32" width="80" height="81"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="qgb-6Z-O8p" secondAttribute="height" multiplier="1:1" constant="-1" id="TIa-eV-HwB"/>
-                                    <constraint firstAttribute="width" constant="80" id="gzn-Z9-j0T"/>
-                                </constraints>
-                            </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hello" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FKA-lp-ojl">
                                 <rect key="frame" x="120" y="62" width="80" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -2197,6 +2194,13 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="welcomeScreenBaby" translatesAutoresizingMaskIntoConstraints="NO" id="qgb-6Z-O8p">
+                                <rect key="frame" x="120" y="32" width="80" height="81"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="qgb-6Z-O8p" secondAttribute="height" multiplier="1:1" constant="-1" id="TIa-eV-HwB"/>
+                                    <constraint firstAttribute="width" constant="80" id="gzn-Z9-j0T"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -2448,26 +2452,36 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <containerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AMH-kh-Pyf" userLabel="Normal Container View">
-                                <rect key="frame" x="0.0" y="44" width="320" height="480"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <rect key="frame" x="0.0" y="1" width="320" height="523"/>
+                                <color key="backgroundColor" red="0.98823535439999999" green="0.35686275360000003" blue="0.13333334029999999" alpha="1" colorSpace="deviceRGB"/>
                                 <connections>
                                     <segue destination="rvN-rW-MYl" kind="embed" id="K6S-TK-22h"/>
                                 </connections>
                             </containerView>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KeJ-pH-REB" userLabel="No Connections Container View">
+                                <rect key="frame" x="0.0" y="1" width="320" height="479"/>
+                                <connections>
+                                    <segue destination="ajq-f1-8MQ" kind="embed" id="gXg-Fb-eEg"/>
+                                </connections>
+                            </containerView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kL0-zn-xqN" customClass="MBContactPicker">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="1"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="5QE-VQ-BZM"/>
+                                    <constraint firstAttribute="height" constant="1" id="5QE-VQ-BZM"/>
                                 </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="KeJ-pH-REB" firstAttribute="leading" secondItem="iB9-C6-hPn" secondAttribute="leading" id="2kc-nS-4sb"/>
                             <constraint firstItem="AMH-kh-Pyf" firstAttribute="top" secondItem="kL0-zn-xqN" secondAttribute="bottom" id="5BN-7F-ZQa"/>
+                            <constraint firstItem="KeJ-pH-REB" firstAttribute="top" secondItem="kL0-zn-xqN" secondAttribute="bottom" id="Ak8-NA-uUT"/>
                             <constraint firstAttribute="trailing" secondItem="AMH-kh-Pyf" secondAttribute="trailing" id="CUx-yC-bdF"/>
+                            <constraint firstItem="Nc8-6g-4pI" firstAttribute="top" secondItem="KeJ-pH-REB" secondAttribute="bottom" id="PAc-9m-EH2"/>
                             <constraint firstItem="AMH-kh-Pyf" firstAttribute="leading" secondItem="iB9-C6-hPn" secondAttribute="leading" id="WTP-df-rEq"/>
                             <constraint firstItem="kL0-zn-xqN" firstAttribute="leading" secondItem="iB9-C6-hPn" secondAttribute="leading" id="c5d-WV-ad1"/>
+                            <constraint firstAttribute="trailing" secondItem="KeJ-pH-REB" secondAttribute="trailing" id="e0K-Wq-X4U"/>
                             <constraint firstAttribute="bottom" secondItem="AMH-kh-Pyf" secondAttribute="bottom" id="gWb-DQ-AG7"/>
                             <constraint firstItem="kL0-zn-xqN" firstAttribute="top" secondItem="iB9-C6-hPn" secondAttribute="top" id="juW-KX-ZqK"/>
                             <constraint firstAttribute="trailing" secondItem="kL0-zn-xqN" secondAttribute="trailing" id="uvL-c2-3mL"/>
@@ -2500,6 +2514,7 @@
                         <outlet property="babyMenuButton" destination="21J-FY-kOd" id="ydW-l4-zCg"/>
                         <outlet property="containerView" destination="AMH-kh-Pyf" id="TH8-1z-RPC"/>
                         <outlet property="inviteButton" destination="HOo-KB-6HE" id="nJl-2w-BCh"/>
+                        <outlet property="nothingToShowContainerView" destination="KeJ-pH-REB" id="jT9-0Q-0zJ"/>
                         <outlet property="pickerHeightConstraint" destination="5QE-VQ-BZM" id="0be-Ot-aHS"/>
                         <outlet property="pickerView" destination="kL0-zn-xqN" id="jpG-bl-u3i"/>
                     </connections>
@@ -2513,7 +2528,7 @@
             <objects>
                 <tableViewController id="rvN-rW-MYl" userLabel="Connections Table View Controller" customClass="FollowConnectionsTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="70" sectionHeaderHeight="22" sectionFooterHeight="22" id="LjM-UR-dcx">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="523"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -2629,6 +2644,103 @@
             </objects>
             <point key="canvasLocation" x="1712" y="1141"/>
         </scene>
+        <!--No Follow Connecitons Controller-->
+        <scene sceneID="wes-1J-g99">
+            <objects>
+                <viewController id="ajq-f1-8MQ" userLabel="No Follow Connecitons Controller" customClass="FollowConnectionsNothingToShowViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="L8M-cM-dM1"/>
+                        <viewControllerLayoutGuide type="bottom" id="uUa-Q3-rNh"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="zJq-fO-Uuf">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="479"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="welcomeScreenBaby" translatesAutoresizingMaskIntoConstraints="NO" id="BtP-67-s3A">
+                                <rect key="frame" x="120" y="64" width="80" height="81"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="BtP-67-s3A" secondAttribute="height" multiplier="1:1" constant="-1" id="7Vg-d1-hIb"/>
+                                    <constraint firstAttribute="width" constant="80" id="rqL-hw-DVl"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hello" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Rt-Y9-8GV">
+                                <rect key="frame" x="141" y="97" width="40" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DfU-ZA-lah">
+                                <rect key="frame" x="0.0" y="421" width="320" height="58"/>
+                                <color key="backgroundColor" red="0.0" green="0.5568627451" blue="0.62352941179999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="58" id="jRQ-5U-1bN"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="GothamRounded-Book" family="Gotham Rounded" pointSize="21"/>
+                                <state key="normal" title="SIGN UP NOW">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="selected">
+                                    <color key="titleColor" red="0.18039215689999999" green="0.43921568630000002" blue="0.61960784310000006" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="didClickSignUpNow:" destination="ajq-f1-8MQ" eventType="touchUpInside" id="2SV-RF-yJS"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Invite your friends and family to follow your baby's progress! To get started press the SIGN UP NOW button." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="260" translatesAutoresizingMaskIntoConstraints="NO" id="Epp-rS-tMq">
+                                <rect key="frame" x="32" y="177" width="256" height="126"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="downArrowIcon" translatesAutoresizingMaskIntoConstraints="NO" id="eEO-fs-vDB" userLabel="signupNowArrowIMageView">
+                                <rect key="frame" x="145" y="367" width="30" height="46"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="46" id="esq-P7-2ga"/>
+                                    <constraint firstAttribute="width" constant="30" id="teL-NH-oW0"/>
+                                </constraints>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="upArrowIcon" translatesAutoresizingMaskIntoConstraints="NO" id="OZu-eQ-RLb" userLabel="addContactArrowImageView">
+                                <rect key="frame" x="282" y="8" width="30" height="49"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="Gbn-Xq-l3G"/>
+                                    <constraint firstAttribute="height" constant="49" id="h8r-3L-hqb"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="DfU-ZA-lah" secondAttribute="trailing" id="3Ek-zA-o04"/>
+                            <constraint firstItem="0Rt-Y9-8GV" firstAttribute="centerX" secondItem="BtP-67-s3A" secondAttribute="centerX" id="6kx-5p-GNb"/>
+                            <constraint firstItem="0Rt-Y9-8GV" firstAttribute="centerY" secondItem="BtP-67-s3A" secondAttribute="centerY" constant="3" id="88e-0o-y3m"/>
+                            <constraint firstAttribute="centerX" secondItem="BtP-67-s3A" secondAttribute="centerX" id="BLQ-P9-Wo6"/>
+                            <constraint firstItem="DfU-ZA-lah" firstAttribute="leading" secondItem="zJq-fO-Uuf" secondAttribute="leading" id="BcI-I7-j6h"/>
+                            <constraint firstItem="OZu-eQ-RLb" firstAttribute="top" secondItem="zJq-fO-Uuf" secondAttribute="top" constant="8" id="Tuq-xq-jxq"/>
+                            <constraint firstItem="Epp-rS-tMq" firstAttribute="top" secondItem="BtP-67-s3A" secondAttribute="bottom" constant="32" id="XLJ-UX-78j"/>
+                            <constraint firstAttribute="centerY" secondItem="Epp-rS-tMq" secondAttribute="centerY" id="aU8-fo-Wok"/>
+                            <constraint firstItem="uUa-Q3-rNh" firstAttribute="top" secondItem="DfU-ZA-lah" secondAttribute="bottom" id="aps-EP-bat"/>
+                            <constraint firstItem="DfU-ZA-lah" firstAttribute="top" secondItem="eEO-fs-vDB" secondAttribute="bottom" constant="8" id="dhx-1Q-fcl"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Epp-rS-tMq" secondAttribute="trailing" constant="16" id="fQS-qX-qAb"/>
+                            <constraint firstAttribute="trailing" secondItem="OZu-eQ-RLb" secondAttribute="trailing" constant="8" id="hBN-hu-urq"/>
+                            <constraint firstAttribute="centerX" secondItem="eEO-fs-vDB" secondAttribute="centerX" id="uUZ-Bo-sE3"/>
+                            <constraint firstItem="Epp-rS-tMq" firstAttribute="leading" secondItem="zJq-fO-Uuf" secondAttribute="leadingMargin" constant="16" id="x0V-ya-Q55"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="KWj-rT-l6G"/>
+                    <connections>
+                        <outlet property="addContactArrowImageView" destination="OZu-eQ-RLb" id="kZT-Kp-MTQ"/>
+                        <outlet property="addContactArrowImageViewTopConstraint" destination="Tuq-xq-jxq" id="GcW-ch-Asf"/>
+                        <outlet property="helloLabel" destination="0Rt-Y9-8GV" id="8xb-Rq-qBR"/>
+                        <outlet property="promptTextLabel" destination="Epp-rS-tMq" id="89X-to-uxY"/>
+                        <outlet property="signupButton" destination="DfU-ZA-lah" id="3i4-uJ-LGu"/>
+                        <outlet property="signupNowArrowImageView" destination="eEO-fs-vDB" id="1Il-Sz-xeq"/>
+                        <outlet property="signupNowArrowImageViewBottomConstraint" destination="dhx-1Q-fcl" id="UcR-jk-FvR"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kFy-gA-IGh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2162" y="324.5"/>
+        </scene>
         <!--Invitations Navigration-->
         <scene sceneID="gar-VS-cxc">
             <objects>
@@ -2663,6 +2775,7 @@
         <image name="createButton" width="12" height="12"/>
         <image name="deleteIcon" width="31" height="31"/>
         <image name="deleteIcon_ready" width="31" height="31"/>
+        <image name="downArrowIcon" width="63" height="60"/>
         <image name="facebookIcon" width="29" height="29"/>
         <image name="femaleIcon" width="80" height="80"/>
         <image name="femaleIcon_selected" width="80" height="80"/>
@@ -2688,6 +2801,7 @@
         <image name="tagCheckbox_checked" width="20" height="20"/>
         <image name="tipsButton_active" width="22" height="22"/>
         <image name="tipsIcon" width="22" height="22"/>
+        <image name="upArrowIcon" width="63" height="60"/>
         <image name="weightIcon" width="22" height="28"/>
         <image name="welcomeScreenBaby" width="71" height="73"/>
     </resources>

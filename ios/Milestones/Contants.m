@@ -34,6 +34,8 @@ NSString *const kDDNotificationUserLoggedIn = @"userLoggedIn";
 
 NSString *const kDDNotificationUserLoggedOut = @"userLoggedOut";
 NSString *const kDDNotificationPushReceieved = @"notificationPushReceived";
+NSString *const kDDNotificationURLOpened = @"notificationUrlOpened";
+
 NSString *const kDDNotificationNeedDataRefreshNotification = @"needDataRefresh";
 NSString *const kDataObjectNeedsAction = @"dataObjectNeedsAction"; // request to take some action
 

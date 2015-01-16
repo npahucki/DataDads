@@ -65,9 +65,11 @@
 }
 
 - (void)addExcludeContactWithEmail:(NSString *)email {
-    if (!_excludeContactsWithEmail) _excludeContactsWithEmail = [[NSMutableSet alloc] init];
-    [_excludeContactsWithEmail addObject:email];
-    _contactsByEmail = nil; // force refresh
+    if (email) {
+        if (!_excludeContactsWithEmail) _excludeContactsWithEmail = [[NSMutableSet alloc] init];
+        [_excludeContactsWithEmail addObject:email];
+        _contactsByEmail = nil; // force refresh
+    }
 }
 
 - (void)removeExcludeContactWithEmail:(NSString *)email {
