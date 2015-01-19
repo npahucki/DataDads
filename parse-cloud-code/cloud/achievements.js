@@ -139,13 +139,13 @@ Parse.Cloud.afterSave("MilestoneAchievements", function (request) {
                     var utils = require("cloud/utils");
                     var params = {
                         title : utils.replacePronounTokens(title, baby.get("isMale"), "en"),
+                        comment : achievement.get("comment"),
                         linkUrl  : utils.achievementViewerUrl(achievement),
                         imageUrl : achievement.has("attachmentThumbnail") ? achievement.get("attachmentThumbnail").url() : null
                     };
                     var emails = require('cloud/emails.js');
                     var from = parentUser.get("email");
                     if(parentUser.get("fullName")) from = parentUser.get("fullName") + "<" + from + ">";
-                    console.log("************ FROM:" + from);
                     return emails.sendTemplateEmail(subjectText, followerEmails,"follow/notification.ejs", params, from);
                 });
             }
