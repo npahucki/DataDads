@@ -2701,7 +2701,7 @@
         <scene sceneID="gar-VS-cxc">
             <objects>
                 <navigationController restorationIdentifier="invitationNavigationController" title="Playgroups" automaticallyAdjustsScrollViewInsets="NO" id="GOu-FM-6yM" userLabel="Invitations Navigration" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" tag="2" title="Playgroups" image="searchButton" id="FYg-D5-nrX"/>
+                    <tabBarItem key="tabBarItem" tag="2" title="Playgroups" image="babyFollow" id="FYg-D5-nrX"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="EdB-1Z-KVt">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -2722,6 +2722,7 @@
         <image name="acceptIcon_ready" width="31" height="31"/>
         <image name="avatarButtonDefault" width="38" height="38"/>
         <image name="avatarShadow" width="128" height="126"/>
+        <image name="babyFollow" width="24" height="24"/>
         <image name="camIconWithBorder" width="226" height="226"/>
         <image name="cameraButton_pressed" width="212" height="212"/>
         <image name="completedBest" width="47" height="49"/>
@@ -2747,7 +2748,6 @@
         <image name="orSep" width="320" height="30"/>
         <image name="play_button" width="72" height="72"/>
         <image name="progress-0" width="74" height="75"/>
-        <image name="searchButton" width="24" height="26"/>
         <image name="settingsIcon" width="27" height="27"/>
         <image name="settingsIcon_pressed" width="27" height="27"/>
         <image name="settingsIcon_pressed.png" width="27" height="27"/>
