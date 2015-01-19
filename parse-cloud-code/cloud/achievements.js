@@ -124,9 +124,11 @@ Parse.Cloud.afterSave("MilestoneAchievements", function (request) {
         var query = new Parse.Query("MilestoneAchievements");
         query.include("standardMilestone");
         query.include("baby");
+        query.include("baby.parentUser");
         return query.get(achievement.id).then(function (achievement) {
             milestone = achievement.get("standardMilestone");
             baby = achievement.get("baby");
+            var parentUser = baby.get("parentUser");
             var followerEmails = baby.get("followerEmails");
             if(followerEmails) {
                 var milestonePromise = milestone ? milestone.fetch() : Parse.Promise.as(null);
@@ -141,7 +143,10 @@ Parse.Cloud.afterSave("MilestoneAchievements", function (request) {
                         imageUrl : achievement.has("attachmentThumbnail") ? achievement.get("attachmentThumbnail").url() : null
                     };
                     var emails = require('cloud/emails.js');
-                    return emails.sendTemplateEmail(subjectText, followerEmails,"follow/notification.ejs", params);
+                    var from = parentUser.get("email");
+                    if(parentUser.get("fullName")) from = parentUser.get("fullName") + "<" + from + ">";
+                    console.log("************ FROM:" + from);
+                    return emails.sendTemplateEmail(subjectText, followerEmails,"follow/notification.ejs", params, from);
                 });
             }
         });
