@@ -1,10 +1,15 @@
 <html>
     <body>
-    <!-- TODO: If already a user, just show a link to open the app - no need to accept via web page -->
     <h1><%=inviterName%> wants to connect with you on DataParenting</h1>
-        <a href="<%=acceptLinkUrl%>">
-        <p>Click here to open see the invitation</p>
-        </a>
+    <%if(inviteeIsExistingUser){%>
+      <a href="<%=openAppUrl%>">Open this link on your device that has DataParenting installed to see the invite.</a>
+    <%} else {%>
+    <!-- TODO: One day, support one way baby follows -->
 
+    <!-- TODO: link click records click and redirects -->
+    Please <a href="https://itunes.apple.com/us/app/dataparenting-baby-milestones/id905124835">install DataParenting</a> to view the invitation. Once installed, click this link on the device
+    to see the invite. To properly see the invitation, you will need to signup using the email address
+    '<%=inviteSentToEmailAddress%>' (or use a Facebook account linked to that address).
+    <% } %>
     </body>
 </html>

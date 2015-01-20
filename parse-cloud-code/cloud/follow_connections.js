@@ -342,11 +342,13 @@ Parse.Cloud.job("deliverFollowConnectionInvites", function (request, status) {
 
             // Always send email, if installed already and on ios device, then link to open app.
             var utils = require("cloud/utils");
-            var subjectTitle = inviterUserName + " wants to connect with you on DataParenting!";
+            var subjectTitle = "Let's connect on DataParenting!";
             var params = {
                 inviterName : inviterUserName,
                 inviterBabyName : inviterBabyName,
-                acceptLinkUrl  : utils.inviteAcceptUrl(connectionInvite)
+                inviteSentToEmailAddress : connectionInvite.get("inviteSentToEmail"),
+                inviteeIsExistingUser : inviteeUser ? true : false,
+                openAppUrl  : utils.isDev() ? "dataparentingappdev://follow" : "dataparentingapp://follow"
             };
             var emails = require('cloud/emails.js');
             var emailPromise = emails.sendTemplateEmail(subjectTitle,connectionInvite.get("inviteSentToEmail"),"follow/invitation.ejs", params);
