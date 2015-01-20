@@ -67,11 +67,12 @@
     if([segue.destinationViewController isKindOfClass:[FollowConnectionsTableViewController class]]) {
         _tableController = (FollowConnectionsTableViewController *) segue.destinationViewController;
         _tableController.followConnectionsDataSource = _dataSource;
+        _tableController.contactsDataSource = self.addressBookDataSource;
     }
 }
 
 - (void)updateContainerViewState {
-    BOOL showContainerView = [PFUser currentUser].email && _dataSource.hasAnyConnections;
+    BOOL showContainerView = [PFUser currentUser].email && (_dataSource.hasAnyConnections || _dataSource.isLoading);
     self.nothingToShowContainerView.hidden = showContainerView;
     self.containerView.hidden = !showContainerView;
     self.inviteButton.enabled = [PFUser currentUser].email != nil;

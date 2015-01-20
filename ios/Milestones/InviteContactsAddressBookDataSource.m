@@ -70,44 +70,52 @@
     [self clearCache];
 }
 
-- (void)ensureAddressBookOpenWithBlock:(PFBooleanResultBlock)block {
+- (BOOL)ensureAddressBookOpenIfAlreadyAuthorized {
 
     if (_addressBook) {
-        block(YES, nil);
-        return;
+        return YES;
     }
 
     ABAuthorizationStatus status = ABAddressBookGetAuthorizationStatus();
     if (status == kABAuthorizationStatusDenied) {
-        block(NO, nil);
-        return;
+        return NO;
     }
 
     CFErrorRef error = NULL;
     ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, &error);
     if (error) {
         if (addressBook) CFRelease(addressBook);
-        block(NO, (__bridge NSError *) error);
-        return;
+        return NO;
     }
 
-    if (status == kABAuthorizationStatusNotDetermined) {
-        // present the user the UI that requests permission to contacts ...
-        ABAddressBookRequestAccessWithCompletion(addressBook, ^void(bool granted, CFErrorRef cfError) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if (granted) {
-                    _addressBook = addressBook;
-                } else if (addressBook) {
-                    [UsageAnalytics trackUserDeniedAddressBookAccess];
-                    CFRelease(addressBook);
-                }
-                block(granted, (__bridge NSError *) error);
-            });
-        });
+    _addressBook = addressBook;
+    return YES;
+}
 
-    } else if (status == kABAuthorizationStatusAuthorized) {
-        _addressBook = addressBook;
-        block(YES, nil);
+- (void)ensureAddressBookOpenWithBlock:(PFBooleanResultBlock)block {
+    if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusNotDetermined) {
+        // present the user the UI that requests permission to contacts ...
+        CFErrorRef error = NULL;
+        ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, &error);
+        if (error) {
+            if (addressBook) CFRelease(addressBook);
+            block(NO, (__bridge NSError *) error);
+            return;
+        } else {
+            ABAddressBookRequestAccessWithCompletion(addressBook, ^void(bool granted, CFErrorRef cfError) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if (granted) {
+                        _addressBook = addressBook;
+                    } else if (addressBook) {
+                        [UsageAnalytics trackUserDeniedAddressBookAccess];
+                        CFRelease(addressBook);
+                    }
+                    block(granted, (__bridge NSError *) error);
+                });
+            });
+        }
+    } else {
+        block([self ensureAddressBookOpenIfAlreadyAuthorized], nil);
     }
 }
 
@@ -118,7 +126,7 @@
 
 - (void)populateContactsWithEmailAddress {
 
-    if (!_addressBook) return;
+    if (![self ensureAddressBookOpenIfAlreadyAuthorized]) return;
 
     NSMutableDictionary *contactsByEmail = [[NSMutableDictionary alloc] init];
     NSMutableArray *orderedContacts = [[NSMutableArray alloc] init];

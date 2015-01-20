@@ -219,7 +219,7 @@
     if (self.followConnectionsDataSource.hasAnyConnections) {
         switch ((FollowConnectionDataSourceSection) section) {
             case FollowConnectionDataSourceSection_Connected:
-                return @"Following";
+                return @"Monitors";
             case FollowConnectionDataSourceSection_Pending:
                 return @"Pending Invitations";
             case FollowConnectionDataSourceSection_WaitingToAccept:

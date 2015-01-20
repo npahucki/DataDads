@@ -2407,10 +2407,10 @@
             </objects>
             <point key="canvasLocation" x="3073" y="-182"/>
         </scene>
-        <!--Connections Controller-->
+        <!--Monitors Controller-->
         <scene sceneID="pHS-Un-kzy">
             <objects>
-                <viewController title="Playgroups" id="lQH-ts-C0K" userLabel="Connections Controller" customClass="MainFollowConnectionsViewController" sceneMemberID="viewController">
+                <viewController title="Playgroups" id="lQH-ts-C0K" userLabel="Monitors Controller" customClass="MainFollowConnectionsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="SRk-iN-ZNl"/>
                         <viewControllerLayoutGuide type="bottom" id="Nc8-6g-4pI"/>
@@ -2457,7 +2457,7 @@
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Playgroups" id="PaP-W2-MdE">
+                    <navigationItem key="navigationItem" title="Monitors" id="PaP-W2-MdE">
                         <barButtonItem key="rightBarButtonItem" title="Invite" id="HOo-KB-6HE">
                             <connections>
                                 <action selector="didClickInviteButton:" destination="lQH-ts-C0K" id="jSK-kq-HX2"/>
@@ -2701,7 +2701,7 @@
         <scene sceneID="gar-VS-cxc">
             <objects>
                 <navigationController restorationIdentifier="invitationNavigationController" title="Playgroups" automaticallyAdjustsScrollViewInsets="NO" id="GOu-FM-6yM" userLabel="Invitations Navigration" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" tag="2" title="Playgroups" image="babyFollow" id="FYg-D5-nrX"/>
+                    <tabBarItem key="tabBarItem" tag="2" title="Monitors" image="babyFollow" id="FYg-D5-nrX"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="EdB-1Z-KVt">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -2722,7 +2722,7 @@
         <image name="acceptIcon_ready" width="31" height="31"/>
         <image name="avatarButtonDefault" width="38" height="38"/>
         <image name="avatarShadow" width="128" height="126"/>
-        <image name="babyFollow" width="24" height="24"/>
+        <image name="babyFollow" width="29" height="29"/>
         <image name="camIconWithBorder" width="226" height="226"/>
         <image name="cameraButton_pressed" width="212" height="212"/>
         <image name="completedBest" width="47" height="49"/>
