@@ -76,20 +76,18 @@
         return YES;
     }
 
-    ABAuthorizationStatus status = ABAddressBookGetAuthorizationStatus();
-    if (status == kABAuthorizationStatusDenied) {
+    if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusAuthorized) {
+        CFErrorRef error = NULL;
+        ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, &error);
+        if (error) {
+            if (addressBook) CFRelease(addressBook);
+            return NO;
+        }
+        _addressBook = addressBook;
+        return YES;
+    } else {
         return NO;
     }
-
-    CFErrorRef error = NULL;
-    ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, &error);
-    if (error) {
-        if (addressBook) CFRelease(addressBook);
-        return NO;
-    }
-
-    _addressBook = addressBook;
-    return YES;
 }
 
 - (void)ensureAddressBookOpenWithBlock:(PFBooleanResultBlock)block {
