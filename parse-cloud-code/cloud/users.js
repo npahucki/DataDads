@@ -1,8 +1,11 @@
 Parse.Cloud.beforeSave(Parse.User, function (request, response) {
     var userObject = request.object;
     // Need before save beacuse after save does indicate what the dirty fields are.
-    if (userObject.dirty("email")) {
+    if (userObject.dirty("email") && userObject.has("email")) {
         if(userObject.get("email")) {
+            if(userObject.get("email")  != userObject.get("email").toLowerCase()) {
+                console.error("Email should be case sensitive: " + userObject.get("email"));
+            }
             // Wait until assignment is done.
             userObject.set("needsTipAssignmentNow", true);
         } else {

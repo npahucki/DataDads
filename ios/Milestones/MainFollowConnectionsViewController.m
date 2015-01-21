@@ -188,7 +188,7 @@
             NSAssert(contact.emailAddress, @"Unexpected nil emailAddress");
             [inviteArray addObject:@{
                     @"sendToName" : contact.fullName ? contact.fullName : [NSNull null],
-                    @"sendToEmail" : contact.emailAddress
+                    @"sendToEmail" : contact.emailAddress.lowercaseString
             }];
         }
         [PFCloud callFunctionInBackground:@"sendFollowInvitation"

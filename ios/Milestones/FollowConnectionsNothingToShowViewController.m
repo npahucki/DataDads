@@ -31,11 +31,11 @@
     [self updateMode];
 }
 
-
 - (void)updateMode {
     [self.view.layer removeAllAnimations];
     self.signupNowArrowImageView.alpha = 1;
     self.addContactArrowImageView.alpha = 1;
+
 
     // Decide which message to show!
     if (![PFUser currentUser].email) {
@@ -51,6 +51,8 @@
             [self.view layoutIfNeeded];
         }                completion:NULL];
     } else {
+        [self.view.layer removeAllAnimations];
+
         // Nothing to show
         self.signupButton.hidden = YES;
         self.signupNowArrowImageView.hidden = YES;

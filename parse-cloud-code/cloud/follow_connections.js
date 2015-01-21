@@ -51,6 +51,11 @@ Parse.Cloud.define("queryMyFollowConnections", function (request, response) {
     var skip = parseInt(request.params.skip);
     var appVersion = request.params.appVersion;
 
+    if(!user) {
+        response.error("No user present in request");
+        return;
+    }
+
     user.fetch().then(function (fullUser) {
         user = fullUser;
 
@@ -59,7 +64,7 @@ Parse.Cloud.define("queryMyFollowConnections", function (request, response) {
         var query2 = new Parse.Query("FollowConnections");
         query2.equalTo("user2", user);
         var query3 = new Parse.Query("FollowConnections");
-        query3.equalTo("inviteSentToEmail", user.get("email"));
+        query3.equalTo("inviteSentToEmail", user.get("email").toLowerCase());
 
         var query = Parse.Query.or(query1, query2, query3);
         query.include(["user1", "user2"]);
@@ -180,6 +185,7 @@ Parse.Cloud.define("sendFollowInvitation", function (request, response) {
     Parse.Cloud.useMasterKey();
     var promises = _.map(request.params.invites, function(invite) {
         if(utils.isValidEmailAddress(invite.sendToEmail)) {
+            invite.sendToEmail = invite.sendToEmail.toLowerCase();
             var existingConnectionQuery = new Parse.Query("FollowConnections");
             existingConnectionQuery.equalTo("user1", request.user);
             existingConnectionQuery.equalTo("inviteSentToEmail", invite.sendToEmail);

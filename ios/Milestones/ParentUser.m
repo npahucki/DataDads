@@ -14,6 +14,13 @@
 @dynamic launchCount;
 @dynamic supportScience;
 
+- (void)setEmail:(NSString *)email {
+    [super setEmail:[email lowercaseString]];
+}
+
+- (void)setUsername:(NSString *)username {
+    [super setUsername:[username lowercaseString]];
+}
 
 - (BOOL)showHiddenTips {
     return [[NSUserDefaults standardUserDefaults] boolForKey:@"showHiddenTips"];
