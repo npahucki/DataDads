@@ -4,10 +4,15 @@ var DEBUG = DRY_RUN || true;
 var _ = require("underscore");
 
 function lookupFirstBabyForUser(user) {
-    var babyQuery = new Parse.Query("Babies");
-    babyQuery.equalTo("parentUser", user);
-    babyQuery.limit = 1;
-    return babyQuery.first();
+
+    if(user) {
+        var babyQuery = new Parse.Query("Babies");
+        babyQuery.equalTo("parentUser", user);
+        babyQuery.limit = 1;
+        return babyQuery.first();
+    } else {
+        return Parse.Promise.as(null);
+    }
 }
 
 // Returns a promise, that succeeds if the connection object is looked up and

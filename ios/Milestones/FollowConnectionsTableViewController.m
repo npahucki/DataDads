@@ -69,10 +69,17 @@
     if (connection.inviteAcceptedOn) {
         // Connection made!
         self.showAcceptButton = NO;
-        self.displayNameLabel.text = connection.otherPartyAuxDisplayName;
-        self.statusLabel.text = [NSString stringWithFormat:@"Child of %@", connection.otherPartyDisplayName];
         if (connection.otherPartyAvatar.length) {
             [self.pictureView loadImageFromUrlString:connection.otherPartyAvatar];
+        }
+
+        if(connection.otherPartyAuxDisplayName) {
+            self.displayNameLabel.text =  connection.otherPartyAuxDisplayName;
+            self.statusLabel.text = [NSString stringWithFormat:@"Child of %@", connection.otherPartyDisplayName];
+        } else {
+            // One way follow - i.e. email grandma feature.
+            self.displayNameLabel.text = connection.otherPartyDisplayName;
+            self.statusLabel.text = [NSString stringWithFormat:@"Following %@", Baby.currentBaby.name];
         }
     } else {
         // Pending
@@ -219,7 +226,7 @@
     if (self.followConnectionsDataSource.hasAnyConnections) {
         switch ((FollowConnectionDataSourceSection) section) {
             case FollowConnectionDataSourceSection_Connected:
-                return @"Monitors";
+                return @"Monitoring";
             case FollowConnectionDataSourceSection_Pending:
                 return @"Pending Invitations";
             case FollowConnectionDataSourceSection_WaitingToAccept:
