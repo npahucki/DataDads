@@ -11,6 +11,7 @@
 #import "UIImageView+URLLoading.h"
 #import "NSDate+Utils.h"
 #import "InviteContactsAddressBookDataSource.h"
+#import "AlertThenDisappearView.h"
 
 
 @interface FollowConnectionsTableViewController ()
@@ -104,7 +105,13 @@
 @end
 
 @implementation FollowConnectionsTableViewController {
+    BOOL _pendingReload;
+
 }
+- (BOOL)isPendingReload {
+    return _pendingReload;
+}
+
 
 - (IBAction)didClickDestroyButton:(UIButton *)sender {
     FollowConnectionTableViewCell *cell = [self findTableViewCell:sender];
@@ -171,11 +178,12 @@
 }
 
 - (void)followConnectionsDataSourceWillLoad {
+    _pendingReload = NO;
     [self.tableView reloadData];
 }
 
 - (void)followConnectionsDataSourceDidLoad {
-    // Make sure we don't show contacts that already have conenctions
+    // Make sure we don't show contacts that already have connections
     NSArray *all = [[NSArray alloc] init];
     [all arrayByAddingObjectsFromArray:[self.followConnectionsDataSource connectionsInSection:FollowConnectionDataSourceSection_Connected]];
     [all arrayByAddingObjectsFromArray:[self.followConnectionsDataSource connectionsInSection:FollowConnectionDataSourceSection_WaitingToAccept]];
@@ -277,12 +285,22 @@
     // Next time table gets rendered, since the date is changed, the acceptButton won't be shown.
     [connectionCell.connection resendInvitationInBackgroundWithBlock:nil];
     [connectionCell setShowAcceptButton:NO];
-    [[[UIAlertView alloc] initWithTitle:@"Success!" message:@"Invitation has been resent!" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+    AlertThenDisappearView *alert = [AlertThenDisappearView instanceForView:self.tableView];
+    alert.titleLabel.text = @"Invitation has been resent!";
+    alert.imageView.image = [UIImage imageNamed:@"acceptIcon_ready"];
+    [alert show];
 }
 
 - (void)acceptInvitation:(FollowConnectionTableViewCell *)connectionCell {
+    _pendingReload = YES;
     [self removeTableRow:connectionCell]; // for immediate feedback
     [connectionCell.connection acceptInvitationInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+//        if(succeeded) {
+//            AlertThenDisappearView * alert =  [AlertThenDisappearView instanceForViewController:self];
+//            alert.titleLabel.text = @"Invitation accepted! You will recieve updates via email.";
+//            alert.imageView.image = [UIImage imageNamed:@"acceptIcon_ready"];
+//            [alert show];
+//        }
         // to show the newly moved rows.
         [self.followConnectionsDataSource loadObjects];
     }];

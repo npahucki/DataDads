@@ -12,6 +12,7 @@
 #import "InviteContactsAddressBookDataSource.h"
 #import "FollowConnectionsTableViewController.h"
 #import "NSString+EmailAddress.h"
+#import "FollowConnectionsNothingToShowViewController.h"
 
 
 @interface MainFollowConnectionsViewController ()
@@ -35,6 +36,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gotPushNotification:) name:kDDNotificationPushReceieved object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(urlOpened:) name:kDDNotificationURLOpened object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(followConnectionsDataSourceDidChange) name:kDDNotificationFollowConnectionsDataSourceDidChange object:_dataSource];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(followConnectionsDataSourceWillLoad) name:kDDNotificationFollowConnectionsDataSourceWillLoadObjects object:_dataSource];
     return self;
 }
 
@@ -72,11 +74,32 @@
 }
 
 - (void)updateContainerViewState {
-    BOOL showContainerView = [PFUser currentUser].email && (_dataSource.hasAnyConnections || _dataSource.isLoading);
-    self.nothingToShowContainerView.hidden = showContainerView;
-    self.containerView.hidden = !showContainerView;
     self.inviteButton.enabled = [PFUser currentUser].email != nil;
+    BOOL showContainerView = [PFUser currentUser].email && (_dataSource.hasAnyConnections || _dataSource.isLoading || _tableController.isPendingReload);
+
+    if (self.nothingToShowContainerView.hidden && !showContainerView) {
+        self.nothingToShowContainerView.hidden = NO;
+        [[self nothingToShowController] viewDidAppear:NO];
+        // Make sure the arrow shows, even if the view was previously loaded.
+        // Since making the view unhidden does not call viewDidLoad, we need
+        // to start the animation manually in this case, in case it already ran before
+        // won't be shown again unless viewDidAppear is called.
+    }
+
+    self.containerView.hidden = !showContainerView;
+    self.nothingToShowContainerView.hidden = showContainerView;
 }
+
+- (FollowConnectionsNothingToShowViewController *)nothingToShowController {
+    for (UIViewController *vc in self.childViewControllers) {
+        if ([vc isKindOfClass:[FollowConnectionsNothingToShowViewController class]]) {
+            return (FollowConnectionsNothingToShowViewController *) vc;
+        }
+    }
+
+    return nil;
+}
+
 
 - (IBAction)didClickInviteButton:(id)sender {
     if (_inviteMode) {

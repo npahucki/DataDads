@@ -31,5 +31,5 @@
 
 @property(nonatomic, strong) InviteContactsAddressBookDataSource *contactsDataSource;
 @property(nonatomic, strong) FollowConnectionsDataSource *followConnectionsDataSource;
-
+@property(nonatomic, readonly) BOOL isPendingReload;
 @end
