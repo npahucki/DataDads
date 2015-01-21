@@ -26,29 +26,36 @@
     _isLoading = YES;
     _hadError = NO;
     [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationFollowConnectionsDataSourceWillLoadObjects object:self];
-    [PFCloud callFunctionInBackground:@"queryMyFollowConnections"
-                       withParameters:@{@"appVersion" : NSBundle.mainBundle.infoDictionary[@"CFBundleShortVersionString"],
-                               @"limit" : [@(limit) stringValue]}
-                          cachePolicy:_allConnections != nil ? kPFCachePolicyNetworkOnly : kPFCachePolicyCacheThenNetwork
-                                block:^(NSArray *objects, NSError *error) {
-                                    _hadError = error != nil;
-                                    if (!_hadError) {
-                                        [self resetAllConnections];
-                                        // Go through and sort the follow connections into buckets
-                                        for (FollowConnection *conn in objects) {
-                                            if (conn.inviteAcceptedOn) {
-                                                [_allConnections[FollowConnectionDataSourceSection_Connected] addObject:conn];
-                                            } else if (conn.isInviter) {
-                                                [_allConnections[FollowConnectionDataSourceSection_Pending] addObject:conn];
-                                            } else {
-                                                [_allConnections[FollowConnectionDataSourceSection_WaitingToAccept] addObject:conn];
+
+    if ([ParentUser currentUser]) { // Requires a current user
+        [PFCloud callFunctionInBackground:@"queryMyFollowConnections"
+                           withParameters:@{@"appVersion" : NSBundle.mainBundle.infoDictionary[@"CFBundleShortVersionString"],
+                                   @"limit" : [@(limit) stringValue]}
+                              cachePolicy:_allConnections != nil ? kPFCachePolicyNetworkOnly : kPFCachePolicyCacheThenNetwork
+                                    block:^(NSArray *objects, NSError *error) {
+                                        _hadError = error != nil;
+                                        if (!_hadError) {
+                                            [self resetAllConnections];
+                                            // Go through and sort the follow connections into buckets
+                                            for (FollowConnection *conn in objects) {
+                                                if (conn.inviteAcceptedOn) {
+                                                    [_allConnections[FollowConnectionDataSourceSection_Connected] addObject:conn];
+                                                } else if (conn.isInviter) {
+                                                    [_allConnections[FollowConnectionDataSourceSection_Pending] addObject:conn];
+                                                } else {
+                                                    [_allConnections[FollowConnectionDataSourceSection_WaitingToAccept] addObject:conn];
+                                                }
                                             }
                                         }
-                                    }
-                                    _isLoading = NO;
-                                    [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationFollowConnectionsDataSourceDidLoadObjects object:self];
-                                    [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationFollowConnectionsDataSourceDidChange object:self];
-                                }];
+                                        _isLoading = NO;
+                                        [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationFollowConnectionsDataSourceDidLoadObjects object:self];
+                                        [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationFollowConnectionsDataSourceDidChange object:self];
+                                    }];
+    } else {
+        _isLoading = NO;
+        [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationFollowConnectionsDataSourceDidLoadObjects object:self];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationFollowConnectionsDataSourceDidChange object:self];
+    }
 }
 
 - (void)removeConnectionAtIndex:(NSInteger)index inSection:(FollowConnectionDataSourceSection)section {
