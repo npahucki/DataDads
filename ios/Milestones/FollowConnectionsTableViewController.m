@@ -94,7 +94,7 @@
                 self.showAcceptButton = NO;
             }
         } else {
-            self.statusLabel.text = [NSString stringWithFormat:@"Recieved %@", [connection.inviteSentOn stringWithHumanizedTimeDifference]];
+            self.statusLabel.text = [NSString stringWithFormat:@"Received %@", [connection.inviteSentOn stringWithHumanizedTimeDifference]];
             [self.acceptButton setImage:[UIImage imageNamed:@"acceptIcon"] forState:UIControlStateNormal];
             [self.acceptButton setImage:[UIImage imageNamed:@"acceptIcon_ready"] forState:UIControlStateHighlighted];
         }
