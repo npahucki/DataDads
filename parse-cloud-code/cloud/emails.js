@@ -20,23 +20,23 @@ module.exports.notifyTeam = function(title, object, params) {
     }
 };
 
-module.exports.sendTemplateEmail = function(title, recipients, templateName, templateParams, from) {
+module.exports.sendTemplateEmail = function(title, recipients, templateName, templateParams, replyTo) {
     var fs = require('fs');
     var ejs = require('ejs');
     var template = fs.readFileSync("cloud/email_templates/" + templateName, "utf-8");
     var renderedText = ejs.render(template, templateParams);
-    return module.exports.sendEmail(title, recipients, renderedText, "text/html", from);
+    return module.exports.sendEmail(title, recipients, renderedText, "text/html", replyTo);
 };
 
-module.exports.sendEmail = function(title, recipients, object, mimeType, from) {
+module.exports.sendEmail = function(title, recipients, object, mimeType, replyTo) {
         var Mailgun = require('mailgun');
         Mailgun.initialize('alerts.dataparenting.com', 'key-9w2siwoh29vvj2dufcugcpymhkwr6vc3');
         var msg =  {
                   to: Array.isArray(recipients) ? recipients.join() : recipients ,
-                  from: from || "app@alerts.dataparenting.com",
+                  from: "robot@dataparenting.com",
                   subject: title
                 };
-
+        if(replyTo) msg["h:Reply-To"] = replyTo;
     if(mimeType == "text/html") {
         msg.html = object;
     } else {

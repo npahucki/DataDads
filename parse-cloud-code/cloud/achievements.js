@@ -144,9 +144,9 @@ Parse.Cloud.afterSave("MilestoneAchievements", function (request) {
                         imageUrl : achievement.has("attachmentThumbnail") ? achievement.get("attachmentThumbnail").url() : null
                     };
                     var emails = require('cloud/emails.js');
-                    var from = parentUser.get("email");
-                    if(parentUser.get("fullName")) from = parentUser.get("fullName") + "<" + from + ">";
-                    return emails.sendTemplateEmail(subjectText, followerEmails,"follow/notification.ejs", params, from);
+                    var replyTo = parentUser.get("email");
+                    if(parentUser.get("fullName")) from = parentUser.get("fullName") + "<" + replyTo + ">";
+                    return emails.sendTemplateEmail(subjectText, followerEmails,"follow/notification.ejs", params, replyTo);
                 });
             }
         });
