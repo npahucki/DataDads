@@ -362,7 +362,7 @@ Parse.Cloud.job("deliverFollowConnectionInvites", function (request, status) {
                 openAppUrl  : utils.isDev() ? "dataparentingappdev://follow" : "dataparentingapp://follow"
             };
             var emails = require('cloud/emails.js');
-            var emailPromise = emails.sendTemplateEmail(subjectTitle,connectionInvite.get("inviteSentToEmail"),"follow/invitation.ejs", params);
+            var emailPromise = emails.sendTemplateEmail(subjectTitle,connectionInvite.get("inviteSentToEmail"),"follow/invitation.ejs", params,inviterUser);
 
 
             // Wait for push and email to complete.
