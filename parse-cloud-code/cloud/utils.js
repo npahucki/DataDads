@@ -20,7 +20,7 @@ function treatAsUTC(date) {
 }
 
 exports.isDev = function () {
-    return Parse.applicationId === "NlJHBG0NZgFS8JP76DBjA31MBRZ7kmb7dVSQQz3U";
+    return  typeof Parse == "undefined" ? true : Parse.applicationId === "NlJHBG0NZgFS8JP76DBjA31MBRZ7kmb7dVSQQz3U";
 };
 
 exports.websiteHost = exports.isDev() ? "dataparenting-dev.parseapp.com" : "view.dataparenting.com";
