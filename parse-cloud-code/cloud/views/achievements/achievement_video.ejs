@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>
+    <%= typeof title === "undefined" ? "Achievement" : title %>
+  </title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+  <meta property="og:type" content="dataparenting:babymilestone"/>
+  <meta property="og:title" content="<%= title %>"/>
+  <meta property="og:image" content=" <%= thumbnailUrl %> "/>
+  <meta property="og:site_name" content="DataParenting"/>
+  <meta property="og:description" content="It happened when <%= babyName %> was <%= babyWas %> old on the <%= completedOn %>"/>
+
+  <link rel="stylesheet" href="../css/styles.css">
+  <link href="http://vjs.zencdn.net/4.8/video-js.css" rel="stylesheet"/>
+  <script src="http://vjs.zencdn.net/4.8/video.js"></script>
+  <script src="../js/videojs.zoomrotate.js"></script>
+  <link rel="icon" href="http://www.dataparenting.com/favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="/http://www.dataparenting.com/favicon.ico" type="image/x-icon">
+<style>
+  .video-js .vjs-tech {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: auto !important;
+    height: auto !important;
+  }
+</style>
+</head>
+<body>
+<% include ../google_tracking.ejs %>
+
+<% include ../fb_init.ejs %>
+
+<div class="non-foot">
+
+  <% include ../header.ejs %>
+
+  <% include main_video.ejs%>
+
+</div>
+
+<% include ../footer.ejs%>
+<% include ../clicky_tracking.ejs %>
+</body>
+</html>
