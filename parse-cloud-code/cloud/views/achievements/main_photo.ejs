@@ -1,0 +1,67 @@
+<div id="main">
+  <div id="content">
+    <div id="first">
+      <h2 class="title"><%= title %></h2>
+    </div>
+    <div class="second">
+      <p class="subtitle">It happened when <span class="green"><%= babyName %></span> was <span class="green"><%= babyWas %> old</span> on the <span class="green"><%= completedOn %></span></p>
+      <% if (typeof comment !== "undefined") { %>
+      <h6><%= isDad ? 'Dad' : 'Mom' %> was totally like</h6>
+      <blockquote class="green"><%= comment %></blockquote>
+      <% } %>
+      <div id="fbcomments" class="fb-comments" data-href="" data-width="100%" data-numposts="5" data-colorscheme="light"></div>
+      <script>document.getElementById('fbcomments').dataset.href = document.URL;</script>
+    </div>
+  </div>
+  <div id="picture-frame" class="picture">
+
+  </div>
+
+</div>
+
+<script>
+  var frame = document.getElementById('picture-frame');
+  var imageUrl = "<%= photoUrl %>";
+
+  if (!window.navigator || !window.navigator.platform ||
+      !(/iP(hone|od|ad)/).test(window.navigator.platform)) {
+
+    var options = {};
+    var http = new XMLHttpRequest();
+    http.open("GET", imageUrl, true);
+    http.responseType = "blob";
+    http.onload = function (e) {
+      if (this.status === 200) {
+        var image = new Image();
+        image.onload = function () {
+          EXIF.getData(image, function () {
+            options.orientation = this.exifdata.Orientation;
+            options.maxHeight = frame.clientHeight;
+            options.maxWidth = frame.clientWidth;
+            loadImage(
+                http.response,
+                function (img) {
+                  if (img.type === "error") {
+                    console.log("Error loading image " + imageUrl);
+                  } else {
+                    console.log("Appended image : " + img);
+                    frame.appendChild(img);
+                  }
+                },
+                options);
+
+          });
+        };
+      }
+      image.src = URL.createObjectURL(http.response);
+    };
+
+    http.send(null);
+  } else {
+    // For some reason, on prod, the code below does not render the image on IOS devices.
+    // But it also seems that it is not needed and that the IOS browser respects the orientation tags.
+    var image = new Image();
+    image.src = imageUrl;
+    frame.appendChild(image);
+  }
+</script>

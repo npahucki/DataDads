@@ -7,23 +7,32 @@ exports.show = function (req, res) {
     var query = new Parse.Query(Achievement);
     query.include("standardMilestone");
     query.include("baby");
-
-
+    query.include("baby.parentUser");
     query.get(achievementId).then(function (achievement) {
                 var baby = achievement.get("baby");
+                var parentUser = baby.get("parentUser");
                 var isShared = achievement.get("sharedVia") > 0 || baby.has("followerEmails");
                 if (isShared) {
                     var title = achievement.get("customTitle");
                     var milestone = achievement.get("standardMilestone");
                     if (!title) title = milestone.get("title");
                     title = utils.replacePronounTokens(title, baby.get("isMale"), "en");
+                    var babyWas = utils.deltaToPeriod(baby.get("birthDate"), achievement.get("completionDate"));
+                    var completedOn = utils.dateToHuman(achievement.get("completionDate"));
+                    var comment = achievement.get("comment");
+                    var isDad = parentUser.get("isMale");
                     var hasImage = achievement.get("attachmentType") && achievement.get("attachmentType").indexOf("image/") == 0;
                     var hasVideo = achievement.get("attachmentType") && achievement.get("attachmentType").indexOf("video/") == 0;
 
                     if (hasImage) {
-                        res.render('achievements/show_photo', {
+                        res.render('achievements/achievement_photo', {
                             title:title,
-                            completedOn:achievement.get("completedOn"),
+                            thumbnailUrl:achievement.get("attachmentThumbnail").url() || "",
+                            babyName:baby.get("name"),
+                            babyWas:babyWas,
+                            completedOn:completedOn,
+                            comment: comment,
+                            isDad: isDad,
                             photoUrl:achievement.get("attachment").url()
                         });
                     } else if (hasVideo) {
@@ -61,22 +70,32 @@ exports.show = function (req, res) {
                             videoUrls.push({ url : s3lib.generateSignedGetS3Url(mp4FilePath), type : "video/mp4"});
                         } else {
                             // Old style for backward compatible support.. no other formats available.
-                            videoUrls.push({ url : achievement.get("attachment").url(), type : "'video/mov"});
+                            videoUrls.push({ url : achievement.get("attachment").url(), type : "video/mov"});
                         }
 
-                        res.render('achievements/show_video', {
+                        res.render('achievements/achievement_video', {
                             title:title,
-                            completedOn:achievement.get("completedOn"),
-                            thumbnailUrl:achievement.get("attachmentThumbnail").url(),
+                            thumbnailUrl:achievement.get("attachmentThumbnail").url() || "",
+                            babyName:baby.get("name"),
+                            babyWas:babyWas,
+                            completedOn:completedOn,
+                            comment: comment,
+                            isDad: isDad,
                             videoUrls: videoUrls,
                             videoWidth:width,
                             videoHeight:height,
                             videoRotation:rotation
                         });
                     } else {
-                        res.render('achievements/show_no_media', {
+                        res.render('achievements/achievement_photo', {
                             title:title,
-                            completedOn:achievement.get("completedOn")
+                            thumbnailUrl:achievement.get("attachmentThumbnail").url(),
+                            babyName:baby.get("name"),
+                            babyWas:babyWas,
+                            completedOn:completedOn,
+                            comment: comment,
+                            isDad: isDad,
+                            photoUrl: '../img/placeholder.png'
                         });
                     }
 

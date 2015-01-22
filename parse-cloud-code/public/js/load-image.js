@@ -262,6 +262,7 @@
                 destHeight
             );
         }
+        //PORTA: commented this to not screw image aspect in share page
         img.width = destWidth;
         img.height = destHeight;
         return img;
