@@ -25,7 +25,6 @@
 
 @implementation InviteContactsAddressBookDataSource {
     ABAddressBookRef _addressBook;
-    InviteContact *_contactForCurrentUser;
     NSDictionary *_contactsByEmail;
     NSArray *_orderedContacts;
     NSMutableSet *_excludeContactsWithEmail;
@@ -66,8 +65,10 @@
 }
 
 - (void)removeExcludeContactWithEmail:(NSString *)email {
-    [_excludeContactsWithEmail removeObject:email];
-    [self clearCache];
+    if (email) {
+        [_excludeContactsWithEmail removeObject:email];
+        [self clearCache];
+    }
 }
 
 - (BOOL)ensureAddressBookOpenIfAlreadyAuthorized {

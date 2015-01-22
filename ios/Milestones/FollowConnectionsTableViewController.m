@@ -12,6 +12,7 @@
 #import "NSDate+Utils.h"
 #import "InviteContactsAddressBookDataSource.h"
 #import "AlertThenDisappearView.h"
+#import "TutorialBubbleView.h"
 
 
 @interface FollowConnectionsTableViewController ()
@@ -64,16 +65,6 @@
     }
 }
 
-- (void)setSelected:(BOOL)selected {
-    [super setSelected:selected];
-    if (selected) {
-        NSLog(@"SELCTED");
-    } else {
-        NSLog(@"DE-SELCTED");
-    }
-}
-
-
 - (void)setConnection:(FollowConnection *)connection andDefaultAvatar:(UIImage *)defaultAvatar {
     _connection = connection;
     self.pictureView.image = defaultAvatar ? defaultAvatar : [UIImage imageNamed:@"avatarButtonDefault"];
@@ -117,7 +108,6 @@
 
 @implementation FollowConnectionsTableViewController {
     BOOL _pendingReload;
-    NSIndexPath *_selectedIndexPath;
 
 }
 - (BOOL)isPendingReload {
@@ -126,6 +116,7 @@
 
 
 - (IBAction)didClickDestroyButton:(UIButton *)sender {
+    [self dismissTutorialBubble];
     FollowConnectionTableViewCell *cell = [self findTableViewCell:sender];
     if (cell.connection.inviteAcceptedOn) {
         [[[UIAlertView alloc] initWithTitle:@"Are you sure?"
@@ -145,6 +136,7 @@
 }
 
 - (IBAction)didClickAcceptButton:(UIButton *)sender {
+    [self dismissTutorialBubble];
     FollowConnectionTableViewCell *cell = [self findTableViewCell:sender];
     if (cell.connection.isInviter && !cell.connection.inviteAcceptedOn) {
         // Resend invite
@@ -188,12 +180,21 @@
     [self.followConnectionsDataSource loadObjects];
 }
 
+- (void)dismissTutorialBubble {
+    if (self.tutorialBubbleView) {
+        [self.tutorialBubbleView dismiss];
+        self.tutorialBubbleView = nil;
+    }
+}
+
 - (void)followConnectionsDataSourceWillLoad {
+    [self dismissTutorialBubble];
     _pendingReload = NO;
     [self.tableView reloadData];
 }
 
 - (void)followConnectionsDataSourceDidLoad {
+    [self dismissTutorialBubble];
     // Make sure we don't show contacts that already have connections
     NSArray *all = [[NSArray alloc] init];
     [all arrayByAddingObjectsFromArray:[self.followConnectionsDataSource connectionsInSection:FollowConnectionDataSourceSection_Connected]];
@@ -226,7 +227,29 @@
     if (!self.followConnectionsDataSource.hasAnyConnections) {
         [self loadObjects];
     } else {
-        // Nothing for now.
+        [self dismissTutorialBubble];
+        FollowConnectionTableViewCell *cell = (FollowConnectionTableViewCell *) [self.tableView cellForRowAtIndexPath:indexPath];
+        self.tutorialBubbleView = [[NSBundle mainBundle] loadNibNamed:@"TutorialBubbleView" owner:self options:nil][0];
+        self.tutorialBubbleView.textLabel.font = [UIFont fontForAppWithType:Medium andSize:16];
+        NSString *msg;
+        if (cell.connection.inviteAcceptedOn) {
+            msg = [NSString stringWithFormat:@"Every time %@ notes a milestone, we'll send you an email. Check your mail regularly!",
+                                             cell.connection.otherPartyDisplayName];
+            CGPoint relativePoint = CGPointMake(cell.pictureView.center.x, cell.pictureView.frame.origin.y + cell.pictureView.frame.size.height);
+            self.tutorialBubbleView.arrowTip = [cell convertPoint:relativePoint toView:self.tableView];
+        } else if (cell.connection.isInviter) {
+            msg = [NSString stringWithFormat:@"You are waiting for %@ to accept your invitation. You can revoke it at any time by pressing the X button.",
+                                             cell.connection.otherPartyDisplayName];
+            CGPoint relativePoint = CGPointMake(cell.destroyButton.center.x, cell.destroyButton.frame.origin.y + cell.destroyButton.frame.size.height);
+            self.tutorialBubbleView.arrowTip = [cell convertPoint:relativePoint toView:self.tableView];
+        } else {
+            msg = [NSString stringWithFormat:@"%@ wants to follow %@'s milestones! Press the accept button to allow.",
+                                             cell.connection.otherPartyDisplayName, [Baby currentBaby].name];
+            CGPoint relativePoint = CGPointMake(cell.acceptButton.center.x, cell.acceptButton.frame.origin.y + cell.acceptButton.frame.size.height);
+            self.tutorialBubbleView.arrowTip = [cell convertPoint:relativePoint toView:self.tableView];
+        }
+        [self.tutorialBubbleView showInView:self.tableView withText:msg];
+        [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
     }
 }
 
@@ -303,12 +326,13 @@
 }
 
 - (void)resendInvitation:(FollowConnectionTableViewCell *)connectionCell {
+    [self dismissTutorialBubble];
     // Next time table gets rendered, since the date is changed, the acceptButton won't be shown.
     [connectionCell.connection resendInvitationInBackgroundWithBlock:nil];
     [connectionCell setShowAcceptButton:NO];
     AlertThenDisappearView *alert = [AlertThenDisappearView instanceForView:self.tableView];
     alert.titleLabel.text = @"Invitation has been resent!";
-    alert.imageView.image = [UIImage imageNamed:@"acceptIcon_ready"];
+    alert.imageView.image = nil;
     [alert show];
 }
 
@@ -317,12 +341,6 @@
     _pendingReload = YES;
     [self removeTableRow:connectionCell]; // for immediate feedback
     [connectionCell.connection acceptInvitationInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        if (succeeded) {
-            AlertThenDisappearView *alert = [AlertThenDisappearView instanceForViewController:self.parentViewController];
-            alert.titleLabel.text = @"Invitation accepted! You will recieve email notifications ";
-            alert.imageView.image = nil;
-            [alert show];
-        }
         // to show the newly moved rows.
         [self.followConnectionsDataSource loadObjects];
     }];

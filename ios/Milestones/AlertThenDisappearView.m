@@ -9,7 +9,8 @@
 #import "AlertThenDisappearView.h"
 
 @implementation AlertThenDisappearView {
-    __weak UIViewController *_controller;
+    __weak UIView *_parentView;
+    CGFloat _topPosition;
 }
 
 - (void)awakeFromNib {
@@ -23,17 +24,22 @@
 }
 
 + (AlertThenDisappearView *)instanceForViewController:(UIViewController *)controller {
-    AlertThenDisappearView *alertView = [[[NSBundle mainBundle] loadNibNamed:@"AlertThenDisappearView" owner:self options:nil] objectAtIndex:0];
+    AlertThenDisappearView *alertView = [self instanceForView:controller.view];
+    alertView->_topPosition = controller.navigationController.navigationBar.frame.size.height + controller.navigationController.navigationBar.frame.origin.y;
+    return alertView;
+}
+
++ (AlertThenDisappearView *)instanceForView:(UIView *)view {
+    AlertThenDisappearView *alertView = [[NSBundle mainBundle] loadNibNamed:@"AlertThenDisappearView" owner:self options:nil][0];
     alertView.hidden = YES;
-    alertView->_controller = controller;
+    alertView->_parentView = view;
     return alertView;
 }
 
 - (void)show {
-    float y = _controller.navigationController.navigationBar.frame.size.height + _controller.navigationController.navigationBar.frame.origin.y;
-    self.frame = CGRectMake(0, y, _controller.view.bounds.size.width, 0);
+    self.frame = CGRectMake(0, _topPosition, _parentView.bounds.size.width, 0);
     self.hidden = NO;
-    [_controller.view addSubview:self];
+    [_parentView addSubview:self];
 
     [UIView
             animateWithDuration:.5

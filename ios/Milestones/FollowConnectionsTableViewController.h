@@ -11,6 +11,7 @@
 #import "FollowConnectionsDataSource.h"
 
 @class InviteContactsAddressBookDataSource;
+@class TutorialBubbleView;
 
 
 @interface FollowConnectionTableViewCell : UITableViewCell
@@ -32,4 +33,5 @@
 @property(nonatomic, strong) InviteContactsAddressBookDataSource *contactsDataSource;
 @property(nonatomic, strong) FollowConnectionsDataSource *followConnectionsDataSource;
 @property(nonatomic, readonly) BOOL isPendingReload;
+@property(nonatomic, strong) TutorialBubbleView *tutorialBubbleView;
 @end

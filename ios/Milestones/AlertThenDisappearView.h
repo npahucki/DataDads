@@ -16,6 +16,8 @@
 
 + (AlertThenDisappearView *)instanceForViewController:(UIViewController *)controller;
 
++ (AlertThenDisappearView *)instanceForView:(UIView *)view;
+
 - (void)show;
 
 - (void)showWithDelay:(NSTimeInterval)delay;

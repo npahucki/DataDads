@@ -23,7 +23,7 @@
     [self.closeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.textLabel.text = text;
 
-    CGFloat inset = 20;
+    CGFloat inset = 10;
     CGFloat textWidth = view.bounds.size.width - inset * 2 - self.closeButton.bounds.size.width;
     CGRect r = [text boundingRectWithSize:CGSizeMake(textWidth, 0)
                                   options:NSStringDrawingUsesLineFragmentOrigin
