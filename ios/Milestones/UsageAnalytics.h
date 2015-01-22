@@ -57,5 +57,12 @@
 
 + (void)trackUserDeniedAddressBookAccess;
 
++ (void)trackFollowConnectionInviteSent;
 
++ (void)trackFollowConnectionInviteResponse:(BOOL)accepted;
+
+
++ (void)trackFollowConnectionRevokeInvite;
+
++ (void)trackFollowConnectionRemoveConnection;
 @end

@@ -15,11 +15,12 @@
 
 
 @interface FollowConnectionsTableViewController ()
-
+@property(nonatomic) BOOL isSelected;
 @end
 
 @implementation FollowConnectionTableViewCell {
     FollowConnection *_connection;
+
 }
 
 - (void)awakeFromNib {
@@ -62,6 +63,16 @@
         self.acceptButtonWidth.constant = 0;
     }
 }
+
+- (void)setSelected:(BOOL)selected {
+    [super setSelected:selected];
+    if (selected) {
+        NSLog(@"SELCTED");
+    } else {
+        NSLog(@"DE-SELCTED");
+    }
+}
+
 
 - (void)setConnection:(FollowConnection *)connection andDefaultAvatar:(UIImage *)defaultAvatar {
     _connection = connection;
@@ -106,6 +117,7 @@
 
 @implementation FollowConnectionsTableViewController {
     BOOL _pendingReload;
+    NSIndexPath *_selectedIndexPath;
 
 }
 - (BOOL)isPendingReload {
@@ -153,7 +165,6 @@
     [super viewDidLoad];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    self.tableView.allowsSelection = YES;
     self.refreshControl = [[UIRefreshControl alloc] init];
     self.refreshControl.tintColor = [UIColor appNormalColor];
     [self.refreshControl addTarget:self action:@selector(loadObjects) forControlEvents:UIControlEventValueChanged];
@@ -194,7 +205,7 @@
 
     [self.tableView reloadData];
     [self.refreshControl endRefreshing];
-    self.tableView.allowsSelection = !self.followConnectionsDataSource.hasAnyConnections;
+    //self.tableView.allowsSelection = !self.followConnectionsDataSource.hasAnyConnections;
 }
 
 #pragma mark UITableViewDelegate
@@ -275,6 +286,16 @@
 #pragma mark - private methods
 
 - (void)deleteConnection:(FollowConnectionTableViewCell *)connectionCell {
+    if (connectionCell.connection.inviteAcceptedOn) {
+        [UsageAnalytics trackFollowConnectionRemoveConnection];
+    } else {
+        if (connectionCell.connection.isInviter) {
+            [UsageAnalytics trackFollowConnectionRevokeInvite];
+        } else {
+            [UsageAnalytics trackFollowConnectionInviteResponse:YES];
+        }
+    }
+
     [connectionCell.connection deleteInBackgroundWithBlock:nil];
     [self.contactsDataSource removeExcludeContactWithEmail:connectionCell.connection.otherPartyEmail];
     // Animate delete
@@ -292,15 +313,16 @@
 }
 
 - (void)acceptInvitation:(FollowConnectionTableViewCell *)connectionCell {
+    [UsageAnalytics trackFollowConnectionInviteResponse:YES];
     _pendingReload = YES;
     [self removeTableRow:connectionCell]; // for immediate feedback
     [connectionCell.connection acceptInvitationInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-//        if(succeeded) {
-//            AlertThenDisappearView * alert =  [AlertThenDisappearView instanceForViewController:self];
-//            alert.titleLabel.text = @"Invitation accepted! You will recieve updates via email.";
-//            alert.imageView.image = [UIImage imageNamed:@"acceptIcon_ready"];
-//            [alert show];
-//        }
+        if (succeeded) {
+            AlertThenDisappearView *alert = [AlertThenDisappearView instanceForViewController:self.parentViewController];
+            alert.titleLabel.text = @"Invitation accepted! You will recieve email notifications ";
+            alert.imageView.image = nil;
+            [alert show];
+        }
         // to show the newly moved rows.
         [self.followConnectionsDataSource loadObjects];
     }];

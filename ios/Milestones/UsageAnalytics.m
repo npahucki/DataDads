@@ -443,5 +443,27 @@ static BOOL isRelease;
     [[Mixpanel sharedInstance] track:@"userDeniedAddressBookAccess"];
 }
 
++ (void)trackFollowConnectionInviteSent {
+    [Heap track:@"followConnectionInviteSent"];
+    [[Mixpanel sharedInstance] track:@"followConnectionInviteSent"];
+}
 
++ (void)trackFollowConnectionInviteResponse:(BOOL)accepted {
+    NSDictionary *properties = @ {
+            @"accepted" : @(accepted)
+    };
+
+    [Heap track:@"followConnectionInviteResponse" withProperties:properties];
+    [[Mixpanel sharedInstance] track:@"followConnectionInviteResponse" properties:properties];
+}
+
++ (void)trackFollowConnectionRevokeInvite {
+    [Heap track:@"followConnectionInviteRevoked"];
+    [[Mixpanel sharedInstance] track:@"followConnectionInviteRevoked"];
+}
+
++ (void)trackFollowConnectionRemoveConnection {
+    [Heap track:@"followConnectionBroken"];
+    [[Mixpanel sharedInstance] track:@"followConnectionBroken"];
+}
 @end
