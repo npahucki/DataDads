@@ -1,3 +1,5 @@
+var moment = require('moment');
+
 // TODO: read from localization file.
 var PRONOUN_TRANSLATIONS = {
     "en":{
@@ -13,11 +15,14 @@ var PRONOUN_TRANSLATIONS = {
 
 var MILLIS_PER_DAY = 24 * 60 * 60 * 1000;
 
+
+
 function treatAsUTC(date) {
     var result = new Date(date);
     result.setMinutes(result.getMinutes() - result.getTimezoneOffset());
     return result;
 }
+
 
 exports.isDev = function () {
     return Parse.applicationId === "NlJHBG0NZgFS8JP76DBjA31MBRZ7kmb7dVSQQz3U";
@@ -36,6 +41,19 @@ exports.daysBetween = function (startDate, endDate) {
 exports.dayDiffFromNow = function (date) {
     return exports.daysBetween(new Date(), date);
 };
+
+exports.deltaToPeriod = function (first, second) {
+    var delta = moment(second).diff(first, 'days');
+    return moment.duration(delta, 'days').humanize();
+}
+
+exports.daysToPeriod = function (days) {
+    return moment.duration(days, 'days').humanize();
+}
+
+exports.dateToHuman = function (date) {
+    return moment(date).format("Do of MMM YYYY");
+}
 
 exports.achievementViewerUrl = function (achievement) {
     return "http://" + exports.websiteHost + "/achievements/" + achievement.id
