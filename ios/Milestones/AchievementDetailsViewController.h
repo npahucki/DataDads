@@ -12,7 +12,7 @@
 #import "FDTakeController.h"
 #import "UIViewControllerWithHUDProgress.h"
 
-@interface AchievementDetailsViewController : UIViewControllerWithHUDProgress <UITextViewDelegate, UIDynamicAnimatorDelegate, FDTakeDelegate, DataParentingAdViewDelegate>
+@interface AchievementDetailsViewController : UIViewControllerWithHUDProgress <UITextViewDelegate, UIDynamicAnimatorDelegate, FDTakeDelegate, DataParentingAdViewDelegate, CMPopTipViewDelegate>
 @property(weak, nonatomic) IBOutlet DataParentingAdView *adView;
 
 @property MilestoneAchievement *achievement;

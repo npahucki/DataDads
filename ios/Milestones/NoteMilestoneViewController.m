@@ -7,16 +7,17 @@
 //
 
 #import <MobileCoreServices/MobileCoreServices.h>
+#import <CMPopTipView/CMPopTipView.h>
 #import "NoteMilestoneViewController.h"
 #import "WebViewerViewController.h"
 #import "UnitHelper.h"
 #import "UIImage+FX.h"
-#import "TutorialBubbleView.h"
 #import "PFFile+Media.h"
 #import "InAppPurchaseHelper.h"
+#import "CMPopTipView+WithStaticInitializer.h"
 
 @interface NoteMilestoneViewController ()
-@property TutorialBubbleView *tutorialBubbleView;
+@property CMPopTipView *tutorialBubbleView;
 @end
 
 @implementation NoteMilestoneViewController {
@@ -242,18 +243,19 @@
 
 - (void)didClickRangeIndicator:(id)sender {
     if (_tutorialBubbleView) {
-        [_tutorialBubbleView dismiss];
+        [_tutorialBubbleView dismissAnimated:YES];
+        _tutorialBubbleView = nil;
     } else {
-        __weak NoteMilestoneViewController *_self = self;
-        _tutorialBubbleView = [[NSBundle mainBundle] loadNibNamed:@"TutorialBubbleView" owner:self options:nil][0];
-        _tutorialBubbleView.dismissBlock = ^{
-            _self.tutorialBubbleView = nil;
-        };
-        CGPoint relativePoint = CGPointMake(self.rangeIndicatorView.center.x, self.rangeIndicatorView.frame.origin.y + self.rangeIndicatorView.frame.size.height + 5);
-        _tutorialBubbleView.arrowTip = [self.rangeIndicatorView.superview convertPoint:relativePoint toView:self.view];
-        _tutorialBubbleView.textLabel.font = [UIFont fontForAppWithType:Medium andSize:16];
-        [_tutorialBubbleView showInView:self.view withText:[NSString stringWithFormat:@"The shaded area represents the typical range. The dot shows where %@ is.", Baby.currentBaby.name]];
+        _tutorialBubbleView = [CMPopTipView instanceWithApplicationLookAndFeelAndMessage:
+                [NSString stringWithFormat:@"The shaded area represents the typical range. The dot shows where %@ is.", Baby.currentBaby.name]];
+        _tutorialBubbleView.delegate = self;
+        _tutorialBubbleView.maxWidth = self.view.frame.size.width - 20;
+        [_tutorialBubbleView presentPointingAtView:self.rangeIndicatorView inView:self.view animated:YES];
     }
+}
+
+- (void)popTipViewWasDismissedByUser:(CMPopTipView *)popTipView {
+    _tutorialBubbleView = nil;
 }
 
 - (IBAction)didClickTakePicture:(id)sender {

@@ -9,10 +9,8 @@
 #import "SWTableViewCell.h"
 #import "CirclePictureTableViewCell.h"
 #import "FollowConnectionsDataSource.h"
-
-@class InviteContactsAddressBookDataSource;
-@class TutorialBubbleView;
-
+#import "CMPopTipView.h"
+#import "InviteContactsAddressBookDataSource.h"
 
 @interface FollowConnectionTableViewCell : UITableViewCell
 @property(weak, nonatomic) IBOutlet UIButton *destroyButton;
@@ -28,10 +26,10 @@
 @end
 
 
-@interface FollowConnectionsTableViewController : UITableViewController <SWTableViewCellDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface FollowConnectionsTableViewController : UITableViewController <SWTableViewCellDelegate, UITableViewDelegate, UITableViewDataSource, CMPopTipViewDelegate>
 
 @property(nonatomic, strong) InviteContactsAddressBookDataSource *contactsDataSource;
 @property(nonatomic, strong) FollowConnectionsDataSource *followConnectionsDataSource;
 @property(nonatomic, readonly) BOOL isPendingReload;
-@property(nonatomic, strong) TutorialBubbleView *tutorialBubbleView;
+@property(nonatomic, strong) CMPopTipView *tipView;
 @end

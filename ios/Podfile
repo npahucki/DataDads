@@ -18,7 +18,8 @@ pod 'RMStore/AppReceiptVerificator'
 pod 'UXCam'
 pod 'Mixpanel'
 pod 'MBContactPicker', :git => 'https://github.com/npahucki/MBContactPicker.git', :commit => 'b7e7510d21e3e5fdf5f2054bf1775dabb888c412'
-
+pod 'PFCloud+Cache', :git => 'https://github.com/npahucki/PFCloud-Cache.git', :commit => '0b07cf18739a784e8ceaa7bae056aaae3a37c058'
+pod 'CMPopTipView', '2.2'
 
 
 

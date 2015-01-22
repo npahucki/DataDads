@@ -6,17 +6,16 @@
 //  Copyright (c) 2015 DataParenting. All rights reserved.
 //
 
+#import <CMPopTipView/CMPopTipView.h>
 #import "FollowConnectionsTableViewController.h"
 #import "NSDate+HumanizedTime.h"
 #import "UIImageView+URLLoading.h"
 #import "NSDate+Utils.h"
-#import "InviteContactsAddressBookDataSource.h"
 #import "AlertThenDisappearView.h"
-#import "TutorialBubbleView.h"
+#import "CMPopTipView+WithStaticInitializer.h"
 
 
 @interface FollowConnectionsTableViewController ()
-@property(nonatomic) BOOL isSelected;
 @end
 
 @implementation FollowConnectionTableViewCell {
@@ -181,9 +180,9 @@
 }
 
 - (void)dismissTutorialBubble {
-    if (self.tutorialBubbleView) {
-        [self.tutorialBubbleView dismiss];
-        self.tutorialBubbleView = nil;
+    if (self.tipView) {
+        [self.tipView dismissAnimated:YES];
+        self.tipView = nil;
     }
 }
 
@@ -223,32 +222,39 @@
     return [self.followConnectionsDataSource connectionsInSection:(FollowConnectionDataSourceSection) section].count > 0 ? 44 : 0;
 }
 
+#pragma mark CMPopTipViewDelegate methods
+
+- (void)popTipViewWasDismissedByUser:(CMPopTipView *)popTipView {
+    self.tipView = nil;
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (!self.followConnectionsDataSource.hasAnyConnections) {
         [self loadObjects];
     } else {
         [self dismissTutorialBubble];
         FollowConnectionTableViewCell *cell = (FollowConnectionTableViewCell *) [self.tableView cellForRowAtIndexPath:indexPath];
-        self.tutorialBubbleView = [[NSBundle mainBundle] loadNibNamed:@"TutorialBubbleView" owner:self options:nil][0];
-        self.tutorialBubbleView.textLabel.font = [UIFont fontForAppWithType:Medium andSize:16];
         NSString *msg;
+        UIView *arrowPointView;
         if (cell.connection.inviteAcceptedOn) {
             msg = [NSString stringWithFormat:@"Every time %@ notes a milestone, we'll send you an email. Check your mail regularly!",
                                              cell.connection.otherPartyDisplayName];
-            CGPoint relativePoint = CGPointMake(cell.pictureView.center.x, cell.pictureView.frame.origin.y + cell.pictureView.frame.size.height);
-            self.tutorialBubbleView.arrowTip = [cell convertPoint:relativePoint toView:self.tableView];
+            arrowPointView = cell.pictureView;
         } else if (cell.connection.isInviter) {
             msg = [NSString stringWithFormat:@"You are waiting for %@ to accept your invitation. You can revoke it at any time by pressing the X button.",
                                              cell.connection.otherPartyDisplayName];
-            CGPoint relativePoint = CGPointMake(cell.destroyButton.center.x, cell.destroyButton.frame.origin.y + cell.destroyButton.frame.size.height);
-            self.tutorialBubbleView.arrowTip = [cell convertPoint:relativePoint toView:self.tableView];
+            arrowPointView = cell.destroyButton;
         } else {
             msg = [NSString stringWithFormat:@"%@ wants to follow %@'s milestones! Press the accept button to allow.",
                                              cell.connection.otherPartyDisplayName, [Baby currentBaby].name];
-            CGPoint relativePoint = CGPointMake(cell.acceptButton.center.x, cell.acceptButton.frame.origin.y + cell.acceptButton.frame.size.height);
-            self.tutorialBubbleView.arrowTip = [cell convertPoint:relativePoint toView:self.tableView];
+            arrowPointView = cell.acceptButton;
         }
-        [self.tutorialBubbleView showInView:self.tableView withText:msg];
+
+        // Toggle popTipView when a standard UIButton is pressed
+        self.tipView = [CMPopTipView instanceWithApplicationLookAndFeelAndMessage:msg];
+        self.tipView.delegate = self;
+        self.tipView.maxWidth = self.view.frame.size.width - 20;
+        [self.tipView presentPointingAtView:arrowPointView inView:self.view animated:YES];
         [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
     }
 }

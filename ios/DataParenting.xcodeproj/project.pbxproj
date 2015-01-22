@@ -10,6 +10,7 @@
 		72F1801C43E6C695896617EE /* NSString+EmailAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18B2AFF977957CF046E9E /* NSString+EmailAddress.m */; };
 		72F1821D4331F0249A938183 /* FollowConnectionsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18BDBDA243B1941504FEB /* FollowConnectionsDataSource.m */; };
 		72F1824FF832CD399E989C2F /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72F184C3C79880CF8D53574A /* MediaPlayer.framework */; };
+		72F1827B6B5DA4E103212A1F /* CMPopTipView+WithStaticInitializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F185EB408FDE2C98B77B34 /* CMPopTipView+WithStaticInitializer.m */; };
 		72F182FAB72978F3ACE021DD /* FDTakeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18A513D481205AD9FA1F1 /* FDTakeController.m */; };
 		72F1832E50AB67DDE44C4A12 /* ExternalMediaFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F187DCCDCE0FA22CD5DEC4 /* ExternalMediaFile.m */; };
 		72F1833039ED99453A7414AA /* PurchaseTransaction.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18CC0F7A7237D340BAB5B /* PurchaseTransaction.m */; };
@@ -18,6 +19,7 @@
 		72F183DFFA43FAC7A9CEDEAE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F18627FC1325DE78BA4040 /* InfoPlist.strings */; };
 		72F184E3E3BAD40F4F93005F /* UIImageView+URLLoading.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F1819FEE30D8DFEAA8F678 /* UIImageView+URLLoading.m */; };
 		72F184EBDABA851F9BE570BC /* FDTake.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F182B2192D608D0B45B9C9 /* FDTake.strings */; };
+		72F185D04E9D8D927BEBFA72 /* CMPopTipView+WithStaticInitializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F185EB408FDE2C98B77B34 /* CMPopTipView+WithStaticInitializer.m */; };
 		72F1860975D6B51CA5600385 /* PurchaseTransaction.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18CC0F7A7237D340BAB5B /* PurchaseTransaction.m */; };
 		72F18617EC21AE75149CBA42 /* NSString+EmailAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18B2AFF977957CF046E9E /* NSString+EmailAddress.m */; };
 		72F186FAC366DD73385A1055 /* ViewControllerWithBabyInfoButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18C69E7D6386F1B61CB97 /* ViewControllerWithBabyInfoButton.m */; };
@@ -85,10 +87,6 @@
 		E85A99A1198FCB2C00AFE096 /* Tutorial-Screen-3d.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E85A999E198FCB2C00AFE096 /* Tutorial-Screen-3d.jpg */; };
 		E85A99A2198FCB2C00AFE096 /* Tutorial-Screen-4d.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E85A999F198FCB2C00AFE096 /* Tutorial-Screen-4d.jpg */; };
 		E85A99A3198FCB2C00AFE096 /* Tutorial-Screen-4d.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E85A999F198FCB2C00AFE096 /* Tutorial-Screen-4d.jpg */; };
-		E85A99A5198FE3A800AFE096 /* TutorialBubbleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E85A99A4198FE3A800AFE096 /* TutorialBubbleView.xib */; };
-		E85A99A6198FE3A800AFE096 /* TutorialBubbleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E85A99A4198FE3A800AFE096 /* TutorialBubbleView.xib */; };
-		E85A99A9198FE84B00AFE096 /* TutorialBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = E85A99A8198FE84B00AFE096 /* TutorialBubbleView.m */; };
-		E85A99AA198FE84B00AFE096 /* TutorialBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = E85A99A8198FE84B00AFE096 /* TutorialBubbleView.m */; };
 		E8624E6919E6EBDB00404470 /* OptionalSignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8624E6819E6EBDB00404470 /* OptionalSignUpViewController.m */; };
 		E8624E6A19E6EBDB00404470 /* OptionalSignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8624E6819E6EBDB00404470 /* OptionalSignUpViewController.m */; };
 		E866E7F31936448C004963C9 /* NotificationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E866E7F21936448C004963C9 /* NotificationTableViewController.m */; };
@@ -296,11 +294,13 @@
 		72F181D2F3F21DC238F85FEA /* InviteContactsAddressBookDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InviteContactsAddressBookDataSource.m; sourceTree = "<group>"; };
 		72F183698C959E005935B194 /* InAppPurchaseHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InAppPurchaseHelper.h; sourceTree = "<group>"; };
 		72F18423ECAD54191B7179D7 /* AppleIncRootCertificate.cer */ = {isa = PBXFileReference; lastKnownFileType = file.cer; path = AppleIncRootCertificate.cer; sourceTree = "<group>"; };
+		72F1842C1AA9AF64F6DFB420 /* CMPopTipView+WithStaticInitializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CMPopTipView+WithStaticInitializer.h"; sourceTree = "<group>"; };
 		72F1844739B4B51C27B34983 /* InAppPurchaseHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InAppPurchaseHelper.m; sourceTree = "<group>"; };
 		72F184506900ECF329391D82 /* PFFile+Media.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PFFile+Media.m"; sourceTree = "<group>"; };
 		72F184C3C79880CF8D53574A /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		72F1855685E8FD6A455E30AB /* UIImageView+URLLoading.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+URLLoading.h"; sourceTree = "<group>"; };
 		72F185D7FC4A3D3E7821DD24 /* ParentUserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParentUserTests.m; sourceTree = "<group>"; };
+		72F185EB408FDE2C98B77B34 /* CMPopTipView+WithStaticInitializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMPopTipView+WithStaticInitializer.m"; sourceTree = "<group>"; };
 		72F186162B391F420B41BEE6 /* ViewControllerWithBabyInfoButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewControllerWithBabyInfoButton.h; sourceTree = "<group>"; };
 		72F187DCCDCE0FA22CD5DEC4 /* ExternalMediaFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExternalMediaFile.m; sourceTree = "<group>"; };
 		72F18854EC2953038E616417 /* ExternalMediaFileTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExternalMediaFileTests.m; sourceTree = "<group>"; };
@@ -373,9 +373,6 @@
 		E85A999B198F15F100AFE096 /* Tutorial-Screen-4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Tutorial-Screen-4.jpg"; sourceTree = "<group>"; };
 		E85A999E198FCB2C00AFE096 /* Tutorial-Screen-3d.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Tutorial-Screen-3d.jpg"; sourceTree = "<group>"; };
 		E85A999F198FCB2C00AFE096 /* Tutorial-Screen-4d.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Tutorial-Screen-4d.jpg"; sourceTree = "<group>"; };
-		E85A99A4198FE3A800AFE096 /* TutorialBubbleView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TutorialBubbleView.xib; sourceTree = "<group>"; };
-		E85A99A7198FE84B00AFE096 /* TutorialBubbleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialBubbleView.h; sourceTree = "<group>"; };
-		E85A99A8198FE84B00AFE096 /* TutorialBubbleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialBubbleView.m; sourceTree = "<group>"; };
 		E8624E6719E6EBDB00404470 /* OptionalSignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionalSignUpViewController.h; sourceTree = "<group>"; };
 		E8624E6819E6EBDB00404470 /* OptionalSignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionalSignUpViewController.m; sourceTree = "<group>"; };
 		E862B81418F6A69200EBAEFF /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
@@ -650,14 +647,13 @@
 				E856BD571964455200D00E5C /* TakePhotoButton.m */,
 				E8FFCCE6196DF78400969083 /* DataParentingAdView.h */,
 				E8FFCCE7196DF78400969083 /* DataParentingAdView.m */,
-				E85A99A4198FE3A800AFE096 /* TutorialBubbleView.xib */,
-				E85A99A7198FE84B00AFE096 /* TutorialBubbleView.h */,
-				E85A99A8198FE84B00AFE096 /* TutorialBubbleView.m */,
 				E8A29BCD19F0148E00DFDE66 /* InAppPurchaseView.xib */,
 				E8A29BDF19F0633300DFDE66 /* InAppPurchaseAlertView.h */,
 				E8A29BE019F0633300DFDE66 /* InAppPurchaseAlertView.m */,
 				E89BA8241A5C9409001F8DC2 /* CirclePictureTableViewCell.h */,
 				E89BA8251A5C9409001F8DC2 /* CirclePictureTableViewCell.m */,
+				72F185EB408FDE2C98B77B34 /* CMPopTipView+WithStaticInitializer.m */,
+				72F1842C1AA9AF64F6DFB420 /* CMPopTipView+WithStaticInitializer.h */,
 			);
 			name = CustomViews;
 			sourceTree = "<group>";
@@ -1109,7 +1105,6 @@
 				E8A02D5619817CCF001E0DAB /* GothamRounded-Light.otf in Resources */,
 				E85A999D198F15F100AFE096 /* Tutorial-Screen-4.jpg in Resources */,
 				E8A02D5719817CCF001E0DAB /* Pronouns.strings in Resources */,
-				E85A99A6198FE3A800AFE096 /* TutorialBubbleView.xib in Resources */,
 				E85A99A3198FCB2C00AFE096 /* Tutorial-Screen-4d.jpg in Resources */,
 				E88386C119C35D2B00AE89AC /* Tutorial-Screen-4 640x960.jpg in Resources */,
 				E8A02D5819817CCF001E0DAB /* Images.xcassets in Resources */,
@@ -1150,7 +1145,6 @@
 				E8E39C1418E615D20034982D /* GothamRounded-Light.otf in Resources */,
 				E85A999C198F15F100AFE096 /* Tutorial-Screen-4.jpg in Resources */,
 				E8BDE6B2193E0951001D6995 /* Pronouns.strings in Resources */,
-				E85A99A5198FE3A800AFE096 /* TutorialBubbleView.xib in Resources */,
 				E85A99A2198FCB2C00AFE096 /* Tutorial-Screen-4d.jpg in Resources */,
 				E88386C019C35D2B00AE89AC /* Tutorial-Screen-4 640x960.jpg in Resources */,
 				E8DD48FC188EE5B900153095 /* Images.xcassets in Resources */,
@@ -1306,7 +1300,6 @@
 				E8A02D1919817CCF001E0DAB /* SettingPanelViewController.m in Sources */,
 				E8A02D1A19817CCF001E0DAB /* AppDelegate.m in Sources */,
 				E8A02D1B19817CCF001E0DAB /* TakePhotoButton.m in Sources */,
-				E85A99AA198FE84B00AFE096 /* TutorialBubbleView.m in Sources */,
 				E8A02D1C19817CCF001E0DAB /* main.m in Sources */,
 				E8A02D1D19817CCF001E0DAB /* BannerViewController.m in Sources */,
 				E8A29BE219F0633300DFDE66 /* InAppPurchaseAlertView.m in Sources */,
@@ -1348,6 +1341,7 @@
 				72F1801C43E6C695896617EE /* NSString+EmailAddress.m in Sources */,
 				72F189D03635D080146BA4E8 /* FollowConnectionsDataSource.m in Sources */,
 				72F186FAC366DD73385A1055 /* ViewControllerWithBabyInfoButton.m in Sources */,
+				72F185D04E9D8D927BEBFA72 /* CMPopTipView+WithStaticInitializer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1386,7 +1380,6 @@
 				E88F3635194A5A4100BE74E9 /* SettingPanelViewController.m in Sources */,
 				E8DD48EE188EE5B900153095 /* AppDelegate.m in Sources */,
 				E856BD581964455200D00E5C /* TakePhotoButton.m in Sources */,
-				E85A99A9198FE84B00AFE096 /* TutorialBubbleView.m in Sources */,
 				E89BA81B1A5C10ED001F8DC2 /* FollowConnectionsTableViewController.m in Sources */,
 				E8DD48EA188EE5B900153095 /* main.m in Sources */,
 				E881F8DF1962006E0066046E /* BannerViewController.m in Sources */,
@@ -1429,6 +1422,7 @@
 				72F18617EC21AE75149CBA42 /* NSString+EmailAddress.m in Sources */,
 				72F1821D4331F0249A938183 /* FollowConnectionsDataSource.m in Sources */,
 				72F18D14577530F4D13FAA81 /* ViewControllerWithBabyInfoButton.m in Sources */,
+				72F1827B6B5DA4E103212A1F /* CMPopTipView+WithStaticInitializer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -15,9 +15,10 @@
 #import "SevenSwitch.h"
 #import "RangeIndicatorView.h"
 #import "DataParentingAdView.h"
+#import "CMPopTipView.h"
 
 
-@interface NoteMilestoneViewController : UIViewControllerWithHUDProgress <FDTakeDelegate, UITextFieldDelegate, UITextViewDelegate, UIScrollViewDelegate, DataParentingAdViewDelegate>
+@interface NoteMilestoneViewController : UIViewControllerWithHUDProgress <FDTakeDelegate, UITextFieldDelegate, UITextViewDelegate, UIScrollViewDelegate, DataParentingAdViewDelegate, CMPopTipViewDelegate>
 
 @property MilestoneAchievement *achievement;
 @property(strong, nonatomic) IBOutlet UIDateField *completionDateTextField;

@@ -6,13 +6,14 @@
 //  Copyright (c) 2014 DataParenting. All rights reserved.
 //
 
+#import <CMPopTipView/CMPopTipView.h>
 #import "EnterScreenNameViewController.h"
 #import "WebViewerViewController.h"
-#import "TutorialBubbleView.h"
+#import "CMPopTipView+WithStaticInitializer.h"
 
 
 @implementation EnterScreenNameViewController {
-    TutorialBubbleView *_tutorialBubbleView;
+    CMPopTipView *_tutorialBubbleView;
 }
 
 - (void)viewDidLoad {
@@ -44,12 +45,6 @@
     [self updateNextButtonState];
 }
 
-
-- (IBAction)didChangeScreenName:(id)sender {
-//  [self.view endEditing:YES];
-    [self updateNextButtonState];
-}
-
 - (IBAction)didClickAgreeTACButton:(id)sender {
     self.acceptTACButton.selected = !self.acceptTACButton.selected;
     [self updateNextButtonState];
@@ -59,26 +54,26 @@
     self.supportScienceButton.selected = !self.supportScienceButton.selected;
 }
 
+- (void)popTipViewWasDismissedByUser:(CMPopTipView *)popTipView {
+    _tutorialBubbleView = nil;
+}
 
 - (IBAction)didClickSupportScienceInfoButton:(id)sender {
     if (_tutorialBubbleView) {
         [self dismissTutorialBubbleViewInfo];
     } else {
-        __weak EnterScreenNameViewController *_self = self;
-        _tutorialBubbleView = [[NSBundle mainBundle] loadNibNamed:@"TutorialBubbleView" owner:self options:nil][0];
-        _tutorialBubbleView.dismissBlock = ^{
-            [_self dismissTutorialBubbleViewInfo];
-        };
-        UIButton *infoButton = (UIButton *) sender;
-        _tutorialBubbleView.arrowTip = infoButton.center;
-        _tutorialBubbleView.textLabel.font = [UIFont fontForAppWithType:Medium andSize:14];
-        [_tutorialBubbleView showInView:self.view withText:@"Your child's milestone data will be anonymously"
-                " aggregated for select scientists. If you don't agree, your child's upcoming milestone may be less accurate."];
+        _tutorialBubbleView = [CMPopTipView instanceWithApplicationLookAndFeelAndMessage:
+                @"Your child's milestone data will be anonymously"
+                        " aggregated for select scientists. If you don't agree, your child's upcoming milestone may be less accurate."];
+        _tutorialBubbleView.delegate = self;
+        _tutorialBubbleView.textFont = [UIFont fontForAppWithType:Medium andSize:14];
+        _tutorialBubbleView.maxWidth = self.view.frame.size.width - 20;
+        [_tutorialBubbleView presentPointingAtView:sender inView:self.view animated:YES];
     }
 }
 
 - (void)dismissTutorialBubbleViewInfo {
-    [_tutorialBubbleView dismiss];
+    [_tutorialBubbleView dismissAnimated:YES];
     _tutorialBubbleView = nil;
 }
 
@@ -156,9 +151,9 @@
         if (error) {
             [self showErrorThenRunBlock:error withMessage:@"Could not save baby's photo" andBlock:nil];
         } else {
-            [self saveBabyObject:^(BOOL succeeded, NSError *error) {
-                if (error) {
-                    [self showErrorThenRunBlock:error withMessage:@"Could not save baby's information" andBlock:nil];
+            [self saveBabyObject:^(BOOL succeeded2, NSError *error2) {
+                if (error2) {
+                    [self showErrorThenRunBlock:error2 withMessage:@"Could not save baby's information" andBlock:nil];
                 } else {
                     [UsageAnalytics trackCreateBaby:self.baby];
                     if (isNewBaby) [self saveBirthdayMilestone];

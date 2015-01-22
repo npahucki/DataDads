@@ -8,6 +8,7 @@
 
 #import <MediaPlayer/MediaPlayer.h>
 #import <MobileCoreServices/MobileCoreServices.h>
+#import <CMPopTipView/CMPopTipView.h>
 #import "AchievementDetailsViewController.h"
 #import "WebViewerViewController.h"
 #import "NSDate+Utils.m"
@@ -15,14 +16,14 @@
 #import "NSDate+HumanizedTime.h"
 #import "UIActionSheet+Blocks.h"
 #import "UIView+Genie.h"
-#import "TutorialBubbleView.h"
 #import "UIImage+FX.h"
 #import "AlertThenDisappearView.h"
 #import "PFFile+Media.h"
 #import "InAppPurchaseHelper.h"
+#import "CMPopTipView+WithStaticInitializer.h"
 
 @interface AchievementDetailsViewController ()
-@property TutorialBubbleView *tutorialBubbleView;
+@property CMPopTipView *tutorialBubbleView;
 
 @end
 
@@ -286,7 +287,7 @@ NSDateFormatter *_dateFormatter;
                     [UsageAnalytics trackError:error forOperationNamed:@"fetchAchievementForSharedViaUpdate"];
                 } else {
                     MilestoneAchievement *a = (MilestoneAchievement *) object;
-                    a.sharedVia = a.sharedVia | SharingMediumOther;
+                    a.sharedVia = a.sharedVia | medium;
                     [a saveEventually];
                 }
             }];
@@ -403,27 +404,27 @@ NSDateFormatter *_dateFormatter;
     [animator removeAllBehaviors];
 }
 
+- (void)popTipViewWasDismissedByUser:(CMPopTipView *)popTipView {
+    _tutorialBubbleView = nil;
+}
+
+
 - (void)didClickRangeIndicator:(id)sender {
     if (_tutorialBubbleView) {
-        [_tutorialBubbleView dismiss];
+        [_tutorialBubbleView dismissAnimated:YES];
+        _tutorialBubbleView = nil;
     } else {
-        __weak AchievementDetailsViewController *_self = self;
-        _tutorialBubbleView = [[NSBundle mainBundle] loadNibNamed:@"TutorialBubbleView" owner:self options:nil][0];
-        _tutorialBubbleView.dismissBlock = ^{
-            _self.tutorialBubbleView = nil;
-        };
-        CGPoint relativePoint = CGPointMake(self.rangeIndicatorView.center.x, self.rangeIndicatorView.frame.origin.y + self.rangeIndicatorView.frame.size.height + 5);
-        _tutorialBubbleView.arrowTip = [self.rangeIndicatorView.superview convertPoint:relativePoint toView:self.view];
-        _tutorialBubbleView.textLabel.font = [UIFont fontForAppWithType:Medium andSize:16];
         NSString *msg = self.achievement.standardMilestone ?
                 [NSString stringWithFormat:@"The shaded area shows the typical range of %@ and the dot that %@ completed it at %@",
                                            self.achievement.standardMilestone.humanReadableRange,
                                            Baby.currentBaby.name,
                                            [Baby.currentBaby ageAtDateFormattedAsNiceString:self.achievement.completionDate]] :
                 @"You entered this milestone, so we don't have any data to compare it against. Yet.";
-        [_tutorialBubbleView showInView:self.view withText:msg];
+        _tutorialBubbleView = [CMPopTipView instanceWithApplicationLookAndFeelAndMessage:msg];
+        _tutorialBubbleView.delegate = self;
+        _tutorialBubbleView.maxWidth = self.view.frame.size.width - 40;
+        [_tutorialBubbleView presentPointingAtView:self.rangeIndicatorView inView:self.view animated:YES];
     }
-
 }
 
 #pragma mark FDTakeController Delegate
