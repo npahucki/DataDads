@@ -152,14 +152,14 @@
     } else {
         currentInstallation[@"pushNotificationType"] = @([application enabledRemoteNotificationTypes]);
     }
-    [currentInstallation saveInBackground];
+    [currentInstallation saveEventually];
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
     [UsageAnalytics trackError:error forOperationNamed:@"registerForPushNotifications"];
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     currentInstallation[@"pushNotificationType"] = @(-1);
-    [currentInstallation saveInBackground];
+    [currentInstallation saveEventually];
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
