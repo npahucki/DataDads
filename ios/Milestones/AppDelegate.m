@@ -83,9 +83,13 @@
     pageControl.currentPageIndicatorTintColor = [UIColor appNormalColor];
     pageControl.backgroundColor = [UIColor whiteColor];
 
-    if (launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]) {
-        [self incrementOpenViaPushNotificationCount];
+    // When the app is not open at all, the didReceiveRemoteNotification is not called, we need to detect his here and call it
+    // for it to work correctly. 
+    UILocalNotification *notification = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+    if (notification) {
+        [self application:application didReceiveRemoteNotification:(NSDictionary*)notification];
     }
+    
     return YES;
 }
 
