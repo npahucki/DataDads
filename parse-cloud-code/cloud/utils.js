@@ -23,6 +23,8 @@ function treatAsUTC(date) {
     return result;
 }
 
+exports.oneLinkFollowUrl = "http://m.onelink.me/d6d1120e";
+
 
 exports.isDev = function () {
     return  typeof Parse == "undefined" ? true : Parse.applicationId === "NlJHBG0NZgFS8JP76DBjA31MBRZ7kmb7dVSQQz3U";

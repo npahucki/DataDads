@@ -3,7 +3,7 @@
     <%if(inviteeIsExistingUser){%>
     <p>
       <%=inviterName%> wants to follow <%=inviteeBabyName%>'s First Times via
-      <a href="http://dataparenting.com/milestones-app/">DataParenting</a>
+      <a href="<%=installAppUrl%>">DataParenting</a>
     </p>
     <p>
     For <%=inviterName%> to follow <%=inviteeBabyName%>'s First Times, go to the <a href="<%=openAppUrl%>">'Monitors' tab</a>
@@ -15,7 +15,7 @@
     <%} else {%>
     <!-- TODO: One day, support one way baby follows -->
     <p>
-      <%=inviterName%> wants to follow your child's first times via <a href="http://dataparenting.com/milestones-app/">DataParenting</a>.
+      <%=inviterName%> wants to follow your child's first times via <a href="<%=installAppUrl%>">DataParenting</a>.
       This app lets you note when your child does something for the first time (with a photo and video!) -- to remember the moment,
       to share it with your friends, and to contribute to parenting science through helping track this data.
     </p>
@@ -23,9 +23,8 @@
       You'll also get to follow what <%=inviterName%>'s baby <%=inviterBabyName%> is up to.
     </p>
     <p>
-      <!-- TODO: link click records click and redirects -->
-      To get started, you need to <a href="https://itunes.apple.com/us/app/dataparenting-baby-milestones/id905124835?mt=8">
-      install DataParenting on your iPhone</a>. After you've installed the app, go to the <a href="<%=openAppUrl%>">'Monitors' tab</a> and accept
+      To get started, you need to <a href="<%=installAppUrl%>">install DataParenting on your iPhone</a>.
+      After you've installed the app, go to the <a href="<%=openAppUrl%>">'Monitors' tab</a> and accept
       or reject the invitation there.
     </p>
     <p>

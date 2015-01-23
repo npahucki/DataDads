@@ -362,7 +362,8 @@ Parse.Cloud.job("deliverFollowConnectionInvites", function (request, status) {
                 inviteeBabyName : inviteeBabyName,
                 inviteSentToEmailAddress : connectionInvite.get("inviteSentToEmail"),
                 inviteeIsExistingUser : inviteeUser ? true : false,
-                openAppUrl  : utils.isDev() ? "dataparentingappdev://follow" : "dataparentingapp://follow"
+                openAppUrl  : utils.isDev() ? "dataparentingappdev://follow" : "dataparentingapp://follow",
+                installAppUrl : utils.isDev() ? "https://www.testflightapp.com/dashboard/applications/1247871/" : utils.oneLinkFollowUrl
             };
             var emails = require('cloud/emails.js');
             var emailPromise = emails.sendTemplateEmail(subjectTitle,connectionInvite.get("inviteSentToEmail"),"follow/invitation.ejs", params,inviterUser);

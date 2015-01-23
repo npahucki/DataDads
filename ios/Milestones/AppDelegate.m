@@ -7,6 +7,7 @@
 //
 
 #import <PFCloud+Cache/PFCloud+Cache.h>
+#import <AppsFlyer-SDK/AppsFlyerTracker.h>
 #import "AppDelegate.h"
 
 @implementation AppDelegate
@@ -96,6 +97,7 @@
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     if ([url.scheme hasPrefix:@"dataparenting"]) {
         [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationURLOpened object:url];
+        [[AppsFlyerTracker sharedTracker] handleOpenURL:url sourceApplication:sourceApplication];
         return YES;
     } else {
         // TODO: Open URL to the invite page.
