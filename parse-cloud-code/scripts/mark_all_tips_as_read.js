@@ -6,6 +6,7 @@ var util = require("../cloud/utils");
 
 var count = 0;
 var query = new Parse.Query("BabyAssignedTips");
+query.select("viewedOn");
 query.doesNotExist("viewedOn");
 console.log("Finding objects to update...");
 query.each(function (assignment) {
