@@ -8,8 +8,28 @@
     <p>
     For <%=inviterName%> to follow <%=inviteeBabyName%>'s First Times, go to the <a href="<%=openAppUrl%>">'Monitors' tab</a>
       and accept or reject the invitation there.
+    </p>
+    <%if(inviteeHasIncapableVersionInstalled) {%>
+    <p><i>
+      <%if(inviteeHasCapableVersionInstalled) {%>
+        It looks like one of your devices has an older version of the DataParenting App installed. To use the
+        Monitors feature on that device, it must be using version 1.3 or higher. Please take a moment to
+        <a href="https://itunes.apple.com/us/app/dataparenting-baby-milestones/id905124835?mt=8">update now</a> so you
+        can enjoy this new feature. If however you no longer use that device, shoot us an
+        <a href="mailto:hello@dataparenting.com">email</a>
+        and we'll remove the record for you so you don't see this message anymore.
+      <% } else { %>
+        It looks like your device has an older version of the DataParenting App installed. To use the
+        Monitors feature, you must be using version 1.3 or higher. Please take a moment to
+        <a href="https://itunes.apple.com/us/app/dataparenting-baby-milestones/id905124835?mt=8">update now</a> so you
+        can enjoy this new feature.
+      <% } %>
+    </i></p>
+    <%}%>
 
-    If you have any questions, just send us a note to say hi:
+
+    <p>
+      If you have any questions, just send us a note to say hi:
       <a href="mailto:hello@dataparenting.com">hello@dataparenting.com</a>
     </p>
     <%} else {%>

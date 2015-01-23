@@ -5,7 +5,7 @@ var _ = require("underscore");
 
 function lookupFirstBabyForUser(user) {
 
-    if(user) {
+    if (user) {
         var babyQuery = new Parse.Query("Babies");
         babyQuery.equalTo("parentUser", user);
         babyQuery.limit = 1;
@@ -14,6 +14,22 @@ function lookupFirstBabyForUser(user) {
         return Parse.Promise.as(null);
     }
 }
+
+function lookupUsersInstalledVersions(user) {
+    if (user) {
+        var installationQuery = new Parse.Query(Parse.Installation);
+        installationQuery.equalTo("user", user);
+        installationQuery.select("appVersion");
+        return installationQuery.find().then(function (installations) {
+            return Parse.Promise.as(_.map(installations, function (installation) {
+                return installation.get("appVersion");
+            }));
+        });
+    } else {
+        return Parse.Promise.as([]);
+    }
+}
+
 
 // Returns a promise, that succeeds if the connection object is looked up and
 // the user in the request is either the inviter or invitee
@@ -51,7 +67,7 @@ Parse.Cloud.define("queryMyFollowConnections", function (request, response) {
     var skip = parseInt(request.params.skip);
     var appVersion = request.params.appVersion;
 
-    if(!user) {
+    if (!user) {
         response.error("No user present in request");
         return;
     }
@@ -85,13 +101,13 @@ Parse.Cloud.define("queryMyFollowConnections", function (request, response) {
                         var inviteeUser = connectionObject.get("user2");
 
                         if (isInviter) {
-                            otherUserName =  connectionObject.has("inviteSentToName") ?
+                            otherUserName = connectionObject.has("inviteSentToName") ?
                                     connectionObject.get("inviteSentToName") :
                                     connectionObject.get("inviteSentToEmail");
                             otherUserEmail = connectionObject.get("inviteSentToEmail");
                             // Always prefer what the user says his name is, if he does at all
                             if (inviteeUser && inviteeUser.has("fullName")) {
-                                otherUserName =  inviteeUser.get("fullName")
+                                otherUserName = inviteeUser.get("fullName")
                             }
                         } else {
                             otherUserEmail = inviterUser.get("email");
@@ -104,7 +120,7 @@ Parse.Cloud.define("queryMyFollowConnections", function (request, response) {
                             inviteSentOn:connectionObject.get("inviteSentOn"),
                             isInviter:isInviter,
                             otherPartyDisplayName:otherUserName,
-                            otherPartyEmail : otherUserEmail
+                            otherPartyEmail:otherUserEmail
                         };
                         if (connectionObject.has("inviteAcceptedOn")) {
                             connection["inviteAcceptedOn"] = connectionObject.get("inviteAcceptedOn");
@@ -137,61 +153,61 @@ Parse.Cloud.define("queryMyFollowConnections", function (request, response) {
 Parse.Cloud.define("deleteFollowConnection", function (request, response) {
     Parse.Cloud.useMasterKey();
     var connectionObject;
-    lookupConnectionObject(request).then(function(newConnectionObject) {
+    lookupConnectionObject(request).then(function (newConnectionObject) {
         connectionObject = newConnectionObject;
         // Break the connection in the babies, so there are no more email updates.
         var user1 = connectionObject.get("user1");
         var user2 = connectionObject.get("user2");
         // Only if both users are present, can we attempt to undo the email links.
         // If the invitation was never accepted, then user2 will be undefined.
-        if(user1 && user2) {
+        if (user1 && user2) {
             var babyQuery1 = new Parse.Query("Babies");
             babyQuery1.equalTo("parentUser", user1);
-            var babyPromise1 = babyQuery1.each(function(baby) {
-                baby.remove("followerEmails",user2.get("email"));
+            var babyPromise1 = babyQuery1.each(function (baby) {
+                baby.remove("followerEmails", user2.get("email"));
                 return baby.save();
             });
             var babyQuery2 = new Parse.Query("Babies");
             babyQuery2.equalTo("parentUser", user2);
-            var babyPromise2 = babyQuery2.each(function(baby) {
-                baby.remove("followerEmails",user1.get("email"));
+            var babyPromise2 = babyQuery2.each(function (baby) {
+                baby.remove("followerEmails", user1.get("email"));
                 return baby.save();
             });
             return Parse.Promise.when(babyPromise1, babyPromise2);
         }
-    }).then(function() {
-        return connectionObject.destroy();
-    }).then(function() {
-        response.success(true);
-    },
-    function(error) {
-        response.error(error);
-    });
+    }).then(function () {
+                return connectionObject.destroy();
+            }).then(function () {
+                response.success(true);
+            },
+            function (error) {
+                response.error(error);
+            });
 });
 
 Parse.Cloud.define("sendFollowInvitation", function (request, response) {
 
-    if(!request.user) {
+    if (!request.user) {
         response.error("No User in Request");
         return;
     }
 
-    if(!request.params.invites) {
+    if (!request.params.invites) {
         response.error("Missing Invitations");
         return;
     }
 
     var utils = require("cloud/utils");
     Parse.Cloud.useMasterKey();
-    var promises = _.map(request.params.invites, function(invite) {
-        if(utils.isValidEmailAddress(invite.sendToEmail)) {
+    var promises = _.map(request.params.invites, function (invite) {
+        if (utils.isValidEmailAddress(invite.sendToEmail)) {
             invite.sendToEmail = invite.sendToEmail.toLowerCase();
             var existingConnectionQuery = new Parse.Query("FollowConnections");
             existingConnectionQuery.equalTo("user1", request.user);
             existingConnectionQuery.equalTo("inviteSentToEmail", invite.sendToEmail);
-            return existingConnectionQuery.first().then(function(existingConn) {
-                if(existingConn) {
-                    if(existingConn.has("inviteAcceptedOn")) {
+            return existingConnectionQuery.first().then(function (existingConn) {
+                if (existingConn) {
+                    if (existingConn.has("inviteAcceptedOn")) {
                         console.warn("Ignored request to send invite for an already accepted connection:" + existingConn.id);
                     } else {
                         existingConn.set("inviteSentOn", new Date());
@@ -203,12 +219,12 @@ Parse.Cloud.define("sendFollowInvitation", function (request, response) {
                     conn.set("user1", request.user);
                     conn.set("inviteSentToEmail", invite.sendToEmail);
                     conn.set("inviteSentOn", new Date());
-                    if(invite.sendToName) conn.set("inviteSentToName", invite.sendToName);
+                    if (invite.sendToName) conn.set("inviteSentToName", invite.sendToName);
                     var lookUpUserByEmailQuery = new Parse.Query(Parse.User);
-                    lookUpUserByEmailQuery.equalTo("email",invite.sendToEmail);
-                    return lookUpUserByEmailQuery.first(function(invitedUser) {
-                        if(invitedUser) {
-                            conn.set("user2",invitedUser);
+                    lookUpUserByEmailQuery.equalTo("email", invite.sendToEmail);
+                    return lookUpUserByEmailQuery.first(function (invitedUser) {
+                        if (invitedUser) {
+                            conn.set("user2", invitedUser);
                         } // else, user not in system already
                         return conn.save();
                     });
@@ -219,9 +235,9 @@ Parse.Cloud.define("sendFollowInvitation", function (request, response) {
         }
     });
 
-    Parse.Promise.when(promises).then(function() {
+    Parse.Promise.when(promises).then(function () {
         response.success(true);
-    }, function(error) {
+    }, function (error) {
         response.error(error);
     });
 });
@@ -233,11 +249,11 @@ Parse.Cloud.define("resendFollowConnectionInvitation", function (request, respon
         newConnectionObject.unset("inviteDeliveredOn");
         return newConnectionObject.save();
     }).then(function () {
-        response.success(true);
-    },
-    function (error) {
-        response.error(error);
-    });
+                response.success(true);
+            },
+            function (error) {
+                response.error(error);
+            });
 });
 
 
@@ -250,60 +266,60 @@ Parse.Cloud.define("acceptFollowConnectionInvitation", function (request, respon
         connectionObject = newConnectionObject;
         user = newUser;
     }).then(function () {
-        connectionObject.set("inviteAcceptedOn", new Date());
-        if (!connectionObject.has("user2")) connectionObject.set("user2", user);
-        return connectionObject.save();
-    }).then(function () {
-        // If the invited user did not have a name set, then we should set the name to what was in the invite request
-        if (!user.has("fullName") && connectionObject.has("inviteSentToName")) {
-            user.set("fullName", connectionObject.get("inviteSentToName"));
-            return user.save();
-        }
-    }).then(function () {
-        // Now, set the email lists for the babies of each user (mutually).
-        var user1 = connectionObject.get("user1");
-        var user2 = connectionObject.get("user2");
+                connectionObject.set("inviteAcceptedOn", new Date());
+                if (!connectionObject.has("user2")) connectionObject.set("user2", user);
+                return connectionObject.save();
+            }).then(function () {
+                // If the invited user did not have a name set, then we should set the name to what was in the invite request
+                if (!user.has("fullName") && connectionObject.has("inviteSentToName")) {
+                    user.set("fullName", connectionObject.get("inviteSentToName"));
+                    return user.save();
+                }
+            }).then(function () {
+                // Now, set the email lists for the babies of each user (mutually).
+                var user1 = connectionObject.get("user1");
+                var user2 = connectionObject.get("user2");
 
-        var babyQuery1 = new Parse.Query("Babies");
-        babyQuery1.equalTo("parentUser", user1);
-        var babyPromise1 = babyQuery1.each(function(baby) {
-            baby.addUnique("followerEmails",user2.get("email"));
-            return baby.save();
-        });
+                var babyQuery1 = new Parse.Query("Babies");
+                babyQuery1.equalTo("parentUser", user1);
+                var babyPromise1 = babyQuery1.each(function (baby) {
+                    baby.addUnique("followerEmails", user2.get("email"));
+                    return baby.save();
+                });
 
-        var babyQuery2 = new Parse.Query("Babies");
-        babyQuery2.equalTo("parentUser", user2);
-        var babyPromise2 = babyQuery2.each(function(baby) {
-            baby.addUnique("followerEmails",user1.get("email"));
-            return baby.save();
-        });
+                var babyQuery2 = new Parse.Query("Babies");
+                babyQuery2.equalTo("parentUser", user2);
+                var babyPromise2 = babyQuery2.each(function (baby) {
+                    baby.addUnique("followerEmails", user1.get("email"));
+                    return baby.save();
+                });
 
-        return Parse.Promise.when(babyPromise1, babyPromise2).then(function() {
-            // Send push to inviter, letting him know his invite has been accepted!
-            var inviteeUserName = user2.has("fullName") ? user2.get("fullName") : user2.get("username");
+                return Parse.Promise.when(babyPromise1, babyPromise2).then(function () {
+                    // Send push to inviter, letting him know his invite has been accepted!
+                    var inviteeUserName = user2.has("fullName") ? user2.get("fullName") : user2.get("username");
 
-            var pushQuery = new Parse.Query(Parse.Installation);
-                   pushQuery.equalTo("user", user1);
-                   pushQuery.equalTo("deviceType", "ios");
-            return Parse.Push.send({
-               where:pushQuery,
-               data:{
-                   alert: inviteeUserName + " has accepted your Monitor request!",
-                   cdata:{
-                       type : "follow",
-                       "relatedObjectId": connectionObject.id
-                   },
-                   badge:"Increment",
-                   sound:"default"
-               }
+                    var pushQuery = new Parse.Query(Parse.Installation);
+                    pushQuery.equalTo("user", user1);
+                    pushQuery.equalTo("deviceType", "ios");
+                    return Parse.Push.send({
+                        where:pushQuery,
+                        data:{
+                            alert:inviteeUserName + " has accepted your Monitor request!",
+                            cdata:{
+                                type:"follow",
+                                "relatedObjectId":connectionObject.id
+                            },
+                            badge:"Increment",
+                            sound:"default"
+                        }
+                    });
+                });
+            }).then(function () {
+                response.success(true);
+            },
+            function (error) {
+                response.error(error);
             });
-        });
-    }).then(function () {
-        response.success(true);
-    },
-    function (error) {
-        response.error(error);
-    });
 
 });
 
@@ -317,72 +333,115 @@ Parse.Cloud.job("deliverFollowConnectionInvites", function (request, status) {
     query.doesNotExist("inviteAcceptedOn");
     query.include(["user1", "user2"]);
 
-    query.each(function(connectionInvite) {
+    query.each(function (connectionInvite) {
         // NOTE: when the invitation is created (in sendFollowInvitation) user2 (the receiver)
         // is set if the email address was already registered as a user in the system.
 
         // Used for push and email title.
-        var inviterUser =  connectionInvite.get("user1");
-        var inviteeUser =  connectionInvite.get("user2");
+        var inviterUser = connectionInvite.get("user1");
+        var inviteeUser = connectionInvite.get("user2");
         var inviterUserName = inviterUser.has("fullName") ? inviterUser.get("fullName") : inviterUser.get("username");
 
 
-        return Parse.Promise.when(lookupFirstBabyForUser(inviterUser), lookupFirstBabyForUser(inviteeUser)).then(function(inviterBaby, inviteeBaby) {
-            var inviterBabyName = inviterBaby ? inviterBaby.get("name") : null;
-            var inviteeBabyName = inviteeBaby ? inviteeBaby.get("name") : null;
-            var pushPromise;
-            if(inviteeBabyName) {
-                if(DEBUG) console.log("Sending push notification to user " + inviteeUser.id);
-                var pushQuery = new Parse.Query(Parse.Installation);
-                       pushQuery.equalTo("user", inviteeUser);
-                       pushQuery.equalTo("deviceType", "ios");
-                pushPromise = Parse.Push.send({
-                   where:pushQuery,
-                   data:{
-                       alert: inviterUserName + " wants to monitor " + inviteeBabyName + "!",
-                       cdata:{
-                           type : "follow",
-                           "relatedObjectId": connectionInvite.id
-                       },
-                       badge:"Increment",
-                       sound:"default"
-                   }
-                });
-            } else {
-                if(DEBUG) console.log("User with email " + connectionInvite.get("inviteSentToEmail") + " not already a user, skipping push notification");
-                pushPromise = Parse.Promise.as();
-            }
+        return Parse.Promise.when(
+                lookupFirstBabyForUser(inviterUser),
+                lookupFirstBabyForUser(inviteeUser),
+                lookupUsersInstalledVersions(inviteeUser)
+        ).then(function (inviterBaby, inviteeBaby, inviteeAppVersions) {
+                    var inviterBabyName = inviterBaby ? inviterBaby.get("name") : null;
+                    var inviteeBabyName = inviteeBaby ? inviteeBaby.get("name") : null;
+                    var inviteeHasCapableVersionInstalled = _.max(inviteeAppVersions) >= "1.3";
+                    var inviteeHasIncapableVersionInstalled = _.min(inviteeAppVersions) < "1.3";
+                    var promises = [];
 
-            // Always send email, if installed already and on ios device, then link to open app.
-            var utils = require("cloud/utils");
-            var subjectTitle = "Let's connect on DataParenting!";
-            var params = {
-                inviterName : inviterUserName,
-                inviterBabyName : inviterBabyName,
-                inviteeBabyName : inviteeBabyName,
-                inviteSentToEmailAddress : connectionInvite.get("inviteSentToEmail"),
-                inviteeIsExistingUser : inviteeUser ? true : false,
-                openAppUrl  : utils.isDev() ? "dataparentingappdev://follow" : "dataparentingapp://follow",
-                installAppUrl : utils.isDev() ? "https://www.testflightapp.com/dashboard/applications/1247871/" : utils.oneLinkFollowUrl
-            };
-            var emails = require('cloud/emails.js');
-            var emailPromise = emails.sendTemplateEmail(subjectTitle,connectionInvite.get("inviteSentToEmail"),"follow/invitation.ejs", params,inviterUser);
+                    if(DEBUG) {
+                        console.log("User with email " + connectionInvite.get("inviteSentToEmail") +
+                            " has the following versions of the app installed:" +
+                                JSON.stringify(inviteeAppVersions) + ". hasCapable:" +
+                                inviteeHasCapableVersionInstalled + " hasIncapable:" + inviteeHasIncapableVersionInstalled);
 
+                    }
 
-            // Wait for push and email to complete.
-            return Parse.Promise.when(pushPromise,emailPromise).then(function() {
-                // Now that they have been delivered, we can update the connection record.
-                connectionInvite.set("inviteDeliveredOn", new Date());
-                return connectionInvite.save();
-            }).then(function() {
-                if(DEBUG) console.log("EMail '" + connectionInvite.get("inviteSentToEmail") + "' sent invite email for invite " + connectionInvite.id);
-                sentCount++;
-            });
-        })
+                    // User has a baby and already has a newer version of the app installed.
+                    if (inviteeHasCapableVersionInstalled) {
+                        if (DEBUG) console.log("Sending push notification to user " + inviteeUser.id + " with capable app version.");
+                        var pushQuery1 = new Parse.Query(Parse.Installation);
+                        pushQuery1.equalTo("user", inviteeUser);
+                        pushQuery1.equalTo("deviceType", "ios");
+                        pushQuery1.greaterThanOrEqualTo("appVersion","1.3");
+                        promises.push(Parse.Push.send({
+                            where:pushQuery1,
+                            data:{
+                                alert:inviterUserName + " wants to monitor " + inviteeBabyName + "!",
+                                cdata:{
+                                    type:"follow",
+                                    "relatedObjectId":connectionInvite.id
+                                },
+                                badge:"Increment",
+                                sound:"default"
+                            }
+                        }));
+
+                    } else {
+                        if (DEBUG) console.log("No capable devices for user with email " + connectionInvite.get("inviteSentToEmail") + " found");
+                    }
+
+                    // Send a different push message to any phones that have older versions installed
+                    if (inviteeHasIncapableVersionInstalled) {
+                        if (DEBUG) console.log("Sending push notification to user " + inviteeUser.id + " with NOT capable app version.");
+                        var pushQuery2 = new Parse.Query(Parse.Installation);
+                        pushQuery2.equalTo("user", inviteeUser);
+                        pushQuery2.equalTo("deviceType", "ios");
+                        pushQuery2.lessThan("appVersion","1.3");
+                        promises.push(Parse.Push.send({
+                            where:pushQuery2,
+                            data:{
+                                alert:inviterUserName + " wants to monitor " + inviteeBabyName + ", but you must update DataParenting first.",
+                                cdata:{
+                                    type:"follow",
+                                    "relatedObjectId":connectionInvite.id
+                                },
+                                sound:"default"
+                            }
+                        }));
+                    } else {
+                        if (DEBUG) console.log("No non-capable devices for user with email " + connectionInvite.get("inviteSentToEmail") + " found");
+                    }
+
+                    if (DEBUG && promises.length == 0)
+                        console.log("User with email " + connectionInvite.get("inviteSentToEmail") + " not already a user, skipping push notification");
+
+                    // Always send email, if installed already and on ios device, then link to open app.
+                    var utils = require("cloud/utils");
+                    var subjectTitle = "Let's connect on DataParenting!";
+                    var params = {
+                        inviterName:inviterUserName,
+                        inviterBabyName:inviterBabyName,
+                        inviteeBabyName:inviteeBabyName,
+                        inviteSentToEmailAddress:connectionInvite.get("inviteSentToEmail"),
+                        inviteeIsExistingUser:inviteeUser ? true : false,
+                        inviteeHasCapableVersionInstalled :  inviteeHasCapableVersionInstalled,
+                        inviteeHasIncapableVersionInstalled : inviteeHasIncapableVersionInstalled,
+                        openAppUrl:utils.isDev() ? "dataparentingappdev://follow" : "dataparentingapp://follow",
+                        installAppUrl:utils.isDev() ? "https://www.testflightapp.com/dashboard/applications/1247871/" : utils.oneLinkFollowUrl
+                    };
+                    var emails = require('cloud/emails.js');
+                    promises.push(emails.sendTemplateEmail(subjectTitle, connectionInvite.get("inviteSentToEmail"), "follow/invitation.ejs", params, inviterUser));
+
+                    // Wait for push and email to complete.
+                    return Parse.Promise.when(promises).then(function () {
+                        // Now that they have been delivered, we can update the connection record.
+                        connectionInvite.set("inviteDeliveredOn", new Date());
+                        return connectionInvite.save();
+                    }).then(function () {
+                                if (DEBUG) console.log("EMail '" + connectionInvite.get("inviteSentToEmail") + "' sent invite email for invite " + connectionInvite.id);
+                                sentCount++;
+                            });
+                })
     }).then(function () {
-        status.success("Delivered " + sentCount + " invite(s)");
-    },
-    function (error) {
-        status.error(error);
-    });
+                status.success("Delivered " + sentCount + " invite(s)");
+            },
+            function (error) {
+                status.error(error);
+            });
 });
