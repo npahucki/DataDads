@@ -326,10 +326,12 @@ Parse.Cloud.job("deliverFollowConnectionInvites", function (request, status) {
         var inviteeUser =  connectionInvite.get("user2");
         var inviterUserName = inviterUser.has("fullName") ? inviterUser.get("fullName") : inviterUser.get("username");
 
-        return lookupFirstBabyForUser(inviterUser).then(function(inviterBaby) {
+
+        return Parse.Promise.when(lookupFirstBabyForUser(inviterUser), lookupFirstBabyForUser(inviteeUser)).then(function(inviterBaby, inviteeBaby) {
             var inviterBabyName = inviterBaby ? inviterBaby.get("name") : null;
+            var inviteeBabyName = inviteeBaby ? inviteeBaby.get("name") : null;
             var pushPromise;
-            if(inviteeUser) {
+            if(inviteeBabyName) {
                 if(DEBUG) console.log("Sending push notification to user " + inviteeUser.id);
                 var pushQuery = new Parse.Query(Parse.Installation);
                        pushQuery.equalTo("user", inviteeUser);
@@ -337,7 +339,7 @@ Parse.Cloud.job("deliverFollowConnectionInvites", function (request, status) {
                 pushPromise = Parse.Push.send({
                    where:pushQuery,
                    data:{
-                       alert: inviterUserName + " has sent you a Playgroup request!",
+                       alert: inviterUserName + " wants to monitor " + inviteeBabyName + "!",
                        cdata:{
                            type : "follow",
                            "relatedObjectId": connectionInvite.id
@@ -357,6 +359,7 @@ Parse.Cloud.job("deliverFollowConnectionInvites", function (request, status) {
             var params = {
                 inviterName : inviterUserName,
                 inviterBabyName : inviterBabyName,
+                inviteeBabyName : inviteeBabyName,
                 inviteSentToEmailAddress : connectionInvite.get("inviteSentToEmail"),
                 inviteeIsExistingUser : inviteeUser ? true : false,
                 openAppUrl  : utils.isDev() ? "dataparentingappdev://follow" : "dataparentingapp://follow"

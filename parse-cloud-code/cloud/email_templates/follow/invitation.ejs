@@ -1,15 +1,42 @@
 <html>
     <body>
-    <h1><%=inviterName%> wants to connect with you on DataParenting</h1>
     <%if(inviteeIsExistingUser){%>
-      <a href="<%=openAppUrl%>">Open this link on your device that has DataParenting installed to see the invite.</a>
+    <p>
+      <%=inviterName%> wants to follow <%=inviteeBabyName%>'s First Times via
+      <a href="http://dataparenting.com/milestones-app/">DataParenting</a>
+    </p>
+    <p>
+    For <%=inviterName%> to follow <%=inviteeBabyName%>'s First Times, go to the <a href="<%=openAppUrl%>">'Monitors' tab</a>
+      and accept or reject the invitation there.
+
+    If you have any questions, just send us a note to say hi:
+      <a href="mailto:hello@dataparenting.com">hello@dataparenting.com</a>
+    </p>
     <%} else {%>
     <!-- TODO: One day, support one way baby follows -->
+    <p>
+      <%=inviterName%> wants to follow your child's first times via <a href="http://dataparenting.com/milestones-app/">DataParenting</a>.
+      This app lets you note when your child does something for the first time (with a photo and video!) -- to remember the moment,
+      to share it with your friends, and to contribute to parenting science through helping track this data.
+    </p>
+    <p>
+      You'll also get to follow what <%=inviterName%>'s baby <%=inviterBabyName%> is up to.
+    </p>
+    <p>
+      <!-- TODO: link click records click and redirects -->
+      To get started, you need to <a href="https://itunes.apple.com/us/app/dataparenting-baby-milestones/id905124835?mt=8">
+      install DataParenting on your iPhone</a>. After you've installed the app, go to the <a href="<%=openAppUrl%>">'Monitors' tab</a> and accept
+      or reject the invitation there.
+    </p>
+    <p>
+      To ensure that you see the invitation, make sure you sign up using your email address <b><%=inviteSentToEmailAddress%></b>
+      or your Facebook account that uses the same email address. If you already use DataParenting with
+      a different email address, just email us at:
+      <a href="mailto:hello@dataparenting.com">hello@dataparenting.com</a> and we'll correct the invitation for you.
+    </p>
+    <%}%>
 
-    <!-- TODO: link click records click and redirects -->
-    Please <a href="https://itunes.apple.com/us/app/dataparenting-baby-milestones/id905124835">install DataParenting</a> to view the invitation. Once installed, click this link on the device
-    to see the invite. To properly see the invitation, you will need to signup using the email address
-    '<%=inviteSentToEmailAddress%>' (or use a Facebook account linked to that address).
-    <% } %>
+    <p>-The Friendly DataParenting Robot</p>
+
     </body>
 </html>
