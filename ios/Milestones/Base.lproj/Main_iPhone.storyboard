@@ -2700,7 +2700,7 @@
         <!--Invitations Navigration-->
         <scene sceneID="gar-VS-cxc">
             <objects>
-                <navigationController restorationIdentifier="invitationNavigationController" title="Playgroups" automaticallyAdjustsScrollViewInsets="NO" id="GOu-FM-6yM" userLabel="Invitations Navigration" sceneMemberID="viewController">
+                <navigationController restorationIdentifier="invitationNavigationController" title="Monitors" automaticallyAdjustsScrollViewInsets="NO" id="GOu-FM-6yM" userLabel="Invitations Navigration" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" tag="2" title="Monitors" image="babyFollow" id="FYg-D5-nrX"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="EdB-1Z-KVt">

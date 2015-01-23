@@ -288,7 +288,7 @@ Parse.Cloud.define("acceptFollowConnectionInvitation", function (request, respon
             return Parse.Push.send({
                where:pushQuery,
                data:{
-                   alert: inviteeUserName + " has accepted your a Playgroup request!",
+                   alert: inviteeUserName + " has accepted your Monitor request!",
                    cdata:{
                        type : "follow",
                        "relatedObjectId": connectionObject.id
