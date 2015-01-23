@@ -134,14 +134,19 @@ Parse.Cloud.afterSave("MilestoneAchievements", function (request) {
                 var milestonePromise = milestone ? milestone.fetch() : Parse.Promise.as(null);
                 return milestonePromise.then(function(populatedMilestone) {
                     milestone = populatedMilestone;
-                    var subjectText = baby.get("name") + " has just completed a milestone!";
+                    var subjectText = baby.get("name") + " completed a milestone!";
                     var title = achievement.has("customTitle") ? achievement.get("customTitle") : milestone.get("title");
+                    var attachmentType = achievement.has("attachmentType") ? achievement.get("attachmentType") : "";
                     var utils = require("cloud/utils");
                     var params = {
                         title : utils.replacePronounTokens(title, baby.get("isMale"), "en"),
                         comment : achievement.get("comment"),
                         linkUrl  : utils.achievementViewerUrl(achievement),
-                        imageUrl : achievement.has("attachmentThumbnail") ? achievement.get("attachmentThumbnail").url() : null
+                        imageUrl : achievement.has("attachmentThumbnail") ? achievement.get("attachmentThumbnail").url() : null,
+                        hasVideo : attachmentType.indexOf("video") == 0 ,
+                        hasPhoto : attachmentType.indexOf("image") == 0,
+                        babyName : baby.get("name"),
+                        openAppUrl  : utils.isDev() ? "dataparentingappdev://follow" : "dataparentingapp://follow"
                     };
                     var emails = require('cloud/emails.js');
                     return emails.sendTemplateEmail(subjectText, followerEmails,"follow/notification.ejs", params, parentUser);

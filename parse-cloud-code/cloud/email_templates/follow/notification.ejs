@@ -6,8 +6,25 @@
         <% if(imageUrl) { %>
           <img alt="milestone achievement image" src="<%=imageUrl%>"/>
         <% } %>
-        <p>Click here to open in your browser</p>
+
+        <p>
+        <%if(hasVideo) {%>
+          Click here to watch the video of this milestone!
+        <%} else if(hasPhoto) {%>
+          Click here to to see the full photo in your browser
+        <% } %>
+        </p>
         </a>
+
+        <p>
+          We sent you this milestone alert because you're monitoring <%=babyName%> in the
+          <a href="http://dataparenting.com/milestones-app/">DataParenting</a> app.
+          You can stop further emails by removing your connection to <%=babyName%> on the <a href="<%=openAppUrl%>">Monitors tab</a> within the app.
+          Or, send us an email with any questions or if you want any help: <a href="mailto:hello@dataparenting.com">hello@dataparenting.com</a>
+        </p>
+        <p>
+          -The Friendly DataParenting Robot
+        </p>
 
     </body>
 </html>
