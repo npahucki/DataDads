@@ -107,6 +107,23 @@
 
 - (IBAction)didClickInviteButton:(id)sender {
     if (_inviteMode) {
+        // TODO: Remove this hack, once you build a good way into the the control
+        MBContactCollectionView *collectionView = [_pickerView performSelector:@selector(contactCollectionView)];
+        NSIndexPath *entryCellIndexPath = [collectionView performSelector:@selector(entryCellIndexPath)];
+        MBContactCollectionViewEntryCell *entryCell = (MBContactCollectionViewEntryCell *) [collectionView cellForItemAtIndexPath:entryCellIndexPath];
+        NSString *trimmedString = [entryCell.text stringByTrimmingCharactersInSet:
+                [NSCharacterSet whitespaceCharacterSet]];
+        // Need to simulate hitting enter
+        if (trimmedString.length > 0) {
+            // There is unentered text, try to add it as a contact
+            NSInteger currentCount = _pickerView.contactsSelected.count;
+            [self contactPicker:_pickerView didEnterCustomText:trimmedString];
+            if (_pickerView.contactsSelected.count == currentCount) {
+                // The entry didn't get added, so abort the button press
+                return;
+            }
+        }
+
         if (_pickerView.contactsSelected.count > 0) [self sendInvites];
         self.inviteMode = NO;
     } else {
