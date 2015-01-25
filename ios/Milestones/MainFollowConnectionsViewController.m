@@ -60,9 +60,13 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+    [super viewDidAppear:animated];
+    // Don't show the 'New' badge once the tab is activated.
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"v1.3MonitorTabTouched"];
+
     [_addressBookDataSource clearCache];
     [self updateContainerViewState];
+    [self updateBadgeFromCurrent];
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -192,7 +196,13 @@
         // Play sound
         AudioServicesPlaySystemSound(1003);
     }
-    self.navigationController.tabBarItem.badgeValue = waitingInvitationsCount > 0 ? @(waitingInvitationsCount).stringValue : nil;
+
+    // TODO: remove this after v1.3!
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"v1.3MonitorTabTouched"]) {
+        self.navigationController.tabBarItem.badgeValue = @"New";
+    } else {
+        self.navigationController.tabBarItem.badgeValue = waitingInvitationsCount > 0 ? @(waitingInvitationsCount).stringValue : nil;
+    }
 }
 
 - (void)appEnterForeground:(NSNotification *)notice {
