@@ -113,13 +113,21 @@
         MBContactCollectionViewEntryCell *entryCell = (MBContactCollectionViewEntryCell *) [collectionView cellForItemAtIndexPath:entryCellIndexPath];
         NSString *trimmedString = [entryCell.text stringByTrimmingCharactersInSet:
                 [NSCharacterSet whitespaceCharacterSet]];
+        NSMutableArray *selectedContacts = [collectionView performSelector:@selector(selectedContacts)];
+
         // Need to simulate hitting enter
         if (trimmedString.length > 0) {
             // There is unentered text, try to add it as a contact
-            NSInteger currentCount = _pickerView.contactsSelected.count;
-            [self contactPicker:_pickerView didEnterCustomText:trimmedString];
-            if (_pickerView.contactsSelected.count == currentCount) {
-                // The entry didn't get added, so abort the button press
+            if (trimmedString.isValidEmailAddress) {
+                InviteContact *contact = [[InviteContact alloc] init];
+                contact.emailAddress = trimmedString;
+                // Need to add right to collection view so the keyboard does not pop up again.
+                if (![selectedContacts containsObject:contact]) [selectedContacts addObject:contact];
+                [entryCell reset];
+                [entryCell removeFocus];
+            } else {
+                [[[UIAlertView alloc] initWithTitle:@"Whoops" message:@"Invalid email address, please correct it"
+                                           delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
                 return;
             }
         }
@@ -302,6 +310,7 @@
                                    delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
     }
 }
+
 
 // This delegate method is called to allow the parent view to increase the size of
 // the contact picker view to show the search table view
