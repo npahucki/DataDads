@@ -423,7 +423,8 @@ Parse.Cloud.job("deliverFollowConnectionInvites", function (request, status) {
                         inviteeHasCapableVersionInstalled :  inviteeHasCapableVersionInstalled,
                         inviteeHasIncapableVersionInstalled : inviteeHasIncapableVersionInstalled,
                         openAppUrl:utils.isDev() ? "dataparentingappdev://follow" : "dataparentingapp://follow",
-                        installAppUrl:utils.isDev() ? "https://www.testflightapp.com/dashboard/applications/1247871/" : utils.oneLinkFollowUrl
+                        installAppUrl:utils.isDev() ? "https://www.testflightapp.com/dashboard/applications/1247871/" : utils.oneLinkFollowUrl,
+                        host: "http://" + utils.websiteHost
                     };
                     var emails = require('cloud/emails.js');
                     promises.push(emails.sendTemplateEmail(subjectTitle, connectionInvite.get("inviteSentToEmail"), "follow/invitation.ejs", params, inviterUser));
