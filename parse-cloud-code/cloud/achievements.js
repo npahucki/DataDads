@@ -147,7 +147,8 @@ Parse.Cloud.afterSave("MilestoneAchievements", function (request) {
                         hasPhoto : attachmentType.indexOf("image") == 0,
                         babyName : baby.get("name"),
                         openAppUrl  : utils.isDev() ? "dataparentingappdev://follow" : "dataparentingapp://follow",
-                        installAppUrl : utils.isDev() ? "https://www.testflightapp.com/dashboard/applications/1247871/" : utils.oneLinkFollowUrl
+                        installAppUrl : utils.isDev() ? "https://www.testflightapp.com/dashboard/applications/1247871/" : utils.oneLinkFollowUrl,
+                        host: "http://" + utils.websiteHost
                     };
                     var emails = require('cloud/emails.js');
                     return emails.sendTemplateEmail(subjectText, followerEmails,"follow/notification.ejs", params, parentUser);
