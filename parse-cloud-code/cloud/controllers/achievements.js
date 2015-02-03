@@ -27,6 +27,7 @@ exports.show = function (req, res) {
                     if (hasImage) {
                         res.render('achievements/achievement_photo', {
                             title:title,
+                            achievementUrl:utils.achievementViewerUrl(achievement),
                             thumbnailUrl:achievement.get("attachmentThumbnail").url() || "",
                             babyName:baby.get("name"),
                             babyWas:babyWas,
@@ -75,6 +76,7 @@ exports.show = function (req, res) {
 
                         res.render('achievements/achievement_video', {
                             title:title,
+                            achievementUrl:utils.achievementViewerUrl(achievement),
                             thumbnailUrl:achievement.get("attachmentThumbnail").url() || "",
                             babyName:baby.get("name"),
                             babyWas:babyWas,
@@ -89,6 +91,7 @@ exports.show = function (req, res) {
                     } else {
                         res.render('achievements/achievement_photo', {
                             title:title,
+                            achievementUrl:utils.achievementViewerUrl(achievement),
                             thumbnailUrl:achievement.get("attachmentThumbnail").url(),
                             babyName:baby.get("name"),
                             babyWas:babyWas,

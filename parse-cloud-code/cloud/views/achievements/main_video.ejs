@@ -6,11 +6,10 @@
     <div class="second">
       <p class="subtitle">It happened when <span class="green"><%= babyName %></span> was <span class="green"><%= babyWas %> old</span> on the <span class="green"><%= completedOn %></span></p>
       <% if (typeof comment !== "undefined") { %>
-      <h6><%= isDad ? 'Dad' : 'Mom' %> was totally like</h6>
-      <blockquote class="green"><%= comment %></blockquote>
+      <h5><blockquote>&ldquo;<%= comment %>&rdquo;</blockquote></h5>
       <% } %>
-      <div class="fb-comments" data-href="" data-width="100%" data-numposts="5" data-colorscheme="light"></div>
-      <script>document.getElementById('fbcomments').dataset.href = document.URL;</script>
+      <div class="fb-comments" data-href="<%= achievementUrl %>" data-width="100%" data-numposts="5" data-colorscheme="light"></div>
+
     </div>
   </div>
   <div class="videocontent" id="picture-frame">
