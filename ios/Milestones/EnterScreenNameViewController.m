@@ -155,8 +155,10 @@
                 if (error2) {
                     [self showErrorThenRunBlock:error2 withMessage:@"Could not save baby's information" andBlock:nil];
                 } else {
-                    [UsageAnalytics trackCreateBaby:self.baby];
-                    if (isNewBaby) [self saveBirthdayMilestone];
+                    if (isNewBaby) {
+                        [self saveBirthdayMilestone];
+                        [UsageAnalytics trackCreateBaby:self.baby];
+                    }
                     [self showSuccessThenRunBlock:^{
                         [self dismiss];
                     }];
