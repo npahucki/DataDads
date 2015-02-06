@@ -53,13 +53,14 @@
     <hr/>
     <p class="large">
       <%if(!inviteeIsExistingUser){%>
-        Are you a parent? <a href="<%=installAppUrl%>">Install the App</a> to note all of your child's first times too!
+        Are you a parent? <a href="<%=installAppUrl%>">Install the App</a> to note all of your child's first times!
+        Make sure you sign-up using this email address.
       <%}%>
     </p>
     <p><small>
       <a href="mailto:<%=inviterEmail%>"><%=inviterName%></a> sent you this alert of <%=inviterBabyName%>'s "first times" via the <a href="<%=installAppUrl%>">DataParenting App</a>.
       <%if(!inviteeIsExistingUser){%>
-        Do you not want to receive further notifications about <%=inviterBabyName%>'s progress? Click <a href="<%=unsubscribeLink%>"/>here to unsubscribe</a>.
+        If you want to stop these notifications about <%=inviterBabyName%>'s progress, click <a href="<%=unsubscribeLink%>"/>here to unsubscribe</a>.
       <%} else {%>
           You can manage who you monitor on the <a href="<%=openAppUrl%>">Monitors</a> tab of the DataParenting App.
       <%}%>
