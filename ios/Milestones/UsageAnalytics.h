@@ -57,7 +57,7 @@
 
 + (void)trackUserDeniedAddressBookAccess;
 
-+ (void)trackFollowConnectionInviteSent;
++ (void)trackFollowConnectionInviteSent:(NSInteger)count;
 
 + (void)trackFollowConnectionInviteResponse:(BOOL)accepted;
 

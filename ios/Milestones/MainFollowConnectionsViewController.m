@@ -249,6 +249,7 @@
                     @"sendToEmail" : contact.emailAddress.lowercaseString
             }];
         }
+        [UsageAnalytics trackFollowConnectionInviteSent:[inviteArray count]];
         [PFCloud callFunctionInBackground:@"sendFollowInvitation"
                            withParameters:@{@"appVersion" : NSBundle.mainBundle.infoDictionary[@"CFBundleShortVersionString"],
                                    @"invites" : inviteArray}
