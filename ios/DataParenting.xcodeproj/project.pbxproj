@@ -25,6 +25,7 @@
 		72F186FAC366DD73385A1055 /* ViewControllerWithBabyInfoButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18C69E7D6386F1B61CB97 /* ViewControllerWithBabyInfoButton.m */; };
 		72F1877F09F482E5A93B35AE /* AppleIncRootCertificate.cer in Resources */ = {isa = PBXBuildFile; fileRef = 72F18423ECAD54191B7179D7 /* AppleIncRootCertificate.cer */; };
 		72F187BDC76C613B6C98D5BF /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B58651891EED100C74C2B /* StoreKit.framework */; };
+		72F188252DCAB6DCF2901226 /* NSError+NewCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18C66C678A4A75AB7398D /* NSError+NewCategory.m */; };
 		72F188388D1CDFC1BA64908F /* ParentUserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F185D7FC4A3D3E7821DD24 /* ParentUserTests.m */; };
 		72F1883E74F2B648B80C5C0D /* PFFile+Media.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F184506900ECF329391D82 /* PFFile+Media.m */; };
 		72F18929ED476F9AA8B3F2E3 /* UIImageView+URLLoading.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F1819FEE30D8DFEAA8F678 /* UIImageView+URLLoading.m */; };
@@ -38,6 +39,7 @@
 		72F18DE7FE4FD3F62D59569E /* ExternalMediaFileTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18854EC2953038E616417 /* ExternalMediaFileTests.m */; };
 		72F18E4159113C7B822E740D /* InviteContactsAddressBookDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F181D2F3F21DC238F85FEA /* InviteContactsAddressBookDataSource.m */; };
 		72F18ED08930567464526909 /* PFFile+Media.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F184506900ECF329391D82 /* PFFile+Media.m */; };
+		72F18F01AF8712F79D424D4E /* NSError+NewCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18C66C678A4A75AB7398D /* NSError+NewCategory.m */; };
 		72F18F4E5A089D5B51F7A4AD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F18627FC1325DE78BA4040 /* InfoPlist.strings */; };
 		72F18F9470CB5D6C79E81125 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B58651891EED100C74C2B /* StoreKit.framework */; };
 		72F18FB51B7939470119D4FA /* UIImageView+URLLoading.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F1819FEE30D8DFEAA8F678 /* UIImageView+URLLoading.m */; };
@@ -312,6 +314,8 @@
 		72F18BDBDA243B1941504FEB /* FollowConnectionsDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FollowConnectionsDataSource.m; sourceTree = "<group>"; };
 		72F18C0A7E84AA6ED34A57C2 /* FollowConnectionsDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FollowConnectionsDataSource.h; sourceTree = "<group>"; };
 		72F18C28332684D9113B3101 /* NSString+EmailAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+EmailAddress.h"; sourceTree = "<group>"; };
+		72F18C3A9EDFBD6502853CF7 /* NSError+NewCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+NewCategory.h"; sourceTree = "<group>"; };
+		72F18C66C678A4A75AB7398D /* NSError+NewCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+NewCategory.m"; sourceTree = "<group>"; };
 		72F18C69E7D6386F1B61CB97 /* ViewControllerWithBabyInfoButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewControllerWithBabyInfoButton.m; sourceTree = "<group>"; };
 		72F18C88C0C62071581E6244 /* ExternalMediaFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExternalMediaFile.h; sourceTree = "<group>"; };
 		72F18C88FC612D6CDB6F1B09 /* PFFile+Media.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PFFile+Media.h"; sourceTree = "<group>"; };
@@ -734,6 +738,8 @@
 				72F1855685E8FD6A455E30AB /* UIImageView+URLLoading.h */,
 				72F18B2AFF977957CF046E9E /* NSString+EmailAddress.m */,
 				72F18C28332684D9113B3101 /* NSString+EmailAddress.h */,
+				72F18C66C678A4A75AB7398D /* NSError+NewCategory.m */,
+				72F18C3A9EDFBD6502853CF7 /* NSError+NewCategory.h */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -1342,6 +1348,7 @@
 				72F189D03635D080146BA4E8 /* FollowConnectionsDataSource.m in Sources */,
 				72F186FAC366DD73385A1055 /* ViewControllerWithBabyInfoButton.m in Sources */,
 				72F185D04E9D8D927BEBFA72 /* CMPopTipView+WithStaticInitializer.m in Sources */,
+				72F188252DCAB6DCF2901226 /* NSError+NewCategory.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1423,6 +1430,7 @@
 				72F1821D4331F0249A938183 /* FollowConnectionsDataSource.m in Sources */,
 				72F18D14577530F4D13FAA81 /* ViewControllerWithBabyInfoButton.m in Sources */,
 				72F1827B6B5DA4E103212A1F /* CMPopTipView+WithStaticInitializer.m in Sources */,
+				72F18F01AF8712F79D424D4E /* NSError+NewCategory.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

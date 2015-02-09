@@ -8,12 +8,11 @@
 
 @interface PurchaseTransaction : PFObject <PFSubclassing>
 
-@property(retain, nonatomic) ParentUser *user;
-@property(retain, nonatomic) NSString *txId;
-@property(retain, nonatomic) NSString *type;
-@property(retain, nonatomic) NSString *originalId;
-@property(retain, nonatomic) NSString *productId;
-@property(retain, nonatomic) NSDate *date;
-
-
+@property ParentUser *user;
+@property NSString *txId;
+@property NSString *type;
+@property NSString *originalId;
+@property NSString *productId;
+@property NSDate *date;
+@property NSString *details;
 @end

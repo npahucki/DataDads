@@ -14,6 +14,7 @@
 @dynamic originalId;
 @dynamic productId;
 @dynamic date;
+@dynamic details;
 
 + (NSString *)parseClassName {
     return @"PurchaseTransactions";

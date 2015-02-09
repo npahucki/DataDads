@@ -8,6 +8,7 @@
 #import "RMAppReceipt.h"
 #import "RMStore.h"
 #import "InAppPurchaseAlertView.h"
+#import "NSError+NewCategory.h"
 
 static NSDictionary *productInfoForProduct(DDProduct product) {
     static NSArray *productCodes;
@@ -267,8 +268,10 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
 
 - (void)failedTransaction:(SKPaymentTransaction *)transaction withBlock:(PFBooleanResultBlock)block {
     [UsageAnalytics trackError:transaction.error forOperationNamed:@"processPaymentTransaction"];
-    [[[UIAlertView alloc] initWithTitle:@"Could Not Complete Purchase/Restore" message:[transaction.error.localizedDescription stringByAppendingString:@". Try your purchase again in a little while since this could have been caused by a network hiccup."]
-                               delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+    if (transaction.error.code != SKErrorPaymentCancelled) {
+        [[[UIAlertView alloc] initWithTitle:@"Could Not Complete Purchase/Restore" message:[transaction.error.localizedDescription stringByAppendingString:@". Try your purchase again in a little while since this could have been caused by a network hiccup."]
+                                   delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+    }
     [self recordTransaction:transaction];
     if (block) block(NO, transaction.error);
 }
@@ -281,13 +284,13 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
         purchaseTransaction.originalId = transaction.originalTransaction.transactionIdentifier;
         purchaseTransaction.productId = transaction.payment.productIdentifier;
         purchaseTransaction.date = transaction.transactionDate;
-
         switch (transaction.transactionState) {
             case SKPaymentTransactionStatePurchased:
                 purchaseTransaction.type = @"new_purchase";
                 break;
             case SKPaymentTransactionStateFailed:
-                purchaseTransaction.type = @"failed_purchase";
+                purchaseTransaction.type = transaction.error.code == SKErrorPaymentCancelled ? @"canceled_purchase" : @"failed_purchase";
+                purchaseTransaction.details = [transaction.error asJSONString];
                 break;
             case SKPaymentTransactionStateRestored:
                 purchaseTransaction.type = @"restored_purchase";

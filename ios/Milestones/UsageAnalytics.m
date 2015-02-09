@@ -11,6 +11,7 @@
 #import "NSDate+Utils.h"
 #import "AppsFlyerTracker.h"
 #import "Mixpanel.h"
+#import "NSError+NewCategory.h"
 
 
 static id safe(id object) {
@@ -104,10 +105,8 @@ static BOOL isRelease;
 }
 
 + (void)trackError:(NSError *)error forOperationNamed:(NSString *)operation andAdditionalProperties:(NSDictionary *)props {
-    NSMutableDictionary *combinedAttributes = [NSMutableDictionary dictionaryWithDictionary:error.userInfo];
+    NSMutableDictionary *combinedAttributes = [error asDictionary];
     if (props) [combinedAttributes addEntriesFromDictionary:props];
-    combinedAttributes[@"error.id"] = @(error.code);
-    combinedAttributes[@"error.domain"] = safe(error.domain);
     combinedAttributes[@"operation"] = operation;
     combinedAttributes[@"timestamp"] = [[NSDate date] asISO8601String];
 
