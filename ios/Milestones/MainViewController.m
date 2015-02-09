@@ -34,8 +34,18 @@
 - (void)viewDidAppear:(BOOL)animated {
     ParentUser *user = ParentUser.currentUser;
     if (user) {
+
+
         if ([user objectForKey:@"isMale"] != nil) { // If the isMale is not set, it means that they did not finish the signup process.
             [UsageAnalytics identify:user];
+
+            // Make sure the user is eventually set, even if somehow it didn't get set on login or when the user was created.
+            PFInstallation *installation = [PFInstallation currentInstallation];
+            if (![installation objectForKey:@"user"]) {
+                [installation setObject:[PFUser currentUser] forKey:@"user"];
+                [installation saveEventually];
+            }
+
             if (Baby.currentBaby == nil) {
                 // Finally, we must have at least one baby's info on file
                 PFQuery *query = [Baby queryForBabiesForUser:PFUser.currentUser];
