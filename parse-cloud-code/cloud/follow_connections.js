@@ -407,14 +407,17 @@ Parse.Cloud.job("deliverFollowConnectionInvites", function (request, status) {
             }).then(function (inviterBaby, inviteeAppVersions) {
 
                 var inviterBabyName = inviterBaby ? inviterBaby.get("name") : null;
-                var inviteeHasCapableVersionInstalled = _.max(inviteeAppVersions) >= "1.3";
-                var inviteeHasIncapableVersionInstalled = _.min(inviteeAppVersions) < "1.3";
+                var maxVersionInstalled = _.reduce(inviteeAppVersions, function(a,b){ return a > b ? a : b }, null);
+                var minVersionInstalled = _.reduce(inviteeAppVersions, function(a,b){ return a < b ? a : b }, null);
+                var inviteeHasCapableVersionInstalled = maxVersionInstalled >= "1.3";
+                var inviteeHasIncapableVersionInstalled = minVersionInstalled < "1.3";
                 var promises = [];
 
                 if(DEBUG) {
                     console.log("User with email " + connectionInvite.get("inviteSentToEmail") +
                         " has the following versions of the app installed:" +
-                            JSON.stringify(inviteeAppVersions) + ". hasCapable:" +
+                            JSON.stringify(inviteeAppVersions) + ". maxVersion: " + maxVersionInstalled +
+                            " minVersion:" + minVersionInstalled + " hasCapable:" +
                             inviteeHasCapableVersionInstalled + " hasIncapable:" + inviteeHasIncapableVersionInstalled);
 
                 }
