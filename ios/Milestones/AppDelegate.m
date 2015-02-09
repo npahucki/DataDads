@@ -144,6 +144,9 @@
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)newDeviceToken {
     // Store the deviceToken in the current installation and save it to Parse.
+    // NOTE: This is only called if the user allowed at least badge notifications. If the user did not allow any notifications
+    // then this method will never get called. Hence, to see how many users allow push, just look at the users without the
+    // device token OR pushNotificationType set.
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     [currentInstallation setDeviceTokenFromData:newDeviceToken];
 
@@ -156,6 +159,9 @@
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+    // NOTE: This is only called in the case where an incorrect certificate is used to register - such as
+    // the production app being run from TestFlight (signed with dev cert).
+    // NOTE: This method is NOT called if the user refuses to grant permission for push notifications
     [UsageAnalytics trackError:error forOperationNamed:@"registerForPushNotifications"];
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     currentInstallation[@"pushNotificationType"] = @(-1);
