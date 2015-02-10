@@ -107,6 +107,7 @@
 
 @implementation FollowConnectionsTableViewController {
     BOOL _pendingReload;
+    NSIndexPath *_lastSelectedPath;
 
 }
 - (BOOL)isPendingReload {
@@ -180,6 +181,7 @@
 }
 
 - (void)dismissTutorialBubble {
+    _lastSelectedPath = nil;
     if (self.tipView) {
         [self.tipView dismissAnimated:YES];
         self.tipView = nil;
@@ -226,36 +228,49 @@
 
 - (void)popTipViewWasDismissedByUser:(CMPopTipView *)popTipView {
     self.tipView = nil;
+    _lastSelectedPath = nil;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (!self.followConnectionsDataSource.hasAnyConnections) {
         [self loadObjects];
     } else {
+        // If was already selected, don't show again.
+        BOOL wasSelected = [indexPath isEqual:_lastSelectedPath];
         [self dismissTutorialBubble];
-        FollowConnectionTableViewCell *cell = (FollowConnectionTableViewCell *) [self.tableView cellForRowAtIndexPath:indexPath];
-        NSString *msg;
-        UIView *arrowPointView;
-        if (cell.connection.inviteAcceptedOn) {
-            msg = [NSString stringWithFormat:@"Every time %@ notes a milestone, we'll send you an email. Check your mail regularly!",
-                                             cell.connection.otherPartyDisplayName];
-            arrowPointView = cell.pictureView;
-        } else if (cell.connection.isInviter) {
-            msg = [NSString stringWithFormat:@"You are waiting for %@ to accept your invitation. You can revoke it at any time by pressing the X button.",
-                                             cell.connection.otherPartyDisplayName];
-            arrowPointView = cell.destroyButton;
-        } else {
-            msg = [NSString stringWithFormat:@"%@ wants to follow %@'s milestones! Press the accept button to allow.",
-                                             cell.connection.otherPartyDisplayName, [Baby currentBaby].name];
-            arrowPointView = cell.acceptButton;
-        }
+        if (!wasSelected) {
+            _lastSelectedPath = indexPath;
+            FollowConnectionTableViewCell *cell = (FollowConnectionTableViewCell *) [self.tableView cellForRowAtIndexPath:indexPath];
+            NSString *msg;
+            UIView *arrowPointView;
+            if (cell.connection.inviteAcceptedOn) {
+                if (cell.connection.otherPartyAuxDisplayName) {
+                    // Two way follow
+                    msg = [NSString stringWithFormat:@"Every time %@ notes a milestone about %@, we'll send you an email.",
+                                                     cell.connection.otherPartyDisplayName, cell.connection.otherPartyAuxDisplayName];
+                } else {
+                    // One way follow - i.e. email grandma feature.
+                    msg = [NSString stringWithFormat:@"Every time you note a milestone for %@, we'll send an email to %@.",
+                                                     [Baby currentBaby].name, cell.connection.otherPartyDisplayName];
+                }
+                arrowPointView = cell.pictureView;
+            } else if (cell.connection.isInviter) {
+                msg = [NSString stringWithFormat:@"You are waiting for %@ to accept your invitation. You can revoke it at any time by pressing the X button.",
+                                                 cell.connection.otherPartyDisplayName];
+                arrowPointView = cell.destroyButton;
+            } else {
+                msg = [NSString stringWithFormat:@"%@ wants to follow %@'s milestones! Press the accept button to allow.",
+                                                 cell.connection.otherPartyDisplayName, [Baby currentBaby].name];
+                arrowPointView = cell.acceptButton;
+            }
 
-        // Toggle popTipView when a standard UIButton is pressed
-        self.tipView = [CMPopTipView instanceWithApplicationLookAndFeelAndMessage:msg];
-        self.tipView.delegate = self;
-        self.tipView.maxWidth = self.view.frame.size.width - 20;
-        [self.tipView presentPointingAtView:arrowPointView inView:self.view animated:YES];
-        [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+            // Toggle popTipView when a standard UIButton is pressed
+            self.tipView = [CMPopTipView instanceWithApplicationLookAndFeelAndMessage:msg];
+            self.tipView.delegate = self;
+            self.tipView.maxWidth = self.view.frame.size.width - 30;
+            [self.tipView presentPointingAtView:arrowPointView inView:self.view animated:YES];
+            [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+        }
     }
 }
 
