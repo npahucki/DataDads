@@ -1,11 +1,13 @@
+
 <html xmlns="http://www.w3.org/1999/xhtml" style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; height: 100%;">
 <head style="-webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit;">
   <meta name="viewport" content="width=device-width" style="-webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit;" />
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" style="-webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit;" />
   <title style="-webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit;"><%= title %></title>
   <link href="http://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" type="text/css" style="-webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit;" />
+  <link rel="stylesheet" href="../../public/css/email.css" style="-webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit;" />
 </head>
-<body style="margin: 0; -webkit-font-smoothing: antialiased; background-color: white; color: #333; font-family: 'Varela Round', sans-serif; font-size: 1em; line-height: 1.5; -webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit; height: 100%;">
+<body style="margin: 0; -webkit-font-smoothing: antialiased; background-color: white; color: #333; font-family: Varela Round, sans-serif; font-size: 1em; line-height: 1.5; -webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit; height: 100%;">
 <table style="border-collapse: collapse; border-spacing: 0; margin: 0.75em 0; table-layout: fixed; width: 100%; -webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit; min-height: 100%;">
   <tr style="vertical-align: middle; -webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit; border-color: transparent;">
     <td style="padding: 0.75em 0; border-bottom: 1px solid #DDD; vertical-align: middle; -webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit; border-color: transparent;"></td>
@@ -31,8 +33,8 @@
       <a href="<%=linkUrl%>" style="background-color: transparent; -webkit-transition: color 0.1s linear; -moz-transition: color 0.1s linear; transition: color 0.1s linear; color: #477DCA; text-decoration: none; -webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit;">
         <% if(imageUrl) { %>
         <% if(hasVideo) { %>
-        <div class="overlay" style="-webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit; height: auto; display: block; background-image: url(<%= host %>/img/play-btn.png); background-position: 50% 50%; background-size: 300%;">
-          <img width="100%" alt="milestone achievement image" src="<%=imageUrl%>" style="border: 0; margin: 0; max-width: 100%; -webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit; height: auto; opacity: .5; width: 100%;" />
+        <div class="overlay" style="background: url(<%=imageUrl%>) no-repeat 50% 50%; height: 100%; -webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit;">
+          <img src="<%= host %>/img/play-btn.png" alt="milestone achievement page" style="border: 0; margin: 0; max-width: 100%; -webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit;" />
         </div>
         <% } else { %>
         <div class="image" style="-webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit;">
