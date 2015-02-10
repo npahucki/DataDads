@@ -72,11 +72,12 @@ static BOOL isRelease;
     NSAssert([NSThread isMainThread], @"UsagaeAnalytics.identify called using a thread other than main!");
     if (user) {
         NSAssert(user.objectId != nil, @"Expected user would have objectId set already");
+        BOOL isLinkedWithFB = [PFFacebookUtils isLinkedWithUser:user];
         NSMutableDictionary *props = [[NSMutableDictionary alloc] initWithDictionary:@{
                 @"user.id" : safe(user.objectId),
                 @"user.anonymous" : user.email ? @"N" : @"Y",
                 @"user.fullName" : safe(user.fullName),
-                @"user.linkedToFacebook" : [PFFacebookUtils isLinkedWithUser:user] ? @"Y" : @"N",
+                @"user.linkedToFacebook" : isLinkedWithFB ? @"Y" : @"N",
                 @"user.emailVerified" : [user objectForKey:@"emailVerified"] ? @"Y" : @"N",
                 @"user.sex" : user.isMale ? @"M" : @"F"
         }];
@@ -92,6 +93,7 @@ static BOOL isRelease;
             [mixpanel identify:mixpanel.distinctId];
             if (user.email) props[@"$email"] = user.email;
             [mixpanel.people set:props];
+            [mixpanel.people setOnce:@{@"createdAt" : [NSDate date]}];
         } else {
             NSLog(@"[USAGE ANALYTICS]: Identify - %@", props);
         }
