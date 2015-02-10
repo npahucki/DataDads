@@ -54,17 +54,17 @@ static BOOL isRelease;
         [Heap setAppId:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.HeapAppId"]];
         [Heap changeInterval:30];
 
+        NSString *mixPanelKey = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.MixPanelKey"];
+        Mixpanel *mixpanel = [Mixpanel sharedInstanceWithToken:mixPanelKey launchOptions:launchOptions];
+
         [AppsFlyerTracker sharedTracker].appsFlyerDevKey = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.AppsFlyerDevKey"];
         [AppsFlyerTracker sharedTracker].appleAppID = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.AppleStoreId"];
         [AppsFlyerTracker sharedTracker].isHTTPS = YES;
+        [AppsFlyerTracker sharedTracker].customerUserID = mixpanel.distinctId;
         [[AppsFlyerTracker sharedTracker] trackAppLaunch];
 
         NSString *uxCamKey = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.UXCamKey"];
         [UXCam startApplicationWithKey:uxCamKey];
-
-        NSString *mixPanelKey = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.MixPanelKey"];
-        [Mixpanel sharedInstanceWithToken:mixPanelKey launchOptions:launchOptions];
-
     }
 }
 
@@ -85,12 +85,10 @@ static BOOL isRelease;
         
         if (isRelease) {
             Mixpanel *mixpanel = [Mixpanel sharedInstance];
-            [AppsFlyerTracker sharedTracker].customerUserID = user.objectId;
             [Heap identify:props];
             [UXCam tagUsersName:user.objectId additionalData:user.email];
             [UXCam addTag:user.isMale ? @"male" : @"female"];
             [UXCam addTag:user.email ? @"anonymous" : @"signedup"];
-            //if (user.screenName) [UXCam tagScreenName:user.screenName]; // this causes the screenname to be used instead of the user id...not what we want.
             [mixpanel identify:mixpanel.distinctId];
             if (user.email) props[@"$email"] = user.email;
             [mixpanel.people set:props];
@@ -188,6 +186,16 @@ static BOOL isRelease;
         NSLog(@"[USAGE ANALYTICS]: trackUserSignout - User:%@", user);
     }
 }
+
++ (void)trackAppInstalled {
+    if (isRelease) {
+        [Heap track:@"installApp"];
+        [[Mixpanel sharedInstance] track:@"installApp"];
+    } else {
+        NSLog(@"[USAGE ANALYTICS]: trackAppInstalled");
+    }
+}
+
 
 + (void)trackAppBecameActive {
     if (isRelease) {
@@ -466,4 +474,5 @@ static BOOL isRelease;
     [Heap track:@"followConnectionBroken"];
     [[Mixpanel sharedInstance] track:@"followConnectionBroken"];
 }
+
 @end

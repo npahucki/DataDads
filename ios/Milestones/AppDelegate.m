@@ -18,6 +18,12 @@
     [Parse setApplicationId:parseAppId clientKey:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.ParseClientId"]];
 
     [UsageAnalytics initializeAnalytics:launchOptions];
+    // Only track for brand new installs, not upgrades.
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if (![defaults boolForKey:@"installEventSent"] && [defaults stringForKey:@"lastSeenBuild"] == nil) {
+        [defaults setBool:YES forKey:@"installEventSent"];
+        [UsageAnalytics trackAppInstalled];
+    }
 
     // Force class load and start monitoring network connection.
     [Reachability reachabilityForParseHost];
@@ -86,11 +92,11 @@
 
     // When the app is not open at all, the didReceiveRemoteNotification is not called, we need to detect his here and call it
     // for it to work correctly. 
-    UILocalNotification *notification = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+    UILocalNotification *notification = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
     if (notification) {
-        [self application:application didReceiveRemoteNotification:(NSDictionary*)notification];
+        [self application:application didReceiveRemoteNotification:notification.userInfo];
     }
-    
+
     return YES;
 }
 

@@ -65,4 +65,6 @@
 + (void)trackFollowConnectionRevokeInvite;
 
 + (void)trackFollowConnectionRemoveConnection;
+
++ (void)trackAppInstalled;
 @end
