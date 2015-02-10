@@ -202,6 +202,7 @@ static BOOL isRelease;
         [FBAppEvents activateApp];
         [Heap track:@"activateApp"];
         [[Mixpanel sharedInstance] track:@"activateApp"];
+        [[Mixpanel sharedInstance].people increment:@"timesAppActivated" by:@(1)];
         [[AppsFlyerTracker sharedTracker] trackEvent:@"activateApp" withValue:@""];
     } else {
         NSLog(@"[USAGE ANALYTICS]: trackAppBecameActive");
@@ -283,6 +284,7 @@ static BOOL isRelease;
         };
         [Heap track:@"measurementLogged" withProperties:props];
         [[Mixpanel sharedInstance] track:@"measurementLogged" properties:props];
+        [[Mixpanel sharedInstance].people increment:@"measurementsLogged" by:@(1)];
     } else {
         NSLog(@"[USAGE ANALYTICS]: trackMeasurement - Measurement:%@", measurement);
     }
@@ -303,6 +305,7 @@ static BOOL isRelease;
     if(isRelease) {
         [Heap track:@"achievementShared" withProperties:props];
         [[Mixpanel sharedInstance] track:@"achievementShared" properties:props];
+        [[Mixpanel sharedInstance].people increment:@"achievementsShared" by:@(1)];
         [FBAppEvents logEvent:@"achievementShared" parameters:safeForFB(props)];
     } else {
         NSLog(@"[USAGE ANALYTICS]: trackAchievementShared via %@ : %@", medium, props);
@@ -320,6 +323,7 @@ static BOOL isRelease;
     if(isRelease) {
         [Heap track:@"tipShared" withProperties:props];
         [[Mixpanel sharedInstance] track:@"tipShared" properties:props];
+        [[Mixpanel sharedInstance].people increment:@"tipsShared" by:@(1)];
         [FBAppEvents logEvent:@"tipShared" parameters:safeForFB(props)];
     } else {
         NSLog(@"[USAGE ANALYTICS]: trackTipShared via %@: %@", medium, props);
@@ -333,6 +337,7 @@ static BOOL isRelease;
         [Heap track:@"searchExecuted" withProperties:@{@"filterString" : filterString}];
         [FBAppEvents logEvent:FBAppEventNameSearched parameters:@{FBAppEventParameterNameSearchString : filterString}];
         [[Mixpanel sharedInstance] track:@"searchExecuted" properties:@{@"filterString" : filterString}];
+        [[Mixpanel sharedInstance].people increment:@"searchesExecuted" by:@(1)];
     } else {
         NSLog(@"[USAGE ANALYTICS]: trackSearch - Filter:%@", filterString);
     }
@@ -342,6 +347,7 @@ static BOOL isRelease;
     if (isRelease) {
         [Heap track:@"adClicked" withProperties:@{@"adIdentifier" : adIdentifier}];
         [[Mixpanel sharedInstance] track:@"adClicked" properties:@{@"adIdentifier" : adIdentifier}];
+        [[Mixpanel sharedInstance].people increment:@"adsClicked" by:@(1)];
         [[AppsFlyerTracker sharedTracker] trackEvent:@"adIdentifier" withValue:adIdentifier];
         [FBAppEvents logEvent:@"adClicked" parameters:@{@"adIdentifier" : adIdentifier}];
     } else {
@@ -353,6 +359,7 @@ static BOOL isRelease;
     if (isRelease) {
         [Heap track:@"respondedToTutoriaPrompt" withProperties:@{@"viewed" : @(viewed)}];
         [[Mixpanel sharedInstance] track:@"respondedToTutoriaPrompt" properties:@{@"viewed" : @(viewed)}];
+        [[Mixpanel sharedInstance].people set:@"tutorialTaken" to:@(viewed)];
         [FBAppEvents logEvent:FBAppEventNameCompletedTutorial];
     } else {
         NSLog(@"[USAGE ANALYTICS]: respondedToTutoriaPrompt - viewed:%d", viewed);
@@ -374,7 +381,7 @@ static BOOL isRelease;
         NSDictionary *props = @{@"productId" : safe(productId), @"clickedYes" : @(b)};
         [Heap track:@"purchaseDecision" withProperties:props];
         [[Mixpanel sharedInstance] track:@"purchaseDecision" properties:props];
-
+        [[Mixpanel sharedInstance].people set:@"attemptedPurchase" to:@(YES)];
         [[AppsFlyerTracker sharedTracker] trackEvent:@"purchaseDecision" withValue:productId];
         [FBAppEvents logEvent:@"purchaseDecision" parameters:safeForFB(props)];
         if (b) {
@@ -394,13 +401,23 @@ static BOOL isRelease;
         NSLog(@"[USAGE ANALYTICS]: accountCantPurchase");
     }
 }
-
 + (void)trackPurchaseCompleted:(NSString *)productId atPrice:(NSNumber *)price andCurrency:(NSString *)currency {
     if (isRelease) {
         NSDictionary *props = @{@"productId" : safe(productId), @"price" : safe(price), @"currency" : safe(currency)};
         [Heap track:@"purchaseCompleted" withProperties:props];
         [[Mixpanel sharedInstance].people trackCharge:price withProperties:props];
+        [[Mixpanel sharedInstance].people increment:@"purchasesCompleted" by:@(1)];
         [FBAppEvents logPurchase:[price doubleValue] currency:currency parameters:@{@"productId" : productId}];
+    } else {
+        NSLog(@"[USAGE ANALYTICS]: trackPurchaseCompleted - productId:%@ price:%@ currency:%@", productId, price, currency);
+    }
+}
+
++ (void)trackPurchaseRestored:(NSString *)productId {
+    if (isRelease) {
+        NSDictionary *props = @{@"productId" : safe(productId)};
+        [Heap track:@"purchaseRestored" withProperties:props];
+        [[Mixpanel sharedInstance] track:@"purchaseRestored"];
     } else {
         NSLog(@"[USAGE ANALYTICS]: trackPurchaseCompleted - productId:%@ price:%@ currency:%@", productId, price, currency);
     }
@@ -448,12 +465,15 @@ static BOOL isRelease;
 + (void)trackUserDeniedAddressBookAccess {
     [Heap track:@"userDeniedAddressBookAccess"];
     [[Mixpanel sharedInstance] track:@"userDeniedAddressBookAccess"];
+    [[Mixpanel sharedInstance].people set:@"deniedAddressBookAccess" to:@(YES)];
 }
 
 + (void)trackFollowConnectionInviteSent:(NSInteger)count {
     NSDictionary *props = @{@"count" : @(count)};
     [Heap track:@"followConnectionInviteSent" withProperties:props];
     [[Mixpanel sharedInstance] track:@"followConnectionInviteSent" properties:props];
+    [[Mixpanel sharedInstance].people increment:@"followInvitesSent" by:@(count)];
+    [[Mixpanel sharedInstance].people increment:@"followInvitesTimesSent" by:@(1)];
 }
 
 + (void)trackFollowConnectionInviteResponse:(BOOL)accepted {
@@ -463,16 +483,19 @@ static BOOL isRelease;
 
     [Heap track:@"followConnectionInviteResponse" withProperties:properties];
     [[Mixpanel sharedInstance] track:@"followConnectionInviteResponse" properties:properties];
+    [[Mixpanel sharedInstance].people increment:@"followInvitesAccepted" by:@(1)];
 }
 
 + (void)trackFollowConnectionRevokeInvite {
     [Heap track:@"followConnectionInviteRevoked"];
     [[Mixpanel sharedInstance] track:@"followConnectionInviteRevoked"];
+    [[Mixpanel sharedInstance].people increment:@"followInvitesRevoked" by:@(1)];
 }
 
 + (void)trackFollowConnectionRemoveConnection {
     [Heap track:@"followConnectionBroken"];
     [[Mixpanel sharedInstance] track:@"followConnectionBroken"];
+    [[Mixpanel sharedInstance].people increment:@"followConnectionsBroken" by:@(1)];
 }
 
 @end

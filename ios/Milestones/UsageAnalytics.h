@@ -67,4 +67,6 @@
 + (void)trackFollowConnectionRemoveConnection;
 
 + (void)trackAppInstalled;
+
++ (void)trackPurchaseRestored:(NSString *)identifier;
 @end

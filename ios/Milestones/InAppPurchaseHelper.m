@@ -259,10 +259,14 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
     [numberFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
     [numberFormatter setLocale:product.priceLocale];
     NSString *currencyCode = [numberFormatter currencyCode];
-    if(product.price)
-        [UsageAnalytics trackPurchaseCompleted:transaction.payment.productIdentifier atPrice:product.price andCurrency:currencyCode];
-    else
-        NSLog(@"Got transaction %@ with no price!", transaction.transactionIdentifier);
+    if (transaction.transactionState == SKPaymentTransactionStatePurchased) {
+        if (product.price)
+            [UsageAnalytics trackPurchaseCompleted:transaction.payment.productIdentifier atPrice:product.price andCurrency:currencyCode];
+        else
+            NSLog(@"Got transaction %@ with no price!", transaction.transactionIdentifier);
+    } else {
+        [UsageAnalytics trackPurchaseRestored:transaction.payment.productIdentifier];
+    }
     if (block) block(YES, nil);
     [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationProductPurchased object:transaction];
 }
