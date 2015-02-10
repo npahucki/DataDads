@@ -25,11 +25,13 @@
 		72F186FAC366DD73385A1055 /* ViewControllerWithBabyInfoButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18C69E7D6386F1B61CB97 /* ViewControllerWithBabyInfoButton.m */; };
 		72F1877F09F482E5A93B35AE /* AppleIncRootCertificate.cer in Resources */ = {isa = PBXBuildFile; fileRef = 72F18423ECAD54191B7179D7 /* AppleIncRootCertificate.cer */; };
 		72F187BDC76C613B6C98D5BF /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B58651891EED100C74C2B /* StoreKit.framework */; };
-		72F188252DCAB6DCF2901226 /* NSError+NewCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18C66C678A4A75AB7398D /* NSError+NewCategory.m */; };
+		72F188252DCAB6DCF2901226 /* NSError+AsDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18C66C678A4A75AB7398D /* NSError+AsDictionary.m */; };
 		72F188388D1CDFC1BA64908F /* ParentUserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F185D7FC4A3D3E7821DD24 /* ParentUserTests.m */; };
 		72F1883E74F2B648B80C5C0D /* PFFile+Media.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F184506900ECF329391D82 /* PFFile+Media.m */; };
 		72F18929ED476F9AA8B3F2E3 /* UIImageView+URLLoading.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F1819FEE30D8DFEAA8F678 /* UIImageView+URLLoading.m */; };
+		72F18973D7333DFFF7683786 /* NSMutableDictionary+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18C67CC563C08460F13DD /* NSMutableDictionary+JSON.m */; };
 		72F189D03635D080146BA4E8 /* FollowConnectionsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18BDBDA243B1941504FEB /* FollowConnectionsDataSource.m */; };
+		72F189D4BBC46B8B7C1FDBF4 /* NSMutableDictionary+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18C67CC563C08460F13DD /* NSMutableDictionary+JSON.m */; };
 		72F18A0239394ADCB653A3C1 /* InAppPurchaseHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F1844739B4B51C27B34983 /* InAppPurchaseHelper.m */; };
 		72F18A8BAA52268B8AB8A3D1 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72F184C3C79880CF8D53574A /* MediaPlayer.framework */; };
 		72F18B2BB218DB4DF06FEC6B /* AppleIncRootCertificate.cer in Resources */ = {isa = PBXBuildFile; fileRef = 72F18423ECAD54191B7179D7 /* AppleIncRootCertificate.cer */; };
@@ -39,7 +41,7 @@
 		72F18DE7FE4FD3F62D59569E /* ExternalMediaFileTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18854EC2953038E616417 /* ExternalMediaFileTests.m */; };
 		72F18E4159113C7B822E740D /* InviteContactsAddressBookDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F181D2F3F21DC238F85FEA /* InviteContactsAddressBookDataSource.m */; };
 		72F18ED08930567464526909 /* PFFile+Media.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F184506900ECF329391D82 /* PFFile+Media.m */; };
-		72F18F01AF8712F79D424D4E /* NSError+NewCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18C66C678A4A75AB7398D /* NSError+NewCategory.m */; };
+		72F18F01AF8712F79D424D4E /* NSError+AsDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18C66C678A4A75AB7398D /* NSError+AsDictionary.m */; };
 		72F18F4E5A089D5B51F7A4AD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F18627FC1325DE78BA4040 /* InfoPlist.strings */; };
 		72F18F9470CB5D6C79E81125 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B58651891EED100C74C2B /* StoreKit.framework */; };
 		72F18FB51B7939470119D4FA /* UIImageView+URLLoading.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F1819FEE30D8DFEAA8F678 /* UIImageView+URLLoading.m */; };
@@ -311,11 +313,13 @@
 		72F18A81B5FA1498B57E2602 /* InviteContactsAddressBookDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InviteContactsAddressBookDataSource.h; sourceTree = "<group>"; };
 		72F18AF5D227CE9B7280E8E6 /* PurchaseTransaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PurchaseTransaction.h; sourceTree = "<group>"; };
 		72F18B2AFF977957CF046E9E /* NSString+EmailAddress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+EmailAddress.m"; sourceTree = "<group>"; };
+		72F18BC4376CDF56B0B8FC57 /* NSMutableDictionary+JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableDictionary+JSON.h"; sourceTree = "<group>"; };
 		72F18BDBDA243B1941504FEB /* FollowConnectionsDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FollowConnectionsDataSource.m; sourceTree = "<group>"; };
 		72F18C0A7E84AA6ED34A57C2 /* FollowConnectionsDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FollowConnectionsDataSource.h; sourceTree = "<group>"; };
 		72F18C28332684D9113B3101 /* NSString+EmailAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+EmailAddress.h"; sourceTree = "<group>"; };
-		72F18C3A9EDFBD6502853CF7 /* NSError+NewCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+NewCategory.h"; sourceTree = "<group>"; };
-		72F18C66C678A4A75AB7398D /* NSError+NewCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+NewCategory.m"; sourceTree = "<group>"; };
+		72F18C3A9EDFBD6502853CF7 /* NSError+AsDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+AsDictionary.h"; sourceTree = "<group>"; };
+		72F18C66C678A4A75AB7398D /* NSError+AsDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+AsDictionary.m"; sourceTree = "<group>"; };
+		72F18C67CC563C08460F13DD /* NSMutableDictionary+JSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+JSON.m"; sourceTree = "<group>"; };
 		72F18C69E7D6386F1B61CB97 /* ViewControllerWithBabyInfoButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewControllerWithBabyInfoButton.m; sourceTree = "<group>"; };
 		72F18C88C0C62071581E6244 /* ExternalMediaFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExternalMediaFile.h; sourceTree = "<group>"; };
 		72F18C88FC612D6CDB6F1B09 /* PFFile+Media.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PFFile+Media.h"; sourceTree = "<group>"; };
@@ -738,8 +742,10 @@
 				72F1855685E8FD6A455E30AB /* UIImageView+URLLoading.h */,
 				72F18B2AFF977957CF046E9E /* NSString+EmailAddress.m */,
 				72F18C28332684D9113B3101 /* NSString+EmailAddress.h */,
-				72F18C66C678A4A75AB7398D /* NSError+NewCategory.m */,
-				72F18C3A9EDFBD6502853CF7 /* NSError+NewCategory.h */,
+				72F18C66C678A4A75AB7398D /* NSError+AsDictionary.m */,
+				72F18C3A9EDFBD6502853CF7 /* NSError+AsDictionary.h */,
+				72F18BC4376CDF56B0B8FC57 /* NSMutableDictionary+JSON.h */,
+				72F18C67CC563C08460F13DD /* NSMutableDictionary+JSON.m */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -1348,7 +1354,8 @@
 				72F189D03635D080146BA4E8 /* FollowConnectionsDataSource.m in Sources */,
 				72F186FAC366DD73385A1055 /* ViewControllerWithBabyInfoButton.m in Sources */,
 				72F185D04E9D8D927BEBFA72 /* CMPopTipView+WithStaticInitializer.m in Sources */,
-				72F188252DCAB6DCF2901226 /* NSError+NewCategory.m in Sources */,
+				72F188252DCAB6DCF2901226 /* NSError+AsDictionary.m in Sources */,
+				72F18973D7333DFFF7683786 /* NSMutableDictionary+JSON.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1430,7 +1437,8 @@
 				72F1821D4331F0249A938183 /* FollowConnectionsDataSource.m in Sources */,
 				72F18D14577530F4D13FAA81 /* ViewControllerWithBabyInfoButton.m in Sources */,
 				72F1827B6B5DA4E103212A1F /* CMPopTipView+WithStaticInitializer.m in Sources */,
-				72F18F01AF8712F79D424D4E /* NSError+NewCategory.m in Sources */,
+				72F18F01AF8712F79D424D4E /* NSError+AsDictionary.m in Sources */,
+				72F189D4BBC46B8B7C1FDBF4 /* NSMutableDictionary+JSON.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -11,7 +11,7 @@
 #import "NSDate+Utils.h"
 #import "AppsFlyerTracker.h"
 #import "Mixpanel.h"
-#import "NSError+NewCategory.h"
+#import "NSError+AsDictionary.h"
 
 
 static id safe(id object) {

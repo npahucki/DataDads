@@ -5,11 +5,10 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSError (NewCategory)
+@interface NSError (AsDictionary)
 
 - (NSMutableDictionary *)asDictionary;
 
-- (NSString *)asJSONString;
 
 
 @end

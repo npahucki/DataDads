@@ -8,7 +8,8 @@
 #import "RMAppReceipt.h"
 #import "RMStore.h"
 #import "InAppPurchaseAlertView.h"
-#import "NSError+NewCategory.h"
+#import "NSError+AsDictionary.h"
+#import "NSMutableDictionary+JSON.h"
 
 static NSDictionary *productInfoForProduct(DDProduct product) {
     static NSArray *productCodes;
@@ -268,7 +269,7 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
 
 - (void)failedTransaction:(SKPaymentTransaction *)transaction withBlock:(PFBooleanResultBlock)block {
     [UsageAnalytics trackError:transaction.error forOperationNamed:@"processPaymentTransaction"];
-    if (transaction.error.code != SKErrorPaymentCancelled) {
+    if (transaction.error.code != SKErrorPaymentCancelled && transaction.error.code != SKErrorPaymentNotAllowed) {
         [[[UIAlertView alloc] initWithTitle:@"Could Not Complete Purchase/Restore" message:[transaction.error.localizedDescription stringByAppendingString:@". Try your purchase again in a little while since this could have been caused by a network hiccup."]
                                    delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
     }
@@ -284,13 +285,37 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
         purchaseTransaction.originalId = transaction.originalTransaction.transactionIdentifier;
         purchaseTransaction.productId = transaction.payment.productIdentifier;
         purchaseTransaction.date = transaction.transactionDate;
+        NSMutableDictionary *errorDetails = nil;
         switch (transaction.transactionState) {
             case SKPaymentTransactionStatePurchased:
                 purchaseTransaction.type = @"new_purchase";
                 break;
             case SKPaymentTransactionStateFailed:
-                purchaseTransaction.type = transaction.error.code == SKErrorPaymentCancelled ? @"canceled_purchase" : @"failed_purchase";
-                purchaseTransaction.details = [transaction.error asJSONString];
+                errorDetails = [transaction.error asDictionary];
+                switch (transaction.error.code) {
+                    case SKErrorClientInvalid:
+                        errorDetails[@"skReasonCode"] = @"SKErrorClientInvalid";
+                        break;
+                    case SKErrorPaymentCancelled:
+                        errorDetails[@"skReasonCode"] = @"SKErrorPaymentCancelled";
+                        break;
+                    case SKErrorPaymentInvalid:
+                        errorDetails[@"skReasonCode"] = @"SKErrorPaymentInvalid";
+                        break;
+                    case SKErrorPaymentNotAllowed:
+                        errorDetails[@"skReasonCode"] = @"SKErrorPaymentNotAllowed";
+                        break;
+                    case SKErrorStoreProductNotAvailable:
+                        errorDetails[@"skReasonCode"] = @"SKErrorStoreProductNotAvailable";
+                        break;
+                    case SKErrorUnknown:
+                    default:
+                        errorDetails[@"skReasonCode"] = @"SKErrorUnknown";
+                        break;
+                }
+
+                purchaseTransaction.details = [errorDetails toJsonString];
+                purchaseTransaction.type = @"failed_purchase";
                 break;
             case SKPaymentTransactionStateRestored:
                 purchaseTransaction.type = @"restored_purchase";
