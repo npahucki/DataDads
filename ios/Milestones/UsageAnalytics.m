@@ -421,7 +421,7 @@ static BOOL isRelease;
         [Heap track:@"purchaseRestored" withProperties:props];
         [[Mixpanel sharedInstance] track:@"purchaseRestored"];
     } else {
-        NSLog(@"[USAGE ANALYTICS]: trackPurchaseCompleted - productId:%@ price:%@ currency:%@", productId, price, currency);
+        NSLog(@"[USAGE ANALYTICS]: purchaseRestored - productId:%@", productId);
     }
 }
 
