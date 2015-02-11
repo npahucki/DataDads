@@ -32,42 +32,48 @@
       <hr style="-moz-box-sizing: content-box; box-sizing: content-box; height: 0; border-bottom: 1px solid #DDD; border-left: none; border-right: none; border-top: none; margin: 1.5em 0; -webkit-box-sizing: inherit;" />
       <a href="<%=linkUrl%>" style="background-color: transparent; -webkit-transition: color 0.1s linear; -moz-transition: color 0.1s linear; transition: color 0.1s linear; color: #477DCA; text-decoration: none; -webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit;">
         <% if(imageUrl) { %>
-        <% if(hasVideo) { %>
-        <div class="overlay" style="background: url(<%=imageUrl%>) no-repeat 50% 50%; height: 100%; -webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit;">
-          <img src="<%= host %>/img/play-btn.png" alt="milestone achievement page" style="border: 0; margin: 0; max-width: 100%; -webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit;" />
-        </div>
-        <% } else { %>
-        <div class="image" style="-webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit;">
-          <img width="100%" alt="milestone achievement image" src="<%=imageUrl%>" style="border: 0; margin: 0; max-width: 100%; -webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit;" />
-        </div>
-        <% } %>
+          <% if(hasVideo) { %>
+            <% if(orientation < 2)  { %>
+              <div class="overlay" style="background: url(<%=imageUrl%>) no-repeat 50% 50%; -webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit;">
+                <img src="<%= host %>/img/play-btn-transparent-landscape.png" alt="milestone achievement page" style="border: 0; margin: 0; max-width: 100%; -webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit;" />
+              </div>
+            <% } else {%>
+              <div class="overlay" style="background: url(<%=imageUrl%>) no-repeat 50% 50%; -webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit;">
+                <img src="<%= host %>/img/play-btn-transparent-portrait.png" alt="milestone achievement page" style="border: 0; margin: 0; max-width: 100%; -webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit;" />
+              </div>            
+            <% } %>
+          <% } else { %>
+            <div class="image" style="-webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit;">
+              <img width="100%" alt="milestone achievement image" src="<%=imageUrl%>" style="border: 0; margin: 0; max-width: 100%; -webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit;" />
+            </div>
+          <% } %>
         <% } %>
 
         <p style="margin: 0 0 0.75em; -webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit;">
           <%if(hasVideo) {%>
-          Click here to watch the video of this milestone!
+            Click here to watch the video of this milestone!
           <%} else if(hasPhoto) {%>
-          Click here to to see the full photo in your browser
+            Click here to to see the full photo in your browser
           <% } else { %>
-          <i style="-webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit;">No Photo or video available.</i>
+            <i style="-webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit;">No Photo or video available.</i>
           <% } %>
         </p>
       </a>
-      <hr style="-moz-box-sizing: content-box; box-sizing: content-box; height: 0; border-bottom: 1px solid #DDD; border-left: none; border-right: none; border-top: none; margin: 1.5em 0; -webkit-box-sizing: inherit;" />
-      <p class="large" style="margin: 0 0 0.75em; -webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit;">
-        <%if(!inviteeIsExistingUser){%>
+    <hr style="-moz-box-sizing: content-box; box-sizing: content-box; height: 0; border-bottom: 1px solid #DDD; border-left: none; border-right: none; border-top: none; margin: 1.5em 0; -webkit-box-sizing: inherit;" />
+    <p class="large" style="margin: 0 0 0.75em; -webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit;">
+      <%if(!inviteeIsExistingUser){%>
         Are you a parent? <a href="<%=installAppUrl%>" style="background-color: transparent; -webkit-transition: color 0.1s linear; -moz-transition: color 0.1s linear; transition: color 0.1s linear; color: #477DCA; text-decoration: none; -webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit;">Install the App</a> to note all of your child's first times!
         Make sure you sign-up using this email address.
-        <%}%>
-      </p>
-      <p style="margin: 0 0 0.75em; -webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit;"><small style="font-size: 80%; -webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit;">
-          <a href="mailto:<%=inviterEmail%>" style="background-color: transparent; -webkit-transition: color 0.1s linear; -moz-transition: color 0.1s linear; transition: color 0.1s linear; color: #477DCA; text-decoration: none; -webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit;"><%=inviterName%></a> sent you this alert of <%=inviterBabyName%>'s "first times" via the <a href="<%=installAppUrl%>" style="background-color: transparent; -webkit-transition: color 0.1s linear; -moz-transition: color 0.1s linear; transition: color 0.1s linear; color: #477DCA; text-decoration: none; -webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit;">DataParenting App</a>.
-          <%if(!inviteeIsExistingUser){%>
-          If you want to stop these notifications about <%=inviterBabyName%>'s progress, click <a href="<%=unsubscribeLink%>" style="background-color: transparent; -webkit-transition: color 0.1s linear; -moz-transition: color 0.1s linear; transition: color 0.1s linear; color: #477DCA; text-decoration: none; -webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit;">here to unsubscribe</a>.
-          <%} else {%>
+      <%}%>
+    </p>
+    <p style="margin: 0 0 0.75em; -webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit;"><small style="font-size: 80%; -webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit;">
+      <a href="mailto:<%=inviterEmail%>" style="background-color: transparent; -webkit-transition: color 0.1s linear; -moz-transition: color 0.1s linear; transition: color 0.1s linear; color: #477DCA; text-decoration: none; -webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit;"><%=inviterName%></a> sent you this alert of <%=inviterBabyName%>'s "first times" via the <a href="<%=installAppUrl%>" style="background-color: transparent; -webkit-transition: color 0.1s linear; -moz-transition: color 0.1s linear; transition: color 0.1s linear; color: #477DCA; text-decoration: none; -webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit;">DataParenting App</a>.
+      <%if(!inviteeIsExistingUser){%>
+        If you want to stop these notifications about <%=inviterBabyName%>'s progress, click <a href="<%=unsubscribeLink%>" style="background-color: transparent; -webkit-transition: color 0.1s linear; -moz-transition: color 0.1s linear; transition: color 0.1s linear; color: #477DCA; text-decoration: none; -webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit;">here to unsubscribe</a>.
+      <%} else {%>
           You can manage who you monitor on the <a href="<%=openAppUrl%>" style="background-color: transparent; -webkit-transition: color 0.1s linear; -moz-transition: color 0.1s linear; transition: color 0.1s linear; color: #477DCA; text-decoration: none; -webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit;">Monitors</a> tab of the DataParenting App.
-          <%}%>
-        </small></p>
+      <%}%>
+    </small></p>
 
       <p style="margin: 0 0 0.75em; -webkit-box-sizing: inherit; -moz-box-sizing: inherit; box-sizing: inherit;">
         -The Friendly DataParenting Robot
