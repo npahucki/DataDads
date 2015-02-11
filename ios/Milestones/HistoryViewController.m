@@ -499,6 +499,11 @@
 }
 
 - (void)layoutFloatingHeaders {
+    // For some odd reason, before the table loads, on iphone 6, the width of the table is always 320 pixels
+    // which makes the headers too small. So, we don't load the floating headers until the table has initially loaded.
+    if(!_didInitialLoad) return;
+    
+    
     int tableHeight = self.tableView.frame.size.height;
 
 
