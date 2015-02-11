@@ -20,6 +20,7 @@
 @property(weak, nonatomic) IBOutlet UIBarButtonItem *doneButton;
 @property(weak, nonatomic) IBOutlet UIButton *acceptTACLabelButton;
 @property(weak, nonatomic) IBOutlet UIButton *supportScienceButton;
+@property (weak, nonatomic) IBOutlet UILabel *iAmLabel;
 
 
 @end

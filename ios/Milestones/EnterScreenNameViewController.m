@@ -26,7 +26,8 @@
 
     self.acceptTACButton.titleLabel.font = [UIFont fontForAppWithType:Bold andSize:12.5];
     self.supportScienceButton.titleLabel.font = [UIFont fontForAppWithType:Bold andSize:12.5];
-
+    self.iAmLabel.font = [UIFont fontForAppWithType:Light andSize:22];
+    
     [[UIDevice currentDevice] name];
     NSNumber *gender = [ParentUser.currentUser objectForKey:@"isMale"];
     if (gender && gender.boolValue) {
