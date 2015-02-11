@@ -409,8 +409,8 @@ Parse.Cloud.job("deliverFollowConnectionInvites", function (request, status) {
                 var inviterBabyName = inviterBaby ? inviterBaby.get("name") : null;
                 var maxVersionInstalled = _.reduce(inviteeAppVersions, function(a,b){ return a > b ? a : b }, null);
                 var minVersionInstalled = _.reduce(inviteeAppVersions, function(a,b){ return a < b ? a : b }, null);
-                var inviteeHasCapableVersionInstalled = maxVersionInstalled >= "1.3";
-                var inviteeHasIncapableVersionInstalled = minVersionInstalled < "1.3";
+                var inviteeHasCapableVersionInstalled = maxVersionInstalled != null && maxVersionInstalled >= "1.3";
+                var inviteeHasIncapableVersionInstalled = minVersionInstalled != null && minVersionInstalled < "1.3";
                 var promises = [];
 
                 if(DEBUG) {
@@ -522,6 +522,7 @@ exports.sendMonitorEmailForAchievement = function(achievement, emailAddresses) {
                 var subjectText = baby.get("name") + " completed a milestone!";
                 var title = achievement.has("customTitle") ? achievement.get("customTitle") : milestone.get("title");
                 var attachmentType = achievement.has("attachmentType") ? achievement.get("attachmentType") : "";
+                var orientation = achievement.get("attachmentOrientation");
                 var utils = require("cloud/utils");
                 var params = {
                     title:utils.replacePronounTokens(title, baby.get("isMale"), "en"),
@@ -535,7 +536,8 @@ exports.sendMonitorEmailForAchievement = function(achievement, emailAddresses) {
                     inviterBabyName:baby.get("name"),
                     openAppUrl:utils.isDev() ? "dataparentingappdev://follow" : "dataparentingapp://follow",
                     installAppUrl:utils.isDev() ? "https://www.testflightapp.com/dashboard/applications/1247871/" : utils.oneLinkFollowUrl,
-                    host:"http://" + utils.websiteHost
+                    host:"http://" + utils.websiteHost,
+                    orientation: orientation
                 };
 
                 var emails = require('cloud/emails.js');
