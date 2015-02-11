@@ -32,6 +32,8 @@
     self.maleLabel.font = self.femaleLabel.font = [UIFont fontForAppWithType:Bold andSize:17];
     self.maleLabel.textColor = self.femaleLabel.textColor = [UIColor appInputGreyTextColor];
 
+    self.genderLabel.font = [UIFont fontForAppWithType:Light andSize:22]; // Will auto shrink
+    
     // Needed to dimiss the keyboard once a user clicks outside the text boxes
     UITapGestureRecognizer *viewTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
     [self.view addGestureRecognizer:viewTap];

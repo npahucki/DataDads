@@ -210,7 +210,7 @@
                                 </connections>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Due Date" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="efa-CG-cYS" customClass="UIDateField">
-                                <rect key="frame" x="17" y="242" width="280" height="30"/>
+                                <rect key="frame" x="17" y="241" width="280" height="30"/>
                                 <accessibility key="accessibilityConfiguration" label="Due date"/>
                                 <color key="textColor" red="0.0" green="0.5568627451" blue="0.62352941179999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -223,74 +223,71 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="genderLines" translatesAutoresizingMaskIntoConstraints="NO" id="ENC-Jr-qf0">
                                 <rect key="frame" x="20" y="386" width="280" height="122"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="122" id="2EK-zR-OqV"/>
-                                    <constraint firstAttribute="width" constant="280" id="Cf2-Yt-9B8"/>
+                                    <constraint firstAttribute="width" secondItem="ENC-Jr-qf0" secondAttribute="height" multiplier="140:61" id="4BF-jX-xdo"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OKK-Fo-Qon">
-                                <rect key="frame" x="200" y="407" width="80" height="80"/>
-                                <accessibility key="accessibilityConfiguration" label="Girl"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="80" id="HSq-Zl-a24"/>
-                                    <constraint firstAttribute="width" constant="80" id="o3z-Yn-U3e"/>
-                                </constraints>
-                                <state key="normal" title="Button" image="femaleIcon">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="selected" image="femaleIcon_selected"/>
-                                <state key="highlighted" image="femaleIcon_selected"/>
-                                <connections>
-                                    <action selector="didClickFemaleButton:" destination="sg9-o2-9ju" eventType="touchUpInside" id="Nbq-WV-uqQ"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zHR-9I-ONZ">
-                                <rect key="frame" x="39" y="407" width="80" height="80"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zHR-9I-ONZ" userLabel="Boy Button">
+                                <rect key="frame" x="197" y="401" width="92" height="92"/>
                                 <accessibility key="accessibilityConfiguration" label="Boy"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="80" id="VBC-Cq-tHJ"/>
-                                    <constraint firstAttribute="height" constant="80" id="dwT-qu-zpg"/>
+                                    <constraint firstAttribute="width" secondItem="zHR-9I-ONZ" secondAttribute="height" multiplier="1:1" id="qwm-Wi-k6c"/>
                                 </constraints>
-                                <state key="normal" title="Button" image="maleIcon">
+                                <state key="normal" backgroundImage="maleIcon">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <state key="selected" image="maleIcon_selected"/>
-                                <state key="highlighted" image="maleIcon_selected"/>
+                                <state key="selected" backgroundImage="maleIcon_selected"/>
+                                <state key="highlighted" backgroundImage="maleIcon_selected"/>
                                 <connections>
                                     <action selector="didClickMaleButton:" destination="sg9-o2-9ju" eventType="touchUpInside" id="7Lu-oH-mjj"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OKK-Fo-Qon" userLabel="Girl Button">
+                                <rect key="frame" x="31" y="401" width="92" height="92"/>
+                                <accessibility key="accessibilityConfiguration" label="Girl"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="OKK-Fo-Qon" secondAttribute="height" multiplier="1:1" id="hl7-hT-oO8"/>
+                                </constraints>
+                                <state key="normal" backgroundImage="femaleIcon">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="selected" backgroundImage="femaleIcon_selected"/>
+                                <state key="highlighted" backgroundImage="femaleIcon_selected"/>
+                                <connections>
+                                    <action selector="didClickFemaleButton:" destination="sg9-o2-9ju" eventType="touchUpInside" id="Nbq-WV-uqQ"/>
+                                </connections>
+                            </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your baby's name is:" lineBreakMode="headTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RP2-6d-k9r">
-                                <rect key="frame" x="20" y="82" width="280" height="21"/>
+                                <rect key="frame" x="20" y="82" width="280" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.33725490200000002" green="0.33725490200000002" blue="0.35294117650000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your baby was born on:" lineBreakMode="headTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Fl-AS-kct">
-                                <rect key="frame" x="20" y="148" width="280" height="21"/>
+                                <rect key="frame" x="20" y="148" width="280" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.33725490200000002" green="0.33725490200000002" blue="0.35294117650000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your baby was due on:" lineBreakMode="headTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YcI-T2-9sh">
-                                <rect key="frame" x="20" y="215" width="280" height="21"/>
+                                <rect key="frame" x="20" y="215" width="280" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.33725490200000002" green="0.33725490200000002" blue="0.35294117650000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your baby is a:" textAlignment="center" lineBreakMode="headTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ytA-VT-FUy">
-                                <rect key="frame" x="20" y="329" width="280" height="21"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="249" text="Your baby is a:" textAlignment="center" lineBreakMode="headTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="ytA-VT-FUy">
+                                <rect key="frame" x="20" y="279" width="280" height="70.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.33725490200000002" green="0.33725490200000002" blue="0.35294117650000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Boy" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zNi-AL-0bh">
-                                <rect key="frame" x="64" y="358" width="31" height="21"/>
+                                <rect key="frame" x="227" y="358" width="30.5" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.66274509803921566" green="0.66274509803921566" blue="0.69411764705882351" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="highlightedColor" red="0.23529411759999999" green="0.57254901960000004" blue="0.81176470590000005" alpha="1" colorSpace="calibratedRGB"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Girl" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rDq-EU-ZLQ">
-                                <rect key="frame" x="227" y="358" width="27" height="21"/>
+                                <rect key="frame" x="64" y="358" width="26.5" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.66274509803921566" green="0.66274509803921566" blue="0.69411764705882351" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="highlightedColor" red="0.23529411759999999" green="0.57254901960000004" blue="0.81176470590000005" alpha="1" colorSpace="calibratedRGB"/>
@@ -299,26 +296,27 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <accessibility key="accessibilityConfiguration" label="About your baby"/>
                         <constraints>
+                            <constraint firstItem="ENC-Jr-qf0" firstAttribute="leading" secondItem="LzZ-5f-Ke3" secondAttribute="leading" constant="20" id="0dw-SJ-8jI"/>
                             <constraint firstItem="ENC-Jr-qf0" firstAttribute="top" secondItem="zNi-AL-0bh" secondAttribute="bottom" constant="7" id="0lY-EE-MOb"/>
                             <constraint firstItem="RP2-6d-k9r" firstAttribute="width" secondItem="efa-CG-cYS" secondAttribute="width" id="4vF-Df-eAd"/>
                             <constraint firstAttribute="centerX" secondItem="ENC-Jr-qf0" secondAttribute="centerX" id="71m-Wh-h0k"/>
+                            <constraint firstAttribute="trailing" secondItem="ENC-Jr-qf0" secondAttribute="trailing" constant="20" id="AOa-KW-8dN"/>
                             <constraint firstItem="ENC-Jr-qf0" firstAttribute="centerX" secondItem="ytA-VT-FUy" secondAttribute="centerX" id="BQJ-rb-Sdp"/>
                             <constraint firstItem="4Fl-AS-kct" firstAttribute="top" secondItem="sCk-G8-yo7" secondAttribute="bottom" constant="8" symbolic="YES" id="C0E-O6-FJa"/>
                             <constraint firstItem="D63-oo-pUF" firstAttribute="leading" secondItem="LzZ-5f-Ke3" secondAttribute="leading" constant="17" id="FQY-mH-vei"/>
                             <constraint firstItem="sCk-G8-yo7" firstAttribute="top" secondItem="RP2-6d-k9r" secondAttribute="bottom" constant="8" symbolic="YES" id="Gcd-BM-Prk"/>
-                            <constraint firstItem="ytA-VT-FUy" firstAttribute="top" relation="greaterThanOrEqual" secondItem="efa-CG-cYS" secondAttribute="bottom" priority="750" constant="8" id="HnQ-Ch-vGT"/>
+                            <constraint firstItem="ytA-VT-FUy" firstAttribute="top" secondItem="efa-CG-cYS" secondAttribute="bottom" priority="750" constant="8" id="HnQ-Ch-vGT"/>
                             <constraint firstItem="RP2-6d-k9r" firstAttribute="leading" secondItem="4Fl-AS-kct" secondAttribute="leading" id="KY3-Ux-r4M"/>
                             <constraint firstItem="zNi-AL-0bh" firstAttribute="centerX" secondItem="zHR-9I-ONZ" secondAttribute="centerX" id="LWF-GI-HBe"/>
                             <constraint firstItem="ENC-Jr-qf0" firstAttribute="width" secondItem="ytA-VT-FUy" secondAttribute="width" id="LZH-uW-c22"/>
+                            <constraint firstItem="ENC-Jr-qf0" firstAttribute="bottom" secondItem="OKK-Fo-Qon" secondAttribute="bottom" constant="15" id="M7O-B4-KTb"/>
                             <constraint firstAttribute="trailing" secondItem="D63-oo-pUF" secondAttribute="trailing" constant="23" id="MuR-L3-z8H"/>
                             <constraint firstItem="sCk-G8-yo7" firstAttribute="leading" secondItem="LzZ-5f-Ke3" secondAttribute="leading" constant="17" id="Nh0-mx-wVl"/>
                             <constraint firstItem="D63-oo-pUF" firstAttribute="top" secondItem="4Fl-AS-kct" secondAttribute="bottom" constant="8" id="OQv-4t-00O"/>
-                            <constraint firstItem="OKK-Fo-Qon" firstAttribute="leading" secondItem="ENC-Jr-qf0" secondAttribute="trailing" constant="-100" id="Pr8-O3-vbA"/>
-                            <constraint firstItem="zHR-9I-ONZ" firstAttribute="top" secondItem="ENC-Jr-qf0" secondAttribute="bottom" constant="-101" id="S4z-90-tLD"/>
-                            <constraint firstItem="ENC-Jr-qf0" firstAttribute="top" secondItem="OKK-Fo-Qon" secondAttribute="bottom" constant="-101" id="V1Z-zR-wX4"/>
                             <constraint firstItem="RP2-6d-k9r" firstAttribute="width" secondItem="D63-oo-pUF" secondAttribute="width" id="V53-j5-zXE"/>
                             <constraint firstAttribute="trailing" secondItem="efa-CG-cYS" secondAttribute="trailing" constant="23" id="VWZ-fo-fQg"/>
                             <constraint firstItem="YcI-T2-9sh" firstAttribute="top" secondItem="D63-oo-pUF" secondAttribute="bottom" constant="8" id="VcQ-3y-q5n"/>
+                            <constraint firstItem="ENC-Jr-qf0" firstAttribute="trailing" secondItem="zHR-9I-ONZ" secondAttribute="trailing" constant="11" id="XMD-B6-RIq"/>
                             <constraint firstItem="RP2-6d-k9r" firstAttribute="top" secondItem="bmY-mf-4zp" secondAttribute="bottom" constant="8" id="Y37-Zi-57z"/>
                             <constraint firstItem="efa-CG-cYS" firstAttribute="leading" secondItem="LzZ-5f-Ke3" secondAttribute="leading" constant="17" id="Yy8-ck-JRd"/>
                             <constraint firstItem="RP2-6d-k9r" firstAttribute="width" secondItem="YcI-T2-9sh" secondAttribute="width" id="cFO-vg-9NA"/>
@@ -326,14 +324,17 @@
                             <constraint firstAttribute="trailing" secondItem="sCk-G8-yo7" secondAttribute="trailing" constant="23" id="dBr-oS-QZM"/>
                             <constraint firstItem="YcI-T2-9sh" firstAttribute="leading" secondItem="ENC-Jr-qf0" secondAttribute="leading" id="e5A-46-WSs"/>
                             <constraint firstItem="YcI-T2-9sh" firstAttribute="leading" secondItem="4Fl-AS-kct" secondAttribute="leading" id="eI1-aw-ttA"/>
-                            <constraint firstItem="ENC-Jr-qf0" firstAttribute="leading" secondItem="zHR-9I-ONZ" secondAttribute="trailing" constant="-99" id="fav-X1-43d"/>
                             <constraint firstItem="ENC-Jr-qf0" firstAttribute="top" secondItem="ytA-VT-FUy" secondAttribute="bottom" constant="36" id="gWc-3Y-U28"/>
+                            <constraint firstItem="ENC-Jr-qf0" firstAttribute="bottom" secondItem="zHR-9I-ONZ" secondAttribute="bottom" constant="15" id="hYm-DD-KGO"/>
+                            <constraint firstItem="ENC-Jr-qf0" firstAttribute="top" secondItem="OKK-Fo-Qon" secondAttribute="top" constant="-15" id="lZu-4W-Utd"/>
                             <constraint firstItem="efa-CG-cYS" firstAttribute="top" secondItem="YcI-T2-9sh" secondAttribute="bottom" constant="6" id="lpW-By-OD3"/>
                             <constraint firstItem="RP2-6d-k9r" firstAttribute="width" secondItem="sCk-G8-yo7" secondAttribute="width" id="n1y-xW-NJr"/>
                             <constraint firstItem="rDq-EU-ZLQ" firstAttribute="centerX" secondItem="OKK-Fo-Qon" secondAttribute="centerX" id="ooz-AN-Npl"/>
                             <constraint firstItem="RP2-6d-k9r" firstAttribute="leading" secondItem="LzZ-5f-Ke3" secondAttribute="leading" constant="20" symbolic="YES" id="pyU-sc-8NO"/>
+                            <constraint firstItem="ENC-Jr-qf0" firstAttribute="top" secondItem="zHR-9I-ONZ" secondAttribute="top" constant="-15" id="sK1-O9-ffG"/>
                             <constraint firstItem="RP2-6d-k9r" firstAttribute="width" secondItem="4Fl-AS-kct" secondAttribute="width" id="szs-bV-OOB"/>
                             <constraint firstItem="ENC-Jr-qf0" firstAttribute="top" secondItem="rDq-EU-ZLQ" secondAttribute="bottom" constant="7" id="yY2-VY-Gap"/>
+                            <constraint firstItem="ENC-Jr-qf0" firstAttribute="leading" secondItem="OKK-Fo-Qon" secondAttribute="leading" constant="-11" id="yon-lS-rUY"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
