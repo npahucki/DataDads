@@ -2156,8 +2156,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="welcomeScreenBaby" translatesAutoresizingMaskIntoConstraints="NO" id="qgb-6Z-O8p">
+                                <rect key="frame" x="120" y="31.5" width="80" height="81"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="qgb-6Z-O8p" secondAttribute="height" multiplier="1:1" constant="-1" id="TIa-eV-HwB"/>
+                                    <constraint firstAttribute="width" constant="80" id="gzn-Z9-j0T"/>
+                                </constraints>
+                            </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hello" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FKA-lp-ojl">
-                                <rect key="frame" x="120" y="62" width="80" height="21"/>
+                                <rect key="frame" x="120" y="62" width="80" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -2183,18 +2190,11 @@
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="To see useful tips -- SIGN-UP now. We'll also back-up your milestones &amp; photos!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="260" translatesAutoresizingMaskIntoConstraints="NO" id="4E1-pc-D8F">
-                                <rect key="frame" x="31" y="203" width="259" height="76"/>
+                                <rect key="frame" x="31" y="202" width="258.5" height="75.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="welcomeScreenBaby" translatesAutoresizingMaskIntoConstraints="NO" id="qgb-6Z-O8p">
-                                <rect key="frame" x="120" y="32" width="80" height="81"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="qgb-6Z-O8p" secondAttribute="height" multiplier="1:1" constant="-1" id="TIa-eV-HwB"/>
-                                    <constraint firstAttribute="width" constant="80" id="gzn-Z9-j0T"/>
-                                </constraints>
-                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -2202,15 +2202,15 @@
                             <constraint firstItem="qEY-uL-fWj" firstAttribute="leading" secondItem="FI5-wh-4ke" secondAttribute="leading" id="6fQ-J3-Y2z"/>
                             <constraint firstAttribute="centerY" secondItem="4E1-pc-D8F" secondAttribute="centerY" id="HNL-6x-Sjg"/>
                             <constraint firstItem="FKA-lp-ojl" firstAttribute="leading" secondItem="qgb-6Z-O8p" secondAttribute="leading" id="Jdz-U3-DWe"/>
-                            <constraint firstItem="FKA-lp-ojl" firstAttribute="centerX" secondItem="qgb-6Z-O8p" secondAttribute="centerX" id="K5b-u4-b8n"/>
                             <constraint firstItem="FKA-lp-ojl" firstAttribute="trailing" secondItem="qgb-6Z-O8p" secondAttribute="trailing" id="NEp-bb-eqY"/>
-                            <constraint firstItem="qgb-6Z-O8p" firstAttribute="top" secondItem="cEK-dt-Uyr" secondAttribute="bottom" constant="32" id="d1w-5p-2yq"/>
+                            <constraint firstItem="qgb-6Z-O8p" firstAttribute="top" relation="greaterThanOrEqual" secondItem="cEK-dt-Uyr" secondAttribute="bottom" constant="16" id="O55-E9-w3N"/>
                             <constraint firstItem="CQw-4V-6lM" firstAttribute="top" secondItem="qEY-uL-fWj" secondAttribute="bottom" id="dev-sj-oBO"/>
                             <constraint firstItem="qgb-6Z-O8p" firstAttribute="centerY" secondItem="FKA-lp-ojl" secondAttribute="centerY" id="jhP-NV-fxn"/>
                             <constraint firstItem="qEY-uL-fWj" firstAttribute="leading" secondItem="FI5-wh-4ke" secondAttribute="leading" id="l9y-SP-8DZ"/>
                             <constraint firstAttribute="centerX" secondItem="4E1-pc-D8F" secondAttribute="centerX" id="ohf-wF-IRs"/>
                             <constraint firstAttribute="centerX" secondItem="qgb-6Z-O8p" secondAttribute="centerX" id="ovh-ha-FS9"/>
                             <constraint firstAttribute="trailing" secondItem="qEY-uL-fWj" secondAttribute="trailing" id="uOE-XM-oem"/>
+                            <constraint firstItem="4E1-pc-D8F" firstAttribute="top" secondItem="qgb-6Z-O8p" secondAttribute="bottom" priority="750" constant="90" id="xtf-pW-38f"/>
                         </constraints>
                     </view>
                     <connections>
@@ -2700,6 +2700,7 @@
                             <constraint firstItem="Epp-rS-tMq" firstAttribute="top" secondItem="BtP-67-s3A" secondAttribute="bottom" constant="32" id="XLJ-UX-78j"/>
                             <constraint firstAttribute="centerY" secondItem="Epp-rS-tMq" secondAttribute="centerY" id="aU8-fo-Wok"/>
                             <constraint firstItem="uUa-Q3-rNh" firstAttribute="top" secondItem="DfU-ZA-lah" secondAttribute="bottom" id="aps-EP-bat"/>
+                            <constraint firstItem="BtP-67-s3A" firstAttribute="top" relation="greaterThanOrEqual" secondItem="L8M-cM-dM1" secondAttribute="bottom" constant="16" id="av0-ol-MmF"/>
                             <constraint firstItem="DfU-ZA-lah" firstAttribute="top" secondItem="eEO-fs-vDB" secondAttribute="bottom" constant="8" id="dhx-1Q-fcl"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Epp-rS-tMq" secondAttribute="trailing" constant="16" id="fQS-qX-qAb"/>
                             <constraint firstAttribute="trailing" secondItem="OZu-eQ-RLb" secondAttribute="trailing" constant="8" id="hBN-hu-urq"/>
