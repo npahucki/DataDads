@@ -46,7 +46,20 @@ NSDateFormatter *_dateFormatter;
     }
 }
 
+-(void) viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    // HACK ALERT: For some goddamn inexplicable reason, the first time that viewDidLayoutSubViews, the views have a wrong width and height on iPhone 6
+    // Thus, the text can't be centered correctly in the scroll view. Once the view appears, the dimensions are correct - so we set the layout flag on
+    // view. However, this causes the text to jump from the incorrect position to the correct position.
+    // Animating it make it look a little less worse.
+    [self.view setNeedsLayout];
+    [UIView animateWithDuration:0.2 animations:^{
+        [self.view layoutIfNeeded];
+    }];
+}
+
 - (void)viewDidLoad {
+    [super viewDidLoad];
     // Capture the screen before the transition
     _backgroundView = [[UIScreen mainScreen] snapshotViewAfterScreenUpdates:NO];
     // Work around to bug on iOS 8, where the screen jumps if just relying on the hidesToolBarOnPush
@@ -122,6 +135,24 @@ NSDateFormatter *_dateFormatter;
 
 }
 
+-(void) viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    CGFloat requiredHeight = [self.detailsTextView sizeThatFits:CGSizeMake(self.detailsTextView.bounds.size.width, FLT_MAX)].height;
+    if (requiredHeight < self.detailsTextView.bounds.size.height) {
+        CGFloat offset = self.detailsTextView.bounds.size.height - requiredHeight;
+        self.detailsTextView.contentInset = UIEdgeInsetsMake(offset / 2, 0, offset / 2, 0);
+    } else {
+        [self.detailsTextView setContentOffset:CGPointZero animated:NO];
+        // Make the bottom of the Text field fade out
+        CAGradientLayer *l = [CAGradientLayer layer];
+        l.frame = self.detailsTextViewContainerView.bounds;
+        l.colors = @[(id) [UIColor whiteColor].CGColor, (id) [UIColor clearColor].CGColor];
+        l.startPoint = CGPointMake(0.0f, 0.9f);
+        l.endPoint = CGPointMake(0.0f, 1.0f);
+        self.detailsTextViewContainerView.layer.mask = l;
+    }
+}
+
 - (void)loadPreview {
     PFFile *thumbnailImageFile = self.achievement.attachmentThumbnail ? self.achievement.attachmentThumbnail : Baby.currentBaby.avatarImageThumbnail;
     [thumbnailImageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
@@ -192,20 +223,7 @@ NSDateFormatter *_dateFormatter;
     }
 
     self.detailsTextView.attributedText = attrText;
-    CGFloat requiredHeight = [self.detailsTextView sizeThatFits:CGSizeMake(self.detailsTextView.frame.size.width, FLT_MAX)].height;
-    if (requiredHeight < self.detailsTextView.frame.size.height) {
-        CGFloat offset = self.detailsTextView.frame.size.height - requiredHeight;
-        self.detailsTextView.contentInset = UIEdgeInsetsMake(offset / 2, 0, offset / 2, 0);
-    } else {
-        [self.detailsTextView setContentOffset:CGPointZero animated:NO];
-        // Make the bottom of the Text field fade out
-        CAGradientLayer *l = [CAGradientLayer layer];
-        l.frame = self.detailsTextViewContainerView.bounds;
-        l.colors = @[(id) [UIColor whiteColor].CGColor, (id) [UIColor clearColor].CGColor];
-        l.startPoint = CGPointMake(0.5f, 0.5f);
-        l.endPoint = CGPointMake(0.5f, 1.0f);
-        self.detailsTextViewContainerView.layer.mask = l;
-    }
+    [self.view setNeedsLayout];
 }
 
 - (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)url inRange:(NSRange)characterRange {
