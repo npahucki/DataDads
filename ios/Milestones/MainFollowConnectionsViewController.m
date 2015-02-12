@@ -53,10 +53,13 @@
     self.pickerView.delegate = self;
     self.pickerView.datasource = self.addressBookDataSource;
     [[MBContactCollectionViewContactCell appearance] setTintColor:[UIColor appNormalColor]];
-    [self setInviteMode:NO withAnimation:NO];
 
     self.containerView.hidden = YES;
+    self.pickerView.hidden = YES; // Start hidden so we don't adjust the size during the delegate method, until the user has initially pressed the button to expand.
     self.nothingToShowContainerView.hidden = YES;
+    
+    [self setInviteMode:NO withAnimation:NO];
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -172,6 +175,7 @@
         self.inviteButton.style = UIBarButtonItemStyleDone;
         self.inviteButton.title = @"Done";
         self.inviteButton.image = nil;
+        self.pickerView.hidden = NO;
         [self.pickerView reloadData];
         [self.pickerView becomeFirstResponder];
         self.pickerHeightConstraint.constant = self.pickerView.currentContentHeight;
@@ -341,10 +345,12 @@
 // collectionview that shows which contacts have been selected. To increase or decrease
 // the number of rows visible, change the maxVisibleRows property of the MBContactPicker
 - (void)contactPicker:(MBContactPicker *)contactPicker didUpdateContentHeightTo:(CGFloat)newHeight {
-    self.pickerHeightConstraint.constant = newHeight;
-    [UIView animateWithDuration:contactPicker.animationSpeed animations:^{
-        [self.view layoutIfNeeded];
-    }];
+    if(!self.pickerView.hidden) {
+        self.pickerHeightConstraint.constant = newHeight;
+        [UIView animateWithDuration:contactPicker.animationSpeed animations:^{
+            [self.view layoutIfNeeded];
+        }];
+    }
 }
 
 
