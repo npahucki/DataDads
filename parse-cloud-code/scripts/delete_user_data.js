@@ -30,6 +30,7 @@ rl.question("Enter userid to delete, or blank to cancel. Please BACKUP before ru
                         console.log("DRY_RUN mode, nothing deleted from Parse!");
                         return Parse.Promise.as();
                     } else {
+                        console.log("Standby: deleting now....");
                         return Parse.Object.destroyAll(objectsToDelete);
                     }
                 }).then(function () {
@@ -62,9 +63,11 @@ function deleteUser(userId) {
     var user = null;
     return new Parse.Query(Parse.User).get(userId).then(function (u) {
         user = u;
-        console.log("Will delete User with email:" + user.get("email") + " and screen name:" + user.get("screenName"));
+        console.log("Will delete User with email:" + user.get("email") + " and name:" + user.get("fullName"));
     }).then(function () {
         return deleteUserInstallations(user, archive);
+    }).then(function () {
+        return deleteUserFollowConnections(user, archive);
     }).then(function () {
         return deleteUserTransactions(user, archive);
     }).then(function () {
@@ -72,7 +75,6 @@ function deleteUser(userId) {
     }).then(function () {
         archive.User.push(user.toJSON());
         objectsToDelete.push(user);
-        console.log("Will delete User");
     });
 }
 
@@ -99,6 +101,19 @@ function deleteUserTransactions(user, archive) {
     });
 }
 
+function deleteUserFollowConnections(user, archive) {
+    archive.FollowConnections = [];
+    var query1 = new Parse.Query("FollowConnections");
+    query1.equalTo("user1", user);
+    var query2 = new Parse.Query("FollowConnections");
+    query2.equalTo("user2", user);
+
+    return Parse.Query.or(query1,query2).each(function (followConnection) {
+        archive.FollowConnections = followConnection.toJSON();
+        console.log("Will delete FollowConnection with id " + followConnection.id);
+        objectsToDelete.push(followConnection);
+    });
+}
 
 
 function deleteUserBabies(user, archive) {

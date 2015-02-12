@@ -20,6 +20,6 @@ app.locals.formatTime = function(time) {
 };
 
 app.get('/achievements/:id', require('cloud/controllers/achievements.js').show);
-app.get('/accept_invite/:id',  require('cloud/controllers/accept_invite.js').show);
+app.get('/unsubscribe',  require('cloud/controllers/unsubscribe.js').show);
 
 app.listen();

@@ -27,6 +27,7 @@ exports.show = function (req, res) {
                     if (hasImage) {
                         res.render('achievements/achievement_photo', {
                             title:title,
+                            achievementUrl:utils.achievementViewerUrl(achievement),
                             thumbnailUrl:achievement.get("attachmentThumbnail").url() || "",
                             babyName:baby.get("name"),
                             babyWas:babyWas,
@@ -75,6 +76,7 @@ exports.show = function (req, res) {
 
                         res.render('achievements/achievement_video', {
                             title:title,
+                            achievementUrl:utils.achievementViewerUrl(achievement),
                             thumbnailUrl:achievement.get("attachmentThumbnail").url() || "",
                             babyName:baby.get("name"),
                             babyWas:babyWas,
@@ -87,14 +89,16 @@ exports.show = function (req, res) {
                             videoRotation:rotation
                         });
                     } else {
+                        // No attachment at all.
                         res.render('achievements/achievement_photo', {
                             title:title,
-                            thumbnailUrl:achievement.get("attachmentThumbnail").url(),
+                            achievementUrl:utils.achievementViewerUrl(achievement),
                             babyName:baby.get("name"),
                             babyWas:babyWas,
                             completedOn:completedOn,
                             comment: comment,
                             isDad: isDad,
+                            thumbnailUrl: null,
                             photoUrl: '../img/placeholder.png'
                         });
                     }

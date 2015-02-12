@@ -80,7 +80,7 @@ Parse.Cloud.beforeSave("MilestoneAchievements", function (request, response) {
     var isImage = achievement.get("attachmentType") && achievement.get("attachmentType").indexOf("image/") == 0;
     var needThumbnail = achievement.dirty("attachment");
     var isVideo = achievement.get("attachmentType") && achievement.get("attachmentType").indexOf("video/") == 0;
-    var needsVideoTranscoding =  achievement.dirty("attachmentExternalStorageId");
+    var needsVideoTranscoding = achievement.dirty("attachmentExternalStorageId");
 
     if (isImage && needThumbnail) {
         thumbnails.makeImageThumbnail(achievement.get("attachment"), 320, 320, true)
@@ -92,7 +92,7 @@ Parse.Cloud.beforeSave("MilestoneAchievements", function (request, response) {
                     console.error("Could not generate thumbnail for achievement " + achievement.id + " Error: " + JSON.stringify(error));
                     response.success(); // don't fail the save!
                 });
-    } else if(isVideo && needsVideoTranscoding) {
+    } else if (isVideo && needsVideoTranscoding) {
         var video = require("cloud/video.js");
         var videoPath = request.user.id + "/" + achievement.get("attachmentExternalStorageId");
         video.generateWebCompatibleVideosFromMov(videoPath).
@@ -119,79 +119,48 @@ Parse.Cloud.afterSave("MilestoneAchievements", function (request) {
     var isPostponed = achievement.get("isPostponed");
 
     // Send email to any followers
-    if(baby && !isSkipped && !isPostponed) {
-        // Get everything we need in one fell swoop
-        var query = new Parse.Query("MilestoneAchievements");
-        query.include("standardMilestone");
-        query.include("baby");
-        query.include("baby.parentUser");
-        return query.get(achievement.id).then(function (achievement) {
-            milestone = achievement.get("standardMilestone");
-            baby = achievement.get("baby");
-            var parentUser = baby.get("parentUser");
-            var followerEmails = baby.get("followerEmails");
-            if(followerEmails) {
-                var milestonePromise = milestone ? milestone.fetch() : Parse.Promise.as(null);
-                return milestonePromise.then(function(populatedMilestone) {
-                    milestone = populatedMilestone;
-                    var subjectText = baby.get("name") + " completed a milestone!";
-                    var title = achievement.has("customTitle") ? achievement.get("customTitle") : milestone.get("title");
-                    var attachmentType = achievement.has("attachmentType") ? achievement.get("attachmentType") : "";
-                    var utils = require("cloud/utils");
-                    var params = {
-                        title : utils.replacePronounTokens(title, baby.get("isMale"), "en"),
-                        comment : achievement.get("comment"),
-                        linkUrl  : utils.achievementViewerUrl(achievement),
-                        imageUrl : achievement.has("attachmentThumbnail") ? achievement.get("attachmentThumbnail").url() : null,
-                        hasVideo : attachmentType.indexOf("video") == 0 ,
-                        hasPhoto : attachmentType.indexOf("image") == 0,
-                        babyName : baby.get("name"),
-                        openAppUrl  : utils.isDev() ? "dataparentingappdev://follow" : "dataparentingapp://follow",
-                        installAppUrl : utils.isDev() ? "https://www.testflightapp.com/dashboard/applications/1247871/" : utils.oneLinkFollowUrl
-                    };
-                    var emails = require('cloud/emails.js');
-                    return emails.sendTemplateEmail(subjectText, followerEmails,"follow/notification.ejs", params, parentUser);
-                });
-            }
-        });
+    if (!achievement.existed() && baby && !isSkipped && !isPostponed) {
+        var connections = require("cloud/follow_connections");
+        // Only sends if the baby has followers, otherwise NOOP.
+        connections.sendMonitorEmailForAchievement(achievement);
     }
 
-    if(request.user) {
+    if (request.user) {
         request.user.set("lastSeenAt", new Date());
         request.user.save();
     }
 
-    if(!achievement.existed()) {
-        function incrementStat(refObjectId,type) {
+    if (!achievement.existed()) {
+        function incrementStat(refObjectId, type) {
             var statsQuery = new Parse.Query("Stats");
             statsQuery.equalTo("refObjectId", refObjectId);
-            statsQuery.equalTo("type",type);
-            return statsQuery.first().then(function(stat) {
-              if(stat) {
-                stat.increment("count", 1);
-              } else if(!stat) {
-                   stat = new Parse.Object("Stats");
-                   stat.set("type", type);
-                   stat.set("refObjectId",refObjectId);
-                   stat.set("count", 1);
-               }
-               return stat.save();
+            statsQuery.equalTo("type", type);
+            return statsQuery.first().then(function (stat) {
+                if (stat) {
+                    stat.increment("count", 1);
+                } else if (!stat) {
+                    stat = new Parse.Object("Stats");
+                    stat.set("type", type);
+                    stat.set("refObjectId", refObjectId);
+                    stat.set("count", 1);
+                }
+                return stat.save();
             });
         }
 
         // Update Baby stat
-        if(baby && !(isSkipped || isPostponed)) {
+        if (baby && !(isSkipped || isPostponed)) {
             incrementStat(baby.id, "babyNotedMilestoneCount");
         }
 
 
-        if(milestone) {
-            if(isSkipped) {
-                incrementStat(milestone.id,"standardMilestoneSkippedCount");
-            } else if(isPostponed) {
-                incrementStat(milestone.id,"standardMilestonePostponedCount");
+        if (milestone) {
+            if (isSkipped) {
+                incrementStat(milestone.id, "standardMilestoneSkippedCount");
+            } else if (isPostponed) {
+                incrementStat(milestone.id, "standardMilestonePostponedCount");
             } else {
-                incrementStat(milestone.id,"standardMilestoneNotedCount");
+                incrementStat(milestone.id, "standardMilestoneNotedCount");
             }
         }
     }
@@ -206,39 +175,38 @@ Parse.Cloud.afterDelete("MilestoneAchievements", function (request) {
     var isSkipped = achievement.get("isSkipped");
     var isPostponed = achievement.get("isPostponed");
 
-    function decrementStat(refObjectId,type) {
+    function decrementStat(refObjectId, type) {
         var statsQuery = new Parse.Query("Stats");
         statsQuery.equalTo("refObjectId", refObjectId);
-        statsQuery.equalTo("type",type);
-        return statsQuery.first().then(function(stat) {
-          if(stat) {
-            stat.increment("count", -1);
-            return stat.save();
-          }
+        statsQuery.equalTo("type", type);
+        return statsQuery.first().then(function (stat) {
+            if (stat) {
+                stat.increment("count", -1);
+                return stat.save();
+            }
         });
     }
 
     // Update Baby stat
-    if(baby && !(isSkipped || isPostponed)) {
+    if (baby && !(isSkipped || isPostponed)) {
         decrementStat(baby.id, "babyNotedMilestoneCount");
     }
 
-    if(request.user) {
+    if (request.user) {
         request.user.set("lastSeenAt", new Date());
         request.user.save();
     }
 
-    if(milestone) {
-        if(isSkipped) {
-            decrementStat(milestone.id,"standardMilestoneSkippedCount");
-        } else if(isPostponed) {
-            decrementStat(milestone.id,"standardMilestonePostponedCount");
+    if (milestone) {
+        if (isSkipped) {
+            decrementStat(milestone.id, "standardMilestoneSkippedCount");
+        } else if (isPostponed) {
+            decrementStat(milestone.id, "standardMilestonePostponedCount");
         } else {
-            decrementStat(milestone.id,"standardMilestoneNotedCount");
+            decrementStat(milestone.id, "standardMilestoneNotedCount");
         }
     }
 });
-
 
 
 Parse.Cloud.job("indexCustomTitleField", function (request, status) {
