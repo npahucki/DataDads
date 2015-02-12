@@ -81,6 +81,7 @@
         self.scrollView.hidden = YES;
         self.segmentControl.hidden = YES;
         self.doneButton.enabled = YES;
+        self.titleTextView.attributedText = [self createTitleTextFromMilestone];
     }
 
     [self.doneButton setTitleTextAttributes:@{NSFontAttributeName : [UIFont fontForAppWithType:Bold andSize:17]} forState:UIControlStateNormal];
@@ -120,10 +121,28 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     if (!self.isCustom) {
         self.rangeIndicatorView.startRange = self.achievement.standardMilestone.rangeLow.integerValue;
         self.rangeIndicatorView.endRange = self.achievement.standardMilestone.rangeHigh.integerValue;
     }
+    
+    // Make the bottom of the Text field fade out
+    CAGradientLayer *l = [CAGradientLayer layer];
+    l.frame = self.titleTextFadingView.bounds;
+    l.colors = @[(id) [UIColor whiteColor].CGColor, (id) [UIColor clearColor].CGColor];
+    l.startPoint = CGPointMake(0.0f, 0.9f);
+    l.endPoint = CGPointMake(0.0f, 1.0f);
+    self.titleTextFadingView.layer.mask = l;
+    
+    // HACK ALERT: For some goddamn inexplicable reason, the first time that viewDidLayoutSubViews, the views have a wrong width and height on iPhone 6
+    // Thus, the text can't be centered correctly in the scroll view. Once the view appears, the dimensions are correct - so we set the layout flag on
+    // view. However, this causes the text to jump from the incorrect position to the correct position.
+    // Animating it make it look a little less worse.
+    [self.view setNeedsLayout];
+    [UIView animateWithDuration:0.2 animations:^{
+        [self.view layoutIfNeeded];
+    }];
 }
 
 - (void)dealloc {
@@ -222,23 +241,13 @@
     [super viewDidLayoutSubviews];
     self.fbSwitch.frame = self.placeHolderSwitch.frame;
     // NOTE: For some odd reason, this will not work is done in viewDidLoad!
-    if (self.achievement.standardMilestone) self.titleTextView.attributedText = [self createTitleTextFromMilestone];
-
-
+    
     // Center the text veritcally in the TextView
-    CGFloat requiredHeight = [self.titleTextView sizeThatFits:CGSizeMake([self.titleTextView contentSize].width, FLT_MAX)].height;
-    if (requiredHeight < self.titleTextView.contentSize.height) {
-        CGFloat offset = self.titleTextView.contentSize.height - requiredHeight;
+     CGFloat requiredHeight = [self.titleTextView sizeThatFits:CGSizeMake(self.titleTextView.bounds.size.width, FLT_MAX)].height;
+    if (requiredHeight < self.titleTextView.bounds.size.height) {
+        CGFloat offset = self.titleTextView.bounds.size.height - requiredHeight;
         self.titleTextView.contentInset = UIEdgeInsetsMake(offset / 2, 0, offset / 2, 0);
     }
-
-    // Make the bottom of the Text field fade out
-    CAGradientLayer *l = [CAGradientLayer layer];
-    l.frame = self.titleTextFadingView.bounds;
-    l.colors = @[(id) [UIColor whiteColor].CGColor, (id) [UIColor clearColor].CGColor];
-    l.startPoint = CGPointMake(0.5f, 0.5f);
-    l.endPoint = CGPointMake(0.5f, 1.0f);
-    self.titleTextFadingView.layer.mask = l;
 }
 
 - (void)didClickRangeIndicator:(id)sender {
