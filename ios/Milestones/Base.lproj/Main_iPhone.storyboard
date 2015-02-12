@@ -1679,8 +1679,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView alpha="0.10000000000000001" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatarShadow" translatesAutoresizingMaskIntoConstraints="NO" id="WGV-my-gNj" customClass="PFImageView">
-                                <rect key="frame" x="26" y="74" width="268" height="268"/>
+                            <imageView alpha="0.10000000000000001" contentMode="scaleAspectFill" verticalHuggingPriority="249" horizontalCompressionResistancePriority="748" verticalCompressionResistancePriority="748" image="avatarShadow" translatesAutoresizingMaskIntoConstraints="NO" id="WGV-my-gNj" customClass="PFImageView">
+                                <rect key="frame" x="32" y="86" width="256" height="256"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="WGV-my-gNj" secondAttribute="height" multiplier="1:1" id="pVs-3f-KRC"/>
                                 </constraints>
@@ -1741,11 +1741,13 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="ebC-H6-wqr" secondAttribute="trailing" constant="6" id="CzZ-5w-Odr"/>
                             <constraint firstItem="ebC-H6-wqr" firstAttribute="top" secondItem="WGV-my-gNj" secondAttribute="bottom" constant="24" id="EvJ-iU-caD"/>
+                            <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="WGV-my-gNj" secondAttribute="trailing" constant="16" id="FPG-8c-7h9"/>
                             <constraint firstAttribute="trailing" secondItem="gA7-xI-3xd" secondAttribute="trailing" id="Juc-el-CWz"/>
                             <constraint firstItem="CyV-Rt-NSy" firstAttribute="leading" secondItem="BSS-rG-yDG" secondAttribute="leading" id="KpT-QU-SS3"/>
                             <constraint firstItem="CyV-Rt-NSy" firstAttribute="top" secondItem="5LE-e2-h0I" secondAttribute="bottom" constant="39" id="O6b-uE-wS9"/>
                             <constraint firstItem="gA7-xI-3xd" firstAttribute="trailing" secondItem="CyV-Rt-NSy" secondAttribute="trailing" id="Oos-KC-D3N"/>
-                            <constraint firstItem="WGV-my-gNj" firstAttribute="top" secondItem="zu6-gI-gFI" secondAttribute="bottom" constant="30" id="fKs-ld-48Q"/>
+                            <constraint firstItem="WGV-my-gNj" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="BSS-rG-yDG" secondAttribute="leading" constant="16" id="ZU0-yd-WUH"/>
+                            <constraint firstItem="WGV-my-gNj" firstAttribute="top" secondItem="zu6-gI-gFI" secondAttribute="bottom" priority="750" constant="16" id="fKs-ld-48Q"/>
                             <constraint firstItem="gA7-xI-3xd" firstAttribute="top" secondItem="ebC-H6-wqr" secondAttribute="bottom" constant="1" id="k6C-T5-4o3"/>
                             <constraint firstAttribute="bottom" secondItem="CyV-Rt-NSy" secondAttribute="bottom" id="liT-fB-oyM"/>
                             <constraint firstAttribute="centerX" secondItem="WGV-my-gNj" secondAttribute="centerX" id="m1z-7K-gOy"/>
@@ -2788,10 +2790,10 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="HiK-bz-YEB"/>
         <segue reference="zMK-LI-8Wn"/>
         <segue reference="M4B-Bx-AaL"/>
         <segue reference="9u5-1o-6Cv"/>
-        <segue reference="0ED-bk-NzY"/>
-        <segue reference="HiK-bz-YEB"/>
+        <segue reference="0vw-rA-jx1"/>
     </inferredMetricsTieBreakers>
 </document>
