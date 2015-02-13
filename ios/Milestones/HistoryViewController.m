@@ -505,8 +505,6 @@
     
     
     int tableHeight = self.tableView.frame.size.height;
-
-
     int futureMilestoneHeaderPosition = [self calculateHeaderPostionForSection:FutureMilestoneSection];
     int achievementHeaderPosition = [self calculateHeaderPostionForSection:AchievementSection];
     int pastMilestoneHeaderPosition = [self calculateHeaderPostionForSection:PastMilestoneSection];

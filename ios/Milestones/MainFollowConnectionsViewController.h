@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "ViewControllerWithBabyInfoButton.h"
+#import <MBContactPicker/MBContactPicker.h>
 
-@class MBContactPicker;
 
 @interface MainFollowConnectionsViewController : ViewControllerWithBabyInfoButton <MBContactPickerDelegate>
 
@@ -17,7 +17,8 @@
 @property(weak, nonatomic) IBOutlet MBContactPicker *pickerView;
 @property(weak, nonatomic) IBOutlet NSLayoutConstraint *pickerHeightConstraint;
 @property(weak, nonatomic) IBOutlet UIView *containerView;
-@property(weak, nonatomic) IBOutlet UIButton *babyMenuButton;
 @property(weak, nonatomic) IBOutlet UIView *nothingToShowContainerView;
+
+- (IBAction)didClickInviteButton:(id)sender;
 
 @end

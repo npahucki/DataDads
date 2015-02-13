@@ -26,5 +26,7 @@
 
 - (void)showSignupError:(NSError *)error withMessage:(NSString *)msg;
 
+- (void)presentInController:(UIViewController *)vc andRunBlock:(PFBooleanResultBlock)block;
+
 @end
 

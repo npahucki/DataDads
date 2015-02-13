@@ -69,4 +69,6 @@
 + (void)trackAppInstalled;
 
 + (void)trackPurchaseRestored:(NSString *)identifier;
+
++ (void)trackSignupDecisionOnScreen:(NSString *)string withChoice:(BOOL)choice;
 @end

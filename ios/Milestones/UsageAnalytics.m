@@ -118,6 +118,19 @@ static BOOL isRelease;
     }
 }
 
++ (void)trackSignupDecisionOnScreen:(NSString *)screen withChoice:(BOOL)choice {
+    if (isRelease) {
+        NSDictionary *props = @{
+                @"screen" : safe(screen),
+                @"decision" : @(choice)
+        };
+        [Heap track:@"userSignUpDecision" withProperties:props];
+        [[Mixpanel sharedInstance] track:@"userSignUpDecision" properties:props];
+    } else {
+        NSLog(@"[USAGE ANALYTICS]: userSignUpDecision - Screen:%@ Decision:%@", screen, @(choice));
+    }
+}
+
 
 + (void)trackUserSignup:(ParentUser *)user usingMethod:(NSString *)method {
     // We want to track the number of milestones.

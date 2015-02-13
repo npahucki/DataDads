@@ -14,7 +14,7 @@
 
 @implementation SignUpViewController {
     NSString *_methodName;
-    PFUser *_originalUserCopy;
+    PFBooleanResultBlock _block;
 }
 
 - (void)viewDidLoad {
@@ -204,6 +204,11 @@
     [self.hud hide:NO afterDelay:1.5]; // when hidden will dismiss the dialog.
 }
 
+- (void)presentInController:(UIViewController *)vc andRunBlock:(PFBooleanResultBlock)block {
+    _block = block;
+    [vc presentViewController:self animated:YES completion:nil];
+}
+
 - (UIImageView *)animatedImageView:(NSString *)imageName frames:(int)count {
     NSMutableArray *images = [[NSMutableArray alloc] initWithCapacity:count];
     for (int i = 0; i < count; i++) {
@@ -232,7 +237,13 @@
         [[NSNotificationCenter defaultCenter]
                 postNotificationName:kDDNotificationUserSignedUp object:user];
         [self dismissViewControllerAnimated:NO completion:nil];
+        if (_block) _block(YES, nil);
     }];
+
+}
+
+- (void)signUpViewControllerDidCancelSignUp:(PFSignUpViewController *)signUpController {
+    if (_block) _block(NO, nil);
 
 }
 
@@ -250,12 +261,14 @@
     self.signUpView.signUpButton.enabled = NO;
     [UsageAnalytics trackUserSignupError:error usingMethod:_methodName];
     [self showSignupError:error withMessage:@"Bummer!"];
-    // Work around to Parse bug.
-    [[PFUser currentUser] fetchInBackgroundWithBlock:^(PFObject *object, NSError *error2) {
-        if (!error2) {
-            self.signUpView.signUpButton.enabled = YES;
-        }
-    }];
+    if (_block) _block(NO, error);
+
+    // Work around to Parse bug .. Fixed in Parse 1.5
+//    [[PFUser currentUser] fetchInBackgroundWithBlock:^(PFObject *object, NSError *error2) {
+//        if (!error2) {
+//            self.signUpView.signUpButton.enabled = YES;
+//        }
+//    }];
 }
 
 

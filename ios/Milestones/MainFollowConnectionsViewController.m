@@ -6,13 +6,13 @@
 //  Copyright (c) 2015 DataParenting. All rights reserved.
 //
 
-#import <MBContactPicker/MBContactPicker.h>
 #import <AudioToolbox/AudioToolbox.h>
 #import "MainFollowConnectionsViewController.h"
 #import "InviteContactsAddressBookDataSource.h"
 #import "FollowConnectionsTableViewController.h"
 #import "NSString+EmailAddress.h"
 #import "FollowConnectionsNothingToShowViewController.h"
+#import "SignUpViewController.h"
 
 
 @interface MainFollowConnectionsViewController ()
@@ -73,10 +73,13 @@
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if([segue.destinationViewController isKindOfClass:[FollowConnectionsTableViewController class]]) {
+    if ([segue.destinationViewController isKindOfClass:[FollowConnectionsTableViewController class]]) {
         _tableController = (FollowConnectionsTableViewController *) segue.destinationViewController;
         _tableController.followConnectionsDataSource = _dataSource;
         _tableController.contactsDataSource = self.addressBookDataSource;
+    } else if ([segue.destinationViewController isKindOfClass:[FollowConnectionsNothingToShowViewController class]]) {
+        FollowConnectionsNothingToShowViewController *vc = (FollowConnectionsNothingToShowViewController *) segue.destinationViewController;
+        vc.mainFollowController = self;
     }
 }
 
@@ -138,22 +141,40 @@
         if (_pickerView.contactsSelected.count > 0) [self sendInvites];
         self.inviteMode = NO;
     } else {
-        // The user has taken an action to invite people, thus we can allow the address book prompt
-        [self.addressBookDataSource ensureAddressBookOpenWithBlock:^(BOOL succeeded, NSError *error) {
-            if (error) {
-                [UsageAnalytics trackError:error forOperationNamed:@"openAddressBook"];
-            }
-            if (succeeded) {
-                [self.pickerView reloadData];
-            } else {
-                // UIAlert, if not shown already.
-                if (!_showedPermissionWarning) {
-                    _showedPermissionWarning = YES;
-                    [[[UIAlertView alloc] initWithTitle:@"No Access To Contacts" message:@"Since you have not allowed access to your contacts, we will NOT be able to help you pick them. You can still enter email addresses manualy and press return. To enable picking from your contacts go to the Privacy->Contacts section in the Settings app and enable access for DataParenting." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-                }
-            }
+        if ([PFUser currentUser].email) {
+            // The user has taken an action to invite people, thus we can allow the address book prompt
             self.inviteMode = YES;
-        }];
+            [self.addressBookDataSource ensureAddressBookOpenWithBlock:^(BOOL succeeded, NSError *error) {
+                if (error) {
+                    [UsageAnalytics trackError:error forOperationNamed:@"openAddressBook"];
+                }
+                if (succeeded) {
+                    [self.pickerView reloadData];
+                } else {
+                    // UIAlert, if not shown already.
+                    if (!_showedPermissionWarning) {
+                        _showedPermissionWarning = YES;
+                        [[[UIAlertView alloc] initWithTitle:@"No Access To Contacts" message:@"You will need to enter email addresses manualy. To enable picking from your contacts go to the Privacy->Contacts section in the Settings app and enable access for DataParenting." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+                    }
+                }
+            }];
+        } else {
+            [[[UIAlertView alloc] initWithTitle:@"Signup Now?" message:@"You need to signup to use the Monitor feature."
+                                       delegate:nil cancelButtonTitle:@"Maybe Later" otherButtonTitles:@"Lets Do It!", nil]
+                    showWithButtonBlock:^(NSInteger buttonIndex) {
+                        if (buttonIndex == 1) {
+                            // Yes
+                            SignUpViewController *signupController = [[SignUpViewController alloc] init];
+                            signupController.showExternal = YES;
+                            [signupController presentInController:self andRunBlock:^(BOOL succeeded, NSError *error) {
+                                [UsageAnalytics trackSignupDecisionOnScreen:@"Monitors" withChoice:succeeded];
+                                [self didClickInviteButton:sender];
+                            }];
+                        } else {
+                            [UsageAnalytics trackSignupDecisionOnScreen:@"Monitors" withChoice:NO];
+                        }
+                    }];
+        }
     }
 }
 
@@ -190,6 +211,7 @@
     if (animates) {
         [UIView animateWithDuration:self.pickerView.animationSpeed animations:^{
             [self.view layoutIfNeeded];
+            self.nothingToShowContainerView.alpha = _inviteMode ? 0 : 1;
         }];
     }
 
@@ -354,7 +376,5 @@
 }
 
 
-
-
-
 @end
+

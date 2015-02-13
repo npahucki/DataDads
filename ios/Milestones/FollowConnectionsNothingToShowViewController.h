@@ -7,14 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MainFollowConnectionsViewController.h"
 
 @interface FollowConnectionsNothingToShowViewController : UIViewController
 @property(weak, nonatomic) IBOutlet UILabel *promptTextLabel;
-@property(weak, nonatomic) IBOutlet UIButton *signupButton;
-@property(weak, nonatomic) IBOutlet UIImageView *addContactArrowImageView;
-@property(weak, nonatomic) IBOutlet UIImageView *signupNowArrowImageView;
-@property(weak, nonatomic) IBOutlet NSLayoutConstraint *addContactArrowImageViewTopConstraint;
-@property(weak, nonatomic) IBOutlet NSLayoutConstraint *signupNowArrowImageViewBottomConstraint;
-@property(weak, nonatomic) IBOutlet UILabel *helloLabel;
+@property(weak, nonatomic) IBOutlet UIButton *startButton;
+@property(weak, nonatomic) IBOutlet UIImageView *arrowImageView;
+@property(weak, nonatomic) IBOutlet NSLayoutConstraint *arrowImageViewBottomConstraint;
+
+@property(strong, nonatomic) MainFollowConnectionsViewController *mainFollowController;
 
 @end
