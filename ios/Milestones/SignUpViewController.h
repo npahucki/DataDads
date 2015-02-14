@@ -6,27 +6,18 @@
 //  Copyright (c) 2014 DataParenting. All rights reserved.
 //
 
-#import <Parse/Parse.h>
-#import <Parse/PF_MBProgressHUD.h>
 #import "MBProgressHUD.h"
 
-@interface SignUpViewController : PFSignUpViewController <PF_MBProgressHUDDelegate, PFSignUpViewControllerDelegate>
+@interface SignUpViewController : UIViewController
 
-@property(nonatomic, strong) MBProgressHUD *hud;
-@property(nonatomic, strong) UIImageView *orSep;
-@property(nonatomic, strong) UILabel *orLabel;
-@property(nonatomic, strong) UIView *signupSep;
-@property(nonatomic, strong) UIButton *facebookButton;
-@property(nonatomic, strong) NSArray *facebookPermissions;
 @property BOOL showExternal;
+@property (weak, nonatomic) IBOutlet UIButton *loginWithFacebookButton;
+@property (weak, nonatomic) IBOutlet UILabel *orSepLabel;
+@property (weak, nonatomic) IBOutlet UITextField *emailAddressTextField;
+@property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
+@property (weak, nonatomic) IBOutlet UIButton *signupButton;
 
-- (void)showStartSignUpProgress;
-
-- (void)showSignupSuccessAndRunBlock:(dispatch_block_t)block;
-
-- (void)showSignupError:(NSError *)error withMessage:(NSString *)msg;
-
-- (void)presentInController:(UIViewController *)vc andRunBlock:(PFBooleanResultBlock)block;
++ (void)presentInController:(UIViewController *)vc andRunBlock:(PFBooleanResultBlock)block;
 
 @end
 

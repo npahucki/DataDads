@@ -27,9 +27,7 @@
 }
 
 - (IBAction)didClickSignUpNow:(id)sender {
-    SignUpViewController *signupController = [[SignUpViewController alloc] init];
-    signupController.showExternal = YES;
-    [self presentViewController:signupController animated:YES completion:nil];
+    [SignUpViewController presentInController:self andRunBlock:nil];
 }
 
 @end

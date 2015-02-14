@@ -51,9 +51,7 @@
     if ([Reachability showAlertIfParseNotReachable]) return;
 
     if (!PFUser.currentUser.email) { // signed in if email present
-        SignUpViewController *signupController = [[SignUpViewController alloc] init];
-        signupController.showExternal = YES;
-        [self presentViewController:signupController animated:YES completion:nil];
+        [SignUpViewController presentInController:self andRunBlock:nil];
     } else {
         [UsageAnalytics trackUserSignout:ParentUser.currentUser];
         [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationUserLoggedOut object:ParentUser.currentUser];

@@ -127,9 +127,7 @@
                               cancelButtonTitle:@"Not Now"
                               otherButtonTitles:@"Yes", nil] showWithButtonBlock:^(NSInteger buttonIndex) {
                 if (buttonIndex == 1) {
-                    SignUpViewController *signupController = [[SignUpViewController alloc] init];
-                    signupController.showExternal = YES;
-                    [self presentViewController:signupController animated:YES completion:nil];
+                    [SignUpViewController presentInController:self andRunBlock:nil];
                 }
             }];
         }

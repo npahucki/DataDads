@@ -16,6 +16,17 @@
     NSString *parseAppId = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.ParseApplicationId"];
     NSLog(@"Using Parse Application Id '%@'", parseAppId);
     [Parse setApplicationId:parseAppId clientKey:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.ParseClientId"]];
+    // Register custom subclasses
+    [Baby registerSubclass];
+    [Tag registerSubclass];
+    [Tip registerSubclass];
+    [BabyAssignedTip registerSubclass];
+    [StandardMilestone registerSubclass];
+    [MilestoneAchievement registerSubclass];
+    [Measurement registerSubclass];
+    [ParentUser registerSubclass];
+    [PurchaseTransaction registerSubclass];
+    [FollowConnection registerSubclass];
 
     [UsageAnalytics initializeAnalytics:launchOptions];
     // Only track for brand new installs, not upgrades.
@@ -33,18 +44,6 @@
         [PFCloud clearAllCachedResults];
         [PFQuery clearAllCachedResults];
     }
-
-    // Register custom subclasses
-    [Baby registerSubclass];
-    [Tag registerSubclass];
-    [Tip registerSubclass];
-    [BabyAssignedTip registerSubclass];
-    [StandardMilestone registerSubclass];
-    [MilestoneAchievement registerSubclass];
-    [Measurement registerSubclass];
-    [ParentUser registerSubclass];
-    [PurchaseTransaction registerSubclass];
-    [FollowConnection registerSubclass];
 
     // Make sure only users can read their own data!
     [PFACL setDefaultACL:[PFACL ACL] withAccessForCurrentUser:YES];

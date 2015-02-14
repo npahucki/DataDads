@@ -7,158 +7,82 @@
 //
 
 #import "SignUpViewController.h"
+#import "NSString+EmailAddress.h"
 
 @interface SignUpViewController ()
+@property (strong, nonatomic) MBProgressHUD * hud;
+@property (copy) PFBooleanResultBlock block;
 
 @end
 
-@implementation SignUpViewController {
-    NSString *_methodName;
-    PFBooleanResultBlock _block;
-}
+@implementation SignUpViewController
 
-- (void)viewDidLoad {
+-(void) viewDidLoad {
     [super viewDidLoad];
-    _methodName = @"parse";
-    self.delegate = self;
-    self.facebookPermissions = @[@"user_about_me", @"email"];
-
-    // Hack because we can't seem to modify the behavior of the progress HUD and we want to show our own.
-    // The Login View Controller will show the Hud
-    for (UIView *subview in self.view.subviews) {
-        if ([subview class] == NSClassFromString(@"PF_MBProgressHUD")) {
-            [subview removeFromSuperview];
-            ((PF_MBProgressHUD *) subview).delegate = self;
-        }
-    }
-
-    self.signUpView.backgroundColor = [UIColor whiteColor];
-    self.fields = PFSignUpFieldsUsernameAndPassword
-            | PFSignUpFieldsEmail
-            | PFSignUpFieldsSignUpButton
-            | PFSignUpFieldsDismissButton;
-
-    // We use the username and email as the same to simplify
-    self.signUpView.usernameField.placeholder = @"Email Address";
-    [self.signUpView.emailField setHidden:YES];
-
-    // Insert BELOW the close button so it still works
-    [self.signUpView addSubview:self.signUpView.dismissButton];
-
-
-    // LOGO / Title
-    UILabel *label = [[UILabel alloc] init];
-    label.text = @"Sign Up!";
-    label.font = [UIFont fontForAppWithType:Bold andSize:35];
-    label.textColor = [UIColor appNormalColor];
-    [label sizeToFit];
-    self.signUpView.logo = label;
-
-    // Username
-    [self.signUpView.usernameField setKeyboardType:UIKeyboardTypeEmailAddress];
-    self.signUpView.usernameField.textColor = [UIColor appGreyTextColor];
-    self.signUpView.usernameField.layer.borderColor = [UIColor appGreyTextColor].CGColor;
-    self.signUpView.usernameField.layer.borderWidth = 1;
-    self.signUpView.usernameField.layer.cornerRadius = 8;
-    self.signUpView.usernameField.backgroundColor = [UIColor whiteColor];
-    self.signUpView.usernameField.layer.shadowOpacity = 0.0;
-
-    // Pasword
-    self.signUpView.passwordField.textColor = [UIColor appGreyTextColor];
-    self.signUpView.passwordField.borderStyle = UITextBorderStyleRoundedRect;
-    self.signUpView.passwordField.layer.borderColor = [UIColor appGreyTextColor].CGColor;
-    self.signUpView.passwordField.layer.borderWidth = 1;
-    self.signUpView.passwordField.layer.cornerRadius = 8;
-    self.signUpView.passwordField.backgroundColor = [UIColor whiteColor];
-    self.signUpView.passwordField.layer.shadowOpacity = 0.0;
-
-    // Dismiss Button
-    [self.signUpView.dismissButton setImage:[UIImage imageNamed:@"closeMenuButton"] forState:UIControlStateNormal];
-    [self.signUpView.dismissButton setImage:[UIImage imageNamed:@"closeMenuButton_pressed"] forState:UIControlStateSelected];
-    [self.signUpView.dismissButton setImage:[UIImage imageNamed:@"closeMenuButton_pressed"] forState:UIControlStateHighlighted];
-
-    // Signup button
-    [self.signUpView.signUpButton setImage:nil forState:UIControlStateHighlighted];
-    [self.signUpView.signUpButton setBackgroundImage:nil forState:UIControlStateHighlighted];
-    [self.signUpView.signUpButton setBackgroundImage:nil forState:UIControlStateNormal];
-    self.signUpView.signUpButton.backgroundColor = [UIColor appNormalColor];
-    self.signUpView.signUpButton.titleLabel.font = [UIFont fontForAppWithType:Bold andSize:13];
-    [self.signUpView.signUpButton setTitleColor:[UIColor appSelectedColor] forState:UIControlStateSelected];
-    [self.signUpView.signUpButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.signUpView.signUpButton setTitle:@"Sign Up" forState:UIControlStateNormal];
-    self.signUpView.signUpButton.layer.cornerRadius = 8;
-
-    if (self.showExternal) {
-
-        self.orSep = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"orSep"]];
-        [self.signUpView addSubview:self.orSep];
-        // Or label
-        self.orLabel = [[UILabel alloc] initWithFrame:self.orSep.frame];
-        self.orLabel.text = @"or";
-        self.orLabel.textColor = [UIColor appGreyTextColor];
-        self.orLabel.font = [UIFont fontForAppWithType:Medium andSize:13];
-        self.orLabel.textAlignment = NSTextAlignmentCenter;
-        [self.signUpView addSubview:self.orLabel];
-
-        // Facebook button
-        self.facebookButton = [[UIButton alloc] initWithFrame:self.signUpView.signUpButton.frame]; // position later
-        [self.facebookButton setImage:[UIImage imageNamed:@"facebookIcon"] forState:UIControlStateNormal];
-        self.facebookButton.backgroundColor = [UIColor appNormalColor];
-        self.facebookButton.titleLabel.font = [UIFont fontForAppWithType:Bold andSize:13];
-        [self.facebookButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [self.facebookButton setTitleColor:[UIColor appSelectedColor] forState:UIControlStateSelected];
-        [self.facebookButton setTitle:@" Sign in with Facebook" forState:UIControlStateNormal];
-        self.facebookButton.titleLabel.backgroundColor = [UIColor appNormalColor];
-        self.facebookButton.layer.cornerRadius = 8;
-        [self.facebookButton addTarget:self action:@selector(didClickFacebookButton:) forControlEvents:UIControlEventTouchUpInside];
-        [self.signUpView addSubview:self.facebookButton];
-    }
+    [self.signupButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.loginWithFacebookButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    self.signupButton.titleLabel.font = self.loginWithFacebookButton.titleLabel.font = [UIFont fontForAppWithType:Book andSize:21];
 }
 
-
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-    // Make up for hidden email field.
-    self.signUpView.signUpButton.center = CGPointMake(self.signUpView.signUpButton.center.x, self.signUpView.signUpButton.center.y - self.signUpView.emailField.frame.size.height);
-
-    self.orSep.center = CGPointMake(self.signUpView.signUpButton.center.x, self.signUpView.signUpButton.center.y + self.signUpView.emailField.frame.size.height + 8);
-    self.orLabel.frame = self.orSep.frame;
-    self.facebookButton.frame = self.signUpView.signUpButton.frame;
-    self.facebookButton.center = CGPointMake(self.orSep.center.x, self.orSep.center.y + self.orSep.frame.size.height + 24);
-
-}
-
-- (void)didClickFacebookButton:(id)sender {
-    _methodName = @"facebook";
-    [self showStartSignUpProgress];
-    [PFFacebookUtils logInWithPermissions:self.facebookPermissions block:^(PFUser *user, NSError *error) {
-        [UsageAnalytics trackUserLinkedWithFacebook:(ParentUser *) user forPublish:NO withError:error];
-        if (error) {
-            [self signUpViewController:self didFailToSignUpWithError:error];
-        } else {
-            if (user) {
-                // Set the user's email and username to facebook email
-                [PFFacebookUtils populateCurrentUserDetailsFromFacebook:(ParentUser *) user block:nil];
-                [self signUpViewController:self didSignUpUser:user];
-            } // else user canceled
-        }
-    }];
-}
-
-
-// Copy username to For the
-- (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
-    if (textField == self.signUpView.usernameField) {
-        textField.text = [textField.text lowercaseString];
-        self.signUpView.emailField.text = textField.text;
-    }
+-(BOOL) prefersStatusBarHidden {
     return YES;
 }
 
-- (void)hudWasHidden:(PF_MBProgressHUD *)hud {
-    // This is to work around where the HUD is not closed when certain error messages are shown.
-    if (self.hud.completionBlock == nil) // We are not already in the process of closing the dialog
-        self.hud.hidden = YES;
+- (IBAction)didClickCloseButton:(id)sender {
+    [self didCancelSignUpUser];
+}
+
+- (IBAction)didClickFacebookButton:(id)sender {
+    if (![Reachability showAlertIfParseNotReachable]) {
+        [self showStartSignUpProgress];
+        [PFFacebookUtils logInWithPermissions:@[@"user_about_me", @"email"] block:^(PFUser *user, NSError *error) {
+            [UsageAnalytics trackUserLinkedWithFacebook:(ParentUser *) user forPublish:NO withError:error];
+            if (error) {
+                [UsageAnalytics trackUserSignupError:error usingMethod:@"facebook"];
+                [self didFailToSignUpWithError:error];
+            } else {
+                if (user) {
+                    [UsageAnalytics trackUserSignup:(ParentUser *) user usingMethod:@"facebook"];
+                    // Set the user's email and username to facebook email
+                    [PFFacebookUtils populateCurrentUserDetailsFromFacebook:(ParentUser *) user block:nil];
+                    [self didSignUpUser:user];
+                } else {
+                    [self didCancelSignUpUser];
+                }
+            }
+        }];
+    }
+}
+
+- (IBAction)didClickSignUpButton:(id)sender {
+    
+    NSString *password = self.passwordTextField.text ?: @"";
+    NSString *email = self.emailAddressTextField.text ?: @"";
+
+    if (![email isValidEmailAddress]) {
+        [[[UIAlertView alloc] initWithTitle:@"Whoops!" message:@"Please enter a valid email address." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil] showWithButtonBlock:^(NSInteger buttonIndex) {
+            [self.emailAddressTextField becomeFirstResponder];
+        }];
+    } else if ([password length] < 4) {
+        [[[UIAlertView alloc] initWithTitle:@"Whoops" message:@"Password must be at least 4 characters." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil] showWithButtonBlock:^(NSInteger buttonIndex) {
+            [self.passwordTextField becomeFirstResponder];
+        }];
+    } else if (![Reachability showAlertIfParseNotReachable]) {
+        [self showStartSignUpProgress];
+        PFUser *user = [PFUser user];
+        user.username = email;
+        user.email = email;
+        user.password = password;
+        [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (succeeded) {
+                [UsageAnalytics trackUserSignup:(ParentUser *) user usingMethod:@"parse"];
+                [self didSignUpUser:user];
+            } else {
+                [UsageAnalytics trackUserSignupError:error usingMethod:@"parse"];
+                [self didFailToSignUpWithError:error];
+            }
+        }];
+    }
 }
 
 #pragma mark Custom HUD Methods.
@@ -201,12 +125,14 @@
     self.hud.mode = MBProgressHUDModeCustomView;
     [animatedView startAnimating];
     NSLog(@"%@ caused by %@", msg, error);
-    [self.hud hide:NO afterDelay:1.5]; // when hidden will dismiss the dialog.
+    [self.hud hide:NO afterDelay:1.5];
 }
 
-- (void)presentInController:(UIViewController *)vc andRunBlock:(PFBooleanResultBlock)block {
-    _block = block;
-    [vc presentViewController:self animated:YES completion:nil];
++ (void)presentInController:(UIViewController *)vc andRunBlock:(PFBooleanResultBlock)block {
+    SignUpViewController * signupVc = [vc.storyboard instantiateViewControllerWithIdentifier:@"signupViewController"];
+    signupVc.block = block;
+    vc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    [vc presentViewController:signupVc animated:YES completion:nil];
 }
 
 - (UIImageView *)animatedImageView:(NSString *)imageName frames:(int)count {
@@ -219,20 +145,23 @@
     view.animationDuration = .75;
     view.animationRepeatCount = 1;
     return view;
-
 }
 
-# pragma PFSignUpViewControllerDelegate methods
+# pragma Signup Notification methods
+
+-(void) didCancelSignUpUser {
+    [self dismissViewControllerAnimated:YES completion:nil];
+    if (_block) _block(NO, nil);
+}
 
 // Sent to the delegate when a PFUser is signed up.
-- (void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user {
+- (void) didSignUpUser:(PFUser *)user {
     [[PFInstallation currentInstallation] setObject:user forKey:@"user"];
     [[PFInstallation currentInstallation] saveEventually];
     if (!user.ACL) {
         user.ACL = [PFACL ACLWithUser:user];
         [user saveEventually];
     }
-    [UsageAnalytics trackUserSignup:(ParentUser *) user usingMethod:_methodName];
     [self showSignupSuccessAndRunBlock:^{
         [[NSNotificationCenter defaultCenter]
                 postNotificationName:kDDNotificationUserSignedUp object:user];
@@ -242,33 +171,9 @@
 
 }
 
-- (void)signUpViewControllerDidCancelSignUp:(PFSignUpViewController *)signUpController {
-    if (_block) _block(NO, nil);
-
-}
-
-- (BOOL)signUpViewController:(PFSignUpViewController *)signUpController shouldBeginSignUp:(NSDictionary *)info {
-    if ([Reachability showAlertIfParseNotReachable]) {
-        return NO;
-    } else {
-        [self showStartSignUpProgress];
-        return YES;
-    }
-}
-
-/// Sent to the delegate when the sign up attempt fails.
-- (void)signUpViewController:(PFSignUpViewController *)signUpController didFailToSignUpWithError:(NSError *)error {
-    self.signUpView.signUpButton.enabled = NO;
-    [UsageAnalytics trackUserSignupError:error usingMethod:_methodName];
+- (void) didFailToSignUpWithError:(NSError *)error {
     [self showSignupError:error withMessage:@"Bummer!"];
     if (_block) _block(NO, error);
-
-    // Work around to Parse bug .. Fixed in Parse 1.5
-//    [[PFUser currentUser] fetchInBackgroundWithBlock:^(PFObject *object, NSError *error2) {
-//        if (!error2) {
-//            self.signUpView.signUpButton.enabled = YES;
-//        }
-//    }];
 }
 
 

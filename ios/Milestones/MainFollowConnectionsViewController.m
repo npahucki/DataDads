@@ -164,11 +164,9 @@
                     showWithButtonBlock:^(NSInteger buttonIndex) {
                         if (buttonIndex == 1) {
                             // Yes
-                            SignUpViewController *signupController = [[SignUpViewController alloc] init];
-                            signupController.showExternal = YES;
-                            [signupController presentInController:self andRunBlock:^(BOOL succeeded, NSError *error) {
+                            [SignUpViewController presentInController:self andRunBlock:^(BOOL succeeded, NSError *error) {
                                 [UsageAnalytics trackSignupDecisionOnScreen:@"Monitors" withChoice:succeeded];
-                                [self didClickInviteButton:sender];
+                                if(succeeded) [self didClickInviteButton:sender];
                             }];
                         } else {
                             [UsageAnalytics trackSignupDecisionOnScreen:@"Monitors" withChoice:NO];

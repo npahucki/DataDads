@@ -20,8 +20,7 @@
     self.continueButton.titleLabel.font = self.loginNowButton.titleLabel.font = [UIFont fontForAppWithType:Book andSize:21];
     [self.continueButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.loginNowButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [[UIApplication sharedApplication] setStatusBarHidden:YES];
-    
+
     NSString *launchImage;
     if  ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) &&
          ([UIScreen mainScreen].bounds.size.height > 480.0f)) {
