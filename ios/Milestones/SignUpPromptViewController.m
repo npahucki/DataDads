@@ -26,7 +26,7 @@
     [self.signupNowButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 }
 
-- (IBAction)didClickSignUpNow:(id)sender {
+- (IBAction)didClickStartButton:(id)sender {
     [SignUpViewController presentInController:self andRunBlock:nil];
 }
 

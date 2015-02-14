@@ -22,6 +22,7 @@
     [self.signupButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.loginWithFacebookButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.signupButton.titleLabel.font = self.loginWithFacebookButton.titleLabel.font = [UIFont fontForAppWithType:Book andSize:21];
+    self.emailAddressTextField.font = self.passwordTextField.font = [UIFont fontForAppWithType:Book andSize:19];
 }
 
 -(BOOL) prefersStatusBarHidden {
@@ -124,7 +125,38 @@
     self.hud.customView = animatedView;
     self.hud.mode = MBProgressHUDModeCustomView;
     [animatedView startAnimating];
-    NSLog(@"%@ caused by %@", msg, error);
+    __weak SignUpViewController * weakSelf = self;
+    self.hud.completionBlock = ^{
+        NSString *title = @"Sign Up Error";
+        if ([[error domain] isEqualToString:PFParseErrorDomain]) {
+            NSInteger errorCode = [error code];
+            NSString *message = nil;
+            UIResponder *responder = nil;
+            
+            if (errorCode == kPFErrorInvalidEmailAddress) {
+                message = @"The email address is invalid. Please enter a valid email.";
+                responder = weakSelf.emailAddressTextField;
+//            } else if (errorCode == kPFErrorUsernameMissing || error.code == kPFErrorUserEmailMissing) {
+            } else if (errorCode == kPFErrorUserPasswordMissing) {
+                message = @"Please enter a password.";
+                responder = weakSelf.passwordTextField;
+            } else if (errorCode == kPFErrorUsernameTaken || error.code == kPFErrorUserEmailTaken) {
+                NSString *format = @"The email address '%@' is already in use. Please use a different email address (or contact support if you are the owner of this email address).";
+                message = [NSString stringWithFormat:format, weakSelf.emailAddressTextField.text];
+                responder = weakSelf.emailAddressTextField;
+            }
+            
+            if (message != nil) {
+                [[[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] showWithButtonBlock:^(NSInteger buttonIndex) {
+                    [responder becomeFirstResponder];
+                }];
+                return;
+            }
+        }
+        
+        // Show the generic error alert, as no custom cases matched before
+        [[[UIAlertView alloc] initWithTitle:title message:[error localizedDescription] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+    };
     [self.hud hide:NO afterDelay:1.5];
 }
 
