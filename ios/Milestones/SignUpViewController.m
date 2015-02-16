@@ -8,6 +8,7 @@
 
 #import "SignUpViewController.h"
 #import "NSString+EmailAddress.h"
+#import "UIResponder+FirstResponder.h"
 
 @interface SignUpViewController ()
 @property (strong, nonatomic) MBProgressHUD * hud;
@@ -15,7 +16,10 @@
 
 @end
 
-@implementation SignUpViewController
+@implementation SignUpViewController {
+    BOOL _isKeyboardShowing;
+    CGRect _originalFrame;
+}
 
 -(void) viewDidLoad {
     [super viewDidLoad];
@@ -23,6 +27,17 @@
     [self.loginWithFacebookButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.signupButton.titleLabel.font = self.loginWithFacebookButton.titleLabel.font = [UIFont fontForAppWithType:Book andSize:21];
     self.emailAddressTextField.font = self.passwordTextField.font = [UIFont fontForAppWithType:Book andSize:19];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWasShown:)
+                                                 name:UIKeyboardWillShowNotification object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillBeHidden:)
+                                                 name:UIKeyboardWillHideNotification object:nil];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 -(BOOL) prefersStatusBarHidden {
@@ -56,7 +71,8 @@
 }
 
 - (IBAction)didClickSignUpButton:(id)sender {
-    
+    [self.view endEditing:NO];
+
     NSString *password = self.passwordTextField.text ?: @"";
     NSString *email = self.emailAddressTextField.text ?: @"";
 
@@ -85,6 +101,51 @@
         }];
     }
 }
+
+#pragma mark Methods to deal with moving view for keyboard
+
+// Called when the UIKeyboardDidShowNotification is sent.
+- (void)keyboardWasShown:(NSNotification *)aNotification {
+    NSDictionary *info = [aNotification userInfo];
+    CGSize kbSize = [info[UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+
+    if (!_isKeyboardShowing) {
+        _isKeyboardShowing = YES;
+        _originalFrame = self.view.frame;
+    }
+    // NOTE: we use this instead of scroll view because working with autolayout and the scroll view is almost impossible
+    // because we resize some content based on the size of the screen, and in scrollview, this means that the content is
+    // as large as it can be, but is scrollable which is NOT what we want!
+    UITextField *activeField = [UIResponder currentFirstResponder];
+    if (activeField.frame.size.height + activeField.frame.origin.y > self.view.frame.size.height - kbSize.height) {
+        [UIView
+                animateWithDuration:0.5
+                         animations:^{
+                             self.view.frame = CGRectMake(0, _originalFrame.origin.y - kbSize.height, _originalFrame.size.width, _originalFrame.size.height);
+                         }];
+    }
+}
+
+// Called when the UIKeyboardWillHideNotification is sent
+- (void)keyboardWillBeHidden:(NSNotification *)aNotification {
+    _isKeyboardShowing = NO;
+    [UIView
+            animateWithDuration:0.5
+                     animations:^{
+                         self.view.frame = _originalFrame;
+                     }];
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    if (textField == self.emailAddressTextField) {
+        [self.passwordTextField becomeFirstResponder];
+    } else if (textField == self.passwordTextField) {
+        [self.view endEditing:NO];
+        return YES;
+    }
+    return NO;
+}
+
 
 #pragma mark Custom HUD Methods.
 

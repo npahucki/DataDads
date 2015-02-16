@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		72F1801C43E6C695896617EE /* NSString+EmailAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18B2AFF977957CF046E9E /* NSString+EmailAddress.m */; };
+		72F1821CE159CBF80962C77B /* UIResponder+FirstResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F1894FDEAC31CBC81021FD /* UIResponder+FirstResponder.m */; };
 		72F1821D4331F0249A938183 /* FollowConnectionsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18BDBDA243B1941504FEB /* FollowConnectionsDataSource.m */; };
 		72F1824FF832CD399E989C2F /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72F184C3C79880CF8D53574A /* MediaPlayer.framework */; };
 		72F1827B6B5DA4E103212A1F /* CMPopTipView+WithStaticInitializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F185EB408FDE2C98B77B34 /* CMPopTipView+WithStaticInitializer.m */; };
@@ -30,6 +31,7 @@
 		72F1883E74F2B648B80C5C0D /* PFFile+Media.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F184506900ECF329391D82 /* PFFile+Media.m */; };
 		72F18929ED476F9AA8B3F2E3 /* UIImageView+URLLoading.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F1819FEE30D8DFEAA8F678 /* UIImageView+URLLoading.m */; };
 		72F18973D7333DFFF7683786 /* NSMutableDictionary+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18C67CC563C08460F13DD /* NSMutableDictionary+JSON.m */; };
+		72F18993EDD29199E07B9B58 /* UIResponder+FirstResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F1894FDEAC31CBC81021FD /* UIResponder+FirstResponder.m */; };
 		72F189D03635D080146BA4E8 /* FollowConnectionsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18BDBDA243B1941504FEB /* FollowConnectionsDataSource.m */; };
 		72F189D4BBC46B8B7C1FDBF4 /* NSMutableDictionary+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18C67CC563C08460F13DD /* NSMutableDictionary+JSON.m */; };
 		72F18A0239394ADCB653A3C1 /* InAppPurchaseHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F1844739B4B51C27B34983 /* InAppPurchaseHelper.m */; };
@@ -308,6 +310,8 @@
 		72F186162B391F420B41BEE6 /* ViewControllerWithBabyInfoButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewControllerWithBabyInfoButton.h; sourceTree = "<group>"; };
 		72F187DCCDCE0FA22CD5DEC4 /* ExternalMediaFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExternalMediaFile.m; sourceTree = "<group>"; };
 		72F18854EC2953038E616417 /* ExternalMediaFileTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExternalMediaFileTests.m; sourceTree = "<group>"; };
+		72F1894FDEAC31CBC81021FD /* UIResponder+FirstResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIResponder+FirstResponder.m"; sourceTree = "<group>"; };
+		72F18966BF2FBB69086B51E9 /* UIResponder+FirstResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIResponder+FirstResponder.h"; sourceTree = "<group>"; };
 		72F189EB828F0DC8FFD51914 /* FDTakeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDTakeController.h; sourceTree = "<group>"; };
 		72F18A513D481205AD9FA1F1 /* FDTakeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDTakeController.m; sourceTree = "<group>"; };
 		72F18A81B5FA1498B57E2602 /* InviteContactsAddressBookDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InviteContactsAddressBookDataSource.h; sourceTree = "<group>"; };
@@ -746,6 +750,8 @@
 				72F18C3A9EDFBD6502853CF7 /* NSError+AsDictionary.h */,
 				72F18BC4376CDF56B0B8FC57 /* NSMutableDictionary+JSON.h */,
 				72F18C67CC563C08460F13DD /* NSMutableDictionary+JSON.m */,
+				72F1894FDEAC31CBC81021FD /* UIResponder+FirstResponder.m */,
+				72F18966BF2FBB69086B51E9 /* UIResponder+FirstResponder.h */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -1356,6 +1362,7 @@
 				72F185D04E9D8D927BEBFA72 /* CMPopTipView+WithStaticInitializer.m in Sources */,
 				72F188252DCAB6DCF2901226 /* NSError+AsDictionary.m in Sources */,
 				72F18973D7333DFFF7683786 /* NSMutableDictionary+JSON.m in Sources */,
+				72F1821CE159CBF80962C77B /* UIResponder+FirstResponder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1439,6 +1446,7 @@
 				72F1827B6B5DA4E103212A1F /* CMPopTipView+WithStaticInitializer.m in Sources */,
 				72F18F01AF8712F79D424D4E /* NSError+AsDictionary.m in Sources */,
 				72F189D4BBC46B8B7C1FDBF4 /* NSMutableDictionary+JSON.m in Sources */,
+				72F18993EDD29199E07B9B58 /* UIResponder+FirstResponder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,7 +8,7 @@
 
 #import "MBProgressHUD.h"
 
-@interface SignUpViewController : UIViewController
+@interface SignUpViewController : UIViewController <UITextFieldDelegate>
 
 @property BOOL showExternal;
 @property (weak, nonatomic) IBOutlet UIButton *loginWithFacebookButton;

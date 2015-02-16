@@ -15,6 +15,7 @@
 #import "PFFile+Media.h"
 #import "InAppPurchaseHelper.h"
 #import "CMPopTipView+WithStaticInitializer.h"
+#import "UIResponder+FirstResponder.h"
 
 @interface NoteMilestoneViewController ()
 @property CMPopTipView *tutorialBubbleView;
@@ -27,8 +28,6 @@
     ALAssetsLibrary *_assetLibrary;
     BOOL _isKeyboardShowing;
     CGRect _originalFrame;
-    UITextField *_activeField;
-
 }
 
 - (void)viewDidLoad {
@@ -158,11 +157,11 @@
         _isKeyboardShowing = YES;
         _originalFrame = self.view.frame;
     }
-    // NOTE: we use this instead of scroll view because working woth autolayout and the scroll view is almost impossible
-    // becasue we resize some content based on the size of the screen, and in scrollview, this means that the content is
+    // NOTE: we use this instead of scroll view because working with autolayout and the scroll view is almost impossible
+    // because we resize some content based on the size of the screen, and in scrollview, this means that the content is
     // as large as it can be, but is scrollable which is NOT what we want!
-
-    if (_activeField.frame.size.height + _activeField.frame.origin.y > self.view.frame.size.height - kbSize.height) {
+    UITextField *activeField = [UIResponder currentFirstResponder];
+    if (activeField.frame.size.height + activeField.frame.origin.y > self.view.frame.size.height - kbSize.height) {
         [UIView
                 animateWithDuration:0.5
                          animations:^{
@@ -180,14 +179,6 @@
                      animations:^{
                          self.view.frame = _originalFrame;
                      }];
-}
-
-- (void)textFieldDidBeginEditing:(UITextField *)textField {
-    _activeField = textField;
-}
-
-- (void)textFieldDidEndEditing:(UITextField *)textField {
-    _activeField = nil;
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
