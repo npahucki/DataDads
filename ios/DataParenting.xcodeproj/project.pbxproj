@@ -157,7 +157,7 @@
 		E8A02D0619817CCF001E0DAB /* HistoryTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E8255DE3195CF3710008B82F /* HistoryTableHeaderView.m */; };
 		E8A02D0719817CCF001E0DAB /* UnitHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = E872D62D194A5425003F461C /* UnitHelper.m */; };
 		E8A02D0819817CCF001E0DAB /* Baby.m in Sources */ = {isa = PBXBuildFile; fileRef = E81B58791896CE7800C74C2B /* Baby.m */; };
-		E8A02D0919817CCF001E0DAB /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8F485471901C6F90030912F /* SignUpViewController.m */; };
+		E8A02D0919817CCF001E0DAB /* SignUpOrLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8F485471901C6F90030912F /* SignUpOrLoginViewController.m */; };
 		E8A02D0A19817CCF001E0DAB /* IntroScreenPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8250F42192561A7004A1B41 /* IntroScreenPageViewController.m */; };
 		E8A02D0B19817CCF001E0DAB /* PronounHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = E8BDE6B7193E0CF7001D6995 /* PronounHelper.m */; };
 		E8A02D0C19817CCF001E0DAB /* AchievementDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89035EE1934C97F004A4013 /* AchievementDetailsViewController.m */; };
@@ -183,7 +183,6 @@
 		E8A02D2019817CCF001E0DAB /* BabyInfoPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E840251818F0DEC800AF1B27 /* BabyInfoPhotoViewController.m */; };
 		E8A02D2119817CCF001E0DAB /* SevenSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = E872D4C51940943F003F461C /* SevenSwitch.m */; };
 		E8A02D2219817CCF001E0DAB /* BabyAssignedTip.m in Sources */ = {isa = PBXBuildFile; fileRef = E877FCAC19368AE4002405BF /* BabyAssignedTip.m */; };
-		E8A02D2319817CCF001E0DAB /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D00A16188F348700DF2786 /* LoginViewController.m */; };
 		E8A02D2419817CCF001E0DAB /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = E89035EA19337807004A4013 /* Reachability.m */; };
 		E8A02D2519817CCF001E0DAB /* UIAlertView+BlockSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = E872D4CF1940E9FD003F461C /* UIAlertView+BlockSupport.m */; };
 		E8A02D2619817CCF001E0DAB /* HistoryViewControllerDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = E872D4C0193F6975003F461C /* HistoryViewControllerDataSource.m */; };
@@ -250,7 +249,6 @@
 		E8BDE6BA193E1522001D6995 /* PronounHelperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E8BDE6B9193E1522001D6995 /* PronounHelperTests.m */; };
 		E8CE70F619B7C55C0051FF97 /* NotificationDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8CE70F519B7C55C0051FF97 /* NotificationDetailViewController.m */; };
 		E8CE70F719B7C55C0051FF97 /* NotificationDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8CE70F519B7C55C0051FF97 /* NotificationDetailViewController.m */; };
-		E8D00A17188F348700DF2786 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D00A16188F348700DF2786 /* LoginViewController.m */; };
 		E8D00A1A188F362100DF2786 /* BabyInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D00A19188F362100DF2786 /* BabyInfoViewController.m */; };
 		E8D00A20188F435300DF2786 /* NoteMilestoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D00A1F188F435300DF2786 /* NoteMilestoneViewController.m */; };
 		E8DD48DE188EE5B900153095 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8DD48DD188EE5B900153095 /* Foundation.framework */; };
@@ -276,7 +274,7 @@
 		E8E39C6A18EB063E0034982D /* MainMilestoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8E39C6918EB063E0034982D /* MainMilestoneViewController.m */; };
 		E8E39C6D18EB9A090034982D /* OverviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8E39C6C18EB9A090034982D /* OverviewViewController.m */; };
 		E8EC89D81907CB410073E012 /* UIViewController+MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = E8EC89D71907CB410073E012 /* UIViewController+MBProgressHUD.m */; };
-		E8F485481901C6F90030912F /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8F485471901C6F90030912F /* SignUpViewController.m */; };
+		E8F485481901C6F90030912F /* SignUpOrLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8F485471901C6F90030912F /* SignUpOrLoginViewController.m */; };
 		E8FFCCE8196DF78400969083 /* DataParentingAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = E8FFCCE7196DF78400969083 /* DataParentingAdView.m */; };
 		F037A880DC3D44E79C7CE6CD /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7AE7A55BFBD3425490A0E0F5 /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -476,8 +474,6 @@
 		E8BDE6B9193E1522001D6995 /* PronounHelperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PronounHelperTests.m; sourceTree = "<group>"; };
 		E8CE70F419B7C55C0051FF97 /* NotificationDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationDetailViewController.h; sourceTree = "<group>"; };
 		E8CE70F519B7C55C0051FF97 /* NotificationDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationDetailViewController.m; sourceTree = "<group>"; };
-		E8D00A15188F348700DF2786 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
-		E8D00A16188F348700DF2786 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		E8D00A18188F362100DF2786 /* BabyInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyInfoViewController.h; sourceTree = "<group>"; };
 		E8D00A19188F362100DF2786 /* BabyInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BabyInfoViewController.m; sourceTree = "<group>"; };
 		E8D00A1E188F435300DF2786 /* NoteMilestoneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteMilestoneViewController.h; sourceTree = "<group>"; };
@@ -512,8 +508,8 @@
 		E8E39C6C18EB9A090034982D /* OverviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OverviewViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		E8EC89D61907CB410073E012 /* UIViewController+MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+MBProgressHUD.h"; sourceTree = "<group>"; };
 		E8EC89D71907CB410073E012 /* UIViewController+MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+MBProgressHUD.m"; sourceTree = "<group>"; };
-		E8F485461901C6F90030912F /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
-		E8F485471901C6F90030912F /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
+		E8F485461901C6F90030912F /* SignUpOrLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpOrLoginViewController.h; sourceTree = "<group>"; };
+		E8F485471901C6F90030912F /* SignUpOrLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpOrLoginViewController.m; sourceTree = "<group>"; };
 		E8FFCCE6196DF78400969083 /* DataParentingAdView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataParentingAdView.h; sourceTree = "<group>"; };
 		E8FFCCE7196DF78400969083 /* DataParentingAdView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataParentingAdView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -595,6 +591,13 @@
 				72F18A513D481205AD9FA1F1 /* FDTakeController.m */,
 			);
 			path = FDTakeController;
+			sourceTree = "<group>";
+		};
+		72F186F13079B94D24EA0B15 /* ParseUI */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ParseUI;
 			sourceTree = "<group>";
 		};
 		72F18CAF7DFE531268DD766F /* en.lproj */ = {
@@ -770,10 +773,8 @@
 		E8BDE6BD193E6F0B001D6995 /* Signup */ = {
 			isa = PBXGroup;
 			children = (
-				E8D00A15188F348700DF2786 /* LoginViewController.h */,
-				E8D00A16188F348700DF2786 /* LoginViewController.m */,
-				E8F485461901C6F90030912F /* SignUpViewController.h */,
-				E8F485471901C6F90030912F /* SignUpViewController.m */,
+				E8F485461901C6F90030912F /* SignUpOrLoginViewController.h */,
+				E8F485471901C6F90030912F /* SignUpOrLoginViewController.m */,
 				E8D00A18188F362100DF2786 /* BabyInfoViewController.h */,
 				E8D00A19188F362100DF2786 /* BabyInfoViewController.m */,
 				E840251718F0DEC800AF1B27 /* BabyInfoPhotoViewController.h */,
@@ -991,6 +992,7 @@
 				E89AC322195A204100AD3869 /* UIImage+FX.h */,
 				E89AC323195A204100AD3869 /* UIImage+FX.m */,
 				72F184235312F75098CB3B97 /* FDTakeController */,
+				72F186F13079B94D24EA0B15 /* ParseUI */,
 			);
 			name = ThirdParty;
 			path = Milestones;
@@ -1296,7 +1298,7 @@
 				E8A02D0719817CCF001E0DAB /* UnitHelper.m in Sources */,
 				E89BA8271A5C9409001F8DC2 /* CirclePictureTableViewCell.m in Sources */,
 				E8A02D0819817CCF001E0DAB /* Baby.m in Sources */,
-				E8A02D0919817CCF001E0DAB /* SignUpViewController.m in Sources */,
+				E8A02D0919817CCF001E0DAB /* SignUpOrLoginViewController.m in Sources */,
 				E89BA8221A5C63CA001F8DC2 /* MainFollowConnectionsViewController.m in Sources */,
 				E8A02D0A19817CCF001E0DAB /* IntroScreenPageViewController.m in Sources */,
 				E8A02D0B19817CCF001E0DAB /* PronounHelper.m in Sources */,
@@ -1327,7 +1329,6 @@
 				E8A02D2019817CCF001E0DAB /* BabyInfoPhotoViewController.m in Sources */,
 				E8A02D2119817CCF001E0DAB /* SevenSwitch.m in Sources */,
 				E8A02D2219817CCF001E0DAB /* BabyAssignedTip.m in Sources */,
-				E8A02D2319817CCF001E0DAB /* LoginViewController.m in Sources */,
 				E8A02D2419817CCF001E0DAB /* Reachability.m in Sources */,
 				E8A02D2519817CCF001E0DAB /* UIAlertView+BlockSupport.m in Sources */,
 				E8ABE5751987FE6B0022D110 /* TutorialViewController.m in Sources */,
@@ -1380,7 +1381,7 @@
 				E872D62E194A5425003F461C /* UnitHelper.m in Sources */,
 				E89BA8261A5C9409001F8DC2 /* CirclePictureTableViewCell.m in Sources */,
 				E81B587A1896CE7800C74C2B /* Baby.m in Sources */,
-				E8F485481901C6F90030912F /* SignUpViewController.m in Sources */,
+				E8F485481901C6F90030912F /* SignUpOrLoginViewController.m in Sources */,
 				E8250F43192561A7004A1B41 /* IntroScreenPageViewController.m in Sources */,
 				E8BDE6B8193E0CF7001D6995 /* PronounHelper.m in Sources */,
 				E89035EF1934C97F004A4013 /* AchievementDetailsViewController.m in Sources */,
@@ -1411,7 +1412,6 @@
 				E840251918F0DEC800AF1B27 /* BabyInfoPhotoViewController.m in Sources */,
 				E872D4C71940943F003F461C /* SevenSwitch.m in Sources */,
 				E877FCAD19368AE4002405BF /* BabyAssignedTip.m in Sources */,
-				E8D00A17188F348700DF2786 /* LoginViewController.m in Sources */,
 				E89035EB19337807004A4013 /* Reachability.m in Sources */,
 				E872D4D01940E9FD003F461C /* UIAlertView+BlockSupport.m in Sources */,
 				E8ABE5741987FE6B0022D110 /* TutorialViewController.m in Sources */,

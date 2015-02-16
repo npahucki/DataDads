@@ -18,7 +18,6 @@
 #endif
 
 #import <Parse/Parse.h>
-#import <ParseUI/ParseUI.h>
 #import "ExternalMediaFile.h"
 #import "UIAlertView+BlockSupport.h"
 #import "Constants.h"

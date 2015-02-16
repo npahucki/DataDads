@@ -11,7 +11,7 @@
 
 #import "HistoryViewController.h"
 #import "HistoryTableHeaderView.h"
-#import "SignUpViewController.h"
+#import "SignUpOrLoginViewController.h"
 
 #define PRELOAD_START_AT_IDX 1
 
@@ -176,7 +176,7 @@
                               cancelButtonTitle:@"Not Now"
                               otherButtonTitles:@"Yes", @"Never Ask Again", nil] showWithButtonBlock:^(NSInteger buttonIndex) {
                 if (buttonIndex == 1) {
-                    [SignUpViewController presentInController:self andRunBlock:nil];
+                    [SignUpOrLoginViewController presentSignUpInController:self andRunBlock:nil];
                 } else if (buttonIndex == 2) {
                     // Don't ask again
                     [ParentUser currentUser].suppressLoginPrompt = YES;

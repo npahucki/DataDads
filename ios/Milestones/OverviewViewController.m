@@ -7,7 +7,7 @@
 //
 
 #import "OverviewViewController.h"
-#import "SignUpViewController.h"
+#import "SignUpOrLoginViewController.h"
 #import "BabyInfoViewController.h"
 
 @implementation OverviewViewController
@@ -51,7 +51,7 @@
     if ([Reachability showAlertIfParseNotReachable]) return;
 
     if (!PFUser.currentUser.email) { // signed in if email present
-        [SignUpViewController presentInController:self andRunBlock:nil];
+        [SignUpOrLoginViewController presentSignUpInController:self andRunBlock:nil];
     } else {
         [UsageAnalytics trackUserSignout:ParentUser.currentUser];
         [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationUserLoggedOut object:ParentUser.currentUser];

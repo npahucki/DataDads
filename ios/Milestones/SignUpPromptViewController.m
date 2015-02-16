@@ -7,7 +7,7 @@
 //
 
 #import "SignUpPromptViewController.h"
-#import "SignUpViewController.h"
+#import "SignUpOrLoginViewController.h"
 
 @interface SignUpPromptViewController ()
 
@@ -27,7 +27,7 @@
 }
 
 - (IBAction)didClickStartButton:(id)sender {
-    [SignUpViewController presentInController:self andRunBlock:nil];
+    [SignUpOrLoginViewController presentSignUpInController:self andRunBlock:nil];
 }
 
 @end

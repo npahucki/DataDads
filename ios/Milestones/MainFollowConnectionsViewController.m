@@ -12,7 +12,7 @@
 #import "FollowConnectionsTableViewController.h"
 #import "NSString+EmailAddress.h"
 #import "FollowConnectionsNothingToShowViewController.h"
-#import "SignUpViewController.h"
+#import "SignUpOrLoginViewController.h"
 
 
 @interface MainFollowConnectionsViewController ()
@@ -162,9 +162,9 @@
                     showWithButtonBlock:^(NSInteger buttonIndex) {
                         if (buttonIndex == 1) {
                             // Yes
-                            [SignUpViewController presentInController:self andRunBlock:^(BOOL succeeded, NSError *error) {
+                            [SignUpOrLoginViewController presentSignUpInController:self andRunBlock:^(BOOL succeeded, NSError *error) {
                                 [UsageAnalytics trackSignupDecisionOnScreen:@"Monitors" withChoice:succeeded];
-                                if(succeeded) [self didClickInviteButton:sender];
+                                if (succeeded) [self didClickInviteButton:sender];
                             }];
                         } else {
                             [UsageAnalytics trackSignupDecisionOnScreen:@"Monitors" withChoice:NO];

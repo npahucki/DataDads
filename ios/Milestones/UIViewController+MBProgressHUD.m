@@ -94,7 +94,7 @@
     if (msg) {
         self.hud.completionBlock = ^{
             // TODO: check for error 100 from Parse domain - this is internet connectivity error
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:msg message:error.localizedDescription delegate:nil cancelButtonTitle:@"Accept" otherButtonTitles:nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Bummer" message:msg delegate:nil cancelButtonTitle:@"Accept" otherButtonTitles:nil];
             [alert showWithButtonBlock:^(NSInteger buttonIndex) {
                 if(block) block();
             }];

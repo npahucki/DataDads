@@ -10,7 +10,7 @@
 #import "MainNotificationsViewController.h"
 #import "NotificationTableViewController.h"
 #import "NoConnectionAlertView.h"
-#import "SignUpViewController.h"
+#import "SignUpOrLoginViewController.h"
 
 @interface MainNotificationsViewController ()
 
@@ -54,7 +54,7 @@
                                               otherButtonTitles:@"Sign Up", nil];
         [alert showWithButtonBlock:^(NSInteger buttonIndex) {
             if (buttonIndex == 1) {
-                [SignUpViewController presentInController:self andRunBlock:nil];
+                [SignUpOrLoginViewController presentSignUpInController:self andRunBlock:nil];
             }
         }];
     }

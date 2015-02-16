@@ -6,27 +6,44 @@
 //  Copyright (c) 2014 DataParenting. All rights reserved.
 //
 
-#import "SignUpViewController.h"
+#import "SignUpOrLoginViewController.h"
 #import "NSString+EmailAddress.h"
 #import "UIResponder+FirstResponder.h"
+#import "UIViewController+MBProgressHUD.h"
 
-@interface SignUpViewController ()
-@property (strong, nonatomic) MBProgressHUD * hud;
-@property (copy) PFBooleanResultBlock block;
+@interface SignUpOrLoginViewController ()
+@property(strong, nonatomic) MBProgressHUD *hud;
+@property(copy) PFBooleanResultBlock block;
 
 @end
 
-@implementation SignUpViewController {
+@implementation SignUpOrLoginViewController {
     BOOL _isKeyboardShowing;
     CGRect _originalFrame;
 }
 
--(void) viewDidLoad {
+- (void)viewDidLoad {
     [super viewDidLoad];
-    [self.signupButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.actionButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.loginWithFacebookButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    self.signupButton.titleLabel.font = self.loginWithFacebookButton.titleLabel.font = [UIFont fontForAppWithType:Book andSize:21];
+    [self.forgotPasswordButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+
+    self.actionButton.titleLabel.font = self.loginWithFacebookButton.titleLabel.font = self.forgotPasswordButton.titleLabel.font = [UIFont fontForAppWithType:Book andSize:21];
     self.emailAddressTextField.font = self.passwordTextField.font = [UIFont fontForAppWithType:Book andSize:19];
+    self.titleLabel.font = [UIFont fontForAppWithType:Book andSize:29];
+
+    if (self.loginMode) {
+        self.forgotPasswordButton.hidden = NO;
+        self.titleLabel.text = @"Login";
+        [self.actionButton setTitle:self.titleLabel.text forState:UIControlStateNormal];
+        [self.loginWithFacebookButton setTitle:@"Login with Facebook" forState:UIControlStateNormal];
+    } else {
+        self.forgotPasswordButton.hidden = YES;
+        self.titleLabel.text = @"Sign Up";
+        [self.actionButton setTitle:self.titleLabel.text forState:UIControlStateNormal];
+        [self.loginWithFacebookButton setTitle:@"Signup using Facebook" forState:UIControlStateNormal];
+    }
+
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWasShown:)
                                                  name:UIKeyboardWillShowNotification object:nil];
@@ -40,52 +57,112 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
--(BOOL) prefersStatusBarHidden {
+- (BOOL)prefersStatusBarHidden {
     return YES;
 }
 
 - (IBAction)didClickCloseButton:(id)sender {
-    [self didCancelSignUpUser];
+    [self didCancel];
+}
+
+- (IBAction)didClickForgotPasswordButton:(id)sender {
+    NSAssert(_loginMode, @"Did not expect click on forgot password button while in signup mode!");
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Reset Password" message:@"Please enter the email associated with your account:" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    __block UITextField *alertTextField = [alert textFieldAtIndex:0];
+    alertTextField.keyboardType = UIKeyboardTypeEmailAddress;
+    alertTextField.placeholder = @"Email Address";
+    [alert showWithButtonBlock:^(NSInteger buttonIndex) {
+        if (buttonIndex == 1) {
+            if ([alertTextField.text isValidEmailAddress]) {
+                [self showStartProgress];
+                [PFUser requestPasswordResetForEmailInBackground:alertTextField.text block:^(BOOL succeeded, NSError *error) {
+                    if (error || !succeeded) {
+                        [self showErrorThenRunBlock:error withMessage:@"We could not reset your password usng the email that you provided. Try entering your email address again." andBlock:nil];
+                    } else {
+                        [self showSuccessAndRunBlock:^{
+                            [[[UIAlertView alloc] initWithTitle:@"Great!" message:@"Check your email for the reset link. Once you're done, try to login again" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+                        }];
+                    }
+                }];
+            } else {
+                [[[UIAlertView alloc] initWithTitle:@"Whoops!" message:@"Please enter a valid email address." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] showWithButtonBlock:^(NSInteger buttonIndex) {
+                    [self didClickForgotPasswordButton:sender];
+                }];
+            }
+        }
+    }];
 }
 
 - (IBAction)didClickFacebookButton:(id)sender {
     if (![Reachability showAlertIfParseNotReachable]) {
-        [self showStartSignUpProgress];
+        [self showStartProgress];
         [PFFacebookUtils logInWithPermissions:@[@"user_about_me", @"email"] block:^(PFUser *user, NSError *error) {
             [UsageAnalytics trackUserLinkedWithFacebook:(ParentUser *) user forPublish:NO withError:error];
             if (error) {
                 [UsageAnalytics trackUserSignupError:error usingMethod:@"facebook"];
-                [self didFailToSignUpWithError:error];
+                [self didFailWithError:error];
             } else {
                 if (user) {
                     [UsageAnalytics trackUserSignup:(ParentUser *) user usingMethod:@"facebook"];
                     // Set the user's email and username to facebook email
                     [PFFacebookUtils populateCurrentUserDetailsFromFacebook:(ParentUser *) user block:nil];
-                    [self didSignUpUser:user];
+                    [self didLoginOrSignUpUser:user];
                 } else {
-                    [self didCancelSignUpUser];
+                    [self didCancel];
                 }
             }
         }];
     }
 }
 
-- (IBAction)didClickSignUpButton:(id)sender {
+- (IBAction)didTapBackground:(id)sender {
+    [self.view endEditing:YES];
+}
+
+- (IBAction)didClickActionButton:(id)sender {
     [self.view endEditing:NO];
 
     NSString *password = self.passwordTextField.text ?: @"";
     NSString *email = self.emailAddressTextField.text ?: @"";
 
     if (![email isValidEmailAddress]) {
-        [[[UIAlertView alloc] initWithTitle:@"Whoops!" message:@"Please enter a valid email address." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil] showWithButtonBlock:^(NSInteger buttonIndex) {
+        [[[UIAlertView alloc] initWithTitle:@"Whoops!" message:@"Please enter a valid email address." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] showWithButtonBlock:^(NSInteger buttonIndex) {
             [self.emailAddressTextField becomeFirstResponder];
         }];
-    } else if ([password length] < 4) {
-        [[[UIAlertView alloc] initWithTitle:@"Whoops" message:@"Password must be at least 4 characters." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil] showWithButtonBlock:^(NSInteger buttonIndex) {
+        return;
+    }
+
+    if (_loginMode) {
+        [self doLoginWithEmail:email andPassword:password];
+    } else {
+        [self doSignupWithEmail:email andPassword:password];
+    }
+}
+
+- (void)doLoginWithEmail:(NSString *)email andPassword:(NSString *)password {
+    NSAssert(_loginMode, @"Expected to be in login mode!");
+    if (![Reachability showAlertIfParseNotReachable]) {
+        [self showStartProgress];
+        [PFUser logInWithUsernameInBackground:email password:password block:^(PFUser *user, NSError *error) {
+            if (user) {
+                [self didLoginOrSignUpUser:user];
+            } else {
+                [UsageAnalytics trackError:error forOperationNamed:@"parseLogin"];
+                [self didFailWithError:error];
+            }
+        }];
+    }
+}
+
+- (void)doSignupWithEmail:(NSString *)email andPassword:(NSString *)password {
+    NSAssert(!_loginMode, @"Expected to be in signup mode!");
+    if ([password length] < 4) {
+        [[[UIAlertView alloc] initWithTitle:@"Whoops" message:@"Password must be at least 4 characters." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] showWithButtonBlock:^(NSInteger buttonIndex) {
             [self.passwordTextField becomeFirstResponder];
         }];
     } else if (![Reachability showAlertIfParseNotReachable]) {
-        [self showStartSignUpProgress];
+        [self showStartProgress];
         PFUser *user = [PFUser user];
         user.username = email;
         user.email = email;
@@ -93,10 +170,10 @@
         [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (succeeded) {
                 [UsageAnalytics trackUserSignup:(ParentUser *) user usingMethod:@"parse"];
-                [self didSignUpUser:user];
+                [self didLoginOrSignUpUser:user];
             } else {
                 [UsageAnalytics trackUserSignupError:error usingMethod:@"parse"];
-                [self didFailToSignUpWithError:error];
+                [self didFailWithError:error];
             }
         }];
     }
@@ -106,23 +183,31 @@
 
 // Called when the UIKeyboardDidShowNotification is sent.
 - (void)keyboardWasShown:(NSNotification *)aNotification {
-    NSDictionary *info = [aNotification userInfo];
-    CGSize kbSize = [info[UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
 
-    if (!_isKeyboardShowing) {
-        _isKeyboardShowing = YES;
-        _originalFrame = self.view.frame;
-    }
-    // NOTE: we use this instead of scroll view because working with autolayout and the scroll view is almost impossible
-    // because we resize some content based on the size of the screen, and in scrollview, this means that the content is
-    // as large as it can be, but is scrollable which is NOT what we want!
-    UITextField *activeField = [UIResponder currentFirstResponder];
-    if (activeField.frame.size.height + activeField.frame.origin.y > self.view.frame.size.height - kbSize.height) {
-        [UIView
-                animateWithDuration:0.5
-                         animations:^{
-                             self.view.frame = CGRectMake(0, _originalFrame.origin.y - kbSize.height, _originalFrame.size.width, _originalFrame.size.height);
-                         }];
+
+    if ([UIResponder currentFirstResponder] == self.passwordTextField || [UIResponder currentFirstResponder] == self.emailAddressTextField) {
+
+
+        NSDictionary *info = [aNotification userInfo];
+        CGSize kbSize = [info[UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+
+        if (!_isKeyboardShowing) {
+            _isKeyboardShowing = YES;
+            _originalFrame = self.view.frame;
+        }
+        // NOTE: we use this instead of scroll view because working with autolayout and the scroll view is almost impossible
+        // because we resize some content based on the size of the screen, and in scrollview, this means that the content is
+        // as large as it can be, but is scrollable which is NOT what we want!
+
+        // We just need to make sure the signup button is visible, even when the keyboard is present.
+        CGFloat bottomOfActionButton = self.actionButton.frame.size.height + self.actionButton.frame.origin.y;
+        if (bottomOfActionButton > self.view.frame.size.height - kbSize.height) {
+            [UIView
+                    animateWithDuration:0.5
+                             animations:^{
+                                 self.view.frame = CGRectMake(0, _originalFrame.origin.y - kbSize.height + (_originalFrame.size.height - bottomOfActionButton), _originalFrame.size.width, _originalFrame.size.height);
+                             }];
+        }
     }
 }
 
@@ -165,13 +250,13 @@
     self.hud.labelText = msg;
 }
 
-- (void)showStartSignUpProgress {
+- (void)showStartProgress {
     [self showHUDWithMessage:@"Just a sec please..." andAnimation:YES];
     self.hud.mode = MBProgressHUDModeCustomView;
     self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage animatedImageNamed:@"progress-" duration:1.0f]];
 }
 
-- (void)showSignupSuccessAndRunBlock:(dispatch_block_t)block {
+- (void)showSuccessAndRunBlock:(dispatch_block_t)block {
     [self showHUD:NO];
     UIImageView *animatedView = [self animatedImageView:@"success" frames:9];
     self.hud.customView = animatedView;
@@ -181,19 +266,19 @@
     [self.hud hide:YES afterDelay:1.0f]; // when hidden will dismiss the dialog.
 }
 
-- (void)showSignupError:(NSError *)error withMessage:(NSString *)msg {
+- (void)showError:(NSError *)error withTitle:(NSString *)msg {
     UIImageView *animatedView = [self animatedImageView:@"error" frames:9];
     self.hud.customView = animatedView;
     self.hud.mode = MBProgressHUDModeCustomView;
     [animatedView startAnimating];
-    __weak SignUpViewController * weakSelf = self;
+    __weak SignUpOrLoginViewController *weakSelf = self;
     self.hud.completionBlock = ^{
         NSString *title = @"Sign Up Error";
         if ([[error domain] isEqualToString:PFParseErrorDomain]) {
             NSInteger errorCode = [error code];
             NSString *message = nil;
             UIResponder *responder = nil;
-            
+
             if (errorCode == kPFErrorInvalidEmailAddress) {
                 message = @"The email address is invalid. Please enter a valid email.";
                 responder = weakSelf.emailAddressTextField;
@@ -201,12 +286,15 @@
             } else if (errorCode == kPFErrorUserPasswordMissing) {
                 message = @"Please enter a password.";
                 responder = weakSelf.passwordTextField;
+            } else if (errorCode == kPFErrorObjectNotFound) {
+                message = @"Invalid email or password";
+                responder = weakSelf.emailAddressTextField;
             } else if (errorCode == kPFErrorUsernameTaken || error.code == kPFErrorUserEmailTaken) {
-                NSString *format = @"The email address '%@' is already in use. Please use a different email address (or contact support if you are the owner of this email address).";
-                message = [NSString stringWithFormat:format, weakSelf.emailAddressTextField.text];
+                message = @"The email address '%@' is already in use. Please use a different email address (or contact support if you are the owner of this email address).";
+                message = [NSString stringWithFormat:message, weakSelf.emailAddressTextField.text];
                 responder = weakSelf.emailAddressTextField;
             }
-            
+
             if (message != nil) {
                 [[[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] showWithButtonBlock:^(NSInteger buttonIndex) {
                     [responder becomeFirstResponder];
@@ -214,15 +302,15 @@
                 return;
             }
         }
-        
+
         // Show the generic error alert, as no custom cases matched before
         [[[UIAlertView alloc] initWithTitle:title message:[error localizedDescription] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
     };
     [self.hud hide:NO afterDelay:1.5];
 }
 
-+ (void)presentInController:(UIViewController *)vc andRunBlock:(PFBooleanResultBlock)block {
-    SignUpViewController * signupVc = [vc.storyboard instantiateViewControllerWithIdentifier:@"signupViewController"];
++ (void)presentSignUpInController:(UIViewController *)vc andRunBlock:(PFBooleanResultBlock)block {
+    SignUpOrLoginViewController *signupVc = [vc.storyboard instantiateViewControllerWithIdentifier:@"signupViewController"];
     signupVc.block = block;
     vc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     [vc presentViewController:signupVc animated:YES completion:nil];
@@ -242,30 +330,28 @@
 
 # pragma Signup Notification methods
 
--(void) didCancelSignUpUser {
+- (void)didCancel {
     [self dismissViewControllerAnimated:YES completion:nil];
     if (_block) _block(NO, nil);
 }
 
-// Sent to the delegate when a PFUser is signed up.
-- (void) didSignUpUser:(PFUser *)user {
+- (void)didLoginOrSignUpUser:(PFUser *)user {
     [[PFInstallation currentInstallation] setObject:user forKey:@"user"];
     [[PFInstallation currentInstallation] saveEventually];
     if (!user.ACL) {
         user.ACL = [PFACL ACLWithUser:user];
         [user saveEventually];
     }
-    [self showSignupSuccessAndRunBlock:^{
-        [[NSNotificationCenter defaultCenter]
-                postNotificationName:kDDNotificationUserSignedUp object:user];
+    [self showSuccessAndRunBlock:^{
         [self dismissViewControllerAnimated:NO completion:nil];
+        [[NSNotificationCenter defaultCenter]                            postNotificationName:
+                _loginMode ? kDDNotificationUserLoggedIn : kDDNotificationUserSignedUp object:user];
         if (_block) _block(YES, nil);
     }];
-
 }
 
-- (void) didFailToSignUpWithError:(NSError *)error {
-    [self showSignupError:error withMessage:@"Bummer!"];
+- (void)didFailWithError:(NSError *)error {
+    [self showError:error withTitle:@"Bummer!"];
     if (_block) _block(NO, error);
 }
 

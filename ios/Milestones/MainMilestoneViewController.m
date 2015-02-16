@@ -13,7 +13,7 @@
 #import "AlertThenDisappearView.h"
 #import "PronounHelper.h"
 #import "InAppPurchaseHelper.h"
-#import "SignUpViewController.h"
+#import "SignUpOrLoginViewController.h"
 
 #define AD_TRIGGER_LAUNCH_COUNT 2
 #define AD_TRIGGER_MAX_TIME 60
@@ -127,7 +127,7 @@
                               cancelButtonTitle:@"Not Now"
                               otherButtonTitles:@"Yes", nil] showWithButtonBlock:^(NSInteger buttonIndex) {
                 if (buttonIndex == 1) {
-                    [SignUpViewController presentInController:self andRunBlock:nil];
+                    [SignUpOrLoginViewController presentSignUpInController:self andRunBlock:nil];
                 }
             }];
         }

@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 DataParenting. All rights reserved.
 //
 
-#import "SignUpViewController.h"
+#import "SignUpOrLoginViewController.h"
 #import "BabyInfoViewController.h"
 #import "UIViewController+MBProgressHUD.h"
 
