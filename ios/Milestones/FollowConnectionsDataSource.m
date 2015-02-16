@@ -27,7 +27,7 @@
     _hadError = NO;
     [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationFollowConnectionsDataSourceWillLoadObjects object:self];
 
-    if ([ParentUser currentUser]) { // Requires a current user
+    if ([ParentUser currentUser].email.length) { // Requires a current user WITH an email address
         [PFCloud callFunctionInBackground:@"queryMyFollowConnections"
                            withParameters:@{@"appVersion" : NSBundle.mainBundle.infoDictionary[@"CFBundleShortVersionString"],
                                    @"limit" : [@(limit) stringValue]}
