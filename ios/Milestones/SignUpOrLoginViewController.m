@@ -26,9 +26,10 @@
     [super viewDidLoad];
     [self.actionButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.loginWithFacebookButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.forgotPasswordButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.forgotPasswordButton setTitleColor:[UIColor appNormalColor] forState:UIControlStateNormal];
 
-    self.actionButton.titleLabel.font = self.loginWithFacebookButton.titleLabel.font = self.forgotPasswordButton.titleLabel.font = [UIFont fontForAppWithType:Book andSize:21];
+    self.actionButton.titleLabel.font = self.loginWithFacebookButton.titleLabel.font = [UIFont fontForAppWithType:Book andSize:21];
+    self.forgotPasswordButton.titleLabel.font = [UIFont fontForAppWithType:Light andSize:21];
     self.emailAddressTextField.font = self.passwordTextField.font = [UIFont fontForAppWithType:Book andSize:19];
     self.titleLabel.font = [UIFont fontForAppWithType:Book andSize:29];
 
