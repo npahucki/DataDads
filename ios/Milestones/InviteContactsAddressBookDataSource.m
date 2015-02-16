@@ -54,6 +54,11 @@
 - (void)clearCache {
     _contactsByEmail = nil;
     _orderedContacts = nil;
+    if (_addressBook) {
+        CFRelease(_addressBook);
+        _addressBook = nil;
+    }
+
 }
 
 - (void)addExcludeContactWithEmail:(NSString *)email {
@@ -136,8 +141,8 @@
     for (NSUInteger i = 0; i < numberOfPeople; i++) {
         ABRecordRef person = (__bridge ABRecordRef) allPeople[i];
         ABMultiValueRef emailAddresses = ABRecordCopyValue(person, kABPersonEmailProperty);
-        NSString *firstName = CFBridgingRelease(ABRecordCopyValue(person, kABPersonFirstNameProperty));
-        NSString *lastName = CFBridgingRelease(ABRecordCopyValue(person, kABPersonLastNameProperty));
+        NSString *firstName = CFBridgingRelease(ABRecordCopyValue(person, kABPersonFirstNameProperty)) ?: @"";
+        NSString *lastName = CFBridgingRelease(ABRecordCopyValue(person, kABPersonLastNameProperty)) ?: @"";
         NSData *imgData = CFBridgingRelease(ABPersonCopyImageData(person));
         UIImage *imagine = [UIImage imageWithData:imgData];
 

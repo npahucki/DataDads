@@ -40,8 +40,6 @@
     return self;
 }
 
-
-
 - (void)viewDidLoad {
     [super viewDidLoad];
 
@@ -256,6 +254,10 @@
 
 - (void)appEnterForeground:(NSNotification *)notice {
     [_dataSource loadObjects];
+    [_addressBookDataSource clearCache]; // Make sure any changes made in address book are now reflected
+    [self.pickerView reloadData];
+    [self.pickerView resignFirstResponder];
+    [self.pickerView]
 }
 
 - (void)sendInvites {
