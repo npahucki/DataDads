@@ -23,8 +23,7 @@
 
 
 - (void)viewDidLoad {
-    BOOL willShowOptionalSignup = ![ParentUser currentUser].isAuthenticated && SHOW_OPTIONAL_SIGNUP_TWEAK;
-    self.totalSteps = willShowOptionalSignup ? 4 : 3;
+    self.totalSteps = [ParentUser currentUser].isAuthenticated ? 3 : 4;
     self.currentStepNumber = 1;
 
     [super viewDidLoad];
