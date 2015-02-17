@@ -53,7 +53,7 @@ NSString *kReachabilityChangedNotification = @"kNetworkReachabilityChangedNotifi
 
 #pragma mark - Supporting functions
 
-#define kShouldPrintReachabilityFlags 1
+#define kShouldPrintReachabilityFlags DEBUG
 
 static void PrintReachabilityFlags(SCNetworkReachabilityFlags flags, const char *comment) {
 #if kShouldPrintReachabilityFlags
@@ -83,7 +83,7 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
     Reachability *noteObject = (__bridge Reachability *) info;
     // Post a notification to notify the client that the network reachability changed.
     [[NSNotificationCenter defaultCenter] postNotificationName:kReachabilityChangedNotification object:noteObject];
-    PrintReachabilityFlags(flags, "");
+    PrintReachabilityFlags(flags, "Reachability Changed");
 }
 
 
