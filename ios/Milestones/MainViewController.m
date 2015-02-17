@@ -114,18 +114,22 @@
 - (void)showTutorialPromptIfNeeded:(ParentUser *)user {
     if (!user.shownTutorialPrompt) {
         user.shownTutorialPrompt = YES;
-        [[[UIAlertView alloc] initWithTitle:@"Take a Quick Tour?"
-                                    message:@"Do you want to see a quick tour about how things work? You can view it under 'account settings' anytime."
-                                   delegate:nil
-                          cancelButtonTitle:@"Not Now"
-                          otherButtonTitles:@"Yes", nil] showWithButtonBlock:^(NSInteger buttonIndex) {
-            if (buttonIndex == 1) {
+
+        if (MPTweakValue(@"ShowTutorialMandatory", YES)) {
+            [[[UIAlertView alloc] initWithTitle:@"Before You Get Started"
+                                        message:@"You will be shown a quick tutorial on how things work. You can watch it again anytime under 'account preferences'"
+                                       delegate:nil
+                              cancelButtonTitle:@"Ok"
+                              otherButtonTitles:nil] showWithButtonBlock:^(NSInteger buttonIndex) {
                 [self performSegueWithIdentifier:@"showTutorial" sender:self];
-                [UsageAnalytics trackTutorialResponse:YES];
-            } else {
-                [UsageAnalytics trackTutorialResponse:NO];
-            }
-        }];
+            }];
+        } else {
+            [[[UIAlertView alloc] initWithTitle:@"Welcome!"
+                                        message:@"If you want to get a feel for how things work, there is a tutorial availble under 'account preferences'"
+                                       delegate:nil
+                              cancelButtonTitle:@"Ok"
+                              otherButtonTitles:nil] show];
+        }
     }
 }
 

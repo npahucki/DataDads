@@ -104,6 +104,7 @@
 }
 
 - (IBAction)didClickViewTutorial:(id)sender {
+    [UsageAnalytics trackTutorialManuallyTaken];
 }
 
 @end

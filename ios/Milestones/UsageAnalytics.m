@@ -49,22 +49,19 @@ static BOOL isRelease;
     isRelease = YES;
 #endif
     NSLog(@"RUNNING IN RELEASE?:%d", isRelease);
+    [Heap setAppId:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.HeapAppId"]];
+    [Heap changeInterval:30];
+    NSString *mixPanelKey = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.MixPanelKey"];
+    Mixpanel *mixpanel = [Mixpanel sharedInstanceWithToken:mixPanelKey launchOptions:launchOptions];
+    NSString *uxCamKey = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.UXCamKey"];
+    [UXCam startApplicationWithKey:uxCamKey];
 
     if (isRelease) {
-        [Heap setAppId:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.HeapAppId"]];
-        [Heap changeInterval:30];
-
-        NSString *mixPanelKey = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.MixPanelKey"];
-        Mixpanel *mixpanel = [Mixpanel sharedInstanceWithToken:mixPanelKey launchOptions:launchOptions];
-
         [AppsFlyerTracker sharedTracker].appsFlyerDevKey = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.AppsFlyerDevKey"];
         [AppsFlyerTracker sharedTracker].appleAppID = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.AppleStoreId"];
         [AppsFlyerTracker sharedTracker].isHTTPS = YES;
         [AppsFlyerTracker sharedTracker].customerUserID = mixpanel.distinctId;
         [[AppsFlyerTracker sharedTracker] trackAppLaunch];
-
-        NSString *uxCamKey = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.UXCamKey"];
-        [UXCam startApplicationWithKey:uxCamKey];
     }
 }
 
@@ -370,16 +367,27 @@ static BOOL isRelease;
     }
 }
 
-+ (void)trackTutorialResponse:(BOOL)viewed {
++ (void)trackTutorialManuallyTaken {
     if (isRelease) {
-        [Heap track:@"respondedToTutoriaPrompt" withProperties:@{@"viewed" : @(viewed)}];
-        [[Mixpanel sharedInstance] track:@"respondedToTutoriaPrompt" properties:@{@"viewed" : @(viewed)}];
-        [[Mixpanel sharedInstance].people set:@"tutorialTaken" to:@(viewed)];
+        [Heap track:@"tutotialManuallyTaken"];
+        [[Mixpanel sharedInstance] track:@"tutotialManuallyTaken"];
+        [[Mixpanel sharedInstance].people set:@"tutotialManuallyTaken"];
         [FBAppEvents logEvent:FBAppEventNameCompletedTutorial];
     } else {
-        NSLog(@"[USAGE ANALYTICS]: respondedToTutoriaPrompt - viewed:%d", viewed);
+        NSLog(@"[USAGE ANALYTICS]: tutotialManuallyTaken");
     }
 }
+
+//+ (void)trackTutorialResponse:(BOOL)viewed {
+//    if (isRelease) {
+//        [Heap track:@"respondedToTutoriaPrompt" withProperties:@{@"viewed" : @(viewed)}];
+//        [[Mixpanel sharedInstance] track:@"respondedToTutoriaPrompt" properties:@{@"viewed" : @(viewed)}];
+//        [[Mixpanel sharedInstance].people set:@"tutorialTaken" to:@(viewed)];
+//        [FBAppEvents logEvent:FBAppEventNameCompletedTutorial];
+//    } else {
+//        NSLog(@"[USAGE ANALYTICS]: respondedToTutoriaPrompt - viewed:%d", viewed);
+//    }
+//}
 
 + (void)trackSettingChange:(NSString *)settingName withValue:(id)value {
     if (isRelease) {
