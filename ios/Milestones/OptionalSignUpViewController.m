@@ -13,7 +13,10 @@
 
 @end
 
-@implementation OptionalSignUpViewController
+@implementation OptionalSignUpViewController {
+    BOOL _isKeyboardShowing;
+    CGRect _originalFrame;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -28,15 +31,73 @@
     self.emailTextField.enabled = ![ParentUser currentUser].isAuthenticated;
     self.passwordTextField.enabled = ![ParentUser currentUser].isAuthenticated;
     self.signupWithFacebookButton.enabled = ![ParentUser currentUser].isAuthenticated;
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWasShown:)
+                                                 name:UIKeyboardWillShowNotification object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillBeHidden:)
+                                                 name:UIKeyboardWillHideNotification object:nil];
 }
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+// Called when the UIKeyboardDidShowNotification is sent.
+- (void)keyboardWasShown:(NSNotification *)aNotification {
+    UITextField *responsder = self.passwordTextField;
+
+    NSDictionary *info = [aNotification userInfo];
+    CGSize kbSize = [info[UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+
+    if (!_isKeyboardShowing) {
+        _isKeyboardShowing = YES;
+        _originalFrame = self.view.frame;
+    }
+    // NOTE: we use this instead of scroll view because working with autolayout and the scroll view is almost impossible
+    // because we resize some content based on the size of the screen, and in scrollview, this means that the content is
+    // as large as it can be, but is scrollable which is NOT what we want!
+
+    // We just need to make sure the signup button is visible, even when the keyboard is present.
+    CGFloat bottomOfResponder = responsder.frame.size.height + responsder.frame.origin.y;
+    if (bottomOfResponder > self.view.frame.size.height - kbSize.height) {
+        [UIView animateWithDuration:0.5
+                         animations:^{
+                             self.view.frame = CGRectMake(0, _originalFrame.origin.y - kbSize.height + (_originalFrame.size.height - bottomOfResponder), _originalFrame.size.width, _originalFrame.size.height);
+                         }];
+    }
+
+}
+
+// Called when the UIKeyboardWillHideNotification is sent
+- (void)keyboardWillBeHidden:(NSNotification *)aNotification {
+    _isKeyboardShowing = NO;
+    [UIView
+            animateWithDuration:0.5
+                     animations:^{
+                         self.view.frame = _originalFrame;
+                     }];
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    if (textField == self.emailTextField) {
+        [self.passwordTextField becomeFirstResponder];
+    } else if (textField == self.passwordTextField) {
+        [self.view endEditing:NO];
+        return YES;
+    }
+    return NO;
+}
+
 
 - (IBAction)didClickNextButton:(id)sender {
     // If username and password are filled out, then use this as signup data.
-
+    [self.view endEditing:YES];
     if (![PFUser currentUser].isAuthenticated && self.emailTextField.text.length) {
         if (self.passwordTextField.text.length < 4) {
-            [[[UIAlertView alloc]                                                             initWithTitle:@"Password Required" message:
-                    @"If you want to sign in now, please provide a password of four or characters" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+            [[[UIAlertView alloc]                                                                  initWithTitle:@"Password Required" message:
+                    @"If you want to sign in now, please provide a password of four or more characters" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
             return;
         }
 
@@ -45,12 +106,6 @@
                     @"If you want to sign in now, please provide a valid email address" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
             return;
         };
-
-        if (![Reachability isParseCurrentlyReachable]) {
-            [[[UIAlertView alloc]                                                           initWithTitle:@"Network Connection Required" message:
-                    @"Please make sure that you are connected to a network before pressing Next" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-            return;
-        }
 
         // Try to signup using the provided info.
         [self showInProgressHUDWithMessage:@"Signing up..." andAnimation:YES andDimmedBackground:YES withCancel:NO];
@@ -63,7 +118,7 @@
                 NSString *msg;
                 if ([error.domain isEqualToString:@"Parse"] && (error.code == 202 || error.code == 203)) {
                     msg = @"The email address is already associated with an account. "
-                            "Please tap the Back button and log in with that email instead of creating a new account";
+                            "If you are owner of this email address, tap the Back button and login instead.";
 
                 } else {
                     msg = @"Could not sign you up now. Trying again now or later may correct the problem";
@@ -85,16 +140,6 @@
         [self performSegueWithIdentifier:kDDSegueShowAboutYou sender:self]; // next page
     }
 }
-
-- (BOOL)textFieldShouldReturn:(UITextField *)theTextField {
-    if (theTextField == self.passwordTextField) {
-        [theTextField resignFirstResponder];
-    } else if (theTextField == self.emailTextField) {
-        [self.passwordTextField becomeFirstResponder];
-    }
-    return YES;
-}
-
 
 - (IBAction)didClickLoginWithFacebook:(id)sender {
     [self showInProgressHUDWithMessage:@"Authenticating..." andAnimation:YES andDimmedBackground:YES withCancel:NO];

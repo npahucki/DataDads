@@ -17,6 +17,7 @@
     NSLog(@"Using Parse Application Id '%@'", parseAppId);
     [Parse setApplicationId:parseAppId clientKey:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.ParseClientId"]];
     // Register custom subclasses
+    [ParentUser registerSubclass];
     [Baby registerSubclass];
     [Tag registerSubclass];
     [Tip registerSubclass];
@@ -24,7 +25,6 @@
     [StandardMilestone registerSubclass];
     [MilestoneAchievement registerSubclass];
     [Measurement registerSubclass];
-    [ParentUser registerSubclass];
     [PurchaseTransaction registerSubclass];
     [FollowConnection registerSubclass];
 
