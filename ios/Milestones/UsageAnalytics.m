@@ -504,7 +504,7 @@ static BOOL isRelease;
         [[Mixpanel sharedInstance].people increment:@"followInvitesSent" by:@(count)];
         [[Mixpanel sharedInstance].people increment:@"followInvitesTimesSent" by:@(1)];
     } else {
-        NSLog(@"[USAGE ANALYTICS]: followConnectionInviteSent - count:%d", count);
+        NSLog(@"[USAGE ANALYTICS]: followConnectionInviteSent - count:%ld", (long) count);
     }
 }
 
