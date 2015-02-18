@@ -65,6 +65,7 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     _isMorganTouch = NO; // Hack work around a double segue bug, caused by touching the cell too long
     [self.tableView reloadData];
 }

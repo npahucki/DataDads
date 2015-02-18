@@ -50,14 +50,14 @@
     }
                      completion:^(BOOL finished) {
         [self.titleLabel sizeToFit];
-        [UIView
-                animateWithDuration:0.5
-                              delay:5.0
-                            options:UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionLayoutSubviews
-                         animations:^{
-            self.frame = CGRectMake(0, self.frame.origin.y, self.frame.size.width, 0);
-        }
-                         completion:^(BOOL finished) {
+                         [UIView
+                                 animateWithDuration:0.5
+                                               delay:5.0
+                                             options:UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionLayoutSubviews
+                                          animations:^{
+                                              self.frame = CGRectMake(0, self.frame.origin.y, self.frame.size.width, 0);
+                                          }
+                                          completion:^(BOOL finished2) {
             [self removeFromSuperview];
         }];
     }];

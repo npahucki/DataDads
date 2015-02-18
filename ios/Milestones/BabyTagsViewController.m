@@ -28,7 +28,7 @@
     self.addTagTextField.enabled = enabled;
 }
 
-- (IBAction)didChageAddTagTextField:(id)sender {
+- (IBAction)didChangeAddTagTextField:(id)sender {
     [self reclacControlEnabledState];
 }
 

@@ -109,9 +109,10 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
 - (BOOL)verifyAppReceipt {
 #if DISABLEIAP
     return YES;
-#endif
+#else
     if (!_appReceipt) _appReceipt = [RMAppReceipt bundleReceipt];
     return [self verifyAppReceipt:_appReceipt];
+#endif
 }
 
 - (BOOL)verifyAppReceipt:(RMAppReceipt *)receipt {
@@ -122,7 +123,7 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
 }
 
 // If any of the products is purchased, then the block is called with YES.
-// Allowing reciept refresh may prompt the user for his iTunes password.
+// Allowing receipt refresh may prompt the user for his iTunes password.
 // Thus, if you just want a 'soft' check for non critical things (like ads), don't allow refresh
 - (void)checkProductsPurchased:(NSArray *)products withBlock:(PFBooleanResultBlock)block {
     if ([self verifyAppReceipt]) {

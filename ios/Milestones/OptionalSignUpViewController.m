@@ -46,7 +46,7 @@
 
 // Called when the UIKeyboardDidShowNotification is sent.
 - (void)keyboardWasShown:(NSNotification *)aNotification {
-    UITextField *responsder = self.passwordTextField;
+    UITextField *responder = self.passwordTextField;
 
     NSDictionary *info = [aNotification userInfo];
     CGSize kbSize = [info[UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
@@ -60,7 +60,7 @@
     // as large as it can be, but is scrollable which is NOT what we want!
 
     // We just need to make sure the signup button is visible, even when the keyboard is present.
-    CGFloat bottomOfResponder = responsder.frame.size.height + responsder.frame.origin.y;
+    CGFloat bottomOfResponder = responder.frame.size.height + responder.frame.origin.y;
     if (bottomOfResponder > self.view.frame.size.height - kbSize.height) {
         [UIView animateWithDuration:0.5
                          animations:^{

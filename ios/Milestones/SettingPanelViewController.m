@@ -82,7 +82,7 @@
     [self presentViewController:vc animated:YES completion:NULL];
 }
 
-- (IBAction)didClickContactSuport:(id)sender {
+- (IBAction)didClickContactSupport:(id)sender {
     size_t size;
     sysctlbyname("hw.machine", NULL, &size, NULL, 0);
     char *model = malloc(size);

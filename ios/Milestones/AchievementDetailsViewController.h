@@ -19,7 +19,7 @@
 @property(weak, nonatomic) IBOutlet UITextView *detailsTextView;
 @property(weak, nonatomic) IBOutlet UIImageView *statusImageView;
 @property(weak, nonatomic) IBOutlet RangeIndicatorView *rangeIndicatorView;
-@property(weak, nonatomic) IBOutlet UILabel *rangleScaleLabel;
+@property(weak, nonatomic) IBOutlet UILabel *rangeScaleLabel;
 
 @property(weak, nonatomic) IBOutlet UIBarButtonItem *shareButtonBarItem;
 @property(weak, nonatomic) IBOutlet UIView *detailsTextViewContainerView;

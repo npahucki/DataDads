@@ -177,7 +177,7 @@
     NSMutableDictionary *newUserInfo = [[NSMutableDictionary alloc] initWithDictionary:userInfo];
     BOOL openFromBackground = application.applicationState == UIApplicationStateInactive || application.applicationState == UIApplicationStateBackground;
     newUserInfo[kDDPushNotificationField_OpenedFromBackground] = @(openFromBackground);
-    [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationPushReceieved object:self userInfo:newUserInfo];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationPushReceived object:self userInfo:newUserInfo];
     if (openFromBackground) {
         [self incrementOpenViaPushNotificationCount];
     }

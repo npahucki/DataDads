@@ -8,7 +8,7 @@
 
 #import "SWTableViewCell.h"
 
-/// A table cell with a picture and a circle arround it and optionally lines extending up and down to connect the circles.
+/// A table cell with a picture and a circle around it and optionally lines extending up and down to connect the circles.
 
 @interface CirclePictureTableViewCell : SWTableViewCell
 

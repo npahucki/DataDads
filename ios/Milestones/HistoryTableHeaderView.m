@@ -1,5 +1,5 @@
 //
-//  HIstoryTableHeaderView.m
+//  HistoryTableHeaderView.m
 //  DataParenting
 //
 //  Created by Nathan  Pahucki on 6/26/14.

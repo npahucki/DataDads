@@ -16,7 +16,7 @@
 
 
 /*
- Dimisses the current view either by poping to the root controller (if in Nav Controller) or dimissing modally
+ Dimisses the current view either by popping to the root controller (if in Nav Controller) or dimissing modally
  */
 - (void)dismiss;
 

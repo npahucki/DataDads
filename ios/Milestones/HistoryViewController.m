@@ -504,9 +504,9 @@
     
     
     int tableHeight = self.tableView.frame.size.height;
-    int futureMilestoneHeaderPosition = [self calculateHeaderPostionForSection:FutureMilestoneSection];
-    int achievementHeaderPosition = [self calculateHeaderPostionForSection:AchievementSection];
-    int pastMilestoneHeaderPosition = [self calculateHeaderPostionForSection:PastMilestoneSection];
+    int futureMilestoneHeaderPosition = [self calculateHeaderPositionForSection:FutureMilestoneSection];
+    int achievementHeaderPosition = [self calculateHeaderPositionForSection:AchievementSection];
+    int pastMilestoneHeaderPosition = [self calculateHeaderPositionForSection:PastMilestoneSection];
 
     int futureMilestoneHeaderHeight = futureMilestoneHeaderPosition == INT_MIN ? 0 : [self tableView:self.tableView heightForHeaderInSection:FutureMilestoneSection];
     int achievementHeaderHeight = achievementHeaderPosition == INT_MIN ? 0 : [self tableView:self.tableView heightForHeaderInSection:AchievementSection];
@@ -564,7 +564,7 @@
     }
 }
 
-- (int)calculateHeaderPostionForSection:(NSInteger)section {
+- (int)calculateHeaderPositionForSection:(NSInteger)section {
     if ([self.tableView numberOfRowsInSection:section] < 1) return INT_MIN;
     int headerHeight = [self tableView:self.tableView heightForHeaderInSection:section];
     CGRect rectInTableView = [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:section]];

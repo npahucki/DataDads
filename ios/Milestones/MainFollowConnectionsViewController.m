@@ -33,7 +33,7 @@
     // Register here so we can handle these in the background, EVEN if the tab has never been selected
     // since selecting the tab the first time is what triggers viewDidLoad.
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appEnterForeground:) name:UIApplicationDidBecomeActiveNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gotPushNotification:) name:kDDNotificationPushReceieved object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gotPushNotification:) name:kDDNotificationPushReceived object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(urlOpened:) name:kDDNotificationURLOpened object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(followConnectionsDataSourceDidChange) name:kDDNotificationFollowConnectionsDataSourceDidChange object:_dataSource];
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(followConnectionsDataSourceWillLoad) name:kDDNotificationFollowConnectionsDataSourceWillLoadObjects object:_dataSource];

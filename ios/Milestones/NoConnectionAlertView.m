@@ -25,8 +25,8 @@
 }
 
 + (void)createInstanceForController:(UIViewController *)controller {
-    NoConnectionAlertView *alertView = [[[NSBundle mainBundle] loadNibNamed:@"NoConnectionAlertView" owner:self options:nil] objectAtIndex:0];
-    // TODO: Might need to conside if the edges extend below the navigation bar
+    NoConnectionAlertView *alertView = [[NSBundle mainBundle] loadNibNamed:@"NoConnectionAlertView" owner:self options:nil][0];
+    // TODO: Might need to consider if the edges extend below the navigation bar
     float y = controller.navigationController.navigationBar.frame.size.height + controller.navigationController.navigationBar.frame.origin.y;
     alertView.frame = CGRectMake(0, y, controller.view.bounds.size.width, 0);
     alertView.hidden = YES;

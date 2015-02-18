@@ -75,7 +75,7 @@ NSDateFormatter *_dateFormatter;
 
     self.adView.containingViewController = self;
     self.detailsTextView.delegate = self;
-    self.rangleScaleLabel.font = [UIFont fontForAppWithType:Light andSize:11];
+    self.rangeScaleLabel.font = [UIFont fontForAppWithType:Light andSize:11];
     NSDictionary *linkAttributes = @{NSForegroundColorAttributeName : [UIColor appSelectedColor],
             NSUnderlineColorAttributeName : [UIColor appSelectedColor],
             NSUnderlineStyleAttributeName : @(NSUnderlinePatternSolid)};

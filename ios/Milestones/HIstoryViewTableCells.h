@@ -1,5 +1,5 @@
 //
-//  HIstoryViewTableCells.h
+//  HistoryViewTableCells.h
 //  DataParenting
 //
 //  Created by Nathan  Pahucki on 6/25/14.

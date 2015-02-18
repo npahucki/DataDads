@@ -305,7 +305,7 @@ static NSString *const kStringsTableName = @"FDTake";
         return [self topViewController:lastViewController];
     }
 
-    UIViewController *presentedViewController = (UIViewController *) rootViewController.presentedViewController;
+    UIViewController *presentedViewController = rootViewController.presentedViewController;
     return [self topViewController:presentedViewController];
 }
 
@@ -359,7 +359,7 @@ static NSString *const kStringsTableName = @"FDTake";
         return [self _topViewController:lastViewController];
     }
 
-    UIViewController *presentedViewController = (UIViewController *) rootViewController.presentedViewController;
+    UIViewController *presentedViewController = rootViewController.presentedViewController;
     return [self _topViewController:presentedViewController];
 }
 

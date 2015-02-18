@@ -1,5 +1,5 @@
 //
-//  HIstoryViewTableCells.m
+//  HistoryViewTableCells.m
 //  DataParenting
 //
 //  Created by Nathan  Pahucki on 6/25/14.
@@ -35,7 +35,7 @@
 - (void)willMoveToSuperview:(UIView *)newSuperview {
     [super willMoveToSuperview:newSuperview];
     // This must be done here, as the UIAppearance overrides any values set in the awakeFromNib,
-    // and using layoutViews causes an infinate triggering of view layouts because of some logic in the SWTableCell
+    // and using layoutViews causes an infinite triggering of view layouts because of some logic in the SWTableCell
     self.achievementDateLabel.font = [UIFont fontForAppWithType:Bold andSize:13];
 }
 

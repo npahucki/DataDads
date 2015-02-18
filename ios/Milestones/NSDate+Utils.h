@@ -14,13 +14,13 @@
 
 /*!
  * The difference in number of days from Now. If the result is negative, it means the target date happened N days before Now.
- * Postive denotes the target date happens after Now. 
+ * Positive denotes the target date happens after Now.
  */
 - (NSInteger)daysDifferenceFromNow;
 
 /*!
  * The difference in days between the target date and the passed in date. If the result is negative, it means the date passed happened N days before
- * the target of the message, and postive denotes in the passed date happens after the target date.
+ * the target of the message, and positive denotes in the passed date happens after the target date.
  */
 - (NSInteger)daysDifference:(NSDate *)toDate;
 

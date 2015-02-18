@@ -87,7 +87,7 @@
                     }
                 }];
             } else {
-                [[[UIAlertView alloc] initWithTitle:@"Whoops!" message:@"Please enter a valid email address." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] showWithButtonBlock:^(NSInteger buttonIndex) {
+                [[[UIAlertView alloc] initWithTitle:@"Whoops!" message:@"Please enter a valid email address." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] showWithButtonBlock:^(NSInteger buttonIndex2) {
                     [self didClickForgotPasswordButton:sender];
                 }];
             }
@@ -267,7 +267,7 @@
     [self.hud hide:YES afterDelay:1.0f]; // when hidden will dismiss the dialog.
 }
 
-- (void)showError:(NSError *)error withTitle:(NSString *)msg {
+- (void)showError:(NSError *)error {
     UIImageView *animatedView = [self animatedImageView:@"error" frames:9];
     self.hud.customView = animatedView;
     self.hud.mode = MBProgressHUDModeCustomView;
@@ -352,7 +352,7 @@
 }
 
 - (void)didFailWithError:(NSError *)error {
-    [self showError:error withTitle:@"Bummer!"];
+    [self showError:error];
     if (_block) _block(NO, error);
 }
 

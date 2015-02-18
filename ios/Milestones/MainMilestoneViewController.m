@@ -21,7 +21,7 @@
 
 
 @implementation MainMilestoneViewController {
-    MilestoneAchievement *_currentAchievment;
+    MilestoneAchievement *_currentAchievement;
     HistoryViewController *_historyController;
     BOOL _isMorganTouch;
     BOOL _isShowingSearchBar;
@@ -149,13 +149,13 @@
         if ([segue.identifier isEqualToString:kDDSegueNoteCustomMilestone]) {
             [self createAchievementForMilestone:nil];
         }
-        NSAssert(_currentAchievment, @"Expected currentAchievement to be set");
+        NSAssert(_currentAchievement, @"Expected currentAchievement to be set");
         [self hideSearchBar];
         NoteMilestoneViewController *noteMilestoneViewController = (NoteMilestoneViewController *)
                 ((UINavigationController *) segue.destinationViewController).visibleViewController;
-        noteMilestoneViewController.achievement = _currentAchievment;
+        noteMilestoneViewController.achievement = _currentAchievement;
     } else if ([segue.identifier isEqualToString:kDDSegueShowAchievementDetails]) {
-        ((AchievementDetailsViewController *) segue.destinationViewController).achievement = _currentAchievment;
+        ((AchievementDetailsViewController *) segue.destinationViewController).achievement = _currentAchievement;
     }
 }
 
@@ -250,7 +250,7 @@
     // events in row. The work around for now is to ignore any further touches until this view shows again.
     if (!_isMorganTouch) {
         _isMorganTouch = YES;
-        _currentAchievment = achievement;
+        _currentAchievement = achievement;
         [self performSegueWithIdentifier:kDDSegueShowAchievementDetails sender:self];
     } else {
         NSLog(@"YOU GOT THE MORGAN TOUCH!!!!!");
@@ -267,13 +267,13 @@
 }
 
 - (MilestoneAchievement *)createAchievementForMilestone:(StandardMilestone *)milestone {
-    _currentAchievment = [MilestoneAchievement object];
-    _currentAchievment.isSkipped = NO;
-    _currentAchievment.isPostponed = NO;
-    _currentAchievment.baby = Baby.currentBaby;
-    _currentAchievment.completionDate = [NSDate date];
-    if (milestone) _currentAchievment.standardMilestone = milestone;
-    return _currentAchievment;
+    _currentAchievement = [MilestoneAchievement object];
+    _currentAchievement.isSkipped = NO;
+    _currentAchievement.isPostponed = NO;
+    _currentAchievement.baby = Baby.currentBaby;
+    _currentAchievement.completionDate = [NSDate date];
+    if (milestone) _currentAchievement.standardMilestone = milestone;
+    return _currentAchievement;
 }
 
 - (void)showAdIfNeeded {

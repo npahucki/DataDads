@@ -22,18 +22,18 @@
 }
 
 - (void)deleteInBackgroundWithBlock:(PFBooleanResultBlock)block {
-    [self executeCloudFuncitonNamed:@"deleteFollowConnection" andBlock:block];
+    [self executeCloudFunctionNamed:@"deleteFollowConnection" andBlock:block];
 }
 
 - (void)resendInvitationInBackgroundWithBlock:(PFBooleanResultBlock)block {
-    [self executeCloudFuncitonNamed:@"resendFollowConnectionInvitation" andBlock:block];
+    [self executeCloudFunctionNamed:@"resendFollowConnectionInvitation" andBlock:block];
 }
 
 - (void)acceptInvitationInBackgroundWithBlock:(PFBooleanResultBlock)block {
-    [self executeCloudFuncitonNamed:@"acceptFollowConnectionInvitation" andBlock:block];
+    [self executeCloudFunctionNamed:@"acceptFollowConnectionInvitation" andBlock:block];
 }
 
-- (void)executeCloudFuncitonNamed:(NSString *)functionName andBlock:(PFBooleanResultBlock)block {
+- (void)executeCloudFunctionNamed:(NSString *)functionName andBlock:(PFBooleanResultBlock)block {
     [PFCloud                    callFunctionInBackground:functionName withParameters:@{
             @"appVersion" : NSBundle.mainBundle.infoDictionary[@"CFBundleShortVersionString"],
             @"connectionObjectId" : self.objectId} block:^(id object, NSError *error) {

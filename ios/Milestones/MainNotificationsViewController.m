@@ -25,7 +25,7 @@
     // Register here so we can handle these in the background, EVEN if the tab has never been selected
     // since selecting the tab the first time is what triggers viewDidLoad.
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appEnterForeground:) name:UIApplicationDidBecomeActiveNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gotPushNotification:) name:kDDNotificationPushReceieved object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gotPushNotification:) name:kDDNotificationPushReceived object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tipAssignmentViewedOrHidden:) name:kDDNotificationTipAssignmentViewedOrHidden object:nil];
     _currentBadge = -1;
     return self;

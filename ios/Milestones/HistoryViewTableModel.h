@@ -94,7 +94,7 @@
 /*!
  * Use this instead of doing indexOfObject on the array property since that does not do equality checking based on the object Id.
  */
-- (NSUInteger)indexOfAchievement:(MilestoneAchievement *)achievment;
+- (NSUInteger)indexOfAchievement:(MilestoneAchievement *)achievement;
 
 /*!
  * Use this instead of doing indexOfObject on the array property since that does not do equality checking based on the object Id.

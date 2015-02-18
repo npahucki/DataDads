@@ -167,7 +167,7 @@
                         <outlet property="detailsTextViewContainerView" destination="hvI-wA-MYI" id="OcJ-j3-2kv"/>
                         <outlet property="playVideoButton" destination="ruj-Ng-npm" id="GEq-0g-FMx"/>
                         <outlet property="rangeIndicatorView" destination="YaB-Py-RbV" id="ucr-W9-FY2"/>
-                        <outlet property="rangleScaleLabel" destination="ZWm-C3-ca7" id="24q-Oc-eEa"/>
+                        <outlet property="rangeScaleLabel" destination="ZWm-C3-ca7" id="24q-Oc-eEa"/>
                         <outlet property="shareButtonBarItem" destination="9sO-vf-wct" id="TOM-Fc-xMf"/>
                         <outlet property="statusImageView" destination="RZ7-cs-8GY" id="Caf-qP-Ptf"/>
                     </connections>
@@ -458,7 +458,7 @@
                                     <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="enterNewTagTextField"/>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="didChageAddTagTextField:" destination="hr4-9U-bLr" eventType="editingChanged" id="B0e-yu-Rba"/>
+                                    <action selector="didChangeAddTagTextField:" destination="hr4-9U-bLr" eventType="editingChanged" id="B0e-yu-Rba"/>
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I0d-v9-pgN">
@@ -1627,7 +1627,7 @@
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <connections>
-                                                        <action selector="didClickContactSuport:" destination="W69-aI-Opj" eventType="touchUpInside" id="mV0-nK-xrV"/>
+                                                        <action selector="didClickContactSupport:" destination="W69-aI-Opj" eventType="touchUpInside" id="mV0-nK-xrV"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -2692,7 +2692,7 @@
                                     <segue destination="ajq-f1-8MQ" kind="embed" id="gXg-Fb-eEg"/>
                                 </connections>
                             </containerView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kL0-zn-xqN" customClass="MBContactPicker">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kL0-zn-xqN" customClass="MBContactPicker">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" id="5QE-VQ-BZM"/>

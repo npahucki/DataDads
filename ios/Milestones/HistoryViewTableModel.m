@@ -297,9 +297,9 @@ typedef void (^StandardMilestoneResultBlock)(NSNumber *totalCount, NSArray *obje
     return achievement;
 }
 
-- (NSUInteger)indexOfAchievement:(MilestoneAchievement *)achievment {
+- (NSUInteger)indexOfAchievement:(MilestoneAchievement *)achievement {
     for (NSUInteger idx = 0; idx < _achievements.count; idx++) {
-        if ([achievment.objectId isEqualToString:((MilestoneAchievement *) _achievements[idx]).objectId]) {
+        if ([achievement.objectId isEqualToString:((MilestoneAchievement *) _achievements[idx]).objectId]) {
             return idx;
         }
     }

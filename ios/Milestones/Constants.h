@@ -1,13 +1,13 @@
 //
-//  Contants.h
+//  Constants.h
 //  Milestones
 //
 //  Created by Nathan  Pahucki on 1/27/14.
 //  Copyright (c) 2014 DataParenting. All rights reserved.
 //
 
-#ifndef Milestones_Contants_h
-#define Milestones_Contants_h
+#ifndef Milestones_Constants_h
+#define Milestones_Constants_h
 
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 #define UIColorFromRGBWithAlpha(rgbValue, alphaValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:alphaValue]
@@ -47,7 +47,7 @@ extern NSString *const kDDNotificationUserSignedUp;
 extern NSString *const kDDNotificationUserLoggedOut;
 extern NSString *const kDDNotificationUserLoggedIn;
 
-extern NSString *const kDDNotificationPushReceieved;
+extern NSString *const kDDNotificationPushReceived;
 extern NSString *const kDDNotificationURLOpened;
 
 extern NSString *const kDDNotificationNeedDataRefreshNotification;  // When table data may need to be reloaded

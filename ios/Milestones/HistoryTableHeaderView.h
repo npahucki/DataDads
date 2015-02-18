@@ -1,5 +1,5 @@
 //
-//  HIstoryTableHeaderView.h
+//  HistoryTableHeaderView.h
 //  DataParenting
 //
 //  Created by Nathan  Pahucki on 6/26/14.
