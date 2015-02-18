@@ -45,7 +45,7 @@
 
 + (void)trackTutorialManuallyTaken;
 
-+ (void)trackTutorialResponse:(BOOL)viewed;
+//+ (void)trackTutorialResponse:(BOOL)viewed;
 
 + (void)trackSettingChange:(NSString *)settingName withValue:(id)value;
 
@@ -73,4 +73,6 @@
 + (void)trackPurchaseRestored:(NSString *)identifier;
 
 + (void)trackSignupDecisionOnScreen:(NSString *)string withChoice:(BOOL)choice;
+
++ (void)trackSignupTrigger:(NSString *)string withChoice:(BOOL)choice;
 @end

@@ -107,6 +107,8 @@
             return;
         };
 
+        [UsageAnalytics trackSignupTrigger:@"onboardingOptionalSignup" withChoice:YES];
+
         // Try to signup using the provided info.
         [self showInProgressHUDWithMessage:@"Signing up..." andAnimation:YES andDimmedBackground:YES withCancel:NO];
         PFUser *user = [PFUser object];
@@ -137,6 +139,9 @@
         }];
     } else {
         // Just go to the next page
+        if (![PFUser currentUser].isAuthenticated) {
+            [UsageAnalytics trackSignupTrigger:@"onboardingOptionalSignup" withChoice:NO];
+        }
         [self performSegueWithIdentifier:kDDSegueShowAboutYou sender:self]; // next page
     }
 }

@@ -126,6 +126,7 @@
                                        delegate:nil
                               cancelButtonTitle:@"Not Now"
                               otherButtonTitles:@"Yes", nil] showWithButtonBlock:^(NSInteger buttonIndex) {
+                [UsageAnalytics trackSignupTrigger:@"promptAfterPurchase" withChoice:buttonIndex == 1];
                 if (buttonIndex == 1) {
                     [SignUpOrLoginViewController presentSignUpInController:self andRunBlock:nil];
                 }

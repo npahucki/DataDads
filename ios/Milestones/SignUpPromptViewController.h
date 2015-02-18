@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface SignUpPromptViewController : UIViewController
-@property(weak, nonatomic) IBOutlet UILabel *helloLabel;
 @property(weak, nonatomic) IBOutlet UILabel *promptTextLabel;
 @property (weak, nonatomic) IBOutlet UIButton *signupNowButton;
+@property(weak, nonatomic) IBOutlet NSLayoutConstraint *arrowImageViewBottomConstraint;
+@property(weak, nonatomic) IBOutlet UILabel *auxPromptTextLabel;
 
 @end

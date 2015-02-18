@@ -18,20 +18,20 @@ static id safe(id object) {
     return object ?: [NSNull null];
 }
 
-static NSDictionary * safeForFB(NSDictionary * dict) {
-    NSMutableDictionary * fbFriendlyDictionary = [[NSMutableDictionary alloc] initWithCapacity:dict.count];
-    for(id key in dict.allKeys) {
-        NSString * fbKey;
-        if([key isKindOfClass:[NSString class]]) {
-            fbKey = [(NSString *)key stringByReplacingOccurrencesOfString:@"." withString:@"_"];
+static NSDictionary *safeForFB(NSDictionary *dict) {
+    NSMutableDictionary *fbFriendlyDictionary = [[NSMutableDictionary alloc] initWithCapacity:dict.count];
+    for (id key in dict.allKeys) {
+        NSString *fbKey;
+        if ([key isKindOfClass:[NSString class]]) {
+            fbKey = [(NSString *) key stringByReplacingOccurrencesOfString:@"." withString:@"_"];
         } else {
             fbKey = key;
         }
-        
+
         id value = dict[key];
         // Skip null keys.
-        if(value != [NSNull null]) {
-            fbFriendlyDictionary[fbKey] =  value;
+        if (value != [NSNull null]) {
+            fbFriendlyDictionary[fbKey] = value;
         }
     }
     return fbFriendlyDictionary;
@@ -80,7 +80,7 @@ static BOOL isRelease;
         }];
         // Don't add if null, this causes problems in Heap!
         if (user.email) props[@"email"] = user.email;
-        
+
         if (isRelease) {
             Mixpanel *mixpanel = [Mixpanel sharedInstance];
             [Heap identify:props];
@@ -233,7 +233,7 @@ static BOOL isRelease;
         [[Mixpanel sharedInstance] track:@"babyCreated" properties:props];
         [FBAppEvents logEvent:@"babyCreated" parameters:safeForFB(props)];
         [[AppsFlyerTracker sharedTracker] trackEvent:@"babyCreated" withValue:props.description];
-        
+
         // Add baby properties
         [[Mixpanel sharedInstance].people set:props];
         [Heap identify:props];
@@ -302,19 +302,19 @@ static BOOL isRelease;
     }
 }
 
-+ (void)trackAchievementShared:(MilestoneAchievement *)achievement sharingMedium:(NSString*) medium {
++ (void)trackAchievementShared:(MilestoneAchievement *)achievement sharingMedium:(NSString *)medium {
     medium = [medium stringByReplacingOccurrencesOfString:@"com.apple.UIKit.activity." withString:@""];
     NSDictionary *props = @{
-                            @"achievement.isStandard" : achievement.standardMilestone ? @"Y" : @"N",
-                            @"achievement.standardMilestoneId" : safe(achievement.standardMilestone.objectId),
-                            @"achievement.title" : safe(achievement.displayTitle),
-                            @"achievement.attachmentType" : safe(achievement.attachmentType),
-                            @"achievement.hasAttachment" : achievement.attachmentType ? @"Y" : @"N",
-                            @"achievement.hasCustomTitle" : achievement.customTitle ? @"Y" : @"N",
-                            @"achievement.hasComment" : achievement.comment ? @"Y" : @"N",
-                            };
-    
-    if(isRelease) {
+            @"achievement.isStandard" : achievement.standardMilestone ? @"Y" : @"N",
+            @"achievement.standardMilestoneId" : safe(achievement.standardMilestone.objectId),
+            @"achievement.title" : safe(achievement.displayTitle),
+            @"achievement.attachmentType" : safe(achievement.attachmentType),
+            @"achievement.hasAttachment" : achievement.attachmentType ? @"Y" : @"N",
+            @"achievement.hasCustomTitle" : achievement.customTitle ? @"Y" : @"N",
+            @"achievement.hasComment" : achievement.comment ? @"Y" : @"N",
+    };
+
+    if (isRelease) {
         [Heap track:@"achievementShared" withProperties:props];
         [[Mixpanel sharedInstance] track:@"achievementShared" properties:props];
         [[Mixpanel sharedInstance].people increment:@"achievementsShared" by:@(1)];
@@ -324,15 +324,15 @@ static BOOL isRelease;
     }
 }
 
-+ (void)trackTipShared:(Tip *)tip sharingMedium:(NSString*) medium {
++ (void)trackTipShared:(Tip *)tip sharingMedium:(NSString *)medium {
     medium = [medium stringByReplacingOccurrencesOfString:@"com.apple.UIKit.activity." withString:@""];
     NSDictionary *props = @{
-                            @"tip.title" : safe(tip.title),
-                            @"tip.id" : safe(tip.objectId),
-                            @"tip.type" : tip.tipType == TipTypeGame ? @"game" : @"normal"
-                            };
-    
-    if(isRelease) {
+            @"tip.title" : safe(tip.title),
+            @"tip.id" : safe(tip.objectId),
+            @"tip.type" : tip.tipType == TipTypeGame ? @"game" : @"normal"
+    };
+
+    if (isRelease) {
         [Heap track:@"tipShared" withProperties:props];
         [[Mixpanel sharedInstance] track:@"tipShared" properties:props];
         [[Mixpanel sharedInstance].people increment:@"tipsShared" by:@(1)];
@@ -340,7 +340,7 @@ static BOOL isRelease;
     } else {
         NSLog(@"[USAGE ANALYTICS]: trackTipShared via %@: %@", medium, props);
     }
-    
+
 }
 
 
@@ -371,7 +371,7 @@ static BOOL isRelease;
     if (isRelease) {
         [Heap track:@"tutotialManuallyTaken"];
         [[Mixpanel sharedInstance] track:@"tutotialManuallyTaken"];
-        [[Mixpanel sharedInstance].people set:@"tutotialManuallyTaken"];
+        [[Mixpanel sharedInstance].people set:@"tutotialManuallyTaken" to:@(YES)];
         [FBAppEvents logEvent:FBAppEventNameCompletedTutorial];
     } else {
         NSLog(@"[USAGE ANALYTICS]: tutotialManuallyTaken");
@@ -424,6 +424,7 @@ static BOOL isRelease;
         NSLog(@"[USAGE ANALYTICS]: accountCantPurchase");
     }
 }
+
 + (void)trackPurchaseCompleted:(NSString *)productId atPrice:(NSNumber *)price andCurrency:(NSString *)currency {
     if (isRelease) {
         NSDictionary *props = @{@"productId" : safe(productId), @"price" : safe(price), @"currency" : safe(currency)};
@@ -486,39 +487,72 @@ static BOOL isRelease;
 }
 
 + (void)trackUserDeniedAddressBookAccess {
-    [Heap track:@"userDeniedAddressBookAccess"];
-    [[Mixpanel sharedInstance] track:@"userDeniedAddressBookAccess"];
-    [[Mixpanel sharedInstance].people set:@"deniedAddressBookAccess" to:@(YES)];
+    if (isRelease) {
+        [Heap track:@"userDeniedAddressBookAccess"];
+        [[Mixpanel sharedInstance] track:@"userDeniedAddressBookAccess"];
+        [[Mixpanel sharedInstance].people set:@"deniedAddressBookAccess" to:@(YES)];
+    } else {
+        NSLog(@"[USAGE ANALYTICS]: userDeniedAddressBookAccess");
+    }
 }
 
 + (void)trackFollowConnectionInviteSent:(NSInteger)count {
-    NSDictionary *props = @{@"count" : @(count)};
-    [Heap track:@"followConnectionInviteSent" withProperties:props];
-    [[Mixpanel sharedInstance] track:@"followConnectionInviteSent" properties:props];
-    [[Mixpanel sharedInstance].people increment:@"followInvitesSent" by:@(count)];
-    [[Mixpanel sharedInstance].people increment:@"followInvitesTimesSent" by:@(1)];
+    if (isRelease) {
+        NSDictionary *props = @{@"count" : @(count)};
+        [Heap track:@"followConnectionInviteSent" withProperties:props];
+        [[Mixpanel sharedInstance] track:@"followConnectionInviteSent" properties:props];
+        [[Mixpanel sharedInstance].people increment:@"followInvitesSent" by:@(count)];
+        [[Mixpanel sharedInstance].people increment:@"followInvitesTimesSent" by:@(1)];
+    } else {
+        NSLog(@"[USAGE ANALYTICS]: followConnectionInviteSent - count:%d", count);
+    }
 }
 
 + (void)trackFollowConnectionInviteResponse:(BOOL)accepted {
-    NSDictionary *properties = @ {
-            @"accepted" : @(accepted)
-    };
+    if (isRelease) {
+        NSDictionary *properties = @ {
+                @"accepted" : @(accepted)
+        };
 
-    [Heap track:@"followConnectionInviteResponse" withProperties:properties];
-    [[Mixpanel sharedInstance] track:@"followConnectionInviteResponse" properties:properties];
-    [[Mixpanel sharedInstance].people increment:@"followInvitesAccepted" by:@(1)];
+        [Heap track:@"followConnectionInviteResponse" withProperties:properties];
+        [[Mixpanel sharedInstance] track:@"followConnectionInviteResponse" properties:properties];
+        [[Mixpanel sharedInstance].people increment:@"followInvitesAccepted" by:@(1)];
+    } else {
+        NSLog(@"[USAGE ANALYTICS]: followConnectionInviteResponse - accepted:%d", accepted);
+    }
 }
 
 + (void)trackFollowConnectionRevokeInvite {
-    [Heap track:@"followConnectionInviteRevoked"];
-    [[Mixpanel sharedInstance] track:@"followConnectionInviteRevoked"];
-    [[Mixpanel sharedInstance].people increment:@"followInvitesRevoked" by:@(1)];
+    if (isRelease) {
+        [Heap track:@"followConnectionInviteRevoked"];
+        [[Mixpanel sharedInstance] track:@"followConnectionInviteRevoked"];
+        [[Mixpanel sharedInstance].people increment:@"followInvitesRevoked" by:@(1)];
+    } else {
+        NSLog(@"[USAGE ANALYTICS]: followConnectionInviteRevoked");
+    }
 }
 
 + (void)trackFollowConnectionRemoveConnection {
-    [Heap track:@"followConnectionBroken"];
-    [[Mixpanel sharedInstance] track:@"followConnectionBroken"];
-    [[Mixpanel sharedInstance].people increment:@"followConnectionsBroken" by:@(1)];
+    if (isRelease) {
+        [Heap track:@"followConnectionBroken"];
+        [[Mixpanel sharedInstance] track:@"followConnectionBroken"];
+        [[Mixpanel sharedInstance].people increment:@"followConnectionsBroken" by:@(1)];
+    } else {
+        NSLog(@"[USAGE ANALYTICS]: followConnectionBroken");
+    }
 }
 
++ (void)trackSignupTrigger:(NSString *)trigger withChoice:(BOOL)choice {
+    if (isRelease) {
+        NSDictionary *properties = @ {
+                @"trigger" : trigger,
+                @"choice" : @(choice)
+        };
+
+        [Heap track:@"signUpDecision" withProperties:properties];
+        [[Mixpanel sharedInstance] track:@"signUpDecision" properties:properties];
+    } else {
+        NSLog(@"[USAGE ANALYTICS]: signUpDecision - trigger:%@, decision:%d", trigger, choice);
+    }
+}
 @end

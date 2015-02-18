@@ -10,7 +10,6 @@
 #import "MainNotificationsViewController.h"
 #import "NotificationTableViewController.h"
 #import "NoConnectionAlertView.h"
-#import "SignUpOrLoginViewController.h"
 
 @interface MainNotificationsViewController ()
 
@@ -46,18 +45,6 @@
     BOOL isAnonymous =  [PFAnonymousUtils isLinkedWithUser:PFUser.currentUser];
     self.containerView.hidden = isAnonymous;
     self.signUpContainerView.hidden = !isAnonymous;
-
-    if (![ParentUser currentUser].email) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Please Sign Up" message:@"To see useful tips, SIGN-UP now. We'll also back-up your milestones and photos."
-                                                       delegate:nil
-                                              cancelButtonTitle:@"Maybe Later"
-                                              otherButtonTitles:@"Sign Up", nil];
-        [alert showWithButtonBlock:^(NSInteger buttonIndex) {
-            if (buttonIndex == 1) {
-                [SignUpOrLoginViewController presentSignUpInController:self andRunBlock:nil];
-            }
-        }];
-    }
 }
 
 - (void)ensureInitialBadgeValueSet:(BOOL)force playSoundIfUpdated:(BOOL)useSound {

@@ -157,9 +157,10 @@
                 }
             }];
         } else {
-            [[[UIAlertView alloc] initWithTitle:@"Signup Now?" message:@"You need to signup to use the Monitor feature."
+            [[[UIAlertView alloc] initWithTitle:@"Signup Now?" message:@"You need to SIGN-UP to use the Monitor feature."
                                        delegate:nil cancelButtonTitle:@"Maybe Later" otherButtonTitles:@"Lets Do It!", nil]
                     showWithButtonBlock:^(NSInteger buttonIndex) {
+                        [UsageAnalytics trackSignupTrigger:@"promptForMonitorFeature" withChoice:buttonIndex == 1];
                         if (buttonIndex == 1) {
                             // Yes
                             [SignUpOrLoginViewController presentSignUpInController:self andRunBlock:^(BOOL succeeded, NSError *error) {
