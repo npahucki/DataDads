@@ -36,8 +36,13 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gotPushNotification:) name:kDDNotificationPushReceived object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(urlOpened:) name:kDDNotificationURLOpened object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(followConnectionsDataSourceDidChange) name:kDDNotificationFollowConnectionsDataSourceDidChange object:_dataSource];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(followConnectionsDataSourceWillLoad) name:kDDNotificationFollowConnectionsDataSourceWillLoadObjects object:_dataSource];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidLogOut) name:kDDNotificationUserLoggedOut object:nil];
     return self;
+}
+
+- (void)userDidLogOut {
+    [_dataSource loadObjects];
+    [_addressBookDataSource clearCache];
 }
 
 - (void)viewDidLoad {

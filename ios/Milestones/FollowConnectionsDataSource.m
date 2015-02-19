@@ -52,6 +52,7 @@
                                         [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationFollowConnectionsDataSourceDidChange object:self];
                                     }];
     } else {
+        [self resetAllConnections];
         _isLoading = NO;
         [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationFollowConnectionsDataSourceDidLoadObjects object:self];
         [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationFollowConnectionsDataSourceDidChange object:self];

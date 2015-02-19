@@ -9,6 +9,7 @@
 #import "OverviewViewController.h"
 #import "SignUpOrLoginViewController.h"
 #import "BabyInfoViewController.h"
+#import "PFCloud+Cache.h"
 
 @implementation OverviewViewController
 
@@ -53,14 +54,16 @@
     if (!PFUser.currentUser.email) { // signed in if email present
         [SignUpOrLoginViewController presentSignUpInController:self andRunBlock:nil];
     } else {
+        ParentUser *user = [ParentUser currentUser];
         [UsageAnalytics trackUserSignout:ParentUser.currentUser];
-        [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationUserLoggedOut object:ParentUser.currentUser];
         [[PFInstallation currentInstallation] setObject:[NSNull null] forKey:@"user"];
         [[PFInstallation currentInstallation] saveEventually];
         [PFUser logOut];
         [PFQuery clearAllCachedResults];
+        [PFCloud clearAllCachedResults];
         [[PFFacebookUtils session] close];
         [[PFFacebookUtils session] closeAndClearTokenInformation];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationUserLoggedOut object:user];
         Baby.currentBaby = nil;
         [self dismissViewControllerAnimated:NO completion:nil];
     }
@@ -82,7 +85,7 @@
     if (!PFUser.currentUser.email.length) { // signed in if email present
         [self.logOutOrSignUpButton setTitle:@"sign up now" forState:UIControlStateNormal];
     } else {
-        [self.logOutOrSignUpButton setTitle:@"log out now" forState:UIControlStateNormal];
+        [self.logOutOrSignUpButton setTitle:[NSString stringWithFormat:@"log out %@", PFUser.currentUser.email] forState:UIControlStateNormal];
     }
 }
 

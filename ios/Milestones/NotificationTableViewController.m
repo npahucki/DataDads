@@ -60,8 +60,17 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadObjects) name:kDDNotificationNeedDataRefreshNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkReachabilityChanged:) name:kReachabilityChangedNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userSignedUp) name:kDDNotificationUserSignedUp object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLoggedOut) name:kDDNotificationUserLoggedOut object:nil];
 
     _hasMoreTips = YES;
+}
+
+- (void)userLoggedOut {
+    _objects = nil;
+    _isEmpty = YES;
+    _hadError = NO;
+    _hasMoreTips = YES;
+    [self.tableView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
