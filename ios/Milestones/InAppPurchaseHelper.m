@@ -59,7 +59,11 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
 }
 
 - (void)checkAdFreeProductPurchased:(PFBooleanResultBlock)block {
-    [self checkProductsPurchased:@[@(DDProductAdRemoval), @(DDProductVideoSupport)] withBlock:block];
+#if DEBUG
+    block(NO, nil); // Always show the ads in debug mode.
+#else
+        [self checkProductsPurchased:@[@(DDProductAdRemoval), @(DDProductVideoSupport)] withBlock:block];
+    #endif
 }
 
 - (void)ensureProductPurchased:(DDProduct)product withBlock:(PFBooleanResultBlock)block {

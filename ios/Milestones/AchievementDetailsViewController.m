@@ -547,13 +547,17 @@ NSDateFormatter *_dateFormatter;
 
 - (void)displayAdView {
     self.adView.hidden = NO;
-    [self.view layoutIfNeeded];
-    self.adViewHeightConstraint.constant = 50;
-    [self.view setNeedsUpdateConstraints];
-    [UIView animateWithDuration:0.5
-                     animations:^{
-                         [self.view layoutIfNeeded];
-                     }];
+    //[self.view layoutIfNeeded]; // - Apple recomends doing this, but it causes undetermined behavior with viewDidLayoutSubviews being called before the sizes change and not again after the animation.
+    self.adViewHeightConstraint.constant = self.adView.currentAdImageHeight;
+    [self.view setNeedsLayout];
+    [UIView animateWithDuration:0.5 animations:^{
+        [self.view layoutIfNeeded];
+    }                completion:^(BOOL finished) {
+        // Work around to a bug on iOS 7, where the viewDidLayoutSubviews is not called after the animation
+        // This will cause a slight jump of the text after it is animated - on iOS nothing at all is noted
+        [self.view setNeedsLayout];
+        [self.view layoutIfNeeded];
+    }];
 }
 
 - (void)hideAdView {

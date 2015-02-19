@@ -614,8 +614,8 @@
 
 - (void)displayAdView {
     self.adView.hidden = NO;
-    [self.view layoutIfNeeded];
-    self.adViewHeightConstraint.constant = 50;
+    //[self.view layoutIfNeeded]; - Apple recomends doing this, but it causes undetermined behavior with viewDidLayoutSubviews being called before the sizes change and not again after the animation.
+    self.adViewHeightConstraint.constant = self.adView.currentAdImageHeight;
     [self.view setNeedsUpdateConstraints];
     [UIView animateWithDuration:0.5
                      animations:^{

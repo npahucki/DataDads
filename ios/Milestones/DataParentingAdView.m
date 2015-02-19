@@ -53,10 +53,12 @@
 
 
 - (void)attemptAdLoad {
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
     [PFCloud callFunctionInBackground:@"getAdToShow"
                        withParameters:@{
-                               @"size" : self.size == DataParentingAdViewSizeSmall ? @"small" : @"medium",
-                               @"appVersion" : NSBundle.mainBundle.infoDictionary[@"CFBundleShortVersionString"]
+                               @"screenWidth" : @(screenRect.size.width),
+                               @"screenHeight" : @(screenRect.size.height),
+                               @"appVersion" : NSBundle.mainBundle.infoDictionary[@"CFBundleVersion"]
                        }
                                 block:^(NSDictionary *results, NSError *error) {
         if (!error) {
