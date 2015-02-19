@@ -1670,7 +1670,7 @@
                             <outlet property="delegate" destination="W69-aI-Opj" id="R94-x9-SG6"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Preferenes" id="x5X-KQ-7xN"/>
+                    <navigationItem key="navigationItem" title="Preferences" id="x5X-KQ-7xN"/>
                     <connections>
                         <outlet property="automaticallyShareOnFacebookSwitch" destination="jcV-JO-zmY" id="iIS-mA-mqx"/>
                         <outlet property="showHiddenTipsSwitch" destination="EQM-zr-oL2" id="CAN-Rp-IZz"/>
