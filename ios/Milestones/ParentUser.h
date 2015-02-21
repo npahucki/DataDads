@@ -23,6 +23,12 @@
 @property BOOL shownTutorialPrompt;
 @property BOOL suppressLoginPrompt;
 @property BOOL supportScience;
+@property(readonly) BOOL isLinkedWithFacebook;
+@property(readonly) BOOL hasEmail;
+@property(readonly) BOOL isAnonymous;
+
+
+
 
 + (void)incrementLaunchCount;
 

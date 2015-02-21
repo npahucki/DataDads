@@ -42,7 +42,7 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    BOOL isAnonymous =  [PFAnonymousUtils isLinkedWithUser:PFUser.currentUser];
+    BOOL isAnonymous = [ParentUser currentUser].isAnonymous;  // Note may be linked with Facebook, but still not have Email address.
     self.containerView.hidden = isAnonymous;
     self.signUpContainerView.hidden = !isAnonymous;
 }

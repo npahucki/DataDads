@@ -79,6 +79,18 @@
     [[NSUserDefaults standardUserDefaults] setBool:suppressLoginPrompt forKey:@"suppressLoginPrompt"];
 }
 
+- (BOOL)hasEmail {
+    return self.email.length > 0;
+}
+
+- (BOOL)isLinkedWithFacebook {
+    return [PFFacebookUtils isLinkedWithUser:self];
+}
+
+- (BOOL)isAnonymous {
+    return [PFAnonymousUtils isLinkedWithUser:self] || !self.isAuthenticated;
+}
+
 + (void)incrementLaunchCount {
     [self.currentUser incrementKey:@"launchCount"];
     [self.currentUser saveEventually:^(BOOL succeeded, NSError *error) {
@@ -120,6 +132,5 @@
     }
     return names.count ? [names componentsJoinedByString:@" "] : nil;
 }
-
 
 @end

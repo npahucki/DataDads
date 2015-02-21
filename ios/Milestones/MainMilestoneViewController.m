@@ -120,7 +120,7 @@
 - (void)checkAndAskToLogInIfRecentPurchase {
     if (_productJustPurchased) {
         _productJustPurchased = NO;
-        if (![ParentUser currentUser].email) {
+        if ([ParentUser currentUser].isAnonymous) {
             [[[UIAlertView alloc] initWithTitle:@"Make sure your pecious memories are safe!"
                                         message:@"Do you want to sign up now so we can backup your milestones and photos and videos in the cloud?"
                                        delegate:nil

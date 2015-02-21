@@ -28,9 +28,9 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     self.emailTextField.text = [ParentUser currentUser].email;
-    self.emailTextField.enabled = ![ParentUser currentUser].isAuthenticated;
-    self.passwordTextField.enabled = ![ParentUser currentUser].isAuthenticated;
-    self.signupWithFacebookButton.enabled = ![ParentUser currentUser].isAuthenticated;
+    self.emailTextField.enabled = [ParentUser currentUser].isAnonymous;
+    self.passwordTextField.enabled = [ParentUser currentUser].isAnonymous;
+    self.signupWithFacebookButton.enabled = [ParentUser currentUser].isAnonymous;
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWasShown:)
                                                  name:UIKeyboardWillShowNotification object:nil];
@@ -94,7 +94,7 @@
 - (IBAction)didClickNextButton:(id)sender {
     // If username and password are filled out, then use this as signup data.
     [self.view endEditing:YES];
-    if (![PFUser currentUser].isAuthenticated && self.emailTextField.text.length) {
+    if ([ParentUser currentUser].isAnonymous && self.emailTextField.text.length) {
         if (self.passwordTextField.text.length < 4) {
             [[[UIAlertView alloc]                                                                  initWithTitle:@"Password Required" message:
                     @"If you want to sign in now, please provide a password of four or more characters" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
@@ -139,7 +139,7 @@
         }];
     } else {
         // Just go to the next page
-        if (![PFUser currentUser].isAuthenticated) {
+        if ([ParentUser currentUser].isAnonymous) {
             [UsageAnalytics trackSignupTrigger:@"onboardingOptionalSignup" withChoice:NO];
         }
         [self performSegueWithIdentifier:kDDSegueShowAboutYou sender:self]; // next page

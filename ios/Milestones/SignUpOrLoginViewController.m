@@ -69,15 +69,10 @@
 - (IBAction)didClickForgotPasswordButton:(id)sender {
     NSAssert(_loginMode, @"Did not expect click on forgot password button while in signup mode!");
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Reset Password" message:@"Please enter the email associated with your account:" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
-    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-    __block UITextField *alertTextField = [alert textFieldAtIndex:0];
-    alertTextField.keyboardType = UIKeyboardTypeEmailAddress;
-    alertTextField.placeholder = @"Email Address";
-    [alert showWithButtonBlock:^(NSInteger buttonIndex) {
-        if (buttonIndex == 1) {
-            if ([alertTextField.text isValidEmailAddress]) {
+    [alert showEmailPromptWithBlock:^(NSString *email, NSError *emailError) {
+        if (email.length) {
                 [self showStartProgress];
-                [PFUser requestPasswordResetForEmailInBackground:alertTextField.text block:^(BOOL succeeded, NSError *error) {
+            [PFUser requestPasswordResetForEmailInBackground:email block:^(BOOL succeeded, NSError *error) {
                     if (error || !succeeded) {
                         [self showErrorThenRunBlock:error withMessage:@"We could not reset your password usng the email that you provided. Try entering your email address again." andBlock:nil];
                     } else {
@@ -86,11 +81,6 @@
                         }];
                     }
                 }];
-            } else {
-                [[[UIAlertView alloc] initWithTitle:@"Whoops!" message:@"Please enter a valid email address." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] showWithButtonBlock:^(NSInteger buttonIndex2) {
-                    [self didClickForgotPasswordButton:sender];
-                }];
-            }
         }
     }];
 }
@@ -98,13 +88,17 @@
 - (IBAction)didClickFacebookButton:(id)sender {
     if (![Reachability showAlertIfParseNotReachable]) {
         [self showStartProgress];
-        [PFFacebookUtils logInWithPermissions:@[@"user_about_me", @"email"] block:^(PFUser *user, NSError *error) {
-            [UsageAnalytics trackUserLinkedWithFacebook:(ParentUser *) user forPublish:NO withError:error];
+        ParentUser *user = [ParentUser currentUser];
+        NSAssert(user && user.isAnonymous, @"Expected to work with an existing anonymous user");
+        // Since this is ONLY ever used AFTER an anonymous user is created, we use the link here
+        // to avoid the odd case when using login
+        [PFFacebookUtils linkUser:user permissions:@[@"user_about_me", @"email"] block:^(BOOL success, NSError *error) {
+            [UsageAnalytics trackUserLinkedWithFacebook:user forPublish:NO withError:error];
             if (error) {
                 [UsageAnalytics trackUserSignupError:error usingMethod:@"facebook"];
                 [self didFailWithError:error];
             } else {
-                if (user) {
+                if (success) {
                     [UsageAnalytics trackUserSignup:(ParentUser *) user usingMethod:@"facebook"];
                     // Set the user's email and username to facebook email
                     [PFFacebookUtils populateCurrentUserDetailsFromFacebook:(ParentUser *) user block:nil];
@@ -294,6 +288,9 @@
                 message = @"The email address '%@' is already in use. Please use a different email address (or contact support if you are the owner of this email address).";
                 message = [NSString stringWithFormat:message, weakSelf.emailAddressTextField.text];
                 responder = weakSelf.emailAddressTextField;
+            } else if (errorCode == kPFErrorFacebookAccountAlreadyLinked) {
+                message = @"Your facebook account is already linked to another account. Contact support if you want to discard the other account and link with this one.";
+                message = [NSString stringWithFormat:message, weakSelf.emailAddressTextField.text];
             }
 
             if (message != nil) {
@@ -311,6 +308,7 @@
 }
 
 + (void)presentSignUpInController:(UIViewController *)vc andRunBlock:(PFBooleanResultBlock)block {
+    NSAssert([ParentUser currentUser].isAnonymous, @"Can't sign up a non anonymous user!");
     SignUpOrLoginViewController *signupVc = [vc.storyboard instantiateViewControllerWithIdentifier:@"signupViewController"];
     signupVc.block = block;
     vc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;

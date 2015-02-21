@@ -28,14 +28,12 @@
 
 - (void)userDidLogOut {
     // Put us back on the main screen.
-    [self.tabBarController setSelectedIndex:0];
+    [self setSelectedIndex:0];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     ParentUser *user = ParentUser.currentUser;
     if (user) {
-
-
         if ([user objectForKey:@"isMale"] != nil) { // If the isMale is not set, it means that they did not finish the signup process.
             [UsageAnalytics identify:user];
 

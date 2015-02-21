@@ -132,8 +132,7 @@
             NSString *gender = result[@"gender"];
 
             if (facebookEMail.length) {
-                user.email = facebookEMail;
-                user.username = facebookEMail;
+                user.email = user.username = facebookEMail;
             }
 
             if ([@"male" isEqualToString:gender]) {
