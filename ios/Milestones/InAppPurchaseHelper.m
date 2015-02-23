@@ -93,8 +93,14 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
         [[RMStore defaultStore] refreshReceiptOnSuccess:^{
             [self ensureProductRestored:product allowRefresh:NO withBlock:block];
         } failure:^(NSError *error2) {
-            [[[UIAlertView alloc] initWithTitle:@"Could Not Connect to AppStore" message:@"Unable to verify your purchases at this moment. Please try again later." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
-            [UsageAnalytics trackError:error2 forOperationNamed:@"RMStore.refreshReceipt"];
+            if ([error2.domain isEqualToString:@"SSErrorDomain"] && error2.code == 16) {
+                // NOTE: This is a very odd error code, and has only been found by empirical testing
+                // that this error code is issued if the user cancels the login.
+                error2 = nil; // Clear it so it does not get sent along as a real error.
+            } else {
+                [[[UIAlertView alloc] initWithTitle:@"Could Not Connect to AppStore" message:@"Unable to verify your purchases at this moment. Please try again later." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+                [UsageAnalytics trackError:error2 forOperationNamed:@"RMStore.refreshReceipt"];
+            }
             block(NO, error2);
         }];
     } else {
