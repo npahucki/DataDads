@@ -35,6 +35,7 @@
             [FBRequestConnection startForPostWithGraphPath:@"me/dataparenting:note" graphObject:action
                                          completionHandler:^(FBRequestConnection *connection, id result, NSError *error2) {
                 if (error2) {
+                    [UsageAnalytics trackError:error forOperationNamed:@"createFBNoteMilestoneAction"];
                     block(NO, error2);
                 } else {
                     block(YES, nil);
@@ -64,6 +65,7 @@
                 if (!error2) {
                     block([result objectForKey:@"id"], nil);
                 } else {
+                    [UsageAnalytics trackError:error2 forOperationNamed:@"createFBMilestoneObject"];
                     block(nil, error2);
                 }
             }];
