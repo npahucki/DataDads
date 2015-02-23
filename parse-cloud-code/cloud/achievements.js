@@ -117,9 +117,11 @@ Parse.Cloud.afterSave("MilestoneAchievements", function (request) {
     var baby = achievement.get("baby");
     var isSkipped = achievement.get("isSkipped");
     var isPostponed = achievement.get("isPostponed");
+    var utils = require("cloud/utils");
 
     // Send email to any followers
-    if (!achievement.existed() && baby && !isSkipped && !isPostponed) {
+    var daysSinceAchievement = Math.abs(utils.dayDiffFromNow(achievement.get("completionDate")));
+    if (!achievement.existed() && baby && !isSkipped && !isPostponed && daysSinceAchievement < 7) {
         var connections = require("cloud/follow_connections");
         // Only sends if the baby has followers, otherwise NOOP.
         connections.sendMonitorEmailForAchievement(achievement);
