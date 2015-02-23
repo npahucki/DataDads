@@ -85,22 +85,18 @@
                     [UsageAnalytics trackUserLinkedWithFacebook:(ParentUser *) user forPublish:YES withError:[NSError errorWithDomain:@"DataParenting" code:kDDErrorUserRefusedFacebookPermissions userInfo:nil]];
                     block(NO, nil);
                 } else {
-                    // NOTE: If the user denies the auth, The call back is never called!
-                    // We should file an issue with Parse over this.
                     [PFFacebookUtils reauthorizeUser:user withPublishPermissions:FB_PUBLISH_PERMISSION_ARRAY audience:FBSessionDefaultAudienceFriends block:^(BOOL succeeded, NSError *error) {
                         [UsageAnalytics trackUserLinkedWithFacebook:(ParentUser *) user forPublish:YES withError:error];
-                        if (error) {
-                            block(NO, error);
-                        } else {
-                            block(succeeded, nil);
-                        }
+                        // If the user denies Auth, the success flag is incorrectly set to true...
+                        // so we need to check the permissions to determine if it succeeded
+                        succeeded = succeeded && [[[PFFacebookUtils session] permissions] containsObject:@"publish_actions"];
+                        block(succeeded, error);
                     }];
                 }
             }];
         }
     } else {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Proceed?" message:@"You have to sign into Facebook to share." delegate:nil cancelButtonTitle:@"Not Now" otherButtonTitles:@"Let's Do It", nil];
-
         [alert showWithButtonBlock:^(NSInteger buttonIndex) {
             if (buttonIndex == 0) {
                 // cancel
@@ -109,12 +105,11 @@
                 NSAssert(user != nil, @"Did not expect a anonymous user here!");
                 [PFFacebookUtils linkUser:user permissions:FB_PUBLISH_PERMISSION_ARRAY block:^(BOOL succeeded, NSError *error) {
                     [UsageAnalytics trackUserLinkedWithFacebook:(ParentUser *) user forPublish:YES withError:error];
-                    if (error) {
-                        block(NO, error);
-                    } else {
-                        [PFFacebookUtils populateCurrentUserDetailsFromFacebook:(ParentUser *) user block:nil]; // this will be done in the background
-                        block(succeeded, nil);
+                    if (succeeded) {
+                        // this will be done in the background
+                        [PFFacebookUtils populateCurrentUserDetailsFromFacebook:(ParentUser *) user block:nil];
                     }
+                    block(succeeded, error);
                 }];
             }
         }];
@@ -123,10 +118,7 @@
 
 + (void)populateCurrentUserDetailsFromFacebook:(ParentUser *)user block:(PFBooleanResultBlock)block {
     [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-        [UsageAnalytics trackUserLinkedWithFacebook:user forPublish:NO withError:error];
-        if (error) {
-            if (block) block(NO, error);
-        } else {
+        if (result) {
             NSString *facebookEMail = result[@"email"];
             NSString *usersName = result[@"name"];
             NSString *gender = result[@"gender"];
@@ -144,14 +136,20 @@
             if (usersName.length) {
                 user.fullName = usersName;
             }
-            [user saveEventually:block];
+            [user saveEventually:^(BOOL succeeded, NSError *saveError) {
+                if (saveError) [UsageAnalytics trackError:saveError forOperationNamed:@"saveUserFacebookInformation"];
+                if (block) block(succeeded, saveError);
+            }];
+        } else {
+            if (error) [UsageAnalytics trackError:error forOperationNamed:@"facebookAboutMeRequest"];
+            if (block) block(NO, error);
         }
     }];
 }
 
 
-+ (BOOL)showAlertIfFacebookDisplayableError:(NSError *)error {
-
++ (void)showFacebookErrorAlert:(NSError *)error {
+    [UsageAnalytics trackError:error forOperationNamed:@"FacebookOperation"];
     if ([error.domain isEqualToString:@"Parse"] && error.code == 208) {
         NSString *msg = @"There is another DataParenting account aready linked to that Facebook account. Please either use that DataParenting account, another Facebook account, or contact support.";
         [[[UIAlertView alloc] initWithTitle:@"Duplicate Facebook Account"
@@ -159,7 +157,6 @@
                                    delegate:nil
                           cancelButtonTitle:@"OK"
                           otherButtonTitles:nil] show];
-        return YES;
     } else if ([error.domain isEqualToString:@"com.facebook.sdk"] && [error.userInfo[@"com.facebook.sdk:ErrorLoginFailedReason"] isEqualToString:@"com.facebook.sdk:SystemLoginDisallowedWithoutError"]) {
         NSString *msg = @"Please go to Settings->Facebook and enable acceess for 'DataParenting', then try to log in again.";
         [[[UIAlertView alloc] initWithTitle:@"Facebook Login Is Disabled"
@@ -167,7 +164,6 @@
                                    delegate:nil
                           cancelButtonTitle:@"OK"
                           otherButtonTitles:nil] show];
-        return YES;
     } else if ([error.domain isEqualToString:@"com.facebook.sdk"] && [error.userInfo[@"com.facebook.sdk:ErrorLoginFailedReason"] isEqualToString:@"com.facebook.sdk:SystemLoginCancelled"]) {
         NSString *msg = @"Please go to Settings->Facebook and update your login information";
         [[[UIAlertView alloc] initWithTitle:@"Facebook Token Invalid"
@@ -175,18 +171,24 @@
                                    delegate:nil
                           cancelButtonTitle:@"OK"
                           otherButtonTitles:nil] show];
-        return YES;
-    } else if ([error fberrorShouldNotifyUser]) {
-        [[[UIAlertView alloc] initWithTitle:@"Facebook Login Failed"
+    } else if ([error.domain isEqualToString:@"com.facebook.sdk"] && [error.userInfo[@"com.facebook.sdk:ErrorLoginFailedReason"] isEqualToString:@"com.facebook.sdk:UserLoginCancelled"]) {
+        NSString *msg = @"Facebook related features will not be available until you login sucessfully";
+        [[[UIAlertView alloc] initWithTitle:@"You Canceled Facebook Login"
+                                    message:msg
+                                   delegate:nil
+                          cancelButtonTitle:@"OK"
+                          otherButtonTitles:nil] show];
+    } else if ([error fberrorUserMessage]) {
+        [[[UIAlertView alloc] initWithTitle:[error fberrorUserTitle] ?: @"Facebook Login Failed"
                                     message:[error fberrorUserMessage]
                                    delegate:nil
                           cancelButtonTitle:@"OK"
                           otherButtonTitles:nil] show];
-
-        return YES;
     } else {
-        [UsageAnalytics trackError:error forOperationNamed:@"FacebookOperation"];
-        return NO;
+        [[[UIAlertView alloc] initWithTitle:@"Could Link With Facebook" message:[@"Something went wrong while signing"
+                        " into Facebook, trying again now or later may fix the problem" stringByAppendingString:error.localizedDescription]
+                                   delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+
     }
 }
 

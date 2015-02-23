@@ -110,7 +110,8 @@
             if (success) {
                 [UsageAnalytics trackUserSignup:(ParentUser *) user usingMethod:@"facebook"];
                 // Set the user's email and username to facebook email
-                [PFFacebookUtils populateCurrentUserDetailsFromFacebook:(ParentUser *) user block:nil];
+                [PFFacebookUtils populateCurrentUserDetailsFromFacebook:user block:nil];
+                [UsageAnalytics trackUserLinkedWithFacebook:user forPublish:NO withError:error];
                 [self didLoginOrSignUpUser:user];
             } else {
                 [self didCancel];
@@ -126,6 +127,7 @@
             [self didFailWithError:error];
         } else {
             [PFFacebookUtils populateCurrentUserDetailsFromFacebook:(ParentUser *) user block:^(BOOL succeeded, NSError *error2) {
+                [UsageAnalytics trackUserLinkedWithFacebook:(ParentUser *) user forPublish:NO withError:error];
                 if (user) {
                     [self didLoginOrSignUpUser:user];
                 } else {

@@ -151,11 +151,7 @@
         [UsageAnalytics trackUserLinkedWithFacebook:(ParentUser *) user forPublish:NO withError:error];
         if (error) {
             [self showErrorThenRunBlock:error withMessage:nil andBlock:^{
-                if (![PFFacebookUtils showAlertIfFacebookDisplayableError:error]) {
-                    [[[UIAlertView alloc] initWithTitle:@"Could Not Signin" message:@"Something went wrong while signing"
-                                    " into Facebook, trying again now or later may fix the problem"
-                                               delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-                }
+                [PFFacebookUtils showFacebookErrorAlert:error];
             }];
         } else {
             if (user) {
@@ -163,6 +159,7 @@
                 user.ACL = [PFACL ACLWithUser:user];
                 [PFFacebookUtils populateCurrentUserDetailsFromFacebook:(ParentUser *) user block:nil];
                 [UsageAnalytics trackUserSignup:(ParentUser *) user usingMethod:@"facebook"];
+                [UsageAnalytics trackUserLinkedWithFacebook:(ParentUser *) user forPublish:NO withError:error];
                 [self showSuccessThenRunBlock:^{
                     [self performSegueWithIdentifier:kDDSegueShowAboutYou sender:self]; // next page
                 }];

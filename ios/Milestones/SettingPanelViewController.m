@@ -56,12 +56,9 @@
 - (IBAction)didChangeFacebookSwitch:(id)sender {
     if (self.automaticallyShareOnFacebookSwitch.on) {
         [PFFacebookUtils ensureHasPublishPermissions:ParentUser.currentUser block:^(BOOL succeeded, NSError *error) {
+            [self.automaticallyShareOnFacebookSwitch setOn:succeeded animated:YES];
             if (error) {
-                [PFFacebookUtils showAlertIfFacebookDisplayableError:error];
-                [self.automaticallyShareOnFacebookSwitch setOn:NO animated:YES];
-            } else if (!succeeded) {
-                // User did not link or did not give permissions.
-                [self.automaticallyShareOnFacebookSwitch setOn:NO animated:YES];
+                [PFFacebookUtils showFacebookErrorAlert:error];
             }
         }];
     }
