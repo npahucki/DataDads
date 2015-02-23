@@ -39,14 +39,14 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>fb682520505147994</string>
+                <string>fb910867945646581</string>
 			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>fb682520505147994</string>
+            <string>fb910867945646581</string>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
@@ -68,9 +68,9 @@
 	<key>DP.UXCamKey</key>
 	<string>e2131a4f1acc98c</string>
 	<key>FacebookAppID</key>
-	<string>682520505147994</string>
+    <string>910867945646581</string>
 	<key>FacebookDisplayName</key>
-	<string>DataParenting</string>
+    <string>DataParentingDev</string>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
 	<key>LSRequiresIPhoneOS</key>
