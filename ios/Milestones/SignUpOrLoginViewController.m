@@ -88,27 +88,52 @@
 - (IBAction)didClickFacebookButton:(id)sender {
     if (![Reachability showAlertIfParseNotReachable]) {
         [self showStartProgress];
-        ParentUser *user = [ParentUser currentUser];
-        NSAssert(user && user.isAnonymous, @"Expected to work with an existing anonymous user");
-        // Since this is ONLY ever used AFTER an anonymous user is created, we use the link here
-        // to avoid the odd case when using login
-        [PFFacebookUtils linkUser:user permissions:@[@"user_about_me", @"email"] block:^(BOOL success, NSError *error) {
-            [UsageAnalytics trackUserLinkedWithFacebook:user forPublish:NO withError:error];
-            if (error) {
-                [UsageAnalytics trackUserSignupError:error usingMethod:@"facebook"];
-                [self didFailWithError:error];
+        if (_loginMode) {
+            [self doFacebookLogin];
+        } else {
+            [self doFacebookSignup];
+        }
+    }
+}
+
+- (void)doFacebookSignup {
+    ParentUser *user = [ParentUser currentUser];
+    NSAssert(user && user.isAnonymous, @"Expected to work with an existing anonymous user");
+    // Since this is ONLY ever used AFTER an anonymous user is created, we use the link here
+    // to avoid the odd case when using login
+    [PFFacebookUtils linkUser:user permissions:@[@"email"] block:^(BOOL success, NSError *error) {
+        [UsageAnalytics trackUserLinkedWithFacebook:user forPublish:NO withError:error];
+        if (error) {
+            [UsageAnalytics trackUserSignupError:error usingMethod:@"facebook"];
+            [self didFailWithError:error];
+        } else {
+            if (success) {
+                [UsageAnalytics trackUserSignup:(ParentUser *) user usingMethod:@"facebook"];
+                // Set the user's email and username to facebook email
+                [PFFacebookUtils populateCurrentUserDetailsFromFacebook:(ParentUser *) user block:nil];
+                [self didLoginOrSignUpUser:user];
             } else {
-                if (success) {
-                    [UsageAnalytics trackUserSignup:(ParentUser *) user usingMethod:@"facebook"];
-                    // Set the user's email and username to facebook email
-                    [PFFacebookUtils populateCurrentUserDetailsFromFacebook:(ParentUser *) user block:nil];
+                [self didCancel];
+            }
+        }
+    }];
+}
+
+- (void)doFacebookLogin {
+    NSAssert([ParentUser currentUser] == nil, @"Expected to work with an NIL user for login");
+    [PFFacebookUtils logInWithPermissions:@[@"email"] block:^(PFUser *user, NSError *error) {
+        if (error) {
+            [self didFailWithError:error];
+        } else {
+            [PFFacebookUtils populateCurrentUserDetailsFromFacebook:(ParentUser *) user block:^(BOOL succeeded, NSError *error2) {
+                if (user) {
                     [self didLoginOrSignUpUser:user];
                 } else {
                     [self didCancel];
                 }
-            }
-        }];
-    }
+            }];
+        }
+    }];
 }
 
 - (IBAction)didTapBackground:(id)sender {
