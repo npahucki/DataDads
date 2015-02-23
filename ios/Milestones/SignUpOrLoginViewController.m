@@ -295,41 +295,46 @@
     [animatedView startAnimating];
     __weak SignUpOrLoginViewController *weakSelf = self;
     self.hud.completionBlock = ^{
-        NSString *title = @"Sign Up Error";
-        if ([[error domain] isEqualToString:PFParseErrorDomain]) {
-            NSInteger errorCode = [error code];
-            NSString *message = nil;
-            UIResponder *responder = nil;
+        if ([error.domain isEqualToString:@"com.facebook.sdk"]) {
+            [PFFacebookUtils showFacebookErrorAlert:error];
+        } else {
+            NSString *title = @"Sign Up Error";
+            if ([[error domain] isEqualToString:PFParseErrorDomain]) {
+                NSInteger errorCode = [error code];
+                NSString *message = nil;
+                UIResponder *responder = nil;
 
-            if (errorCode == kPFErrorInvalidEmailAddress) {
-                message = @"The email address is invalid. Please enter a valid email.";
-                responder = weakSelf.emailAddressTextField;
+                if (errorCode == kPFErrorInvalidEmailAddress) {
+                    message = @"The email address is invalid. Please enter a valid email.";
+                    responder = weakSelf.emailAddressTextField;
 //            } else if (errorCode == kPFErrorUsernameMissing || error.code == kPFErrorUserEmailMissing) {
-            } else if (errorCode == kPFErrorUserPasswordMissing) {
-                message = @"Please enter a password.";
-                responder = weakSelf.passwordTextField;
-            } else if (errorCode == kPFErrorObjectNotFound) {
-                message = @"Invalid email or password";
-                responder = weakSelf.emailAddressTextField;
-            } else if (errorCode == kPFErrorUsernameTaken || error.code == kPFErrorUserEmailTaken) {
-                message = @"The email address '%@' is already in use. Please use a different email address (or contact support if you are the owner of this email address).";
-                message = [NSString stringWithFormat:message, weakSelf.emailAddressTextField.text];
-                responder = weakSelf.emailAddressTextField;
-            } else if (errorCode == kPFErrorFacebookAccountAlreadyLinked) {
-                message = @"Your facebook account is already linked to another account. Contact support if you want to discard the other account and link with this one.";
-                message = [NSString stringWithFormat:message, weakSelf.emailAddressTextField.text];
+                } else if (errorCode == kPFErrorUserPasswordMissing) {
+                    message = @"Please enter a password.";
+                    responder = weakSelf.passwordTextField;
+                } else if (errorCode == kPFErrorObjectNotFound) {
+                    message = @"Invalid email or password";
+                    responder = weakSelf.emailAddressTextField;
+                } else if (errorCode == kPFErrorUsernameTaken || error.code == kPFErrorUserEmailTaken) {
+                    message = @"The email address '%@' is already in use. Please use a different email address (or contact support if you are the owner of this email address).";
+                    message = [NSString stringWithFormat:message, weakSelf.emailAddressTextField.text];
+                    responder = weakSelf.emailAddressTextField;
+                } else if (errorCode == kPFErrorFacebookAccountAlreadyLinked) {
+                    message = @"Your facebook account is already linked to another account. Contact support if you want to discard the other account and link with this one.";
+                    message = [NSString stringWithFormat:message, weakSelf.emailAddressTextField.text];
+                }
+
+                if (message != nil) {
+                    [[[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] showWithButtonBlock:^(NSInteger buttonIndex) {
+                        [responder becomeFirstResponder];
+                    }];
+                    return;
+                }
             }
 
-            if (message != nil) {
-                [[[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] showWithButtonBlock:^(NSInteger buttonIndex) {
-                    [responder becomeFirstResponder];
-                }];
-                return;
-            }
+            // Show the generic error alert, as no custom cases matched before
+            [[[UIAlertView alloc] initWithTitle:title message:[error localizedDescription] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+
         }
-
-        // Show the generic error alert, as no custom cases matched before
-        [[[UIAlertView alloc] initWithTitle:title message:[error localizedDescription] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
     };
     [self.hud hide:NO afterDelay:1.5];
 }
