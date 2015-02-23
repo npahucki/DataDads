@@ -23,7 +23,7 @@
 
 
 - (void)viewDidLoad {
-    self.totalSteps = [ParentUser currentUser].isAnonymous ? 4 : 3;
+    self.totalSteps = [ParentUser currentUser].isLoggedIn ? 3 : 4;
     self.currentStepNumber = 1;
 
     [super viewDidLoad];

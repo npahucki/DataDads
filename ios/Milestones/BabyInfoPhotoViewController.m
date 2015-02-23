@@ -39,7 +39,7 @@
     }
 
     self.navigationItem.prompt = [self.navigationItem.prompt stringByAppendingString:@" (Optional)"];
-    _showOptionalSignup = [ParentUser currentUser].isAnonymous;
+    _showOptionalSignup = ![ParentUser currentUser].isLoggedIn;
 }
 
 - (IBAction)didClickNextButton:(id)sender {

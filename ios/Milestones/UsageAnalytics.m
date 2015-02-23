@@ -71,7 +71,7 @@ static BOOL isRelease;
         NSAssert(user.objectId != nil, @"Expected user would have objectId set already");
         NSMutableDictionary *props = [[NSMutableDictionary alloc] initWithDictionary:@{
                 @"user.id" : safe(user.objectId),
-                @"user.anonymous" : user.isAnonymous ? @"Y" : @"N",
+                @"user.anonymous" : user.isLoggedIn ? @"N" : @"Y",
                 @"user.fullName" : safe(user.fullName),
                 @"user.linkedToFacebook" : user.isLinkedWithFacebook ? @"Y" : @"N",
                 @"user.emailVerified" : [user objectForKey:@"emailVerified"] ? @"Y" : @"N",

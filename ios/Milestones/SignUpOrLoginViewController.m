@@ -98,7 +98,7 @@
 
 - (void)doFacebookSignup {
     ParentUser *user = [ParentUser currentUser];
-    NSAssert(user && user.isAnonymous, @"Expected to work with an existing anonymous user");
+    NSAssert(user && !user.isLoggedIn, @"Expected to work with an existing anonymous user");
     // Since this is ONLY ever used AFTER an anonymous user is created, we use the link here
     // to avoid the odd case when using login
     [PFFacebookUtils linkUser:user permissions:@[@"email"] block:^(BOOL success, NSError *error) {
@@ -333,7 +333,7 @@
 }
 
 + (void)presentSignUpInController:(UIViewController *)vc andRunBlock:(PFBooleanResultBlock)block {
-    NSAssert([ParentUser currentUser].isAnonymous, @"Can't sign up a non anonymous user!");
+    NSAssert(![ParentUser currentUser].isLoggedIn, @"Can't sign up a logged in user!");
     SignUpOrLoginViewController *signupVc = [vc.storyboard instantiateViewControllerWithIdentifier:@"signupViewController"];
     signupVc.block = block;
     vc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;

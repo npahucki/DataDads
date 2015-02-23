@@ -87,8 +87,8 @@
     return [PFFacebookUtils isLinkedWithUser:self];
 }
 
-- (BOOL)isAnonymous {
-    return [PFAnonymousUtils isLinkedWithUser:self] || !self.isAuthenticated;
+- (BOOL)isLoggedIn {
+    return ![PFAnonymousUtils isLinkedWithUser:self] && self.isAuthenticated;
 }
 
 + (void)incrementLaunchCount {

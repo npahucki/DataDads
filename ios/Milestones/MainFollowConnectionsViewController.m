@@ -319,7 +319,7 @@
     if ([ParentUser currentUser].hasEmail) {
         block(YES, nil);
     } else {
-        if ([ParentUser currentUser].isAnonymous) {
+        if (![ParentUser currentUser].isLoggedIn) {
             [[[UIAlertView alloc] initWithTitle:@"Signup Now?" message:@"You need to SIGN-UP to use the Monitor feature."
                                        delegate:nil cancelButtonTitle:@"Maybe Later" otherButtonTitles:@"Lets Do It!", nil]
                     showWithButtonBlock:^(NSInteger buttonIndex) {

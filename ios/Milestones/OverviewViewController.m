@@ -51,7 +51,7 @@
 
     if ([Reachability showAlertIfParseNotReachable]) return;
 
-    if ([ParentUser currentUser].isAnonymous) { // signed in if email present
+    if (![ParentUser currentUser].isLoggedIn) { // signed in if email present
         [SignUpOrLoginViewController presentSignUpInController:self andRunBlock:nil];
     } else {
         ParentUser *user = [ParentUser currentUser];
@@ -82,10 +82,10 @@
 }
 
 - (void)updateLoginButtonTitle {
-    if (ParentUser.currentUser.isAnonymous) {
-        [self.logOutOrSignUpButton setTitle:@"sign up now" forState:UIControlStateNormal];
-    } else {
+    if (ParentUser.currentUser.isLoggedIn) {
         [self.logOutOrSignUpButton setTitle:[NSString stringWithFormat:@"log out %@", PFUser.currentUser.email ?: @""] forState:UIControlStateNormal];
+    } else {
+        [self.logOutOrSignUpButton setTitle:@"sign up now" forState:UIControlStateNormal];
     }
 }
 
