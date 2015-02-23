@@ -538,7 +538,7 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="or" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lfg-6G-shh">
-                                <rect key="frame" x="152" y="274" width="16" height="20.5"/>
+                                <rect key="frame" x="152" y="274" width="16" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.80392158030000005" green="0.80392158030000005" blue="0.8392156959" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
