@@ -410,7 +410,7 @@ Parse.Cloud.job("deliverFollowConnectionInvites", function (request, status) {
                 var maxVersionInstalled = _.reduce(inviteeAppVersions, function(a,b){ return a > b ? a : b }, null);
                 var minVersionInstalled = _.reduce(inviteeAppVersions, function(a,b){ return a < b ? a : b }, null);
                 var inviteeHasCapableVersionInstalled = maxVersionInstalled >= "1.3";
-                var inviteeHasIncapableVersionInstalled = minVersionInstalled < "1.3";
+                var inviteeHasIncapableVersionInstalled = minVersionInstalled ? minVersionInstalled < "1.3" : false;
                 var promises = [];
 
                 if(DEBUG) {
