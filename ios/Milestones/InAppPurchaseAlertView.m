@@ -89,6 +89,7 @@ const static CGFloat kCustomIOS7MotionEffectExtent = 10.0;
     _dialogView = [[NSBundle mainBundle] loadNibNamed:@"InAppPurchaseView" owner:self options:nil][0];
     [self.purchaseNowButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self showProgress:YES]; // show progress until the product is set
+    self.cancelButton.enabled = YES; // but enable the cancel button...in case we can't load!
 
     _dialogView.layer.shouldRasterize = YES;
     _dialogView.layer.rasterizationScale = [[UIScreen mainScreen] scale];

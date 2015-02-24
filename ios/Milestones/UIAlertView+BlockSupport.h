@@ -15,4 +15,7 @@ typedef void (^UIAlertViewResultBlock)(NSInteger buttonIndex);
 
 - (void)showWithButtonBlock:(UIAlertViewResultBlock)block;
 
+- (void)showEmailPromptWithBlock:(PFStringResultBlock)block;
+
+
 @end

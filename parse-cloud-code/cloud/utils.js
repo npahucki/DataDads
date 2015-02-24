@@ -56,7 +56,7 @@ exports.dayDiffFromNow = function (date) {
 exports.deltaToPeriod = function (first, second) {
     var delta = moment(second).diff(first, 'days');
     return moment.duration(delta, 'days').humanize();
-}
+};
 
 exports.daysToPeriod = function (days) {
     switch(true){
@@ -120,11 +120,11 @@ exports.daysToPeriod = function (days) {
     }
 
 
-}
+};
 
 exports.dateToHuman = function (date) {
     return moment(date).format("Do of MMM YYYY");
-}
+};
 
 exports.achievementViewerUrl = function (achievement) {
     return "http://" + exports.websiteHost + "/achievements/" + achievement.id

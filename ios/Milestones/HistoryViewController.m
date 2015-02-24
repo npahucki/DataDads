@@ -167,7 +167,7 @@
     [self recalcHeaderCounts];
 
     // We want to gently encourage the user to sign up
-    if (!ParentUser.currentUser.suppressLoginPrompt && !ParentUser.currentUser.email && _model.countOfAchievements % 3 == 0 && !_model.filter) {
+    if (!ParentUser.currentUser.suppressLoginPrompt && !ParentUser.currentUser.isLoggedIn && _model.countOfAchievements % 3 == 0 && !_model.filter) {
         long x = _model.countOfAchievements / 3;
         if (((x != 0) && ((x & (~x + 1)) == x)) > 0) { // is power of 2
             [[[UIAlertView alloc] initWithTitle:@"Make sure your data is safe!"

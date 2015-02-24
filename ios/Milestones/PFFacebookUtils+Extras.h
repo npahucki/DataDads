@@ -21,6 +21,6 @@
 
 + (void)populateCurrentUserDetailsFromFacebook:(ParentUser *)user block:(PFBooleanResultBlock)block;
 
-+ (BOOL)showAlertIfFacebookDisplayableError:(NSError *)error;
++ (void)showFacebookErrorAlert:(NSError *)error;
 
 @end

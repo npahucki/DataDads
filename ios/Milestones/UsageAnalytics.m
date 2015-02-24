@@ -69,12 +69,11 @@ static BOOL isRelease;
     NSAssert([NSThread isMainThread], @"UsagaeAnalytics.identify called using a thread other than main!");
     if (user) {
         NSAssert(user.objectId != nil, @"Expected user would have objectId set already");
-        BOOL isLinkedWithFB = [PFFacebookUtils isLinkedWithUser:user];
         NSMutableDictionary *props = [[NSMutableDictionary alloc] initWithDictionary:@{
                 @"user.id" : safe(user.objectId),
-                @"user.anonymous" : user.email ? @"N" : @"Y",
+                @"user.anonymous" : user.isLoggedIn ? @"N" : @"Y",
                 @"user.fullName" : safe(user.fullName),
-                @"user.linkedToFacebook" : isLinkedWithFB ? @"Y" : @"N",
+                @"user.linkedToFacebook" : user.isLinkedWithFacebook ? @"Y" : @"N",
                 @"user.emailVerified" : [user objectForKey:@"emailVerified"] ? @"Y" : @"N",
                 @"user.sex" : user.isMale ? @"M" : @"F"
         }];

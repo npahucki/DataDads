@@ -28,9 +28,8 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     self.emailTextField.text = [ParentUser currentUser].email;
-    self.emailTextField.enabled = ![ParentUser currentUser].isAuthenticated;
-    self.passwordTextField.enabled = ![ParentUser currentUser].isAuthenticated;
-    self.signupWithFacebookButton.enabled = ![ParentUser currentUser].isAuthenticated;
+    self.emailTextField.enabled = self.passwordTextField.enabled =
+            self.signupWithFacebookButton.enabled = ![ParentUser currentUser].isLoggedIn;
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWasShown:)
                                                  name:UIKeyboardWillShowNotification object:nil];
@@ -94,7 +93,7 @@
 - (IBAction)didClickNextButton:(id)sender {
     // If username and password are filled out, then use this as signup data.
     [self.view endEditing:YES];
-    if (![PFUser currentUser].isAuthenticated && self.emailTextField.text.length) {
+    if (![ParentUser currentUser].isLoggedIn && self.emailTextField.text.length) {
         if (self.passwordTextField.text.length < 4) {
             [[[UIAlertView alloc]                                                                  initWithTitle:@"Password Required" message:
                     @"If you want to sign in now, please provide a password of four or more characters" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
@@ -139,7 +138,7 @@
         }];
     } else {
         // Just go to the next page
-        if (![PFUser currentUser].isAuthenticated) {
+        if (![ParentUser currentUser].isLoggedIn) {
             [UsageAnalytics trackSignupTrigger:@"onboardingOptionalSignup" withChoice:NO];
         }
         [self performSegueWithIdentifier:kDDSegueShowAboutYou sender:self]; // next page
@@ -148,15 +147,11 @@
 
 - (IBAction)didClickLoginWithFacebook:(id)sender {
     [self showInProgressHUDWithMessage:@"Authenticating..." andAnimation:YES andDimmedBackground:YES withCancel:NO];
-    [PFFacebookUtils logInWithPermissions:@[@"user_about_me", @"email"] block:^(PFUser *user, NSError *error) {
+    [PFFacebookUtils logInWithPermissions:@[@"public_profile", @"email"] block:^(PFUser *user, NSError *error) {
         [UsageAnalytics trackUserLinkedWithFacebook:(ParentUser *) user forPublish:NO withError:error];
         if (error) {
             [self showErrorThenRunBlock:error withMessage:nil andBlock:^{
-                if (![PFFacebookUtils showAlertIfFacebookDisplayableError:error]) {
-                    [[[UIAlertView alloc] initWithTitle:@"Could Not Signin" message:@"Something went wrong while signing"
-                                    " into Facebook, trying again now or later may fix the problem"
-                                               delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-                }
+                [PFFacebookUtils showFacebookErrorAlert:error];
             }];
         } else {
             if (user) {
@@ -164,6 +159,7 @@
                 user.ACL = [PFACL ACLWithUser:user];
                 [PFFacebookUtils populateCurrentUserDetailsFromFacebook:(ParentUser *) user block:nil];
                 [UsageAnalytics trackUserSignup:(ParentUser *) user usingMethod:@"facebook"];
+                [UsageAnalytics trackUserLinkedWithFacebook:(ParentUser *) user forPublish:NO withError:error];
                 [self showSuccessThenRunBlock:^{
                     [self performSegueWithIdentifier:kDDSegueShowAboutYou sender:self]; // next page
                 }];

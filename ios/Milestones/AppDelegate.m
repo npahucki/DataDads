@@ -89,12 +89,34 @@
     pageControl.currentPageIndicatorTintColor = [UIColor appNormalColor];
     pageControl.backgroundColor = [UIColor whiteColor];
 
-    // When the app is not open at all, the didReceiveRemoteNotification is not called, we need to detect his here and call it
-    // for it to work correctly. 
-    UILocalNotification *notification = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
-    if (notification) {
-        [self application:application didReceiveRemoteNotification:notification.userInfo];
-    }
+    // There is a bug in PFInstallation, that if saveEventually is used to save it
+    // for the first time, then the appVersion, appName and appIdentifier do NOT get set
+    // So we need to always try to save it right away before save eventually can ever be called.
+    // This should have no effect for PFInstallations that are not new or have not changed.
+    [[PFInstallation currentInstallation] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (error) {
+            [UsageAnalytics trackError:error forOperationNamed:@"Initial Installation Save"];
+        }
+
+        // Register for push notifications
+        if ([application respondsToSelector:@selector(registerForRemoteNotifications)]) {
+            // ios 8
+            [application registerUserNotificationSettings:[UIUserNotificationSettings                   settingsForTypes:
+                    (UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge) categories:nil]];
+            [application registerForRemoteNotifications];
+        } else {
+            // ios 7
+            [application registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+        }
+
+        // When the app is not open at all, the didReceiveRemoteNotification is not called, we need to detect his here and call it
+        // for it to work correctly.
+        UILocalNotification *notification = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
+        if (notification) {
+            [self application:application didReceiveRemoteNotification:notification.userInfo];
+        }
+    }];
+
 
     return YES;
 }
@@ -113,16 +135,6 @@
 - (void)applicationDidBecomeActive:(UIApplication *)app {
     [FBAppCall handleDidBecomeActiveWithSession:[PFFacebookUtils session]];
     [UsageAnalytics trackAppBecameActive];
-    // Register for push notifications
-    if ([app respondsToSelector:@selector(registerForRemoteNotifications)]) {
-        // ios 8
-        [app registerUserNotificationSettings:[UIUserNotificationSettings                           settingsForTypes:
-                (UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge) categories:nil]];
-        [app registerForRemoteNotifications];
-    } else {
-        // ios 7
-        [app registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
-    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -179,15 +191,11 @@
     newUserInfo[kDDPushNotificationField_OpenedFromBackground] = @(openFromBackground);
     [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationPushReceived object:self userInfo:newUserInfo];
     if (openFromBackground) {
-        [self incrementOpenViaPushNotificationCount];
+        [[PFInstallation currentInstallation] incrementKey:@"pushNotificationActivateCount" byAmount:@(1)];
+        [[PFInstallation currentInstallation] saveEventually];
     }
-
 }
 
-- (void)incrementOpenViaPushNotificationCount {
-    [[PFInstallation currentInstallation] incrementKey:@"pushNotificationActivateCount" byAmount:@(1)];
-    [[PFInstallation currentInstallation] saveEventually];
-}
 
 // Side effect is that after called, the last seen version is set, thus this should be called just once
 // each app startup. If called twice in a row after a new install, the first call will return YES, but the second false

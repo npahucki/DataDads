@@ -87,8 +87,8 @@
 }
 
 - (void)updateContainerViewState {
-    self.inviteButton.enabled = [PFUser currentUser].email != nil;
-    BOOL showContainerView = [PFUser currentUser].email && (_dataSource.hasAnyConnections || _dataSource.isLoading || _tableController.isPendingReload);
+    self.inviteButton.enabled = [ParentUser currentUser].hasEmail;
+    BOOL showContainerView = [ParentUser currentUser].hasEmail && (_dataSource.hasAnyConnections || _dataSource.isLoading || _tableController.isPendingReload);
 
     if (self.nothingToShowContainerView.hidden && !showContainerView) {
         self.nothingToShowContainerView.hidden = NO;
@@ -144,39 +144,27 @@
         if (_pickerView.contactsSelected.count > 0) [self sendInvites];
         self.inviteMode = NO;
     } else {
-        if ([PFUser currentUser].email) {
-            // The user has taken an action to invite people, thus we can allow the address book prompt
-            self.inviteMode = YES;
-            [self.addressBookDataSource ensureAddressBookOpenWithBlock:^(BOOL succeeded, NSError *error) {
-                if (error) {
-                    [UsageAnalytics trackError:error forOperationNamed:@"openAddressBook"];
-                }
-                if (succeeded) {
-                    [self.pickerView reloadData];
-                } else {
-                    // UIAlert, if not shown already.
-                    if (!_showedPermissionWarning) {
-                        _showedPermissionWarning = YES;
-                        [[[UIAlertView alloc] initWithTitle:@"No Access To Contacts" message:@"You will need to enter email addresses manualy. To enable picking from your contacts go to the Privacy->Contacts section in the Settings app and enable access for DataParenting." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+        [self ensureCurrentUserHasEmailAndRunBlock:^(BOOL success, NSError *emailError) {
+            [self updateContainerViewState];
+            if (success) {
+                // The user has taken an action to invite people, thus we can allow the address book prompt
+                self.inviteMode = YES;
+                [self.addressBookDataSource ensureAddressBookOpenWithBlock:^(BOOL succeeded, NSError *error) {
+                    if (error) {
+                        [UsageAnalytics trackError:error forOperationNamed:@"openAddressBook"];
                     }
-                }
-            }];
-        } else {
-            [[[UIAlertView alloc] initWithTitle:@"Signup Now?" message:@"You need to SIGN-UP to use the Monitor feature."
-                                       delegate:nil cancelButtonTitle:@"Maybe Later" otherButtonTitles:@"Lets Do It!", nil]
-                    showWithButtonBlock:^(NSInteger buttonIndex) {
-                        [UsageAnalytics trackSignupTrigger:@"promptForMonitorFeature" withChoice:buttonIndex == 1];
-                        if (buttonIndex == 1) {
-                            // Yes
-                            [SignUpOrLoginViewController presentSignUpInController:self andRunBlock:^(BOOL succeeded, NSError *error) {
-                                [UsageAnalytics trackSignupDecisionOnScreen:@"Monitors" withChoice:succeeded];
-                                if (succeeded) [self didClickInviteButton:sender];
-                            }];
-                        } else {
-                            [UsageAnalytics trackSignupDecisionOnScreen:@"Monitors" withChoice:NO];
+                    if (succeeded) {
+                        [self.pickerView reloadData];
+                    } else {
+                        // UIAlert, if not shown already.
+                        if (!_showedPermissionWarning) {
+                            _showedPermissionWarning = YES;
+                            [[[UIAlertView alloc] initWithTitle:@"No Access To Contacts" message:@"You will need to enter email addresses manualy. To enable picking from your contacts go to the Privacy->Contacts section in the Settings app and enable access for DataParenting." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
                         }
-                    }];
-        }
+                    }
+                }];
+            }
+        }];
     }
 }
 
@@ -325,6 +313,61 @@
     }
 
     block(user.fullName, nil);
+}
+
+- (void)ensureCurrentUserHasEmailAndRunBlock:(PFBooleanResultBlock)block {
+    if ([ParentUser currentUser].hasEmail) {
+        block(YES, nil);
+    } else {
+        if (![ParentUser currentUser].isLoggedIn) {
+            [[[UIAlertView alloc] initWithTitle:@"Signup Now?" message:@"You need to SIGN-UP to use the Monitor feature."
+                                       delegate:nil cancelButtonTitle:@"Maybe Later" otherButtonTitles:@"Lets Do It!", nil]
+                    showWithButtonBlock:^(NSInteger buttonIndex) {
+                        [UsageAnalytics trackSignupTrigger:@"promptForMonitorFeature" withChoice:buttonIndex == 1];
+                        if (buttonIndex == 1) {
+                            // Yes
+                            [SignUpOrLoginViewController presentSignUpInController:self andRunBlock:^(BOOL succeeded, NSError *error) {
+                                [UsageAnalytics trackSignupDecisionOnScreen:@"Monitors" withChoice:succeeded];
+                                if (succeeded && ![ParentUser currentUser].hasEmail) {
+                                    // They signed up (perhaps via facebook) but did not allow access to their email address
+                                    [self ensureCurrentUserHasEmailAndRunBlock:block];
+                                    return;
+                                }
+                                block(succeeded, error);
+                            }];
+                        } else {
+                            [UsageAnalytics trackSignupDecisionOnScreen:@"Monitors" withChoice:NO];
+                            block(NO, nil);
+                        }
+                    }];
+        } else {
+            // This can happen if they authenticated with a 3rd party, like facebook, but we did not get an email address
+            // because they denied it, or the facebook account simply did not have an email address associated.
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Email Required" message:@"Please enter your email address to use this feature:" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
+            [alert showEmailPromptWithBlock:^(NSString *email, NSError *error) {
+                if (email) {
+                    ParentUser *user = [ParentUser currentUser];
+                    NSString *oldUsername = user.username;
+                    user.email = user.username = email;
+                    [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *saveEmailError) {
+                        if (succeeded) {
+                            block(YES, error);
+                        } else {
+                            // Roll back username and password
+                            user.email = nil;
+                            user.username = oldUsername;
+                            [[[UIAlertView alloc] initWithTitle:@"Could not save Email" message:saveEmailError.userInfo[@"error"]
+                                                       delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] showWithButtonBlock:^(NSInteger buttonIndex) {
+                                [self ensureCurrentUserHasEmailAndRunBlock:block];
+                            }];
+                        }
+                    }];
+                    return;
+                }
+                block(email != nil, error);
+            }];
+        }
+    }
 }
 
 

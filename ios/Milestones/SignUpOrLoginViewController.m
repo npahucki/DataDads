@@ -69,15 +69,10 @@
 - (IBAction)didClickForgotPasswordButton:(id)sender {
     NSAssert(_loginMode, @"Did not expect click on forgot password button while in signup mode!");
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Reset Password" message:@"Please enter the email associated with your account:" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
-    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-    __block UITextField *alertTextField = [alert textFieldAtIndex:0];
-    alertTextField.keyboardType = UIKeyboardTypeEmailAddress;
-    alertTextField.placeholder = @"Email Address";
-    [alert showWithButtonBlock:^(NSInteger buttonIndex) {
-        if (buttonIndex == 1) {
-            if ([alertTextField.text isValidEmailAddress]) {
+    [alert showEmailPromptWithBlock:^(NSString *email, NSError *emailError) {
+        if (email.length) {
                 [self showStartProgress];
-                [PFUser requestPasswordResetForEmailInBackground:alertTextField.text block:^(BOOL succeeded, NSError *error) {
+            [PFUser requestPasswordResetForEmailInBackground:email block:^(BOOL succeeded, NSError *error) {
                     if (error || !succeeded) {
                         [self showErrorThenRunBlock:error withMessage:@"We could not reset your password usng the email that you provided. Try entering your email address again." andBlock:nil];
                     } else {
@@ -86,11 +81,6 @@
                         }];
                     }
                 }];
-            } else {
-                [[[UIAlertView alloc] initWithTitle:@"Whoops!" message:@"Please enter a valid email address." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] showWithButtonBlock:^(NSInteger buttonIndex2) {
-                    [self didClickForgotPasswordButton:sender];
-                }];
-            }
         }
     }];
 }
@@ -98,23 +88,54 @@
 - (IBAction)didClickFacebookButton:(id)sender {
     if (![Reachability showAlertIfParseNotReachable]) {
         [self showStartProgress];
-        [PFFacebookUtils logInWithPermissions:@[@"user_about_me", @"email"] block:^(PFUser *user, NSError *error) {
-            [UsageAnalytics trackUserLinkedWithFacebook:(ParentUser *) user forPublish:NO withError:error];
-            if (error) {
-                [UsageAnalytics trackUserSignupError:error usingMethod:@"facebook"];
-                [self didFailWithError:error];
+        if (_loginMode) {
+            [self doFacebookLogin];
+        } else {
+            [self doFacebookSignup];
+        }
+    }
+}
+
+- (void)doFacebookSignup {
+    ParentUser *user = [ParentUser currentUser];
+    NSAssert(user && !user.isLoggedIn, @"Expected to work with an existing anonymous user");
+    // Since this is ONLY ever used AFTER an anonymous user is created, we use the link here
+    // to avoid the odd case when using login
+    [PFFacebookUtils linkUser:user permissions:@[@"email"] block:^(BOOL success, NSError *error) {
+        [UsageAnalytics trackUserLinkedWithFacebook:user forPublish:NO withError:error];
+        if (error) {
+            [UsageAnalytics trackUserSignupError:error usingMethod:@"facebook"];
+            [self didFailWithError:error];
+        } else {
+            if (success) {
+                [UsageAnalytics trackUserSignup:(ParentUser *) user usingMethod:@"facebook"];
+                // Set the user's email and username to facebook email
+                [PFFacebookUtils populateCurrentUserDetailsFromFacebook:user block:nil];
+                [UsageAnalytics trackUserLinkedWithFacebook:user forPublish:NO withError:error];
+                [self didLoginOrSignUpUser:user];
             } else {
+                [self didCancel];
+            }
+        }
+    }];
+}
+
+- (void)doFacebookLogin {
+    NSAssert([ParentUser currentUser] == nil, @"Expected to work with an NIL user for login");
+    [PFFacebookUtils logInWithPermissions:@[@"email"] block:^(PFUser *user, NSError *error) {
+        if (error) {
+            [self didFailWithError:error];
+        } else {
+            [PFFacebookUtils populateCurrentUserDetailsFromFacebook:(ParentUser *) user block:^(BOOL succeeded, NSError *error2) {
+                [UsageAnalytics trackUserLinkedWithFacebook:(ParentUser *) user forPublish:NO withError:error];
                 if (user) {
-                    [UsageAnalytics trackUserSignup:(ParentUser *) user usingMethod:@"facebook"];
-                    // Set the user's email and username to facebook email
-                    [PFFacebookUtils populateCurrentUserDetailsFromFacebook:(ParentUser *) user block:nil];
                     [self didLoginOrSignUpUser:user];
                 } else {
                     [self didCancel];
                 }
-            }
-        }];
-    }
+            }];
+        }
+    }];
 }
 
 - (IBAction)didTapBackground:(id)sender {
@@ -274,43 +295,52 @@
     [animatedView startAnimating];
     __weak SignUpOrLoginViewController *weakSelf = self;
     self.hud.completionBlock = ^{
-        NSString *title = @"Sign Up Error";
-        if ([[error domain] isEqualToString:PFParseErrorDomain]) {
-            NSInteger errorCode = [error code];
-            NSString *message = nil;
-            UIResponder *responder = nil;
+        if ([error.domain isEqualToString:@"com.facebook.sdk"]) {
+            [PFFacebookUtils showFacebookErrorAlert:error];
+        } else {
+            NSString *title = @"Sign Up Error";
+            if ([[error domain] isEqualToString:PFParseErrorDomain]) {
+                NSInteger errorCode = [error code];
+                NSString *message = nil;
+                UIResponder *responder = nil;
 
-            if (errorCode == kPFErrorInvalidEmailAddress) {
-                message = @"The email address is invalid. Please enter a valid email.";
-                responder = weakSelf.emailAddressTextField;
+                if (errorCode == kPFErrorInvalidEmailAddress) {
+                    message = @"The email address is invalid. Please enter a valid email.";
+                    responder = weakSelf.emailAddressTextField;
 //            } else if (errorCode == kPFErrorUsernameMissing || error.code == kPFErrorUserEmailMissing) {
-            } else if (errorCode == kPFErrorUserPasswordMissing) {
-                message = @"Please enter a password.";
-                responder = weakSelf.passwordTextField;
-            } else if (errorCode == kPFErrorObjectNotFound) {
-                message = @"Invalid email or password";
-                responder = weakSelf.emailAddressTextField;
-            } else if (errorCode == kPFErrorUsernameTaken || error.code == kPFErrorUserEmailTaken) {
-                message = @"The email address '%@' is already in use. Please use a different email address (or contact support if you are the owner of this email address).";
-                message = [NSString stringWithFormat:message, weakSelf.emailAddressTextField.text];
-                responder = weakSelf.emailAddressTextField;
+                } else if (errorCode == kPFErrorUserPasswordMissing) {
+                    message = @"Please enter a password.";
+                    responder = weakSelf.passwordTextField;
+                } else if (errorCode == kPFErrorObjectNotFound) {
+                    message = @"Invalid email or password";
+                    responder = weakSelf.emailAddressTextField;
+                } else if (errorCode == kPFErrorUsernameTaken || error.code == kPFErrorUserEmailTaken) {
+                    message = @"The email address '%@' is already in use. Please use a different email address (or contact support if you are the owner of this email address).";
+                    message = [NSString stringWithFormat:message, weakSelf.emailAddressTextField.text];
+                    responder = weakSelf.emailAddressTextField;
+                } else if (errorCode == kPFErrorFacebookAccountAlreadyLinked) {
+                    message = @"Your facebook account is already linked to another account. Contact support if you want to discard the other account and link with this one.";
+                    message = [NSString stringWithFormat:message, weakSelf.emailAddressTextField.text];
+                }
+
+                if (message != nil) {
+                    [[[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] showWithButtonBlock:^(NSInteger buttonIndex) {
+                        [responder becomeFirstResponder];
+                    }];
+                    return;
+                }
             }
 
-            if (message != nil) {
-                [[[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] showWithButtonBlock:^(NSInteger buttonIndex) {
-                    [responder becomeFirstResponder];
-                }];
-                return;
-            }
+            // Show the generic error alert, as no custom cases matched before
+            [[[UIAlertView alloc] initWithTitle:title message:[error localizedDescription] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+
         }
-
-        // Show the generic error alert, as no custom cases matched before
-        [[[UIAlertView alloc] initWithTitle:title message:[error localizedDescription] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
     };
     [self.hud hide:NO afterDelay:1.5];
 }
 
 + (void)presentSignUpInController:(UIViewController *)vc andRunBlock:(PFBooleanResultBlock)block {
+    NSAssert(![ParentUser currentUser].isLoggedIn, @"Can't sign up a logged in user!");
     SignUpOrLoginViewController *signupVc = [vc.storyboard instantiateViewControllerWithIdentifier:@"signupViewController"];
     signupVc.block = block;
     vc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;

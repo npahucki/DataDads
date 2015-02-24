@@ -61,10 +61,6 @@ Parse.Cloud.afterSave(Parse.User, function (request) {
                 }
             });
         }).then(function () {
-            // finally clear the flag when everything worked ok.
-            userObject.set("needsTipAssignmentNow", false);
-            return userObject.save();
-        }).then(function () {
             // This is not critical, so we don't track if it failed or not.
             var notifier = require("cloud/emails");
             var userName = userObject.get('email');
@@ -76,6 +72,10 @@ Parse.Cloud.afterSave(Parse.User, function (request) {
             }
             // Send morgan an email!
             notifier.notifyTeam(subject, notificationObject);
+        }).then(function () {
+            // finally clear the flag when everything worked ok.
+            userObject.set("needsTipAssignmentNow", false);
+            return userObject.save();
         }).then(function () {
             console.log("Completed post signup processing for user " + userObject.id);
         }, function (error) {

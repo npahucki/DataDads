@@ -59,7 +59,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(babyUpdated:) name:kDDNotificationCurrentBabyChanged object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadObjects) name:kDDNotificationNeedDataRefreshNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkReachabilityChanged:) name:kReachabilityChangedNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userSignedUp) name:kDDNotificationUserSignedUp object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLoggedOut) name:kDDNotificationUserLoggedOut object:nil];
 
     _hasMoreTips = YES;
@@ -77,18 +76,6 @@
     [super viewDidAppear:animated];
     _isMorganTouch = NO; // Hack work around a double segue bug, caused by touching the cell too long
     [self.tableView reloadData];
-}
-
-- (void)userSignedUp {
-    if (Baby.currentBaby) {
-        NSString *msg = @"Thanks for signing in! Tips are delivered once per day";
-        if (_isEmpty) {
-            msg = [msg stringByAppendingString:@". You should be getting one soon!"];
-        } else {
-            msg = [msg stringByAppendingString:@"."];
-        }
-        [[[UIAlertView alloc] initWithTitle:@"Great!" message:msg delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
-    }
 }
 
 - (void)dealloc {
