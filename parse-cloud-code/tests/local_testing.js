@@ -23,4 +23,4 @@ require = function(lib) {
     return originalRequire(lib);
 };
 
-require("../cloud/follow_connections.js");
+require("../cloud/app.js");

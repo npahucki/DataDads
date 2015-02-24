@@ -23,6 +23,15 @@ function treatAsUTC(date) {
     return result;
 }
 
+function pluralizeUnits(amount, unit){
+    if(amount == 1){
+        return "1 " + unit;
+    }
+    else{
+        return amount + " " + unit + "s";
+    }
+}
+
 exports.oneLinkFollowUrl = "http://m.onelink.me/d6d1120e";
 
 
@@ -50,7 +59,67 @@ exports.deltaToPeriod = function (first, second) {
 };
 
 exports.daysToPeriod = function (days) {
-    return moment.duration(days, 'days').humanize();
+    switch(true){
+        case (days == 0):
+            return "newborn";
+            break;
+        case (days < 30):
+            return pluralizeUnits(days, "day");
+            break;
+        case (days == 30):
+            return "a month";
+            break;
+        case (days < 60):
+            var days_mod = days % 30;
+            return "1 month and " + pluralizeUnits(days_mod, "day");
+            break;
+        case (days == 60):
+            return "2 months";
+            break;
+        case (days < 90):
+            var days_mod = days % 60;
+            return "2 months and " + pluralizeUnits(days_mod, "day");
+            break;
+        case (days < 365):
+            var months = parseInt(days / 30);
+            var weeks = parseInt( (days % 30) / 7 );
+            var ret = "";
+            if (weeks == 4){
+                months++;
+                weeks = 0;
+            }
+            if (weeks == 0){
+                if (months == 12){
+                    ret =  pluralizeUnits(1, "year")
+                }
+                else{
+                    ret =  months + " months";
+                }
+            }
+            else{
+                ret = months + " months and " + pluralizeUnits(weeks, "week");
+            }
+            return ret;
+            break;
+        default:
+            var ret = "";
+            var years = parseInt(days / 365);
+            var months = parseInt( (days % 365) / 30);
+            if (months == 12){
+                years++;
+                months = 0;
+            }
+            if (months == 0){
+                ret = pluralizeUnits(years, "year");
+            }
+            else{
+                ret = pluralizeUnits(years, "year") + " and " + pluralizeUnits(months, "month");
+            }
+            return ret;
+            break;
+    }
+
+
 };
 
 exports.dateToHuman = function (date) {
