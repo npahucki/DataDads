@@ -61,23 +61,21 @@ Parse.Cloud.afterSave(Parse.User, function (request) {
                 }
             });
         }).then(function () {
+            // This is not critical, so we don't track if it failed or not.
+            var notifier = require("cloud/emails");
+            var userName = userObject.get('email');
+            var subject = "A user has signed up: " + userName;
+            var notificationObject = { user:userObject};
+            if (babies.length > 0) {
+                notificationObject.baby = babies[0];
+                subject = subject + " with baby '" + notificationObject.baby.get("name") + "'";
+            }
+            // Send morgan an email!
+            notifier.notifyTeam(subject, notificationObject);
+        }).then(function () {
             // finally clear the flag when everything worked ok.
             userObject.set("needsTipAssignmentNow", false);
             return userObject.save();
-        }).then(function () {
-            if(!request.object.existed()) {
-                // This is not critical, so we don't track if it failed or not.
-                var notifier = require("cloud/emails");
-                var userName = userObject.get('email');
-                var subject = "A user has signed up: " + userName;
-                var notificationObject = { user:userObject};
-                if (babies.length > 0) {
-                    notificationObject.baby = babies[0];
-                    subject = subject + " with baby '" + notificationObject.baby.get("name") + "'";
-                }
-                // Send morgan an email!
-                notifier.notifyTeam(subject, notificationObject);
-            } // else - just logged in again.
         }).then(function () {
             console.log("Completed post signup processing for user " + userObject.id);
         }, function (error) {
