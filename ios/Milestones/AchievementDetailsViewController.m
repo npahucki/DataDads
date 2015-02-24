@@ -34,6 +34,8 @@
     UIView *_backgroundView;
     FDTakeController *_takeController;
     NSObject <MediaFile> *_attachment;
+    MPMoviePlayerViewController *_moviePlayerViewController;
+    BOOL _isPlayingMovie;
 }
 
 // Global for all instances
@@ -67,6 +69,10 @@ NSDateFormatter *_dateFormatter;
 
     [super viewDidLoad];
     NSAssert(self.achievement, @"Expected Achievement to be set before loading view!");
+
+    // Make the play button animate while loading video.
+    [self.playVideoButton setImage:[UIImage animatedImageNamed:@"progress-" duration:1.0] forState:UIControlStateSelected];
+
 
     // Add Extra button on right
     // Add in another button to the right.
@@ -132,7 +138,6 @@ NSDateFormatter *_dateFormatter;
             [self.adView attemptAdLoad];
         }
     }];
-
 }
 
 -(void) viewDidLayoutSubviews {
@@ -166,6 +171,7 @@ NSDateFormatter *_dateFormatter;
     if (isVideo) { // If not a video try to load a better thumbnail
         self.detailsImageButton.alpha = 1.0;
         self.playVideoButton.hidden = NO;
+        self.playVideoButton.selected = NO;
     } else {
         self.playVideoButton.hidden = YES;
         BOOL hasImageAttachment = self.achievement.attachment && [self.achievement.attachmentType rangeOfString:@"image"].location != NSNotFound;
@@ -315,22 +321,43 @@ NSDateFormatter *_dateFormatter;
 }
 
 - (IBAction)didClickPlayVideoButton:(id)sender {
-    NSAssert([self.achievement.attachmentType rangeOfString:@"video"].location != NSNotFound, @"Expected attachment with video type");
-    if (self.achievement.attachmentExternalStorageId) {
-        [ExternalMediaFile lookupMediaUrl:self.achievement.attachmentExternalStorageId withBlock:^(NSString *url, NSError *error) {
-            if (error) {
-                [UsageAnalytics trackError:error forOperationNamed:@"lookupVideoUrl"];
-            } else {
-                MPMoviePlayerViewController *c = [[MPMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:url]];
-                [self.navigationController presentMoviePlayerViewControllerAnimated:c];
-            }
-        }];
-    } else {
-        // TODO: For backward compatibility - remove once everything is migrated to S3.
-        NSURL *url = [NSURL URLWithString:self.achievement.attachment.url];
-        MPMoviePlayerViewController *c = [[MPMoviePlayerViewController alloc] initWithContentURL:url];
-        [self.navigationController presentMoviePlayerViewControllerAnimated:c];
-    }
+    if (!_isPlayingMovie) {
+        self.playVideoButton.selected = _isPlayingMovie = YES;
+        // Register this class as an observer instead
+        NSAssert([self.achievement.attachmentType rangeOfString:@"video"].location != NSNotFound, @"Expected attachment with video type");
+        if (self.achievement.attachmentExternalStorageId) {
+            [ExternalMediaFile lookupMediaUrl:self.achievement.attachmentExternalStorageId withBlock:^(NSString *url, NSError *error) {
+                if (error) {
+                    [UsageAnalytics trackError:error forOperationNamed:@"lookupVideoUrl"];
+                    self.playVideoButton.selected = NO;
+                    _isPlayingMovie = NO;
+                } else {
+                    [self startPlayingMovieAtUrl:url];
+                }
+            }];
+        } else {
+            // TODO: For backward compatibility - remove once everything is migrated to S3.
+            [self startPlayingMovieAtUrl:self.achievement.attachment.url];
+        }
+    } // else ignore further touches until movie is done.
+
+}
+
+- (void)startPlayingMovieAtUrl:(NSString *)urlString {
+    _moviePlayerViewController = [[MPMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:urlString]];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(movieDidFinishPlaying:)
+                                                 name:MPMoviePlayerPlaybackDidFinishNotification
+                                               object:_moviePlayerViewController.moviePlayer];
+    [self.navigationController presentMoviePlayerViewControllerAnimated:_moviePlayerViewController];
+}
+
+- (void)movieDidFinishPlaying:(id)movieDidFinishPlaying {
+    // Allow movie to be played again
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:_moviePlayerViewController.moviePlayer];
+    _moviePlayerViewController = nil;
+    self.playVideoButton.selected = NO;
+    _isPlayingMovie = NO;
 }
 
 - (void)showPercentileMessage:(NSInteger)percent {
