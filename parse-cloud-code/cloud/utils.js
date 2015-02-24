@@ -60,6 +60,9 @@ exports.deltaToPeriod = function (first, second) {
 
 exports.daysToPeriod = function (days) {
     switch(true){
+        case (days == 0):
+            return "newborn";
+            break;
         case (days < 30):
             return pluralizeUnits(days, "day");
             break;
@@ -81,8 +84,17 @@ exports.daysToPeriod = function (days) {
             var months = parseInt(days / 30);
             var weeks = parseInt( (days % 30) / 7 );
             var ret = "";
+            if (weeks == 4){
+                months++;
+                weeks = 0;
+            }
             if (weeks == 0){
-                ret =  months + " months";
+                if (months == 12){
+                    ret =  pluralizeUnits(1, "year")
+                }
+                else{
+                    ret =  months + " months";
+                }
             }
             else{
                 ret = months + " months and " + pluralizeUnits(weeks, "week");
@@ -93,6 +105,10 @@ exports.daysToPeriod = function (days) {
             var ret = "";
             var years = parseInt(days / 365);
             var months = parseInt( (days % 365) / 30);
+            if (months == 12){
+                years++;
+                months = 0;
+            }
             if (months == 0){
                 ret = pluralizeUnits(years, "year");
             }
