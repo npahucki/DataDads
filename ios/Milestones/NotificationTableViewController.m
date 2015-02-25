@@ -49,6 +49,7 @@
     BOOL _hadError;
     BOOL _isEmpty;
     BOOL _isMorganTouch;
+    BOOL _isLoading;
 }
 
 - (void)viewDidLoad {
@@ -69,6 +70,7 @@
     _isEmpty = YES;
     _hadError = NO;
     _hasMoreTips = YES;
+    _isLoading = NO;
     [self.tableView reloadData];
 }
 
@@ -97,17 +99,25 @@
 }
 
 - (void)loadObjectsSkip:(NSInteger)skip withLimit:(NSInteger)limit {
-    if (Baby.currentBaby) {
-        //    query.maxCacheAge = 60 * 60 * 24; // at max check once a day.
+    if (Baby.currentBaby && !_isLoading) {
+        NSDictionary *requestParams = @{@"babyId" : Baby.currentBaby.objectId,
+                @"appVersion" : NSBundle.mainBundle.infoDictionary[@"CFBundleShortVersionString"],
+                @"skip" : [@(skip) stringValue],
+                @"limit" : [@(limit) stringValue],
+                @"showHiddenTips" : @(ParentUser.currentUser.showHiddenTips)};
+
+        // Show the loading indicator.
+        _isLoading = YES;
+        BOOL hasCachedResult = [PFCloud hasCachedResult:@"queryMyTips" params:requestParams];
+        PFCachePolicy cachePolicy = _objects ? kPFCachePolicyNetworkElseCache : kPFCachePolicyCacheThenNetwork;
+        __block BOOL cachedResult = hasCachedResult && cachePolicy == kPFCachePolicyCacheThenNetwork;
         [PFCloud callFunctionInBackground:@"queryMyTips"
-                           withParameters:@{@"babyId" : Baby.currentBaby.objectId,
-                                   @"appVersion" : NSBundle.mainBundle.infoDictionary[@"CFBundleShortVersionString"],
-                                   @"skip" : [@(skip) stringValue],
-                                   @"limit" : [@(limit) stringValue],
-                                   @"showHiddenTips" : @(ParentUser.currentUser.showHiddenTips)}
-                              cachePolicy:_objects.count == 0 ? kPFCachePolicyCacheThenNetwork : kPFCachePolicyNetworkOnly
+                           withParameters:requestParams
+                              cachePolicy:cachePolicy
                                     block:^(NSArray *objects, NSError *error) {
                                         _hadError = error != nil;
+                                        _isLoading = cachedResult;      // Don't clear loading flag until data is loaded from network.
+                                        cachedResult = NO;              // After the first time, the second call will NOT be cache.
                                         if (!_hadError) {
                                             if (skip == 0 || !_objects) {
                                                 _objects = [[NSMutableArray alloc] initWithArray:objects];
@@ -127,7 +137,7 @@
 #pragma mark UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (_hasMoreTips && indexPath.row >= _objects.count) {
+    if (!_hadError && _hasMoreTips && indexPath.row >= _objects.count) {
         if ([self isLoadingRow:indexPath]) {
             [self loadObjectsSkip:_objects.count withLimit:MAX_LOAD_COUNT];
         }
@@ -135,15 +145,16 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (!_isMorganTouch) {
-        _isMorganTouch = YES;
-        if ([self isLoadingRow:indexPath] && (_hadError || _isEmpty)) {
-        _isEmpty = NO;
-        _hadError = NO; // Make sure loading icon shows again
+    if (_isLoading) {
+        return; // Do Nothing if the loading cell is clicked
+    } else if ([self isLoadingRow:indexPath] && (_hadError || _isEmpty)) {
         [self.tableView reloadData];
         [self loadObjects];
     } else {
-        [self performSegueWithIdentifier:kDDSegueShowNotificationDetails sender:[self.tableView cellForRowAtIndexPath:indexPath]];
+        if (!_isMorganTouch) {
+            // Avoid the double segue bug
+            _isMorganTouch = YES;
+            [self performSegueWithIdentifier:kDDSegueShowNotificationDetails sender:[self.tableView cellForRowAtIndexPath:indexPath]];
         }
     }
 }
@@ -151,7 +162,7 @@
 #pragma mark UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _isEmpty ? 1 : _objects.count + (_hasMoreTips ? 1 : 0);
+    return _isEmpty || _hadError ? 1 : _objects.count + (_hasMoreTips ? 1 : 0);
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -164,18 +175,17 @@
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"loadingCell" forIndexPath:indexPath];
         cell.textLabel.textColor = [UIColor appGreyTextColor];
         cell.textLabel.font = [UIFont fontForAppWithType:Bold andSize:14];
-        if (_hadError) {
+
+        if (_isLoading || _hasMoreTips) {
+            cell.textLabel.text = @"Loading...";
+            cell.imageView.image = nil; // TODO: remove : Work around for Bug (see 18595125)  on ios 8
+            cell.imageView.image = [UIImage animatedImageNamed:@"progress-" duration:1.0];
+        } else if (_hadError) {
             cell.textLabel.text = @"Couldn't load tips. Click to try again";
             cell.imageView.image = [UIImage imageNamed:@"error-9"];
         } else {
-            if (_isEmpty && !_hasMoreTips) {
-                cell.textLabel.text = @"No Tips to show now. New tips should be arriving soon. Touch here to refresh";
-                cell.imageView.image = [UIImage imageNamed:@"tipsButton_active"];
-            } else {
-                cell.textLabel.text = @"Loading...";
-                cell.imageView.image = nil; // TODO: remove : Work around for Bug (see 18595125)  on ios 8
-                cell.imageView.image = [UIImage animatedImageNamed:@"progress-" duration:1.0];
-            }
+            cell.textLabel.text = @"No Tips to show now. New tips should be arriving soon. Touch here to refresh";
+            cell.imageView.image = [UIImage imageNamed:@"tipsButton_active"];
         }
         return cell;
     }
@@ -285,11 +295,13 @@
 
 // Work around a bug where the accessory view is on top of the slide cell.
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell scrollingToState:(SWCellState)state {
-    if (state == kCellStateCenter) {
+    NSIndexPath *path = [self.tableView indexPathForCell:cell];
+    // NOTE: Under some odd case, where the user clicks on the loading row a bunch of times in a row
+    // the path can be null, which causes a crash when calling tipForIndexPath.
+    if (path && state == kCellStateCenter) {
         // Back to normal. Must use delay to not interfere with scroll animation.
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC);
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
-            NSIndexPath *path = [self.tableView indexPathForCell:cell];
             BabyAssignedTip *tipAssignment = [self tipForIndexPath:path];
             cell.accessoryType = tipAssignment.tip.url.length ? UITableViewCellAccessoryDetailButton : UITableViewCellAccessoryNone;
         });
