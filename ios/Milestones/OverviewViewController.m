@@ -82,8 +82,9 @@
 }
 
 - (void)updateLoginButtonTitle {
-    if (ParentUser.currentUser.isLoggedIn) {
-        [self.logOutOrSignUpButton setTitle:[NSString stringWithFormat:@"log out %@", PFUser.currentUser.email ?: @""] forState:UIControlStateNormal];
+    ParentUser *u = [ParentUser currentUser];
+    if (u.isLoggedIn) {
+        [self.logOutOrSignUpButton setTitle:[NSString stringWithFormat:@"log out %@", u.fullName ?: u.email ?: @""] forState:UIControlStateNormal];
     } else {
         [self.logOutOrSignUpButton setTitle:@"sign up now" forState:UIControlStateNormal];
     }
