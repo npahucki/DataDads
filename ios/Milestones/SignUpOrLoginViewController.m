@@ -18,7 +18,7 @@
 @end
 
 @implementation SignUpOrLoginViewController {
-    BOOL _isKeyboardShowing;
+    BOOL _wasFrameMovedForKeyboard;
     CGRect _originalFrame;
 }
 
@@ -56,6 +56,10 @@
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
 }
 
 - (BOOL)prefersStatusBarHidden {
@@ -205,16 +209,12 @@
 
 // Called when the UIKeyboardDidShowNotification is sent.
 - (void)keyboardWasShown:(NSNotification *)aNotification {
-
-
     if ([UIResponder currentFirstResponder] == self.passwordTextField || [UIResponder currentFirstResponder] == self.emailAddressTextField) {
-
-
         NSDictionary *info = [aNotification userInfo];
         CGSize kbSize = [info[UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
 
-        if (!_isKeyboardShowing) {
-            _isKeyboardShowing = YES;
+        if (!_wasFrameMovedForKeyboard) {
+            _wasFrameMovedForKeyboard = YES;
             _originalFrame = self.view.frame;
         }
         // NOTE: we use this instead of scroll view because working with autolayout and the scroll view is almost impossible
@@ -235,12 +235,14 @@
 
 // Called when the UIKeyboardWillHideNotification is sent
 - (void)keyboardWillBeHidden:(NSNotification *)aNotification {
-    _isKeyboardShowing = NO;
-    [UIView
-            animateWithDuration:0.5
-                     animations:^{
-                         self.view.frame = _originalFrame;
-                     }];
+    if (_wasFrameMovedForKeyboard) {
+        _wasFrameMovedForKeyboard = NO;
+        [UIView
+                animateWithDuration:0.5
+                         animations:^{
+                             self.view.frame = _originalFrame;
+                         }];
+    }
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
