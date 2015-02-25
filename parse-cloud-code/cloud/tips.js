@@ -1,5 +1,5 @@
 var DRY_RUN = false; // Does not alter DB, implies DEBUG=true.
-var DEBUG = DRY_RUN || false;
+var DEBUG = DRY_RUN || true;
 var DEFAULT_BATCH_SIZE = 50;
 
 var _= require("underscore");
@@ -218,11 +218,13 @@ function processSingleBaby(baby, sendPushNotification) {
         return Parse.Promise.as(lastAssignmentInfo);
     };
 
+    var users = require("cloud/users");
+
     function isParentEligibleForTip() {
         var parentUserRef = baby.get("parentUser");
         if (parentUserRef) {
             return parentUserRef.fetch().then(function (parentUser) {
-                return Parse.Promise.as(parentUser && parentUser.get("email"));
+                return Parse.Promise.as(users.isLoggedIn(parentUser));
             });
 
         } else {

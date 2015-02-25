@@ -127,6 +127,11 @@
 
             if (facebookEMail.length) {
                 user.email = user.username = facebookEMail;
+            } else {
+                // This is a hack since we can't detect a facebook login in Cloud Code
+                // and the user may either deny us his email or simply may not have one.
+                // We set this flag here to work around that.
+                [user setObject:@(YES) forKey:@"needsTipAssignmentNow"];
             }
 
             if ([@"male" isEqualToString:gender]) {
@@ -138,6 +143,8 @@
             if (usersName.length) {
                 user.fullName = usersName;
             }
+
+
             [user saveEventually:^(BOOL succeeded, NSError *saveError) {
                 if (saveError) [UsageAnalytics trackError:saveError forOperationNamed:@"saveUserFacebookInformation"];
                 if (block) block(succeeded, saveError);
