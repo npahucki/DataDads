@@ -62,6 +62,8 @@ static BOOL isRelease;
         [AppsFlyerTracker sharedTracker].isHTTPS = YES;
         [AppsFlyerTracker sharedTracker].customerUserID = mixpanel.distinctId;
         [[AppsFlyerTracker sharedTracker] trackAppLaunch];
+    } else {
+        [Heap enableVisualizer];
     }
 }
 
