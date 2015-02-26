@@ -233,6 +233,7 @@ Parse.Cloud.define("sendFollowInvitation", function (request, response) {
     }
 
     var utils = require("cloud/utils");
+
     Parse.Cloud.useMasterKey();
     var promises = _.map(request.params.invites, function (invite) {
         if (utils.isValidEmailAddress(invite.sendToEmail)) {
@@ -278,6 +279,10 @@ Parse.Cloud.define("sendFollowInvitation", function (request, response) {
     });
 
     Parse.Promise.when(promises).then(function () {
+        // This is not critical, so we don't track if it failed or not.
+        var notifier = require("cloud/emails");
+        var subject = "The user "+ request.user.getEmail() +" has sent an invite to " + request.params.invites.length + " person(s)";
+        notifier.notifyTeam(subject,  { invites :  request.params.invites});
         response.success(true);
     }, function (error) {
         response.error(error);
