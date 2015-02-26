@@ -37,12 +37,23 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(urlOpened:) name:kDDNotificationURLOpened object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(followConnectionsDataSourceDidChange) name:kDDNotificationFollowConnectionsDataSourceDidChange object:_dataSource];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidLogOut) name:kDDNotificationUserLoggedOut object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidLogAchievement) name:kDDNotificationAchievementNotedAndSaved object:nil];
+    
     return self;
 }
 
 - (void)userDidLogOut {
     [_dataSource loadObjects];
     [_addressBookDataSource clearCache];
+}
+
+-(void) userDidLogAchievement {
+    // If they haven't opened the share tab yet...AND they have not been shown the message
+    NSUserDefaults * defs = [NSUserDefaults standardUserDefaults];
+    if(!([defs boolForKey:@"ShareTabTouched"] && [defs boolForKey:@"ShowedTutorialTip_ShareTab"])) {
+            
+    }
+
 }
 
 - (void)viewDidLoad {
@@ -67,8 +78,7 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    // Don't show the 'New' badge once the tab is activated.
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"v1.3MonitorTabTouched"];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"ShareTabTouched"];
 
     [_addressBookDataSource clearCache];
     [self updateContainerViewState];
@@ -239,7 +249,7 @@
     }
 
     // TODO: remove this after v1.3!
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"v1.3MonitorTabTouched"]) {
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"ShareTabTouched"]) {
         self.navigationController.tabBarItem.badgeValue = @"New";
     } else {
         self.navigationController.tabBarItem.badgeValue = waitingInvitationsCount > 0 ? @(waitingInvitationsCount).stringValue : nil;
@@ -320,14 +330,14 @@
         block(YES, nil);
     } else {
         if (![ParentUser currentUser].isLoggedIn) {
-            [[[UIAlertView alloc] initWithTitle:@"Signup Now?" message:@"You need to SIGN-UP to use the Monitor feature."
+            [[[UIAlertView alloc] initWithTitle:@"Signup Now?" message:@"You need to SIGN-UP to use the Share feature."
                                        delegate:nil cancelButtonTitle:@"Maybe Later" otherButtonTitles:@"Lets Do It!", nil]
                     showWithButtonBlock:^(NSInteger buttonIndex) {
-                        [UsageAnalytics trackSignupTrigger:@"promptForMonitorFeature" withChoice:buttonIndex == 1];
+                        [UsageAnalytics trackSignupTrigger:@"promptForShareFeature" withChoice:buttonIndex == 1];
                         if (buttonIndex == 1) {
                             // Yes
                             [SignUpOrLoginViewController presentSignUpInController:self andRunBlock:^(BOOL succeeded, NSError *error) {
-                                [UsageAnalytics trackSignupDecisionOnScreen:@"Monitors" withChoice:succeeded];
+                                [UsageAnalytics trackSignupDecisionOnScreen:@"Share" withChoice:succeeded];
                                 if (succeeded && ![ParentUser currentUser].hasEmail) {
                                     // They signed up (perhaps via facebook) but did not allow access to their email address
                                     [self ensureCurrentUserHasEmailAndRunBlock:block];
@@ -336,7 +346,7 @@
                                 block(succeeded, error);
                             }];
                         } else {
-                            [UsageAnalytics trackSignupDecisionOnScreen:@"Monitors" withChoice:NO];
+                            [UsageAnalytics trackSignupDecisionOnScreen:@"Share" withChoice:NO];
                             block(NO, nil);
                         }
                     }];

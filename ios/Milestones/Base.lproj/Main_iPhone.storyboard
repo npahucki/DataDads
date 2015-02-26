@@ -2667,10 +2667,10 @@
             </objects>
             <point key="canvasLocation" x="1034" y="-386"/>
         </scene>
-        <!--Monitors Controller-->
+        <!--Share Controller-->
         <scene sceneID="pHS-Un-kzy">
             <objects>
-                <viewController title="Playgroups" id="lQH-ts-C0K" userLabel="Monitors Controller" customClass="MainFollowConnectionsViewController" sceneMemberID="viewController">
+                <viewController title="Playgroups" id="lQH-ts-C0K" userLabel="Share Controller" customClass="MainFollowConnectionsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="SRk-iN-ZNl"/>
                         <viewControllerLayoutGuide type="bottom" id="Nc8-6g-4pI"/>
@@ -2692,7 +2692,7 @@
                                     <segue destination="ajq-f1-8MQ" kind="embed" id="gXg-Fb-eEg"/>
                                 </connections>
                             </containerView>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kL0-zn-xqN" customClass="MBContactPicker">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kL0-zn-xqN" customClass="MBContactPicker">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" id="5QE-VQ-BZM"/>
@@ -2716,7 +2716,7 @@
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Monitors" id="PaP-W2-MdE">
+                    <navigationItem key="navigationItem" title="Share" id="PaP-W2-MdE">
                         <barButtonItem key="rightBarButtonItem" title="Invite" id="HOo-KB-6HE">
                             <connections>
                                 <action selector="didClickInviteButton:" destination="lQH-ts-C0K" id="jSK-kq-HX2"/>
@@ -2937,8 +2937,8 @@
         <!--Invitations Navigration-->
         <scene sceneID="gar-VS-cxc">
             <objects>
-                <navigationController restorationIdentifier="invitationNavigationController" title="Monitors" automaticallyAdjustsScrollViewInsets="NO" id="GOu-FM-6yM" userLabel="Invitations Navigration" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" tag="2" title="Monitors" image="babyFollow" id="FYg-D5-nrX"/>
+                <navigationController restorationIdentifier="invitationNavigationController" title="Share" automaticallyAdjustsScrollViewInsets="NO" id="GOu-FM-6yM" userLabel="Invitations Navigration" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" tag="2" title="Share" image="shareStarIcon" id="FYg-D5-nrX"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="EdB-1Z-KVt">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -2959,7 +2959,6 @@
         <image name="acceptIcon_ready" width="31" height="31"/>
         <image name="avatarButtonDefault" width="38" height="38"/>
         <image name="avatarShadow" width="128" height="126"/>
-        <image name="babyFollow" width="29" height="29"/>
         <image name="backgroundBlurry" width="320" height="568"/>
         <image name="camIconWithBorder" width="226" height="226"/>
         <image name="cameraButton_pressed" width="212" height="212"/>
@@ -2990,6 +2989,7 @@
         <image name="settingsIcon" width="27" height="27"/>
         <image name="settingsIcon_pressed" width="27" height="27"/>
         <image name="settingsIcon_pressed.png" width="27" height="27"/>
+        <image name="shareStarIcon" width="27" height="23"/>
         <image name="tagCheckbox" width="20" height="20"/>
         <image name="tagCheckbox_checked" width="20" height="20"/>
         <image name="tipsButton_active" width="22" height="22"/>
@@ -3003,9 +3003,9 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="HiK-bz-YEB"/>
-        <segue reference="q2I-r6-ZGD"/>
+        <segue reference="zMK-LI-8Wn"/>
+        <segue reference="0vw-rA-jx1"/>
         <segue reference="M4B-Bx-AaL"/>
         <segue reference="9u5-1o-6Cv"/>
-        <segue reference="0vw-rA-jx1"/>
     </inferredMetricsTieBreakers>
 </document>
