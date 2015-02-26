@@ -153,7 +153,20 @@ Parse.Cloud.job("generateSummaryReport", function (request, status) {
                 }
         );
     }
-
+    function countUniques(query, uniqueField){
+        query.select(uniqueField);
+        return query.find().then(function(results){
+            var arr = _.map(results, function(obj){
+                if( typeof(obj.get(uniqueField)) === "object" ){
+                    return obj.get(uniqueField).id;
+                }
+                else{
+                    return obj.get(uniqueField);
+                }
+            });
+            return Parse.Promise.as(_.uniq(arr).length);
+        });
+    }
 
 
     // Number of new users in last day.
@@ -295,16 +308,37 @@ Parse.Cloud.job("generateSummaryReport", function (request, status) {
     mostPostponedMilestonesQuery.addDescending("count");
     promises.push(milestoneStatsToText(mostPostponedMilestonesQuery));
 
-    Parse.Promise.when(promises).then(function ( newUserCountLastDay, newBabiesCountLastDay, newInstallCountLastDay, newMilestoneCountLastDay, newUserCountLastWeek, newBabiesCountLastWeek, newInstallCountLastWeek, anonUserCount, signedInUserCount, newMilestoneCountLastWeek, allMilestoneCount, retentionStats, mostActiveUsers, mostActiveMilestonesThisWeek, mostActiveMilestones, mostSkippedMilestones, mostPostponedMilestones) {
-        var templateParams = {newUserCountLastDay: newUserCountLastDay, newBabiesCountLastDay: newBabiesCountLastDay, newInstallCountLastDay: newInstallCountLastDay , newMilestoneCountLastDay: newMilestoneCountLastDay, newUserCountLastWeek: newUserCountLastWeek, newBabiesCountLastWeek: newBabiesCountLastWeek, newInstallCountLastWeek: newInstallCountLastWeek, anonUserCount: anonUserCount, signedInUserCount: signedInUserCount, newMilestoneCountLastWeek: newMilestoneCountLastWeek, allMilestoneCount: allMilestoneCount, retentionStats: retentionStats, mostActiveUsers: mostActiveUsers, mostActiveMilestonesThisWeek: mostActiveMilestonesThisWeek, mostActiveMilestones: mostActiveMilestones, mostSkippedMilestones: mostSkippedMilestones, mostPostponedMilestones: mostPostponedMilestones}
+    // Transactions
+
+    // Promises order: lastWeekTransactions, lastWeekFailedTransactions, lastDayTransactions, lastDayFailedTransactions
+    var lastWeekTransactionsQuery = new Parse.Query("PurchaseTransactions");
+    lastWeekTransactionsQuery.greaterThan("createdAt", lastWeek);
+    promises.push(lastWeekTransactionsQuery.count());
+    lastWeekTransactionsQuery.equalTo("type", "failed_purchase");
+    promises.push(lastWeekTransactionsQuery.count());
+
+    var lastDayTransactionsQuery = new Parse.Query("PurchaseTransactions");
+    lastDayTransactionsQuery.greaterThan("createdAt", lastDay);
+    promises.push(lastDayTransactionsQuery.count());
+    lastDayTransactionsQuery.equalTo("type", "failed_purchase");
+    promises.push(lastDayTransactionsQuery.count());
+
+    // FollowConnections
+    //Promises order:lastWeekNewConnections, uniqueLastWeekConnections, lastDayNewConnections, uniqueLastDayNewConnections
+    var lastWeekNewConnectionsQuery = new Parse.Query("FollowConnections");
+    lastWeekNewConnectionsQuery.greaterThan('createdAt', lastWeek);
+    promises.push(lastWeekNewConnectionsQuery.count());
+    promises.push(countUniques(lastWeekNewConnectionsQuery, "user1"));
+
+    var lastDayNewConnectionsQuery = new Parse.Query("FollowConnections");
+    lastDayNewConnectionsQuery.greaterThan('createdAt', lastDay);
+    promises.push(lastDayNewConnectionsQuery.count());
+    promises.push(countUniques(lastDayNewConnectionsQuery, "user1"));
+
+    Parse.Promise.when(promises).then(function ( newUserCountLastDay, newBabiesCountLastDay, newInstallCountLastDay, newMilestoneCountLastDay, newUserCountLastWeek, newBabiesCountLastWeek, newInstallCountLastWeek, anonUserCount, signedInUserCount, newMilestoneCountLastWeek, allMilestoneCount, retentionStats, mostActiveUsers, mostActiveMilestonesThisWeek, mostActiveMilestones, mostSkippedMilestones, mostPostponedMilestones, lastWeekTransactions, lastWeekFailedTransactions, lastDayTransactions, lastDayFailedTransactions, lastWeekNewConnections, uniqueLastWeekConnections, lastDayNewConnections, uniqueLastDayNewConnections) {
+        var templateParams = {newUserCountLastDay: newUserCountLastDay, newBabiesCountLastDay: newBabiesCountLastDay, newInstallCountLastDay: newInstallCountLastDay , newMilestoneCountLastDay: newMilestoneCountLastDay, newUserCountLastWeek: newUserCountLastWeek, newBabiesCountLastWeek: newBabiesCountLastWeek, newInstallCountLastWeek: newInstallCountLastWeek, anonUserCount: anonUserCount, signedInUserCount: signedInUserCount, newMilestoneCountLastWeek: newMilestoneCountLastWeek, allMilestoneCount: allMilestoneCount, retentionStats: retentionStats, mostActiveUsers: mostActiveUsers, mostActiveMilestonesThisWeek: mostActiveMilestonesThisWeek, mostActiveMilestones: mostActiveMilestones, mostSkippedMilestones: mostSkippedMilestones, mostPostponedMilestones: mostPostponedMilestones, lastWeekTransactions: lastWeekTransactions, lastWeekFailedTransactions: lastWeekFailedTransactions, lastDayTransactions: lastDayTransactions, lastDayFailedTransactions: lastDayFailedTransactions, lastWeekNewConnections: lastWeekNewConnections, uniqueLastWeekConnections: uniqueLastWeekConnections, lastDayNewConnections: lastDayNewConnections, uniqueLastDayNewConnections: uniqueLastDayNewConnections}
         var emails = require("cloud/emails");
         emails.notifyTeam("[DP_ALERT]: Daily Summary Stats", "reports/summaryReport.ejs", templateParams);
-        if (process && process.env && typeof process.env.LOCAL !== "undefined"){
-            fs.writeFile('summaryReport.html', reportText, function(err){
-                if (err) throw err;
-                console.log('It\'s saved!');
-            })
-        }
         status.success("Daily Summary Stats Report completed successfully.");
     }, function (error) {
         // Set the job's error status
