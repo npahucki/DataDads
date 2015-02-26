@@ -2989,7 +2989,7 @@
         <image name="settingsIcon" width="27" height="27"/>
         <image name="settingsIcon_pressed" width="27" height="27"/>
         <image name="settingsIcon_pressed.png" width="27" height="27"/>
-        <image name="shareStarIcon" width="27" height="23"/>
+        <image name="shareStarIcon" width="31" height="27"/>
         <image name="tagCheckbox" width="20" height="20"/>
         <image name="tagCheckbox_checked" width="20" height="20"/>
         <image name="tipsButton_active" width="22" height="22"/>
