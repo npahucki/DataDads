@@ -7,12 +7,14 @@
 //
 
 #import <AudioToolbox/AudioToolbox.h>
+#import <CMPopTipView/CMPopTipView.h>
 #import "MainFollowConnectionsViewController.h"
 #import "InviteContactsAddressBookDataSource.h"
 #import "FollowConnectionsTableViewController.h"
 #import "NSString+EmailAddress.h"
 #import "FollowConnectionsNothingToShowViewController.h"
 #import "SignUpOrLoginViewController.h"
+#import "CMPopTipView+WithStaticInitializer.h"
 
 
 @interface MainFollowConnectionsViewController ()
@@ -37,8 +39,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(urlOpened:) name:kDDNotificationURLOpened object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(followConnectionsDataSourceDidChange) name:kDDNotificationFollowConnectionsDataSourceDidChange object:_dataSource];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidLogOut) name:kDDNotificationUserLoggedOut object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidLogAchievement) name:kDDNotificationAchievementNotedAndSaved object:nil];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidLogAchievement:) name:kDDNotificationMilestoneNotedAndSaved object:nil];
+
     return self;
 }
 
@@ -47,14 +49,42 @@
     [_addressBookDataSource clearCache];
 }
 
--(void) userDidLogAchievement {
+- (void)userDidLogAchievement:(NSNotification *)notification {
     // If they haven't opened the share tab yet...AND they have not been shown the message
-    NSUserDefaults * defs = [NSUserDefaults standardUserDefaults];
-    if(!([defs boolForKey:@"ShareTabTouched"] && [defs boolForKey:@"ShowedTutorialTip_ShareTab"])) {
-            
+    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+    if (!self.tipView && !([defs boolForKey:@"ShareTabTouched"] || [defs boolForKey:@"ShowedTutorialTip_ShareTab"])) {
+        MilestoneAchievement *achievement = notification.object;
+        if ([achievement.customTitle rangeOfString:@"born and is beautiful"].length == 0) {
+            [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(showToastTip) userInfo:nil repeats:NO];
+        }
     }
-
 }
+
+- (void)showToastTip {
+    // Toggle popTipView when a standard UIButton is pressed
+    NSString *msg = @"Automatically email your friends & family each new milestone!";
+    self.tipView = [CMPopTipView instanceWithApplicationLookAndFeelAndMessage:msg];
+    self.tipView.delegate = self;
+    self.tipView.maxWidth = self.view.frame.size.width - 30;
+
+    // HACK ALERT: There is no way to find the view for the tab bar item, and seemingly no way to
+    // map the tabBarItem back to the view...so as long as we don't add anything after the
+    // Share tab, this will keep working. Things can be added before with no problem.
+    UIView *tabBarView = nil;
+    for (UIView *view in self.tabBarController.tabBar.subviews) {
+        if ([view isKindOfClass:[UIControl class]]) {
+            // We want the last one....NOTE: This wil break if we add tabs after Share!!
+            tabBarView = view;
+        }
+    }
+    [self.tipView presentPointingAtView:tabBarView inView:self.tabBarController.view animated:YES];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"ShowedTutorialTip_ShareTab"];
+}
+
+- (void)popTipViewWasDismissedByUser:(CMPopTipView *)popTipView {
+    self.tipView = nil;
+}
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -71,21 +101,25 @@
     self.containerView.hidden = YES;
     self.pickerView.hidden = YES; // Start hidden so we don't adjust the size during the delegate method, until the user has initially pressed the button to expand.
     self.nothingToShowContainerView.hidden = YES;
-    
+
     [self setInviteMode:NO withAnimation:NO];
-    
+
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"ShareTabTouched"];
+    if (self.tipView) {
+        [self.tipView dismissAnimated:NO];
+        self.tipView = nil;
+    }
 
     [_addressBookDataSource clearCache];
     [self updateContainerViewState];
     [self updateBadgeFromCurrent];
 }
 
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.destinationViewController isKindOfClass:[FollowConnectionsTableViewController class]]) {
         _tableController = (FollowConnectionsTableViewController *) segue.destinationViewController;
         _tableController.followConnectionsDataSource = _dataSource;
@@ -425,7 +459,7 @@
 // collectionview that shows which contacts have been selected. To increase or decrease
 // the number of rows visible, change the maxVisibleRows property of the MBContactPicker
 - (void)contactPicker:(MBContactPicker *)contactPicker didUpdateContentHeightTo:(CGFloat)newHeight {
-    if(!self.pickerView.hidden) {
+    if (!self.pickerView.hidden) {
         self.pickerHeightConstraint.constant = newHeight;
         [UIView animateWithDuration:contactPicker.animationSpeed animations:^{
             [self.view layoutIfNeeded];

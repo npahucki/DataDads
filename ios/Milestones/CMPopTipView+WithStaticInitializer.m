@@ -10,7 +10,7 @@
 
 + (CMPopTipView *)instanceWithApplicationLookAndFeelAndMessage:(NSString *)msg {
     CMPopTipView *tipView = [[CMPopTipView alloc] initWithMessage:msg];
-    tipView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:.90];
+    tipView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:.80];
     tipView.textColor = [UIColor whiteColor];
     tipView.textFont = [UIFont fontForAppWithType:Medium andSize:16.0];
     tipView.has3DStyle = NO;
