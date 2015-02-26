@@ -2,15 +2,13 @@
     <body>
         <h1>Report for <%= new Date() %></h1>
         <ul>
-            <li><b>New installs in the Last day :</b> <%= newInstallCountLastDay %></li>
-            <li><b>New users in the Last day :</b> <%= newUserCountLastDay %></li>
-            <li><b>New babies in the Last day :</b> <%= newBabiesCountLastDay %></li>
+            <li><b>New installs in the last day :</b> <%= newInstallCountLastDay %></li>
+            <li><b>New users in the last day :</b> <%= newUserCountLastDay %></li>
+            <li><b>New babies in the last day :</b> <%= newBabiesCountLastDay %></li>
             <li><b>New milestones in the last day:</b> <%= newMilestoneCountLastDay %></li>
-            <li><b>New transactions in the Last day:</b> <%= lastDayTransactions %></li>
-            <li><b>New failed transactions in the Last day:</b> <%= lastDayFailedTransactions %></li>
-            <li><b>% of  failed transactions in the Last day:</b> <%= (100/ lastDayTransactions) * lastDayFailedTransactions %></li>
-            <li><b>New follow_connections in the Last day:</b> <%= lastDayNewConnections %></li>
-            <li><b>Unique users from new follow_connections in the Last day:</b> <%= uniqueLastDayNewConnections %></li>
+            <li><b>New transactions in the last day:</b> <%= lastDayTransactions %> (<%=lastDayTransactions > 0 ? (100 / lastDayTransactions) * lastDayFailedTransactions : 0%>% failed)  </li>
+            <li><b>New Follow Connections in the last day:</b> <%= lastDayNewConnections %></li>
+            <li><b>Number of users who created Follow Connections the last day:</b> <%= uniqueLastDayNewConnections %></li>
             <hr/>
             <li><b>Installs resulting in new babies in the last day:</b> <%= ((newBabiesCountLastDay /
                 newInstallCountLastDay) * 100).toFixed(2) %>%</li>
@@ -19,11 +17,9 @@
             <li><b>New users in the Last 7 days :</b> <%= newUserCountLastWeek %></li>
             <li><b>New babies in the Last 7 days :</b> <%= newBabiesCountLastWeek %></li>
             <li><b>New milestones in the last 7 days:</b> <%= newMilestoneCountLastWeek %></li>
-            <li><b>New transactions in the Last 7 days:</b> <%= lastWeekTransactions %></li>
-            <li><b>New failed transactions in the Last 7 days:</b> <%= lastWeekFailedTransactions %></li>
-            <li><b>% of  failed transactions in the Last 7 days:</b> <%= (100/ lastWeekTransactions) * lastWeekFailedTransactions %></li>
-            <li><b>New follow_connections in the Last 7 days:</b> <%= lastWeekNewConnections %></li>
-            <li><b>Unique users from new follow_connections in the Last 7 days:</b> <%= uniqueLastWeekNewConnections %></li>
+            <li><b>New transactions in the Last 7 days:</b> <%= lastWeekTransactions %> (<%=lastWeekTransactions > 0 ? (100 / lastWeekTransactions) * lastWeekFailedTransactions : 0%>% failed)  </li>
+            <li><b>New Follow Connections in the Last 7 days:</b> <%= lastWeekNewConnections %></li>
+            <li><b>Number of users who created Follow Connections in the Last 7 days:</b> <%= uniqueLastWeekNewConnections %></li>
             <hr/>
             <li><b>Installs resulting in new babies in the last 7 days:</b> <%= ((newBabiesCountLastWeek / newInstallCountLastWeek) * 100).toFixed(2) %>%</li>
             <hr/>

@@ -1,22 +1,12 @@
 module.exports.notifyTeam = function(title, object, params) {
     var isDev = require("cloud/utils").isDev();
-    if(!isDev) {
-        var teamAddress = "team@dataparenting.com";
-        if(typeof params == "object") {
-            // It's a template
-            return module.exports.sendTemplateEmail(title,"team@dataparenting.com",object,params);
-        } else{
-            return module.exports.sendEmail(title,teamAddress,object, params);
-        }
-    } else {
-        var text =  "SKIPPED EMAIL: " + title
-        if(typeof object == "object") {
-            text += JSON.stringify(object)
-        } else {
-            text += " Template:" + object + " Params:" + JSON.stringify(params)
-        }
-        console.log(text);
-        return Parse.Promise.as(true);
+    if(isDev) title = "[DEV]:" + title
+    var teamAddress = "team@dataparenting.com";
+    if(typeof params == "object") {
+        // It's a template
+        return module.exports.sendTemplateEmail(title,"team@dataparenting.com",object,params);
+    } else{
+        return module.exports.sendEmail(title,teamAddress,object, params);
     }
 };
 
