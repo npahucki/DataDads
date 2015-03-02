@@ -22,7 +22,7 @@ Parse.Cloud.job("generateUserReport", function (request, status) {
         _.each(groupedAchievements, function (achievements, parentId) {
             var parent = achievements[0].get("baby").get("parentUser");
             if (parent.id != parentId) throw "WTF? Achievements not grouped";
-            reportText += "<h2>" + (parent.get("email") ? parent.get("email") : parent.id) + "&lt;" + parent.get("screenName") + "&gt; (" + achievements.length + ")</h2><hr/></ol>";
+            reportText += "<h2>" + (parent.get("email") ? parent.get("email") : parent.id) + "&lt;" + parent.get("fullName") + "&gt; (" + achievements.length + ")</h2><hr/></ol>";
             _.each(achievements, function (achievement) {
                 var milestone = achievement.get("standardMilestone");
                 var title = milestone ? milestone.get("title") : achievement.get("customTitle");
@@ -272,7 +272,7 @@ Parse.Cloud.job("generateSummaryReport", function (request, status) {
             var baby = stat.object;
             var parent = baby.get("parentUser");
             if (parent) {
-                mostActiveUserText += "<li>" + (parent.get("email") ? parent.get("email") : parent.id) + "&lt;" + parent.get("screenName") + "&gt; (" + stat.count + ")</li>";
+                mostActiveUserText += "<li>" + (parent.get("email") ? parent.get("email") : parent.id) + "&lt;" + parent.get("fullName") + "&gt; (" + stat.count + ")</li>";
             }
         });
         mostActiveUserText += "</ol>";
