@@ -43,7 +43,7 @@ static BOOL isRelease;
 @implementation UsageAnalytics
 
 + (void)initializeAnalytics:(NSDictionary *)launchOptions {
-# if DEBUG || TARGET_IPHONE_SIMULATOR
+# if TARGET_IPHONE_SIMULATOR
     isRelease = NO;
 #else
     isRelease = YES;
