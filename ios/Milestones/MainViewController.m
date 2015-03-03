@@ -6,8 +6,10 @@
 //  Copyright (c) 2014 DataParenting. All rights reserved.
 //
 
+#import <hipmob/HMService.h>
 #import "MainViewController.h"
 #import "OnboardingStepViewController.h"
+#import "SWRevealViewController.h"
 
 @implementation MainViewController
 
@@ -20,6 +22,18 @@
     [super viewDidLoad];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidLogOut) name:kDDNotificationUserLoggedOut object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateApplicationBadgeFromTabs) name:UIApplicationWillResignActiveNotification object:nil];
+
+
+    SWRevealViewController *revealViewController = self.revealViewController;
+    revealViewController.frontViewPosition = FrontViewPositionLeftSideMost;
+    revealViewController.toggleAnimationType = SWRevealToggleAnimationTypeEaseOut;
+
+    if (revealViewController) {
+//        [self.revealButtonItem setTarget: self.revealViewController];
+//        [self.revealButtonItem setAction: @selector( revealToggle: )];
+        [self.view addGestureRecognizer:revealViewController.panGestureRecognizer];
+    }
+    
 }
 
 - (void)dealloc {
@@ -36,6 +50,9 @@
     if (user) {
         if ([user objectForKey:@"isMale"] != nil) { // If the isMale is not set, it means that they did not finish the signup process.
             [UsageAnalytics identify:user];
+            [[HMService sharedService] setUser:user.objectId];
+            if (user.hasEmail) [[HMService sharedService] updateEmail:user.email];
+            if (user.fullName) [[HMService sharedService] updateEmail:user.fullName];
 
             // Make sure the user is eventually set, even if somehow it didn't get set on login or when the user was created.
             PFInstallation *installation = [PFInstallation currentInstallation];

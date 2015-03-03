@@ -9,10 +9,15 @@
 #import <PFCloud+Cache/PFCloud+Cache.h>
 #import <AppsFlyer-SDK/AppsFlyerTracker.h>
 #import "AppDelegate.h"
+#import <hipmob/HMService.h>
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    NSString *hipMobAppId = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.HipMobAppId"];
+    [[HMService sharedService] setup:hipMobAppId withLaunchOptions:launchOptions];
+    
+    
     NSString *parseAppId = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.ParseApplicationId"];
     NSLog(@"Using Parse Application Id '%@'", parseAppId);
     [Parse setApplicationId:parseAppId clientKey:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.ParseClientId"]];
@@ -117,6 +122,8 @@
         }
     }];
 
+    // Allow HipMob to open if push was sent when app was closed.
+    [[HMService sharedService] onLaunch:launchOptions];
 
     return YES;
 }
@@ -173,6 +180,8 @@
         currentInstallation[@"pushNotificationType"] = @([application enabledRemoteNotificationTypes]);
     }
     [currentInstallation saveEventually];
+    // So HipMob can send push notifications.
+    [[HMService sharedService] setPushToken:newDeviceToken];
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
@@ -194,6 +203,8 @@
         [[PFInstallation currentInstallation] incrementKey:@"pushNotificationActivateCount" byAmount:@(1)];
         [[PFInstallation currentInstallation] saveEventually];
     }
+    // Let HipMob handle any of its own push messages.
+    [[HMService sharedService] onPushNotificationReceived:userInfo];
 }
 
 

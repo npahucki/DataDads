@@ -57,6 +57,8 @@
 	<string>rb2piyfLLw8aNdxK8nVrh8</string>
 	<key>DP.HeapAppId</key>
 	<string>714546901</string>
+    <key>DP.HipMobAppId</key>
+    <string>351394c1fbf04177ad7e5ee7ab11a64b</string>
 	<key>DP.MixPanelKey</key>
 	<string>816b648a29cc2cb430509fc61ba456f9</string>
 	<key>DP.OptimizelyToken</key>

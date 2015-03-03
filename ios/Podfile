@@ -21,6 +21,7 @@ pod 'Mixpanel', '2.7.2'
 #pod 'MBContactPicker', :git => 'https://github.com/npahucki/MBContactPicker.git', :commit => 'b7e7510d21e3e5fdf5f2054bf1775dabb888c412'
 pod 'MBContactPicker', '0.1.6'
 pod 'CMPopTipView', '2.2'
+pod 'SWRevealViewController', '2.3.0'
 
 
 

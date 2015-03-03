@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 DataParenting. All rights reserved.
 //
 
+#import <hipmob/HMService.h>
 #import "OverviewViewController.h"
 #import "SignUpOrLoginViewController.h"
 #import "BabyInfoViewController.h"
@@ -67,6 +68,27 @@
         Baby.currentBaby = nil;
         [self dismissViewControllerAnimated:NO completion:nil];
     }
+}
+
+- (IBAction)didClickChatButton:(id)sender {
+    [[HMService sharedService] openChat:self withSetup:^(HMChatViewController *livechat) {
+        livechat.navigationBar.tintColor = [UIColor appNormalColor];
+        livechat.title = @"Support Session";
+        livechat.chatView.maxInputLines = 4;
+        livechat.chatView.sentMessageFont = [UIFont fontForAppWithType:Medium andSize:16];
+        livechat.chatView.sentTextColor = [UIColor whiteColor];
+        livechat.chatView.receivedMessageFont = [UIFont fontForAppWithType:Bold andSize:18];
+        livechat.chatView.receivedTextColor = [UIColor appNormalColor];
+        livechat.chatView.receivedTextColor = [UIColor appNormalColor];
+        livechat.forcePortrait = YES;
+        livechat.disableWebViewGestures = YES; // So we don't swipe back to the main screen.
+        [livechat.chatView updateContext:@"Overview Controller"];
+
+        ParentUser *user = [ParentUser currentUser];
+        if (user.hasEmail) [livechat.chatView updateEmail:user.email];
+        if (user.fullName) [livechat.chatView updateName:user.fullName];
+        livechat.shouldUseSystemBrowser = NO;
+    }];
 }
 
 - (void)handleEditTap:(id)sender {
