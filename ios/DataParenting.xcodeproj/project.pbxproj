@@ -42,10 +42,12 @@
 		72F18B2BB218DB4DF06FEC6B /* AppleIncRootCertificate.cer in Resources */ = {isa = PBXBuildFile; fileRef = 72F18423ECAD54191B7179D7 /* AppleIncRootCertificate.cer */; };
 		72F18BC4AAF0B68D863E2B35 /* FDTakeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18A513D481205AD9FA1F1 /* FDTakeController.m */; };
 		72F18C14C15309335F83127D /* InAppPurchaseHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F1844739B4B51C27B34983 /* InAppPurchaseHelper.m */; };
+		72F18C4BFDE742CA006B1AA6 /* HipmobViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18CDD6D9DD56B6979BC3E /* HipmobViewController.m */; };
 		72F18D14577530F4D13FAA81 /* ViewControllerWithBabyInfoButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18C69E7D6386F1B61CB97 /* ViewControllerWithBabyInfoButton.m */; };
 		72F18DA60A68293D5171268F /* Tutorial-Screen-6 640x960.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 72F1823ABBA60BD9FA9D523B /* Tutorial-Screen-6 640x960.jpg */; };
 		72F18DE7FE4FD3F62D59569E /* ExternalMediaFileTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18854EC2953038E616417 /* ExternalMediaFileTests.m */; };
 		72F18E4159113C7B822E740D /* InviteContactsAddressBookDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F181D2F3F21DC238F85FEA /* InviteContactsAddressBookDataSource.m */; };
+		72F18EB30DF2AF4D2422DACC /* HipmobViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18CDD6D9DD56B6979BC3E /* HipmobViewController.m */; };
 		72F18ED08930567464526909 /* PFFile+Media.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F184506900ECF329391D82 /* PFFile+Media.m */; };
 		72F18F01AF8712F79D424D4E /* NSError+AsDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18C66C678A4A75AB7398D /* NSError+AsDictionary.m */; };
 		72F18F4E5A089D5B51F7A4AD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F18627FC1325DE78BA4040 /* InfoPlist.strings */; };
@@ -411,6 +413,7 @@
 		72F1819FEE30D8DFEAA8F678 /* UIImageView+URLLoading.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+URLLoading.m"; sourceTree = "<group>"; };
 		72F181D2F3F21DC238F85FEA /* InviteContactsAddressBookDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InviteContactsAddressBookDataSource.m; sourceTree = "<group>"; };
 		72F1823ABBA60BD9FA9D523B /* Tutorial-Screen-6 640x960.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Tutorial-Screen-6 640x960.jpg"; sourceTree = "<group>"; };
+		72F183477484F83CDC282A26 /* HipmobViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HipmobViewController.h; sourceTree = "<group>"; };
 		72F183698C959E005935B194 /* InAppPurchaseHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InAppPurchaseHelper.h; sourceTree = "<group>"; };
 		72F18423ECAD54191B7179D7 /* AppleIncRootCertificate.cer */ = {isa = PBXFileReference; lastKnownFileType = file.cer; path = AppleIncRootCertificate.cer; sourceTree = "<group>"; };
 		72F1842C1AA9AF64F6DFB420 /* CMPopTipView+WithStaticInitializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CMPopTipView+WithStaticInitializer.h"; sourceTree = "<group>"; };
@@ -441,6 +444,7 @@
 		72F18C88C0C62071581E6244 /* ExternalMediaFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExternalMediaFile.h; sourceTree = "<group>"; };
 		72F18C88FC612D6CDB6F1B09 /* PFFile+Media.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PFFile+Media.h"; sourceTree = "<group>"; };
 		72F18CC0F7A7237D340BAB5B /* PurchaseTransaction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PurchaseTransaction.m; sourceTree = "<group>"; };
+		72F18CDD6D9DD56B6979BC3E /* HipmobViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HipmobViewController.m; sourceTree = "<group>"; };
 		72F18CE15A49C174463D1FC8 /* Tutorial-Screen-6.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Tutorial-Screen-6.jpg"; sourceTree = "<group>"; };
 		7AE7A55BFBD3425490A0E0F5 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB01C68A19528AA181E9A195 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -898,6 +902,8 @@
 				E877FCAF1936BA98002405BF /* WebViewerViewController.m */,
 				72F18C69E7D6386F1B61CB97 /* ViewControllerWithBabyInfoButton.m */,
 				72F186162B391F420B41BEE6 /* ViewControllerWithBabyInfoButton.h */,
+				72F18CDD6D9DD56B6979BC3E /* HipmobViewController.m */,
+				72F183477484F83CDC282A26 /* HipmobViewController.h */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -1715,6 +1721,7 @@
 				72F188252DCAB6DCF2901226 /* NSError+AsDictionary.m in Sources */,
 				72F18973D7333DFFF7683786 /* NSMutableDictionary+JSON.m in Sources */,
 				72F1821CE159CBF80962C77B /* UIResponder+FirstResponder.m in Sources */,
+				72F18EB30DF2AF4D2422DACC /* HipmobViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1799,6 +1806,7 @@
 				72F18F01AF8712F79D424D4E /* NSError+AsDictionary.m in Sources */,
 				72F189D4BBC46B8B7C1FDBF4 /* NSMutableDictionary+JSON.m in Sources */,
 				72F18993EDD29199E07B9B58 /* UIResponder+FirstResponder.m in Sources */,
+				72F18C4BFDE742CA006B1AA6 /* HipmobViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

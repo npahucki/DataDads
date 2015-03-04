@@ -37,15 +37,15 @@
     _pullTabImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:self.tabImageName]];
     _pullTabImageView.userInteractionEnabled = YES;
     _pullTabImageView.alpha = 0.75;
-    _pullTabImageView.center = CGPointMake(screenBounds.size.width - _pullTabImageView.bounds.size.width / 2, screenBounds.size.height / 2);
+    _pullTabImageView.center = CGPointMake(screenBounds.size.width + _pullTabImageView.bounds.size.width / 2, screenBounds.size.height / 2);
     [_pullTabImageView addGestureRecognizer:pullTabTapRecognizer];
     _contentInset = _pullTabImageView.bounds.size.width;
 
     // This is the pane that the pullout tab and the slide out view are embedded in.
     _tranparentPaneView = [[UIView alloc] init];
-    _tranparentPaneView.bounds = screenBounds;
+    _tranparentPaneView.bounds = CGRectMake(0, 0, screenBounds.size.width + _contentInset, screenBounds.size.height);
     _tranparentPaneView.backgroundColor = [UIColor clearColor];
-    _tranparentPaneView.center = CGPointMake(_pullTabImageView.bounds.size.width - screenBounds.size.width / 2, _tranparentPaneView.bounds.size.height / 2);
+    _tranparentPaneView.center = CGPointMake(_pullTabImageView.bounds.size.width - (screenBounds.size.width + _contentInset) / 2, _tranparentPaneView.bounds.size.height / 2);
     [_tranparentPaneView addSubview:_pullTabImageView];
     [_tranparentPaneView addGestureRecognizer:pullTabDragRecognizer];
     [self.view addSubview:_tranparentPaneView];
@@ -71,11 +71,9 @@
         [self.mainViewController didMoveToParentViewController:self];
     } else if ([segue.identifier isEqualToString:SEGUE_FOR_SLIDE_OVER_VC]) {
         self.slideOverViewController = segue.destinationViewController;
-        [_tranparentPaneView addSubview:self.slideOverViewController.view];
-        self.slideOverViewController.view.frame = CGRectInset(_tranparentPaneView.bounds, _contentInset, _contentInset);
-        self.slideOverViewController.view.layer.borderColor = [UIColor appNormalColor].CGColor;
-        self.slideOverViewController.view.layer.borderWidth = 1;
+        self.slideOverViewController.view.frame = CGRectMake(0, 0, _tranparentPaneView.bounds.size.width - _contentInset, _tranparentPaneView.bounds.size.height);
         [self addChildViewController:self.slideOverViewController];
+        [_tranparentPaneView addSubview:self.slideOverViewController.view];
         [self.slideOverViewController didMoveToParentViewController:self];
     }
 }
@@ -93,6 +91,9 @@
 }
 
 - (void)moveTransparentPane:(UIPanGestureRecognizer *)recognizer {
+    [self.mainViewController.view endEditing:YES];
+    [self.slideOverViewController.view endEditing:YES];
+
     CGPoint translatedPoint = [recognizer translationInView:self.view];
 
     if (recognizer.state == UIGestureRecognizerStateBegan) {
@@ -112,12 +113,28 @@
             [UIView animateWithDuration:animationDuration animations:^{
                 recognizer.view.center =
                         CGPointMake(_contentInset - recognizer.view.bounds.size.width / 2, recognizer.view.center.y);
-            }                completion:nil];
+            } completion:^(BOOL finished) {
+                // Let views update themselves.
+                for (UIViewController *vc in self.childViewControllers) {
+                    if ([vc conformsToProtocol:@protocol(SlideOverViewControllerEventReceiver)]) {
+                        [((id <SlideOverViewControllerEventReceiver>) vc)
+                                viewDidFinishSlidingIn:self.slideOverViewController over:self.mainViewController];
+                    }
+                }
+            }];
         } else {
             [UIView animateWithDuration:animationDuration animations:^{
                 // Commit to showing it
-                recognizer.view.center = self.view.center;
-            }                completion:nil];
+                recognizer.view.center = CGPointMake(self.view.center.x + _contentInset / 2, self.view.center.y);
+            } completion:^(BOOL finished) {
+                // Let views update themselves.
+                for (UIViewController *vc in self.childViewControllers) {
+                    if ([vc conformsToProtocol:@protocol(SlideOverViewControllerEventReceiver)]) {
+                        [((id <SlideOverViewControllerEventReceiver>) vc)
+                                viewDidFinishSlidingOut:self.slideOverViewController over:self.mainViewController];
+                    }
+                }
+            }];
         }
     }
 }

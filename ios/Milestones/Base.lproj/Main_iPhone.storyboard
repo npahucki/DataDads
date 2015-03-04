@@ -1038,10 +1038,10 @@
             </objects>
             <point key="canvasLocation" x="1304" y="-1271"/>
         </scene>
-        <!--View Controller-->
+        <!--Hipmob View Controller-->
         <scene sceneID="6S5-20-lRt">
             <objects>
-                <viewController storyboardIdentifier="hipmob" id="e0A-K7-4B1" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="hipmob" id="e0A-K7-4B1" customClass="HipmobViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="FiC-Et-c4N"/>
                         <viewControllerLayoutGuide type="bottom" id="8bf-tr-VNJ"/>
@@ -1050,19 +1050,48 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CY7-Mt-34n">
-                                <rect key="frame" x="139" y="273" width="42" height="21"/>
+                            <imageView userInteractionEnabled="NO" alpha="0.24999999999999967" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="backgroundBlurry" translatesAutoresizingMaskIntoConstraints="NO" id="1tm-N3-9LT">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                            </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ee7-dL-aBm" userLabel="Content View">
+                                <rect key="frame" x="0.0" y="105" width="320" height="464"/>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Chat With Support" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EyL-75-YIr">
+                                <rect key="frame" x="89" y="52" width="143" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="progress-0" translatesAutoresizingMaskIntoConstraints="NO" id="cz0-Wy-gVL">
+                                <rect key="frame" x="8" y="48" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="EH0-0Q-qsL"/>
+                                    <constraint firstAttribute="height" constant="30" id="XPI-ou-hje"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="centerY" secondItem="CY7-Mt-34n" secondAttribute="centerY" id="8B0-7o-BJN"/>
-                            <constraint firstAttribute="centerX" secondItem="CY7-Mt-34n" secondAttribute="centerX" id="Yau-GD-Dl0"/>
+                            <constraint firstItem="8bf-tr-VNJ" firstAttribute="top" secondItem="1tm-N3-9LT" secondAttribute="bottom" id="1zJ-uH-sbZ"/>
+                            <constraint firstItem="1tm-N3-9LT" firstAttribute="leading" secondItem="a3h-Nj-9CX" secondAttribute="leading" id="3dm-Ed-ivY"/>
+                            <constraint firstItem="8bf-tr-VNJ" firstAttribute="top" secondItem="ee7-dL-aBm" secondAttribute="bottom" id="LsF-rc-rQy"/>
+                            <constraint firstItem="EyL-75-YIr" firstAttribute="centerY" secondItem="cz0-Wy-gVL" secondAttribute="centerY" id="LvX-rY-0m0"/>
+                            <constraint firstAttribute="trailing" secondItem="ee7-dL-aBm" secondAttribute="trailing" id="RXF-8U-zB1"/>
+                            <constraint firstItem="ee7-dL-aBm" firstAttribute="top" secondItem="EyL-75-YIr" secondAttribute="bottom" constant="32" id="UEg-Qv-STO"/>
+                            <constraint firstAttribute="trailing" secondItem="1tm-N3-9LT" secondAttribute="trailing" id="bqX-QV-6q7"/>
+                            <constraint firstItem="cz0-Wy-gVL" firstAttribute="leading" secondItem="a3h-Nj-9CX" secondAttribute="leading" constant="8" id="cjb-1r-MiF"/>
+                            <constraint firstAttribute="centerX" secondItem="EyL-75-YIr" secondAttribute="centerX" id="edO-XH-hfg"/>
+                            <constraint firstItem="EyL-75-YIr" firstAttribute="top" secondItem="FiC-Et-c4N" secondAttribute="bottom" constant="32" id="sYx-p4-rhK"/>
+                            <constraint firstItem="1tm-N3-9LT" firstAttribute="top" secondItem="a3h-Nj-9CX" secondAttribute="topMargin" id="w80-Yb-Ypz"/>
+                            <constraint firstItem="ee7-dL-aBm" firstAttribute="leading" secondItem="a3h-Nj-9CX" secondAttribute="leading" id="weI-0R-M01"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="chatContainerBottomConstraint" destination="LsF-rc-rQy" id="fHw-yb-fuI"/>
+                        <outlet property="chatContainerView" destination="ee7-dL-aBm" id="gzH-Ve-pB8"/>
+                        <outlet property="statusImageView" destination="cz0-Wy-gVL" id="BIs-V1-qTS"/>
+                        <outlet property="titleLabel" destination="EyL-75-YIr" id="4oc-D9-4n3"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uej-yv-KmH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

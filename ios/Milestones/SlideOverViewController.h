@@ -11,6 +11,14 @@
 #define SEGUE_FOR_MAIN_VC @"main"
 #define SEGUE_FOR_SLIDE_OVER_VC @"slideOver"
 
+@protocol SlideOverViewControllerEventReceiver
+
+- (void)viewDidFinishSlidingOut:(UIViewController *)slidingView over:(UIViewController *)otherVc;
+
+- (void)viewDidFinishSlidingIn:(UIViewController *)slidingView over:(UIViewController *)otherVc;
+
+@end
+
 @interface SlideOverViewController : UIViewController <UIScrollViewDelegate, UIGestureRecognizerDelegate>
 
 
