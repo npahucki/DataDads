@@ -6,6 +6,7 @@
 #import <hipmob/HMService.h>
 #import <AudioToolbox/AudioToolbox.h>
 #import "HipmobViewController.h"
+#import "MainViewController.h"
 
 @implementation HipmobViewController
 
@@ -34,8 +35,6 @@
     self.chatView.delegate = self;
     self.chatView.table.backgroundColor = self.chatView.backgroundColor = [UIColor clearColor];
     [self.chatContainerView addSubview:self.chatView];
-//    // TODO: Get the current view controller name : [self.chatView updateContext:@"Overview Controller"];
-
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWasShown:)
@@ -90,6 +89,11 @@
         self.titleLabel.text = @"Connecting To Support...";
         self.statusImageView.image = [UIImage animatedImageNamed:@"progress-" duration:1.0];
     }
+
+    // Update the context based on which tab the user is using.
+    NSString *contextTitle = NSStringFromClass([((UINavigationController *) ((MainViewController *) otherVc).selectedViewController).topViewController class]);
+    if (contextTitle) [self.chatView updateContext:contextTitle];
+
 }
 
 - (void)viewDidFinishSlidingIn:(UIViewController *)slidingView over:(UIViewController *)otherVc {
