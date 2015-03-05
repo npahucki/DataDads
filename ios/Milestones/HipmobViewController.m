@@ -78,7 +78,7 @@
     CAGradientLayer *l = [CAGradientLayer layer];
     l.frame = self.chatContainerView.bounds;
     l.colors = @[(id) [UIColor clearColor].CGColor, (id) [UIColor whiteColor].CGColor];
-    l.locations = @[@0.0F, @0.1F,];
+    l.locations = @[@0.0F, @0.02F,];
     self.chatContainerView.layer.mask = l;
 
 }
