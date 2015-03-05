@@ -9,7 +9,6 @@
 #import "SlideOverViewController.h"
 #import "UIDevice+DetectBlur.h"
 
-
 @implementation SlideOutViewControllerEmbedSegue
 - (void)perform {
     NSAssert([self.sourceViewController isKindOfClass:[SlideOverViewController class]], @"SlideOutViewControllerEmbedSegue can only be used with SlideOverViewController as the source view controller");
@@ -20,6 +19,12 @@
         slideOverVc.slideOverViewController = self.destinationViewController;
     }
 }
+@end
+
+@interface SlideOverViewController ()
+@property(nonatomic) CGPoint centerPointForSlideOverHidden;
+@property(nonatomic) CGPoint centerPointForSlideOverShowing;
+
 @end
 
 @implementation SlideOverViewController {
@@ -41,21 +46,23 @@
     UITapGestureRecognizer *pullTabTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(jumpTransparentPane:)];
     pullTabTapRecognizer.delegate = self;
 
-
-    CGRect screenBounds = [UIScreen mainScreen].bounds;
+    // TODO: Check to see if view is sized correctly here.
+    self.view.frame = [UIScreen mainScreen].bounds; // At this point the view may not have the correct size
+    CGRect viewBounds = self.view.bounds;
 
     _pullTabImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:self.tabImageName]];
     _pullTabImageView.userInteractionEnabled = YES;
     _pullTabImageView.alpha = 0.75;
-    _pullTabImageView.center = CGPointMake(screenBounds.size.width + _pullTabImageView.bounds.size.width / 2, screenBounds.size.height / 2);
+    _pullTabImageView.center = CGPointMake((self.isSlideFromRight ? 0 : viewBounds.size.width) + _pullTabImageView.bounds.size.width / 2, viewBounds.size.height / 2);
+
     [_pullTabImageView addGestureRecognizer:pullTabTapRecognizer];
     _contentInset = _pullTabImageView.bounds.size.width;
 
     // This is the pane that the pullout tab and the slide out view are embedded in.
     _tranparentPaneView = [[UIView alloc] init];
-    _tranparentPaneView.bounds = CGRectMake(0, 0, screenBounds.size.width + _contentInset, screenBounds.size.height);
+    _tranparentPaneView.bounds = CGRectMake(0, 0, viewBounds.size.width + _contentInset, viewBounds.size.height);
     _tranparentPaneView.backgroundColor = [UIColor clearColor];
-    _tranparentPaneView.center = CGPointMake(_pullTabImageView.bounds.size.width - (screenBounds.size.width + _contentInset) / 2, _tranparentPaneView.bounds.size.height / 2);
+    _tranparentPaneView.center = self.centerPointForSlideOverHidden;
     [_tranparentPaneView addSubview:_pullTabImageView];
     [_tranparentPaneView addGestureRecognizer:pullTabDragRecognizer];
     [self.view addSubview:_tranparentPaneView];
@@ -72,7 +79,8 @@
 
 - (void)installSliderOverViewController {
     NSAssert(self.slideOverViewController, @"Expected sliderOverViewController to be populated!");
-    CGRect frameRect = CGRectMake(0, 0, _tranparentPaneView.bounds.size.width - _contentInset, _tranparentPaneView.bounds.size.height);
+    CGRect frameRect = CGRectMake(_isSlideFromRight ? _contentInset : 0,
+            0, _tranparentPaneView.bounds.size.width - _contentInset, _tranparentPaneView.bounds.size.height);
 
     [self addChildViewController:self.slideOverViewController];
 
@@ -113,7 +121,7 @@
 
 - (void)jumpTransparentPane:(UIPanGestureRecognizer *)recognizer {
     CGPoint originalCenter = _tranparentPaneView.center;
-    CGPoint newCenter = CGPointMake(originalCenter.x + _contentInset * 2, originalCenter.y);
+    CGPoint newCenter = CGPointMake(originalCenter.x + _contentInset * (_isSlideFromRight ? -2 : 2), originalCenter.y);
     [UIView animateWithDuration:0.15 animations:^{
         _tranparentPaneView.center = newCenter;
     }                completion:^(BOOL finished) {
@@ -137,28 +145,15 @@
     recognizer.view.center = newCenter;
 
     if (recognizer.state == UIGestureRecognizerStateEnded) {
-        CGFloat velocityX = (CGFloat) (0.2 * [recognizer velocityInView:self.view].x);
-        CGFloat finalX = newCenter.x + recognizer.view.bounds.size.width / 2 + velocityX;
-        CGFloat animationDuration = (CGFloat) ((ABS(velocityX) * .0002) + .2);
+        CGFloat velocityX = (0.2F * [recognizer velocityInView:self.view].x);
+        CGFloat finalX = newCenter.x + velocityX + recognizer.view.bounds.size.width / (_isSlideFromRight ? -2.0F : 2.0F);
+        CGFloat animationDuration = ((ABS(velocityX) * .0002F) + .2F);
 
-        if (finalX < self.view.center.x) {
-            // Send it back
+        BOOL commit = _isSlideFromRight ? finalX < self.view.center.x : finalX > self.view.center.x;
+        if (commit) {
+            // Commit to showing it
             [UIView animateWithDuration:animationDuration animations:^{
-                recognizer.view.center =
-                        CGPointMake(_contentInset - recognizer.view.bounds.size.width / 2, recognizer.view.center.y);
-            } completion:^(BOOL finished) {
-                // Let views update themselves.
-                for (UIViewController *vc in self.childViewControllers) {
-                    if ([vc conformsToProtocol:@protocol(SlideOverViewControllerEventReceiver)]) {
-                        [((id <SlideOverViewControllerEventReceiver>) vc)
-                                viewDidFinishSlidingIn:self.slideOverViewController over:self.mainViewController];
-                    }
-                }
-            }];
-        } else {
-            [UIView animateWithDuration:animationDuration animations:^{
-                // Commit to showing it
-                recognizer.view.center = CGPointMake(self.view.center.x + _contentInset / 2, self.view.center.y);
+                recognizer.view.center = self.centerPointForSlideOverShowing;
             } completion:^(BOOL finished) {
                 // Let views update themselves.
                 for (UIViewController *vc in self.childViewControllers) {
@@ -168,9 +163,32 @@
                     }
                 }
             }];
+        } else {
+            // Send it back
+            [UIView animateWithDuration:animationDuration animations:^{
+                recognizer.view.center = self.centerPointForSlideOverHidden;
+            } completion:^(BOOL finished) {
+                // Let views update themselves.
+                for (UIViewController *vc in self.childViewControllers) {
+                    if ([vc conformsToProtocol:@protocol(SlideOverViewControllerEventReceiver)]) {
+                        [((id <SlideOverViewControllerEventReceiver>) vc)
+                                viewDidFinishSlidingIn:self.slideOverViewController over:self.mainViewController];
+                    }
+                }
+            }];
         }
     }
 }
 
+- (CGPoint)centerPointForSlideOverShowing {
+    CGFloat centerX = self.view.center.x + (_contentInset / (_isSlideFromRight ? -2.0F : 2.0F));
+    return CGPointMake(centerX, self.view.center.y);
+}
+
+- (CGPoint)centerPointForSlideOverHidden {
+    CGFloat centerX = _isSlideFromRight ? self.view.center.x * 3.0F - _contentInset / 2.0F :
+            _contentInset / 2 - self.view.center.x;
+    return CGPointMake(centerX, (_tranparentPaneView.bounds.size.height / 2.0F));
+}
 
 @end

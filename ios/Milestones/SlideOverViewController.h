@@ -24,8 +24,8 @@
 
 @interface SlideOverViewController : UIViewController <UIScrollViewDelegate, UIGestureRecognizerDelegate>
 
-
 // Designed to be set from IB
+@property BOOL isSlideFromRight;
 @property(strong, nonatomic) NSString *tabImageName;
 
 // These must be set before viewDidLoad is called - or they will be replaced with VCs from storyboard segues.
