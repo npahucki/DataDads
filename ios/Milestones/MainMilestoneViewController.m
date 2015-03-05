@@ -14,6 +14,7 @@
 #import "PronounHelper.h"
 #import "InAppPurchaseHelper.h"
 #import "SignUpOrLoginViewController.h"
+#import "NoteMilestoneSlideOverViewController.h"
 
 #define AD_TRIGGER_LAUNCH_COUNT 2
 #define AD_TRIGGER_MAX_TIME 60
@@ -151,7 +152,7 @@
         }
         NSAssert(_currentAchievement, @"Expected currentAchievement to be set");
         [self hideSearchBar];
-        NoteMilestoneViewController *noteMilestoneViewController = (NoteMilestoneViewController *)
+        NoteMilestoneSlideOverViewController *noteMilestoneViewController = (NoteMilestoneSlideOverViewController *)
                 ((UINavigationController *) segue.destinationViewController).visibleViewController;
         noteMilestoneViewController.achievement = _currentAchievement;
     } else if ([segue.identifier isEqualToString:kDDSegueShowAchievementDetails]) {

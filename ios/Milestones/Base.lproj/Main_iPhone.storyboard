@@ -1467,7 +1467,37 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="poY-We-bkC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4843" y="-1963"/>
+            <point key="canvasLocation" x="5369" y="-1963"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="FlF-de-O5k">
+            <objects>
+                <viewController id="7br-ii-C2e" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="9By-G5-rPz"/>
+                        <viewControllerLayoutGuide type="bottom" id="qTt-65-THi"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Ne6-SK-2is">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dov-O2-cKL">
+                                <rect key="frame" x="139" y="273" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="dov-O2-cKL" secondAttribute="centerX" id="1d1-fw-iZ9"/>
+                            <constraint firstAttribute="centerY" secondItem="dov-O2-cKL" secondAttribute="centerY" id="wEm-ib-fJG"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="10i-fl-GsY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5374" y="-1253"/>
         </scene>
         <!--Settings-->
         <scene sceneID="pv2-Rr-Ijh">
@@ -2052,7 +2082,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DQ3-TA-WPZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4829" y="-1231"/>
+            <point key="canvasLocation" x="6557" y="-487"/>
         </scene>
         <!--Milestones-->
         <scene sceneID="m6x-fX-w2v">
@@ -2179,12 +2209,38 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="As4-O0-72y" kind="relationship" relationship="rootViewController" id="RMi-Fg-WC3"/>
+                        <segue destination="HNI-r8-R0k" kind="relationship" relationship="rootViewController" id="i3h-PY-p9I"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LXU-vw-Did" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4317" y="-1963"/>
+        </scene>
+        <!--Note Milestone Slider Over-->
+        <scene sceneID="J4U-hq-g0v">
+            <objects>
+                <viewController title="Note Milestone Slider Over" id="HNI-r8-R0k" customClass="NoteMilestoneSlideOverViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="YYP-Of-Ntz"/>
+                        <viewControllerLayoutGuide type="bottom" id="257-tR-SEX"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="BB9-2d-d46">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="KrU-xc-QvT"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="tabImageName" value="shareStarIcon"/>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <segue destination="As4-O0-72y" kind="custom" identifier="main" customClass="SlideOutViewControllerEmbedSegue" id="u2i-Mb-CS2"/>
+                        <segue destination="7br-ii-C2e" kind="custom" identifier="slideOver" customClass="SlideOutViewControllerEmbedSegue" id="vJp-tF-1ZS"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uVV-tZ-MvD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4787" y="-1963"/>
         </scene>
         <!--Notifications Controller - Tips and Notifications-->
         <scene sceneID="wpd-Sx-yxh">
