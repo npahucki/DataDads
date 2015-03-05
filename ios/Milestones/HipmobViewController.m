@@ -91,7 +91,7 @@
     }
 
     // Update the context based on which tab the user is using.
-    NSString *contextTitle = NSStringFromClass([((UINavigationController *) ((MainViewController *) otherVc).selectedViewController).topViewController class]);
+    NSString *contextTitle = NSStringFromClass([((UINavigationController *) ((MainViewController *) otherVc).selectedViewController).visibleViewController class]);
     if (contextTitle) [self.chatView updateContext:contextTitle];
 
 }
