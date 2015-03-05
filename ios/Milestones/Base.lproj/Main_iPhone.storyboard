@@ -1030,13 +1030,13 @@
                         <userDefinedRuntimeAttribute type="string" keyPath="tabImageName" value="helpPullout"/>
                     </userDefinedRuntimeAttributes>
                     <connections>
-                        <segue destination="e0A-K7-4B1" kind="custom" identifier="slideOver" id="kO7-UZ-K1z"/>
-                        <segue destination="8YX-ce-x5E" kind="custom" identifier="main" id="IFO-VY-apK"/>
+                        <segue destination="e0A-K7-4B1" kind="custom" identifier="slideOver" customClass="SlideOutViewControllerEmbedSegue" id="kO7-UZ-K1z"/>
+                        <segue destination="8YX-ce-x5E" kind="custom" identifier="main" customClass="SlideOutViewControllerEmbedSegue" id="IFO-VY-apK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="R89-po-hxG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1304" y="-1271"/>
+            <point key="canvasLocation" x="1175" y="-1327"/>
         </scene>
         <!--Hipmob View Controller-->
         <scene sceneID="6S5-20-lRt">
@@ -1050,11 +1050,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" alpha="0.24999999999999967" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="backgroundBlurry" translatesAutoresizingMaskIntoConstraints="NO" id="1tm-N3-9LT">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                            </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ee7-dL-aBm" userLabel="Content View">
                                 <rect key="frame" x="0.0" y="105" width="320" height="464"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Chat With Support" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EyL-75-YIr">
                                 <rect key="frame" x="89" y="52" width="143" height="21"/>
@@ -1070,19 +1068,15 @@
                                 </constraints>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="8bf-tr-VNJ" firstAttribute="top" secondItem="1tm-N3-9LT" secondAttribute="bottom" id="1zJ-uH-sbZ"/>
-                            <constraint firstItem="1tm-N3-9LT" firstAttribute="leading" secondItem="a3h-Nj-9CX" secondAttribute="leading" id="3dm-Ed-ivY"/>
                             <constraint firstItem="8bf-tr-VNJ" firstAttribute="top" secondItem="ee7-dL-aBm" secondAttribute="bottom" id="LsF-rc-rQy"/>
                             <constraint firstItem="EyL-75-YIr" firstAttribute="centerY" secondItem="cz0-Wy-gVL" secondAttribute="centerY" id="LvX-rY-0m0"/>
                             <constraint firstAttribute="trailing" secondItem="ee7-dL-aBm" secondAttribute="trailing" id="RXF-8U-zB1"/>
                             <constraint firstItem="ee7-dL-aBm" firstAttribute="top" secondItem="EyL-75-YIr" secondAttribute="bottom" constant="32" id="UEg-Qv-STO"/>
-                            <constraint firstAttribute="trailing" secondItem="1tm-N3-9LT" secondAttribute="trailing" id="bqX-QV-6q7"/>
                             <constraint firstItem="cz0-Wy-gVL" firstAttribute="leading" secondItem="a3h-Nj-9CX" secondAttribute="leading" constant="8" id="cjb-1r-MiF"/>
                             <constraint firstAttribute="centerX" secondItem="EyL-75-YIr" secondAttribute="centerX" id="edO-XH-hfg"/>
                             <constraint firstItem="EyL-75-YIr" firstAttribute="top" secondItem="FiC-Et-c4N" secondAttribute="bottom" constant="32" id="sYx-p4-rhK"/>
-                            <constraint firstItem="1tm-N3-9LT" firstAttribute="top" secondItem="a3h-Nj-9CX" secondAttribute="topMargin" id="w80-Yb-Ypz"/>
                             <constraint firstItem="ee7-dL-aBm" firstAttribute="leading" secondItem="a3h-Nj-9CX" secondAttribute="leading" id="weI-0R-M01"/>
                         </constraints>
                     </view>

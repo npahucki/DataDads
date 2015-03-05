@@ -8,11 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		72F1801C43E6C695896617EE /* NSString+EmailAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18B2AFF977957CF046E9E /* NSString+EmailAddress.m */; };
+		72F180DB2AE516D3D1FC2472 /* UIDevice+DetectBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18513D03E2E95A9843175 /* UIDevice+DetectBlur.m */; };
 		72F180FD1AD547B47E734A6A /* Tutorial-Screen-6 640x960.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 72F1823ABBA60BD9FA9D523B /* Tutorial-Screen-6 640x960.jpg */; };
 		72F1821CE159CBF80962C77B /* UIResponder+FirstResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F1894FDEAC31CBC81021FD /* UIResponder+FirstResponder.m */; };
 		72F1821D4331F0249A938183 /* FollowConnectionsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18BDBDA243B1941504FEB /* FollowConnectionsDataSource.m */; };
 		72F1824FF832CD399E989C2F /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72F184C3C79880CF8D53574A /* MediaPlayer.framework */; };
 		72F1827B6B5DA4E103212A1F /* CMPopTipView+WithStaticInitializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F185EB408FDE2C98B77B34 /* CMPopTipView+WithStaticInitializer.m */; };
+		72F1829870D728700BAFF83E /* UIDevice+DetectBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18513D03E2E95A9843175 /* UIDevice+DetectBlur.m */; };
 		72F182FAB72978F3ACE021DD /* FDTakeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18A513D481205AD9FA1F1 /* FDTakeController.m */; };
 		72F1832E50AB67DDE44C4A12 /* ExternalMediaFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F187DCCDCE0FA22CD5DEC4 /* ExternalMediaFile.m */; };
 		72F1833039ED99453A7414AA /* PurchaseTransaction.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18CC0F7A7237D340BAB5B /* PurchaseTransaction.m */; };
@@ -409,6 +411,7 @@
 		4499694599B7E5AE56DC3A5F /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		72F180425F4F1312AAAAA06A /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = FDTake.strings; sourceTree = "<group>"; };
 		72F180897A35DA9A91FA0D75 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
+		72F180930FA5B4A6911E48E0 /* UIDevice+DetectBlur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+DetectBlur.h"; sourceTree = "<group>"; };
 		72F180A1C9F67C2395A0EF2F /* MediaFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaFile.h; sourceTree = "<group>"; };
 		72F1819FEE30D8DFEAA8F678 /* UIImageView+URLLoading.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+URLLoading.m"; sourceTree = "<group>"; };
 		72F181D2F3F21DC238F85FEA /* InviteContactsAddressBookDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InviteContactsAddressBookDataSource.m; sourceTree = "<group>"; };
@@ -420,6 +423,7 @@
 		72F1844739B4B51C27B34983 /* InAppPurchaseHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InAppPurchaseHelper.m; sourceTree = "<group>"; };
 		72F184506900ECF329391D82 /* PFFile+Media.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PFFile+Media.m"; sourceTree = "<group>"; };
 		72F184C3C79880CF8D53574A /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		72F18513D03E2E95A9843175 /* UIDevice+DetectBlur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+DetectBlur.m"; sourceTree = "<group>"; };
 		72F1855685E8FD6A455E30AB /* UIImageView+URLLoading.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+URLLoading.h"; sourceTree = "<group>"; };
 		72F185D7FC4A3D3E7821DD24 /* ParentUserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParentUserTests.m; sourceTree = "<group>"; };
 		72F185EB408FDE2C98B77B34 /* CMPopTipView+WithStaticInitializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CMPopTipView+WithStaticInitializer.m"; sourceTree = "<group>"; };
@@ -945,6 +949,8 @@
 				72F18C67CC563C08460F13DD /* NSMutableDictionary+JSON.m */,
 				72F1894FDEAC31CBC81021FD /* UIResponder+FirstResponder.m */,
 				72F18966BF2FBB69086B51E9 /* UIResponder+FirstResponder.h */,
+				72F18513D03E2E95A9843175 /* UIDevice+DetectBlur.m */,
+				72F180930FA5B4A6911E48E0 /* UIDevice+DetectBlur.h */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -1722,6 +1728,7 @@
 				72F18973D7333DFFF7683786 /* NSMutableDictionary+JSON.m in Sources */,
 				72F1821CE159CBF80962C77B /* UIResponder+FirstResponder.m in Sources */,
 				72F18EB30DF2AF4D2422DACC /* HipmobViewController.m in Sources */,
+				72F1829870D728700BAFF83E /* UIDevice+DetectBlur.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1807,6 +1814,7 @@
 				72F189D4BBC46B8B7C1FDBF4 /* NSMutableDictionary+JSON.m in Sources */,
 				72F18993EDD29199E07B9B58 /* UIResponder+FirstResponder.m in Sources */,
 				72F18C4BFDE742CA006B1AA6 /* HipmobViewController.m in Sources */,
+				72F180DB2AE516D3D1FC2472 /* UIDevice+DetectBlur.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

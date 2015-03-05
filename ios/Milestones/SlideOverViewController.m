@@ -7,9 +7,19 @@
 //
 
 #import "SlideOverViewController.h"
+#import "UIDevice+DetectBlur.h"
 
-@interface SlideOverViewController ()
 
+@implementation SlideOutViewControllerEmbedSegue
+- (void)perform {
+    NSAssert([self.sourceViewController isKindOfClass:[SlideOverViewController class]], @"SlideOutViewControllerEmbedSegue can only be used with SlideOverViewController as the source view controller");
+    SlideOverViewController *slideOverVc = ((SlideOverViewController *) self.sourceViewController);
+    if ([self.identifier isEqualToString:SEGUE_FOR_MAIN_VC]) {
+        slideOverVc.mainViewController = self.destinationViewController;
+    } else if ([self.identifier isEqualToString:SEGUE_FOR_SLIDE_OVER_VC]) {
+        slideOverVc.slideOverViewController = self.destinationViewController;
+    }
+}
 @end
 
 @implementation SlideOverViewController {
@@ -51,31 +61,54 @@
     [self.view addSubview:_tranparentPaneView];
 
 
-
-    // This will populate the VCs using segues, if they have not already been defined
     if (!self.mainViewController) [self performSegueWithIdentifier:SEGUE_FOR_MAIN_VC sender:self];
     if (!self.slideOverViewController) [self performSegueWithIdentifier:SEGUE_FOR_SLIDE_OVER_VC sender:self];
+    [self installMainViewController];
+    [self installSliderOverViewController];
 
     // Since the transparent may have been added first, we need to bring it to the top
     [self.view bringSubviewToFront:_tranparentPaneView];
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    CGRect screenBounds = [UIScreen mainScreen].bounds;
+- (void)installSliderOverViewController {
+    NSAssert(self.slideOverViewController, @"Expected sliderOverViewController to be populated!");
+    CGRect frameRect = CGRectMake(0, 0, _tranparentPaneView.bounds.size.width - _contentInset, _tranparentPaneView.bounds.size.height);
 
-    if ([segue.identifier isEqualToString:SEGUE_FOR_MAIN_VC]) {
-        self.mainViewController = segue.destinationViewController;
-        self.mainViewController.view.frame = screenBounds;
-        [self addChildViewController:self.mainViewController];
-        [self.view addSubview:self.mainViewController.view];
-        [self.mainViewController didMoveToParentViewController:self];
-    } else if ([segue.identifier isEqualToString:SEGUE_FOR_SLIDE_OVER_VC]) {
-        self.slideOverViewController = segue.destinationViewController;
-        self.slideOverViewController.view.frame = CGRectMake(0, 0, _tranparentPaneView.bounds.size.width - _contentInset, _tranparentPaneView.bounds.size.height);
-        [self addChildViewController:self.slideOverViewController];
+    [self addChildViewController:self.slideOverViewController];
+
+    if ([[UIDevice currentDevice] isBlurAvailable]) {
+        // We can use ios 8 visual effects! Yay!
+        UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+        UIVisualEffectView *blurView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+        blurView.translatesAutoresizingMaskIntoConstraints = NO;
+        blurView.frame = frameRect;
+        self.slideOverViewController.view.frame = blurView.contentView.bounds;
+        [blurView.contentView addSubview:self.slideOverViewController.view];
+        [_tranparentPaneView addSubview:blurView];
+    } else {
+        // Fall back to using a blured image of the startup screen.
+        UIView *opaqueView = [[UIView alloc] init];
+        opaqueView.backgroundColor = [UIColor whiteColor];
+        UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"backgroundBlurry"]];
+        imageView.alpha = 0.20;
+        self.slideOverViewController.view.frame = opaqueView.frame = imageView.frame = frameRect;
+        [_tranparentPaneView addSubview:opaqueView];
+        [_tranparentPaneView addSubview:imageView]; // add behind the slideOverController
         [_tranparentPaneView addSubview:self.slideOverViewController.view];
-        [self.slideOverViewController didMoveToParentViewController:self];
     }
+
+    [self.slideOverViewController didMoveToParentViewController:self];
+
+}
+
+- (void)installMainViewController {
+    // TODO: use constraints!
+    CGRect screenBounds = [UIScreen mainScreen].bounds;
+    NSAssert(self.mainViewController, @"Expected mainViewController to be populated!");
+    self.mainViewController.view.frame = screenBounds;
+    [self addChildViewController:self.mainViewController];
+    [self.view addSubview:self.mainViewController.view];
+    [self.mainViewController didMoveToParentViewController:self];
 }
 
 - (void)jumpTransparentPane:(UIPanGestureRecognizer *)recognizer {

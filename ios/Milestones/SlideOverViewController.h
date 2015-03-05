@@ -19,6 +19,9 @@
 
 @end
 
+@interface SlideOutViewControllerEmbedSegue : UIStoryboardSegue
+@end
+
 @interface SlideOverViewController : UIViewController <UIScrollViewDelegate, UIGestureRecognizerDelegate>
 
 
