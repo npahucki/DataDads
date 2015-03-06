@@ -134,30 +134,7 @@ exports.inviteAcceptUrl = function (followConnectionInvite) {
     return "http://" + exports.websiteHost + "/accept_invite/" + followConnectionInvite.id
 };
 
-//NOTE THAT ACHIEVEMENT SHOULD INCLUDE THE BABY TO GET THE PARENT USER ID
-exports.attachmentUrl = function (achievement) {
-    if ( achievement.get("attachment") || achievement.get("attachmentExternalStorageId") ){
-        var hasImage = achievement.get("attachmentType") && achievement.get("attachmentType").indexOf("image/") == 0;
-        var hasVideo = achievement.get("attachmentType") && achievement.get("attachmentType").indexOf("video/") == 0;
 
-        if (hasImage) {
-            return achievement.get("attachment").url()
-        } else if (hasVideo) {
-            var externalId = achievement.get("attachmentExternalStorageId");
-            if (externalId) {
-                var s3lib = require("cloud/s3_storage.js");
-                var movFilePath = achievement.get("baby").get("parentUser").id + "/" + externalId;
-                return s3lib.generateSignedGetS3Url(movFilePath);
-            } else {
-                // Old style for backward compatible support.. no other formats available.
-                return achievement.get("attachment").url();
-            }
-        }
-    }
-    else {
-        return undefined;
-    }
-}
 // Baby sex should be 1:Male or 0:Female
 exports.replacePronounTokens = function (stringWithTokens, isMale, lang) {
     var result = stringWithTokens;

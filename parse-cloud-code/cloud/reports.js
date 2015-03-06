@@ -97,10 +97,11 @@ Parse.Cloud.job("generateSummaryReport", function (request, status) {
     function milestonesWithMediaToLinks(query) {
         query.include("baby");
         query.include("baby.parentUser");
+        var achievements = require('cloud/achievements.js')
         return query.find().then(function(results){
             var text = "<ol>";
-            _.each(results, function(achievement){
-                text +=  "<li><a href='" + util.attachmentUrl(achievement) + "'>"+ util.attachmentUrl(achievement) +"</li>";
+            _.each(results, function(milestone){
+                text +=  "<li><a href='" + achievements.attachmentUrl(milestone) + "'>"+ util.attachmentUrl(milestone) +"</li>";
             });
             text += "</ol>";
             return Parse.Promise.as(text);
