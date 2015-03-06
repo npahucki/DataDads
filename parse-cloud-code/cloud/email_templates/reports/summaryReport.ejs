@@ -9,6 +9,11 @@
             <li><b>New transactions in the last day:</b> <%= lastDayTransactions %> (<%=lastDayTransactions > 0 ? (100 / lastDayTransactions) * lastDayFailedTransactions : 0%>% failed)  </li>
             <li><b>New Follow Connections in the last day:</b> <%= lastDayNewConnections %></li>
             <li><b>Number of users who created Follow Connections the last day:</b> <%= uniqueLastDayNewConnections %></li>
+            <li><b>Number of new images uploaded in the last day:</b> <%= lastDayNewPictures %></li>
+            <li><b>Number of new videos uploaded in the last day:</b> <%= lastDayNewVideos %></li>
+            <hr/>
+            <li><b>Images uploaded in the last day:</b> <%= lastDayNewPicturesList %></li>
+            <li><b>Videos uploaded in the last day:</b> <%= lastDayNewVideosList %></li>
             <hr/>
             <li><b>Installs resulting in new babies in the last day:</b> <%= ((newBabiesCountLastDay /
                 newInstallCountLastDay) * 100).toFixed(2) %>%</li>
@@ -20,6 +25,8 @@
             <li><b>New transactions in the Last 7 days:</b> <%= lastWeekTransactions %> (<%=lastWeekTransactions > 0 ? (100 / lastWeekTransactions) * lastWeekFailedTransactions : 0%>% failed)  </li>
             <li><b>New Follow Connections in the Last 7 days:</b> <%= lastWeekNewConnections %></li>
             <li><b>Number of users who created Follow Connections in the Last 7 days:</b> <%= uniqueLastWeekNewConnections %></li>
+            <li><b>Number of new images uploaded in the last 7 days:</b> <%= lastWeekNewPictures %></li>
+            <li><b>Number of new videos uploaded in the last 7 days:</b> <%= lastWeekNewVideos %></li>
             <hr/>
             <li><b>Installs resulting in new babies in the last 7 days:</b> <%= ((newBabiesCountLastWeek / newInstallCountLastWeek) * 100).toFixed(2) %>%</li>
             <hr/>
