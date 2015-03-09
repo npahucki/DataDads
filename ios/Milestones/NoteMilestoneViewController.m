@@ -93,27 +93,6 @@
     UITapGestureRecognizer *viewTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
     [self.view addGestureRecognizer:viewTap];
 
-    self.fbSwitch = [[SevenSwitch alloc] initWithFrame:CGRectMake(10, 10, 50, 30)];
-    [self.view addSubview:_fbSwitch];
-    [_fbSwitch addTarget:self action:@selector(didChangeFacebookSwitch:) forControlEvents:UIControlEventValueChanged];
-    _fbSwitch.thumbImage = [UIImage imageNamed:@"facebookSwitch"];
-    _fbSwitch.thumbTintColor = UIColorFromRGB(0x3B5999); // Facebook color
-    _fbSwitch.isRounded = NO;
-    _fbSwitch.inactiveColor = [UIColor appHeaderBackgroundNormalColor];
-    _fbSwitch.activeColor = [UIColor appHeaderBackgroundActiveColor];
-    _fbSwitch.borderColor = [UIColor appInputBorderNormalColor];
-    _fbSwitch.labelFont = [UIFont fontForAppWithType:Medium andSize:10];
-
-    _fbSwitch.onText = @"On";
-    _fbSwitch.onFontColor = [UIColor appNormalColor];
-    _fbSwitch.onTintColor = [UIColor appHeaderBackgroundNormalColor];
-
-    _fbSwitch.offText = @"Off";
-    _fbSwitch.offFontColor = UIColorFromRGB(0xb2c0c3);
-
-    //_fbSwitch.shadowColor = [UIColor blackColor];
-    [_fbSwitch setOn:ParentUser.currentUser.autoPublishToFacebook && [PFFacebookUtils userHasAuthorizedPublishPermissions:ParentUser.currentUser] animated:NO];
-
     self.commentsTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:self.commentsTextField.attributedPlaceholder.string attributes:@{NSForegroundColorAttributeName : [UIColor appGreyTextColor]}];
     self.customTitleTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:self.customTitleTextField.attributedPlaceholder.string attributes:@{NSForegroundColorAttributeName : [UIColor appGreyTextColor]}];
 
@@ -270,7 +249,7 @@
     [_takeController takePhotoOrVideoOrChooseFromLibrary];
 }
 
-- (IBAction)didClickDoneButton:(id)sender {
+- (void)noteMilestoneWithBlock:(PFBooleanResultBlock)block {
     [self.view endEditing:YES];
 
     if ([Reachability showAlertIfParseNotReachable]) return;
@@ -280,10 +259,6 @@
     } else {
         [self saveAchievement];
     }
-}
-
-- (IBAction)didClickCancelButton:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)didChangeFacebookSwitch:(id)sender {

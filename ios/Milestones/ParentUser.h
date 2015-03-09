@@ -14,6 +14,7 @@
 @property NSString *fullName;
 @property BOOL isMale;
 @property BOOL autoPublishToFacebook;
+@property BOOL autoShareWithFollowers;
 @property BOOL usesMetric;
 @property BOOL showHiddenTips;
 @property BOOL showIgnoredMilestones;
@@ -26,7 +27,6 @@
 @property(readonly) BOOL isLinkedWithFacebook;
 @property(readonly) BOOL hasEmail;
 @property(readonly) BOOL isLoggedIn;
-
 
 
 

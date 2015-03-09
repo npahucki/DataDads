@@ -65,7 +65,7 @@
                 if (image) {
                     self.pictureView.contentMode = UIViewContentModeScaleAspectFill;
                     self.pictureView.image = image;
-                    self.pictureView.alpha = achievement.attachmentThumbnail ? 1.0 : 0.3;
+                    self.pictureView.alpha = achievement.attachmentThumbnail ? 1.0F : 0.3F;
                 }
             }
         }];

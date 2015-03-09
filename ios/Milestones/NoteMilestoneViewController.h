@@ -43,5 +43,9 @@
 @property(weak, nonatomic) IBOutlet UITextField *weightTextField;
 @property(weak, nonatomic) IBOutlet DataParentingAdView *adView;
 @property(weak, nonatomic) IBOutlet NSLayoutConstraint *adViewHeightConstraint;
+
+
+- (void)noteMilestoneWithBlock:(PFBooleanResultBlock)block;
+
 @end
 

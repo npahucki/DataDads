@@ -88,6 +88,10 @@
 		E8278E4B198822A300A6893E /* Tutorial-Screen-5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E8278E43198822A300A6893E /* Tutorial-Screen-5.jpg */; };
 		E8278E4C198822A300A6893E /* Tutorial-Screen-5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E8278E43198822A300A6893E /* Tutorial-Screen-5.jpg */; };
 		E832437018F895F500307356 /* HistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E832436F18F895F500307356 /* HistoryViewController.m */; };
+		E83A04041AAA1625004A675C /* NoteMilestoneSharingOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E83A04031AAA1625004A675C /* NoteMilestoneSharingOptionsViewController.m */; };
+		E83A04051AAA1625004A675C /* NoteMilestoneSharingOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E83A04031AAA1625004A675C /* NoteMilestoneSharingOptionsViewController.m */; };
+		E83A04081AAA1657004A675C /* NoteMilestoneSharingTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E83A04071AAA1657004A675C /* NoteMilestoneSharingTableViewController.m */; };
+		E83A04091AAA1657004A675C /* NoteMilestoneSharingTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E83A04071AAA1657004A675C /* NoteMilestoneSharingTableViewController.m */; };
 		E840251918F0DEC800AF1B27 /* BabyInfoPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E840251818F0DEC800AF1B27 /* BabyInfoPhotoViewController.m */; };
 		E848695F19E81F5A00E37782 /* OnboardingStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E848695E19E81F5A00E37782 /* OnboardingStepViewController.m */; };
 		E848696019E81F5A00E37782 /* OnboardingStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E848695E19E81F5A00E37782 /* OnboardingStepViewController.m */; };
@@ -494,6 +498,10 @@
 		E8278E43198822A300A6893E /* Tutorial-Screen-5.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Tutorial-Screen-5.jpg"; sourceTree = "<group>"; };
 		E832436E18F895F500307356 /* HistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryViewController.h; sourceTree = "<group>"; };
 		E832436F18F895F500307356 /* HistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryViewController.m; sourceTree = "<group>"; };
+		E83A04021AAA1625004A675C /* NoteMilestoneSharingOptionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteMilestoneSharingOptionsViewController.h; sourceTree = "<group>"; };
+		E83A04031AAA1625004A675C /* NoteMilestoneSharingOptionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteMilestoneSharingOptionsViewController.m; sourceTree = "<group>"; };
+		E83A04061AAA1657004A675C /* NoteMilestoneSharingTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteMilestoneSharingTableViewController.h; sourceTree = "<group>"; };
+		E83A04071AAA1657004A675C /* NoteMilestoneSharingTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteMilestoneSharingTableViewController.m; sourceTree = "<group>"; };
 		E840251718F0DEC800AF1B27 /* BabyInfoPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyInfoPhotoViewController.h; sourceTree = "<group>"; };
 		E840251818F0DEC800AF1B27 /* BabyInfoPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BabyInfoPhotoViewController.m; sourceTree = "<group>"; };
 		E848695D19E81F5A00E37782 /* OnboardingStepViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnboardingStepViewController.h; sourceTree = "<group>"; };
@@ -1012,6 +1020,10 @@
 				E825C1CA195B5B010081614F /* HIstoryViewTableCells.m */,
 				72F18359F916A9995B2E26E5 /* NoteMilestoneSlideOverViewController.m */,
 				72F18DC13EC132A9C8BCF7B3 /* NoteMilestoneSlideOverViewController.h */,
+				E83A04021AAA1625004A675C /* NoteMilestoneSharingOptionsViewController.h */,
+				E83A04031AAA1625004A675C /* NoteMilestoneSharingOptionsViewController.m */,
+				E83A04061AAA1657004A675C /* NoteMilestoneSharingTableViewController.h */,
+				E83A04071AAA1657004A675C /* NoteMilestoneSharingTableViewController.m */,
 			);
 			name = Milestones;
 			sourceTree = "<group>";
@@ -1705,6 +1717,7 @@
 				E8A02D2719817CCF001E0DAB /* Measurement.m in Sources */,
 				E8A02D2819817CCF001E0DAB /* HIstoryViewTableCells.m in Sources */,
 				E89BA8211A5C63C4001F8DC2 /* FollowConnectionsTableViewController.m in Sources */,
+				E83A04091AAA1657004A675C /* NoteMilestoneSharingTableViewController.m in Sources */,
 				E8A02D2919817CCF001E0DAB /* HistoryViewTableModel.m in Sources */,
 				E8A02D2A19817CCF001E0DAB /* AlertThenDisappearView.m in Sources */,
 				E848696019E81F5A00E37782 /* OnboardingStepViewController.m in Sources */,
@@ -1722,6 +1735,7 @@
 				72F18A0239394ADCB653A3C1 /* InAppPurchaseHelper.m in Sources */,
 				E8624E6A19E6EBDB00404470 /* OptionalSignUpViewController.m in Sources */,
 				72F1833039ED99453A7414AA /* PurchaseTransaction.m in Sources */,
+				E83A04051AAA1625004A675C /* NoteMilestoneSharingOptionsViewController.m in Sources */,
 				72F18BC4AAF0B68D863E2B35 /* FDTakeController.m in Sources */,
 				72F1832E50AB67DDE44C4A12 /* ExternalMediaFile.m in Sources */,
 				72F18FB51B7939470119D4FA /* UIImageView+URLLoading.m in Sources */,
@@ -1792,6 +1806,7 @@
 				E872D62B1949E9C0003F461C /* Measurement.m in Sources */,
 				E825C1CB195B5B010081614F /* HIstoryViewTableCells.m in Sources */,
 				E86B1EAF19277E7700EA6167 /* HistoryViewTableModel.m in Sources */,
+				E83A04081AAA1657004A675C /* NoteMilestoneSharingTableViewController.m in Sources */,
 				E856BD55196324E500D00E5C /* AlertThenDisappearView.m in Sources */,
 				E848695F19E81F5A00E37782 /* OnboardingStepViewController.m in Sources */,
 				E8BDE6B0193CC106001D6995 /* NSDate+Utils.m in Sources */,
@@ -1809,6 +1824,7 @@
 				72F18C14C15309335F83127D /* InAppPurchaseHelper.m in Sources */,
 				E8624E6919E6EBDB00404470 /* OptionalSignUpViewController.m in Sources */,
 				72F1860975D6B51CA5600385 /* PurchaseTransaction.m in Sources */,
+				E83A04041AAA1625004A675C /* NoteMilestoneSharingOptionsViewController.m in Sources */,
 				72F182FAB72978F3ACE021DD /* FDTakeController.m in Sources */,
 				72F18FD7438151EF56C71915 /* ExternalMediaFile.m in Sources */,
 				72F184E3E3BAD40F4F93005F /* UIImageView+URLLoading.m in Sources */,

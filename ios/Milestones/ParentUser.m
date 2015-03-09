@@ -63,6 +63,15 @@
     return [[NSUserDefaults standardUserDefaults] boolForKey:@"autoPublishToFacebook"];
 }
 
+- (void)setAutoShareWithFollowers:(BOOL)autoPublishToFacebook {
+    [[NSUserDefaults standardUserDefaults] setBool:autoPublishToFacebook forKey:@"autoShareWithFollowers"];
+}
+
+- (BOOL)autoShareWithFollowers {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:@"autoShareWithFollowers"];
+}
+
+
 - (BOOL)shownTutorialPrompt {
     return [[NSUserDefaults standardUserDefaults] boolForKey:@"shownTutorialPrompt"];
 }

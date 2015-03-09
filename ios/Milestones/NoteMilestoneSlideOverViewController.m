@@ -7,12 +7,23 @@
 #import "NoteMilestoneViewController.h"
 
 
-@implementation NoteMilestoneSlideOverViewController
+@implementation NoteMilestoneSlideOverViewController {
+    NoteMilestoneViewController *_noteMilestoneViewController;
+}
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.destinationViewController isKindOfClass:[NoteMilestoneViewController class]]) {
-        ((NoteMilestoneViewController *) segue.destinationViewController).achievement = self.achievement;
+        _noteMilestoneViewController = ((NoteMilestoneViewController *) segue.destinationViewController);
+        _noteMilestoneViewController.achievement = self.achievement;
     }
+}
+
+- (IBAction)didClickCanelButton:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (IBAction)didClickNoteItButton:(id)sender {
+    [_noteMilestoneViewController noteMilestoneWithBlock:nil];
 }
 
 @end
