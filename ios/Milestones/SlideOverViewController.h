@@ -17,6 +17,10 @@
 
 - (void)viewDidFinishSlidingIn:(UIViewController *)slidingView over:(UIViewController *)otherVc;
 
+@optional
+
+- (void)viewDidStartSlidingOut:(UIViewController *)slidingView over:(UIViewController *)otherVc;
+
 @end
 
 @interface SlideOutViewControllerEmbedSegue : UIStoryboardSegue

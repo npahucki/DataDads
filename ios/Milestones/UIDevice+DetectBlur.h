@@ -7,4 +7,6 @@
 
 @interface UIDevice (DetectBlur)
 - (BOOL)isBlurAvailable;
+
+- (int)osMajorVersion;
 @end

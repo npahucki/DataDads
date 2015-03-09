@@ -22,15 +22,16 @@
 @end
 
 @interface SlideOverViewController ()
-@property(nonatomic) CGPoint centerPointForSlideOverHidden;
-@property(nonatomic) CGPoint centerPointForSlideOverShowing;
+
 
 @end
 
 @implementation SlideOverViewController {
-    UIView *_tranparentPaneView; // contains the pull out tab image and the view from the slideOverController
-    CGFloat _contentInset; // Depends on the size of the pull out tab
+    UIView *_tranparentPaneView;            // contains the pull out tab image and the view from the slideOverController
+    UIView *_contentView;                   // The view directly on the transparent pane, used for content.
+    CGFloat _contentInset;                  // Depends on the size of the pull out tab
     CGPoint _centerAtStartDrag;
+    BOOL _didLayoutAfterInitialPullOut;     // The subviews need layout the first time the tab is pulled out.
 
 }
 
@@ -46,23 +47,21 @@
     UITapGestureRecognizer *pullTabTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(jumpTransparentPane:)];
     pullTabTapRecognizer.delegate = self;
 
-    // TODO: Check to see if view is sized correctly here.
-    self.view.frame = [UIScreen mainScreen].bounds; // At this point the view may not have the correct size
-    CGRect viewBounds = self.view.bounds;
-
     _pullTabImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:self.tabImageName]];
     _pullTabImageView.userInteractionEnabled = YES;
     _pullTabImageView.alpha = 0.75;
-    _pullTabImageView.center = CGPointMake((self.isSlideFromRight ? 0 : viewBounds.size.width) + _pullTabImageView.bounds.size.width / 2, viewBounds.size.height / 2);
 
     [_pullTabImageView addGestureRecognizer:pullTabTapRecognizer];
     _contentInset = _pullTabImageView.bounds.size.width;
 
-    // This is the pane that the pullout tab and the slide out view are embedded in.
+
+    _contentView = [[UIView alloc] init];
+    _contentView.backgroundColor = [UIColor clearColor];
+
+    // This is the pane that the pullout tab and content view are embedded in.
     _tranparentPaneView = [[UIView alloc] init];
-    _tranparentPaneView.bounds = CGRectMake(0, 0, viewBounds.size.width + _contentInset, viewBounds.size.height);
     _tranparentPaneView.backgroundColor = [UIColor clearColor];
-    _tranparentPaneView.center = self.centerPointForSlideOverHidden;
+    [_tranparentPaneView addSubview:_contentView];
     [_tranparentPaneView addSubview:_pullTabImageView];
     [_tranparentPaneView addGestureRecognizer:pullTabDragRecognizer];
     [self.view addSubview:_tranparentPaneView];
@@ -73,8 +72,53 @@
     [self installMainViewController];
     [self installSliderOverViewController];
 
+    [self resizeViews];
+    [self setSlideOverToHiddenPosition];
+
     // Since the transparent may have been added first, we need to bring it to the top
     [self.view bringSubviewToFront:_tranparentPaneView];
+}
+
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+    [self resizeViews];
+    // On iOS8, the topLayoutGuide is set correctly ONLY after the view is on the screen
+    // but, we want the view to come sliding out with the final layout, so we need to correct the
+    // constraint that was added by the OS for the slide over control.
+    [self correctTopLayoutConstraint:self.slideOverViewController];
+    // On iOS7, the topLayout guide is NEVER set correctly before the transition due to a bug in iOS7.
+    // In this cases, it's required that we correct the topLayoutGuide even on the main view.
+    // See http://stackoverflow.com/questions/20312765/navigation-controller-top-layout-guide-not-honored-with-custom-transition
+    if ([[UIDevice currentDevice] osMajorVersion] == 7) {
+        [self correctTopLayoutConstraint:self.mainViewController];
+    }
+}
+
+// This is a bit of a hack to work around some odd behavior in the OS.
+// iOS8 : Views not on the screen when layout happens don't get the nav bar included in the calc for the topLayoutGuide height.
+// iOS7 : No views ever initially get the nav bar calculated into the topLayoutGuide height.
+- (void)correctTopLayoutConstraint:(UIViewController *)vc {
+    for (NSLayoutConstraint *c in vc.view.constraints) {
+        if (c.firstItem == vc.topLayoutGuide &&
+                c.secondItem == nil && c.firstAttribute == NSLayoutAttributeHeight) {
+            c.constant = self.topLayoutGuide.length;
+        }
+    }
+}
+
+
+- (void)resizeViews {
+    CGRect viewBounds = self.view.bounds;
+    _tranparentPaneView.frame = CGRectMake(_tranparentPaneView.frame.origin.x, 0,
+            viewBounds.size.width + _contentInset, viewBounds.size.height);
+    _contentView.frame = CGRectMake(_isSlideFromRight ? _contentInset : 0,
+            0, _tranparentPaneView.bounds.size.width - _contentInset, _tranparentPaneView.bounds.size.height);
+    for (UIView *subView in _contentView.subviews) {
+        subView.frame = _contentView.bounds;
+    }
+    _pullTabImageView.center = CGPointMake((self.isSlideFromRight ? 0 : viewBounds.size.width) +
+            _pullTabImageView.bounds.size.width / 2, viewBounds.size.height / 2);
+
 }
 
 - (void)installSliderOverViewController {
@@ -88,11 +132,11 @@
         // We can use ios 8 visual effects! Yay!
         UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
         UIVisualEffectView *blurView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
-        blurView.translatesAutoresizingMaskIntoConstraints = NO;
         blurView.frame = frameRect;
         self.slideOverViewController.view.frame = blurView.contentView.bounds;
         [blurView.contentView addSubview:self.slideOverViewController.view];
-        [_tranparentPaneView addSubview:blurView];
+        [_contentView addSubview:blurView];
+        [_contentView addSubview:self.slideOverViewController.view];
     } else {
         // Fall back to using a blured image of the startup screen.
         UIView *opaqueView = [[UIView alloc] init];
@@ -100,20 +144,16 @@
         UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"backgroundBlurry"]];
         imageView.alpha = 0.20;
         self.slideOverViewController.view.frame = opaqueView.frame = imageView.frame = frameRect;
-        [_tranparentPaneView addSubview:opaqueView];
-        [_tranparentPaneView addSubview:imageView]; // add behind the slideOverController
-        [_tranparentPaneView addSubview:self.slideOverViewController.view];
+        [_contentView addSubview:opaqueView];
+        [_contentView addSubview:imageView]; // add behind the slideOverController
+        [_contentView addSubview:self.slideOverViewController.view];
     }
 
     [self.slideOverViewController didMoveToParentViewController:self];
-
 }
 
 - (void)installMainViewController {
-    // TODO: use constraints!
-    CGRect screenBounds = [UIScreen mainScreen].bounds;
     NSAssert(self.mainViewController, @"Expected mainViewController to be populated!");
-    self.mainViewController.view.frame = screenBounds;
     [self addChildViewController:self.mainViewController];
     [self.view addSubview:self.mainViewController.view];
     [self.mainViewController didMoveToParentViewController:self];
@@ -132,6 +172,7 @@
 }
 
 - (void)moveTransparentPane:(UIPanGestureRecognizer *)recognizer {
+    NSAssert(recognizer.view == _tranparentPaneView, @"Expected this method to only be called for _transparentPaneView");
     [self.mainViewController.view endEditing:YES];
     [self.slideOverViewController.view endEditing:YES];
 
@@ -141,19 +182,24 @@
         _centerAtStartDrag = recognizer.view.center;
     }
 
-    CGPoint newCenter = CGPointMake(_centerAtStartDrag.x + translatedPoint.x, recognizer.view.center.y);
-    recognizer.view.center = newCenter;
+
+    CGPoint newCenter = _tranparentPaneView.center;
+    newCenter.x = _centerAtStartDrag.x + translatedPoint.x;
+    _tranparentPaneView.center = newCenter;
+
+
+
 
     if (recognizer.state == UIGestureRecognizerStateEnded) {
         CGFloat velocityX = (0.2F * [recognizer velocityInView:self.view].x);
-        CGFloat finalX = newCenter.x + velocityX + recognizer.view.bounds.size.width / (_isSlideFromRight ? -2.0F : 2.0F);
+        CGFloat finalX = newCenter.x + velocityX + _tranparentPaneView.bounds.size.width / (_isSlideFromRight ? -2.0F : 2.0F);
         CGFloat animationDuration = ((ABS(velocityX) * .0002F) + .2F);
 
         BOOL commit = _isSlideFromRight ? finalX < self.view.center.x : finalX > self.view.center.x;
         if (commit) {
             // Commit to showing it
             [UIView animateWithDuration:animationDuration animations:^{
-                recognizer.view.center = self.centerPointForSlideOverShowing;
+                [self setSlideOverToShowingPosition];
             } completion:^(BOOL finished) {
                 // Let views update themselves.
                 for (UIViewController *vc in self.childViewControllers) {
@@ -166,7 +212,7 @@
         } else {
             // Send it back
             [UIView animateWithDuration:animationDuration animations:^{
-                recognizer.view.center = self.centerPointForSlideOverHidden;
+                [self setSlideOverToHiddenPosition];
             } completion:^(BOOL finished) {
                 // Let views update themselves.
                 for (UIViewController *vc in self.childViewControllers) {
@@ -180,15 +226,18 @@
     }
 }
 
-- (CGPoint)centerPointForSlideOverShowing {
-    CGFloat centerX = self.view.center.x + (_contentInset / (_isSlideFromRight ? -2.0F : 2.0F));
-    return CGPointMake(centerX, self.view.center.y);
+
+- (void)setSlideOverToShowingPosition {
+    CGPoint center = _tranparentPaneView.center;
+    center.x = self.view.center.x + (_contentInset / (_isSlideFromRight ? -2.0F : 2.0F));
+    _tranparentPaneView.center = center;
 }
 
-- (CGPoint)centerPointForSlideOverHidden {
-    CGFloat centerX = _isSlideFromRight ? self.view.center.x * 3.0F - _contentInset / 2.0F :
+- (void)setSlideOverToHiddenPosition {
+    CGPoint center = _tranparentPaneView.center;
+    center.x = _isSlideFromRight ? self.view.center.x * 3.0F - _contentInset / 2.0F :
             _contentInset / 2 - self.view.center.x;
-    return CGPointMake(centerX, (_tranparentPaneView.bounds.size.height / 2.0F));
+    _tranparentPaneView.center = center;
 }
 
 @end
