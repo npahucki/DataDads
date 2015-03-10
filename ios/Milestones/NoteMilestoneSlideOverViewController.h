@@ -8,7 +8,10 @@
 #import <Foundation/Foundation.h>
 #import "SlideOverViewController.h"
 
+@class NoteMilestoneViewController;
+
 
 @interface NoteMilestoneSlideOverViewController : SlideOverViewController
-@property MilestoneAchievement *achievement;
+@property(nonatomic, strong) MilestoneAchievement *achievement;
+
 @end

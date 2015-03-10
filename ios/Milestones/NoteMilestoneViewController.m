@@ -209,9 +209,6 @@
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-    self.fbSwitch.frame = self.placeHolderSwitch.frame;
-    // NOTE: For some odd reason, this will not work is done in viewDidLoad!
-    
     // Center the text veritcally in the TextView
      CGFloat requiredHeight = [self.titleTextView sizeThatFits:CGSizeMake(self.titleTextView.bounds.size.width, FLT_MAX)].height;
     if (requiredHeight < self.titleTextView.bounds.size.height) {
@@ -249,7 +246,7 @@
     [_takeController takePhotoOrVideoOrChooseFromLibrary];
 }
 
-- (void)noteMilestoneWithBlock:(PFBooleanResultBlock)block {
+- (void)noteMilestone {
     [self.view endEditing:YES];
 
     if ([Reachability showAlertIfParseNotReachable]) return;
@@ -258,25 +255,6 @@
         [self saveAttachment];
     } else {
         [self saveAchievement];
-    }
-}
-
-- (void)didChangeFacebookSwitch:(id)sender {
-    if (self.fbSwitch.on) {
-        [PFFacebookUtils ensureHasPublishPermissions:ParentUser.currentUser block:^(BOOL succeeded, NSError *error) {
-            [self.fbSwitch setOn:succeeded animated:YES];
-            if (error) {
-                [PFFacebookUtils showFacebookErrorAlert:error];
-            }
-        }];
-    }
-
-    // Remember for future uses.
-    if (ParentUser.currentUser.autoPublishToFacebook != self.fbSwitch.on) {
-        ParentUser.currentUser.autoPublishToFacebook = self.fbSwitch.on;
-        [ParentUser.currentUser saveEventually:^(BOOL succeeded, NSError *error) {
-            if (succeeded) [ParentUser.currentUser fetchInBackgroundWithBlock:nil]; // Make sure cache is updated
-        }];
     }
 }
 
@@ -365,7 +343,6 @@
     self.achievement.attachmentWidth = _attachment.width;
     self.achievement.attachmentHeight = _attachment.height;
     self.achievement.completionDate = self.completionDateTextField.date;
-    self.achievement.sharedVia = self.fbSwitch.on ? SharingMediumFacebook : SharingMediumNotShared;
     if (_thumbnailImage) self.achievement.attachmentThumbnail = _thumbnailImage;
     [self saveObject:self.achievement withTitle:@"Noting Milestone" andFailureMessage:@"Could not note milestone." andBlock:^(BOOL succeeded, NSError *error) {
         if (!error) {
@@ -383,7 +360,8 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationMilestoneNotedAndSaved object:self.achievement];
 
             // Publish the achievement to facebook
-            if (self.fbSwitch.on) {
+            BOOL shareOnFb = self.achievement.sharedVia & SharingMediumFacebook;
+            if (shareOnFb) {
                 [PFFacebookUtils shareAchievement:self.achievement block:^(BOOL succeeded2, NSError *error2) {
                     if (error2) {
                         [[[UIAlertView alloc] initWithTitle:@"Could not share the milestone on Facebook" message:@"Make sure that you have authorized the DataParenting App at https://www.facebook.com/settings?tab=applications" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
@@ -413,7 +391,7 @@
                 }];
             }
             if (!self.isMeasurement) {
-                [UsageAnalytics trackAchievementLogged:self.achievement sharedOnFacebook:self.fbSwitch.on];
+                [UsageAnalytics trackAchievementLogged:self.achievement sharedOnFacebook:shareOnFb];
             }
             [self dismissViewControllerAnimated:YES completion:nil];
         }

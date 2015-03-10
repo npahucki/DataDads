@@ -8,6 +8,17 @@
 
 #import "PronounHelper.h"
 
+@implementation SharingOptions
+- (NSDictionary *)asDictionary {
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    dict[@"sendToFollowers"] = @(self.sendToFollowers);
+    if (self.excludedFollowerEmails) dict[@"excludedFollowerEmails"] = self.excludedFollowerEmails;
+    if (self.additionalFollowerEmails) dict[@"additionalFollowerEmails"] = self.additionalFollowerEmails;
+    return dict;
+}
+
+
+@end
 
 @implementation MilestoneAchievement
 

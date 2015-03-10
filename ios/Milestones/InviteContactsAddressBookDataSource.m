@@ -64,8 +64,9 @@
 - (void)addExcludeContactWithEmail:(NSString *)email {
     if (email) {
         if (!_excludeContactsWithEmail) _excludeContactsWithEmail = [[NSMutableSet alloc] init];
-        [_excludeContactsWithEmail addObject:email];
+        [_excludeContactsWithEmail addObject:[email lowercaseString]];
         _contactsByEmail = nil; // force refresh
+        _orderedContacts = nil;
     }
 }
 
@@ -149,7 +150,7 @@
         CFIndex numberOfEmailAddresses = ABMultiValueGetCount(emailAddresses);
         if (numberOfEmailAddresses > 0) { // Skip contacts without email address
             for (CFIndex ii = 0; ii < numberOfEmailAddresses; ii++) {
-                NSString *email = CFBridgingRelease(ABMultiValueCopyValueAtIndex(emailAddresses, ii));
+                NSString *email = [CFBridgingRelease(ABMultiValueCopyValueAtIndex(emailAddresses, ii)) lowercaseString];
                 InviteContact *contact = [[InviteContact alloc] init];
                 contact.image = imagine;
                 contact.fullName = [NSString stringWithFormat:@"%@ %@", firstName, lastName];

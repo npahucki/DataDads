@@ -10,12 +10,18 @@
 
 @class FollowConnectionsDataSource;
 @class InviteContactsAddressBookDataSource;
+@class InviteContact;
 
 @interface NoteMilestoneSharingTableViewController : UITableViewController
 
 @property(nonatomic, strong) FollowConnectionsDataSource *followConnectionsDataSource;
 @property(nonatomic, strong) InviteContactsAddressBookDataSource *contactsDataSource;
-@property(readonly) BOOL hasConnections;
+@property(readonly) BOOL hasContacts;
+
+@property(nonatomic, readonly) NSArray *excludedFollowerEmails;
+@property(nonatomic, readonly) NSArray *additionalFollowerEmails;
 
 - (void)loadObjects;
+
+- (void)addFollowConnectionContact:(InviteContact *)contact;
 @end

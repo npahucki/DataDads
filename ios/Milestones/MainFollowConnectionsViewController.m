@@ -15,6 +15,7 @@
 #import "FollowConnectionsNothingToShowViewController.h"
 #import "SignUpOrLoginViewController.h"
 #import "CMPopTipView+WithStaticInitializer.h"
+#import "MBContactPicker+ForceCompletion.h"
 
 
 @interface MainFollowConnectionsViewController ()
@@ -160,31 +161,7 @@
 
 - (IBAction)didClickInviteButton:(id)sender {
     if (_inviteMode) {
-        // TODO: Remove this hack, once you build a good way into the the control
-        MBContactCollectionView *collectionView = [_pickerView performSelector:@selector(contactCollectionView)];
-        NSIndexPath *entryCellIndexPath = [collectionView performSelector:@selector(entryCellIndexPath)];
-        MBContactCollectionViewEntryCell *entryCell = (MBContactCollectionViewEntryCell *) [collectionView cellForItemAtIndexPath:entryCellIndexPath];
-        NSString *trimmedString = [entryCell.text stringByTrimmingCharactersInSet:
-                [NSCharacterSet whitespaceCharacterSet]];
-        NSMutableArray *selectedContacts = [collectionView performSelector:@selector(selectedContacts)];
-
-        // Need to simulate hitting enter
-        if (trimmedString.length > 0) {
-            // There is unentered text, try to add it as a contact
-            if (trimmedString.isValidEmailAddress) {
-                InviteContact *contact = [[InviteContact alloc] init];
-                contact.emailAddress = trimmedString;
-                // Need to add right to collection view so the keyboard does not pop up again.
-                if (![selectedContacts containsObject:contact]) [selectedContacts addObject:contact];
-                [entryCell reset];
-                [entryCell removeFocus];
-            } else {
-                [[[UIAlertView alloc] initWithTitle:@"Whoops" message:@"Invalid email address, please correct it"
-                                           delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
-                return;
-            }
-        }
-
+        if (![_pickerView forcePendingTextEntry]) return;
         if (_pickerView.contactsSelected.count > 0) [self sendInvites];
         self.inviteMode = NO;
     } else {

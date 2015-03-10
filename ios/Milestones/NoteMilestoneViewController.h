@@ -18,6 +18,7 @@
 #import "CMPopTipView.h"
 
 
+
 @interface NoteMilestoneViewController : UIViewControllerWithHUDProgress <FDTakeDelegate, UITextFieldDelegate, UITextViewDelegate, UIScrollViewDelegate, DataParentingAdViewDelegate, CMPopTipViewDelegate>
 
 @property MilestoneAchievement *achievement;
@@ -27,8 +28,6 @@
 @property(strong, nonatomic) IBOutlet UIButton *takePhotoButton;
 @property(weak, nonatomic) IBOutlet UITextView *titleTextView;
 @property(weak, nonatomic) IBOutlet UITextField *customTitleTextField;
-@property(weak, nonatomic) IBOutlet UIView *placeHolderSwitch;
-@property(strong, nonatomic) SevenSwitch *fbSwitch;
 
 @property(weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property(weak, nonatomic) IBOutlet UISegmentedControl *segmentControl;
@@ -44,8 +43,7 @@
 @property(weak, nonatomic) IBOutlet DataParentingAdView *adView;
 @property(weak, nonatomic) IBOutlet NSLayoutConstraint *adViewHeightConstraint;
 
-
-- (void)noteMilestoneWithBlock:(PFBooleanResultBlock)block;
+- (void)noteMilestone;
 
 @end
 

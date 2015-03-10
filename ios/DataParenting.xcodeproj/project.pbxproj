@@ -16,6 +16,7 @@
 		72F1827B6B5DA4E103212A1F /* CMPopTipView+WithStaticInitializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F185EB408FDE2C98B77B34 /* CMPopTipView+WithStaticInitializer.m */; };
 		72F1829870D728700BAFF83E /* UIDevice+DetectBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18513D03E2E95A9843175 /* UIDevice+DetectBlur.m */; };
 		72F182FAB72978F3ACE021DD /* FDTakeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18A513D481205AD9FA1F1 /* FDTakeController.m */; };
+		72F18317AF2185DB5DE00996 /* MBContactPicker+ForceCompletion.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F188D7B1BE2C471BF1480B /* MBContactPicker+ForceCompletion.m */; };
 		72F1832E50AB67DDE44C4A12 /* ExternalMediaFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F187DCCDCE0FA22CD5DEC4 /* ExternalMediaFile.m */; };
 		72F1833039ED99453A7414AA /* PurchaseTransaction.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18CC0F7A7237D340BAB5B /* PurchaseTransaction.m */; };
 		72F183BEF9280905E6AFEDF9 /* FDTake.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F182B2192D608D0B45B9C9 /* FDTake.strings */; };
@@ -29,6 +30,7 @@
 		72F185D04E9D8D927BEBFA72 /* CMPopTipView+WithStaticInitializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F185EB408FDE2C98B77B34 /* CMPopTipView+WithStaticInitializer.m */; };
 		72F1860975D6B51CA5600385 /* PurchaseTransaction.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18CC0F7A7237D340BAB5B /* PurchaseTransaction.m */; };
 		72F18617EC21AE75149CBA42 /* NSString+EmailAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18B2AFF977957CF046E9E /* NSString+EmailAddress.m */; };
+		72F1869425B11178EF3FB0CF /* MBContactPicker+ForceCompletion.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F188D7B1BE2C471BF1480B /* MBContactPicker+ForceCompletion.m */; };
 		72F186FAC366DD73385A1055 /* ViewControllerWithBabyInfoButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18C69E7D6386F1B61CB97 /* ViewControllerWithBabyInfoButton.m */; };
 		72F1877F09F482E5A93B35AE /* AppleIncRootCertificate.cer in Resources */ = {isa = PBXBuildFile; fileRef = 72F18423ECAD54191B7179D7 /* AppleIncRootCertificate.cer */; };
 		72F187BDC76C613B6C98D5BF /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B58651891EED100C74C2B /* StoreKit.framework */; };
@@ -437,6 +439,7 @@
 		72F186162B391F420B41BEE6 /* ViewControllerWithBabyInfoButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewControllerWithBabyInfoButton.h; sourceTree = "<group>"; };
 		72F187DCCDCE0FA22CD5DEC4 /* ExternalMediaFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExternalMediaFile.m; sourceTree = "<group>"; };
 		72F18854EC2953038E616417 /* ExternalMediaFileTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExternalMediaFileTests.m; sourceTree = "<group>"; };
+		72F188D7B1BE2C471BF1480B /* MBContactPicker+ForceCompletion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBContactPicker+ForceCompletion.m"; sourceTree = "<group>"; };
 		72F1894FDEAC31CBC81021FD /* UIResponder+FirstResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIResponder+FirstResponder.m"; sourceTree = "<group>"; };
 		72F18966BF2FBB69086B51E9 /* UIResponder+FirstResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIResponder+FirstResponder.h"; sourceTree = "<group>"; };
 		72F189EB828F0DC8FFD51914 /* FDTakeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDTakeController.h; sourceTree = "<group>"; };
@@ -452,6 +455,7 @@
 		72F18C66C678A4A75AB7398D /* NSError+AsDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+AsDictionary.m"; sourceTree = "<group>"; };
 		72F18C67CC563C08460F13DD /* NSMutableDictionary+JSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+JSON.m"; sourceTree = "<group>"; };
 		72F18C69E7D6386F1B61CB97 /* ViewControllerWithBabyInfoButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewControllerWithBabyInfoButton.m; sourceTree = "<group>"; };
+		72F18C76162C6812D8074FE7 /* MBContactPicker+ForceCompletion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBContactPicker+ForceCompletion.h"; sourceTree = "<group>"; };
 		72F18C88C0C62071581E6244 /* ExternalMediaFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExternalMediaFile.h; sourceTree = "<group>"; };
 		72F18C88FC612D6CDB6F1B09 /* PFFile+Media.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PFFile+Media.h"; sourceTree = "<group>"; };
 		72F18CC0F7A7237D340BAB5B /* PurchaseTransaction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PurchaseTransaction.m; sourceTree = "<group>"; };
@@ -1271,6 +1275,8 @@
 				E89AC323195A204100AD3869 /* UIImage+FX.m */,
 				72F184235312F75098CB3B97 /* FDTakeController */,
 				72F186F13079B94D24EA0B15 /* ParseUI */,
+				72F188D7B1BE2C471BF1480B /* MBContactPicker+ForceCompletion.m */,
+				72F18C76162C6812D8074FE7 /* MBContactPicker+ForceCompletion.h */,
 			);
 			name = ThirdParty;
 			path = Milestones;
@@ -1750,6 +1756,7 @@
 				72F18EB30DF2AF4D2422DACC /* HipmobViewController.m in Sources */,
 				72F1829870D728700BAFF83E /* UIDevice+DetectBlur.m in Sources */,
 				72F18E2608B07F74DB2C122D /* NoteMilestoneSlideOverViewController.m in Sources */,
+				72F1869425B11178EF3FB0CF /* MBContactPicker+ForceCompletion.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1839,6 +1846,7 @@
 				72F18C4BFDE742CA006B1AA6 /* HipmobViewController.m in Sources */,
 				72F180DB2AE516D3D1FC2472 /* UIDevice+DetectBlur.m in Sources */,
 				72F18571645133E5458D1097 /* NoteMilestoneSlideOverViewController.m in Sources */,
+				72F18317AF2185DB5DE00996 /* MBContactPicker+ForceCompletion.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
