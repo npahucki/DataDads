@@ -11,6 +11,7 @@
 #import "MBContactPicker.h"
 
 @class NoteMilestoneViewController;
+@class FollowConnectionsDataSource;
 
 @interface NoteMilestoneSharingOptionsViewController : UIViewController <MBContactPickerDelegate>
 @property(weak, nonatomic) IBOutlet UISwitch *enableFacebookButton;
@@ -22,6 +23,8 @@
 @property(weak, nonatomic) IBOutlet UIButton *inviteButton;
 @property(weak, nonatomic) IBOutlet MBContactPicker *pickerView;
 @property(strong, nonatomic) MilestoneAchievement *achievement;
+
+@property(nonatomic, readonly) FollowConnectionsDataSource *followConnectionsDataSource;
 
 - (void)updateAchievementSharingOptions;
 @end

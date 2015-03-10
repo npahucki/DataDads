@@ -6,11 +6,13 @@
 #import "NoteMilestoneSlideOverViewController.h"
 #import "NoteMilestoneViewController.h"
 #import "NoteMilestoneSharingOptionsViewController.h"
+#import "FollowConnectionsDataSource.h"
 
 
 @implementation NoteMilestoneSlideOverViewController {
     NoteMilestoneViewController *_noteMilestoneViewController;
     NoteMilestoneSharingOptionsViewController *_sharingOptionsViewController;
+    BOOL _showedSharingScreen;
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -24,14 +26,29 @@
     }
 }
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    if (!_sharingOptionsViewController.followConnectionsDataSource.hasAnyConnections) {
+        self.navigationItem.rightBarButtonItem.title = @"Next";
+    }
+}
+
 - (IBAction)didClickCanelButton:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)didClickNoteItButton:(id)sender {
-    // TODO: We might need to show the sharing options if the user has no connections.
-    [_sharingOptionsViewController updateAchievementSharingOptions];
-    [_noteMilestoneViewController noteMilestone];
+    // TODO: We might need an A/B tet for this?
+    if (_showedSharingScreen || _sharingOptionsViewController.followConnectionsDataSource.hasAnyConnections) {
+        // Just note it!
+        [_sharingOptionsViewController updateAchievementSharingOptions];
+        [_noteMilestoneViewController noteMilestone];
+    } else {
+        // other wise always show the share dialog (annoying!)
+        _showedSharingScreen = YES;
+        self.navigationItem.rightBarButtonItem.title = @"Note It";
+        [self setSlideOverToShowingPosition:YES];
+    }
 }
 
 @end

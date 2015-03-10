@@ -73,7 +73,7 @@
     [self installSliderOverViewController];
 
     [self resizeViews];
-    [self setSlideOverToHiddenPosition];
+    [self setSlideOverToHiddenPosition:NO];
 
     // Since the transparent may have been added first, we need to bring it to the top
     [self.view bringSubviewToFront:_tranparentPaneView];
@@ -197,47 +197,66 @@
 
         BOOL commit = _isSlideFromRight ? finalX < self.view.center.x : finalX > self.view.center.x;
         if (commit) {
-            // Commit to showing it
-            [UIView animateWithDuration:animationDuration animations:^{
-                [self setSlideOverToShowingPosition];
-            } completion:^(BOOL finished) {
-                // Let views update themselves.
-                for (UIViewController *vc in self.childViewControllers) {
-                    if ([vc conformsToProtocol:@protocol(SlideOverViewControllerEventReceiver)]) {
-                        [((id <SlideOverViewControllerEventReceiver>) vc)
-                                viewDidFinishSlidingOut:self.slideOverViewController over:self.mainViewController];
-                    }
-                }
-            }];
+            [self setSlideOverToShowingPosition2:animationDuration];
         } else {
-            // Send it back
-            [UIView animateWithDuration:animationDuration animations:^{
-                [self setSlideOverToHiddenPosition];
-            } completion:^(BOOL finished) {
-                // Let views update themselves.
-                for (UIViewController *vc in self.childViewControllers) {
-                    if ([vc conformsToProtocol:@protocol(SlideOverViewControllerEventReceiver)]) {
-                        [((id <SlideOverViewControllerEventReceiver>) vc)
-                                viewDidFinishSlidingIn:self.slideOverViewController over:self.mainViewController];
-                    }
-                }
-            }];
+            [self setSlideOverToHiddenPosition2:animationDuration];
         }
     }
 }
 
-
-- (void)setSlideOverToShowingPosition {
-    CGPoint center = _tranparentPaneView.center;
-    center.x = self.view.center.x + (_contentInset / (_isSlideFromRight ? -2.0F : 2.0F));
-    _tranparentPaneView.center = center;
+- (void)setSlideOverToShowingPosition:(BOOL)animated {
+    [self setSlideOverToShowingPosition2:animated ? 0.5F : 0.0F];
 }
 
-- (void)setSlideOverToHiddenPosition {
+- (void)setSlideOverToHiddenPosition:(BOOL)animated {
+    [self setSlideOverToHiddenPosition2:animated ? 0.5F : 0.0F];
+}
+
+- (void)setSlideOverToShowingPosition2:(CGFloat)animationDuration {
+    CGPoint center = _tranparentPaneView.center;
+    center.x = self.view.center.x + (_contentInset / (_isSlideFromRight ? -2.0F : 2.0F));
+
+    if (animationDuration > 0) {
+        [UIView animateWithDuration:animationDuration animations:^{
+            _tranparentPaneView.center = center;
+        }                completion:^(BOOL finished) {
+            [self informSubControllersOfSlideChange:YES];
+        }];
+    } else {
+        _tranparentPaneView.center = center;
+        [self informSubControllersOfSlideChange:YES];
+    }
+}
+
+- (void)setSlideOverToHiddenPosition2:(CGFloat)animationDuration {
     CGPoint center = _tranparentPaneView.center;
     center.x = _isSlideFromRight ? self.view.center.x * 3.0F - _contentInset / 2.0F :
             _contentInset / 2 - self.view.center.x;
-    _tranparentPaneView.center = center;
+
+    if (animationDuration > 0) {
+        [UIView animateWithDuration:animationDuration animations:^{
+            _tranparentPaneView.center = center;
+        }                completion:^(BOOL finished) {
+            // Let views update themselves.
+            [self informSubControllersOfSlideChange:NO];
+        }];
+    } else {
+        _tranparentPaneView.center = center;
+        [self informSubControllersOfSlideChange:NO];
+    }
+}
+
+- (void)informSubControllersOfSlideChange:(BOOL)slideOut {
+    for (UIViewController *vc in self.childViewControllers) {
+        if ([vc conformsToProtocol:@protocol(SlideOverViewControllerEventReceiver)]) {
+            id <SlideOverViewControllerEventReceiver> evr = (id <SlideOverViewControllerEventReceiver>) vc;
+            if (slideOut) {
+                [evr viewDidFinishSlidingOut:self.slideOverViewController over:self.mainViewController];
+            } else {
+                [evr viewDidFinishSlidingIn:self.slideOverViewController over:self.mainViewController];
+            }
+        }
+    }
 }
 
 @end

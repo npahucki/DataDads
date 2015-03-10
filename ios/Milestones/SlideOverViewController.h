@@ -41,4 +41,7 @@
 @property(readonly) UIImageView *pullTabImageView;
 
 
+- (void)setSlideOverToShowingPosition:(BOOL)animated;
+
+- (void)setSlideOverToHiddenPosition:(BOOL)animated;
 @end

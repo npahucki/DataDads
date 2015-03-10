@@ -21,6 +21,7 @@
 @implementation NoteMilestoneSharingOptionsViewController {
     NoteMilestoneSharingTableViewController *_sharingTableViewController;
     InviteContactsAddressBookDataSource *_addressBookDataSource;
+    FollowConnectionsDataSource *_followConnectionsDataSource;
     BOOL _inviteMode;
 }
 
@@ -49,6 +50,11 @@
     [self updateAchievementSharingOptions];
     [self updateContainerViewState];
 
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(followConnectionsDataSourceDidLoad)
+                                                 name:kDDNotificationFollowConnectionsDataSourceDidLoadObjects
+                                               object:self.followConnectionsDataSource];
+
+
 }
 
 - (void)dealloc {
@@ -59,15 +65,12 @@
     if ([segue.destinationViewController isKindOfClass:[NoteMilestoneSharingTableViewController class]]) {
         _sharingTableViewController = (NoteMilestoneSharingTableViewController *) segue.destinationViewController;
         _sharingTableViewController.contactsDataSource = self.addressBookDataSource;
-        _sharingTableViewController.followConnectionsDataSource = [[FollowConnectionsDataSource alloc] init];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(followConnectionsDataSourceDidLoad)
-                                                     name:kDDNotificationFollowConnectionsDataSourceDidLoadObjects
-                                                   object:_sharingTableViewController.followConnectionsDataSource];
+        _sharingTableViewController.followConnectionsDataSource = self.followConnectionsDataSource;
     }
 }
 
 - (void)followConnectionsDataSourceDidLoad {
-    for (FollowConnection *fc in [_sharingTableViewController.followConnectionsDataSource
+    for (FollowConnection *fc in [self.followConnectionsDataSource
             connectionsInSection:FollowConnectionDataSourceSection_Connected]) {
         [self.addressBookDataSource addExcludeContactWithEmail:fc.otherPartyEmail];
     }
@@ -144,6 +147,14 @@
     }
     return _addressBookDataSource;
 }
+
+- (FollowConnectionsDataSource *)followConnectionsDataSource {
+    if (!_followConnectionsDataSource) {
+        _followConnectionsDataSource = [[FollowConnectionsDataSource alloc] init];
+    }
+    return _followConnectionsDataSource;
+}
+
 
 - (void)setInviteMode:(BOOL)inviteMode {
     [self setInviteMode:inviteMode withAnimation:YES];
