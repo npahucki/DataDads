@@ -23,6 +23,7 @@
 @property(weak, nonatomic) IBOutlet UIButton *inviteButton;
 @property(weak, nonatomic) IBOutlet MBContactPicker *pickerView;
 @property(strong, nonatomic) MilestoneAchievement *achievement;
+@property(weak, nonatomic) IBOutlet UILabel *titleLabel;
 
 @property(nonatomic, readonly) FollowConnectionsDataSource *followConnectionsDataSource;
 

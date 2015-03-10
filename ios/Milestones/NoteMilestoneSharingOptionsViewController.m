@@ -27,6 +27,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.titleLabel.font = [UIFont fontForAppWithType:Book andSize:22.0F];
+
     BOOL enableFacebook = ParentUser.currentUser.autoPublishToFacebook && [PFFacebookUtils userHasAuthorizedPublishPermissions:ParentUser.currentUser];
     [self.enableFacebookButton setOn:enableFacebook animated:NO];
 
