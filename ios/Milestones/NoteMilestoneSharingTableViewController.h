@@ -12,6 +12,18 @@
 @class InviteContactsAddressBookDataSource;
 @class InviteContact;
 
+
+@interface NoteMilestoneSharingTableViewControllerCell : UITableViewCell
+@property(weak, nonatomic) IBOutlet UIImageView *contactPhoto;
+@property(weak, nonatomic) IBOutlet UILabel *contactNameLabel;
+@property(weak, nonatomic) IBOutlet UIImageView *checkMarkImageView;
+
+
+@property(nonatomic) BOOL checked;
+
+- (void)setContact:(InviteContact *)contact withPhoto:(UIImage *)photo;
+@end
+
 @interface NoteMilestoneSharingTableViewController : UITableViewController
 
 @property(nonatomic, strong) FollowConnectionsDataSource *followConnectionsDataSource;

@@ -7,7 +7,7 @@
 #import <hipmob/HMContentChatViewController.h>
 #import "SlideOverViewController.h"
 
-@interface HipmobViewController : UIViewController <HMChatViewDelegate, SlideOverViewControllerEventReceiver, UITextViewDelegate>
+@interface HipmobViewController : UIViewController <HMChatViewDelegate, UITextViewDelegate>
 @property(weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property(weak, nonatomic) IBOutlet UIImageView *statusImageView;
 @property(weak, nonatomic) IBOutlet UIView *chatContainerView;

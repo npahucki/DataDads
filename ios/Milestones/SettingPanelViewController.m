@@ -8,6 +8,7 @@
 
 #import "SettingPanelViewController.h"
 #import "WebViewerViewController.h"
+#import "SlideOverViewController.h"
 #include <sys/sysctl.h>
 
 @interface SettingPanelViewController ()
@@ -18,9 +19,11 @@
 
 + (void)initialize {
     [super initialize];
-    [UILabel appearanceWhenContainedIn:[UITableViewCell class], [SettingPanelViewController class], nil].font = [UIFont fontForAppWithType:Medium andSize:14.0];
-    [UILabel appearanceWhenContainedIn:[UITableViewCell class], [SettingPanelViewController class], nil].textColor = [UIColor appInputGreyTextColor];
-    [UILabel appearanceWhenContainedIn:[UITableViewHeaderFooterView class], [SettingPanelViewController class], nil].font = [UIFont fontForAppWithType:Bold andSize:16.0];
+    [UILabel appearanceWhenContainedIn:[UITableViewCell class], [SettingPanelViewController class], nil].font = [UIFont fontForAppWithType:Book andSize:17.0];
+    [UILabel appearanceWhenContainedIn:[UITableViewCell class], [SettingPanelViewController class], nil].textColor = [UIColor appHeaderNormalTextColor];
+    // NOTE: This is deprecated with NO working replacement!!!!
+    [UIButton appearanceWhenContainedIn:[UITableViewCell class], [SettingPanelViewController class], nil].font = [UIFont fontForAppWithType:Book andSize:19.0];
+    [UILabel appearanceWhenContainedIn:[UITableViewHeaderFooterView class], [SettingPanelViewController class], nil].font = [UIFont fontForAppWithType:Bold andSize:18.0];
     [UILabel appearanceWhenContainedIn:[UITableViewHeaderFooterView class], [SettingPanelViewController class], nil].textColor = [UIColor appHeaderActiveTextColor];
     [UIView appearanceWhenContainedIn:[UITableViewHeaderFooterView class], [SettingPanelViewController class], nil].backgroundColor = [UIColor appHeaderBackgroundActiveColor];
 
@@ -28,8 +31,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.tableView.delegate = self;
     self.useMetricSwitch.on = ParentUser.currentUser.usesMetric;
-    self.automaticallyShareOnFacebookSwitch.on = ParentUser.currentUser.autoPublishToFacebook;
     self.showHiddenTipsSwitch.on = ParentUser.currentUser.showHiddenTips;
     self.showIgnoredMilestonesSwitch.on = ParentUser.currentUser.showIgnoredMilestones;
     self.showPostponedMilestonesSwitch.on = ParentUser.currentUser.showPostponedMilestones;
@@ -40,7 +43,6 @@
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     ParentUser.currentUser.usesMetric = self.useMetricSwitch.on;
-    ParentUser.currentUser.autoPublishToFacebook = self.automaticallyShareOnFacebookSwitch.on;
     ParentUser.currentUser.showHiddenTips = self.showHiddenTipsSwitch.on;
     ParentUser.currentUser.showIgnoredMilestones = self.showIgnoredMilestonesSwitch.on;
     ParentUser.currentUser.showPostponedMilestones = self.showPostponedMilestonesSwitch.on;
@@ -53,30 +55,26 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationNeedDataRefreshNotification object:nil];
 }
 
-- (IBAction)didChangeFacebookSwitch:(id)sender {
-    if (self.automaticallyShareOnFacebookSwitch.on) {
-        [PFFacebookUtils ensureHasPublishPermissions:ParentUser.currentUser block:^(BOOL succeeded, NSError *error) {
-            [self.automaticallyShareOnFacebookSwitch setOn:succeeded animated:YES];
-            if (error) {
-                [PFFacebookUtils showFacebookErrorAlert:error];
-            }
-        }];
-    }
+- (IBAction)didClickBackButton:(id)sender {
+    [((SlideOverViewController *) self.navigationController.parentViewController) setSlideOverToHiddenPosition:YES];
 }
 
 - (IBAction)didClickGetSupport:(id)sender {
     WebViewerViewController *vc = [WebViewerViewController webViewForUrlString:kDDURLSupport];
-    [self presentViewController:vc animated:YES completion:NULL];
+    vc.navigationItem.title = @"Support and FAQ";
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (IBAction)didClickReadPrivacyPolicy:(id)sender {
     WebViewerViewController *vc = [WebViewerViewController webViewForUrlString:kDDURLPrivacyPolicy];
-    [self presentViewController:vc animated:YES completion:NULL];
+    vc.navigationItem.title = @"Privacy Policy";
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (IBAction)didClickReadTermsAndConditions:(id)sender {
     WebViewerViewController *vc = [WebViewerViewController webViewForUrlString:kDDURLTermsAndConditions];
-    [self presentViewController:vc animated:YES completion:NULL];
+    vc.navigationItem.title = @"Terms and Conditions";
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (IBAction)didClickContactSupport:(id)sender {
@@ -103,5 +101,10 @@
 - (IBAction)didClickViewTutorial:(id)sender {
     [UsageAnalytics trackTutorialManuallyTaken];
 }
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 44;
+}
+
 
 @end

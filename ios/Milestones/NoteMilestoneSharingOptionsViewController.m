@@ -28,6 +28,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.titleLabel.font = [UIFont fontForAppWithType:Book andSize:22.0F];
+    self.selectFollowersLabel.font = [UIFont fontForAppWithType:Book andSize:16.0F];
+    self.inviteButton.titleLabel.font = [UIFont fontForAppWithType:Bold andSize:18.0F];
 
     BOOL enableFacebook = ParentUser.currentUser.autoPublishToFacebook && [PFFacebookUtils userHasAuthorizedPublishPermissions:ParentUser.currentUser];
     [self.enableFacebookButton setOn:enableFacebook animated:NO];
@@ -41,8 +43,8 @@
     self.pickerView.layer.borderColor = [UIColor appNormalColor].CGColor;
     self.pickerView.layer.borderWidth = 1;
     self.pickerView.allowsCompletionOfSelectedContacts = NO;
-    self.pickerView.prompt = @"Invite:";
     self.pickerView.maxVisibleRows = 5;
+    self.pickerView.showPrompt = NO;
     self.pickerView.delegate = self;
     self.pickerView.datasource = self.addressBookDataSource;
     [[MBContactCollectionViewContactCell appearance] setTintColor:[UIColor appNormalColor]];
@@ -180,7 +182,10 @@
                     [self.inviteButton setTitle:@"Done" forState:UIControlStateNormal];
                     self.pickerView.hidden = NO;
                     [self.pickerView becomeFirstResponder];
+                    // We need to collapse the top view so there is extra room to show the contacts.
+                    [self setTopViewHeight:0 animated:animates];
                     [self setPickerHeight:self.pickerView.currentContentHeight animated:animates];
+                    self.selectFollowersLabel.text = @"INVITE FOLLOWERS:";
                 }];
             }
         }];
@@ -189,6 +194,9 @@
         [self.inviteButton setTitle:@"Invite" forState:UIControlStateNormal];
         [self.pickerView resignFirstResponder];
         [self setPickerHeight:0 animated:animates];
+        [self setTopViewHeight:108 animated:animates];
+        self.selectFollowersLabel.text = @"SELECT FOLLOWERS:";
+
     }
 }
 
@@ -204,6 +212,19 @@
     }
 
 }
+
+- (void)setTopViewHeight:(CGFloat)height animated:(BOOL)animated {
+    self.topViewHeightConstraint.constant = height;
+    if (animated) {
+        [UIView animateWithDuration:self.pickerView.animationSpeed animations:^{
+            [self.view layoutIfNeeded];
+        }];
+    } else {
+        [self.view layoutIfNeeded];
+    }
+
+}
+
 
 - (void)updateAchievementSharingOptions {
     SharingOptions *sharingOptions = [[SharingOptions alloc] init];

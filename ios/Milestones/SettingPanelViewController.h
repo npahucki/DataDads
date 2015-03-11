@@ -10,10 +10,10 @@
 
 @interface SettingPanelViewController : UITableViewController
 @property(weak, nonatomic) IBOutlet UISwitch *useMetricSwitch;
-@property(weak, nonatomic) IBOutlet UISwitch *automaticallyShareOnFacebookSwitch;
 @property(weak, nonatomic) IBOutlet UISwitch *showIgnoredMilestonesSwitch;
 @property(weak, nonatomic) IBOutlet UISwitch *showHiddenTipsSwitch;
 @property(weak, nonatomic) IBOutlet UISwitch *showPostponedMilestonesSwitch;
 @property(weak, nonatomic) IBOutlet UISwitch *showMilestoneStatisticsSwitch;
+@property(weak, nonatomic) IBOutlet UIBarButtonItem *backButton;
 
 @end

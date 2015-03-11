@@ -14,6 +14,7 @@
 
 @property(weak, nonatomic) IBOutlet UIImageView *loadingImage;
 
+@property(weak, nonatomic) IBOutlet UIButton *closeButton;
 
 + (WebViewerViewController *)webViewForUrlString:(NSString *)url;
 

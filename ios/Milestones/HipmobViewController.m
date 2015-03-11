@@ -6,7 +6,6 @@
 #import <hipmob/HMService.h>
 #import <AudioToolbox/AudioToolbox.h>
 #import "HipmobViewController.h"
-#import "MainViewController.h"
 
 @implementation HipmobViewController
 
@@ -43,10 +42,19 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillBeHidden:)
                                                  name:UIKeyboardWillHideNotification object:nil];
+}
 
+- (void)viewDidAppear:(BOOL)animated {
+    if ([self.chatView connect]) {
+        self.titleLabel.text = @"Connecting To Support...";
+        self.statusImageView.image = [UIImage animatedImageNamed:@"progress-" duration:1.0];
+    }
+//    NSString *contextTitle = NSStringFromClass([((UINavigationController *) ((MainViewController *) otherVc).selectedViewController).visibleViewController class]);
+//    if (contextTitle) [self.chatView updateContext:contextTitle];
+}
 
-//
-
+- (void)dealloc {
+    [self.chatView disconnect];
 }
 
 - (void)keyboardWillBeHidden:(NSNotification *)aNotification {
@@ -83,22 +91,6 @@
 
 }
 
-
-- (void)viewDidFinishSlidingOut:(UIViewController *)slidingView over:(UIViewController *)otherVc {
-    if ([self.chatView connect]) {
-        self.titleLabel.text = @"Connecting To Support...";
-        self.statusImageView.image = [UIImage animatedImageNamed:@"progress-" duration:1.0];
-    }
-
-    // Update the context based on which tab the user is using.
-    NSString *contextTitle = NSStringFromClass([((UINavigationController *) ((MainViewController *) otherVc).selectedViewController).visibleViewController class]);
-    if (contextTitle) [self.chatView updateContext:contextTitle];
-
-}
-
-- (void)viewDidFinishSlidingIn:(UIViewController *)slidingView over:(UIViewController *)otherVc {
-    [self.chatView disconnect];
-}
 
 - (void)viewDidConnect:(id)chatView {
     self.titleLabel.text = @"How can we help?";

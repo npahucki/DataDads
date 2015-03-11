@@ -10,6 +10,52 @@
 #import "FollowConnectionsDataSource.h"
 #import "InviteContactsAddressBookDataSource.h"
 
+@implementation NoteMilestoneSharingTableViewControllerCell {
+    BOOL _isChecked;
+    InviteContact *_contact;
+}
+
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    self.contactPhoto.clipsToBounds = YES;
+    self.contactNameLabel.textColor = [UIColor blackColor];
+    self.contactNameLabel.font = [UIFont fontForAppWithType:Book andSize:18];
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    CALayer *innerShadowLayer = [CALayer layer];
+    innerShadowLayer.contents = (id) [UIImage imageNamed:@"avatarButtonShadow"].CGImage;
+    innerShadowLayer.contentsCenter = CGRectMake(10.0f / 21.0f, 10.0f / 21.0f, 1.0f / 21.0f, 1.0f / 21.0f);
+    innerShadowLayer.frame = CGRectInset(self.contactPhoto.bounds, 2.5, 2.5);
+    [self.contactPhoto.layer addSublayer:innerShadowLayer];
+    self.contactPhoto.layer.borderWidth = 3;
+    self.contactPhoto.layer.borderColor = [UIColor appNormalColor].CGColor;
+    self.contactPhoto.layer.cornerRadius = self.contactPhoto.bounds.size.width / 2;
+}
+
+- (BOOL)checked {
+    return _isChecked;
+}
+
+- (void)setChecked:(BOOL)checked {
+    _isChecked = checked;
+    self.checkMarkImageView.image = [UIImage imageNamed:checked ? @"tagCheckbox_checked" : @"tagCheckbox"];
+}
+
+- (InviteContact *)contact {
+    return _contact;
+}
+
+- (void)setContact:(InviteContact *)contact withPhoto:(UIImage *)photo {
+    _contact = contact;
+    self.contactPhoto.image = photo ?: [UIImage imageNamed:@"avatarButtonDefault"];
+    self.contactNameLabel.text = contact.fullName ?: contact.emailAddress;
+}
+
+
+@end
+
 @implementation NoteMilestoneSharingTableViewController {
     NSMutableSet *_additionalContacts;
     NSMutableSet *_excludedContacts;
@@ -20,9 +66,6 @@
     [super viewDidLoad];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    self.refreshControl.tintColor = [UIColor appNormalColor];
-    [self.refreshControl addTarget:self action:@selector(loadObjects) forControlEvents:UIControlEventValueChanged];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkReachabilityChanged:) name:kReachabilityChangedNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(followConnectionsDataSourceDidLoad) name:kDDNotificationFollowConnectionsDataSourceDidLoadObjects object:self.followConnectionsDataSource];
     [self loadObjects];
@@ -75,13 +118,10 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = nil;
     InviteContact *contact = (InviteContact *) _contactList[(NSUInteger) indexPath.row];
-    BOOL isSelected = ![self isConnectionExcluded:contact];
-    cell = [tableView dequeueReusableCellWithIdentifier:@"followerCell"];
-    cell.imageView.image = [self.contactsDataSource findContactForEmailAddress:contact.emailAddress].image ?: [UIImage imageNamed:@"avatarButtonDefault"];
-    cell.textLabel.text = contact.fullName ?: contact.emailAddress;
-    cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:isSelected ? @"tagCheckbox_checked" : @"tagCheckbox"]];
+    NoteMilestoneSharingTableViewControllerCell *cell = [tableView dequeueReusableCellWithIdentifier:@"followerCell"];
+    [cell setContact:contact withPhoto:[self.contactsDataSource findContactForEmailAddress:contact.emailAddress].image];
+    cell.checked = ![self isConnectionExcluded:contact];
     return cell;
 }
 

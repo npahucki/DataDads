@@ -24,6 +24,7 @@
 @property(weak, nonatomic) IBOutlet MBContactPicker *pickerView;
 @property(strong, nonatomic) MilestoneAchievement *achievement;
 @property(weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property(weak, nonatomic) IBOutlet NSLayoutConstraint *topViewHeightConstraint;
 
 @property(nonatomic, readonly) FollowConnectionsDataSource *followConnectionsDataSource;
 
