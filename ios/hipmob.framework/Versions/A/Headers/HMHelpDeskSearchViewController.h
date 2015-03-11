@@ -20,12 +20,12 @@ typedef NS_ENUM(NSInteger, HMHelpDeskSearchChatEnabled) {
     * Always show the chat button.
     */
             HMHelpDeskSearchChatEnabledAlways = 0,
-
+    
     /**
     * Only show the chat button if an operator is available.
     */
             HMHelpDeskSearchChatEnabledIfOperatorAvailable = 1,
-
+    
     /**
     * Never show the chat button.
     */
@@ -223,5 +223,4 @@ Any modifications to the appearance of the helpdesk search view can be made by a
 */
 - (void)closeRequested;
 @end
-
 #endif

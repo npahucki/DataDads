@@ -104,7 +104,6 @@
 *
 */
 - (void)searchView:(id)searchView didLoadArticle:(NSString *)articleId withTitle:(NSString *)title andURL:(NSString *)url andBaseURL:(NSString *)baseURL andContent:(NSString *)content;
-
 /**
 * Tells the delegate that an error occured.
 *
@@ -120,7 +119,7 @@ HMHelpDeskSearchView is a custom UIView that renders a help desk search interfac
 *
 */
 @interface HMHelpDeskSearchView : UIView <UISearchBarDelegate> {
-
+    
 }
 
 /**
@@ -204,6 +203,5 @@ HMHelpDeskSearchView is a custom UIView that renders a help desk search interfac
 */
 - (void)loadArticle:(NSString *)articleId;
 @end
-
 #endif
 

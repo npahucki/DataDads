@@ -4,6 +4,7 @@
 //
 
 #import <hipmob/HMService.h>
+#import <hipmob/HMChatMessage.h>
 #import <AudioToolbox/AudioToolbox.h>
 #import "HipmobViewController.h"
 
@@ -94,6 +95,7 @@
 
 - (void)viewDidConnect:(id)chatView {
     self.titleLabel.text = @"How can we help?";
+    self.statusImageView.image = [UIImage imageNamed:@"success-8"];
 }
 
 - (void)chatView:(id)chatView didSendMessage:(HMChatMessage *)message {
@@ -103,6 +105,8 @@
 
 - (void)chatView:(id)chatView didReceiveMessage:(HMChatMessage *)message {
     AudioServicesPlaySystemSound(1003);
+    self.titleLabel.text = [NSString stringWithFormat:@"Chatting with %@", message.from];
+    self.statusImageView.image = [UIImage imageNamed:@"success-8"];
 }
 
 - (void)viewDidDisconnect:(id)chatView {

@@ -105,5 +105,4 @@
 */
 - (id)initWithAppID:(NSString *)app andArticleURL:(NSString *)articleUrl andUser:(NSString *)user andInfo:(NSDictionary *)userInfo;
 @end
-
 #endif

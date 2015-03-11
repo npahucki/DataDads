@@ -314,5 +314,4 @@
 */
 - (void)closeRequested;
 @end
-
 #endif

@@ -12,7 +12,7 @@
 /** The HMChatMessage class includes all the information about a single chat message.
 */
 @interface HMChatMessage : NSObject {
-
+    
 }
 /**
 * The Hipmob application identifier for the Hipmob app that sent/received this message.

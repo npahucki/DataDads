@@ -93,7 +93,7 @@
 * Indicates that the network is available for queries.
 */
 - (BOOL)isNetworkAvailable;
-
+ 
 /** Updates the user's name.
 *
 * @param value The new name for this user.
@@ -499,5 +499,4 @@
 */
 - (void)setNotificationHandler:(void (^)(void))handler;
 @end
-
 #endif

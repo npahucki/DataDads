@@ -94,6 +94,8 @@
 		E83A04051AAA1625004A675C /* NoteMilestoneSharingOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E83A04031AAA1625004A675C /* NoteMilestoneSharingOptionsViewController.m */; };
 		E83A04081AAA1657004A675C /* NoteMilestoneSharingTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E83A04071AAA1657004A675C /* NoteMilestoneSharingTableViewController.m */; };
 		E83A04091AAA1657004A675C /* NoteMilestoneSharingTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E83A04071AAA1657004A675C /* NoteMilestoneSharingTableViewController.m */; };
+		E83A040B1AB0E0E9004A675C /* hipmob.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E83A040A1AB0E0E9004A675C /* hipmob.framework */; };
+		E83A040C1AB0E0E9004A675C /* hipmob.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E83A040A1AB0E0E9004A675C /* hipmob.framework */; };
 		E840251918F0DEC800AF1B27 /* BabyInfoPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E840251818F0DEC800AF1B27 /* BabyInfoPhotoViewController.m */; };
 		E848695F19E81F5A00E37782 /* OnboardingStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E848695E19E81F5A00E37782 /* OnboardingStepViewController.m */; };
 		E848696019E81F5A00E37782 /* OnboardingStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E848695E19E81F5A00E37782 /* OnboardingStepViewController.m */; };
@@ -287,8 +289,6 @@
 		E8E215BE1AA60A80006624C4 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8E215B91AA60A3E006624C4 /* CoreTelephony.framework */; };
 		E8E215BF1AA60A88006624C4 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8E215B71AA60A2D006624C4 /* CoreData.framework */; };
 		E8E215C01AA60A95006624C4 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E8E215B51AA60A15006624C4 /* libicucore.dylib */; };
-		E8E215C81AA651AE006624C4 /* hipmob.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8E215C71AA651AE006624C4 /* hipmob.framework */; };
-		E8E215C91AA651AE006624C4 /* hipmob.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8E215C71AA651AE006624C4 /* hipmob.framework */; };
 		E8E215FB1AA65220006624C4 /* 7-hipmob-back.png in Resources */ = {isa = PBXBuildFile; fileRef = E8E215CA1AA65220006624C4 /* 7-hipmob-back.png */; };
 		E8E215FC1AA65220006624C4 /* 7-hipmob-back.png in Resources */ = {isa = PBXBuildFile; fileRef = E8E215CA1AA65220006624C4 /* 7-hipmob-back.png */; };
 		E8E215FD1AA65220006624C4 /* 7-hipmob-chatbubble-from.png in Resources */ = {isa = PBXBuildFile; fileRef = E8E215CB1AA65220006624C4 /* 7-hipmob-chatbubble-from.png */; };
@@ -506,6 +506,7 @@
 		E83A04031AAA1625004A675C /* NoteMilestoneSharingOptionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteMilestoneSharingOptionsViewController.m; sourceTree = "<group>"; };
 		E83A04061AAA1657004A675C /* NoteMilestoneSharingTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteMilestoneSharingTableViewController.h; sourceTree = "<group>"; };
 		E83A04071AAA1657004A675C /* NoteMilestoneSharingTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteMilestoneSharingTableViewController.m; sourceTree = "<group>"; };
+		E83A040A1AB0E0E9004A675C /* hipmob.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = hipmob.framework; sourceTree = "<group>"; };
 		E840251718F0DEC800AF1B27 /* BabyInfoPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyInfoPhotoViewController.h; sourceTree = "<group>"; };
 		E840251818F0DEC800AF1B27 /* BabyInfoPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BabyInfoPhotoViewController.m; sourceTree = "<group>"; };
 		E848695D19E81F5A00E37782 /* OnboardingStepViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnboardingStepViewController.h; sourceTree = "<group>"; };
@@ -638,7 +639,6 @@
 		E8E215B71AA60A2D006624C4 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		E8E215B91AA60A3E006624C4 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		E8E215BB1AA60A61006624C4 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
-		E8E215C71AA651AE006624C4 /* hipmob.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = hipmob.framework; sourceTree = "<group>"; };
 		E8E215CA1AA65220006624C4 /* 7-hipmob-back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "7-hipmob-back.png"; path = "hipmob.framework/Versions/A/Resources/7-hipmob-back.png"; sourceTree = SOURCE_ROOT; };
 		E8E215CB1AA65220006624C4 /* 7-hipmob-chatbubble-from.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "7-hipmob-chatbubble-from.png"; path = "hipmob.framework/Versions/A/Resources/7-hipmob-chatbubble-from.png"; sourceTree = SOURCE_ROOT; };
 		E8E215CC1AA65220006624C4 /* 7-hipmob-chatbubble-from@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "7-hipmob-chatbubble-from@2x.png"; path = "hipmob.framework/Versions/A/Resources/7-hipmob-chatbubble-from@2x.png"; sourceTree = SOURCE_ROOT; };
@@ -729,7 +729,7 @@
 				E8A02D3B19817CCF001E0DAB /* CoreMedia.framework in Frameworks */,
 				E8A02D3C19817CCF001E0DAB /* CoreGraphics.framework in Frameworks */,
 				E8A02D3D19817CCF001E0DAB /* AVFoundation.framework in Frameworks */,
-				E8E215C91AA651AE006624C4 /* hipmob.framework in Frameworks */,
+				E83A040C1AB0E0E9004A675C /* hipmob.framework in Frameworks */,
 				E8A02D3E19817CCF001E0DAB /* Accounts.framework in Frameworks */,
 				E8A02D4019817CCF001E0DAB /* Security.framework in Frameworks */,
 				E8A02D4119817CCF001E0DAB /* MobileCoreServices.framework in Frameworks */,
@@ -761,7 +761,7 @@
 				E872D4DA1942027D003F461C /* CoreMedia.framework in Frameworks */,
 				E8DD48E0188EE5B900153095 /* CoreGraphics.framework in Frameworks */,
 				E872D4D81942026F003F461C /* AVFoundation.framework in Frameworks */,
-				E8E215C81AA651AE006624C4 /* hipmob.framework in Frameworks */,
+				E83A040B1AB0E0E9004A675C /* hipmob.framework in Frameworks */,
 				E81B5888189AB2B900C74C2B /* Accounts.framework in Frameworks */,
 				E81B58641891EEC500C74C2B /* Security.framework in Frameworks */,
 				E81B58601891EEB500C74C2B /* MobileCoreServices.framework in Frameworks */,
@@ -1074,7 +1074,7 @@
 		E8DD48DC188EE5B900153095 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				E8E215C71AA651AE006624C4 /* hipmob.framework */,
+				E83A040A1AB0E0E9004A675C /* hipmob.framework */,
 				E8E215BB1AA60A61006624C4 /* libsqlite3.0.dylib */,
 				E8E215B91AA60A3E006624C4 /* CoreTelephony.framework */,
 				E8E215B71AA60A2D006624C4 /* CoreData.framework */,

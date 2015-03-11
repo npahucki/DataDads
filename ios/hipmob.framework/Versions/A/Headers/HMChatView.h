@@ -44,7 +44,7 @@ HMRegisterUser is a simple class that allows an app to register a user for a spe
 * This allows the user to receive push messages even if they haven't opened the chat window.
 */
 @interface HMRegisterUser : NSObject {
-
+    
 }
 /**
 * The HMRegisterUserDelegate to be notified.
@@ -112,7 +112,8 @@ _navBar.topItem.rightBarButtonItem.tintColor = [UIColor colorWithRed:0/255.0 gre
 }
 
 */
-@interface HMChatOperatorAvailabilityCheck : NSObject {
+@interface HMChatOperatorAvailabilityCheck : NSObject
+{
 
 }
 /** The HMChatOperatorAvailabilityCheckDelegate to be notified.
@@ -347,7 +348,7 @@ By default, the HMChatView control emulates the iOS Messages interface, and prov
 These emulate the standard table view delegate functions: the first passes you the chat message object (with all the details such as the sender's name, the time the message was delivered and the message text) and the UITableView and expects to receive the height of the row for that message, and the second passes you the chat message object and UITableView and expects to get back the UITableViewCell that will be displayed. This should let you completely control the appearance of every message row: the HMChatMessage.h header describes the fields in the individual header, and with this you can also completely choose fonts and colors or add avatars to each row.
 */
 @interface HMChatView : UIView {
-
+    
 }
 
 /**
@@ -605,7 +606,7 @@ These emulate the standard table view delegate functions: the first passes you t
 *
 */
 - (void)clearPushToken;
-
+ 
 /** Updates the user's displayed name.
 *
 * @param value The new name for this user.
@@ -694,6 +695,5 @@ These emulate the standard table view delegate functions: the first passes you t
 
 - (void)setDisplayCurve:(UIViewAnimationCurve)curve;
 @end
-
 #endif
 

@@ -18,12 +18,12 @@ typedef NS_ENUM(NSInteger, HMContentHelpDeskArticleChatEnabled) {
     * Always show the chat button.
     */
             HMContentHelpDeskArticleChatEnabledAlways = 0,
-
+    
     /**
     * Only show the chat button if an operator is available.
     */
             HMContentHelpDeskArticleChatEnabledIfOperatorAvailable = 1,
-
+    
     /**
     * Never show the chat button.
     */
@@ -187,5 +187,4 @@ typedef NS_ENUM(NSInteger, HMContentHelpDeskArticleChatEnabled) {
 */
 - (void)closeRequested;
 @end
-
 #endif

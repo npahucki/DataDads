@@ -285,5 +285,4 @@ This can be used inside a container view controller to embed a chat view within 
 */
 - (void)closeRequested;
 @end
-
 #endif

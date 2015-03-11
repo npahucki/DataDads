@@ -117,5 +117,4 @@ helpdesk2.content.searchDelegate = self;
 */
 - (void)dismiss;
 @end
-
 #endif
