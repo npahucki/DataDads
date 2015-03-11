@@ -94,6 +94,20 @@ Parse.Cloud.job("generateSummaryReport", function (request, status) {
         });
     }
 
+    function milestonesWithMediaToLinks(query) {
+        query.include("baby");
+        query.include("baby.parentUser");
+        var achievements = require('cloud/achievements.js')
+        return query.find().then(function(results){
+            var text = "<ol>";
+            _.each(results, function(milestone){
+                text +=  "<li><a href='" + achievements.attachmentUrl(milestone) + "'>"+ util.attachmentUrl(milestone) +"</li>";
+            });
+            text += "</ol>";
+            return Parse.Promise.as(text);
+        });
+    }
+
     function calculateRetention(installSampleDays, activeSampleDays) {
         var UserClass = Parse.User; // Change for debugging
 
@@ -335,8 +349,32 @@ Parse.Cloud.job("generateSummaryReport", function (request, status) {
     promises.push(lastDayNewConnectionsQuery.count());
     promises.push(countUniques(lastDayNewConnectionsQuery, "user1"));
 
-    Parse.Promise.when(promises).then(function ( newUserCountLastDay, newBabiesCountLastDay, newInstallCountLastDay, newMilestoneCountLastDay, newUserCountLastWeek, newBabiesCountLastWeek, newInstallCountLastWeek, anonUserCount, signedInUserCount, newMilestoneCountLastWeek, allMilestoneCount, retentionStats, mostActiveUsers, mostActiveMilestonesThisWeek, mostActiveMilestones, mostSkippedMilestones, mostPostponedMilestones, lastWeekTransactions, lastWeekFailedTransactions, lastDayTransactions, lastDayFailedTransactions, lastWeekNewConnections, uniqueLastWeekConnections, lastDayNewConnections, uniqueLastDayNewConnections) {
-        var templateParams = {newUserCountLastDay: newUserCountLastDay, newBabiesCountLastDay: newBabiesCountLastDay, newInstallCountLastDay: newInstallCountLastDay , newMilestoneCountLastDay: newMilestoneCountLastDay, newUserCountLastWeek: newUserCountLastWeek, newBabiesCountLastWeek: newBabiesCountLastWeek, newInstallCountLastWeek: newInstallCountLastWeek, anonUserCount: anonUserCount, signedInUserCount: signedInUserCount, newMilestoneCountLastWeek: newMilestoneCountLastWeek, allMilestoneCount: allMilestoneCount, retentionStats: retentionStats, mostActiveUsers: mostActiveUsers, mostActiveMilestonesThisWeek: mostActiveMilestonesThisWeek, mostActiveMilestones: mostActiveMilestones, mostSkippedMilestones: mostSkippedMilestones, mostPostponedMilestones: mostPostponedMilestones, lastWeekTransactions: lastWeekTransactions, lastWeekFailedTransactions: lastWeekFailedTransactions, lastDayTransactions: lastDayTransactions, lastDayFailedTransactions: lastDayFailedTransactions, lastWeekNewConnections: lastWeekNewConnections, uniqueLastWeekNewConnections: uniqueLastWeekConnections, lastDayNewConnections: lastDayNewConnections, uniqueLastDayNewConnections: uniqueLastDayNewConnections}
+    //Images
+    var lastDayNewPicturesQuery = new Parse.Query("MilestoneAchievements");
+    lastDayNewPicturesQuery.greaterThan('createdAt', lastDay);
+    lastDayNewPicturesQuery.equalTo("attachmentType", 'image/jpg');
+    promises.push(lastDayNewPicturesQuery.count());
+    promises.push(milestonesWithMediaToLinks(lastDayNewPicturesQuery));
+
+    var lastWeekNewPicturesQuery = new Parse.Query("MilestoneAchievements");
+    lastWeekNewPicturesQuery.greaterThan('createdAt', lastWeek);
+    lastWeekNewPicturesQuery.equalTo("attachmentType", 'image/jpg');
+    promises.push(lastWeekNewPicturesQuery.count());
+
+    //Videos
+    var lastDayNewVideosQuery = new Parse.Query("MilestoneAchievements");
+    lastDayNewVideosQuery.greaterThan('createdAt', lastDay);
+    lastDayNewVideosQuery.equalTo("attachmentType", 'video/mov');
+    promises.push(lastDayNewVideosQuery.count());
+    promises.push(milestonesWithMediaToLinks(lastDayNewVideosQuery));
+
+    var lastWeekNewVideosQuery = new Parse.Query("MilestoneAchievements");
+    lastWeekNewVideosQuery.greaterThan('createdAt', lastWeek);
+    lastWeekNewVideosQuery.equalTo("attachmentType", 'video/mov');
+    promises.push(lastWeekNewVideosQuery.count());
+
+    Parse.Promise.when(promises).then(function ( newUserCountLastDay, newBabiesCountLastDay, newInstallCountLastDay, newMilestoneCountLastDay, newUserCountLastWeek, newBabiesCountLastWeek, newInstallCountLastWeek, anonUserCount, signedInUserCount, newMilestoneCountLastWeek, allMilestoneCount, retentionStats, mostActiveUsers, mostActiveMilestonesThisWeek, mostActiveMilestones, mostSkippedMilestones, mostPostponedMilestones, lastWeekTransactions, lastWeekFailedTransactions, lastDayTransactions, lastDayFailedTransactions, lastWeekNewConnections, uniqueLastWeekConnections, lastDayNewConnections, uniqueLastDayNewConnections, lastDayNewPictures, lastDayNewPicturesList, lastWeekNewPictures, lastDayNewVideos, lastDayNewVideosList, lastWeekNewVideos) {
+        var templateParams = {newUserCountLastDay: newUserCountLastDay, newBabiesCountLastDay: newBabiesCountLastDay, newInstallCountLastDay: newInstallCountLastDay , newMilestoneCountLastDay: newMilestoneCountLastDay, newUserCountLastWeek: newUserCountLastWeek, newBabiesCountLastWeek: newBabiesCountLastWeek, newInstallCountLastWeek: newInstallCountLastWeek, anonUserCount: anonUserCount, signedInUserCount: signedInUserCount, newMilestoneCountLastWeek: newMilestoneCountLastWeek, allMilestoneCount: allMilestoneCount, retentionStats: retentionStats, mostActiveUsers: mostActiveUsers, mostActiveMilestonesThisWeek: mostActiveMilestonesThisWeek, mostActiveMilestones: mostActiveMilestones, mostSkippedMilestones: mostSkippedMilestones, mostPostponedMilestones: mostPostponedMilestones, lastWeekTransactions: lastWeekTransactions, lastWeekFailedTransactions: lastWeekFailedTransactions, lastDayTransactions: lastDayTransactions, lastDayFailedTransactions: lastDayFailedTransactions, lastWeekNewConnections: lastWeekNewConnections, uniqueLastWeekNewConnections: uniqueLastWeekConnections, lastDayNewConnections: lastDayNewConnections, uniqueLastDayNewConnections: uniqueLastDayNewConnections, lastDayNewPictures: lastDayNewPictures, lastDayNewPicturesList: lastDayNewPicturesList, lastWeekNewPictures: lastWeekNewPictures, lastDayNewVideos: lastDayNewVideos, lastDayNewVideosList: lastDayNewVideosList, lastWeekNewVideos: lastWeekNewVideos}
         var emails = require("cloud/emails");
         emails.notifyTeam("[DP_ALERT]: Daily Summary Stats", "reports/summaryReport.ejs", templateParams);
         status.success("Daily Summary Stats Report completed successfully.");

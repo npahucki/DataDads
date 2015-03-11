@@ -135,7 +135,6 @@ exports.inviteAcceptUrl = function (followConnectionInvite) {
 };
 
 
-
 // Baby sex should be 1:Male or 0:Female
 exports.replacePronounTokens = function (stringWithTokens, isMale, lang) {
     var result = stringWithTokens;
