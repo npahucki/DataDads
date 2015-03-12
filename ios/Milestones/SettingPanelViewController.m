@@ -8,14 +8,16 @@
 
 #import "SettingPanelViewController.h"
 #import "WebViewerViewController.h"
-#import "SlideOverViewController.h"
 #include <sys/sysctl.h>
 
 @interface SettingPanelViewController ()
 
 @end
 
-@implementation SettingPanelViewController
+@implementation SettingPanelViewController {
+    BOOL _isLiveChatAvailable;
+    HMChatOperatorAvailabilityCheck *_check;
+}
 
 + (void)initialize {
     [super initialize];
@@ -37,7 +39,11 @@
     self.showIgnoredMilestonesSwitch.on = ParentUser.currentUser.showIgnoredMilestones;
     self.showPostponedMilestonesSwitch.on = ParentUser.currentUser.showPostponedMilestones;
     self.showMilestoneStatisticsSwitch.on = ParentUser.currentUser.showMilestoneStats;
+}
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self startLiveChatAvailabilityCheck];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -105,6 +111,44 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return 44;
 }
+
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
+    if ([identifier isEqualToString:@"liveChat"] && !_isLiveChatAvailable) {
+        [[[UIAlertView alloc] initWithTitle:@"Leave a Message?"
+                                    message:@"We must be busy shushing our little ones and can't chat right now. We'll get back to you soon though!"
+                                   delegate:nil cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil]
+                showWithButtonBlock:^(NSInteger buttonIndex) {
+                    if (buttonIndex == 1) {
+                        [self didClickContactSupport:sender];
+                    } else {
+                        [self.navigationController popViewControllerAnimated:YES];
+                    }
+                }];
+        return NO;
+    }
+    return YES;
+}
+
+- (void)startLiveChatAvailabilityCheck {
+    self.liveChatButton.enabled = _isLiveChatAvailable = NO;
+    self.liveChatStatus.image = [UIImage imageNamed:@"hipmob-operator-connecting.png"];
+    NSString *hipMobAppId = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"DP.HipMobAppId"];
+    _check = [[HMChatOperatorAvailabilityCheck alloc] initWithAppID:hipMobAppId andNotify:self];
+}
+
+- (void)operatorCheck:(id)operatorCheck isOperatorAvailable:(NSString *)app {
+    _check = nil;
+    self.liveChatButton.enabled = _isLiveChatAvailable = YES;
+    self.liveChatStatus.image = [UIImage imageNamed:@"hipmob-operator-available.png"];
+}
+
+- (void)operatorCheck:(id)operatorCheck isOperatorOffline:(NSString *)app {
+    _check = nil;
+    _isLiveChatAvailable = NO;
+    self.liveChatButton.enabled = YES;
+    self.liveChatStatus.image = [UIImage imageNamed:@"hipmob-operator-offline.png"];
+}
+
 
 
 @end

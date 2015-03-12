@@ -40,6 +40,7 @@
 @dynamic isSkipped;
 @dynamic isPostponed;
 @dynamic sharedVia;
+@dynamic sharingOptions;
 
 + (NSString *)parseClassName {
     return @"MilestoneAchievements";

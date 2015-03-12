@@ -29,6 +29,7 @@
 		72F18571645133E5458D1097 /* NoteMilestoneSlideOverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18359F916A9995B2E26E5 /* NoteMilestoneSlideOverViewController.m */; };
 		72F185D04E9D8D927BEBFA72 /* CMPopTipView+WithStaticInitializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F185EB408FDE2C98B77B34 /* CMPopTipView+WithStaticInitializer.m */; };
 		72F1860975D6B51CA5600385 /* PurchaseTransaction.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18CC0F7A7237D340BAB5B /* PurchaseTransaction.m */; };
+		72F18614041F966A12C26C70 /* SettingsPanelNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18A6F1AC7F78EBC742114 /* SettingsPanelNavigationController.m */; };
 		72F18617EC21AE75149CBA42 /* NSString+EmailAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18B2AFF977957CF046E9E /* NSString+EmailAddress.m */; };
 		72F1869425B11178EF3FB0CF /* MBContactPicker+ForceCompletion.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F188D7B1BE2C471BF1480B /* MBContactPicker+ForceCompletion.m */; };
 		72F186FAC366DD73385A1055 /* ViewControllerWithBabyInfoButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18C69E7D6386F1B61CB97 /* ViewControllerWithBabyInfoButton.m */; };
@@ -42,6 +43,7 @@
 		72F18993EDD29199E07B9B58 /* UIResponder+FirstResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F1894FDEAC31CBC81021FD /* UIResponder+FirstResponder.m */; };
 		72F189D03635D080146BA4E8 /* FollowConnectionsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18BDBDA243B1941504FEB /* FollowConnectionsDataSource.m */; };
 		72F189D4BBC46B8B7C1FDBF4 /* NSMutableDictionary+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18C67CC563C08460F13DD /* NSMutableDictionary+JSON.m */; };
+		72F189F498FF749B2D91F738 /* SettingsPanelNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18A6F1AC7F78EBC742114 /* SettingsPanelNavigationController.m */; };
 		72F18A0239394ADCB653A3C1 /* InAppPurchaseHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F1844739B4B51C27B34983 /* InAppPurchaseHelper.m */; };
 		72F18A8BAA52268B8AB8A3D1 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72F184C3C79880CF8D53574A /* MediaPlayer.framework */; };
 		72F18B2BB218DB4DF06FEC6B /* AppleIncRootCertificate.cer in Resources */ = {isa = PBXBuildFile; fileRef = 72F18423ECAD54191B7179D7 /* AppleIncRootCertificate.cer */; };
@@ -418,6 +420,7 @@
 /* Begin PBXFileReference section */
 		4499694599B7E5AE56DC3A5F /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		72F180425F4F1312AAAAA06A /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = FDTake.strings; sourceTree = "<group>"; };
+		72F18081D5A9249F1F95525F /* SettingsPanelNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsPanelNavigationController.h; sourceTree = "<group>"; };
 		72F180897A35DA9A91FA0D75 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
 		72F180930FA5B4A6911E48E0 /* UIDevice+DetectBlur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+DetectBlur.h"; sourceTree = "<group>"; };
 		72F180A1C9F67C2395A0EF2F /* MediaFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaFile.h; sourceTree = "<group>"; };
@@ -444,6 +447,7 @@
 		72F18966BF2FBB69086B51E9 /* UIResponder+FirstResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIResponder+FirstResponder.h"; sourceTree = "<group>"; };
 		72F189EB828F0DC8FFD51914 /* FDTakeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FDTakeController.h; sourceTree = "<group>"; };
 		72F18A513D481205AD9FA1F1 /* FDTakeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FDTakeController.m; sourceTree = "<group>"; };
+		72F18A6F1AC7F78EBC742114 /* SettingsPanelNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsPanelNavigationController.m; sourceTree = "<group>"; };
 		72F18A81B5FA1498B57E2602 /* InviteContactsAddressBookDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InviteContactsAddressBookDataSource.h; sourceTree = "<group>"; };
 		72F18AF5D227CE9B7280E8E6 /* PurchaseTransaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PurchaseTransaction.h; sourceTree = "<group>"; };
 		72F18B2AFF977957CF046E9E /* NSString+EmailAddress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+EmailAddress.m"; sourceTree = "<group>"; };
@@ -924,6 +928,8 @@
 				72F186162B391F420B41BEE6 /* ViewControllerWithBabyInfoButton.h */,
 				72F18CDD6D9DD56B6979BC3E /* HipmobViewController.m */,
 				72F183477484F83CDC282A26 /* HipmobViewController.h */,
+				72F18A6F1AC7F78EBC742114 /* SettingsPanelNavigationController.m */,
+				72F18081D5A9249F1F95525F /* SettingsPanelNavigationController.h */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -1757,6 +1763,7 @@
 				72F1829870D728700BAFF83E /* UIDevice+DetectBlur.m in Sources */,
 				72F18E2608B07F74DB2C122D /* NoteMilestoneSlideOverViewController.m in Sources */,
 				72F1869425B11178EF3FB0CF /* MBContactPicker+ForceCompletion.m in Sources */,
+				72F189F498FF749B2D91F738 /* SettingsPanelNavigationController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1847,6 +1854,7 @@
 				72F180DB2AE516D3D1FC2472 /* UIDevice+DetectBlur.m in Sources */,
 				72F18571645133E5458D1097 /* NoteMilestoneSlideOverViewController.m in Sources */,
 				72F18317AF2185DB5DE00996 /* MBContactPicker+ForceCompletion.m in Sources */,
+				72F18614041F966A12C26C70 /* SettingsPanelNavigationController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

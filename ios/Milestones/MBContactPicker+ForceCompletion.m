@@ -5,7 +5,7 @@
 
 #import "MBContactPicker+ForceCompletion.h"
 #import "InviteContactsAddressBookDataSource.h"
-#import "NSString+EmailAddress.h";
+#import "NSString+EmailAddress.h"
 
 
 @implementation MBContactPicker (ForceCompletion)
