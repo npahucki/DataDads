@@ -53,11 +53,15 @@
 - (void)userDidLogAchievement:(NSNotification *)notification {
     // If they haven't opened the share tab yet...AND they have not been shown the message
     NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+    MilestoneAchievement *achievement = notification.object;
     if (!self.tipView && !([defs boolForKey:@"ShareTabTouched"] || [defs boolForKey:@"ShowedTutorialTip_ShareTab"])) {
-        MilestoneAchievement *achievement = notification.object;
         if ([achievement.customTitle rangeOfString:@"born and is beautiful"].length == 0) {
             [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(showToastTip) userInfo:nil repeats:NO];
         }
+    }
+
+    if (achievement.sharingOptions[@"additionalFollowerEmails"]) {
+        [_dataSource loadObjects]; // Someone new got added via the achievement.
     }
 }
 
