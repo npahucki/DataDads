@@ -1051,11 +1051,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ee7-dL-aBm" userLabel="Content View">
-                                <rect key="frame" x="0.0" y="148.5" width="320" height="419.5"/>
+                                <rect key="frame" x="0.0" y="149" width="320" height="420"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Chat With Support" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EyL-75-YIr">
-                                <rect key="frame" x="89" y="96" width="143" height="20.5"/>
+                                <rect key="frame" x="89" y="96" width="143" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -1469,12 +1469,12 @@
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Facebook" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="whH-1R-ej0">
-                                        <rect key="frame" x="38" y="21" width="76.5" height="20.5"/>
+                                        <rect key="frame" x="38" y="21" width="77" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Friends and Family" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="E0W-VY-90c">
-                                        <rect key="frame" x="38" y="69" width="145.5" height="20.5"/>
+                                        <rect key="frame" x="38" y="69" width="146" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
@@ -1571,7 +1571,7 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="252" text="Sharing" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZTf-Dt-Q3o">
-                                <rect key="frame" x="126.5" y="36" width="67.5" height="24"/>
+                                <rect key="frame" x="127" y="36" width="68" height="24"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -1649,13 +1649,13 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatarButtonDefault" translatesAutoresizingMaskIntoConstraints="NO" id="D9K-HX-pqh">
-                                            <rect key="frame" x="8" y="8" width="47.5" height="47.5"/>
+                                            <rect key="frame" x="8" y="8" width="48" height="48"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="D9K-HX-pqh" secondAttribute="height" multiplier="1:1" id="9nB-lb-n3U"/>
                                             </constraints>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.70000000000000018" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bi6-7S-WWD">
-                                            <rect key="frame" x="63" y="22" width="190.5" height="20.5"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.70000000000000018" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bi6-7S-WWD">
+                                            <rect key="frame" x="63" y="22" width="191" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="highlightedColor"/>
                                         </label>
@@ -1725,7 +1725,7 @@
                                                     </connections>
                                                 </button>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hipmob-operator-connecting.png" translatesAutoresizingMaskIntoConstraints="NO" id="RTe-5j-NGC">
-                                                    <rect key="frame" x="301" y="16.5" width="11" height="11"/>
+                                                    <rect key="frame" x="301" y="17" width="11" height="11"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="11" id="KqR-Tw-SFH"/>
                                                         <constraint firstAttribute="width" constant="11" id="WpC-dm-2ZM"/>
@@ -1991,7 +1991,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Milestone Stats Messages" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x4V-Qu-E9Y">
-                                                    <rect key="frame" x="20" y="14" width="169.5" height="17"/>
+                                                    <rect key="frame" x="20" y="14" width="170" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
@@ -3068,7 +3068,7 @@
                                     <segue destination="ajq-f1-8MQ" kind="embed" id="gXg-Fb-eEg"/>
                                 </connections>
                             </containerView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kL0-zn-xqN" customClass="MBContactPicker">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kL0-zn-xqN" customClass="MBContactPicker">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" id="5QE-VQ-BZM"/>

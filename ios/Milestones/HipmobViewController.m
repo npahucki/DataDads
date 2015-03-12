@@ -7,6 +7,7 @@
 #import <hipmob/HMChatMessage.h>
 #import <AudioToolbox/AudioToolbox.h>
 #import "HipmobViewController.h"
+#import "MainViewController.h"
 
 @implementation HipmobViewController
 
@@ -50,8 +51,15 @@
         self.titleLabel.text = @"Connecting To Support...";
         self.statusImageView.image = [UIImage animatedImageNamed:@"progress-" duration:1.0];
     }
-//    NSString *contextTitle = NSStringFromClass([((UINavigationController *) ((MainViewController *) otherVc).selectedViewController).visibleViewController class]);
-//    if (contextTitle) [self.chatView updateContext:contextTitle];
+
+    SlideOverViewController *slideOutController = (SlideOverViewController *) self.navigationController.parentViewController;
+    MainViewController *mainViewController = (MainViewController *) slideOutController.mainViewController;
+    UIViewController *currentVc = mainViewController.selectedViewController;
+    if ([currentVc isKindOfClass:[UINavigationController class]]) {
+        currentVc = ((UINavigationController *) currentVc).visibleViewController;
+    }
+    NSString *contextTitle = NSStringFromClass([currentVc class]);
+    if (contextTitle) [self.chatView updateContext:contextTitle];
 }
 
 - (void)dealloc {
