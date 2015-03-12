@@ -119,17 +119,20 @@ Parse.Cloud.afterSave("MilestoneAchievements", function (request) {
     var isPostponed = achievement.get("isPostponed");
     var utils = require("cloud/utils");
 
-    // Send email to any followers
-    var daysSinceAchievement = Math.abs(utils.dayDiffFromNow(achievement.get("completionDate")));
-    if (!achievement.existed() && baby && !isSkipped && !isPostponed && daysSinceAchievement < 7) {
+    var promises = [];
+    if (!achievement.existed() && baby && !isSkipped && !isPostponed) {
+        var daysSinceAchievement = Math.abs(utils.dayDiffFromNow(achievement.get("completionDate")));
         var connections = require("cloud/follow_connections");
-        // Only sends if the baby has followers, otherwise NOOP.
-        connections.sendMonitorEmailForAchievement(achievement);
+        var sharingOptions = achievement.get("sharingOptions");
+
+        if(sharingOptions ? sharingOptions.sendToFollowers : daysSinceAchievement < 7) {
+            promises.push(connections.sendMonitorEmailForAchievement(achievement));
+        }
     }
 
     if (request.user) {
         request.user.set("lastSeenAt", new Date());
-        request.user.save();
+        promises.push(request.user.save());
     }
 
     if (!achievement.existed()) {
@@ -152,20 +155,25 @@ Parse.Cloud.afterSave("MilestoneAchievements", function (request) {
 
         // Update Baby stat
         if (baby && !(isSkipped || isPostponed)) {
-            incrementStat(baby.id, "babyNotedMilestoneCount");
+            promises.push(incrementStat(baby.id, "babyNotedMilestoneCount"));
         }
-
 
         if (milestone) {
             if (isSkipped) {
-                incrementStat(milestone.id, "standardMilestoneSkippedCount");
+                promises.push(incrementStat(milestone.id, "standardMilestoneSkippedCount"));
             } else if (isPostponed) {
-                incrementStat(milestone.id, "standardMilestonePostponedCount");
+                promises.push(incrementStat(milestone.id, "standardMilestonePostponedCount"));
             } else {
-                incrementStat(milestone.id, "standardMilestoneNotedCount");
+                promises.push(incrementStat(milestone.id, "standardMilestoneNotedCount"));
             }
         }
     }
+
+    Parse.Promise.when(promises).then(function() {
+        console.log("After save steps for achievement " + achievement.id + " successfully completed");
+    },function(error) {
+        console.log("Failed to execute after save steps for achievement " + achievement.id + ". Error :" + JSON.stringify(error));
+    });
 });
 
 Parse.Cloud.afterDelete("MilestoneAchievements", function (request) {
@@ -176,6 +184,7 @@ Parse.Cloud.afterDelete("MilestoneAchievements", function (request) {
     var baby = achievement.get("baby");
     var isSkipped = achievement.get("isSkipped");
     var isPostponed = achievement.get("isPostponed");
+    var promises = [];
 
     function decrementStat(refObjectId, type) {
         var statsQuery = new Parse.Query("Stats");
@@ -191,23 +200,29 @@ Parse.Cloud.afterDelete("MilestoneAchievements", function (request) {
 
     // Update Baby stat
     if (baby && !(isSkipped || isPostponed)) {
-        decrementStat(baby.id, "babyNotedMilestoneCount");
+        promises.push(decrementStat(baby.id, "babyNotedMilestoneCount"));
     }
 
     if (request.user) {
         request.user.set("lastSeenAt", new Date());
-        request.user.save();
+        promises.push(request.user.save());
     }
 
     if (milestone) {
         if (isSkipped) {
-            decrementStat(milestone.id, "standardMilestoneSkippedCount");
+            promises.push(decrementStat(milestone.id, "standardMilestoneSkippedCount"));
         } else if (isPostponed) {
-            decrementStat(milestone.id, "standardMilestonePostponedCount");
+            promises.push(decrementStat(milestone.id, "standardMilestonePostponedCount"));
         } else {
-            decrementStat(milestone.id, "standardMilestoneNotedCount");
+            promises.push(decrementStat(milestone.id, "standardMilestoneNotedCount"));
         }
     }
+
+    Parse.Promise.when(promises).then(function() {
+        console.log("After delete steps for achievement " + achievement.id + " successfully completed");
+    },function(error) {
+        console.log("Failed to execute after delete steps for achievement " + achievement.id + ". Error :" + JSON.stringify(error));
+    });
 });
 
 

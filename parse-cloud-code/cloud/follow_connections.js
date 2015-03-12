@@ -52,12 +52,16 @@ function lookupBestAchievementForInvite(baby) {
 }
 
 function addUserBabyFollower(user, followerEmailAddress) {
+    if(followerEmailAddress && followerEmailAddress.length > 0) {
         var babyQuery = new Parse.Query("Babies");
         babyQuery.equalTo("parentUser", user);
         return babyQuery.each(function (baby) {
             baby.addUnique("followerEmails", followerEmailAddress);
             return baby.save();
         });
+    } else {
+        return Parse.Promise.as(null);
+    }
 }
 
 
@@ -89,6 +93,56 @@ function lookupConnectionObject(request) {
         return promise;
     });
 }
+
+// Given an invitation, create the record in the database.
+// invite is an object with this format: {sendToEmail : "email", sendToName : "name" }
+// Returns a promise which is fulfilled when the connection has been saved.
+function createFollowConnection(inviterUser, invite, markAsDelivered) {
+    invite.sendToEmail = invite.sendToEmail.toLowerCase();
+    var existingConnectionQuery = new Parse.Query("FollowConnections");
+    existingConnectionQuery.equalTo("user1", inviterUser);
+    existingConnectionQuery.equalTo("inviteSentToEmail", invite.sendToEmail);
+    return existingConnectionQuery.first().then(function (existingConn) {
+        if (existingConn) {
+            if (existingConn.has("inviteAcceptedOn")) {
+                console.warn("Ignored request to send invite for an already accepted connection:" + existingConn.id);
+                return Parse.Promise.as();
+            } else {
+                existingConn.set("inviteSentOn", new Date());
+                if(!markAsDelivered) {
+                    existingConn.unset("inviteDeliveredOn");
+                }
+                return existingConn.save();
+            }
+        } else {
+            var lookUpUserByEmailQuery = new Parse.Query(Parse.User);
+            lookUpUserByEmailQuery.equalTo("email", invite.sendToEmail);
+            return lookUpUserByEmailQuery.first(function (invitedUser) {
+                var conn = new Parse.Object("FollowConnections");
+                conn.set("user1", inviterUser);
+                conn.set("inviteSentToEmail", invite.sendToEmail);
+                conn.set("inviteSentOn", new Date());
+                // NOTE: As of 2/5/2015, we automatically accept the invite
+                // this simplifies the process quite a bit, but removes permission
+                // before a another user can follow. I keep this note here in case
+                // we move to a more secure model, where we require invite acceptance.
+                conn.set("inviteAcceptedOn", new Date());
+                // IN some cases, we don't want the delivery daemon to process this email again
+                if(markAsDelivered) {
+                    conn.set("inviteDeliveredOn", new Date());
+                }
+                if (invite.sendToName) conn.set("inviteSentToName", invite.sendToName);
+                if (invitedUser) {
+                    // Already a user!
+                    conn.set("user2", invitedUser);
+                } // else, user not in system already
+                return conn.save();
+            });
+        }
+    });
+}
+
+
 
 Parse.Cloud.define("queryMyFollowConnections", function (request, response) {
     Parse.Cloud.useMasterKey();
@@ -237,42 +291,7 @@ Parse.Cloud.define("sendFollowInvitation", function (request, response) {
     Parse.Cloud.useMasterKey();
     var promises = _.map(request.params.invites, function (invite) {
         if (utils.isValidEmailAddress(invite.sendToEmail)) {
-            invite.sendToEmail = invite.sendToEmail.toLowerCase();
-            var existingConnectionQuery = new Parse.Query("FollowConnections");
-            existingConnectionQuery.equalTo("user1", request.user);
-            existingConnectionQuery.equalTo("inviteSentToEmail", invite.sendToEmail);
-            return existingConnectionQuery.first().then(function (existingConn) {
-                if (existingConn) {
-                    if (existingConn.has("inviteAcceptedOn")) {
-                        console.warn("Ignored request to send invite for an already accepted connection:" + existingConn.id);
-                    } else {
-                        existingConn.set("inviteSentOn", new Date());
-                        existingConn.unset("inviteDeliveredOn");
-                        return existingConn.save();
-                    }
-                } else {
-                    var lookUpUserByEmailQuery = new Parse.Query(Parse.User);
-                    lookUpUserByEmailQuery.equalTo("email", invite.sendToEmail);
-                    return lookUpUserByEmailQuery.first(function (invitedUser) {
-                        var inviterUser = request.user;
-                        var conn = new Parse.Object("FollowConnections");
-                        conn.set("user1", inviterUser);
-                        conn.set("inviteSentToEmail", invite.sendToEmail);
-                        conn.set("inviteSentOn", new Date());
-                        // NOTE: As of 2/5/2015, we automatically accept the invite
-                        // this simplifies the process quite a bit, but removes permission
-                        // before a another user can follow. I keep this note here in case
-                        // we move to a more secure model, where we require invite acceptance.
-                        conn.set("inviteAcceptedOn", new Date());
-                        if (invite.sendToName) conn.set("inviteSentToName", invite.sendToName);
-                        if (invitedUser) {
-                            // Already a user!
-                            conn.set("user2", invitedUser);
-                        } // else, user not in system already
-                        return conn.save();
-                    });
-                }
-            });
+            return createFollowConnection(request.user, invite, false);
         } else {
             console.warn("Skipped sending invite to invalid email address:" + invite.sendToEmail);
         }
@@ -511,16 +530,53 @@ exports.sendMonitorEmailForAchievement = function(achievement, emailAddresses) {
     query.include("baby");
     query.include("baby.parentUser");
     return query.get(achievement.id).then(function (achievement) {
-        milestone = achievement.get("standardMilestone");
-        baby = achievement.get("baby");
+        var milestone = achievement.get("standardMilestone");
+        var baby = achievement.get("baby");
+        var parentUser = baby.get("parentUser");
 
-        // If no email addresses defined, then use the ones following the baby by default, otherwise use the provided list
+        var promises = [];
+        // If no email addresses explicitly defined, then use the ones following the baby by default, otherwise use the provided list
         if(!emailAddresses) {
-            emailAddresses = baby.get("followerEmails");
+            emailAddresses = baby.get("followerEmails") || [];
+            if(DEBUG) console.log("Existing baby followers emails " + emailAddresses);
+            var sharingOptions = achievement.get("sharingOptions");
+            if(sharingOptions) {
+                if(DEBUG) console.log("Sharing Options: " + JSON.stringify(sharingOptions));
+                var emailsToAddToParentBabies = [];
+                if(sharingOptions.additionalFollowerEmails) {
+                    if(DEBUG) console.log("Adding additional follower emails " + sharingOptions.additionalFollowerEmails);
+                    var pattern = /(?:"([^"]+)")? ?<?(.*?@[^>,]+)>?,? ?/g;
+                    Parse.Cloud.useMasterKey(); // Needed to add follow connections
+                    _.each(sharingOptions.additionalFollowerEmails, function(followerEmail) {
+                        // Add these to baby, but also make permanent followers
+                        var matchResult = pattern.exec(followerEmail);
+                        var invite = { sendToName : matchResult[1], sendToEmail : matchResult[2]};
+                        if(invite.sendToEmail) {
+                            if(DEBUG) console.log("Creating invitation " + JSON.stringify(invite));
+                            promises.push(createFollowConnection(parentUser, invite, true));
+                            emailAddresses.push(invite.sendToEmail);
+                            emailsToAddToParentBabies.push(invite.sendToEmail);
+                        } else {
+                            // Bad email address?
+                            console.warn("Found invalid email '" + followerEmail + "'address while sending emails for achievement " + achievement.id);
+                        }
+                    });
+                    // In the future, this user will get all achievements for this parentUser's babies.
+                    promises.push(addUserBabyFollower(parentUser, emailsToAddToParentBabies));
+                }
+
+                if(sharingOptions.excludedFollowerEmails) {
+                    if(DEBUG) console.log("Excluding follower emails " + sharingOptions.excludedFollowerEmails);
+                    // Now exclude any emails in the exclude list
+                    emailAddresses = _.without.apply(_,[emailAddresses].concat(sharingOptions.excludedFollowerEmails));
+                }
+            } else {
+                if(DEBUG) console.log("No sharing options were found on achievement " + achievement.id);
+            }
         }
 
+        if(DEBUG) console.log("Final list of emails to send to: " + emailAddresses);
         if(emailAddresses && emailAddresses.length > 0) {
-            var parentUser = baby.get("parentUser");
             var milestonePromise = milestone ? milestone.fetch() : Parse.Promise.as(null);
             return milestonePromise.then(function (populatedMilestone) {
                 milestone = populatedMilestone;
@@ -544,19 +600,18 @@ exports.sendMonitorEmailForAchievement = function(achievement, emailAddresses) {
                 };
 
                 var emails = require('cloud/emails.js');
-                var sendInvitesPromises = [];
                 _.each(emailAddresses, function(emailAddress){
                     var inviteeUserQuery = new Parse.Query(Parse.User);
                     inviteeUserQuery.equalTo("email", emailAddress);
-                    sendInvitesPromises.push(inviteeUserQuery.count().then(function(count) {
+                    promises.push(inviteeUserQuery.count().then(function(count) {
                         params.inviteeIsExistingUser = count > 0;
                         params.unsubscribeLink = "http://" + utils.websiteHost + "/unsubscribe?sentToEmail=" + emailAddress + "&followedEmail=" + parentUser.get("email");                        params.inviteeIsExistingUser = count > 0;
                         if(DEBUG) console.log("Sending achievement email to " + emailAddress + ". Existing User:" + params.inviteeIsExistingUser);
                         return emails.sendTemplateEmail(subjectText, emailAddress, "follow/notification.ejs", params, parentUser);
                     }));
                 });
-                return Parse.Promise.when(sendInvitesPromises);
             });
         }
+        return Parse.Promise.when(promises);
     });
 };
