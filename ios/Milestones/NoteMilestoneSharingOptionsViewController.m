@@ -133,6 +133,14 @@
     [self updateContainerViewState];
 }
 
+- (void)viewDidFinishSlidingOut:(UIViewController *)slidingView over:(UIViewController *)otherVc {
+
+}
+
+- (void)viewDidFinishSlidingIn:(UIViewController *)slidingView over:(UIViewController *)otherVc {
+    [self setInviteMode:NO withAnimation:NO];
+}
+
 - (void)updateContainerViewState {
     BOOL contactsEnabled = [_sharingTableViewController hasContacts] && self.enableFollowersSwitch.on;
     _sharingTableViewController.tableView.userInteractionEnabled = contactsEnabled;
@@ -180,6 +188,7 @@
                     }
 
                     [self.inviteButton setTitle:@"Done" forState:UIControlStateNormal];
+                    self.parentViewController.navigationItem.rightBarButtonItem.enabled = NO;
                     self.pickerView.hidden = NO;
                     [self.pickerView becomeFirstResponder];
                     // We need to collapse the top view so there is extra room to show the contacts.
@@ -192,6 +201,7 @@
     } else {
         _inviteMode = NO;
         [self.inviteButton setTitle:@"Invite" forState:UIControlStateNormal];
+        self.parentViewController.navigationItem.rightBarButtonItem.enabled = YES;
         [self.pickerView resignFirstResponder];
         [self setPickerHeight:0 animated:animates];
         [self setTopViewHeight:108 animated:animates];

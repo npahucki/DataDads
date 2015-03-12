@@ -13,7 +13,7 @@
 @class NoteMilestoneViewController;
 @class FollowConnectionsDataSource;
 
-@interface NoteMilestoneSharingOptionsViewController : UIViewController <MBContactPickerDelegate>
+@interface NoteMilestoneSharingOptionsViewController : UIViewController <MBContactPickerDelegate, SlideOverViewControllerEventReceiver>
 @property(weak, nonatomic) IBOutlet UISwitch *enableFacebookButton;
 @property(weak, nonatomic) IBOutlet UISwitch *enableFollowersSwitch;
 @property(weak, nonatomic) IBOutlet UILabel *selectFollowersLabel;
