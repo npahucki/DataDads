@@ -153,7 +153,7 @@
         emails = [[NSMutableArray alloc] init];
         for (InviteContact *contact in _additionalContacts) {
             if (contact.fullName) {
-                [emails addObject:[NSString stringWithFormat:@"%@ <%@>", contact.fullName, contact.emailAddress]];
+                [emails addObject:[NSString stringWithFormat:@"\"%@\" <%@>", contact.fullName, contact.emailAddress]];
             } else {
                 [emails addObject:contact.emailAddress];
             }
