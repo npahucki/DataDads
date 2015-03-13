@@ -49,7 +49,7 @@
     self.pickerView.layer.borderWidth = 1;
     self.pickerView.allowsCompletionOfSelectedContacts = NO;
     self.pickerView.maxVisibleRows = 5;
-    self.pickerView.showPrompt = NO;
+    self.pickerView.prompt = @""; // Note
     self.pickerView.delegate = self;
     self.pickerView.datasource = self.addressBookDataSource;
     [[MBContactCollectionViewContactCell appearance] setTintColor:[UIColor appNormalColor]];
