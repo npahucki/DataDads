@@ -1469,12 +1469,12 @@
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Facebook" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="whH-1R-ej0">
-                                        <rect key="frame" x="38" y="21" width="76.5" height="20.5"/>
+                                        <rect key="frame" x="38" y="21" width="77" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Friends and Family" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="E0W-VY-90c">
-                                        <rect key="frame" x="38" y="69" width="145.5" height="20.5"/>
+                                        <rect key="frame" x="38" y="69" width="146" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
@@ -1571,7 +1571,7 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="252" text="Sharing" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZTf-Dt-Q3o">
-                                <rect key="frame" x="126" y="36" width="67.5" height="24"/>
+                                <rect key="frame" x="126" y="36" width="68" height="24"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -1608,7 +1608,6 @@
                         <color key="backgroundColor" white="1" alpha="0.70000000000000007" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="Nw6-Pm-Arz" secondAttribute="trailing" id="3Y2-89-OP6"/>
-                            <constraint firstItem="rmx-rM-5R5" firstAttribute="top" secondItem="CZ5-Uq-WYS" secondAttribute="bottom" constant="60" id="49G-FG-LQs"/>
                             <constraint firstItem="Nw6-Pm-Arz" firstAttribute="top" secondItem="CZ5-Uq-WYS" secondAttribute="bottom" id="4SG-v2-hah"/>
                             <constraint firstItem="CZ5-Uq-WYS" firstAttribute="leading" secondItem="Ne6-SK-2is" secondAttribute="leading" id="4hW-Im-mRh"/>
                             <constraint firstItem="qTt-65-THi" firstAttribute="top" secondItem="Fjg-yW-wLV" secondAttribute="bottom" constant="8" id="EYd-9I-Rx5"/>
@@ -1617,6 +1616,7 @@
                             <constraint firstItem="xCT-QF-UtG" firstAttribute="top" secondItem="ZTf-Dt-Q3o" secondAttribute="bottom" constant="8" id="LKm-Ij-GqC"/>
                             <constraint firstAttribute="centerX" secondItem="ZTf-Dt-Q3o" secondAttribute="centerX" id="LZU-6Z-u7p"/>
                             <constraint firstAttribute="trailing" secondItem="Fjg-yW-wLV" secondAttribute="trailing" constant="16" id="Mit-7k-RhN"/>
+                            <constraint firstItem="rmx-rM-5R5" firstAttribute="top" secondItem="Nw6-Pm-Arz" secondAttribute="bottom" constant="16" id="NIu-lD-T9S"/>
                             <constraint firstItem="CZ5-Uq-WYS" firstAttribute="top" secondItem="Tc2-OK-xeS" secondAttribute="bottom" id="P4q-Qj-SPE"/>
                             <constraint firstItem="Fjg-yW-wLV" firstAttribute="leading" secondItem="Ne6-SK-2is" secondAttribute="leading" constant="16" id="USv-w9-FUx"/>
                             <constraint firstItem="Tc2-OK-xeS" firstAttribute="trailing" secondItem="Ne6-SK-2is" secondAttribute="trailingMargin" id="b1n-WK-If0"/>

@@ -63,13 +63,6 @@
     return [[NSUserDefaults standardUserDefaults] boolForKey:@"autoPublishToFacebook"];
 }
 
-- (void)setAutoShareWithFollowers:(BOOL)autoPublishToFacebook {
-    [[NSUserDefaults standardUserDefaults] setBool:autoPublishToFacebook forKey:@"autoShareWithFollowers"];
-}
-
-- (BOOL)autoShareWithFollowers {
-    return [[NSUserDefaults standardUserDefaults] boolForKey:@"autoShareWithFollowers"];
-}
 
 - (void)setSuppressAutoShowNoteMilestoneShareScreen:(BOOL)autoPublishToFacebook {
     [[NSUserDefaults standardUserDefaults] setBool:autoPublishToFacebook forKey:@"suppressAutoShowNoteMilestoneShareScreen"];

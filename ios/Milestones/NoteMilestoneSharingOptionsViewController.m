@@ -37,16 +37,12 @@
     self.inviteButton.titleLabel.font = [UIFont fontForAppWithType:Bold andSize:18.0F];
     self.dontShowAgainButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     self.dontShowAgainButton.titleLabel.minimumScaleFactor = 0.5F;
-    self.dontShowAgainButton.hidden = [ParentUser currentUser].suppressAutoShowNoteMilestoneShareScreen || _sharingTableViewController.hasContacts;
 
     BOOL enableFacebook = ParentUser.currentUser.autoPublishToFacebook && [PFFacebookUtils userHasAuthorizedPublishPermissions:ParentUser.currentUser];
     [self.enableFacebookButton setOn:enableFacebook animated:NO];
 
-    BOOL enableFollowers = ParentUser.currentUser.autoShareWithFollowers && _sharingTableViewController.hasContacts;
-    [self.enableFollowersSwitch setOn:enableFollowers animated:NO];
-    if (enableFollowers) { // Reload to make sure we have the latest data.
-        [_sharingTableViewController loadObjects];
-    }
+    [self.enableFollowersSwitch setOn:NO animated:NO];
+    [_sharingTableViewController loadObjects];
 
     self.pickerView.layer.borderColor = [UIColor appNormalColor].CGColor;
     self.pickerView.layer.borderWidth = 1;
@@ -97,6 +93,11 @@
         [self.addressBookDataSource addExcludeContactWithEmail:fc.otherPartyEmail];
     }
     [self.pickerView reloadData];
+    if (!_hasChangedSharingSettings) {
+        BOOL enableFollowers = _sharingTableViewController.hasContacts; // If there are followers, always default to on.
+        [self.enableFollowersSwitch setOn:enableFollowers animated:NO];
+    }
+    [self updateContainerViewState];
 }
 
 - (IBAction)didChangeEnableFacebookSwitch:(id)sender {
@@ -131,8 +132,6 @@
         [self setInviteMode:NO];
     }
 
-    // This is local preference settings
-    ParentUser.currentUser.autoShareWithFollowers = self.enableFollowersSwitch.on;
     [self updateContainerViewState];
 }
 
@@ -149,8 +148,6 @@
     } else {
         self.inviteMode = YES;
     }
-
-    [self updateContainerViewState];
 }
 
 - (void)viewDidFinishSlidingOut:(UIViewController *)slidingView over:(UIViewController *)otherVc {
@@ -171,11 +168,14 @@
     BOOL contactsEnabled = [_sharingTableViewController hasContacts] && self.enableFollowersSwitch.on;
     _sharingTableViewController.tableView.userInteractionEnabled = contactsEnabled;
     self.inviteButton.enabled = self.enableFollowersSwitch.on;
+    self.dontShowAgainButton.hidden = _inviteMode || _sharingTableViewController.hasContacts ||
+            [ParentUser currentUser].suppressAutoShowNoteMilestoneShareScreen;
     [UIView animateWithDuration:0.3 animations:^{
         self.selectFollowersLabel.alpha = contactsEnabled ? 1.0F : 0.2F;
         _sharingTableViewController.view.alpha = contactsEnabled ? 1.0F : 0.3F;
         self.inviteButton.alpha = self.inviteButton.enabled ? 1.0F : 0.2F;
     }];
+
 }
 
 - (InviteContactsAddressBookDataSource *)addressBookDataSource {
@@ -235,8 +235,9 @@
         [self setPickerHeight:0 animated:animates];
         [self setTopViewHeight:108 animated:animates];
         self.selectFollowersLabel.text = @"SELECT FOLLOWERS:";
-
     }
+
+    [self updateContainerViewState];
 }
 
 - (void)setPickerHeight:(CGFloat)height animated:(BOOL)animated {
