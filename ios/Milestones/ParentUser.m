@@ -71,6 +71,16 @@
     return [[NSUserDefaults standardUserDefaults] boolForKey:@"autoShareWithFollowers"];
 }
 
+- (void)setSuppressAutoShowNoteMilestoneShareScreen:(BOOL)autoPublishToFacebook {
+    [[NSUserDefaults standardUserDefaults] setBool:autoPublishToFacebook forKey:@"suppressAutoShowNoteMilestoneShareScreen"];
+}
+
+- (BOOL)suppressAutoShowNoteMilestoneShareScreen {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:@"suppressAutoShowNoteMilestoneShareScreen"];
+}
+
+
+
 
 - (BOOL)shownTutorialPrompt {
     return [[NSUserDefaults standardUserDefaults] boolForKey:@"shownTutorialPrompt"];

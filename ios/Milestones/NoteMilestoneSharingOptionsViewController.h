@@ -25,6 +25,7 @@
 @property(strong, nonatomic) MilestoneAchievement *achievement;
 @property(weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property(weak, nonatomic) IBOutlet NSLayoutConstraint *topViewHeightConstraint;
+@property(weak, nonatomic) IBOutlet UIButton *dontShowAgainButton;
 
 @property(nonatomic, readonly) FollowConnectionsDataSource *followConnectionsDataSource;
 

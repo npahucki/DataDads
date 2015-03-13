@@ -35,6 +35,9 @@
     self.titleLabel.font = [UIFont fontForAppWithType:Book andSize:22.0F];
     self.selectFollowersLabel.font = [UIFont fontForAppWithType:Book andSize:16.0F];
     self.inviteButton.titleLabel.font = [UIFont fontForAppWithType:Bold andSize:18.0F];
+    self.dontShowAgainButton.titleLabel.adjustsFontSizeToFitWidth = YES;
+    self.dontShowAgainButton.titleLabel.minimumScaleFactor = 0.5F;
+    self.dontShowAgainButton.hidden = [ParentUser currentUser].suppressAutoShowNoteMilestoneShareScreen || _sharingTableViewController.hasContacts;
 
     BOOL enableFacebook = ParentUser.currentUser.autoPublishToFacebook && [PFFacebookUtils userHasAuthorizedPublishPermissions:ParentUser.currentUser];
     [self.enableFacebookButton setOn:enableFacebook animated:NO];
@@ -76,6 +79,16 @@
         _sharingTableViewController.contactsDataSource = self.addressBookDataSource;
         _sharingTableViewController.followConnectionsDataSource = self.followConnectionsDataSource;
     }
+}
+
+- (IBAction)didClickDontShowAgainButton:(UIButton *)sender {
+    [ParentUser currentUser].suppressAutoShowNoteMilestoneShareScreen = YES;
+    sender.selected = YES;
+    [UIView animateWithDuration:1.0F animations:^{
+        sender.alpha = 0.0;
+    }                completion:^(BOOL finished) {
+        sender.hidden = YES;
+    }];
 }
 
 - (void)followConnectionsDataSourceDidLoad {

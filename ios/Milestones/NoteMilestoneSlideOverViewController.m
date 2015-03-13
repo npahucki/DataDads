@@ -28,7 +28,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    if (!_sharingOptionsViewController.followConnectionsDataSource.hasAnyConnections) {
+    if (!_sharingOptionsViewController.followConnectionsDataSource.hasAnyConnections &&
+            ![ParentUser currentUser].suppressAutoShowNoteMilestoneShareScreen) {
         self.navigationItem.rightBarButtonItem.title = @"Next";
     }
 }
@@ -38,8 +39,8 @@
 }
 
 - (IBAction)didClickNoteItButton:(id)sender {
-    // TODO: We might need an A/B tet for this?
-    if (_showedSharingScreen || _sharingOptionsViewController.followConnectionsDataSource.hasAnyConnections) {
+    if (_showedSharingScreen || _sharingOptionsViewController.followConnectionsDataSource.hasAnyConnections ||
+            [ParentUser currentUser].suppressAutoShowNoteMilestoneShareScreen) {
         // Just note it!
         [_noteMilestoneViewController updateAchievementFromInputs];
         [_sharingOptionsViewController updateAchievementSharingOptions];
@@ -53,8 +54,10 @@
 }
 
 - (void)slideOutViewDidSlideOut {
-    _showedSharingScreen = YES;
-    self.navigationItem.rightBarButtonItem.title = @"Note It";
+    if (!_showedSharingScreen) {
+        _showedSharingScreen = YES;
+        self.navigationItem.rightBarButtonItem.title = @"Note It";
+    }
 }
 
 
