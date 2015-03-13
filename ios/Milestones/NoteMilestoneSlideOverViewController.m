@@ -28,8 +28,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    if (!_sharingOptionsViewController.followConnectionsDataSource.hasAnyConnections &&
-            ![ParentUser currentUser].suppressAutoShowNoteMilestoneShareScreen) {
+    if ([self shouldAutoShowSharingSlideOut]) {
         self.navigationItem.rightBarButtonItem.title = @"Next";
     }
 }
@@ -39,17 +38,16 @@
 }
 
 - (IBAction)didClickNoteItButton:(id)sender {
-    if (_showedSharingScreen || _sharingOptionsViewController.followConnectionsDataSource.hasAnyConnections ||
-            [ParentUser currentUser].suppressAutoShowNoteMilestoneShareScreen) {
-        // Just note it!
-        [_noteMilestoneViewController updateAchievementFromInputs];
-        [_sharingOptionsViewController updateAchievementSharingOptions];
-        [_noteMilestoneViewController noteMilestone];
-    } else {
+    if ([self shouldAutoShowSharingSlideOut]) {
         // other wise always show the share dialog (annoying!)
         _showedSharingScreen = YES;
         self.navigationItem.rightBarButtonItem.title = @"Note It";
         [self setSlideOverToShowingPosition:YES];
+    } else {
+        // Just note it!
+        [_noteMilestoneViewController updateAchievementFromInputs];
+        [_sharingOptionsViewController updateAchievementSharingOptions];
+        [_noteMilestoneViewController noteMilestone];
     }
 }
 
@@ -58,6 +56,13 @@
         _showedSharingScreen = YES;
         self.navigationItem.rightBarButtonItem.title = @"Note It";
     }
+}
+
+- (BOOL)shouldAutoShowSharingSlideOut {
+    return !(_showedSharingScreen ||
+            _sharingOptionsViewController.followConnectionsDataSource.hasAnyConnections ||
+            [ParentUser currentUser].suppressAutoShowNoteMilestoneShareScreen ||
+            [ParentUser currentUser].autoPublishToFacebook);
 }
 
 

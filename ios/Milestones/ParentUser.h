@@ -14,7 +14,6 @@
 @property NSString *fullName;
 @property BOOL isMale;
 @property BOOL autoPublishToFacebook;
-@property BOOL autoShareWithFollowers;
 @property BOOL suppressAutoShowNoteMilestoneShareScreen;
 @property BOOL usesMetric;
 @property BOOL showHiddenTips;

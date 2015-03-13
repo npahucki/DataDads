@@ -113,6 +113,8 @@
 
     // This is local preference settings
     ParentUser.currentUser.autoPublishToFacebook = self.enableFacebookButton.on;
+    [self updateContainerViewState];
+
 }
 
 - (IBAction)didChangeFollowersSwitch:(id)sender {
@@ -169,7 +171,7 @@
     _sharingTableViewController.tableView.userInteractionEnabled = contactsEnabled;
     self.inviteButton.enabled = self.enableFollowersSwitch.on;
     self.dontShowAgainButton.hidden = _inviteMode || _sharingTableViewController.hasContacts ||
-            [ParentUser currentUser].suppressAutoShowNoteMilestoneShareScreen;
+            [ParentUser currentUser].suppressAutoShowNoteMilestoneShareScreen || [ParentUser currentUser].autoPublishToFacebook;
     [UIView animateWithDuration:0.3 animations:^{
         self.selectFollowersLabel.alpha = contactsEnabled ? 1.0F : 0.2F;
         _sharingTableViewController.view.alpha = contactsEnabled ? 1.0F : 0.3F;
