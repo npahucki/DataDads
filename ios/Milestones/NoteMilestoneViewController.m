@@ -34,6 +34,7 @@
     [super viewDidLoad];
     self.adView.containingViewController = self;
     NSAssert(self.achievement.baby, @"baby must be set on acheivement before view loads");
+    self.doneButton = self.parentViewController.navigationItem.rightBarButtonItem;
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWasShown:)

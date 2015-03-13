@@ -26,6 +26,8 @@
     FollowConnectionsDataSource *_followConnectionsDataSource;
     BOOL _inviteMode;
     BOOL _hasChangedSharingSettings;
+    BOOL _rightBarButtonOldEnabledState;
+
 }
 
 - (void)viewDidLoad {
@@ -199,6 +201,7 @@
                     }
 
                     [self.inviteButton setTitle:@"Done" forState:UIControlStateNormal];
+                    _rightBarButtonOldEnabledState = self.parentViewController.navigationItem.rightBarButtonItem.enabled;
                     self.parentViewController.navigationItem.rightBarButtonItem.enabled = NO;
                     self.pickerView.hidden = NO;
                     [self.pickerView becomeFirstResponder];
@@ -212,7 +215,7 @@
     } else {
         _inviteMode = NO;
         [self.inviteButton setTitle:@"Invite" forState:UIControlStateNormal];
-        self.parentViewController.navigationItem.rightBarButtonItem.enabled = YES;
+        self.parentViewController.navigationItem.rightBarButtonItem.enabled = _rightBarButtonOldEnabledState;
         [self.pickerView resignFirstResponder];
         [self setPickerHeight:0 animated:animates];
         [self setTopViewHeight:108 animated:animates];
