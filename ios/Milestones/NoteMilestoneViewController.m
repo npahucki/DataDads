@@ -175,6 +175,13 @@
     return YES;
 }
 
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    if (textField == self.completionDateTextField) {
+        // Update so the sharing tab knows what the date is and can adjust settings as needed.
+        self.achievement.completionDate = self.completionDateTextField.date;
+    }
+}
+
 - (void)handleSingleTap:(UITapGestureRecognizer *)sender {
     [self.view endEditing:NO];
 }
@@ -280,6 +287,22 @@
     [self hideHud];
 }
 
+- (void)updateAchievementFromInputs {
+    if (self.commentsTextField.text.length) self.achievement.comment = self.commentsTextField.text;
+    // Can be a PFFile (old style used for images) or an ExternalMediaFile object for larger things like videos.
+    if ([_attachment isKindOfClass:[ExternalMediaFile class]]) {
+        self.achievement.attachmentExternalStorageId = ((ExternalMediaFile *) _attachment).uniqueId;
+    } else {
+        self.achievement.attachment = (PFFile *) _attachment;
+    }
+    self.achievement.attachmentType = _attachment.mimeType;
+    self.achievement.attachmentOrientation = _attachment.orientation;
+    self.achievement.attachmentWidth = _attachment.width;
+    self.achievement.attachmentHeight = _attachment.height;
+    self.achievement.completionDate = self.completionDateTextField.date;
+    if (_thumbnailImage) self.achievement.attachmentThumbnail = _thumbnailImage;
+}
+
 - (void)saveAchievement {
 
     // Bit of a hacky work around to the fact that CloudCode beforeSave trigger reloads the object after a save
@@ -331,19 +354,7 @@
         self.achievement.customTitle = self.customTitleTextField.text;
     }
 
-    if (self.commentsTextField.text.length) self.achievement.comment = self.commentsTextField.text;
-    // Can be a PFFile (old style used for images) or an ExternalMediaFile object for larger things like videos.
-    if ([_attachment isKindOfClass:[ExternalMediaFile class]]) {
-        self.achievement.attachmentExternalStorageId = ((ExternalMediaFile *) _attachment).uniqueId;
-    } else {
-        self.achievement.attachment = (PFFile *) _attachment;
-    }
-    self.achievement.attachmentType = _attachment.mimeType;
-    self.achievement.attachmentOrientation = _attachment.orientation;
-    self.achievement.attachmentWidth = _attachment.width;
-    self.achievement.attachmentHeight = _attachment.height;
-    self.achievement.completionDate = self.completionDateTextField.date;
-    if (_thumbnailImage) self.achievement.attachmentThumbnail = _thumbnailImage;
+    [self updateAchievementFromInputs];
     [self saveObject:self.achievement withTitle:@"Noting Milestone" andFailureMessage:@"Could not note milestone." andBlock:^(BOOL succeeded, NSError *error) {
         if (!error) {
             // SEE NOTE ABOVE
@@ -578,6 +589,5 @@
     self.adViewHeightConstraint.constant = 8;
     [self.view layoutIfNeeded];
 }
-
 
 @end

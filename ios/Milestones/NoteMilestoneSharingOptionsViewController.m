@@ -13,6 +13,8 @@
 #import "NSString+EmailAddress.h"
 #import "MBContactPicker+ForceCompletion.h"
 #import "SignUpOrLoginViewController.h"
+#import "NSDate+Utils.h"
+#import "NoteMilestoneViewController.h"
 
 @interface NoteMilestoneSharingOptionsViewController ()
 @property(readonly) InviteContactsAddressBookDataSource *addressBookDataSource;
@@ -23,6 +25,7 @@
     InviteContactsAddressBookDataSource *_addressBookDataSource;
     FollowConnectionsDataSource *_followConnectionsDataSource;
     BOOL _inviteMode;
+    BOOL _hasChangedSharingSettings;
 }
 
 - (void)viewDidLoad {
@@ -82,6 +85,7 @@
 }
 
 - (IBAction)didChangeEnableFacebookSwitch:(id)sender {
+    _hasChangedSharingSettings = YES;
     if (self.enableFacebookButton.on) {
         [PFFacebookUtils ensureHasPublishPermissions:ParentUser.currentUser block:^(BOOL succeeded, NSError *error) {
             if (!succeeded) [self.enableFacebookButton setOn:NO animated:YES];
@@ -96,6 +100,7 @@
 }
 
 - (IBAction)didChangeFollowersSwitch:(id)sender {
+    _hasChangedSharingSettings = YES;
     if (self.enableFollowersSwitch.on) {
         [self ensureCurrentUserHasEmailAndRunBlock:^(BOOL success, NSError *emailError) {
             [self updateContainerViewState];
@@ -134,7 +139,13 @@
 }
 
 - (void)viewDidFinishSlidingOut:(UIViewController *)slidingView over:(UIViewController *)otherVc {
-
+    [((NoteMilestoneViewController *) otherVc) updateAchievementFromInputs];
+    if (!_hasChangedSharingSettings && [self isAchievementOld]) {
+        // Default sharing to off if achievement is old.
+        [self.enableFacebookButton setOn:NO animated:NO];
+        [self.enableFollowersSwitch setOn:NO animated:NO];
+        [self updateContainerViewState];
+    }
 }
 
 - (void)viewDidFinishSlidingIn:(UIViewController *)slidingView over:(UIViewController *)otherVc {
@@ -235,8 +246,17 @@
 
 }
 
+- (BOOL)isAchievementOld {
+    return ABS([self.achievement.completionDate daysDifferenceFromNow]) > 7;
+}
 
 - (void)updateAchievementSharingOptions {
+    if (!_hasChangedSharingSettings && [self isAchievementOld]) {
+        [self.enableFacebookButton setOn:NO animated:NO];
+        [self.enableFollowersSwitch setOn:NO animated:NO];
+        [self updateContainerViewState];
+    }
+
     SharingOptions *sharingOptions = [[SharingOptions alloc] init];
     sharingOptions.sendToFollowers = _enableFollowersSwitch.on;
     sharingOptions.excludedFollowerEmails = _sharingTableViewController.excludedFollowerEmails;

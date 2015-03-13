@@ -41,6 +41,7 @@
     // TODO: We might need an A/B tet for this?
     if (_showedSharingScreen || _sharingOptionsViewController.followConnectionsDataSource.hasAnyConnections) {
         // Just note it!
+        [_noteMilestoneViewController updateAchievementFromInputs];
         [_sharingOptionsViewController updateAchievementSharingOptions];
         [_noteMilestoneViewController noteMilestone];
     } else {
@@ -50,5 +51,11 @@
         [self setSlideOverToShowingPosition:YES];
     }
 }
+
+- (void)slideOutViewDidSlideOut {
+    _showedSharingScreen = YES;
+    self.navigationItem.rightBarButtonItem.title = @"Note It";
+}
+
 
 @end

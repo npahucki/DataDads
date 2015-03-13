@@ -45,5 +45,6 @@
 
 - (void)noteMilestone;
 
+- (void)updateAchievementFromInputs;
 @end
 

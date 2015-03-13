@@ -188,8 +188,6 @@
     _tranparentPaneView.center = newCenter;
 
 
-
-
     if (recognizer.state == UIGestureRecognizerStateEnded) {
         CGFloat velocityX = (0.2F * [recognizer velocityInView:self.view].x);
         CGFloat finalX = newCenter.x + velocityX + _tranparentPaneView.bounds.size.width / (_isSlideFromRight ? -2.0F : 2.0F);
@@ -257,6 +255,17 @@
             }
         }
     }
+    if (slideOut)
+        [self slideOutViewDidSlideOut];
+    else
+        [self slideOutViewDidSlideIn];
+}
+
+// Let's any sublcasses know of a change.
+- (void)slideOutViewDidSlideOut {
+}
+
+- (void)slideOutViewDidSlideIn {
 }
 
 @end
