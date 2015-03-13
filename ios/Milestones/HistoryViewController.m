@@ -117,54 +117,43 @@
 
 - (void)milestoneNotedAndSaved:(NSNotification *)notification {
     MilestoneAchievement *achievement = notification.object;
-    NSMutableArray *reloadPaths = [NSMutableArray arrayWithCapacity:5];
     [UIView beginAnimations:@"insertAnimationId" context:nil];
     [UIView setAnimationDuration:1.0]; // Set duration here
     [CATransaction begin];
+    [CATransaction setCompletionBlock:^{
+        [self recalcHeaderCounts];
+    }];
     [self.tableView beginUpdates];
-
-    BOOL fromFuture = NO;
 
     if (achievement.standardMilestone) {
         StandardMilestone *m = achievement.standardMilestone;
         NSInteger index = [_model indexOfFutureMilestone:m];
         NSIndexPath *removedIndexPath;
         if (index != NSNotFound) {
-            fromFuture = YES;
             [_model markFutureMilestone:index ignored:NO postponed:NO]; // Removes it from the list
             removedIndexPath = [NSIndexPath indexPathForRow:index + (_model.hasMoreFutureMilestones ? 1 : 0) inSection:FutureMilestoneSection]; // add one for the loading row
-            [reloadPaths addObjectsFromArray:[self reloadPathsForRemovedCell:removedIndexPath]];
         } else {
             index = [_model indexOfPastMilestone:m];
             if (index != NSNotFound) {
                 [_model markPastMilestone:index ignored:NO postponed:NO]; // Removes it from the list
                 removedIndexPath = [NSIndexPath indexPathForRow:index inSection:PastMilestoneSection];
-                [reloadPaths addObjectsFromArray:[self reloadPathsForRemovedCell:removedIndexPath]];
             }
         }
         if (removedIndexPath) { // Index path might not exist if a milestone was noted during a search, and would not normally be shown.
-            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:removedIndexPath] withRowAnimation:UITableViewRowAnimationLeft];
+            [self.tableView deleteRowsAtIndexPaths:@[removedIndexPath] withRowAnimation:UITableViewRowAnimationLeft];
         }
     }
 
     NSInteger addedIndex = [_model addNewAchievement:achievement];
     if (addedIndex >= 0) { // Negative means it was not added to the view at all because it is after what is loaded in the model now.
         NSIndexPath *addedIndexPath = [NSIndexPath indexPathForRow:addedIndex inSection:AchievementSection];
-        if ([self.tableView numberOfRowsInSection:AchievementSection] > addedIndex) {
-            [self.tableView selectRowAtIndexPath:addedIndexPath animated:NO scrollPosition:fromFuture ? UITableViewScrollPositionBottom : UITableViewScrollPositionMiddle];
-            [reloadPaths addObject:addedIndexPath];
-        }
-        [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:addedIndexPath] withRowAnimation:UITableViewRowAnimationRight];
+        [self.tableView insertRowsAtIndexPaths:@[addedIndexPath] withRowAnimation:UITableViewRowAnimationRight];
     }
-
-
-    [self.tableView reloadRowsAtIndexPaths:reloadPaths withRowAnimation:UITableViewRowAnimationNone];
 
     [self.tableView endUpdates];
     [CATransaction commit];
     [UIView commitAnimations];
 
-    [self recalcHeaderCounts];
 
     // We want to gently encourage the user to sign up
     if (!ParentUser.currentUser.suppressLoginPrompt && !ParentUser.currentUser.isLoggedIn && _model.countOfAchievements % 3 == 0 && !_model.filter) {
