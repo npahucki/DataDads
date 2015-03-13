@@ -122,6 +122,7 @@
     [CATransaction begin];
     [CATransaction setCompletionBlock:^{
         [self recalcHeaderCounts];
+        [self.tableView reloadData]; // work around a bug where blank rows get left on iOS8
     }];
     [self.tableView beginUpdates];
 
