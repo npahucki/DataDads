@@ -1654,8 +1654,8 @@
                                                 <constraint firstAttribute="width" secondItem="D9K-HX-pqh" secondAttribute="height" multiplier="1:1" id="9nB-lb-n3U"/>
                                             </constraints>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.70000000000000018" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bi6-7S-WWD">
-                                            <rect key="frame" x="63" y="22" width="191" height="21"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.70000000000000018" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bi6-7S-WWD">
+                                            <rect key="frame" x="64" y="22" width="190" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="highlightedColor"/>
                                         </label>
@@ -2054,13 +2054,13 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView alpha="0.10000000000000001" contentMode="scaleAspectFill" verticalHuggingPriority="249" horizontalCompressionResistancePriority="748" verticalCompressionResistancePriority="748" image="avatarShadow" translatesAutoresizingMaskIntoConstraints="NO" id="WGV-my-gNj" customClass="PFImageView">
-                                <rect key="frame" x="96" y="60" width="128" height="128"/>
+                                <rect key="frame" x="16" y="76" width="288" height="288"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="WGV-my-gNj" secondAttribute="height" multiplier="1:1" id="pVs-3f-KRC"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Baby's Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="11" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ebC-H6-wqr">
-                                <rect key="frame" x="-6" y="212" width="320" height="26"/>
+                                <rect key="frame" x="-6" y="388" width="320" height="26"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="26" id="puu-Ho-t1c"/>
                                 </constraints>
@@ -2069,7 +2069,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="N Months Old" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gA7-xI-3xd">
-                                <rect key="frame" x="0.0" y="239" width="320" height="20"/>
+                                <rect key="frame" x="0.0" y="415" width="320" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="9IC-Nj-ta1"/>
                                 </constraints>
@@ -2097,19 +2097,20 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="WGV-my-gNj" secondAttribute="trailing" priority="750" constant="16" id="2W8-Ve-8Yr"/>
+                            <constraint firstItem="CyV-Rt-NSy" firstAttribute="top" relation="greaterThanOrEqual" secondItem="gA7-xI-3xd" secondAttribute="bottom" constant="16" id="AyX-Bj-kR8"/>
                             <constraint firstAttribute="trailing" secondItem="ebC-H6-wqr" secondAttribute="trailing" constant="6" id="CzZ-5w-Odr"/>
                             <constraint firstItem="ebC-H6-wqr" firstAttribute="top" secondItem="WGV-my-gNj" secondAttribute="bottom" constant="24" id="EvJ-iU-caD"/>
-                            <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="WGV-my-gNj" secondAttribute="trailing" constant="16" id="FPG-8c-7h9"/>
+                            <constraint firstItem="WGV-my-gNj" firstAttribute="leading" secondItem="BSS-rG-yDG" secondAttribute="leading" priority="750" constant="16" id="HK3-aI-GCB"/>
                             <constraint firstAttribute="trailing" secondItem="gA7-xI-3xd" secondAttribute="trailing" id="Juc-el-CWz"/>
                             <constraint firstItem="CyV-Rt-NSy" firstAttribute="leading" secondItem="BSS-rG-yDG" secondAttribute="leading" id="KpT-QU-SS3"/>
+                            <constraint firstItem="WGV-my-gNj" firstAttribute="top" secondItem="zu6-gI-gFI" secondAttribute="bottom" constant="32" id="NOo-Bm-E0C"/>
                             <constraint firstItem="gA7-xI-3xd" firstAttribute="trailing" secondItem="CyV-Rt-NSy" secondAttribute="trailing" id="Oos-KC-D3N"/>
-                            <constraint firstItem="WGV-my-gNj" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="BSS-rG-yDG" secondAttribute="leading" constant="16" id="ZU0-yd-WUH"/>
-                            <constraint firstItem="WGV-my-gNj" firstAttribute="top" secondItem="zu6-gI-gFI" secondAttribute="bottom" priority="750" constant="16" id="fKs-ld-48Q"/>
                             <constraint firstItem="gA7-xI-3xd" firstAttribute="top" secondItem="ebC-H6-wqr" secondAttribute="bottom" constant="1" id="k6C-T5-4o3"/>
                             <constraint firstAttribute="bottom" secondItem="CyV-Rt-NSy" secondAttribute="bottom" id="liT-fB-oyM"/>
-                            <constraint firstAttribute="centerX" secondItem="WGV-my-gNj" secondAttribute="centerX" id="m1z-7K-gOy"/>
                             <constraint firstItem="ebC-H6-wqr" firstAttribute="leading" secondItem="BSS-rG-yDG" secondAttribute="leading" constant="-6" id="mav-Xa-m7H"/>
                             <constraint firstItem="gA7-xI-3xd" firstAttribute="leading" secondItem="CyV-Rt-NSy" secondAttribute="leading" id="tDo-pw-rAo"/>
+                            <constraint firstAttribute="centerX" secondItem="WGV-my-gNj" secondAttribute="centerX" id="x8w-SF-u4o"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
