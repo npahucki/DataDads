@@ -215,7 +215,9 @@
     } else {
         _inviteMode = NO;
         [self.inviteButton setTitle:@"Invite" forState:UIControlStateNormal];
-        self.parentViewController.navigationItem.rightBarButtonItem.enabled = _rightBarButtonOldEnabledState;
+        if (_rightBarButtonOldEnabledState) {
+            self.parentViewController.navigationItem.rightBarButtonItem.enabled = YES;
+        }
         [self.pickerView resignFirstResponder];
         [self setPickerHeight:0 animated:animates];
         [self setTopViewHeight:108 animated:animates];
