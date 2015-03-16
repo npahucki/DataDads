@@ -128,8 +128,7 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
 - (BOOL)verifyAppReceipt:(RMAppReceipt *)receipt {
     if (!receipt) return NO;
     if (![receipt.bundleIdentifier isEqualToString:@"com.dataparenting.DataParenting"]) return NO;
-    if (![receipt.appVersion isEqualToString:[[NSBundle mainBundle] infoDictionary][(NSString *) kCFBundleVersionKey]]) return NO;
-    return [receipt verifyReceiptHash];
+    return [receipt.appVersion isEqualToString:[[NSBundle mainBundle] infoDictionary][(NSString *) kCFBundleVersionKey]] && [receipt verifyReceiptHash];
 }
 
 // If any of the products is purchased, then the block is called with YES.

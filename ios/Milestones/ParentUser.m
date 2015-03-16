@@ -48,7 +48,7 @@
 
 - (BOOL)showMilestoneStats {
     NSNumber *show = [self objectForKey:@"showMilestoneStats"];
-    return show == nil ? YES : show.boolValue; // default to yes
+    return show == nil || show.boolValue; // default to yes
 }
 
 - (void)setShowMilestoneStats:(BOOL)showMilestoneStats {

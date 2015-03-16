@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="FQz-CP-18z">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="FQz-CP-18z">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -1460,7 +1460,7 @@
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xCT-QF-UtG" userLabel="Top View">
                                 <rect key="frame" x="16" y="68" width="288" height="108"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="facebookIcon" translatesAutoresizingMaskIntoConstraints="NO" id="4zR-DM-7iX">
+                                    <imageView userInteractionEnabled="NO" alpha="0.49999999999999961" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="facebookIcon" translatesAutoresizingMaskIntoConstraints="NO" id="4zR-DM-7iX">
                                         <rect key="frame" x="8" y="20" width="22" height="22"/>
                                         <color key="backgroundColor" red="0.090196080509999998" green="0.55294120309999995" blue="0.78431379800000001" alpha="1" colorSpace="deviceRGB"/>
                                         <constraints>
@@ -1479,8 +1479,9 @@
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="shareStarIcon" translatesAutoresizingMaskIntoConstraints="NO" id="YnJ-T4-HYm">
+                                    <imageView userInteractionEnabled="NO" alpha="0.49999999999999961" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="shareThisIcon" translatesAutoresizingMaskIntoConstraints="NO" id="YnJ-T4-HYm">
                                         <rect key="frame" x="8" y="68" width="22" height="22"/>
+                                        <color key="tintColor" red="0.90980392160000001" green="0.0" blue="0.33333333329999998" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="22" id="T4M-iA-R7m"/>
                                             <constraint firstAttribute="width" constant="22" id="wVW-SQ-sFx"/>
@@ -1591,9 +1592,9 @@
                                     <constraint firstAttribute="height" constant="44" id="UZR-Aq-xPC"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rmx-rM-5R5">
-                                <rect key="frame" x="21" y="269" width="279" height="22"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rmx-rM-5R5">
+                                <rect key="frame" x="61" y="269" width="199" height="20"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <inset key="titleEdgeInsets" minX="4" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <inset key="imageEdgeInsets" minX="-4" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <state key="normal" title="Don't Automatically Show Again" image="tagCheckbox">
@@ -2488,7 +2489,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="string" keyPath="tabImageName" value="startPulloutTabLeft"/>
+                        <userDefinedRuntimeAttribute type="string" keyPath="tabImageName" value="sharePulloutTabLeft"/>
                         <userDefinedRuntimeAttribute type="boolean" keyPath="isSlideFromRight" value="YES"/>
                     </userDefinedRuntimeAttributes>
                     <connections>
@@ -3400,6 +3401,7 @@
         <image name="play_button" width="72" height="72"/>
         <image name="progress-0" width="74" height="75"/>
         <image name="shareStarIcon" width="31" height="27"/>
+        <image name="shareThisIcon" width="16" height="16"/>
         <image name="tagCheckbox" width="20" height="20"/>
         <image name="tagCheckbox_checked" width="20" height="20"/>
         <image name="tipsButton_active" width="22" height="22"/>
