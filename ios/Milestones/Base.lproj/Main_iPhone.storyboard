@@ -2111,18 +2111,26 @@
                                     <action selector="logoutButtonPressed:" destination="5nR-pr-Hy0" eventType="touchUpInside" id="36X-8S-3sE"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="30 Milestones Logged" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lE4-1W-Thz">
+                                <rect key="frame" x="75" y="443" width="170" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.26666668059999998" green="0.26666668059999998" blue="0.27843138579999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="WGV-my-gNj" secondAttribute="trailing" priority="750" constant="16" id="2W8-Ve-8Yr"/>
-                            <constraint firstItem="CyV-Rt-NSy" firstAttribute="top" relation="greaterThanOrEqual" secondItem="gA7-xI-3xd" secondAttribute="bottom" constant="16" id="AyX-Bj-kR8"/>
                             <constraint firstAttribute="trailing" secondItem="ebC-H6-wqr" secondAttribute="trailing" constant="6" id="CzZ-5w-Odr"/>
                             <constraint firstItem="ebC-H6-wqr" firstAttribute="top" secondItem="WGV-my-gNj" secondAttribute="bottom" constant="24" id="EvJ-iU-caD"/>
                             <constraint firstItem="WGV-my-gNj" firstAttribute="leading" secondItem="BSS-rG-yDG" secondAttribute="leading" priority="750" constant="16" id="HK3-aI-GCB"/>
                             <constraint firstAttribute="trailing" secondItem="gA7-xI-3xd" secondAttribute="trailing" id="Juc-el-CWz"/>
+                            <constraint firstItem="lE4-1W-Thz" firstAttribute="top" secondItem="gA7-xI-3xd" secondAttribute="bottom" constant="8" id="KPQ-Xc-asU"/>
                             <constraint firstItem="CyV-Rt-NSy" firstAttribute="leading" secondItem="BSS-rG-yDG" secondAttribute="leading" id="KpT-QU-SS3"/>
+                            <constraint firstAttribute="centerX" secondItem="lE4-1W-Thz" secondAttribute="centerX" id="MrO-Gz-b33"/>
                             <constraint firstItem="WGV-my-gNj" firstAttribute="top" secondItem="zu6-gI-gFI" secondAttribute="bottom" constant="32" id="NOo-Bm-E0C"/>
                             <constraint firstItem="gA7-xI-3xd" firstAttribute="trailing" secondItem="CyV-Rt-NSy" secondAttribute="trailing" id="Oos-KC-D3N"/>
+                            <constraint firstItem="CyV-Rt-NSy" firstAttribute="top" relation="greaterThanOrEqual" secondItem="lE4-1W-Thz" secondAttribute="bottom" constant="16" id="dcq-vW-WFy"/>
                             <constraint firstItem="gA7-xI-3xd" firstAttribute="top" secondItem="ebC-H6-wqr" secondAttribute="bottom" constant="1" id="k6C-T5-4o3"/>
                             <constraint firstAttribute="bottom" secondItem="CyV-Rt-NSy" secondAttribute="bottom" id="liT-fB-oyM"/>
                             <constraint firstItem="ebC-H6-wqr" firstAttribute="leading" secondItem="BSS-rG-yDG" secondAttribute="leading" constant="-6" id="mav-Xa-m7H"/>
@@ -2152,6 +2160,7 @@
                         <outlet property="babyNameLabel" destination="ebC-H6-wqr" id="Wbi-QU-FcB"/>
                         <outlet property="doneButton" destination="vrj-Ou-eTO" id="tAM-AX-x1y"/>
                         <outlet property="logOutOrSignUpButton" destination="CyV-Rt-NSy" id="SUD-F2-EYE"/>
+                        <outlet property="numberOfMilestonesLabel" destination="lE4-1W-Thz" id="ZRv-c0-CXr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T5a-QN-MdC" userLabel="First Responder" sceneMemberID="firstResponder"/>

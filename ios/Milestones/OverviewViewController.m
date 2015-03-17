@@ -28,7 +28,23 @@
     [self.babyAvatar addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleEditTap:)]];
     [self.babyNameLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleEditTap:)]];
     [self.ageLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleEditTap:)]];
-    self.babyAvatar.alpha = 1.0;
+
+
+    self.numberOfMilestonesLabel.font = [UIFont fontForAppWithType:Medium andSize:21.0];
+    self.numberOfMilestonesLabel.alpha = 0;
+    PFQuery *query = [MilestoneAchievement query];
+    [query whereKey:@"baby" equalTo:Baby.currentBaby];
+    [query setCachePolicy:kPFCachePolicyNetworkElseCache];
+    [query whereKey:@"isSkipped" equalTo:@NO];
+    [query whereKey:@"isPostponed" equalTo:@NO];
+    [query countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
+        if (number > 1) {
+            self.numberOfMilestonesLabel.text = [NSString stringWithFormat:@"%d milestones logged", number];
+            [UIView animateWithDuration:0.3F animations:^{
+                self.numberOfMilestonesLabel.alpha = 1.0;
+            }];
+        }
+    }];
 }
 
 - (void)viewDidLayoutSubviews {

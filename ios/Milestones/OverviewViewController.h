@@ -16,6 +16,7 @@
 @property(strong, nonatomic) IBOutlet PFImageView *babyAvatar;
 @property(weak, nonatomic) IBOutlet UIButton *logOutOrSignUpButton;
 @property(weak, nonatomic) IBOutlet UIBarButtonItem *doneButton;
+@property(weak, nonatomic) IBOutlet UILabel *numberOfMilestonesLabel;
 @end
 
 
