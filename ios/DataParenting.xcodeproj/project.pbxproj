@@ -132,7 +132,6 @@
 		E876159E18EF892C00B0C6D9 /* BabyTagsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E876159D18EF892C00B0C6D9 /* BabyTagsTableViewController.m */; };
 		E877FCAD19368AE4002405BF /* BabyAssignedTip.m in Sources */ = {isa = PBXBuildFile; fileRef = E877FCAC19368AE4002405BF /* BabyAssignedTip.m */; };
 		E877FCB01936BA98002405BF /* WebViewerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E877FCAF1936BA98002405BF /* WebViewerViewController.m */; };
-		E881F8DF1962006E0066046E /* BannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E881F8DE1962006E0066046E /* BannerViewController.m */; };
 		E88386B819C35D2B00AE89AC /* Tutorial-Screen-1 640x960.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E88386B119C35D2B00AE89AC /* Tutorial-Screen-1 640x960.jpg */; };
 		E88386B919C35D2B00AE89AC /* Tutorial-Screen-1 640x960.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E88386B119C35D2B00AE89AC /* Tutorial-Screen-1 640x960.jpg */; };
 		E88386BA19C35D2B00AE89AC /* Tutorial-Screen-2 640x960.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E88386B219C35D2B00AE89AC /* Tutorial-Screen-2 640x960.jpg */; };
@@ -197,7 +196,6 @@
 		E8A02D1A19817CCF001E0DAB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E8DD48ED188EE5B900153095 /* AppDelegate.m */; };
 		E8A02D1B19817CCF001E0DAB /* TakePhotoButton.m in Sources */ = {isa = PBXBuildFile; fileRef = E856BD571964455200D00E5C /* TakePhotoButton.m */; };
 		E8A02D1C19817CCF001E0DAB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E8DD48E9188EE5B900153095 /* main.m */; };
-		E8A02D1D19817CCF001E0DAB /* BannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E881F8DE1962006E0066046E /* BannerViewController.m */; };
 		E8A02D1E19817CCF001E0DAB /* NoConnectionAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = E856BD4E1962DDDB00D00E5C /* NoConnectionAlertView.m */; };
 		E8A02D1F19817CCF001E0DAB /* BabyInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D00A19188F362100DF2786 /* BabyInfoViewController.m */; };
 		E8A02D2019817CCF001E0DAB /* BabyInfoPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E840251818F0DEC800AF1B27 /* BabyInfoPhotoViewController.m */; };
@@ -563,8 +561,6 @@
 		E877FCAC19368AE4002405BF /* BabyAssignedTip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BabyAssignedTip.m; sourceTree = "<group>"; };
 		E877FCAE1936BA98002405BF /* WebViewerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewerViewController.h; sourceTree = "<group>"; };
 		E877FCAF1936BA98002405BF /* WebViewerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewerViewController.m; sourceTree = "<group>"; };
-		E881F8DD1962006E0066046E /* BannerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BannerViewController.h; sourceTree = "<group>"; };
-		E881F8DE1962006E0066046E /* BannerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BannerViewController.m; sourceTree = "<group>"; };
 		E88386B119C35D2B00AE89AC /* Tutorial-Screen-1 640x960.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Tutorial-Screen-1 640x960.jpg"; sourceTree = "<group>"; };
 		E88386B219C35D2B00AE89AC /* Tutorial-Screen-2 640x960.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Tutorial-Screen-2 640x960.jpg"; sourceTree = "<group>"; };
 		E88386B319C35D2B00AE89AC /* Tutorial-Screen-3 640x960.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Tutorial-Screen-3 640x960.jpg"; sourceTree = "<group>"; };
@@ -918,8 +914,6 @@
 				E81B58721896B89E00C74C2B /* MainViewController.m */,
 				E8EAA41A1AA673620024DD03 /* SlideOverViewController.h */,
 				E8EAA41B1AA673620024DD03 /* SlideOverViewController.m */,
-				E881F8DD1962006E0066046E /* BannerViewController.h */,
-				E881F8DE1962006E0066046E /* BannerViewController.m */,
 				E88F3633194A5A4100BE74E9 /* SettingPanelViewController.h */,
 				E88F3634194A5A4100BE74E9 /* SettingPanelViewController.m */,
 				E877FCAE1936BA98002405BF /* WebViewerViewController.h */,
@@ -1713,7 +1707,6 @@
 				E8A02D1A19817CCF001E0DAB /* AppDelegate.m in Sources */,
 				E8A02D1B19817CCF001E0DAB /* TakePhotoButton.m in Sources */,
 				E8A02D1C19817CCF001E0DAB /* main.m in Sources */,
-				E8A02D1D19817CCF001E0DAB /* BannerViewController.m in Sources */,
 				E8A29BE219F0633300DFDE66 /* InAppPurchaseAlertView.m in Sources */,
 				E8A02D1E19817CCF001E0DAB /* NoConnectionAlertView.m in Sources */,
 				E8A02D1F19817CCF001E0DAB /* BabyInfoViewController.m in Sources */,
@@ -1804,7 +1797,6 @@
 				E856BD581964455200D00E5C /* TakePhotoButton.m in Sources */,
 				E89BA81B1A5C10ED001F8DC2 /* FollowConnectionsTableViewController.m in Sources */,
 				E8DD48EA188EE5B900153095 /* main.m in Sources */,
-				E881F8DF1962006E0066046E /* BannerViewController.m in Sources */,
 				E8A29BE119F0633300DFDE66 /* InAppPurchaseAlertView.m in Sources */,
 				E856BD4F1962DDDB00D00E5C /* NoConnectionAlertView.m in Sources */,
 				E8D00A1A188F362100DF2786 /* BabyInfoViewController.m in Sources */,

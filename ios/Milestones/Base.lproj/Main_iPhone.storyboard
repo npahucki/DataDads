@@ -1880,6 +1880,71 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="lIt-JO-ipg">
+                                        <rect key="frame" x="0.0" y="440" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lIt-JO-ipg" id="TWO-9p-Sgh">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="left" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sZs-CZ-lsP">
+                                                    <rect key="frame" x="20" y="7" width="84" height="30"/>
+                                                    <state key="normal" title="Tell A Friend">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="didClickReadPrivacyPolicy:" destination="W69-aI-Opj" eventType="touchUpInside" id="1mx-i1-Fhh"/>
+                                                        <action selector="didClickTellAFriend:" destination="W69-aI-Opj" eventType="touchUpInside" id="juc-Fs-dKZ"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="sZs-CZ-lsP" firstAttribute="leading" secondItem="TWO-9p-Sgh" secondAttribute="leading" constant="20" id="5BO-nl-KFd"/>
+                                                <constraint firstAttribute="centerY" secondItem="sZs-CZ-lsP" secondAttribute="centerY" id="Wb2-eQ-afp"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="More Apps" id="dTa-bK-hq2" userLabel="Share">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="88" id="cwB-dD-dIS">
+                                        <rect key="frame" x="0.0" y="198" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cwB-dD-dIS" id="6ED-Xa-qcO">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4Z4-cM-plg">
+                                                    <rect key="frame" x="16" y="4" width="300" height="80"/>
+                                                    <inset key="titleEdgeInsets" minX="8" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                    <state key="normal" image="earlyReaderIcon">
+                                                        <attributedString key="attributedTitle">
+                                                            <fragment>
+                                                                <string key="content">NSAttributedString
+</string>
+                                                                <attributes>
+                                                                    <color key="NSBackgroundColor" red="0.89411764705882357" green="0.89411764705882357" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                                    <font key="NSFont" size="12" name="Menlo-Regular"/>
+                                                                </attributes>
+                                                            </fragment>
+                                                        </attributedString>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="didClickEarlyReader:" destination="W69-aI-Opj" eventType="touchUpInside" id="oBG-zS-uap"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="4Z4-cM-plg" secondAttribute="bottom" constant="4" id="4dU-8Q-ZqB"/>
+                                                <constraint firstItem="4Z4-cM-plg" firstAttribute="leading" secondItem="6ED-Xa-qcO" secondAttribute="leading" constant="16" id="OtT-pd-TPy"/>
+                                                <constraint firstItem="4Z4-cM-plg" firstAttribute="top" secondItem="6ED-Xa-qcO" secondAttribute="top" constant="4" id="UIY-DT-2Db"/>
+                                                <constraint firstAttribute="trailing" secondItem="4Z4-cM-plg" secondAttribute="trailing" constant="4" id="Ztk-JE-55Z"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                             <tableViewSection headerTitle="General" id="P7c-Tz-KfF">
@@ -2045,6 +2110,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="backButton" destination="FcW-sC-j2b" id="Bcx-a7-GYx"/>
+                        <outlet property="earlyReaderButton" destination="4Z4-cM-plg" id="JsG-1P-tQG"/>
                         <outlet property="liveChatButton" destination="5ex-ag-tMD" id="B0O-eV-kHz"/>
                         <outlet property="liveChatStatus" destination="RTe-5j-NGC" id="T3T-SM-y4g"/>
                         <outlet property="showHiddenTipsSwitch" destination="EQM-zr-oL2" id="CAN-Rp-IZz"/>
@@ -2056,7 +2122,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LAe-Qu-8PC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-573" y="-570.5"/>
+            <point key="canvasLocation" x="-573" y="-571"/>
         </scene>
         <!--Menu-->
         <scene sceneID="IiZ-vS-rqF">
@@ -3391,6 +3457,7 @@
         <image name="deleteIcon" width="31" height="31"/>
         <image name="deleteIcon_ready" width="31" height="31"/>
         <image name="downArrowIcon" width="63" height="60"/>
+        <image name="earlyReaderIcon" width="76" height="76"/>
         <image name="facebookIcon" width="29" height="29"/>
         <image name="femaleIcon" width="80" height="80"/>
         <image name="femaleIcon_selected" width="80" height="80"/>

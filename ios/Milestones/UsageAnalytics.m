@@ -556,4 +556,23 @@ static BOOL isRelease;
         NSLog(@"[USAGE ANALYTICS]: signUpDecision - trigger:%@, decision:%d", trigger, choice);
     }
 }
+
++ (void)trackClickedToViewOtherAppInAppStore:(NSString *)appName {
+    if (isRelease) {
+        [Heap track:@"clickedToViewOtherAppInAppStore" withProperties:@{@"app" : appName}];
+        [[Mixpanel sharedInstance] track:@"clickedToViewOtherAppInAppStore" properties:@{@"app" : appName}];
+    } else {
+        NSLog(@"[USAGE ANALYTICS]: clickedToViewOtherAppInAppStore - app:%@", appName);
+    }
+}
+
++ (void)trackToldFriend {
+    if (isRelease) {
+        [Heap track:@"toldFriend"];
+        [[Mixpanel sharedInstance] track:@"toldFriend"];
+    } else {
+        NSLog(@"[USAGE ANALYTICS]: toldFriend");
+    }
+
+}
 @end

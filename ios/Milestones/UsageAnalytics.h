@@ -75,4 +75,8 @@
 + (void)trackSignupDecisionOnScreen:(NSString *)string withChoice:(BOOL)choice;
 
 + (void)trackSignupTrigger:(NSString *)string withChoice:(BOOL)choice;
+
++ (void)trackClickedToViewOtherAppInAppStore:(NSString *)appName;
+
++ (void)trackToldFriend;
 @end

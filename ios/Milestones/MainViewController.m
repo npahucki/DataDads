@@ -9,7 +9,6 @@
 #import <hipmob/HMService.h>
 #import "MainViewController.h"
 #import "OnboardingStepViewController.h"
-#import "SWRevealViewController.h"
 
 @implementation MainViewController
 
@@ -22,18 +21,6 @@
     [super viewDidLoad];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidLogOut) name:kDDNotificationUserLoggedOut object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateApplicationBadgeFromTabs) name:UIApplicationWillResignActiveNotification object:nil];
-
-
-    SWRevealViewController *revealViewController = self.revealViewController;
-    revealViewController.frontViewPosition = FrontViewPositionLeftSideMost;
-    revealViewController.toggleAnimationType = SWRevealToggleAnimationTypeEaseOut;
-
-    if (revealViewController) {
-//        [self.revealButtonItem setTarget: self.revealViewController];
-//        [self.revealButtonItem setAction: @selector( revealToggle: )];
-        [self.view addGestureRecognizer:revealViewController.panGestureRecognizer];
-    }
-    
 }
 
 - (void)dealloc {

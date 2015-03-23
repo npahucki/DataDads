@@ -17,6 +17,7 @@
 @implementation SettingPanelViewController {
     BOOL _isLiveChatAvailable;
     HMChatOperatorAvailabilityCheck *_check;
+    NSAttributedString *_earlyReaderText;
 }
 
 + (void)initialize {
@@ -39,6 +40,34 @@
     self.showIgnoredMilestonesSwitch.on = ParentUser.currentUser.showIgnoredMilestones;
     self.showPostponedMilestonesSwitch.on = ParentUser.currentUser.showPostponedMilestones;
     self.showMilestoneStatisticsSwitch.on = ParentUser.currentUser.showMilestoneStats;
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    NSMutableParagraphStyle *center = [[NSMutableParagraphStyle alloc] init];
+    center.alignment = NSTextAlignmentCenter;
+    NSAttributedString *titleString = [[NSAttributedString alloc] initWithString:@"Early Reader\n" attributes:@{
+            NSFontAttributeName : [UIFont fontForAppWithType:Bold andSize:18.0],
+            NSForegroundColorAttributeName : UIColorFromRGB(0xf0045a),
+            NSParagraphStyleAttributeName : center
+
+    }];
+    NSAttributedString *descriptionString = [[NSAttributedString alloc] initWithString:@"Use the Doman method to teach your young baby how to read!\n" attributes:@{
+            NSFontAttributeName : [UIFont fontForAppWithType:Book andSize:16.0],
+            NSForegroundColorAttributeName : [UIColor appGreyTextColor],
+            NSParagraphStyleAttributeName : center
+
+    }];
+    NSAttributedString *detailsString = [[NSAttributedString alloc] initWithString:@"For babies 6 months to 4 years old." attributes:@{
+            NSFontAttributeName : [UIFont fontForAppWithType:Book andSize:10.0],
+            NSForegroundColorAttributeName : [UIColor appGreyTextColor],
+            NSParagraphStyleAttributeName : center
+    }];
+    NSMutableAttributedString *fullString = [[NSMutableAttributedString alloc] initWithAttributedString:titleString];
+    [fullString appendAttributedString:descriptionString];
+    [fullString appendAttributedString:detailsString];
+    self.earlyReaderButton.titleLabel.numberOfLines = 0;
+    [self.earlyReaderButton setAttributedTitle:fullString forState:UIControlStateNormal];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -77,10 +106,26 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+- (IBAction)didClickEarlyReader:(id)sender {
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms://itunes.apple.com/us/app/infant-iq-early-reader-teach/id946204982?mt=8"]];
+    [UsageAnalytics trackClickedToViewOtherAppInAppStore:@"Early Reader"];
+}
+
+
 - (IBAction)didClickReadTermsAndConditions:(id)sender {
     WebViewerViewController *vc = [WebViewerViewController webViewForUrlString:kDDURLTermsAndConditions];
     vc.navigationItem.title = @"Terms and Conditions";
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (IBAction)didClickTellAFriend:(id)sender {
+    NSString *email = [NSString stringWithFormat:@"mailto:?subject=Track your baby's first times too!&body=Hey,\nI found a new app for tracking %@'s first times. I'm really enjoying using it! You can get it here: %@.\n\n%@",
+                                                 Baby.currentBaby.name,
+                                                 @"https://itunes.apple.com/us/app/dataparenting-baby-milestones/id905124835?mt=8",
+                                                 [ParentUser currentUser].fullName ?: @""];
+    email = [email stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:email]];
+    [UsageAnalytics trackToldFriend];
 }
 
 - (IBAction)didClickContactSupport:(id)sender {
