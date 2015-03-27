@@ -46,7 +46,7 @@ exports.dateAddDays = function (date, days) {
 };
 
 exports.daysBetween = function (startDate, endDate) {
-    return (treatAsUTC(endDate) - treatAsUTC(startDate)) / MILLIS_PER_DAY;
+    return Math.round( (treatAsUTC(endDate) - treatAsUTC(startDate)) / MILLIS_PER_DAY );
 };
 
 exports.dayDiffFromNow = function (date) {
