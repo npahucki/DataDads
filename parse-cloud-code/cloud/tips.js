@@ -20,21 +20,8 @@ Parse.Cloud.define("queryMyTips", function (request, response) {
     query.skip(skip);
     query.limit(limit);
 
-    // Keep old behavior for old clients which may have had some bugs in the UI.
-    if (appVersion < "1.3") {
-        var sevenDaysAgo = new Date(new Date().setDate(new Date().getDate() - 7));
-        query.greaterThanOrEqualTo("assignmentDate", sevenDaysAgo);
-    }
-
     query.find().
             then(function (results) {
-                // TODO: Remove after not many users are on 1.1
-                if (!appVersion || appVersion < "1.1") {
-                    results.map(function (assignment) {
-                        var tip = assignment.attributes["tip"];
-                        tip.attributes["title"] = tip.attributes["title"] + ". " + tip.get("shortDescription");
-                    });
-                }
                 response.success(results);
             }, function (error) {
                 response.error(error);
