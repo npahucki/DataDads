@@ -45,8 +45,9 @@ exports.dateAddDays = function (date, days) {
     return new Date(date.getTime() + (MILLIS_PER_DAY * days));
 };
 
+//NOTE: this function might return fractions of a day.
 exports.daysBetween = function (startDate, endDate) {
-    return Math.round( (treatAsUTC(endDate) - treatAsUTC(startDate)) / MILLIS_PER_DAY );
+    return (treatAsUTC(endDate) - treatAsUTC(startDate)) / MILLIS_PER_DAY;
 };
 
 exports.dayDiffFromNow = function (date) {
