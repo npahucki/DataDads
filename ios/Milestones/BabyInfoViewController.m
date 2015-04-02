@@ -9,8 +9,8 @@
 #import "BabyInfoViewController.h"
 #import "NSDate+Utils.h"
 
-#define MIN_DUE_BEFORE -60
-#define MAX_DUE_AFTER 21
+#define MIN_DUE_BEFORE -45
+#define MAX_DUE_AFTER 120
 
 
 @interface BabyInfoViewController ()
