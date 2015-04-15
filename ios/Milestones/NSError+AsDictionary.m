@@ -8,12 +8,26 @@
 
 @implementation NSError (AsDictionary)
 - (NSMutableDictionary *)asDictionary {
-    NSMutableDictionary *combinedAttributes = [NSMutableDictionary dictionaryWithDictionary:self.userInfo];
+    NSMutableDictionary *combinedAttributes = [NSMutableDictionary dictionary];
     combinedAttributes[@"code"] = @(self.code);
     combinedAttributes[@"domain"] = self.domain ? self.domain : [NSNull null];
-    // Take out the FB session (if it exists) since it can only be used on the main thread, and these values
-    // ultimately get written on a background thread.
-    [combinedAttributes removeObjectForKey:@"com.facebook.sdk:ErrorSessionKey"];
+    
+    // Remove any keys that would make Mixpanel crash.
+    for (id __unused k in self.userInfo) {
+        id val = combinedAttributes[k];
+        if( [val isKindOfClass:[NSString class]] ||
+           [val isKindOfClass:[NSNumber class]] ||
+           [val isKindOfClass:[NSNull class]] ||
+           [val isKindOfClass:[NSArray class]] ||
+           [val isKindOfClass:[NSDictionary class]] ||
+           [val isKindOfClass:[NSDate class]] ||
+           [val isKindOfClass:[NSURL class]]) {
+            
+            // Only copy valid values
+            combinedAttributes[k] = val;
+        }
+        
+    }
     return combinedAttributes;
 }
 
