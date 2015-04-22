@@ -27,6 +27,7 @@ exports.show = function (req, res) {
 
                     if (hasImage) {
                         res.render('achievements/achievement_photo', {
+                            _ : require("underscore"),
                             title:title,
                             achievementUrl:utils.achievementViewerUrl(achievement),
                             thumbnailUrl:achievement.get("attachmentThumbnail").url() || "",
@@ -76,6 +77,7 @@ exports.show = function (req, res) {
                         }
 
                         res.render('achievements/achievement_video', {
+                            _ : require("underscore"),
                             title:title,
                             achievementUrl:utils.achievementViewerUrl(achievement),
                             thumbnailUrl:achievement.get("attachmentThumbnail").url() || "",
@@ -92,6 +94,7 @@ exports.show = function (req, res) {
                     } else {
                         // No attachment at all.
                         res.render('achievements/achievement_photo', {
+                            _ : require("underscore"),
                             title:title,
                             achievementUrl:utils.achievementViewerUrl(achievement),
                             babyName:baby.get("name"),
