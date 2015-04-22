@@ -12,8 +12,21 @@
             <li><b>Number of new images uploaded in the last day:</b> <%= lastDayNewPictures %></li>
             <li><b>Number of new videos uploaded in the last day:</b> <%= lastDayNewVideos %></li>
             <hr/>
-            <li><b>Images uploaded in the last day:</b> <%= lastDayNewPicturesList %></li>
-            <li><b>Videos uploaded in the last day:</b> <%= lastDayNewVideosList %></li>
+            <li><b>Images uploaded in the last day:</b>
+              <div style="max-width: 80%">
+                <% for(var i=0; i<lastDayNewPicturesList.length; i++) {%>
+                  <a href="<%= lastDayNewPicturesList[i] %>">
+                    <img src="<%= lastDayNewPicturesList[i]%>" style="max-height: 128px; max-width: 128px"/>
+                  </a>
+                <% } %>
+              </div>
+            </li>
+            <li><b>Videos uploaded in the last day:</b>
+             <ol>
+                <% for(var i=0; i<lastDayNewVideosList.length; i++) {%>
+               <li> <%= lastDayNewVideosList[i] %> </li>
+                <% } %>
+            </ol>
             <hr/>
             <li><b>Installs resulting in new babies in the last day:</b> <%= ((newBabiesCountLastDay /
                 newInstallCountLastDay) * 100).toFixed(2) %>%</li>
