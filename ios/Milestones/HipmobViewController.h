@@ -4,7 +4,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <hipmob/HMContentChatViewController.h>
+#import "hipmob/HMContentChatViewController.h"
 #import "SlideOverViewController.h"
 
 @interface HipmobViewController : UIViewController <HMChatViewDelegate, UITextViewDelegate>

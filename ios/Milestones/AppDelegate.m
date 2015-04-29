@@ -9,7 +9,7 @@
 #import <PFCloud+Cache/PFCloud+Cache.h>
 #import <AppsFlyer-SDK/AppsFlyerTracker.h>
 #import "AppDelegate.h"
-#import <hipmob/HMService.h>
+#import "hipmob/HMService.h"
 
 @implementation AppDelegate
 

@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <hipmob/HMChatView.h>
+#import "hipmob/HMChatView.h"
 #import "SlideOverViewController.h"
 
 @interface SettingPanelViewController : UITableViewController <HMChatOperatorAvailabilityCheckDelegate>

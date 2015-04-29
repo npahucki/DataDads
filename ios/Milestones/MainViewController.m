@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 DataParenting. All rights reserved.
 //
 
-#import <hipmob/HMService.h>
+#import "hipmob/HMService.h"
 #import "MainViewController.h"
 #import "OnboardingStepViewController.h"
 

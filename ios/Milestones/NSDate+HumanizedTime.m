@@ -23,10 +23,10 @@
 
     int secondsInADay = 3600 * 24;
     int secondsInAYear = 3600 * 24 * 365;
-    int yearsDiff = abs(timeInterval / secondsInAYear);
-    int daysDiff = abs(timeInterval / secondsInADay);
-    int hoursDiff = abs((abs(timeInterval) - (daysDiff * secondsInADay)) / 3600);
-    int minutesDiff = abs((abs(timeInterval) - ((daysDiff * secondsInADay) + (hoursDiff * 60))) / 60);
+    int yearsDiff = fabs(timeInterval / secondsInAYear);
+    int daysDiff = fabs(timeInterval / secondsInADay);
+    int hoursDiff = fabs((fabs(timeInterval) - (daysDiff * secondsInADay)) / 3600);
+    int minutesDiff = fabs((fabs(timeInterval) - ((daysDiff * secondsInADay) + (hoursDiff * 60))) / 60);
     //int secondsDiff = (abs(timeInterval) - ((daysDiff * secondsInADay) + (hoursDiff * 3600) + (minutesDiff * 60)));
 
     NSString *positivity = withSuffix ? [NSString stringWithFormat:@"%@", timeInterval < 0 ? NSLocalizedStringFromTable(@"AgoKey", NSDATE_TABLE_NAME, @"") : NSLocalizedStringFromTable(@"LaterKey", NSDATE_TABLE_NAME, @"")] : @"";
