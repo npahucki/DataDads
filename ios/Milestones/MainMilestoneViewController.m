@@ -12,9 +12,9 @@
 #import "NoConnectionAlertView.h"
 #import "AlertThenDisappearView.h"
 #import "PronounHelper.h"
-#import "InAppPurchaseHelper.h"
 #import "SignUpOrLoginViewController.h"
 #import "NoteMilestoneSlideOverViewController.h"
+#import "AdFreeFeature.h"
 
 #define AD_TRIGGER_LAUNCH_COUNT 2
 #define AD_TRIGGER_MAX_TIME 60
@@ -278,7 +278,7 @@
 }
 
 - (void)showAdIfNeeded {
-    [[InAppPurchaseHelper instance] checkAdFreeProductPurchased:^(BOOL purchased, NSError *error) {
+    [FeatureManager ensureFeatureUnlocked:[[AdFreeFeature alloc] init] withBlock:^(BOOL purchased, NSError *error) {
         if (purchased) {
             if (_adView) {
                 [_adView removeFromSuperview];

@@ -19,8 +19,10 @@
 #import "UIImage+FX.h"
 #import "AlertThenDisappearView.h"
 #import "PFFile+Media.h"
-#import "InAppPurchaseHelper.h"
 #import "CMPopTipView+WithStaticInitializer.h"
+#import "FeatureManager.h"
+#import "VideoFeature.h"
+#import "AdFreeFeature.h"
 
 @interface AchievementDetailsViewController ()
 @property CMPopTipView *tutorialBubbleView;
@@ -131,7 +133,7 @@ NSDateFormatter *_dateFormatter;
 
     // Decide to show the add or not.
     self.adView.delegate = self;
-    [[InAppPurchaseHelper instance] checkAdFreeProductPurchased:^(BOOL purchased, NSError *error) {
+    [FeatureManager ensureFeatureUnlocked:[[AdFreeFeature alloc] init] withBlock:^(BOOL purchased, NSError *error) {
         if (purchased) {
             [self hideAdView];
         } else {
@@ -479,7 +481,7 @@ NSDateFormatter *_dateFormatter;
         // If they picked to record a video, then we must present them with the dialog as soon as possible, not waiting
         // until after they already record the video.
         self.detailsImageButton.enabled = NO; // prevent clicking more than once
-        [[InAppPurchaseHelper instance] ensureProductPurchased:DDProductVideoSupport withBlock:^(BOOL succeeded, NSError *error) {
+        [FeatureManager ensureFeatureUnlocked:[[VideoFeature alloc] init] withBlock:^(BOOL succeeded, NSError *error) {
             if (succeeded) [controller presentImagePicker];
             self.detailsImageButton.enabled = YES;
         }];
@@ -496,7 +498,7 @@ NSDateFormatter *_dateFormatter;
 
 - (void)takeController:(FDTakeController *)controller gotVideo:(NSURL *)videoUrl withInfo:(NSDictionary *)info {
     self.detailsImageButton.enabled = NO; // Prevent another click while sorting out purchase stuff.
-    [[InAppPurchaseHelper instance] ensureProductPurchased:DDProductVideoSupport withBlock:^(BOOL succeeded, NSError *error) {
+    [FeatureManager ensureFeatureUnlocked:[[VideoFeature alloc] init] withBlock:^(BOOL succeeded, NSError *error) {
         self.detailsImageButton.enabled = YES; // Restore
         if (succeeded) {
             ExternalMediaFile *file = [ExternalMediaFile videoFileFromUrl:videoUrl];
