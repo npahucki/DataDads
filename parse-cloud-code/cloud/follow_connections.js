@@ -143,6 +143,25 @@ function createFollowConnection(inviterUser, invite, markAsDelivered) {
 }
 
 
+Parse.Cloud.define("countMyFollowInvitations", function (request, response) {
+    console.log("**********************");
+    Parse.Cloud.useMasterKey();
+    var user = request.user;
+    //var appVersion = request.params.appVersion;
+    var query1 = new Parse.Query("FollowConnections");
+    query1.equalTo("user1", user); // invites I sent
+    var query2 = new Parse.Query("FollowConnections");
+    query2.equalTo("user1", user); // invites I sent
+    query2.exists("user2"); // invites I sent, where the user signed up.
+
+    Parse.Promise.when(query1.count(), query2.count()).then(function (c1, c2) {
+        console.log("C1:" + c1 + " C2:" + c2);
+        response.success({invitesSent : c1, signUpsFromInvites : c2});
+    }, function (error) {
+        response.error(error);
+    });
+});
+
 
 Parse.Cloud.define("queryMyFollowConnections", function (request, response) {
     Parse.Cloud.useMasterKey();

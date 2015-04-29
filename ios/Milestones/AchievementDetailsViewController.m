@@ -488,6 +488,7 @@ NSDateFormatter *_dateFormatter;
     return YES;
 }
 
+
 - (void)takeController:(FDTakeController *)controller gotPhoto:(UIImage *)photo withInfo:(NSDictionary *)info {
     [self showInProgressHUDWithMessage:@"Uploading Photo" andAnimation:YES andDimmedBackground:YES withCancel:NO];
     PFFile *file = [PFFile imageFileFromImage:photo];

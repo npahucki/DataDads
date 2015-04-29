@@ -8,8 +8,10 @@
 
 @implementation AdFreeFeature
 
-- (BFTask *)checkForUnlockStatus {
-    return [BFTask taskWithResult:@(YES)];
+- (BOOL)canUnlock:(FollowConnectionInvitationCount *)count {
+    // TODO: Read from MPTweakValue
+    return count.numberOfInvitesSent >= 3;
 }
+
 
 @end

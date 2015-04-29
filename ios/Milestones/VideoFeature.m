@@ -10,8 +10,8 @@
 
 }
 
-- (BFTask *)checkForUnlockStatus {
-    return [BFTask taskWithResult:@(YES)];
+- (BOOL)canUnlock:(FollowConnectionInvitationCount *)count {
+    return count.numberOfInvitesSent > 10;
 }
 
 @end

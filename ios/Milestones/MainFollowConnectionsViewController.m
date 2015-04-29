@@ -16,6 +16,8 @@
 #import "SignUpOrLoginViewController.h"
 #import "CMPopTipView+WithStaticInitializer.h"
 #import "MBContactPicker+ForceCompletion.h"
+#import "BFTask.h"
+#import "BFExecutor.h"
 
 
 @interface MainFollowConnectionsViewController ()
@@ -282,30 +284,17 @@
     // Since we are sending invites, we can make the intro screen go away right away.
     self.nothingToShowContainerView.hidden = YES;
     self.containerView.hidden = NO;
-
     // We need a name from which to send the invite.
     [self makeBestAttemptToPopulateSendersFullNameWithBlock:^(NSString *string, NSError *error) {
-        NSMutableArray *inviteArray = [[NSMutableArray alloc] initWithCapacity:_pickerView.contactsSelected.count];
-        for (InviteContact *contact in _pickerView.contactsSelected) {
-            NSAssert(contact.emailAddress, @"Unexpected nil emailAddress");
-            [inviteArray addObject:@{
-                    @"sendToName" : contact.fullName ? contact.fullName : [NSNull null],
-                    @"sendToEmail" : contact.emailAddress.lowercaseString
-            }];
-        }
-        [UsageAnalytics trackFollowConnectionInviteSent:[inviteArray count]];
-        [PFCloud callFunctionInBackground:@"sendFollowInvitation"
-                           withParameters:@{@"appVersion" : NSBundle.mainBundle.infoDictionary[@"CFBundleShortVersionString"],
-                                   @"invites" : inviteArray}
-                                    block:^(NSArray *objects, NSError *blockError) {
-                                        if (blockError) {
-                                            [UsageAnalytics trackError:blockError forOperationNamed:@"sendInvites"];
-                                            [[[UIAlertView alloc] initWithTitle:@"Could Not Send Invites" message:@"There was an error trying to send the invites. Make sure you have an internet connection and try again" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
-                                        }
-
-                                        // Show any invites in the window now.
-                                        [_dataSource loadObjects];
-                                    }];
+        [[FollowConnection sendInvites:_pickerView.contactsSelected] continueWithExecutor:[BFExecutor mainThreadExecutor] withBlock:^id(BFTask *task) {
+            if (task.error) {
+                [UsageAnalytics trackError:task.error forOperationNamed:@"sendInvites"];
+                [[[UIAlertView alloc] initWithTitle:@"Could Not Send Invites" message:@"There was an error trying to send the invites. Make sure you have an internet connection and try again" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+            }
+            // Show any invites in the window now.
+            [_dataSource loadObjects];
+            return nil;
+        }];
     }];
 }
 

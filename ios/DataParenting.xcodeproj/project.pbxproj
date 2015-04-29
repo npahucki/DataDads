@@ -82,8 +82,10 @@
 		72F18DE7FE4FD3F62D59569E /* ExternalMediaFileTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18854EC2953038E616417 /* ExternalMediaFileTests.m */; };
 		72F18E01A1BB061021348234 /* NSDate+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18E3EA6E7812F0F8C0AC9 /* NSDate+Utils.m */; };
 		72F18E2608B07F74DB2C122D /* NoteMilestoneSlideOverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18359F916A9995B2E26E5 /* NoteMilestoneSlideOverViewController.m */; };
+		72F18E2E82F212FF77361BAE /* InvitationCountBasedFeature.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F188FC9CAEAF3538A03236 /* InvitationCountBasedFeature.m */; };
 		72F18E4159113C7B822E740D /* InviteContactsAddressBookDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F181D2F3F21DC238F85FEA /* InviteContactsAddressBookDataSource.m */; };
 		72F18EB30DF2AF4D2422DACC /* HipmobViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F18CDD6D9DD56B6979BC3E /* HipmobViewController.m */; };
+		72F18EDF173245980CE49180 /* InvitationCountBasedFeature.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F188FC9CAEAF3538A03236 /* InvitationCountBasedFeature.m */; };
 		72F18F4E5A089D5B51F7A4AD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 72F18627FC1325DE78BA4040 /* InfoPlist.strings */; };
 		72F18F9470CB5D6C79E81125 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E81B58651891EED100C74C2B /* StoreKit.framework */; };
 		72F18FD02780476F54547443 /* FeatureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 72F187FAD9D38BED0D72E5DF /* FeatureManager.m */; };
@@ -287,6 +289,7 @@
 		E8DD4904188EE5BA00153095 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8DD48DD188EE5B900153095 /* Foundation.framework */; };
 		E8DD4905188EE5BA00153095 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8DD48E1188EE5B900153095 /* UIKit.framework */; };
 		E8DD490D188EE5BA00153095 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E8DD490B188EE5BA00153095 /* InfoPlist.strings */; };
+		E8DDD2711AF153F80070B710 /* UnlockFeatureViaInvitesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E8DDD2701AF153F80070B710 /* UnlockFeatureViaInvitesView.xib */; };
 		E8E215B61AA60A15006624C4 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E8E215B51AA60A15006624C4 /* libicucore.dylib */; };
 		E8E215B81AA60A2D006624C4 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8E215B71AA60A2D006624C4 /* CoreData.framework */; };
 		E8E215BA1AA60A3E006624C4 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8E215B91AA60A3E006624C4 /* CoreTelephony.framework */; };
@@ -434,6 +437,7 @@
 		72F181D2F3F21DC238F85FEA /* InviteContactsAddressBookDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InviteContactsAddressBookDataSource.m; sourceTree = "<group>"; };
 		72F181FDCA56E3C3EF0D0B02 /* PFFacebookUtils+Extras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PFFacebookUtils+Extras.h"; sourceTree = "<group>"; };
 		72F1821AB18FC595EE03E02E /* NSString+EmailAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+EmailAddress.h"; sourceTree = "<group>"; };
+		72F1822E66DC5934B7B179D3 /* InvitationCountBasedFeature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InvitationCountBasedFeature.h; sourceTree = "<group>"; };
 		72F1823ABBA60BD9FA9D523B /* Tutorial-Screen-6 640x960.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Tutorial-Screen-6 640x960.jpg"; sourceTree = "<group>"; };
 		72F182791B0029074A8E3079 /* UIImageView+URLLoading.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+URLLoading.h"; sourceTree = "<group>"; };
 		72F1829F6075FF192CAAF11F /* NSMutableDictionary+JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableDictionary+JSON.h"; sourceTree = "<group>"; };
@@ -466,6 +470,7 @@
 		72F18854EC2953038E616417 /* ExternalMediaFileTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExternalMediaFileTests.m; sourceTree = "<group>"; };
 		72F188C35E29DF229F40A76F /* UIImageView+URLLoading.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+URLLoading.m"; sourceTree = "<group>"; };
 		72F188D7B1BE2C471BF1480B /* MBContactPicker+ForceCompletion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBContactPicker+ForceCompletion.m"; sourceTree = "<group>"; };
+		72F188FC9CAEAF3538A03236 /* InvitationCountBasedFeature.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InvitationCountBasedFeature.m; sourceTree = "<group>"; };
 		72F1893E81CA7A4171E143AF /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		72F1899220E33DE0E22E1FBF /* UnitHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnitHelper.h; sourceTree = "<group>"; };
 		72F189B96B6100D314E6DAA7 /* VideoFeature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoFeature.h; sourceTree = "<group>"; };
@@ -647,6 +652,7 @@
 		E8DD4902188EE5BA00153095 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		E8DD490A188EE5BA00153095 /* DataParentingTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DataParentingTests-Info.plist"; sourceTree = "<group>"; };
 		E8DD490C188EE5BA00153095 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		E8DDD2701AF153F80070B710 /* UnlockFeatureViaInvitesView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UnlockFeatureViaInvitesView.xib; sourceTree = "<group>"; };
 		E8E215B51AA60A15006624C4 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		E8E215B71AA60A2D006624C4 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		E8E215B91AA60A3E006624C4 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
@@ -827,6 +833,8 @@
 				72F187FAD9D38BED0D72E5DF /* FeatureManager.m */,
 				72F189B96B6100D314E6DAA7 /* VideoFeature.h */,
 				72F18B7D989AE1DF2AA0066A /* VideoFeature.m */,
+				72F188FC9CAEAF3538A03236 /* InvitationCountBasedFeature.m */,
+				72F1822E66DC5934B7B179D3 /* InvitationCountBasedFeature.h */,
 			);
 			name = FeatureUnlocking;
 			sourceTree = "<group>";
@@ -938,6 +946,7 @@
 				E8FFCCE6196DF78400969083 /* DataParentingAdView.h */,
 				E8FFCCE7196DF78400969083 /* DataParentingAdView.m */,
 				E8A29BCD19F0148E00DFDE66 /* InAppPurchaseView.xib */,
+				E8DDD2701AF153F80070B710 /* UnlockFeatureViaInvitesView.xib */,
 				E8A29BDF19F0633300DFDE66 /* InAppPurchaseAlertView.h */,
 				E8A29BE019F0633300DFDE66 /* InAppPurchaseAlertView.m */,
 				E89BA8241A5C9409001F8DC2 /* CirclePictureTableViewCell.h */,
@@ -1589,6 +1598,7 @@
 				72F1855273D4540FF7759604 /* Tutorial-Screen-6.jpg in Resources */,
 				E8E216411AA65220006624C4 /* hipmob-input-background@2x.png in Resources */,
 				72F183CDF9B616BD100C439D /* Pronouns.strings in Resources */,
+				E8DDD2711AF153F80070B710 /* UnlockFeatureViaInvitesView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1786,6 +1796,7 @@
 				72F189A81B7080EC1792D34A /* AdFreeFeature.m in Sources */,
 				72F18B48B7CF1E84A05039FE /* FeatureManager.m in Sources */,
 				72F18704DF98FB805057E0E0 /* VideoFeature.m in Sources */,
+				72F18EDF173245980CE49180 /* InvitationCountBasedFeature.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1879,6 +1890,7 @@
 				72F1814E9CC1993DC26F5F76 /* AdFreeFeature.m in Sources */,
 				72F18FD02780476F54547443 /* FeatureManager.m in Sources */,
 				72F18CA9ADDC3E25B4C67EB4 /* VideoFeature.m in Sources */,
+				72F18E2E82F212FF77361BAE /* InvitationCountBasedFeature.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1982,7 +1994,7 @@
 				PRODUCT_NAME = DataParentingDev;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
-				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/Pods\"/** \"${PROJECT_DIR}/Pods\"/** \"${PROJECT_DIR}/Pods\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/Pods\"/** \"${PROJECT_DIR}/Pods\"/** \"${PROJECT_DIR}/Pods\"/** \"${PROJECT_DIR}/Pods\"/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -2011,7 +2023,7 @@
 				PRODUCT_NAME = DataParentingDev;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
-				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/Pods\"/** \"${PROJECT_DIR}/Pods\"/** \"${PROJECT_DIR}/Pods\"/**";
+				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/Pods\"/** \"${PROJECT_DIR}/Pods\"/** \"${PROJECT_DIR}/Pods\"/** \"${PROJECT_DIR}/Pods\"/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
