@@ -278,8 +278,8 @@
 }
 
 - (void)showAdIfNeeded {
-    [FeatureManager ensureFeatureUnlocked:[[AdFreeFeature alloc] init] withBlock:^(BOOL purchased, NSError *error) {
-        if (purchased) {
+    [FeatureManager ensureFeatureUnlocked:DDApplicationFeatureAdRemoval withBlock:^(BOOL unlocked, NSError *error) {
+        if (unlocked) {
             if (_adView) {
                 [_adView removeFromSuperview];
                 _adView = nil;

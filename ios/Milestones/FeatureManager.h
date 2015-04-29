@@ -6,15 +6,21 @@
 #import <Foundation/Foundation.h>
 #import <Bolts/Bolts.h>
 
+typedef enum _DDApplicationFeatureType : NSUInteger {
+    DDProductNone = 0,
+    DDApplicationFeatureAdRemoval,
+    DDApplicationFeatureVideoSupport
+} DDApplicationFeatureType;
+
+
 @protocol DDApplicationFeature
 - (BFTask *)checkForUnlockStatus;
 @end
 
-
 @interface FeatureManager : NSObject
 
-
-+ (void)ensureFeatureUnlocked:(id <DDApplicationFeature>)feature withBlock:(PFBooleanResultBlock)block;
++ (void)ensureFeatureUnlocked:(DDApplicationFeatureType)featureType withBlock:(PFBooleanResultBlock)block;
 
 
 @end
+

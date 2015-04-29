@@ -16,7 +16,6 @@
 #import "CMPopTipView+WithStaticInitializer.h"
 #import "UIResponder+FirstResponder.h"
 #import "VideoFeature.h"
-#import "AdFreeFeature.h"
 
 @interface NoteMilestoneViewController ()
 @property CMPopTipView *tutorialBubbleView;
@@ -47,7 +46,7 @@
 
     // Decide to show the add or not.
     self.adView.delegate = self;
-    [FeatureManager ensureFeatureUnlocked:[[AdFreeFeature alloc] init] withBlock:^(BOOL purchased, NSError *error) {
+    [FeatureManager ensureFeatureUnlocked:DDApplicationFeatureAdRemoval withBlock:^(BOOL purchased, NSError *error) {
         if (purchased) {
             [self hideAdView];
         } else {
@@ -471,7 +470,7 @@
         // If they picked to record a video, then we must present them with the dialog as soon as possible, not waiting
         // until after they already record the video.
         self.takePhotoButton.enabled = NO; // prevent clicking more than once
-        [FeatureManager ensureFeatureUnlocked:[[VideoFeature alloc] init] withBlock:^(BOOL succeeded, NSError *error) {
+        [FeatureManager ensureFeatureUnlocked:DDApplicationFeatureVideoSupport withBlock:^(BOOL succeeded, NSError *error) {
             if (succeeded) [controller presentImagePicker];
             self.takePhotoButton.enabled = YES;
         }];
@@ -482,7 +481,7 @@
 
 - (void)takeController:(FDTakeController *)controller gotVideo:(NSURL *)videoUrl withInfo:(NSDictionary *)info {
     self.takePhotoButton.enabled = NO; // Prevent another click while sorting out purchase stuff.
-    [FeatureManager ensureFeatureUnlocked:[[VideoFeature alloc] init] withBlock:^(BOOL succeeded, NSError *error) {
+    [FeatureManager ensureFeatureUnlocked:DDApplicationFeatureVideoSupport withBlock:^(BOOL succeeded, NSError *error) {
         self.takePhotoButton.enabled = YES; // Restore
         if (succeeded) {
             NSURL *assetUrl = info[UIImagePickerControllerReferenceURL];
