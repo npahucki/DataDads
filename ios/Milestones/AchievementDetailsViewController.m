@@ -479,7 +479,7 @@ NSDateFormatter *_dateFormatter;
         // If they picked to record a video, then we must present them with the dialog as soon as possible, not waiting
         // until after they already record the video.
         self.detailsImageButton.enabled = NO; // prevent clicking more than once
-        [FeatureManager ensureFeatureUnlocked:DDApplicationFeatureVideoSupport withBlock:^(BOOL succeeded, NSError *error) {
+        [self ensureVideoUnlocked:^(BOOL succeeded, NSError *error) {
             if (succeeded) [controller presentImagePicker];
             self.detailsImageButton.enabled = YES;
         }];
@@ -497,7 +497,7 @@ NSDateFormatter *_dateFormatter;
 
 - (void)takeController:(FDTakeController *)controller gotVideo:(NSURL *)videoUrl withInfo:(NSDictionary *)info {
     self.detailsImageButton.enabled = NO; // Prevent another click while sorting out purchase stuff.
-    [FeatureManager ensureFeatureUnlocked:DDApplicationFeatureVideoSupport withBlock:^(BOOL succeeded, NSError *error) {
+    [self ensureVideoUnlocked:^(BOOL succeeded, NSError *error) {
         self.detailsImageButton.enabled = YES; // Restore
         if (succeeded) {
             ExternalMediaFile *file = [ExternalMediaFile videoFileFromUrl:videoUrl];
@@ -509,6 +509,19 @@ NSDateFormatter *_dateFormatter;
         }
     }];
 }
+
+- (void)ensureVideoUnlocked:(PFBooleanResultBlock)block {
+    [[FeatureManager ensureFeatureUnlocked:DDApplicationFeatureVideoSupport] continueWithBlock:^id(BFTask *task) {
+        if (task.error) {
+            [[[UIAlertView alloc] initWithTitle:@"Could not check Video Feature" message:@"There was a problem checking the video feature. Please make sure you are connected to the internet and try again" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+            [UsageAnalytics trackError:task.error forOperationNamed:@"ensureVideoUnlocked"];
+        }
+        block([((NSNumber *) task.result) boolValue], task.error);
+        return nil;
+    }];
+
+}
+
 
 - (void)saveAttachment:(NSObject <MediaFile> *)attachment andThumbnail:(PFFile *)thumbnail {
     _attachment = attachment;

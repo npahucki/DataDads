@@ -29,6 +29,7 @@
 }
 
 + (BFTask *)sendInvites:(NSArray *)inviteContacts {
+    NSAssert([ParentUser currentUser].isLoggedIn, @"Expected user to be signed in already!");
     NSMutableArray *inviteArray = [[NSMutableArray alloc] initWithCapacity:inviteContacts.count];
     for (InviteContact *contact in inviteContacts) {
         NSAssert(contact.emailAddress, @"Unexpected nil emailAddress");

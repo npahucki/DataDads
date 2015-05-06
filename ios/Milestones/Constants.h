@@ -89,6 +89,8 @@ extern NSString *const kDDPushNotificationTypeFollowConnection;
 
 + (UIColor *)appSelectedColor;
 
++ (UIColor *)appLightColor;
+
 + (UIColor *)appGreyTextColor;
 
 + (UIColor *)appInputGreyTextColor;

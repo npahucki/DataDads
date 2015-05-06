@@ -75,6 +75,13 @@ NSString *const kDDPushNotificationTypeFollowConnection = @"follow";
 + (UIColor *)appSelectedColor {
     return UIColorFromRGB(0x1F717E);
 } // 31 113 126
+
++ (UIColor *)appLightColor {
+    return UIColorFromRGB(0xcadce8);
+}
+
+
+
 + (UIColor *)appGreyTextColor {
     return UIColorFromRGB(0x56565a);
 } // 169 169 177

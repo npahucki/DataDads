@@ -140,13 +140,16 @@
     // NOTE: we use this instead of scroll view because working with autolayout and the scroll view is almost impossible
     // because we resize some content based on the size of the screen, and in scrollview, this means that the content is
     // as large as it can be, but is scrollable which is NOT what we want!
-    UITextField *activeField = [UIResponder currentFirstResponder];
-    if (activeField.frame.size.height + activeField.frame.origin.y > self.view.frame.size.height - kbSize.height) {
-        [UIView
-                animateWithDuration:0.5
-                         animations:^{
-                             self.view.frame = CGRectMake(0, _originalFrame.origin.y - kbSize.height + self.adView.frame.size.height, _originalFrame.size.width, _originalFrame.size.height);
-                         }];
+    id activeControl = [UIResponder currentFirstResponder];
+    if ([activeControl isKindOfClass:[UITextField class]]) {
+        UITextField *activeField = activeControl;
+        if (activeField.frame.size.height + activeField.frame.origin.y > self.view.frame.size.height - kbSize.height) {
+            [UIView
+                    animateWithDuration:0.5
+                             animations:^{
+                                 self.view.frame = CGRectMake(0, _originalFrame.origin.y - kbSize.height + self.adView.frame.size.height, _originalFrame.size.width, _originalFrame.size.height);
+                             }];
+        }
     }
 }
 
@@ -470,7 +473,7 @@
         // If they picked to record a video, then we must present them with the dialog as soon as possible, not waiting
         // until after they already record the video.
         self.takePhotoButton.enabled = NO; // prevent clicking more than once
-        [FeatureManager ensureFeatureUnlocked:DDApplicationFeatureVideoSupport withBlock:^(BOOL succeeded, NSError *error) {
+        [self ensureVideoUnlocked:^(BOOL succeeded, NSError *error) {
             if (succeeded) [controller presentImagePicker];
             self.takePhotoButton.enabled = YES;
         }];
@@ -481,7 +484,7 @@
 
 - (void)takeController:(FDTakeController *)controller gotVideo:(NSURL *)videoUrl withInfo:(NSDictionary *)info {
     self.takePhotoButton.enabled = NO; // Prevent another click while sorting out purchase stuff.
-    [FeatureManager ensureFeatureUnlocked:DDApplicationFeatureVideoSupport withBlock:^(BOOL succeeded, NSError *error) {
+    [self ensureVideoUnlocked:^(BOOL succeeded, NSError *error) {
         self.takePhotoButton.enabled = YES; // Restore
         if (succeeded) {
             NSURL *assetUrl = info[UIImagePickerControllerReferenceURL];
@@ -508,6 +511,19 @@
         }
     }];
 }
+
+- (void)ensureVideoUnlocked:(PFBooleanResultBlock)block {
+    [[FeatureManager ensureFeatureUnlocked:DDApplicationFeatureVideoSupport] continueWithBlock:^id(BFTask *task) {
+        if (task.error) {
+            [[[UIAlertView alloc] initWithTitle:@"Could not check Video Feature" message:@"There was a problem checking the video feature. Please make sure you are connected to the internet and try again" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+            [UsageAnalytics trackError:task.error forOperationNamed:@"ensureVideoUnlocked"];
+        }
+        block([((NSNumber *) task.result) boolValue], task.error);
+        return nil;
+    }];
+
+}
+
 
 - (void)takeController:(FDTakeController *)controller gotPhoto:(UIImage *)photo withInfo:(NSDictionary *)info {
     [self.takePhotoButton setImage:[photo imageScaledToFitSize:self.takePhotoButton.bounds.size] forState:UIControlStateNormal];

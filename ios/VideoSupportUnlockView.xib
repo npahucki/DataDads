@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="GothamRounded-Bold.otf">
+            <string>GothamRounded-Bold</string>
+            <string>GothamRounded-Bold</string>
+        </mutableArray>
+        <mutableArray key="GothamRounded-Medium.otf">
+            <string>GothamRounded-Medium</string>
+            <string>GothamRounded-Medium</string>
+        </mutableArray>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="VideoSupportUnlockView">
+            <connections>
+                <outlet property="cancelButton" destination="GjD-sx-1Ck" id="XCd-BV-UwW"/>
+                <outlet property="circleProgressBar" destination="wEe-5W-Bnl" id="8fi-DB-7xh"/>
+                <outlet property="contactPickerHeightContraint" destination="dd8-EJ-aOR" id="dg6-fL-sc7"/>
+                <outlet property="detailLabel" destination="khi-bq-olR" id="Qbb-vv-Hta"/>
+                <outlet property="doneButton" destination="9IX-gi-Y2s" id="VXh-TO-LkJ"/>
+                <outlet property="inviteNowButton" destination="K4D-a5-pYg" id="Byg-FE-l8d"/>
+                <outlet property="pickerContainerView" destination="M4d-jN-zf0" id="ZNn-Ax-7X0"/>
+                <outlet property="pickerView" destination="fyk-Oq-MgW" id="JT0-cF-aQ6"/>
+                <outlet property="progressContainerView" destination="isP-1x-8H2" id="XV8-dH-ioi"/>
+                <outlet property="titleLabel" destination="hfq-1S-uwq" id="dQB-u8-yBb"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="5" width="320" height="424"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M4d-jN-zf0" userLabel="Picker Container">
+                    <rect key="frame" x="0.0" y="42" width="320" height="382"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9IX-gi-Y2s">
+                            <rect key="frame" x="0.0" y="31" width="320" height="44"/>
+                            <color key="backgroundColor" red="0.1019607857" green="0.55686277149999996" blue="0.62352943419999995" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="44" id="qR4-pW-J53"/>
+                            </constraints>
+                            <state key="normal" title="Done">
+                                <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="didTouchDoneInvitingButton:" destination="-1" eventType="touchUpInside" id="91f-TN-7km"/>
+                            </connections>
+                        </button>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fyk-Oq-MgW" customClass="MBContactPicker">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="31"/>
+                            <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="31" id="dd8-EJ-aOR"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="9IX-gi-Y2s" firstAttribute="leading" secondItem="M4d-jN-zf0" secondAttribute="leading" id="0Th-p1-tkt"/>
+                        <constraint firstItem="9IX-gi-Y2s" firstAttribute="top" secondItem="fyk-Oq-MgW" secondAttribute="bottom" id="59g-IJ-C5z"/>
+                        <constraint firstAttribute="trailing" secondItem="9IX-gi-Y2s" secondAttribute="trailing" id="5HR-yA-PVa"/>
+                        <constraint firstItem="fyk-Oq-MgW" firstAttribute="top" secondItem="M4d-jN-zf0" secondAttribute="top" id="AAO-9c-Nxh"/>
+                        <constraint firstAttribute="trailing" secondItem="fyk-Oq-MgW" secondAttribute="trailing" id="mFu-I6-ybu"/>
+                        <constraint firstItem="fyk-Oq-MgW" firstAttribute="leading" secondItem="M4d-jN-zf0" secondAttribute="leading" id="si3-eA-ght"/>
+                    </constraints>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Unlock Video Support" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hfq-1S-uwq">
+                    <rect key="frame" x="59" y="16" width="202" height="18"/>
+                    <fontDescription key="fontDescription" name="GothamRounded-Bold" family="Gotham Rounded" pointSize="18"/>
+                    <color key="textColor" red="0.1019607857" green="0.55686277149999996" blue="0.62352943419999995" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" alpha="0.85000002384185791" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GjD-sx-1Ck">
+                    <rect key="frame" x="0.0" y="380" width="320" height="44"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="1Iy-1p-Vvm"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="GothamRounded-Medium" family="Gotham Rounded" pointSize="12"/>
+                    <state key="normal" title="Finish Later">
+                        <color key="titleColor" red="0.0" green="0.5568627451" blue="0.62352941179999999" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="didTouchCancelButton:" destination="-1" eventType="touchUpInside" id="v9y-3w-MSa"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="purchaseNow" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K4D-a5-pYg">
+                    <rect key="frame" x="0.0" y="336" width="320" height="44"/>
+                    <color key="backgroundColor" red="0.0" green="0.5568627451" blue="0.62352941179999999" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="UYi-gQ-pkX"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="GothamRounded-Bold" family="Gotham Rounded" pointSize="17"/>
+                    <state key="normal" title="Invite Now">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="didTouchInviteNowButton:" destination="-1" eventType="touchUpInside" id="Eor-Tz-srR"/>
+                    </connections>
+                </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="isP-1x-8H2" userLabel="Progres Container">
+                    <rect key="frame" x="0.0" y="42" width="320" height="294"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="...just invite %@ more friends or family to follow %@'s progress:" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="288" translatesAutoresizingMaskIntoConstraints="NO" id="khi-bq-olR">
+                            <rect key="frame" x="8" y="0.0" width="304" height="29"/>
+                            <fontDescription key="fontDescription" name="GothamRounded-Medium" family="Gotham Rounded" pointSize="14"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <view contentMode="scaleToFill" horizontalHuggingPriority="240" verticalHuggingPriority="240" horizontalCompressionResistancePriority="740" verticalCompressionResistancePriority="740" translatesAutoresizingMaskIntoConstraints="NO" id="wEe-5W-Bnl" userLabel="CircleView" customClass="CircleProgressBar">
+                            <rect key="frame" x="44" y="45" width="233" height="233"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="wEe-5W-Bnl" secondAttribute="height" multiplier="1:1" id="7PX-Na-Il4"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="centerX" secondItem="wEe-5W-Bnl" secondAttribute="centerX" id="6FL-cK-e3G"/>
+                        <constraint firstAttribute="trailing" secondItem="khi-bq-olR" secondAttribute="trailing" constant="8" id="G14-nx-Zqi"/>
+                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="wEe-5W-Bnl" secondAttribute="trailing" constant="16" id="GEL-Pb-5XG"/>
+                        <constraint firstItem="wEe-5W-Bnl" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="isP-1x-8H2" secondAttribute="leading" constant="16" id="JqJ-fe-h40"/>
+                        <constraint firstItem="khi-bq-olR" firstAttribute="leading" secondItem="isP-1x-8H2" secondAttribute="leading" constant="8" id="LTV-1B-Fgs"/>
+                        <constraint firstItem="wEe-5W-Bnl" firstAttribute="top" secondItem="khi-bq-olR" secondAttribute="bottom" priority="500" constant="16" id="SzE-e3-k0w"/>
+                        <constraint firstAttribute="bottom" secondItem="wEe-5W-Bnl" secondAttribute="bottom" priority="500" constant="16" id="Zzp-dY-4qO"/>
+                        <constraint firstItem="khi-bq-olR" firstAttribute="top" secondItem="isP-1x-8H2" secondAttribute="top" id="yz7-Ys-Xc7"/>
+                        <constraint firstAttribute="centerY" secondItem="wEe-5W-Bnl" secondAttribute="centerY" priority="500" id="zfU-1P-B6r"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="M4d-jN-zf0" firstAttribute="top" secondItem="hfq-1S-uwq" secondAttribute="bottom" constant="8" id="5Pr-5T-eOc"/>
+                <constraint firstAttribute="bottom" secondItem="M4d-jN-zf0" secondAttribute="bottom" id="EPH-s2-X7s"/>
+                <constraint firstItem="M4d-jN-zf0" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="GTp-4L-20s"/>
+                <constraint firstAttribute="trailing" secondItem="K4D-a5-pYg" secondAttribute="trailing" id="ItR-BG-gMn"/>
+                <constraint firstAttribute="trailing" secondItem="GjD-sx-1Ck" secondAttribute="trailing" id="KkN-Mu-JKd"/>
+                <constraint firstAttribute="centerX" secondItem="hfq-1S-uwq" secondAttribute="centerX" id="THp-IE-xYD"/>
+                <constraint firstItem="hfq-1S-uwq" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="16" id="a9e-Wp-Nyn"/>
+                <constraint firstAttribute="trailing" secondItem="isP-1x-8H2" secondAttribute="trailing" id="bSg-zp-zSt"/>
+                <constraint firstItem="GjD-sx-1Ck" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="ce9-TF-UrX"/>
+                <constraint firstItem="K4D-a5-pYg" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="far-Zm-mdd"/>
+                <constraint firstAttribute="bottom" secondItem="GjD-sx-1Ck" secondAttribute="bottom" id="lKp-ph-nmU"/>
+                <constraint firstItem="isP-1x-8H2" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="mH1-hU-MG6"/>
+                <constraint firstItem="isP-1x-8H2" firstAttribute="top" secondItem="hfq-1S-uwq" secondAttribute="bottom" constant="8" id="ofF-hv-uJg"/>
+                <constraint firstItem="GjD-sx-1Ck" firstAttribute="top" secondItem="K4D-a5-pYg" secondAttribute="bottom" id="sHy-5x-L5U"/>
+                <constraint firstItem="K4D-a5-pYg" firstAttribute="top" secondItem="isP-1x-8H2" secondAttribute="bottom" id="tYj-6S-ztV"/>
+                <constraint firstAttribute="trailing" secondItem="M4d-jN-zf0" secondAttribute="trailing" id="x2q-CB-IJo"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="238" y="239"/>
+        </view>
+    </objects>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>

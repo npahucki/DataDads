@@ -4,14 +4,31 @@
 //
 
 #import "VideoFeature.h"
+#import "VideoSupportUnlockView.h"
 
 
 @implementation VideoFeature {
-
 }
 
-- (BOOL)canUnlock:(FollowConnectionInvitationCount *)count {
-    return count.numberOfInvitesSent > 10;
+- (BFTask *)checkForUnlockStatus {
+    BOOL useAcceptedInvites = MPTweakValue(@"UnlockVideoUseAcceptedInvites", NO);
+    NSInteger targetNumber = useAcceptedInvites ? MPTweakValue(@"UnlockVideoInviteAcceptedTargetNumber", 2) : MPTweakValue(@"UnlockVideoInviteSentTargetNumber", 10);
+
+
+    return [[FollowConnection countMyInvites] continueWithSuccessBlock:^id(BFTask *task) {
+        FollowConnectionInvitationCount *counts = task.result;
+        BOOL canUnlock = (useAcceptedInvites ? counts.numberOfInvitesResultingInInstalls : counts.numberOfInvitesSent) >= targetNumber;
+        if (canUnlock) {
+            return [BFTask taskWithResult:@(YES)];
+        } else {
+            VideoSupportUnlockView *v = [[VideoSupportUnlockView alloc] init];
+            v.targetInviteNumber = targetNumber;
+            v.currentInviteNumber = counts.numberOfInvitesSent;
+            v.useAcceptedInvites = useAcceptedInvites;
+            return [v show];
+        }
+    }];
 }
+
 
 @end

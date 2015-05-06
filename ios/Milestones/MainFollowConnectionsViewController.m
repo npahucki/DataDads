@@ -13,11 +13,11 @@
 #import "FollowConnectionsTableViewController.h"
 #import "NSString+EmailAddress.h"
 #import "FollowConnectionsNothingToShowViewController.h"
-#import "SignUpOrLoginViewController.h"
 #import "CMPopTipView+WithStaticInitializer.h"
 #import "MBContactPicker+ForceCompletion.h"
 #import "BFTask.h"
 #import "BFExecutor.h"
+#import "FollowConnectionUtils.h"
 
 
 @interface MainFollowConnectionsViewController ()
@@ -171,7 +171,7 @@
         if (_pickerView.contactsSelected.count > 0) [self sendInvites];
         self.inviteMode = NO;
     } else {
-        [self ensureCurrentUserHasEmailAndRunBlock:^(BOOL success, NSError *emailError) {
+        [FollowConnectionUtils ensureCurrentUserHasEmailPresentIn:self andRunBlock:^(BOOL success, NSError *emailError) {
             [self updateContainerViewState];
             if (success) {
                 // The user has taken an action to invite people, thus we can allow the address book prompt
@@ -285,7 +285,7 @@
     self.nothingToShowContainerView.hidden = YES;
     self.containerView.hidden = NO;
     // We need a name from which to send the invite.
-    [self makeBestAttemptToPopulateSendersFullNameWithBlock:^(NSString *string, NSError *error) {
+    [FollowConnectionUtils makeBestAttemptToPopulateSendersFullNameUsingAddressBookDataSource:_addressBookDataSource withBlock:^(NSString *string, NSError *error) {
         [[FollowConnection sendInvites:_pickerView.contactsSelected] continueWithExecutor:[BFExecutor mainThreadExecutor] withBlock:^id(BFTask *task) {
             if (task.error) {
                 [UsageAnalytics trackError:task.error forOperationNamed:@"sendInvites"];
@@ -298,91 +298,6 @@
     }];
 }
 
-- (void)makeBestAttemptToPopulateSendersFullNameWithBlock:(PFStringResultBlock)block {
-    ParentUser *user = [ParentUser currentUser];
-    if (!user.fullName.length) {
-        // This is probably the most accurate one.
-        user.fullName = [_addressBookDataSource findContactForEmailAddress:user.email].fullName;
-        if (!user.fullName.length) {
-            // Then Facebook (sometimes people put odd/fake names in Facebook)
-            if ([PFFacebookUtils isLinkedWithUser:user]) {
-                // Try to get information from Facebook
-                [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-                    NSString *usersName = result[@"name"];
-                    if (usersName.length) {
-                        user.fullName = usersName;
-                    } else {
-                        user.fullName = [ParentUser nameFromCurrentDevice];
-                    }
-                    if (user.fullName.length) [user saveEventually];
-                    block(user.fullName, nil);
-                }];
-            } else {
-                user.fullName = [ParentUser nameFromCurrentDevice];
-            }
-        }
-
-        // Save if assigned
-        if (user.fullName.length) [user saveEventually];
-    }
-
-    block(user.fullName, nil);
-}
-
-- (void)ensureCurrentUserHasEmailAndRunBlock:(PFBooleanResultBlock)block {
-    if ([ParentUser currentUser].hasEmail) {
-        block(YES, nil);
-    } else {
-        if (![ParentUser currentUser].isLoggedIn) {
-            [[[UIAlertView alloc] initWithTitle:@"Signup Now?" message:@"You need to SIGN-UP to use the Share feature."
-                                       delegate:nil cancelButtonTitle:@"Maybe Later" otherButtonTitles:@"Lets Do It!", nil]
-                    showWithButtonBlock:^(NSInteger buttonIndex) {
-                        [UsageAnalytics trackSignupTrigger:@"promptForShareFeature" withChoice:buttonIndex == 1];
-                        if (buttonIndex == 1) {
-                            // Yes
-                            [SignUpOrLoginViewController presentSignUpInController:self andRunBlock:^(BOOL succeeded, NSError *error) {
-                                [UsageAnalytics trackSignupDecisionOnScreen:@"Share" withChoice:succeeded];
-                                if (succeeded && ![ParentUser currentUser].hasEmail) {
-                                    // They signed up (perhaps via facebook) but did not allow access to their email address
-                                    [self ensureCurrentUserHasEmailAndRunBlock:block];
-                                    return;
-                                }
-                                block(succeeded, error);
-                            }];
-                        } else {
-                            [UsageAnalytics trackSignupDecisionOnScreen:@"Share" withChoice:NO];
-                            block(NO, nil);
-                        }
-                    }];
-        } else {
-            // This can happen if they authenticated with a 3rd party, like facebook, but we did not get an email address
-            // because they denied it, or the facebook account simply did not have an email address associated.
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Email Required" message:@"Please enter your email address to use this feature:" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
-            [alert showEmailPromptWithBlock:^(NSString *email, NSError *error) {
-                if (email) {
-                    ParentUser *user = [ParentUser currentUser];
-                    NSString *oldUsername = user.username;
-                    user.email = user.username = email;
-                    [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *saveEmailError) {
-                        if (succeeded) {
-                            block(YES, error);
-                        } else {
-                            // Roll back username and password
-                            user.email = nil;
-                            user.username = oldUsername;
-                            [[[UIAlertView alloc] initWithTitle:@"Could not save Email" message:saveEmailError.userInfo[@"error"]
-                                                       delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] showWithButtonBlock:^(NSInteger buttonIndex) {
-                                [self ensureCurrentUserHasEmailAndRunBlock:block];
-                            }];
-                        }
-                    }];
-                    return;
-                }
-                block(email != nil, error);
-            }];
-        }
-    }
-}
 
 
 #pragma mark - MBContactPickerDelegate

@@ -19,6 +19,8 @@ typedef enum _DDApplicationFeatureType : NSUInteger {
 
 @interface FeatureManager : NSObject
 
++ (BFTask *)ensureFeatureUnlocked:(DDApplicationFeatureType)featureType;
+
 + (void)ensureFeatureUnlocked:(DDApplicationFeatureType)featureType withBlock:(PFBooleanResultBlock)block;
 
 

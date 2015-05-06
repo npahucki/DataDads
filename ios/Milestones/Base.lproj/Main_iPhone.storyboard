@@ -3231,13 +3231,13 @@
                                                 <constraint firstAttribute="height" constant="54" id="pSR-rI-kkT"/>
                                             </constraints>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Morgan Friedman" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ead-S2-Uql">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Morgan Friedman" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ead-S2-Uql">
                                             <rect key="frame" x="78" y="16" width="154" height="15"/>
                                             <fontDescription key="fontDescription" name="GothamRounded-Bold" family="Gotham Rounded" pointSize="15"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" misplaced="YES" text="Following since a long long time" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="154" translatesAutoresizingMaskIntoConstraints="NO" id="Ksr-4B-v6n">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Following since a long long time" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="154" translatesAutoresizingMaskIntoConstraints="NO" id="Ksr-4B-v6n">
                                             <rect key="frame" x="78" y="35" width="154" height="26"/>
                                             <fontDescription key="fontDescription" name="GothamRounded-Light" family="Gotham Rounded" pointSize="13"/>
                                             <color key="textColor" red="0.26666668059999998" green="0.26666668059999998" blue="0.27843138579999999" alpha="1" colorSpace="calibratedRGB"/>

@@ -343,7 +343,8 @@
 
 + (void)presentSignUpInController:(UIViewController *)vc andRunBlock:(PFBooleanResultBlock)block {
     NSAssert(![ParentUser currentUser].isLoggedIn, @"Can't sign up a logged in user!");
-    SignUpOrLoginViewController *signupVc = [vc.storyboard instantiateViewControllerWithIdentifier:@"signupViewController"];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
+    SignUpOrLoginViewController *signupVc = [storyboard instantiateViewControllerWithIdentifier:@"signupViewController"];
     signupVc.block = block;
     vc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     [vc presentViewController:signupVc animated:YES completion:nil];
