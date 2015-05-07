@@ -400,6 +400,20 @@ static BOOL isRelease;
 
 }
 
++ (void)trackUnlockDecision:(BOOL)b forProductId:(NSString *)productId {
+    if (isRelease) {
+        NSDictionary *props = @{@"productId" : safe(productId), @"clickedYes" : @(b)};
+        [Heap track:@"unlockDecision" withProperties:props];
+        [[Mixpanel sharedInstance] track:@"unlockDecision" properties:props];
+        [[Mixpanel sharedInstance].people set:@"attemptedUnock" to:@(YES)];
+        [[AppsFlyerTracker sharedTracker] trackEvent:@"unlockDecision" withValue:productId];
+        [FBAppEvents logEvent:@"unlockDecision" parameters:safeForFB(props)];
+    } else {
+        NSLog(@"[USAGE ANALYTICS]: purchaseDecision - productId:%@", productId);
+    }
+}
+
+
 + (void)trackPurchaseDecision:(BOOL)b forProductId:(NSString *)productId {
     if (isRelease) {
         NSDictionary *props = @{@"productId" : safe(productId), @"clickedYes" : @(b)};
@@ -575,4 +589,5 @@ static BOOL isRelease;
     }
 
 }
+
 @end

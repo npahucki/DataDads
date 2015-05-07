@@ -79,4 +79,6 @@
 + (void)trackClickedToViewOtherAppInAppStore:(NSString *)appName;
 
 + (void)trackToldFriend;
+
++ (void)trackUnlockDecision:(BOOL)b forProductId:(NSString *)id;
 @end

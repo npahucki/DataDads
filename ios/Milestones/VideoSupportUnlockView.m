@@ -40,8 +40,10 @@
 }
 
 - (IBAction)didTouchCancelButton:(id)sender {
+    [UsageAnalytics trackUnlockDecision:NO forProductId:@"Video"];
     [_completionSource setResult:@(NO)];
     [self close];
+
 }
 
 - (void)viewDidLoad {
@@ -302,6 +304,7 @@
                 if (_currentInviteNumber >= _targetInviteNumber) {
                     [self close];
                     [[[UIAlertView alloc] initWithTitle:@"Congrats!" message:@"You have unlocked unlimted video storage!" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] showWithButtonBlock:^(NSInteger buttonIndex) {
+                        [UsageAnalytics trackUnlockDecision:YES forProductId:@"Video"];
                         // we reached the target, dismiss the box
                         [_completionSource setResult:@(YES)];
                     }];
