@@ -135,9 +135,9 @@
 
 - (void)updateProgress {
     if (_useAcceptedInvites) {
-        self.detailLabel.text = [NSString stringWithFormat:@"Just signup %ld more friends with babies:", (long) _targetInviteNumber];
+        self.detailLabel.text = [NSString stringWithFormat:@"Signup %ld more friends with babies", (long) _targetInviteNumber];
     } else {
-        self.detailLabel.text = [NSString stringWithFormat:@"Just invite %ld more friends or family to follow %@'s progress:",
+        self.detailLabel.text = [NSString stringWithFormat:@"Invite %ld more friends or relatives to follow %@'s progress",
                                                            (long) _targetInviteNumber - _currentInviteNumber, [Baby currentBaby].name];
     }
     [_circleProgressBar setProgress:((CGFloat) _currentInviteNumber) / ((CGFloat) _targetInviteNumber) animated:YES];
@@ -303,7 +303,7 @@
 
                 if (_currentInviteNumber >= _targetInviteNumber) {
                     [self close];
-                    [[[UIAlertView alloc] initWithTitle:@"Congrats!" message:@"You have unlocked unlimted video storage!" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] showWithButtonBlock:^(NSInteger buttonIndex) {
+                    [[[UIAlertView alloc] initWithTitle:@"Congrats!" message:@"You have unlocked unlimited video storage!" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] showWithButtonBlock:^(NSInteger buttonIndex) {
                         [UsageAnalytics trackUnlockDecision:YES forProductId:@"Video"];
                         // we reached the target, dismiss the box
                         [_completionSource setResult:@(YES)];
