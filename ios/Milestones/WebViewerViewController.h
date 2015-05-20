@@ -16,6 +16,8 @@
 
 @property(weak, nonatomic) IBOutlet UIButton *closeButton;
 
+@property BOOL showCloseButton;
+
 + (WebViewerViewController *)webViewForUrlString:(NSString *)url;
 
 + (WebViewerViewController *)webViewForUrl:(NSURL *)url;

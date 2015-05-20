@@ -143,6 +143,7 @@
     if ([segue.identifier isEqualToString:kDDSegueShowWebView]) {
         WebViewerViewController *webView = (WebViewerViewController *) segue.destinationViewController;
         webView.url = [NSURL URLWithString:kDDURLTermsAndConditions];
+        webView.showCloseButton = YES;
     }
 }
 

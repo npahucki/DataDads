@@ -37,7 +37,7 @@
     NSURLRequest *requestObj = [NSURLRequest requestWithURL:self.url];
     [self.webView loadRequest:requestObj];
     self.loadingImage.image = [UIImage animatedImageNamed:@"progress-" duration:1.0];
-    self.closeButton.hidden = self.presentingViewController == nil;
+    self.closeButton.hidden = !self.showCloseButton;
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {
