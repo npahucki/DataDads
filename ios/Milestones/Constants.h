@@ -77,7 +77,9 @@ extern NSString *const kDDPushNotificationField_BadgeForType;
 extern NSString *const kDDPushNotificationField_OpenedFromBackground;
 // Types
 extern NSString *const kDDPushNotificationTypeTip;
+extern NSString *const kDDPushNotificationTypeOpenUrl;
 extern NSString *const kDDPushNotificationTypeFollowConnection;
+extern NSString *const kDDPushNotificationField_UrlToOpen;
 
 
 #pragma mark Application Colors

@@ -60,10 +60,12 @@ NSString *const kDDPushNotificationField_Type = @"type";
 NSString *const kDDPushNotificationField_CData = @"cdata";
 NSString *const kDDPushNotificationField_RelatedObjectId = @"relatedObjectId";
 NSString *const kDDPushNotificationField_OpenedFromBackground = @"openedFromBackground";
+NSString *const kDDPushNotificationField_UrlToOpen = @"url";
 
 // Types
 NSString *const kDDPushNotificationTypeTip = @"tip";
 NSString *const kDDPushNotificationTypeFollowConnection = @"follow";
+NSString *const kDDPushNotificationTypeOpenUrl = @"openUrl";
 
 #pragma mark - Application Colors
 

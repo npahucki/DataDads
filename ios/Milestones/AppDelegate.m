@@ -195,16 +195,36 @@
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    NSMutableDictionary *newUserInfo = [[NSMutableDictionary alloc] initWithDictionary:userInfo];
     BOOL openFromBackground = application.applicationState == UIApplicationStateInactive || application.applicationState == UIApplicationStateBackground;
-    newUserInfo[kDDPushNotificationField_OpenedFromBackground] = @(openFromBackground);
-    [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationPushReceived object:self userInfo:newUserInfo];
-    if (openFromBackground) {
-        [[PFInstallation currentInstallation] incrementKey:@"pushNotificationActivateCount" byAmount:@(1)];
-        [[PFInstallation currentInstallation] saveEventually];
+    if ([kDDPushNotificationTypeOpenUrl isEqualToString:userInfo[kDDPushNotificationField_CData][kDDPushNotificationField_Type]]) {
+        // { "alert":"Open this URL!", "cdata":{ "type":"openUrl", "url":"http://www.google.com" }, "sound":"default" }
+        NSURL *url = [[NSURL alloc] initWithString:userInfo[kDDPushNotificationField_CData][kDDPushNotificationField_UrlToOpen]];
+        if (url) {
+            if (openFromBackground) {
+                // Hack around odd delay if opened right away.
+                // See http://stackoverflow.com/questions/19356488/openurl-freezes-app-for-over-10-seconds
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [application openURL:url];
+                });
+            } else {
+                [[[UIAlertView alloc] initWithTitle:userInfo[@"aps"][@"alert"] message:nil delegate:nil cancelButtonTitle:@"Ignore" otherButtonTitles:@"Open", nil] showWithButtonBlock:^(NSInteger buttonIndex) {
+                    if (buttonIndex == 1) {
+                        [application openURL:url];
+                    }
+                }];
+            };
+        }
+    } else {
+        NSMutableDictionary *newUserInfo = [[NSMutableDictionary alloc] initWithDictionary:userInfo];
+        newUserInfo[kDDPushNotificationField_OpenedFromBackground] = @(openFromBackground);
+        [[NSNotificationCenter defaultCenter] postNotificationName:kDDNotificationPushReceived object:self userInfo:newUserInfo];
+        if (openFromBackground) {
+            [[PFInstallation currentInstallation] incrementKey:@"pushNotificationActivateCount" byAmount:@(1)];
+            [[PFInstallation currentInstallation] saveEventually];
+        }
+        // Let HipMob handle any of its own push messages.
+        [[HMService sharedService] onPushNotificationReceived:userInfo];
     }
-    // Let HipMob handle any of its own push messages.
-    [[HMService sharedService] onPushNotificationReceived:userInfo];
 }
 
 
