@@ -5,6 +5,9 @@ Parse.Cloud.define("getAdToShow", function (request, response) {
 
     var width = request.params.screenWidth || 320; // default
     var appVersion = request.params.appVersion;
+    var numberOfInvitesSent = request.params.numberOfInvitesSent;
+    var numberOfInvitesResultingInInstalls = request.params.numberOfInvitesResultingInInstalls;
+
 
     var query = new Parse.Query("Ads");
     query.equalTo("width", width);
@@ -23,8 +26,8 @@ Parse.Cloud.define("getAdToShow", function (request, response) {
     query.equalTo("enabled", true);
     query.count().then(function (count) {
         return Parse.Promise.as(Math.floor(Math.random() * count));
-    }).then(function (randomIdx) {
-                query.skip(randomIdx);
+    }).then(function (adIdx) {
+                query.skip(adIdx);
                 query.limit(1);
                 return query.first();
             }).then(function (result) {

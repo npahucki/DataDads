@@ -5,8 +5,7 @@
 
 #import <Foundation/Foundation.h>
 #import "FeatureManager.h"
-#import "InvitationCountBasedFeature.h"
 
 
-@interface AdFreeFeature : InvitationCountBasedFeature
+@interface AdFreeFeature : NSObject <DDApplicationFeature>
 @end

@@ -23,6 +23,8 @@
 
 - (InviteContact *)findContactForEmailAddress:(NSString *)searchEmail;
 
+- (BOOL)isEmailExcluded:(NSString *)email;
+
 - (void)addExcludeContactWithEmail:(NSString *)email;
 
 - (void)removeExcludeContactWithEmail:(NSString *)email;

@@ -18,9 +18,10 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="VideoSupportUnlockView">
             <connections>
+                <outlet property="activityIndicator" destination="MNN-Jd-PGc" id="NMM-j7-vBv"/>
                 <outlet property="cancelButton" destination="GjD-sx-1Ck" id="XCd-BV-UwW"/>
                 <outlet property="circleProgressBar" destination="wEe-5W-Bnl" id="8fi-DB-7xh"/>
-                <outlet property="contactPickerHeightContraint" destination="dd8-EJ-aOR" id="dg6-fL-sc7"/>
+                <outlet property="contactPickerHeightContraint" destination="dd8-EJ-aOR" id="c8g-4r-kMq"/>
                 <outlet property="detailLabel" destination="khi-bq-olR" id="Qbb-vv-Hta"/>
                 <outlet property="doneButton" destination="9IX-gi-Y2s" id="VXh-TO-LkJ"/>
                 <outlet property="inviteNowButton" destination="K4D-a5-pYg" id="Byg-FE-l8d"/>
@@ -36,7 +37,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M4d-jN-zf0" userLabel="Picker Container">
-                    <rect key="frame" x="0.0" y="42" width="320" height="382"/>
+                    <rect key="frame" x="0.0" y="75" width="320" height="349"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9IX-gi-Y2s">
                             <rect key="frame" x="0.0" y="31" width="320" height="44"/>
@@ -76,6 +77,12 @@
                     <color key="textColor" red="0.1019607857" green="0.55686277149999996" blue="0.62352943419999995" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="...just invite %@ more friends or family to follow %@'s progress:" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="288" translatesAutoresizingMaskIntoConstraints="NO" id="khi-bq-olR">
+                    <rect key="frame" x="8" y="38" width="304" height="29"/>
+                    <fontDescription key="fontDescription" name="GothamRounded-Medium" family="Gotham Rounded" pointSize="14"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
                 <button opaque="NO" alpha="0.85000002384185791" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GjD-sx-1Ck">
                     <rect key="frame" x="0.0" y="380" width="320" height="44"/>
                     <constraints>
@@ -100,21 +107,18 @@
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <state key="disabled">
+                        <color key="titleColor" red="0.5450980392" green="0.82352941180000006" blue="0.89411764709999997" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
                     <connections>
                         <action selector="didTouchInviteNowButton:" destination="-1" eventType="touchUpInside" id="Eor-Tz-srR"/>
                     </connections>
                 </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="isP-1x-8H2" userLabel="Progres Container">
-                    <rect key="frame" x="0.0" y="42" width="320" height="294"/>
+                    <rect key="frame" x="0.0" y="75" width="320" height="261"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="...just invite %@ more friends or family to follow %@'s progress:" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="288" translatesAutoresizingMaskIntoConstraints="NO" id="khi-bq-olR">
-                            <rect key="frame" x="8" y="0.0" width="304" height="29"/>
-                            <fontDescription key="fontDescription" name="GothamRounded-Medium" family="Gotham Rounded" pointSize="14"/>
-                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
                         <view contentMode="scaleToFill" horizontalHuggingPriority="240" verticalHuggingPriority="240" horizontalCompressionResistancePriority="740" verticalCompressionResistancePriority="740" translatesAutoresizingMaskIntoConstraints="NO" id="wEe-5W-Bnl" userLabel="CircleView" customClass="CircleProgressBar">
-                            <rect key="frame" x="44" y="45" width="233" height="233"/>
+                            <rect key="frame" x="46" y="16" width="229" height="229"/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="wEe-5W-Bnl" secondAttribute="height" multiplier="1:1" id="7PX-Na-Il4"/>
                             </constraints>
@@ -123,34 +127,38 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="centerX" secondItem="wEe-5W-Bnl" secondAttribute="centerX" id="6FL-cK-e3G"/>
-                        <constraint firstAttribute="trailing" secondItem="khi-bq-olR" secondAttribute="trailing" constant="8" id="G14-nx-Zqi"/>
                         <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="wEe-5W-Bnl" secondAttribute="trailing" constant="16" id="GEL-Pb-5XG"/>
                         <constraint firstItem="wEe-5W-Bnl" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="isP-1x-8H2" secondAttribute="leading" constant="16" id="JqJ-fe-h40"/>
-                        <constraint firstItem="khi-bq-olR" firstAttribute="leading" secondItem="isP-1x-8H2" secondAttribute="leading" constant="8" id="LTV-1B-Fgs"/>
-                        <constraint firstItem="wEe-5W-Bnl" firstAttribute="top" secondItem="khi-bq-olR" secondAttribute="bottom" priority="500" constant="16" id="SzE-e3-k0w"/>
                         <constraint firstAttribute="bottom" secondItem="wEe-5W-Bnl" secondAttribute="bottom" priority="500" constant="16" id="Zzp-dY-4qO"/>
-                        <constraint firstItem="khi-bq-olR" firstAttribute="top" secondItem="isP-1x-8H2" secondAttribute="top" id="yz7-Ys-Xc7"/>
                         <constraint firstAttribute="centerY" secondItem="wEe-5W-Bnl" secondAttribute="centerY" priority="500" id="zfU-1P-B6r"/>
                     </constraints>
                 </view>
+                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="MNN-Jd-PGc">
+                    <rect key="frame" x="142" y="340" width="37" height="37"/>
+                </activityIndicatorView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="M4d-jN-zf0" firstAttribute="top" secondItem="hfq-1S-uwq" secondAttribute="bottom" constant="8" id="5Pr-5T-eOc"/>
+                <constraint firstItem="MNN-Jd-PGc" firstAttribute="centerX" secondItem="K4D-a5-pYg" secondAttribute="centerX" id="Cfp-Vd-gfj"/>
                 <constraint firstAttribute="bottom" secondItem="M4d-jN-zf0" secondAttribute="bottom" id="EPH-s2-X7s"/>
                 <constraint firstItem="M4d-jN-zf0" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="GTp-4L-20s"/>
                 <constraint firstAttribute="trailing" secondItem="K4D-a5-pYg" secondAttribute="trailing" id="ItR-BG-gMn"/>
                 <constraint firstAttribute="trailing" secondItem="GjD-sx-1Ck" secondAttribute="trailing" id="KkN-Mu-JKd"/>
+                <constraint firstItem="isP-1x-8H2" firstAttribute="top" secondItem="khi-bq-olR" secondAttribute="bottom" constant="8" id="SRA-Nr-GID"/>
                 <constraint firstAttribute="centerX" secondItem="hfq-1S-uwq" secondAttribute="centerX" id="THp-IE-xYD"/>
+                <constraint firstItem="khi-bq-olR" firstAttribute="top" secondItem="hfq-1S-uwq" secondAttribute="bottom" constant="4" id="XqO-Q4-tEZ"/>
+                <constraint firstAttribute="trailing" secondItem="khi-bq-olR" secondAttribute="trailing" constant="8" id="ZDO-PL-m6T"/>
                 <constraint firstItem="hfq-1S-uwq" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="16" id="a9e-Wp-Nyn"/>
                 <constraint firstAttribute="trailing" secondItem="isP-1x-8H2" secondAttribute="trailing" id="bSg-zp-zSt"/>
                 <constraint firstItem="GjD-sx-1Ck" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="ce9-TF-UrX"/>
+                <constraint firstItem="M4d-jN-zf0" firstAttribute="top" secondItem="khi-bq-olR" secondAttribute="bottom" constant="8" id="dKl-jt-t4c"/>
                 <constraint firstItem="K4D-a5-pYg" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="far-Zm-mdd"/>
+                <constraint firstItem="MNN-Jd-PGc" firstAttribute="centerY" secondItem="K4D-a5-pYg" secondAttribute="centerY" id="iKD-5I-Edz"/>
                 <constraint firstAttribute="bottom" secondItem="GjD-sx-1Ck" secondAttribute="bottom" id="lKp-ph-nmU"/>
                 <constraint firstItem="isP-1x-8H2" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="mH1-hU-MG6"/>
-                <constraint firstItem="isP-1x-8H2" firstAttribute="top" secondItem="hfq-1S-uwq" secondAttribute="bottom" constant="8" id="ofF-hv-uJg"/>
                 <constraint firstItem="GjD-sx-1Ck" firstAttribute="top" secondItem="K4D-a5-pYg" secondAttribute="bottom" id="sHy-5x-L5U"/>
                 <constraint firstItem="K4D-a5-pYg" firstAttribute="top" secondItem="isP-1x-8H2" secondAttribute="bottom" id="tYj-6S-ztV"/>
+                <constraint firstItem="khi-bq-olR" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="tpa-EB-DpV"/>
                 <constraint firstAttribute="trailing" secondItem="M4d-jN-zf0" secondAttribute="trailing" id="x2q-CB-IJo"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

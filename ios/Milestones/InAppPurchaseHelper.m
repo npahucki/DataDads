@@ -62,9 +62,15 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
 #if DEBUG
     block(NO, nil); // Always show the ads in debug mode.
 #else
-        [self checkProductsPurchased:@[@(DDProductAdRemoval), @(DDProductVideoSupport)] withBlock:block];
+   [self checkProductsPurchased:@[@(DDProductAdRemoval), @(DDProductVideoSupport)] withBlock:block];
     #endif
 }
+
+- (void)checkProductPurchased:(DDProduct)product withBlock:(PFBooleanResultBlock)block {
+    BOOL alreadyPurchased = [self verifyAppReceipt] && [self checkProductsPurchased:@[@(product)]];
+    block(alreadyPurchased, nil); // Already purchased
+}
+
 
 - (void)ensureProductPurchased:(DDProduct)product withBlock:(PFBooleanResultBlock)block {
     if ([self verifyAppReceipt]) {
@@ -146,9 +152,9 @@ static NSDictionary *productInfoForProduct(DDProduct product) {
 // Call this method only after app receipt has been verified!
 // Accepts an array of product numbers, returns true if any of the products is valid.
 - (BOOL)checkProductsPurchased:(NSArray *)products {
-#if DISABLEIAP
-    return YES;
-#endif
+//#if DISABLEIAP
+//    return YES;
+//#endif
 
     NSAssert([self verifyAppReceipt], @"Expected App reciept to be verified already!");
 

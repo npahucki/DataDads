@@ -35,13 +35,21 @@
 
 - (IBAction)didTouchInviteNowButton:(id)sender {
     [FollowConnectionUtils ensureCurrentUserHasEmailPresentIn:self andRunBlock:^(BOOL success, NSError *emailError) {
-        if (success) [self setInviteMode:YES];
+        if (success) {
+            if (_currentInviteNumber >= _targetInviteNumber) {
+                // If there was an error sending the invites, this will allow a retry if we already have enough
+                // to unlock the videos.
+                [self sendInvites];
+            } else {
+                [self setInviteMode:YES];
+            }
+        }
     }];
 }
 
 - (IBAction)didTouchCancelButton:(id)sender {
     [UsageAnalytics trackUnlockDecision:NO forProductId:@"Video"];
-    [_completionSource setResult:@(NO)];
+    [_completionSource trySetCancelled];
     [self close];
 
 }
@@ -51,7 +59,6 @@
 
     self.cancelButton.enabled = YES; // but enable the cancel button...in case we can't load!
     self.pickerView.delegate = self;
-
     _dialogView = [[NSBundle mainBundle] loadNibNamed:@"VideoSupportUnlockView" owner:self options:nil][0];
     _dialogView.layer.shouldRasterize = YES;
     _dialogView.layer.rasterizationScale = [[UIScreen mainScreen] scale];
@@ -112,6 +119,9 @@
         self.progressContainerView.alpha = _inviteMode ? 0.0F : 1.0F;
     }                completion:^(BOOL finished) {
         if (_inviteMode) {
+            for (FollowConnection *conn in self.invites) {
+                [self.addressBookDataSource addExcludeContactWithEmail:conn.otherPartyEmail];
+            }
             [self.addressBookDataSource ensureAddressBookOpenWithBlock:^(BOOL succeeded, NSError *error) {
                 if (error) {
                     [UsageAnalytics trackError:error forOperationNamed:@"openAddressBook"];
@@ -134,11 +144,25 @@
 }
 
 - (void)updateProgress {
+
     if (_useAcceptedInvites) {
         self.detailLabel.text = [NSString stringWithFormat:@"Signup %ld more friends with babies", (long) _targetInviteNumber];
     } else {
-        self.detailLabel.text = [NSString stringWithFormat:@"Invite %ld more friends or relatives to follow %@'s progress",
-                                                           (long) _targetInviteNumber - _currentInviteNumber, [Baby currentBaby].name];
+        int remaining = _targetInviteNumber - _currentInviteNumber;
+        if (remaining > 0) {
+            self.detailLabel.hidden = NO;
+            NSDictionary *normalAttributes = @{NSFontAttributeName : [UIFont fontForAppWithType:Medium andSize:15]};
+            NSDictionary *bolderAttributes = @{NSFontAttributeName : [UIFont fontForAppWithType:Bold andSize:19], NSForegroundColorAttributeName : [UIColor appNormalColor]};
+            NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:@"Invite " attributes:normalAttributes];
+            [text appendAttributedString:[[NSAttributedString alloc] initWithString:[@(remaining) stringValue] attributes:bolderAttributes]];
+            [text appendAttributedString:[[NSAttributedString alloc] initWithString:@" more friends or relatives to follow " attributes:normalAttributes]];
+            [text appendAttributedString:[[NSAttributedString alloc] initWithString:[Baby currentBaby].name attributes:bolderAttributes]];
+            [text appendAttributedString:[[NSAttributedString alloc] initWithString:@"'s progress" attributes:normalAttributes]];
+            self.detailLabel.attributedText = text;
+        } else {
+            self.detailLabel.hidden = YES;
+        }
+
     }
     [_circleProgressBar setProgress:((CGFloat) _currentInviteNumber) / ((CGFloat) _targetInviteNumber) animated:YES];
 }
@@ -237,12 +261,12 @@
 
 // NOTE: This method is named badly.
 - (void)contactPicker:(MBContactPicker *)contactPicker didEnterCustomText:(NSString *)text {
-    if (text.isValidEmailAddress) {
+    if (text.isValidEmailAddress && ![self.addressBookDataSource isEmailExcluded:text]) {
         InviteContact *contact = [[InviteContact alloc] init];
         contact.emailAddress = text;
         [_pickerView addToSelectedContacts:contact];
     } else {
-        [[[UIAlertView alloc] initWithTitle:@"Whoops" message:@"Invalid email address, please correct it"
+        [[[UIAlertView alloc] initWithTitle:@"Whoops" message:@"Invalid email address or email already used, please correct it"
                                    delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
     }
 }
@@ -288,31 +312,49 @@
 
 }
 
+- (void)contactCollectionView:(MBContactCollectionView *)contactCollectionView didAddContact:(id <MBContactPickerModelProtocol>)model {
+    _currentInviteNumber++;
+    [self updateProgress];
+}
+
+- (void)contactCollectionView:(MBContactCollectionView *)contactCollectionView didRemoveContact:(id <MBContactPickerModelProtocol>)model {
+    _currentInviteNumber--;
+    [self updateProgress];
+}
 
 - (void)sendInvites {
+    self.inviteNowButton.enabled = NO;
+    [self.activityIndicator startAnimating];
     // We need a name from which to send the invite.
-    [FollowConnectionUtils makeBestAttemptToPopulateSendersFullNameUsingAddressBookDataSource:_addressBookDataSource withBlock:^(NSString *string, NSError *error) {
-        [[FollowConnection sendInvites:_pickerView.contactsSelected] continueWithExecutor:[BFExecutor mainThreadExecutor] withBlock:^id(BFTask *task) {
-            if (task.error) {
-                [UsageAnalytics trackError:task.error forOperationNamed:@"sendInvites"];
-                [[[UIAlertView alloc] initWithTitle:@"Could Not Send Invites" message:@"There was an error trying to send the invites. Make sure you have an internet connection and try again" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
-            } else {
-                // Show any invites in the window now.
-                _currentInviteNumber += _pickerView.contactsSelected.count;
-                [self updateProgress];
-
-                if (_currentInviteNumber >= _targetInviteNumber) {
-                    [self close];
-                    [[[UIAlertView alloc] initWithTitle:@"Congrats!" message:@"You have unlocked unlimited video storage!" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] showWithButtonBlock:^(NSInteger buttonIndex) {
-                        [UsageAnalytics trackUnlockDecision:YES forProductId:@"Video"];
-                        // we reached the target, dismiss the box
-                        [_completionSource setResult:@(YES)];
-                    }];
-                }
-            }
+    [[[[FollowConnectionUtils ensureCurrentUserHasEmailPresentIn:self] continueWithSuccessBlock:^id(BFTask *task) {
+        if ([((NSNumber *) task.result) boolValue]) {
+            return [FollowConnectionUtils makeBestAttemptToPopulateSendersFullNameUsingAddressBookDataSource:_addressBookDataSource];
+        } else {
             return nil;
-        }];
+        }
+    }] continueWithSuccessBlock:^id(BFTask *task) {
+        return [FollowConnection sendInvites:_pickerView.contactsSelected];
+    }] continueWithExecutor:[BFExecutor mainThreadExecutor] withBlock:^id(BFTask *task) {
+        self.inviteNowButton.enabled = YES;
+        [self.activityIndicator stopAnimating];
+        if (task.error) {
+            [UsageAnalytics trackError:task.error forOperationNamed:@"sendInvites"];
+            [[[UIAlertView alloc] initWithTitle:@"Could Not Send Invites" message:@"There was an error trying to send the invites. Make sure you have an internet connection and try again" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+        } else {
+            // Show any invites in the window now.
+            if (_currentInviteNumber >= _targetInviteNumber) {
+                [self close];
+                [[[UIAlertView alloc] initWithTitle:@"Congrats!" message:@"You have unlocked unlimited video storage!" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] showWithButtonBlock:^(NSInteger buttonIndex) {
+                    [UsageAnalytics trackUnlockDecision:YES forProductId:@"Video"];
+                    // we reached the target, dismiss the box
+                    [_completionSource setResult:@(YES)];
+                }];
+            }
+        }
+        return nil;
     }];
+
+
 }
 
 

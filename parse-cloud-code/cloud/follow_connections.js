@@ -144,7 +144,6 @@ function createFollowConnection(inviterUser, invite, markAsDelivered) {
 
 
 Parse.Cloud.define("countMyFollowInvitations", function (request, response) {
-    console.log("**********************");
     Parse.Cloud.useMasterKey();
     var user = request.user;
     //var appVersion = request.params.appVersion;

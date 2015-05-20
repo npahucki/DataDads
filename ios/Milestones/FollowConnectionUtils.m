@@ -6,9 +6,24 @@
 #import "FollowConnectionUtils.h"
 #import "InviteContactsAddressBookDataSource.h"
 #import "SignUpOrLoginViewController.h"
+#import "BFTaskCompletionSource.h"
+#import "BFTask.h"
 
 
 @implementation FollowConnectionUtils
+
++ (BFTask *)makeBestAttemptToPopulateSendersFullNameUsingAddressBookDataSource:(InviteContactsAddressBookDataSource *)addressBookDataSource {
+    BFTaskCompletionSource *source = [[BFTaskCompletionSource alloc] init];
+
+    [self makeBestAttemptToPopulateSendersFullNameUsingAddressBookDataSource:addressBookDataSource withBlock:^(NSString *string, NSError *error) {
+        if (error) {
+            [source setError:error];
+        } else {
+            [source setResult:string];
+        }
+    }];
+    return source.task;
+}
 
 + (void)makeBestAttemptToPopulateSendersFullNameUsingAddressBookDataSource:(InviteContactsAddressBookDataSource *)addressBookDataSource withBlock:(PFStringResultBlock)block {
     ParentUser *user = [ParentUser currentUser];
@@ -47,6 +62,20 @@
         // Dummy block
     }];
 }
+
++ (BFTask *)ensureCurrentUserHasEmailPresentIn:(UIViewController *)viewController {
+    BFTaskCompletionSource *source = [[BFTaskCompletionSource alloc] init];
+    [self ensureCurrentUserHasEmailPresentIn:viewController andRunBlock:^(BOOL succeeded, NSError *error) {
+        if (error) {
+            [source setError:error];
+        } else {
+            [source setResult:@(succeeded)];
+        }
+    }];
+    return source.task;
+}
+
+
 
 + (void)ensureCurrentUserHasEmailPresentIn:(UIViewController *)viewController andRunBlock:(PFBooleanResultBlock)block {
     if ([ParentUser currentUser].hasEmail) {

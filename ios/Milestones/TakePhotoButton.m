@@ -15,6 +15,7 @@
 
 - (void)awakeFromNib {
     [self setBackgroundImage:[UIImage imageNamed:@"camIconWithBorder"] forState:UIControlStateNormal];
+    [self setBackgroundImage:[UIImage animatedImageNamed:@"progress-" duration:1.0] forState:UIControlStateDisabled];
     self.layer.masksToBounds = YES;
     self.layer.borderWidth = 1;
     self.layer.borderColor = UIColorFromRGB(0xcedfe2).CGColor;
@@ -23,7 +24,6 @@
     self.contentHorizontalAlignment = UIControlContentHorizontalAlignmentFill;
     self.contentVerticalAlignment = UIControlContentVerticalAlignmentFill;
     self.reversesTitleShadowWhenHighlighted = NO;
-
 }
 
 - (void)layoutSubviews {

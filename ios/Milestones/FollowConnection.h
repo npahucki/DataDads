@@ -7,10 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Parse/PFConstants.h>
+
+@class BFTask;
 
 @interface FollowConnectionInvitationCount : NSObject
 @property NSInteger numberOfInvitesSent;
 @property NSInteger numberOfInvitesResultingInInstalls;
+@property NSArray *invites;
 @end
 
 @interface FollowConnection : PFObject <PFSubclassing>
@@ -29,8 +33,11 @@
 
 - (void)acceptInvitationInBackgroundWithBlock:(PFBooleanResultBlock)block;
 
-// Result is an FollowConnectionInvitationCount *
-+ (BFTask *)countMyInvites;
+
++ (BFTask *)countMyInvitesSent;
+
+//// Result is an NSArray<FollowConnection> *
++ (BFTask *)myFollowConnectionsWithCachePolicy:(PFCachePolicy)policy;
 
 // Result is Bool.
 + (BFTask *)sendInvites:(NSArray *)inviteContacts;

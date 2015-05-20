@@ -7,7 +7,7 @@
 #import <Bolts/Bolts.h>
 
 typedef enum _DDApplicationFeatureType : NSUInteger {
-    DDProductNone = 0,
+    DDApplicationFeatureNone = 0,
     DDApplicationFeatureAdRemoval,
     DDApplicationFeatureVideoSupport
 } DDApplicationFeatureType;

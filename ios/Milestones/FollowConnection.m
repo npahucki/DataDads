@@ -9,6 +9,7 @@
 #import <PFCloud+Cache/PFCloud+Cache.h>
 #import "BFTask.h"
 #import "InviteContactsAddressBookDataSource.h"
+#import "BFExecutor.h"
 
 @implementation FollowConnectionInvitationCount
 @end
@@ -39,10 +40,12 @@
         }];
     }
     [UsageAnalytics trackFollowConnectionInviteSent:[inviteArray count]];
-    [self clearInviteCountCache];
-    return [PFCloud callFunctionInBackground:@"sendFollowInvitation" withParameters:@{
+    return [[PFCloud callFunctionInBackground:@"sendFollowInvitation" withParameters:@{
             @"appVersion" : NSBundle.mainBundle.infoDictionary[@"CFBundleShortVersionString"],
-            @"invites" : inviteArray}];
+            @"invites" : inviteArray}] continueWithExecutor:[BFExecutor mainThreadExecutor] withSuccessBlock:^id(BFTask *task) {
+        [self clearInviteCountCache];
+        return [BFTask taskWithResult:task.result];
+    }];
 }
 
 - (void)deleteInBackgroundWithBlock:(PFBooleanResultBlock)block {
@@ -73,29 +76,33 @@
     }];
 }
 
-+ (BFTask *)countMyInvites {
-    BFTask *countLookup = [PFCloud callFunctionInBackground:@"countMyFollowInvitations"
-                                             withParameters:[self paramsForInviteCountLookup]
-                                                cachePolicy:kPFCachePolicyCacheElseNetwork];
-
-    return [countLookup continueWithSuccessBlock:^id(BFTask *task) {
-        FollowConnectionInvitationCount *counts = [[FollowConnectionInvitationCount alloc] init];
-        NSDictionary *countResult = task.result;
-        counts.numberOfInvitesSent = ((NSNumber *) countResult[@"invitesSent"]).integerValue;
-        counts.numberOfInvitesResultingInInstalls = ((NSNumber *) countResult[@"signUpsFromInvites"]).integerValue;
-        return [BFTask taskWithResult:counts];
++ (BFTask *)countMyInvitesSent {
+    return [[self myFollowConnectionsWithCachePolicy:kPFCachePolicyCacheElseNetwork] continueWithSuccessBlock:^id(BFTask *task) {
+        NSArray *invites = task.result;
+        return [BFTask taskWithResult:@(invites.count)];
     }];
+}
 
+
++ (BFTask *)myFollowConnectionsWithCachePolicy:(PFCachePolicy)policy {
+    // We can only call this method if the user is logged in, and they can not
+    // have any connections if they are not logged in.
+    if ([ParentUser currentUser].isLoggedIn) {
+        return [PFCloud callFunctionInBackground:@"queryMyFollowConnections"
+                                  withParameters:[self paramsForInviteLookup]
+                                     cachePolicy:policy];
+    } else {
+        return [BFTask taskWithResult:@[]]; // Empty array
+    }
 }
 
 + (void)clearInviteCountCache {
-    [PFCloud clearCachedResult:@"countMyFollowInvitations" withParameters:[self paramsForInviteCountLookup]];
+    [PFCloud clearCachedResult:@"queryMyFollowConnections" withParameters:[self paramsForInviteLookup]];
 }
 
-+ (NSDictionary *)paramsForInviteCountLookup {
-    return @{
-            @"appVersion" : NSBundle.mainBundle.infoDictionary[@"CFBundleShortVersionString"]
-    };
++ (NSDictionary *)paramsForInviteLookup {
+    return @{@"appVersion" : NSBundle.mainBundle.infoDictionary[@"CFBundleShortVersionString"],
+            @"limit" : [@(1000) stringValue]};
 }
 
 @end

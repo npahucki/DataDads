@@ -61,6 +61,10 @@
 
 }
 
+- (BOOL)isEmailExcluded:(NSString *)email {
+    return [_excludeContactsWithEmail containsObject:email];
+}
+
 - (void)addExcludeContactWithEmail:(NSString *)email {
     if (email) {
         if (!_excludeContactsWithEmail) _excludeContactsWithEmail = [[NSMutableSet alloc] init];

@@ -6,25 +6,24 @@
 #import <Foundation/Foundation.h>
 #import <StoreKit/StoreKit.h>
 
-
-typedef enum _DDProduct : NSUInteger {
+typedef NS_ENUM(NSInteger, DDProduct) {
     DDProductNone = 0,
     DDProductAdRemoval,
     DDProductVideoSupport
-} DDProduct;
+};
 
-typedef enum _DDProductSalesType : NSUInteger {
+typedef NS_ENUM(NSInteger, DDProductSalesType) {
     DDProductSalesTypeOneTime = 0,
     DDProductSalesTypeSubscription
-} DDProductSalesType;
-
-
+};
 
 @interface InAppPurchaseHelper : NSObject <SKProductsRequestDelegate, SKPaymentTransactionObserver>
 
 + (InAppPurchaseHelper *)instance;
 
 - (void)checkAdFreeProductPurchased:(PFBooleanResultBlock)block;
+
+- (void)checkProductPurchased:(DDProduct)product withBlock:(PFBooleanResultBlock)block;
 
 - (void)ensureProductPurchased:(DDProduct)product withBlock:(PFBooleanResultBlock)block;
 @end

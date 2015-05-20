@@ -28,6 +28,9 @@
 @property(weak, nonatomic) IBOutlet NSLayoutConstraint *contactPickerHeightContraint;
 @property(nonatomic) BOOL useAcceptedInvites;
 
+@property(nonatomic, strong) NSArray *invites;
+@property(weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+
 // Returns a task that has an NSNumber boolean value. YES if the video can be unlocked now
 // and NO otherwise.
 - (BFTask *)show;

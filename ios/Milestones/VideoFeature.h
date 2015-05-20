@@ -5,7 +5,7 @@
 
 #import <Foundation/Foundation.h>
 #import "FeatureManager.h"
-#import "InvitationCountBasedFeature.h"
 
-@interface VideoFeature : InvitationCountBasedFeature
+
+@interface VideoFeature : NSObject <DDApplicationFeature>
 @end

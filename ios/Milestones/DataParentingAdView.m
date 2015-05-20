@@ -8,6 +8,8 @@
 
 #import "DataParentingAdView.h"
 #import "WebViewerViewController.h"
+#import "BFTask.h"
+#import "BFExecutor.h"
 
 
 @implementation DataParentingAdView {
@@ -54,18 +56,24 @@
 
 - (void)attemptAdLoad {
     CGRect screenRect = [[UIScreen mainScreen] bounds];
-    [PFCloud callFunctionInBackground:@"getAdToShow"
-                       withParameters:@{
-                               @"screenWidth" : @(screenRect.size.width),
-                               @"screenHeight" : @(screenRect.size.height),
-                               @"appVersion" : NSBundle.mainBundle.infoDictionary[@"CFBundleVersion"]
-                       }
-                                block:^(NSDictionary *results, NSError *error) {
-        if (!error) {
+
+    [[[FollowConnection countMyInvitesSent] continueWithBlock:^id(BFTask *task) {
+        return [PFCloud callFunctionInBackground:@"getAdToShow"
+                                  withParameters:@{
+                                          @"numberOfInvitesSent" : task.result,
+                                          @"screenWidth" : @(screenRect.size.width),
+                                          @"screenHeight" : @(screenRect.size.height),
+                                          @"appVersion" : NSBundle.mainBundle.infoDictionary[@"CFBundleVersion"]
+                                  }];
+
+
+    }] continueWithExecutor:[BFExecutor mainThreadExecutor] withSuccessBlock:^id(BFTask *task) {
+        NSDictionary *results = task.result;
+        if (!task.error) {
             /**
             {"size":{"width":320,"height":50},"ad":{"imageUrl":"http://dataparentingdev.parseapp.com/ads/320x50/DataDads Noodles2.jpg","linkUrl":"http://http://dataparenting.com/donate/"}}
             */
-            @try { // Make sure even if the server sends back invalid data (for eaxmple an unexpected format), we don't take the whole app down!
+            @try { // Make sure even if the server sends back invalid data (for example an unexpected format), we don't take the whole app down!
                 _currentAdImageWidth = ((NSNumber *) results[@"size"][@"width"]).intValue;
                 _currentAdImageHeight = ((NSNumber *) results[@"size"][@"height"]).intValue;
                 NSString *imageUrlString = (NSString *) results[@"ad"][@"imageUrl"];
@@ -77,6 +85,7 @@
                 [UsageAnalytics trackError:[NSError errorWithDomain:exception.name code:-1 userInfo:exception.userInfo]  forOperationNamed:@"loadAd"];
             }
         }
+        return nil;
     }];
 }
 
