@@ -10,13 +10,8 @@
 @implementation AdFreeFeature
 
 - (BFTask *)checkForUnlockStatus {
-    return [[self checkPurchaseForUnlockStatus] continueWithSuccessBlock:^id(BFTask *task) {
-        if ([((NSNumber *) task.result) boolValue]) {
-            return task;
-        } else {
-            return [self checkConnectionsForUnlockStatus];
-        }
-    }];
+    // We want to leave ads unless they BOUGHT the video.
+    return [self checkPurchaseForUnlockStatus];
 }
 
 - (BFTask *)checkPurchaseForUnlockStatus {
@@ -30,19 +25,6 @@
         }
     }];
     return completionSource.task;
-}
-
-
-- (BFTask *)checkConnectionsForUnlockStatus {
-    return [[FollowConnection myFollowConnectionsWithCachePolicy:kPFCachePolicyCacheElseNetwork] continueWithExecutor:[BFExecutor mainThreadExecutor] withSuccessBlock:^id(BFTask *task) {
-        BOOL useAcceptedInvites = MPTweakValue(@"UnlockVideoUseAcceptedInvites", NO);
-        NSInteger targetNumber = useAcceptedInvites ? MPTweakValue(@"UnlockVideoInviteAcceptedTargetNumber", 2) : MPTweakValue(@"UnlockVideoInviteSentTargetNumber", 10);
-        NSArray *invites = task.result;
-        NSInteger numberOfInvitesSent = 0;
-        for (FollowConnection *conn in invites) if (conn.isInviter) numberOfInvitesSent++;
-        BOOL canUnlock = numberOfInvitesSent >= targetNumber;
-        return [BFTask taskWithResult:@(canUnlock)];
-    }];
 }
 
 @end
