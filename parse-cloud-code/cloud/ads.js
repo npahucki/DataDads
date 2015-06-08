@@ -26,7 +26,12 @@ Parse.Cloud.define("getAdToShow", function (request, response) {
 
     // Show just this ad if fewer than the desired invites.
     // For older clients that don't support unlocking, don't show this.
-    if(numberOfInvitesSent !== undefined && numberOfInvitesSent < 10 && Math.random() >0.7) {
+    if(numberOfInvitesSent === undefined || numberOfInvitesSent >= 10) {
+        // Version does not support video unlocking, exclude completely
+        // OR the user has already unlocked the videos (so no need to show ad)
+        query.notEqualTo("category", "video");
+    } else {
+        // If they have not unlocked, then just keep showing this one ad!
         query.equalTo("category", "video");
     }
 
