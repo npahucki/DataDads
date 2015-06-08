@@ -6,7 +6,7 @@ Parse.Cloud.define("getAdToShow", function (request, response) {
     var width = request.params.screenWidth || 320; // default
     var appVersion = request.params.appVersion;
     var numberOfInvitesSent = request.params.numberOfInvitesSent;
-    var numberOfInvitesResultingInInstalls = request.params.numberOfInvitesResultingInInstalls;
+
 
 
     var query = new Parse.Query("Ads");
@@ -22,6 +22,12 @@ Parse.Cloud.define("getAdToShow", function (request, response) {
 
     // NOTES: For a width of 320, new ads will have a height of 70 - matching what simon did.
     // In photo shop, size images to 375 and 414 - try to keep aspect ratio.
+
+
+    // Show just this ad if fewer than the desired invites.
+    if(numberOfInvitesSent < 10) {
+        query.equalTo("category", "video");
+    }
 
     query.equalTo("enabled", true);
     query.count().then(function (count) {

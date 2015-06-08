@@ -15,6 +15,7 @@
 #import "NSString+EmailAddress.h"
 #import "MBContactPicker+ForceCompletion.h"
 #import "FollowConnectionUtils.h"
+#import "InAppPurchaseHelper.h"
 
 @implementation VideoSupportUnlockView {
     UIView *_dialogView;
@@ -30,6 +31,17 @@
         if (_pickerView.contactsSelected.count) {
             [self sendInvites];
         }
+    }
+}
+
+- (IBAction)didRequestPurchaseRestore:(id)sender {
+    if(self.titleLabel.userInteractionEnabled) {
+        self.titleLabel.userInteractionEnabled = NO; // prevent from fireing more than once.
+        [self.view removeFromSuperview];
+        [[InAppPurchaseHelper instance] ensureProductPurchased:DDProductVideoSupport withBlock:^(BOOL succeeded, NSError * __nullable error) {
+            [_completionSource setResult:@(succeeded)];
+            if(error) [UsageAnalytics trackError:error forOperationNamed:@"Restore or purchase video"];
+        }];
     }
 }
 
