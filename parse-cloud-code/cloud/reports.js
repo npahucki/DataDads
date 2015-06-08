@@ -99,11 +99,13 @@ Parse.Cloud.job("generateSummaryReport", function (request, status) {
         query.include("baby.parentUser");
         var achievements = require('cloud/achievements.js');
         return query.find().then(function(results){
-            var urls = [];
-            _.each(results, function(milestone){
-                urls.push(achievements.attachmentUrl(milestone));
+            var urlInfos = [];
+            _.each(results, function(achievement){
+                var urlInfo = { url : achievements.attachmentUrl(achievement),
+                thumbnailUrl : achievement.has("attachmentThumbnail") ? achievement.get("attachmentThumbnail").url() : "" };
+                urlInfos.push(urlInfo);
             });
-            return Parse.Promise.as(urls);
+            return Parse.Promise.as(urlInfos);
         });
     }
 
